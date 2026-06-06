@@ -8,7 +8,6 @@ if (HAVE_TESTS)
 
   target_link_libraries(workrave-core-next-timer-test PRIVATE workrave-libs-core-next)
   target_link_libraries(workrave-core-next-timer-test PRIVATE Boost::unit_test_framework)
-  target_link_libraries(workrave-core-next-timer-test PRIVATE Boost::test_exec_monitor)
   target_link_libraries(workrave-core-next-timer-test PRIVATE ${EXTRA_LIBRARIES})
 
   target_include_directories(workrave-core-next-timer-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/corenext/src)
@@ -31,7 +30,6 @@ if (HAVE_TESTS)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-utils)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-dbus-stub)
   target_link_libraries(workrave-core-next-integration-test PRIVATE Boost::unit_test_framework)
-  target_link_libraries(workrave-core-next-integration-test PRIVATE Boost::test_exec_monitor)
   target_link_libraries(workrave-core-next-integration-test PRIVATE ${EXTRA_LIBRARIES})
 
   target_include_directories(workrave-core-next-integration-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/corenext/src)
@@ -53,12 +51,6 @@ if (HAVE_TESTS)
     target_link_libraries(workrave-core-next-timer-test PRIVATE ${SSP_LIBRARY})
   endif()
 
-  add_test(NAME workrave-core-next-integration-test COMMAND workrave-core-next-integration-test)
-  add_test(NAME workrave-core-next-timer-test COMMAND workrave-core-next-timer-test)
-
-set_tests_properties(workrave-core-next-integration-test PROPERTIES
-  ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:${CMAKE_BINARY_DIR}/Frameworks:$ENV{LD_LIBRARY_PATH})
-
-set_tests_properties(workrave-core-next-timer-test PROPERTIES
-  ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:${CMAKE_BINARY_DIR}/Frameworks:$ENV{LD_LIBRARY_PATH})
+  workrave_add_test(workrave-core-next-integration-test)
+  workrave_add_test(workrave-core-next-timer-test)
 endif()

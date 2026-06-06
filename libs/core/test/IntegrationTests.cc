@@ -26,7 +26,6 @@
 #include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
-#include <filesystem>
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
@@ -37,9 +36,12 @@
 #  include <spdlog/cfg/env.h>
 #endif
 
+#include <filesystem>
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <chrono>
+using namespace std::chrono_literals;
 
 #include "core/CoreTypes.hh"
 #include "core/CoreConfig.hh"
@@ -61,10 +63,7 @@
 #include "SimulatedTime.hh"
 #include "ActivityMonitorStub.hh"
 
-using namespace std;
-using namespace workrave::utils;
 using namespace workrave::config;
-using namespace workrave;
 
 namespace workrave
 {
@@ -177,11 +176,10 @@ as_range(const std::pair<It, It> &p)
 class Observation
 {
 public:
-  Observation(int64_t time, string event, string params = "")
+  Observation(int64_t time, std::string event, std::string params = "")
     : time(time)
     , event(event)
     , params(params)
-    , seen(false)
   {
   }
 
@@ -190,16 +188,16 @@ public:
     return (time == rhs.time && event == rhs.event && params == rhs.params);
   }
 
-  friend ostream &operator<<(ostream &out, Observation &o);
+  friend std::ostream &operator<<(std::ostream &out, Observation &o);
 
   int64_t time;
-  string event;
-  string params;
-  bool seen;
+  std::string event;
+  std::string params;
+  bool seen{};
 };
 
-ostream &
-operator<<(ostream &out, const Observation &o)
+std::ostream &
+operator<<(std::ostream &out, const Observation &o)
 {
   out << "[time=" << o.time << " event=" << o.event << " arg=" << o.params << "]";
   return out;
@@ -209,23 +207,9 @@ class Backend : public workrave::IApp
 {
 public:
   Backend()
-    : user_active(false)
-    , start_time(0)
-    , active_break(BREAK_ID_NONE)
-    , active_prelude(BREAK_ID_NONE)
-    , timer(0)
-    , fake_break(false)
-    , fake_break_delta(0)
-    , forced_break(false)
-    , max_preludes(3)
-    , did_refresh(0)
-    , need_refresh(0)
-    , prelude_stage_set(0)
-    , prelude_text_set(0)
-    , prelude_progress_set(0)
-    , break_progress_set(0)
-    , last_value(0)
-    , last_max_value(0)
+    : active_break{workrave::BREAK_ID_NONE}
+    , active_prelude{workrave::BREAK_ID_NONE}
+    , max_preludes{3}
   {
     for (int &i: prelude_count)
       {
@@ -241,7 +225,7 @@ public:
 
   void init_log_file()
   {
-    string test_name = boost::unit_test::framework::current_test_case().p_name;
+    std::string test_name = boost::unit_test::framework::current_test_case().p_name;
     std::filesystem::path result_file_name;
     result_file_name /= "results";
     std::filesystem::create_directory(result_file_name);
@@ -264,18 +248,18 @@ public:
 
     core->init(0, nullptr, this, "");
 
-    for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
       {
-        auto b = core->get_break(BreakId(i));
-        b->signal_break_event().connect(std::bind(&Backend::on_break_event, this, BreakId(i), std::placeholders::_1));
+        auto b = core->get_break(workrave::BreakId(i));
+        b->signal_break_event().connect(std::bind(&Backend::on_break_event, this, workrave::BreakId(i), std::placeholders::_1));
         prelude_count[i] = 0;
       }
 
     TRACE_MSG("pretest");
     pretest_verify();
 
-    core->set_operation_mode(OperationMode::Normal);
-    core->set_usage_mode(UsageMode::Normal);
+    core->set_operation_mode(workrave::OperationMode::Normal);
+    core->set_usage_mode(workrave::UsageMode::Normal);
 
     core->signal_operation_mode_changed().connect(std::bind(&Backend::on_operation_mode_changed, this, std::placeholders::_1));
     core->signal_usage_mode_changed().connect(std::bind(&Backend::on_usage_mode_changed, this, std::placeholders::_1));
@@ -286,7 +270,7 @@ public:
     sim = SimulatedTime::create();
     sim->reset();
 
-    TimeSource::sync();
+    workrave::utils::TimeSource::sync();
     start_time = sim->get_real_time_usec();
 #if SPDLOG_VERSION >= 10600
     test_time_formatter_flag::timer = timer;
@@ -297,18 +281,18 @@ public:
 
   void pretest_verify() const
   {
-    for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
       {
-        auto b = core->get_break(BreakId(i));
+        auto b = core->get_break(workrave::BreakId(i));
 
-        if (i != BREAK_ID_DAILY_LIMIT)
+        if (i != workrave::BREAK_ID_DAILY_LIMIT)
           {
             BOOST_CHECK(b->is_auto_reset_enabled());
           }
         BOOST_CHECK(b->is_limit_enabled());
       }
-    BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
-    BOOST_CHECK_EQUAL(core->get_usage_mode(), UsageMode::Reading);
+    BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Quiet);
+    BOOST_CHECK_EQUAL(core->get_usage_mode(), workrave::UsageMode::Reading);
   }
 
   void tick()
@@ -335,13 +319,13 @@ public:
             monitor->set_active(user_active);
             did_refresh = false;
             need_refresh = false;
-            TimeSource::sync();
+            workrave::utils::TimeSource::sync();
             monitor->heartbeat();
             core->heartbeat();
 
-            for (int j = 0; j < BREAK_ID_SIZEOF; j++)
+            for (int j = 0; j < workrave::BREAK_ID_SIZEOF; j++)
               {
-                auto b = core->get_break(BreakId(j));
+                auto b = core->get_break(workrave::BreakId(j));
                 spdlog::debug("{}: elapsed={} idle={}", j, b->get_elapsed_time(), b->get_elapsed_idle_time());
               }
 
@@ -349,23 +333,23 @@ public:
             {
               BOOST_TEST_INFO_SCOPE("Count:" << i);
 
-              if (active_break != BREAK_ID_NONE || active_prelude != BREAK_ID_NONE)
+              if (active_break != workrave::BREAK_ID_NONE || active_prelude != workrave::BREAK_ID_NONE)
                 {
                   BOOST_CHECK(!need_refresh || did_refresh);
                 }
 
-              if (active_break != BREAK_ID_NONE)
+              if (active_break != workrave::BREAK_ID_NONE)
                 {
                   check_break_progress();
                 }
 
-              for (int j = 0; j < BREAK_ID_SIZEOF; j++)
+              for (int j = 0; j < workrave::BREAK_ID_SIZEOF; j++)
                 {
-                  auto b = core->get_break(BreakId(j));
+                  auto b = core->get_break(workrave::BreakId(j));
                   BOOST_CHECK(j == active_break ? b->is_taking() : !b->is_taking());
                 }
 
-              if (active_prelude != BREAK_ID_NONE)
+              if (active_prelude != workrave::BREAK_ID_NONE)
                 {
                   check_prelude_progress();
                 }
@@ -380,14 +364,14 @@ public:
           }
         catch (std::exception &e)
           {
-            BOOST_TEST_MESSAGE(string("error at:") + boost::lexical_cast<string>(i));
+            BOOST_TEST_MESSAGE(std::string("error at:") + boost::lexical_cast<std::string>(i));
             std::cout << "error at : " << ((sim->current_time - start_time) / 1000000) << " " << i << "\n";
             std::cout << e.what() << "\n";
             throw;
           }
         catch (...)
           {
-            BOOST_TEST_MESSAGE(string("error at:") + boost::lexical_cast<string>(i));
+            BOOST_TEST_MESSAGE(std::string("error at:") + boost::lexical_cast<std::string>(i));
             std::cout << "error at : " << ((sim->current_time - start_time) / 1000000) << " " << i << "\n";
             throw;
           }
@@ -403,7 +387,7 @@ public:
     out << param << std::endl;
 
     auto observation = Observation(time, event, param);
-    actual_results.insert(make_pair(time, observation));
+    actual_results.insert(std::make_pair(time, observation));
     spdlog::debug("Observation: time={} event={} arg={}", observation.time, observation.event, observation.params);
   }
 
@@ -418,7 +402,7 @@ public:
 
   void expect(int64_t time, const std::string &event, const std::string &param = "")
   {
-    expected_results.insert(make_pair(time, Observation(time, event, param)));
+    expected_results.insert(std::make_pair(time, Observation(time, event, param)));
   }
 
   void verify()
@@ -471,7 +455,7 @@ public:
       {
         BOOST_CHECK_EQUAL(last_max_value, b->get_auto_reset());
 
-        if (active_break != BREAK_ID_DAILY_LIMIT)
+        if (active_break != workrave::BREAK_ID_DAILY_LIMIT)
           {
             // FIXME: check why this fails for daly limit.
             BOOST_CHECK_EQUAL(last_value, b->get_elapsed_idle_time());
@@ -479,7 +463,7 @@ public:
       }
   }
 
-  void check_prelude_progress()
+  void check_prelude_progress() const
   {
     BOOST_CHECK_EQUAL(last_max_value, 29);
     if (timer == 0)
@@ -497,7 +481,7 @@ public:
       }
   }
 
-  void create_prelude_window(BreakId break_id) override
+  void create_prelude_window(workrave::BreakId break_id) override
   {
     log_actual("prelude", boost::str(boost::format("break_id=%1%") % CoreConfig::get_break_name(break_id)));
 
@@ -505,9 +489,9 @@ public:
     BOOST_CHECK_EQUAL(b->get_name(), CoreConfig::get_break_name(break_id));
 
     bool rest_break_advanced = false;
-    if (break_id == BREAK_ID_REST_BREAK)
+    if (break_id == workrave::BREAK_ID_REST_BREAK)
       {
-        auto mb = core->get_break(BREAK_ID_MICRO_BREAK);
+        auto mb = core->get_break(workrave::BREAK_ID_MICRO_BREAK);
 
         if (mb->get_elapsed_time() >= mb->get_limit() && b->get_elapsed_time() + 30 >= b->get_limit())
           {
@@ -516,8 +500,8 @@ public:
       }
 
     BOOST_CHECK(rest_break_advanced || b->get_elapsed_time() >= b->get_limit());
-    BOOST_CHECK_EQUAL(active_break, BREAK_ID_NONE);
-    BOOST_CHECK_EQUAL(active_prelude, BREAK_ID_NONE);
+    BOOST_CHECK_EQUAL(active_break, workrave::BREAK_ID_NONE);
+    BOOST_CHECK_EQUAL(active_prelude, workrave::BREAK_ID_NONE);
 
     active_prelude = break_id;
     prelude_count[break_id]++;
@@ -529,7 +513,7 @@ public:
     last_max_value = 0;
   }
 
-  void create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> break_hint) override
+  void create_break_window(workrave::BreakId break_id, workrave::utils::Flags<workrave::BreakHint> break_hint) override
   {
     log_actual("break",
                boost::str(boost::format("break_id=%1% break_hint=%2%") % CoreConfig::get_break_name(break_id) % break_hint));
@@ -537,9 +521,9 @@ public:
     auto b = core->get_break(break_id);
 
     bool rest_break_advanced = false;
-    if (break_id == BREAK_ID_REST_BREAK)
+    if (break_id == workrave::BREAK_ID_REST_BREAK)
       {
-        auto mb = core->get_break(BREAK_ID_MICRO_BREAK);
+        auto mb = core->get_break(workrave::BREAK_ID_MICRO_BREAK);
 
         if (mb->get_elapsed_time() >= mb->get_limit() && b->get_elapsed_time() + 30 >= b->get_limit())
           {
@@ -551,8 +535,8 @@ public:
       {
         BOOST_CHECK(rest_break_advanced || b->get_elapsed_time() >= b->get_limit());
       }
-    BOOST_CHECK_EQUAL(active_break, BREAK_ID_NONE);
-    BOOST_CHECK_EQUAL(active_prelude, BREAK_ID_NONE);
+    BOOST_CHECK_EQUAL(active_break, workrave::BREAK_ID_NONE);
+    BOOST_CHECK_EQUAL(active_prelude, workrave::BREAK_ID_NONE);
 
     active_break = break_id;
     timer = 0;
@@ -562,7 +546,7 @@ public:
 
   void hide_break_window() override
   {
-    if (active_break != BREAK_ID_NONE || active_prelude != BREAK_ID_NONE)
+    if (active_break != workrave::BREAK_ID_NONE || active_prelude != workrave::BREAK_ID_NONE)
       {
         log_actual("hide");
       }
@@ -570,14 +554,14 @@ public:
       {
         log("hide");
       }
-    active_break = BREAK_ID_NONE;
-    active_prelude = BREAK_ID_NONE;
+    active_break = workrave::BREAK_ID_NONE;
+    active_prelude = workrave::BREAK_ID_NONE;
   }
 
   void show_break_window() override
   {
     log_actual("show");
-    BOOST_CHECK(active_break != BREAK_ID_NONE || active_prelude != BREAK_ID_NONE);
+    BOOST_CHECK(active_break != workrave::BREAK_ID_NONE || active_prelude != workrave::BREAK_ID_NONE);
     did_refresh = true; // Implicit refresh... not in next
   }
 
@@ -586,16 +570,16 @@ public:
     log("refresh");
 
     // TODO: remove forced_break from check after fixing code.
-    BOOST_CHECK(forced_break || active_break != BREAK_ID_NONE || active_prelude != BREAK_ID_NONE);
+    BOOST_CHECK(forced_break || active_break != workrave::BREAK_ID_NONE || active_prelude != workrave::BREAK_ID_NONE);
 
-    if (active_prelude != BREAK_ID_NONE)
+    if (active_prelude != workrave::BREAK_ID_NONE)
       {
         BOOST_CHECK(prelude_progress_set);
         BOOST_CHECK(prelude_stage_set);
         BOOST_CHECK(prelude_text_set);
       }
 
-    if (active_break != BREAK_ID_NONE)
+    if (active_break != workrave::BREAK_ID_NONE)
       {
         BOOST_CHECK(break_progress_set);
       }
@@ -608,17 +592,17 @@ public:
     log("progress", boost::str(boost::format("value=%1% max_value=%2%") % value % max_value));
 
     // TODO: remove forced_break from check after fixing code.
-    BOOST_CHECK(forced_break || active_break != BREAK_ID_NONE || active_prelude != BREAK_ID_NONE);
+    BOOST_CHECK(forced_break || active_break != workrave::BREAK_ID_NONE || active_prelude != workrave::BREAK_ID_NONE);
 
     last_value = value;
     last_max_value = max_value;
 
-    if (active_break != BREAK_ID_NONE)
+    if (active_break != workrave::BREAK_ID_NONE)
       {
         break_progress_set = true;
       }
 
-    if (active_prelude != BREAK_ID_NONE)
+    if (active_prelude != workrave::BREAK_ID_NONE)
       {
         prelude_progress_set = true;
       }
@@ -630,7 +614,7 @@ public:
   {
     log("stage", boost::str(boost::format("stage=%1%") % stage));
 
-    BOOST_CHECK(active_break != BREAK_ID_NONE || active_prelude != BREAK_ID_NONE);
+    BOOST_CHECK(active_break != workrave::BREAK_ID_NONE || active_prelude != workrave::BREAK_ID_NONE);
 
     need_refresh = true;
     prelude_stage_set = true;
@@ -640,7 +624,7 @@ public:
   {
     log("text", boost::str(boost::format("text=%1%") % text));
 
-    BOOST_CHECK(active_break != BREAK_ID_NONE || active_prelude != BREAK_ID_NONE);
+    BOOST_CHECK(active_break != workrave::BREAK_ID_NONE || active_prelude != workrave::BREAK_ID_NONE);
 
     if (prelude_count[active_prelude] < max_preludes)
       {
@@ -655,7 +639,7 @@ public:
     prelude_text_set = true;
   }
 
-  virtual void on_break_event(BreakId break_id, BreakEvent event)
+  virtual void on_break_event(workrave::BreakId break_id, BreakEvent event)
   {
     log_actual("break_event", boost::str(boost::format("break_id=%1% event=%2%") % CoreConfig::get_break_name(break_id) % event));
 
@@ -665,12 +649,12 @@ public:
       }
   }
 
-  virtual void on_operation_mode_changed(const OperationMode m)
+  virtual void on_operation_mode_changed(const workrave::OperationMode m)
   {
     log_actual("operationmode", boost::str(boost::format("mode=%1%") % static_cast<int>(m)));
   }
 
-  virtual void on_usage_mode_changed(const UsageMode m)
+  virtual void on_usage_mode_changed(const workrave::UsageMode m)
   {
     log_actual("usagemode", boost::str(boost::format("mode=%1%") % static_cast<int>(m)));
   }
@@ -719,39 +703,37 @@ public:
     return config;
   }
 
-  bool on_load_timer_state(Timer *breaks[BREAK_ID_SIZEOF])
+  bool on_load_timer_state(Timer *breaks[workrave::BREAK_ID_SIZEOF])
   {
     return true;
   }
 
-  ofstream out;
+  std::ofstream out;
   ICore *core;
   IConfigurator::Ptr config;
   SimulatedTime::Ptr sim;
   ActivityMonitorStub::Ptr monitor;
-  bool user_active;
-  uint64_t start_time;
+  bool user_active{};
+  uint64_t start_time{};
+  workrave::BreakId active_break{};
+  workrave::BreakId active_prelude{};
+  int timer{};
+  std::array<int, workrave::BREAK_ID_SIZEOF> prelude_count{};
+  bool fake_break{};
+  int fake_break_delta{};
+  bool forced_break{};
+  int max_preludes{};
+  bool did_refresh{};
+  bool need_refresh{};
+  bool prelude_stage_set{};
+  bool prelude_text_set{};
+  bool prelude_progress_set{};
+  bool break_progress_set{};
+  int last_value{};
+  int last_max_value{};
 
-  BreakId active_break;
-  BreakId active_prelude;
-  int timer;
-  int prelude_count[BREAK_ID_SIZEOF];
-  bool fake_break;
-  int fake_break_delta;
-  bool forced_break;
-  int max_preludes;
-
-  bool did_refresh;
-  bool need_refresh;
-  bool prelude_stage_set;
-  bool prelude_text_set;
-  bool prelude_progress_set;
-  bool break_progress_set;
-  int last_value;
-  int last_max_value;
-
-  multimap<int64_t, Observation> expected_results;
-  multimap<int64_t, Observation> actual_results;
+  std::multimap<int64_t, Observation> expected_results;
+  std::multimap<int64_t, Observation> actual_results;
 };
 
 BOOST_TEST_GLOBAL_FIXTURE(GlobalFixture);
@@ -763,38 +745,38 @@ BOOST_AUTO_TEST_CASE(test_operation_mode)
   init();
 
   expect(0, "operationmode", "mode=2");
-  core->set_operation_mode(OperationMode::Quiet);
-  core->set_operation_mode(OperationMode::Quiet);
+  core->set_operation_mode(workrave::OperationMode::Quiet);
+  core->set_operation_mode(workrave::OperationMode::Quiet);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Quiet);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   expect(1, "operationmode", "mode=0");
-  core->set_operation_mode(OperationMode::Normal);
-  core->set_operation_mode(OperationMode::Normal);
+  core->set_operation_mode(workrave::OperationMode::Normal);
+  core->set_operation_mode(workrave::OperationMode::Normal);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   expect(2, "operationmode", "mode=1");
-  core->set_operation_mode(OperationMode::Suspended);
-  core->set_operation_mode(OperationMode::Suspended);
+  core->set_operation_mode(workrave::OperationMode::Suspended);
+  core->set_operation_mode(workrave::OperationMode::Suspended);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Suspended);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   expect(3, "operationmode", "mode=0");
-  core->set_operation_mode(OperationMode::Normal);
-  core->set_operation_mode(OperationMode::Normal);
+  core->set_operation_mode(workrave::OperationMode::Normal);
+  core->set_operation_mode(workrave::OperationMode::Normal);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   verify();
@@ -808,31 +790,31 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_via_settings)
   config->set_value("general/operation-mode", 2);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Quiet);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   expect(1, "operationmode", "mode=0");
   config->set_value("general/operation-mode", 0);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   expect(2, "operationmode", "mode=1");
   config->set_value("general/operation-mode", 1);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Suspended);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   expect(3, "operationmode", "mode=0");
   config->set_value("general/operation-mode", 0);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   verify();
@@ -843,7 +825,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet)
   init();
 
   expect(0, "operationmode", "mode=2");
-  core->set_operation_mode(OperationMode::Quiet);
+  core->set_operation_mode(workrave::OperationMode::Quiet);
   tick(true, 300);
 
   expect(300, "operationmode", "mode=0");
@@ -851,7 +833,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet)
   expect(300, "show");
   expect(300, "break_event", "break_id=micro_pause event=ShowPrelude");
   expect(300, "break_event", "break_id=micro_pause event=BreakStart");
-  core->set_operation_mode(OperationMode::Normal);
+  core->set_operation_mode(workrave::OperationMode::Normal);
   tick(true, 1);
 
   verify();
@@ -862,7 +844,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet_break_snoozed)
   init();
 
   expect(0, "operationmode", "mode=2");
-  core->set_operation_mode(OperationMode::Quiet);
+  core->set_operation_mode(workrave::OperationMode::Quiet);
   tick(true, 302);
 
   expect(302, "operationmode", "mode=0");
@@ -870,7 +852,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_quiet_break_snoozed)
   expect(450, "show");
   expect(450, "break_event", "break_id=micro_pause event=ShowPrelude");
   expect(450, "break_event", "break_id=micro_pause event=BreakStart");
-  core->set_operation_mode(OperationMode::Normal);
+  core->set_operation_mode(workrave::OperationMode::Normal);
   tick(true, 150);
 
   verify();
@@ -881,11 +863,11 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_suspended)
   init();
 
   expect(0, "operationmode", "mode=1");
-  core->set_operation_mode(OperationMode::Suspended);
+  core->set_operation_mode(workrave::OperationMode::Suspended);
   tick(true, 300);
 
   expect(300, "operationmode", "mode=0");
-  core->set_operation_mode(OperationMode::Normal);
+  core->set_operation_mode(workrave::OperationMode::Normal);
   tick(true, 1);
 
   verify();
@@ -895,53 +877,53 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_override)
 {
   init();
 
-  core->set_operation_mode_override(OperationMode::Suspended, "ov1");
+  core->set_operation_mode_override(workrave::OperationMode::Suspended, "ov1");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
-  core->set_operation_mode_override(OperationMode::Quiet, "ov2");
+  core->set_operation_mode_override(workrave::OperationMode::Quiet, "ov2");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov2");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
-  core->set_operation_mode_override(OperationMode::Quiet, "ov2");
+  core->set_operation_mode_override(workrave::OperationMode::Quiet, "ov2");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov1");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov2");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
-  core->set_operation_mode_override(OperationMode::Normal, "ov3");
+  core->set_operation_mode_override(workrave::OperationMode::Normal, "ov3");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   verify();
@@ -952,37 +934,37 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_override_change_to_normal_while_overrid
   init();
 
   expect(0, "operationmode", "mode=2");
-  core->set_operation_mode(OperationMode::Quiet);
-  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), OperationMode::Quiet);
+  core->set_operation_mode(workrave::OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), workrave::OperationMode::Quiet);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Quiet);
   BOOST_CHECK(!core->is_operation_mode_an_override());
-  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), workrave::OperationMode::Quiet);
 
-  core->set_operation_mode_override(OperationMode::Suspended, "ov1");
-  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), OperationMode::Quiet);
+  core->set_operation_mode_override(workrave::OperationMode::Suspended, "ov1");
+  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), workrave::OperationMode::Quiet);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Quiet);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   expect(2, "operationmode", "mode=0");
-  core->set_operation_mode(OperationMode::Normal);
-  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), OperationMode::Normal);
+  core->set_operation_mode(workrave::OperationMode::Normal);
+  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), workrave::OperationMode::Normal);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov1");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov2");
@@ -996,35 +978,35 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_override_revert_while_overridden)
   init();
 
   expect(0, "operationmode", "mode=2");
-  core->set_operation_mode(OperationMode::Quiet);
-  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), OperationMode::Quiet);
+  core->set_operation_mode(workrave::OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), workrave::OperationMode::Quiet);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Quiet);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
-  core->set_operation_mode_override(OperationMode::Suspended, "ov1");
+  core->set_operation_mode_override(workrave::OperationMode::Suspended, "ov1");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Quiet);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   expect(2, "operationmode", "mode=1");
-  core->set_operation_mode(OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), OperationMode::Suspended);
+  core->set_operation_mode(workrave::OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), workrave::OperationMode::Suspended);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Suspended);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov1");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Suspended);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov2");
@@ -1035,76 +1017,74 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_override_revert_while_overridden)
 
 BOOST_AUTO_TEST_CASE(test_operation_mode_autoreset)
 {
-  using namespace std::chrono_literals;
-
   init();
 
   expect(0, "operationmode", "mode=1");
-  core->set_operation_mode(OperationMode::Suspended);
+  core->set_operation_mode(workrave::OperationMode::Suspended);
   tick(false, 10);
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
 
   // Revert to normal after 2 minutes
   expect(10, "operationmode", "mode=2");
-  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(2));
+  core->set_operation_mode_for(workrave::OperationMode::Quiet, std::chrono::minutes(2));
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
 
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Quiet);
   expect(130, "operationmode", "mode=0");
   tick(false, 190);
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
 
   // Option is not persistent
   expect(200, "operationmode", "mode=1");
-  core->set_operation_mode(OperationMode::Suspended);
+  core->set_operation_mode(workrave::OperationMode::Suspended);
   tick(false, 200);
 
   // Change timed operation mode
   expect(400, "operationmode", "mode=2");
   expect(420, "operationmode", "mode=1");
   expect(540, "operationmode", "mode=0");
-  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(2));
+  core->set_operation_mode_for(workrave::OperationMode::Quiet, std::chrono::minutes(2));
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
   tick(false, 20);
-  core->set_operation_mode_for(OperationMode::Suspended, std::chrono::minutes(2));
+  core->set_operation_mode_for(workrave::OperationMode::Suspended, std::chrono::minutes(2));
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
   tick(false, 180);
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
 
   // Reduce time
   expect(600, "operationmode", "mode=2");
   expect(680, "operationmode", "mode=0");
-  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(2));
+  core->set_operation_mode_for(workrave::OperationMode::Quiet, std::chrono::minutes(2));
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
   tick(false, 20);
-  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(1));
+  core->set_operation_mode_for(workrave::OperationMode::Quiet, std::chrono::minutes(1));
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 1min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 1min);
   tick(false, 180);
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Normal);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
 
   // Turn off
   expect(800, "operationmode", "mode=2");
-  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(2));
+  core->set_operation_mode_for(workrave::OperationMode::Quiet, std::chrono::minutes(2));
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
   tick(false, 20);
-  core->set_operation_mode(OperationMode::Quiet);
+  core->set_operation_mode(workrave::OperationMode::Quiet);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
   tick(false, 170);
   expect(990, "operationmode", "mode=0");
-  core->set_operation_mode(OperationMode::Normal);
+  core->set_operation_mode(workrave::OperationMode::Normal);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
   tick(false, 10);
@@ -1112,11 +1092,11 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_autoreset)
   // Change to non-timed
   expect(1000, "operationmode", "mode=2");
   expect(1020, "operationmode", "mode=1");
-  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(2));
+  core->set_operation_mode_for(workrave::OperationMode::Quiet, std::chrono::minutes(2));
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
   tick(false, 20);
-  core->set_operation_mode(OperationMode::Suspended);
+  core->set_operation_mode(workrave::OperationMode::Suspended);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
   tick(false, 180);
@@ -1124,11 +1104,11 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_autoreset)
   // Change to non-timed
   expect(1200, "operationmode", "mode=2");
   expect(1220, "operationmode", "mode=0");
-  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(2));
+  core->set_operation_mode_for(workrave::OperationMode::Quiet, std::chrono::minutes(2));
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
   tick(false, 20);
-  core->set_operation_mode(OperationMode::Normal);
+  core->set_operation_mode(workrave::OperationMode::Normal);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
   tick(false, 180);
@@ -1140,7 +1120,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_autoreset_daily_reset)
 {
   init();
 
-  auto b = core->get_break(BREAK_ID_DAILY_LIMIT);
+  auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
 
   config->set_value("breaks/micro_pause/enabled", false);
   config->set_value("breaks/rest_break/enabled", false);
@@ -1150,17 +1130,17 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_autoreset_daily_reset)
   config->set_value("timers/daily_limit/snooze", 600);
 
   expect(0, "operationmode", "mode=1");
-  core->set_operation_mode(OperationMode::Suspended);
+  core->set_operation_mode(workrave::OperationMode::Suspended);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
   tick(true, 10);
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
 
   expect(10, "operationmode", "mode=2");
-  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(-1));
+  core->set_operation_mode_for(workrave::OperationMode::Quiet, std::chrono::minutes(-1));
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == -1min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Quiet);
   expect(3600, "operationmode", "mode=0");
 
   tick(true, 90);
@@ -1174,12 +1154,12 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_autoreset_daily_reset)
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
 
   BOOST_CHECK_EQUAL(b->get_elapsed_time(), 90);
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Quiet);
 
   tick(false, 1);
 
   BOOST_CHECK_EQUAL(b->get_elapsed_time(), 0);
-  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Normal);
 
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
   BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
@@ -1194,22 +1174,22 @@ BOOST_AUTO_TEST_CASE(test_usage_mode)
   init();
 
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(UsageMode::Reading);
-  core->set_usage_mode(UsageMode::Reading);
+  core->set_usage_mode(workrave::UsageMode::Reading);
+  core->set_usage_mode(workrave::UsageMode::Reading);
 
-  BOOST_CHECK_EQUAL(core->get_usage_mode(), UsageMode::Reading);
+  BOOST_CHECK_EQUAL(core->get_usage_mode(), workrave::UsageMode::Reading);
 
   expect(0, "usagemode", "mode=0");
-  core->set_usage_mode(UsageMode::Normal);
-  core->set_usage_mode(UsageMode::Normal);
+  core->set_usage_mode(workrave::UsageMode::Normal);
+  core->set_usage_mode(workrave::UsageMode::Normal);
 
-  BOOST_CHECK_EQUAL(core->get_usage_mode(), UsageMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_usage_mode(), workrave::UsageMode::Normal);
 
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(UsageMode::Reading);
-  core->set_usage_mode(UsageMode::Reading);
+  core->set_usage_mode(workrave::UsageMode::Reading);
+  core->set_usage_mode(workrave::UsageMode::Reading);
 
-  BOOST_CHECK_EQUAL(core->get_usage_mode(), UsageMode::Reading);
+  BOOST_CHECK_EQUAL(core->get_usage_mode(), workrave::UsageMode::Reading);
 
   verify();
 }
@@ -1221,17 +1201,17 @@ BOOST_AUTO_TEST_CASE(test_usage_mode_via_settings)
   expect(0, "usagemode", "mode=1");
   config->set_value("general/usage-mode", 1);
 
-  BOOST_CHECK_EQUAL(core->get_usage_mode(), UsageMode::Reading);
+  BOOST_CHECK_EQUAL(core->get_usage_mode(), workrave::UsageMode::Reading);
 
   expect(0, "usagemode", "mode=0");
   config->set_value("general/usage-mode", 0);
 
-  BOOST_CHECK_EQUAL(core->get_usage_mode(), UsageMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_usage_mode(), workrave::UsageMode::Normal);
 
   expect(0, "usagemode", "mode=1");
   config->set_value("general/usage-mode", 1);
 
-  BOOST_CHECK_EQUAL(core->get_usage_mode(), UsageMode::Reading);
+  BOOST_CHECK_EQUAL(core->get_usage_mode(), workrave::UsageMode::Reading);
 
   verify();
 }
@@ -1241,7 +1221,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode)
   init();
 
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(UsageMode::Reading);
+  core->set_usage_mode(workrave::UsageMode::Reading);
 
   monitor->notify();
   tick(true, 2);
@@ -1289,7 +1269,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_prelude)
   init();
 
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(UsageMode::Reading);
+  core->set_usage_mode(workrave::UsageMode::Reading);
 
   monitor->notify();
 
@@ -1326,7 +1306,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_while_no_break_or_prelude_active)
   init();
 
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(UsageMode::Reading);
+  core->set_usage_mode(workrave::UsageMode::Reading);
 
   monitor->notify();
 
@@ -1364,7 +1344,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_micro_break)
   init();
 
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(UsageMode::Reading);
+  core->set_usage_mode(workrave::UsageMode::Reading);
 
   monitor->notify();
   tick(true, 2);
@@ -1416,7 +1396,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
   init();
 
   expect(0, "usagemode", "mode=1");
-  core->set_usage_mode(UsageMode::Reading);
+  core->set_usage_mode(workrave::UsageMode::Reading);
 
   monitor->notify();
   tick(true, 2);
@@ -1443,10 +1423,10 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
     }
 
   expect(1578, "operationmode", "mode=1"); // Next: 1582
-  core->set_operation_mode(OperationMode::Suspended);
+  core->set_operation_mode(workrave::OperationMode::Suspended);
   tick(true, 100);
   expect(1678, "operationmode", "mode=0"); // Next: 1682
-  core->set_operation_mode(OperationMode::Normal);
+  core->set_operation_mode(workrave::OperationMode::Normal);
   tick(true, 10);
   tick(false, 1400);
 
@@ -1473,9 +1453,9 @@ BOOST_AUTO_TEST_CASE(test_user_idle)
   init();
 
   tick(false, 50, [=, this](int) {
-    for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
       {
-        auto b = core->get_break(BreakId(i));
+        auto b = core->get_break(workrave::BreakId(i));
         BOOST_CHECK(!b->is_running());
       }
   });
@@ -1497,9 +1477,9 @@ BOOST_AUTO_TEST_CASE(test_user_active)
   init();
 
   tick(true, 50, [=, this](int) {
-    for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
       {
-        auto b = core->get_break(BreakId(i));
+        auto b = core->get_break(workrave::BreakId(i));
         BOOST_CHECK(b->is_running());
       }
   });
@@ -1742,7 +1722,7 @@ BOOST_AUTO_TEST_CASE(test_overdue_time)
   tick(true, 315);
   tick(false, 40);
 
-  auto b = core->get_break(BREAK_ID_MICRO_BREAK);
+  auto b = core->get_break(workrave::BREAK_ID_MICRO_BREAK);
   BOOST_CHECK_EQUAL(b->get_total_overdue_time(), 14);
 
   expect(655, "prelude", "break_id=micro_pause");
@@ -1782,7 +1762,7 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_halt)
   expect(1509, "show");
   expect(1509, "break_event", "break_id=rest_break event=ShowBreak");
 
-  auto rb = core->get_break(BREAK_ID_REST_BREAK);
+  auto rb = core->get_break(workrave::BREAK_ID_REST_BREAK);
 
   tick(false, 50);
 
@@ -1817,7 +1797,7 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_reset)
   expect(1509, "show");
   expect(1509, "break_event", "break_id=rest_break event=ShowBreak");
 
-  auto rb = core->get_break(BREAK_ID_REST_BREAK);
+  auto rb = core->get_break(workrave::BREAK_ID_REST_BREAK);
 
   tick(false, 50);
 
@@ -1888,7 +1868,7 @@ BOOST_AUTO_TEST_CASE(test_user_postpones_rest_break)
   expect(1551, "break_event", "break_id=rest_break event=BreakIdle");
   expect(1551, "break_event", "break_id=rest_break event=BreakStop");
   tick(false, 50);
-  auto b = core->get_break(BREAK_ID_REST_BREAK);
+  auto b = core->get_break(workrave::BREAK_ID_REST_BREAK);
   b->postpone_break();
   tick(false, 1);
 
@@ -1923,7 +1903,7 @@ BOOST_AUTO_TEST_CASE(test_user_skips_rest_break)
   expect(1551, "break_event", "break_id=rest_break event=BreakIdle");
   expect(1551, "break_event", "break_id=rest_break event=BreakStop");
   tick(false, 50);
-  auto b = core->get_break(BREAK_ID_REST_BREAK);
+  auto b = core->get_break(workrave::BREAK_ID_REST_BREAK);
   b->skip_break();
   tick(false, 1);
 
@@ -1950,7 +1930,7 @@ BOOST_AUTO_TEST_CASE(test_quiet_during_prelude)
   expect(315, "break_event", "break_id=micro_pause event=BreakIgnored");
   expect(315, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(315, "break_event", "break_id=micro_pause event=BreakStop");
-  core->set_operation_mode(OperationMode::Quiet);
+  core->set_operation_mode(workrave::OperationMode::Quiet);
 
   expect(315, "hide");
   tick(false, 40);
@@ -1972,7 +1952,7 @@ BOOST_AUTO_TEST_CASE(test_suspended_during_prelude)
   expect(315, "break_event", "break_id=micro_pause event=BreakIgnored"); // TODO: why ignored?
   expect(315, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(315, "break_event", "break_id=micro_pause event=BreakStop");
-  core->set_operation_mode(OperationMode::Suspended);
+  core->set_operation_mode(workrave::OperationMode::Suspended);
 
   expect(315, "hide");
   tick(false, 40);
@@ -2000,7 +1980,7 @@ BOOST_AUTO_TEST_CASE(test_suspended_during_break)
   expect(320, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(320, "break_event", "break_id=micro_pause event=BreakStop");
   tick(false, 10);
-  core->set_operation_mode(OperationMode::Suspended);
+  core->set_operation_mode(workrave::OperationMode::Suspended);
 
   tick(false, 30);
 
@@ -2027,7 +2007,7 @@ BOOST_AUTO_TEST_CASE(test_quiet_during_break)
   expect(320, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(320, "break_event", "break_id=micro_pause event=BreakStop");
   tick(false, 10);
-  core->set_operation_mode(OperationMode::Quiet);
+  core->set_operation_mode(workrave::OperationMode::Quiet);
 
   tick(false, 30);
 
@@ -2043,7 +2023,7 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now)
 
   forced_break = true;
 
-  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
+  core->force_break(workrave::BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
   expect(20, "break", "break_id=rest_break break_hint=userinitiated");
   expect(20, "show");
   expect(20, "break_event", "break_id=rest_break event=ShowBreakForced");
@@ -2069,7 +2049,7 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_active_during_break)
 
   forced_break = true;
 
-  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
+  core->force_break(workrave::BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
   expect(20, "break", "break_id=rest_break break_hint=userinitiated");
   expect(20, "show");
   expect(20, "break_event", "break_id=rest_break event=ShowBreakForced");
@@ -2099,7 +2079,7 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_during_microbreak_prelude)
 
   forced_break = true;
 
-  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
+  core->force_break(workrave::BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
   expect(305, "hide");
   expect(305, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(305, "break_event", "break_id=micro_pause event=BreakIgnored"); // TODO: why
@@ -2139,7 +2119,7 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_during_microbreak)
 
   forced_break = true;
 
-  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
+  core->force_break(workrave::BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
   expect(320, "hide");
   expect(320, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(320, "break_event", "break_id=micro_pause event=BreakStop");
@@ -2173,7 +2153,7 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_when_timer_is_disabled)
   fake_break = true;
   fake_break_delta = 1;
 
-  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
+  core->force_break(workrave::BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
   expect(20, "break", "break_id=rest_break break_hint=userinitiated");
   expect(20, "show");
   expect(20, "break_event", "break_id=rest_break event=ShowBreakForced");
@@ -2200,7 +2180,7 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_when_break_is_idle)
   fake_break = true;
   fake_break_delta = 1;
 
-  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
+  core->force_break(workrave::BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
   expect(500, "break", "break_id=rest_break break_hint=userinitiated");
   expect(500, "show");
   expect(500, "break_event", "break_id=rest_break event=ShowBreakForced");
@@ -2313,7 +2293,7 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_postpone)
   expect(7209, "break_event", "break_id=daily_limit event=ShowBreak");
   tick(false, 20);
 
-  auto b = core->get_break(BREAK_ID_DAILY_LIMIT);
+  auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
   b->postpone_break();
 
   expect(7221, "hide");
@@ -2353,7 +2333,7 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_skip)
   expect(7209, "break_event", "break_id=daily_limit event=ShowBreak");
   tick(false, 20);
 
-  auto b = core->get_break(BREAK_ID_DAILY_LIMIT);
+  auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
   b->skip_break();
 
   expect(7221, "hide");
@@ -2401,7 +2381,7 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_regard_micro_break_as_activity)
   expect(7209, "break_event", "break_id=daily_limit event=ShowBreak");
   tick(false, 20);
 
-  auto b = core->get_break(BREAK_ID_DAILY_LIMIT);
+  auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
   b->skip_break();
 
   expect(7221, "hide");
@@ -2441,7 +2421,7 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_reset)
 {
   init();
 
-  auto b = core->get_break(BREAK_ID_DAILY_LIMIT);
+  auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
 
   config->set_value("breaks/micro_pause/enabled", false);
   config->set_value("breaks/rest_break/enabled", false);

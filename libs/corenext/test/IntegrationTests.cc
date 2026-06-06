@@ -62,6 +62,8 @@ using namespace std::chrono_literals;
 #include "SimulatedTime.hh"
 #include "ActivityMonitorStub.hh"
 
+using namespace workrave::config;
+
 namespace workrave
 {
   std::ostream &operator<<(std::ostream &stream, ::workrave::OperationMode e)
@@ -94,8 +96,6 @@ namespace workrave
     return stream;
   }
 } // namespace workrave
-
-using namespace workrave::config;
 
 #if SPDLOG_VERSION >= 10600
 class test_time_formatter_flag : public spdlog::custom_flag_formatter
@@ -1242,7 +1242,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode)
       t += 321;
     }
 
-  t = 1584;
+  t = 1584; // TODO: 1580 in old core
   expect(t, "prelude", "break_id=rest_break");
   expect(t, "show");
   expect(t, "break_event", "break_id=rest_break event=ShowPrelude");
@@ -1367,7 +1367,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_micro_break)
   tick(true, 20);
   tick(false, 400);
 
-  t = 1584;
+  t = 1584; // TODO: 1580 in old core
   expect(t, "prelude", "break_id=rest_break");
   expect(t, "show");
   expect(t, "break_event", "break_id=rest_break event=ShowPrelude");
@@ -1394,7 +1394,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
   monitor->notify();
   tick(true, 2);
 
-  tick(false, 1580);
+  tick(false, 1580); // TODO: 1576 in old core
 
   int64_t t = 300;
   for (int i = 0; i < 4; i++)
@@ -1415,10 +1415,10 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
       t += 321;
     }
 
-  expect(1582, "operationmode", "mode=1");
+  expect(1582, "operationmode", "mode=1"); // TODO: 1578 in old core
   core->set_operation_mode(workrave::OperationMode::Suspended);
   tick(true, 100);
-  expect(1682, "operationmode", "mode=0");
+  expect(1682, "operationmode", "mode=0"); // TODO: 1678 in old core
   core->set_operation_mode(workrave::OperationMode::Normal);
   tick(false, 400);
 
@@ -2356,12 +2356,14 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_regard_micro_break_as_activity)
 
   tick(true, 1);
 
+  // TODO: 7200 in old core (4x)
   expect(7201, "prelude", "break_id=daily_limit");
   expect(7201, "show");
   expect(7201, "break_event", "break_id=daily_limit event=BreakStart");
   expect(7201, "break_event", "break_id=daily_limit event=ShowPrelude");
   tick(false, 7200);
 
+  // TODO: 7210 in old core (4x)
   expect(7210, "hide");
   expect(7210, "break", "break_id=daily_limit break_hint=normal");
   expect(7210, "show");
