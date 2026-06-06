@@ -161,12 +161,15 @@ Item {
                     }
 
                     // ── Separator ─────────────────────────────────────────────
-                    Rectangle {
+                    Item {
                         width: parent.width
-                        height: 1
-                        color: tok.edge
-                        topPadding: 4
-                        bottomPadding: 4
+                        height: 9
+                        Rectangle {
+                            anchors.centerIn: parent
+                            width: parent.width
+                            height: 1
+                            color: tok.edge
+                        }
                     }
 
                     Item { width: 1; height: 8 }
@@ -504,7 +507,6 @@ Item {
                 onClicked: root.closeRequested()
             }
         }
-    }
 
     // ── ActionButton component ────────────────────────────────────────────────
     component ActionButton: Rectangle {
