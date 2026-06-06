@@ -511,7 +511,7 @@ BOOST_AUTO_TEST_CASE(test_timer_reset_timer_while_idle_and_not_overdue)
   });
 }
 
-BOOST_AUTO_TEST_CASE(test_timer_reset_timer_while_idle__overdue)
+BOOST_AUTO_TEST_CASE(test_timer_reset_timer_while_idle_overdue)
 {
   init();
 
@@ -1145,9 +1145,6 @@ BOOST_AUTO_TEST_CASE(test_timer_limit_reached_inhibit_snooze_event)
 
   timer->inhibit_snooze();
 
-  // TODO: Old:   tick(true, 200, [](int count, TimerEvent event) {
-  //  BOOST_REQUIRE_EQUAL(event, count == 48 ? TIMER_EVENT_LIMIT_REACHED : TIMER_EVENT_NONE);
-  // });
   tick(true, 200, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 }
 
@@ -1860,11 +1857,8 @@ BOOST_AUTO_TEST_CASE(test_timer_disable_limit_when_timer_is_disabled)
   timer->enable();
 
   tick(false, 50, [this](int count, TimerEvent event) {
-    // TODO: BOOST_REQUIRE_EQUAL(event, count == 0 ? TIMER_EVENT_RESET : TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
-
-    // TODO:  BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 20 + count);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 21 + count);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
   });
@@ -1877,7 +1871,7 @@ BOOST_AUTO_TEST_CASE(test_timer_disable_limit_when_timer_is_disabled)
   });
 }
 
-BOOST_AUTO_TEST_CASE(test_timer_toggle_auto_reset__enable_after_reset)
+BOOST_AUTO_TEST_CASE(test_timer_toggle_auto_reset_enable_after_reset)
 {
   init();
 
@@ -2038,7 +2032,7 @@ BOOST_AUTO_TEST_CASE(test_timer_daily_reset_with_predicate)
 {
   init();
 
-  TestTimePred *p = new TestTimePred;
+  auto *p = new TestTimePred;
   p->set(TimeSource::get_real_time_sec_sync() + 371);
   timer->set_limit(4 * 3600);
   timer->set_daily_reset(p);
