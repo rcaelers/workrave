@@ -49,6 +49,7 @@ using namespace std::chrono_literals;
 #include "config/SettingCache.hh"
 
 #include "utils/ITimeSource.hh"
+#include "utils/Paths.hh"
 #include "utils/TimeSource.hh"
 #include "debug.hh"
 
@@ -231,7 +232,10 @@ public:
     ICoreTestHooks::Ptr test_hooks = std::dynamic_pointer_cast<ICoreTestHooks>(hooks);
 
     test_hooks->hook_create_monitor() = std::bind(&Backend::on_create_monitor, this);
-    test_hooks->hook_load_timer_state() = std::bind(&Backend::on_load_timer_state, this, std::placeholders::_1);
+    if (install_load_timer_state_hook)
+      {
+        test_hooks->hook_load_timer_state() = std::bind(&Backend::on_load_timer_state, this, std::placeholders::_1);
+      }
 
     core->init(this, "");
 
@@ -261,6 +265,43 @@ public:
     start_time = sim->get_real_time_usec();
     test_time_formatter_flag::timer = timer;
     init_log_file();
+    init_core();
+  }
+
+  void init_with_timer_state(const std::string &state, bool install_load_hook = false)
+  {
+    sim = SimulatedTime::create();
+    sim->reset();
+
+    workrave::utils::TimeSource::sync();
+    start_time = sim->get_real_time_usec();
+    test_time_formatter_flag::timer = timer;
+    init_log_file();
+
+    auto state_path = workrave::utils::Paths::get_state_directory() / "state";
+    std::ofstream state_file(state_path);
+    state_file << state;
+    state_file.close();
+
+    install_load_timer_state_hook = install_load_hook;
+    load_timer_state_result = false;
+    init_core();
+  }
+
+  void init_without_timer_state()
+  {
+    sim = SimulatedTime::create();
+    sim->reset();
+
+    workrave::utils::TimeSource::sync();
+    start_time = sim->get_real_time_usec();
+    test_time_formatter_flag::timer = timer;
+    init_log_file();
+
+    auto state_path = workrave::utils::Paths::get_state_directory() / "state";
+    std::filesystem::remove(state_path);
+
+    install_load_timer_state_hook = false;
     init_core();
   }
 
@@ -686,7 +727,7 @@ public:
 
   bool on_load_timer_state(Timer::Ptr breaks[workrave::BREAK_ID_SIZEOF])
   {
-    return true;
+    return load_timer_state_result;
   }
 
   std::ofstream out;
@@ -712,6 +753,8 @@ public:
   bool break_progress_set{};
   int last_value{};
   int last_max_value{};
+  bool install_load_timer_state_hook{true};
+  bool load_timer_state_result{true};
 
   std::multimap<uint64_t, Observation> expected_results;
   std::multimap<uint64_t, Observation> actual_results;
@@ -1510,6 +1553,54 @@ BOOST_AUTO_TEST_CASE(test_core_services_and_force_idle)
   verify();
 }
 
+BOOST_AUTO_TEST_CASE(test_load_valid_timer_state)
+{
+  auto simulated_time = SimulatedTime::create();
+  simulated_time->reset();
+  const auto now = simulated_time->get_real_time_usec() / 1000000;
+
+  std::ostringstream state;
+  state << "WorkRaveState 3\n"
+        << now << "\n"
+        << "unknown " << now << " 1 0 0 0 0 0 0\n"
+        << "micro_pause " << now << " 10 0 0 0 0 0 0\n"
+        << "rest_break " << now << " 20 0 0 0 0 0 0\n"
+        << "daily_limit " << now << " 30 0 0 0 0 0 0\n";
+  init_with_timer_state(state.str(), true);
+
+  BOOST_CHECK_EQUAL(core->get_break(workrave::BREAK_ID_MICRO_BREAK)->get_elapsed_time(), 10);
+  BOOST_CHECK_EQUAL(core->get_break(workrave::BREAK_ID_REST_BREAK)->get_elapsed_time(), 20);
+  BOOST_CHECK_EQUAL(core->get_break(workrave::BREAK_ID_DAILY_LIMIT)->get_elapsed_time(), 30);
+}
+
+BOOST_AUTO_TEST_CASE(test_load_invalid_timer_state_header)
+{
+  init_with_timer_state("NotWorkRaveState 3\n");
+
+  BOOST_CHECK_EQUAL(core->get_break(workrave::BREAK_ID_MICRO_BREAK)->get_elapsed_time(), 0);
+}
+
+BOOST_AUTO_TEST_CASE(test_load_invalid_timer_state_version)
+{
+  init_with_timer_state("WorkRaveState 4\n");
+
+  BOOST_CHECK_EQUAL(core->get_break(workrave::BREAK_ID_MICRO_BREAK)->get_elapsed_time(), 0);
+}
+
+BOOST_AUTO_TEST_CASE(test_load_timer_state_version_below_supported_range)
+{
+  init_with_timer_state("WorkRaveState 0\n");
+
+  BOOST_CHECK_EQUAL(core->get_break(workrave::BREAK_ID_MICRO_BREAK)->get_elapsed_time(), 0);
+}
+
+BOOST_AUTO_TEST_CASE(test_load_missing_timer_state)
+{
+  init_without_timer_state();
+
+  BOOST_CHECK_EQUAL(core->get_break(workrave::BREAK_ID_MICRO_BREAK)->get_elapsed_time(), 0);
+}
+
 BOOST_AUTO_TEST_CASE(test_user_ignores_first_prelude)
 {
   init();
@@ -1753,6 +1844,83 @@ BOOST_AUTO_TEST_CASE(test_zero_max_preludes_starts_break_immediately)
   BOOST_CHECK(core->is_taking());
 }
 
+BOOST_AUTO_TEST_CASE(test_unlimited_preludes_never_reaches_maximum)
+{
+  init();
+
+  config->set_value("breaks/rest_break/enabled", false);
+  config->set_value("breaks/daily_limit/enabled", false);
+  config->set_value("timers/micro_pause/limit", 10);
+  config->set_value("breaks/micro_pause/max_preludes", -1);
+
+  auto b = core->get_break(workrave::BREAK_ID_MICRO_BREAK);
+  tick(true, 41);
+
+  BOOST_CHECK(!b->is_max_preludes_reached());
+  BOOST_CHECK(!b->is_taking());
+}
+
+BOOST_AUTO_TEST_CASE(test_advance_rest_break_does_not_override_unlimited_micro_break_preludes)
+{
+  init();
+
+  config->set_value("timers/micro_pause/limit", 10);
+  config->set_value("timers/rest_break/limit", 20);
+  config->set_value("breaks/micro_pause/max_preludes", -1);
+
+  tick(true, 11);
+
+  BOOST_CHECK(core->get_break(workrave::BREAK_ID_REST_BREAK)->is_active());
+}
+
+BOOST_AUTO_TEST_CASE(test_advance_rest_break_keeps_lower_rest_break_max_preludes)
+{
+  init();
+
+  config->set_value("timers/micro_pause/limit", 10);
+  config->set_value("timers/rest_break/limit", 20);
+  config->set_value("breaks/micro_pause/max_preludes", 6);
+  config->set_value("breaks/rest_break/max_preludes", 1);
+  max_preludes = 1;
+
+  tick(true, 11);
+
+  BOOST_CHECK(core->get_break(workrave::BREAK_ID_REST_BREAK)->is_active());
+}
+
+BOOST_AUTO_TEST_CASE(test_inactive_break_actions_and_forced_daily_limit)
+{
+  init();
+
+  auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
+  b->postpone_break();
+  b->skip_break();
+
+  forced_break = true;
+  core->force_break(workrave::BREAK_ID_DAILY_LIMIT, workrave::BreakHint::UserInitiated);
+  BOOST_CHECK(b->is_taking());
+
+  b->postpone_break();
+  BOOST_CHECK(!b->is_taking());
+
+  b->skip_break();
+}
+
+BOOST_AUTO_TEST_CASE(test_fake_break_postpone)
+{
+  init();
+
+  config->set_value("breaks/rest_break/enabled", false);
+  auto b = core->get_break(workrave::BREAK_ID_REST_BREAK);
+
+  fake_break = true;
+  core->force_break(workrave::BREAK_ID_REST_BREAK, workrave::BreakHint::Normal);
+  BOOST_CHECK(b->is_taking());
+
+  b->postpone_break();
+  BOOST_CHECK(!b->is_taking());
+}
+
 BOOST_AUTO_TEST_CASE(test_overdue_time)
 {
   init();
@@ -1894,6 +2062,28 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_ignore)
   expect(1800, "break_event", "break_id=rest_break event=BreakStop");
 
   verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_insist_policy_invalid)
+{
+  init();
+
+  core->set_insist_policy(workrave::InsistPolicy::Invalid);
+
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_insist_policy_ignore_defrost_while_suspended)
+{
+  init();
+
+  forced_break = true;
+  core->set_insist_policy(workrave::InsistPolicy::Ignore);
+  core->force_break(workrave::BREAK_ID_REST_BREAK, workrave::BreakHint::UserInitiated);
+  BOOST_CHECK(core->is_taking());
+
+  core->set_operation_mode(workrave::OperationMode::Suspended);
+  BOOST_CHECK(!core->is_taking());
 }
 
 BOOST_AUTO_TEST_CASE(test_user_postpones_rest_break)

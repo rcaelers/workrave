@@ -2118,4 +2118,70 @@ BOOST_AUTO_TEST_CASE(test_timer_serialize)
   BOOST_REQUIRE_EQUAL(s1, s2);
 }
 
+BOOST_AUTO_TEST_CASE(test_timer_noop_controls)
+{
+  init();
+
+  timer->start_timer();
+  timer->start_timer();
+
+  timer->disable();
+  timer->snooze_timer();
+
+  BOOST_REQUIRE(!timer->is_enabled());
+}
+
+BOOST_AUTO_TEST_CASE(test_timer_zero_limit_and_reset_without_auto_reset)
+{
+  init();
+
+  timer->set_limit(0);
+  BOOST_REQUIRE_EQUAL(timer->get_limit(), 0);
+
+  timer->set_auto_reset_enabled(false);
+  timer->reset_timer();
+
+  BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
+}
+
+BOOST_AUTO_TEST_CASE(test_timer_deserialize_version_two_with_future_reset)
+{
+  init();
+
+  const auto now = sim->get_real_time_usec() / 1000000;
+  timer->set_auto_reset_enabled(false);
+
+  std::ostringstream state;
+  state << now << " 10 " << now + 1 << " 3 0 0 0";
+
+  BOOST_REQUIRE(timer->deserialize_state(state.str(), 2));
+  BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 10);
+  BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 3);
+}
+
+BOOST_AUTO_TEST_CASE(test_timer_deserialize_too_old_state)
+{
+  init();
+
+  const auto now = sim->get_real_time_usec() / 1000000;
+  std::ostringstream state;
+  state << now - 100 << " 10 " << now - 100 << " 0 0 0 0 0";
+
+  BOOST_REQUIRE(timer->deserialize_state(state.str(), 3));
+  BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
+}
+
+BOOST_AUTO_TEST_CASE(test_timer_deserialize_overdue_state)
+{
+  init();
+
+  const auto now = sim->get_real_time_usec() / 1000000;
+  std::ostringstream state;
+  state << now << " 150 " << now << " 0 0 0 120 0";
+
+  BOOST_REQUIRE(timer->deserialize_state(state.str(), 3));
+  BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 150);
+  BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 50);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
