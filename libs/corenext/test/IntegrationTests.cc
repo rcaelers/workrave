@@ -854,6 +854,29 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_suspended)
   verify();
 }
 
+BOOST_AUTO_TEST_CASE(test_powersave)
+{
+  init();
+
+  core->set_powersave(true);
+  core->set_powersave(true);
+  tick(false, 1);
+
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
+  BOOST_CHECK(core->is_operation_mode_an_override());
+
+  core->set_powersave(false);
+  core->set_powersave(false);
+  tick(false, 1);
+
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), workrave::OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), workrave::OperationMode::Normal);
+  BOOST_CHECK(!core->is_operation_mode_an_override());
+
+  verify();
+}
+
 BOOST_AUTO_TEST_CASE(test_operation_mode_override)
 {
   init();
@@ -1469,6 +1492,24 @@ BOOST_AUTO_TEST_CASE(test_user_active)
   verify();
 }
 
+BOOST_AUTO_TEST_CASE(test_core_services_and_force_idle)
+{
+  init();
+
+  BOOST_CHECK(core->get_statistics() != nullptr);
+  BOOST_CHECK(core->get_dbus() != nullptr);
+  BOOST_CHECK(!core->is_user_active());
+
+  tick(true, 1);
+  BOOST_CHECK(core->is_user_active());
+
+  core->force_idle();
+  tick(false, 1);
+  BOOST_CHECK(!core->is_user_active());
+
+  verify();
+}
+
 BOOST_AUTO_TEST_CASE(test_user_ignores_first_prelude)
 {
   init();
@@ -1689,6 +1730,27 @@ BOOST_AUTO_TEST_CASE(test_forced_break)
   tick(true, 300);
 
   verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_zero_max_preludes_starts_break_immediately)
+{
+  init();
+
+  config->set_value("breaks/rest_break/enabled", false);
+  config->set_value("breaks/daily_limit/enabled", false);
+  config->set_value("timers/micro_pause/limit", 10);
+  config->set_value("breaks/micro_pause/max_preludes", 0);
+
+  auto b = core->get_break(workrave::BREAK_ID_MICRO_BREAK);
+  BOOST_CHECK(!core->is_taking());
+
+  tick(true, 11);
+
+  BOOST_CHECK_EQUAL(active_prelude, workrave::BREAK_ID_NONE);
+  BOOST_CHECK_EQUAL(active_break, workrave::BREAK_ID_MICRO_BREAK);
+  BOOST_CHECK(b->is_max_preludes_reached());
+  BOOST_CHECK(b->is_taking());
+  BOOST_CHECK(core->is_taking());
 }
 
 BOOST_AUTO_TEST_CASE(test_overdue_time)
@@ -2295,6 +2357,30 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_postpone)
   expect(7822, "break_event", "break_id=daily_limit event=ShowPrelude");
   expect(7822, "break_event", "break_id=daily_limit event=BreakStart");
   tick(true, 620);
+
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_daily_limit_disabled)
+{
+  init();
+
+  config->set_value("breaks/micro_pause/enabled", false);
+  config->set_value("breaks/rest_break/enabled", false);
+  config->set_value("timers/daily_limit/reset_pred", "");
+  config->set_value("timers/daily_limit/limit", 10);
+  config->set_value("breaks/daily_limit/enabled", false);
+
+  auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
+  BOOST_CHECK(!b->is_enabled());
+
+  tick(true, 20);
+
+  BOOST_CHECK(!b->is_active());
+  BOOST_CHECK(!core->is_taking());
+
+  config->set_value("breaks/daily_limit/enabled", true);
+  BOOST_CHECK(b->is_enabled());
 
   verify();
 }
