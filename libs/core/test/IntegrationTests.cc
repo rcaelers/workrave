@@ -96,7 +96,7 @@ namespace workrave
 class test_time_formatter_flag : public spdlog::custom_flag_formatter
 {
 public:
-  void format(const spdlog::details::log_msg &, const std::tm &, spdlog::memory_buf_t &dest) override
+  void format(const spdlog::details::log_msg &msg, const std::tm &tm, spdlog::memory_buf_t &dest) override
   {
     auto timer_text = std::to_string(timer);
     timer_text = std::string(std::max(0, static_cast<int>(padinfo_.width_ - timer_text.size())), ' ') + timer_text;
@@ -165,7 +165,7 @@ as_range(const std::pair<It, It> &p)
 class Observation
 {
 public:
-  Observation(int64_t time, std::string event, std::string params = "")
+  Observation(uint64_t time, std::string event, std::string params = "")
     : time(time)
     , event(event)
     , params(params)
@@ -179,7 +179,7 @@ public:
 
   friend std::ostream &operator<<(std::ostream &out, Observation &o);
 
-  int64_t time;
+  uint64_t time;
   std::string event;
   std::string params;
   bool seen{};
@@ -206,6 +206,22 @@ public:
       }
   }
 
+  Backend(std::ofstream out,
+          ICore *core,
+          IConfigurator::Ptr config,
+          SimulatedTime::Ptr sim,
+          ActivityMonitorStub::Ptr monitor,
+          std::multimap<uint64_t, Observation> expected_results,
+          std::multimap<uint64_t, Observation> actual_results)
+    : out(std::move(out))
+    , core(core)
+    , config(std::move(config))
+    , sim(std::move(sim))
+    , monitor(std::move(monitor))
+    , expected_results(std::move(expected_results))
+    , actual_results(std::move(actual_results))
+  {
+  }
   ~Backend() override
   {
     Core::reset_instance();
@@ -270,7 +286,7 @@ public:
   {
     for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
       {
-        auto b = core->get_break(workrave::BreakId(i));
+        auto *b = core->get_break(workrave::BreakId(i));
 
         if (i != workrave::BREAK_ID_DAILY_LIMIT)
           {
@@ -311,7 +327,7 @@ public:
 
             for (int j = 0; j < workrave::BREAK_ID_SIZEOF; j++)
               {
-                auto b = core->get_break(workrave::BreakId(j));
+                auto *b = core->get_break(workrave::BreakId(j));
                 spdlog::debug("{}: elapsed={} idle={}", j, b->get_elapsed_time(), b->get_elapsed_idle_time());
               }
 
@@ -331,7 +347,7 @@ public:
 
               for (int j = 0; j < workrave::BREAK_ID_SIZEOF; j++)
                 {
-                  auto b = core->get_break(workrave::BreakId(j));
+                  auto *b = core->get_break(workrave::BreakId(j));
                   BOOST_CHECK(j == active_break ? b->is_taking() : !b->is_taking());
                 }
 
@@ -364,7 +380,7 @@ public:
 
   void log_actual(const std::string &event, const std::string &param = "")
   {
-    int64_t time = (sim->get_monotonic_time_usec() - start_time) / 1000000;
+    uint64_t time = (sim->get_monotonic_time_usec() - start_time) / 1000000;
 
     out << time << ",Y,";
     out << event << ",";
@@ -377,14 +393,14 @@ public:
 
   void log(const std::string &event, const std::string &param = "")
   {
-    int64_t time = (sim->get_monotonic_time_usec() - start_time) / 1000000;
+    uint64_t time = (sim->get_monotonic_time_usec() - start_time) / 1000000;
 
     out << time << ",N,";
     out << event << ",";
     out << param << std::endl;
   }
 
-  void expect(int64_t time, const std::string &event, const std::string &param = "")
+  void expect(uint64_t time, const std::string &event, const std::string &param = "")
   {
     expected_results.insert(std::make_pair(time, Observation(time, event, param)));
   }
@@ -429,7 +445,7 @@ public:
 
   void check_break_progress() const
   {
-    auto b = core->get_break(active_break);
+    auto *b = core->get_break(active_break);
     if (fake_break)
       {
         BOOST_CHECK_EQUAL(last_max_value, b->get_auto_reset());
@@ -469,13 +485,13 @@ public:
   {
     log_actual("prelude", boost::str(boost::format("break_id=%1%") % CoreConfig::get_break_name(break_id)));
 
-    auto b = core->get_break(break_id);
+    auto *b = core->get_break(break_id);
     BOOST_CHECK_EQUAL(b->get_name(), CoreConfig::get_break_name(break_id));
 
     bool rest_break_advanced = false;
     if (break_id == workrave::BREAK_ID_REST_BREAK)
       {
-        auto mb = core->get_break(workrave::BREAK_ID_MICRO_BREAK);
+        auto *mb = core->get_break(workrave::BREAK_ID_MICRO_BREAK);
 
         if (mb->get_elapsed_time() >= mb->get_limit() && b->get_elapsed_time() + 30 >= b->get_limit())
           {
@@ -502,12 +518,12 @@ public:
     log_actual("break",
                boost::str(boost::format("break_id=%1% break_hint=%2%") % CoreConfig::get_break_name(break_id) % break_hint));
 
-    auto b = core->get_break(break_id);
+    auto *b = core->get_break(break_id);
 
     bool rest_break_advanced = false;
     if (break_id == workrave::BREAK_ID_REST_BREAK)
       {
-        auto mb = core->get_break(workrave::BREAK_ID_MICRO_BREAK);
+        auto *mb = core->get_break(workrave::BREAK_ID_MICRO_BREAK);
 
         if (mb->get_elapsed_time() >= mb->get_limit() && b->get_elapsed_time() + 30 >= b->get_limit())
           {
@@ -693,7 +709,7 @@ public:
   }
 
   std::ofstream out;
-  ICore *core;
+  ICore *core{};
   IConfigurator::Ptr config;
   SimulatedTime::Ptr sim;
   ActivityMonitorStub::Ptr monitor;
@@ -716,8 +732,8 @@ public:
   int last_value{};
   int last_max_value{};
 
-  std::multimap<int64_t, Observation> expected_results;
-  std::multimap<int64_t, Observation> actual_results;
+  std::multimap<uint64_t, Observation> expected_results;
+  std::multimap<uint64_t, Observation> actual_results;
 };
 
 BOOST_TEST_GLOBAL_FIXTURE(GlobalFixture);
@@ -1104,7 +1120,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_autoreset_daily_reset)
 {
   init();
 
-  auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
+  auto *b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
 
   config->set_value("breaks/micro_pause/enabled", false);
   config->set_value("breaks/rest_break/enabled", false);
@@ -1212,7 +1228,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode)
 
   tick(false, 2300);
 
-  int64_t t = 300;
+  uint64_t t = 300;
   for (int i = 0; i < 4; i++)
     {
       expect(t, "prelude", "break_id=micro_pause");
@@ -1257,7 +1273,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_prelude)
 
   monitor->notify();
 
-  int64_t t = 300;
+  uint64_t t = 300;
   for (int i = 0; i < 4; i++)
     {
       expect(t, "prelude", "break_id=micro_pause");
@@ -1294,7 +1310,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_while_no_break_or_prelude_active)
 
   monitor->notify();
 
-  int64_t t = 300;
+  uint64_t t = 300;
   for (int i = 0; i < 4; i++)
     {
       expect(t, "prelude", "break_id=micro_pause");
@@ -1335,7 +1351,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_micro_break)
 
   tick(false, 1584);
 
-  int64_t t = 300;
+  uint64_t t = 300;
   for (int i = 0; i < 4; i++)
     {
       expect(t, "prelude", "break_id=micro_pause");
@@ -1387,7 +1403,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
 
   tick(false, 1576); // Next: 1580
 
-  int64_t t = 300;
+  uint64_t t = 300;
   for (int i = 0; i < 4; i++)
     {
       expect(t, "prelude", "break_id=micro_pause");
@@ -1436,10 +1452,10 @@ BOOST_AUTO_TEST_CASE(test_user_idle)
 {
   init();
 
-  tick(false, 50, [=, this](int) {
+  tick(false, 50, [this](int) {
     for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
       {
-        auto b = core->get_break(workrave::BreakId(i));
+        auto *b = core->get_break(workrave::BreakId(i));
         BOOST_CHECK(!b->is_running());
       }
   });
@@ -1460,10 +1476,10 @@ BOOST_AUTO_TEST_CASE(test_user_active)
 {
   init();
 
-  tick(true, 50, [=, this](int) {
+  tick(true, 50, [this](int) {
     for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
       {
-        auto b = core->get_break(workrave::BreakId(i));
+        auto *b = core->get_break(workrave::BreakId(i));
         BOOST_CHECK(b->is_running());
       }
   });
@@ -1561,7 +1577,7 @@ BOOST_AUTO_TEST_CASE(test_user_takes_break_at_end_of_first_prelude)
   verify();
 }
 
-BOOST_AUTO_TEST_CASE(test_user_takes_break_at_end_of_first_prelude__idle_detect_delayed)
+BOOST_AUTO_TEST_CASE(test_user_takes_break_at_end_of_first_prelude_idle_detect_delayed)
 {
   init();
 
@@ -1585,7 +1601,7 @@ BOOST_AUTO_TEST_CASE(test_user_takes_break_at_end_of_first_prelude__idle_detect_
   verify();
 }
 
-BOOST_AUTO_TEST_CASE(test_user_ignores_first_prelude__idle_detect_delayed)
+BOOST_AUTO_TEST_CASE(test_user_ignores_first_prelude_idle_detect_delayed)
 {
   init();
 
@@ -1712,7 +1728,7 @@ BOOST_AUTO_TEST_CASE(test_overdue_time)
   tick(true, 315);
   tick(false, 40);
 
-  auto b = core->get_break(workrave::BREAK_ID_MICRO_BREAK);
+  auto *b = core->get_break(workrave::BREAK_ID_MICRO_BREAK);
   BOOST_CHECK_EQUAL(b->get_total_overdue_time(), 14);
 
   expect(655, "prelude", "break_id=micro_pause");
@@ -1752,13 +1768,13 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_halt)
   expect(1509, "show");
   expect(1509, "break_event", "break_id=rest_break event=ShowBreak");
 
-  auto rb = core->get_break(workrave::BREAK_ID_REST_BREAK);
+  auto *rb = core->get_break(workrave::BREAK_ID_REST_BREAK);
 
   tick(false, 50);
 
   core->set_insist_policy(InsistPolicy::Halt);
 
-  int elapsed = rb->get_elapsed_idle_time();
+  uint64_t elapsed = rb->get_elapsed_idle_time();
   tick(true, 100, [=](int) { BOOST_CHECK_EQUAL(rb->get_elapsed_idle_time(), elapsed + 1); });
   tick(false, 400);
 
@@ -1787,7 +1803,7 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_reset)
   expect(1509, "show");
   expect(1509, "break_event", "break_id=rest_break event=ShowBreak");
 
-  auto rb = core->get_break(workrave::BREAK_ID_REST_BREAK);
+  auto *rb = core->get_break(workrave::BREAK_ID_REST_BREAK);
 
   tick(false, 50);
 
@@ -1858,7 +1874,7 @@ BOOST_AUTO_TEST_CASE(test_user_postpones_rest_break)
   expect(1551, "break_event", "break_id=rest_break event=BreakIdle");
   expect(1551, "break_event", "break_id=rest_break event=BreakStop");
   tick(false, 50);
-  auto b = core->get_break(workrave::BREAK_ID_REST_BREAK);
+  auto *b = core->get_break(workrave::BREAK_ID_REST_BREAK);
   b->postpone_break();
   tick(false, 1);
 
@@ -1893,7 +1909,7 @@ BOOST_AUTO_TEST_CASE(test_user_skips_rest_break)
   expect(1551, "break_event", "break_id=rest_break event=BreakIdle");
   expect(1551, "break_event", "break_id=rest_break event=BreakStop");
   tick(false, 50);
-  auto b = core->get_break(workrave::BREAK_ID_REST_BREAK);
+  auto *b = core->get_break(workrave::BREAK_ID_REST_BREAK);
   b->skip_break();
   tick(false, 1);
 
@@ -2283,7 +2299,7 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_postpone)
   expect(7209, "break_event", "break_id=daily_limit event=ShowBreak");
   tick(false, 20);
 
-  auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
+  auto *b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
   b->postpone_break();
 
   expect(7221, "hide");
@@ -2323,7 +2339,7 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_skip)
   expect(7209, "break_event", "break_id=daily_limit event=ShowBreak");
   tick(false, 20);
 
-  auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
+  auto *b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
   b->skip_break();
 
   expect(7221, "hide");
@@ -2371,7 +2387,7 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_regard_micro_break_as_activity)
   expect(7209, "break_event", "break_id=daily_limit event=ShowBreak");
   tick(false, 20);
 
-  auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
+  auto *b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
   b->skip_break();
 
   expect(7221, "hide");
@@ -2411,7 +2427,7 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_reset)
 {
   init();
 
-  auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
+  auto *b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
 
   config->set_value("breaks/micro_pause/enabled", false);
   config->set_value("breaks/rest_break/enabled", false);
