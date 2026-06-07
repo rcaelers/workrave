@@ -362,7 +362,7 @@ public:
 
   void log_actual(const std::string &event, const std::string &param = "")
   {
-    int64_t time = (sim->get_monotonic_time_usec() - start_time) / 1000000;
+    uint64_t time = (sim->get_monotonic_time_usec() - start_time) / 1000000;
 
     out << time << ",Y,";
     out << event << ",";
@@ -375,7 +375,7 @@ public:
 
   void log(const std::string &event, const std::string &param = "")
   {
-    int64_t time = (sim->get_monotonic_time_usec() - start_time) / 1000000;
+    uint64_t time = (sim->get_monotonic_time_usec() - start_time) / 1000000;
 
     out << time << ",N,";
     out << event << ",";
@@ -1434,7 +1434,7 @@ BOOST_AUTO_TEST_CASE(test_user_idle)
 {
   init();
 
-  tick(false, 50, [=, this](int) {
+  tick(false, 50, [this](int) {
     for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
       {
         auto b = core->get_break(workrave::BreakId(i));
@@ -1458,7 +1458,7 @@ BOOST_AUTO_TEST_CASE(test_user_active)
 {
   init();
 
-  tick(true, 50, [=, this](int) {
+  tick(true, 50, [this](int) {
     for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
       {
         auto b = core->get_break(workrave::BreakId(i));
@@ -1559,7 +1559,7 @@ BOOST_AUTO_TEST_CASE(test_user_takes_break_at_end_of_first_prelude)
   verify();
 }
 
-BOOST_AUTO_TEST_CASE(test_user_takes_break_at_end_of_first_prelude__idle_detect_delayed)
+BOOST_AUTO_TEST_CASE(test_user_takes_break_at_end_of_first_prelude_idle_detect_delayed)
 {
   init();
 
@@ -1583,7 +1583,7 @@ BOOST_AUTO_TEST_CASE(test_user_takes_break_at_end_of_first_prelude__idle_detect_
   verify();
 }
 
-BOOST_AUTO_TEST_CASE(test_user_ignores_first_prelude__idle_detect_delayed)
+BOOST_AUTO_TEST_CASE(test_user_ignores_first_prelude_idle_detect_delayed)
 {
   init();
 
@@ -1756,7 +1756,7 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_halt)
 
   core->set_insist_policy(workrave::InsistPolicy::Halt);
 
-  int elapsed = rb->get_elapsed_idle_time();
+  uint64_t elapsed = rb->get_elapsed_idle_time();
   tick(true, 100, [=](int) { BOOST_CHECK_EQUAL(rb->get_elapsed_idle_time(), elapsed + 1); });
   tick(false, 400);
 
