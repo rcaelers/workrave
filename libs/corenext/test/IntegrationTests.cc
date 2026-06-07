@@ -96,7 +96,7 @@ namespace workrave
 class test_time_formatter_flag : public spdlog::custom_flag_formatter
 {
 public:
-  void format(const spdlog::details::log_msg &, const std::tm &, spdlog::memory_buf_t &dest) override
+  void format(const spdlog::details::log_msg &msg, const std::tm &tm, spdlog::memory_buf_t &dest) override
   {
     auto timer_text = std::to_string(timer);
     timer_text = std::string(std::max(0, static_cast<int>(padinfo_.width_ - timer_text.size())), ' ') + timer_text;
@@ -165,7 +165,7 @@ as_range(const std::pair<It, It> &p)
 class Observation
 {
 public:
-  Observation(int64_t time, std::string event, std::string params = "")
+  Observation(uint64_t time, std::string event, std::string params = "")
     : time(time)
     , event(event)
     , params(params)
@@ -179,7 +179,7 @@ public:
 
   friend std::ostream &operator<<(std::ostream &out, Observation &o);
 
-  int64_t time;
+  uint64_t time;
   std::string event;
   std::string params;
   bool seen{};
@@ -382,7 +382,7 @@ public:
     out << param << std::endl;
   }
 
-  void expect(int64_t time, const std::string &event, const std::string &param = "")
+  void expect(uint64_t time, const std::string &event, const std::string &param = "")
   {
     expected_results.insert(std::make_pair(time, Observation(time, event, param)));
   }
@@ -713,8 +713,8 @@ public:
   int last_value{};
   int last_max_value{};
 
-  std::multimap<int64_t, Observation> expected_results;
-  std::multimap<int64_t, Observation> actual_results;
+  std::multimap<uint64_t, Observation> expected_results;
+  std::multimap<uint64_t, Observation> actual_results;
 };
 
 BOOST_TEST_GLOBAL_FIXTURE(GlobalFixture);
@@ -1209,7 +1209,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode)
 
   tick(false, 2300);
 
-  int64_t t = 300;
+  uint64_t t = 300;
   for (int i = 0; i < 4; i++)
     {
       expect(t, "prelude", "break_id=micro_pause");
@@ -1254,7 +1254,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_prelude)
 
   monitor->notify();
 
-  int64_t t = 300;
+  uint64_t t = 300;
   for (int i = 0; i < 4; i++)
     {
       expect(t, "prelude", "break_id=micro_pause");
@@ -1291,7 +1291,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_while_no_break_or_prelude_active)
 
   monitor->notify();
 
-  int64_t t = 300;
+  uint64_t t = 300;
   for (int i = 0; i < 4; i++)
     {
       expect(t, "prelude", "break_id=micro_pause");
@@ -1332,7 +1332,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_micro_break)
 
   tick(false, 1584);
 
-  int64_t t = 300;
+  uint64_t t = 300;
   for (int i = 0; i < 4; i++)
     {
       expect(t, "prelude", "break_id=micro_pause");
@@ -1384,7 +1384,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
 
   tick(false, 1580); // TODO: 1576 in old core
 
-  int64_t t = 300;
+  uint64_t t = 300;
   for (int i = 0; i < 4; i++)
     {
       expect(t, "prelude", "break_id=micro_pause");
@@ -1404,11 +1404,11 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
     }
 
   // TODO: 1578
-  expect(1582, "operationmode", "mode=1"); // TODO: 1578 in old core
+  expect(1582, "operationmode", "mode=1");
   core->set_operation_mode(workrave::OperationMode::Suspended);
   tick(true, 100);
   // TODO: 1678
-  expect(1682, "operationmode", "mode=0"); // TODO: 1678 in old core
+  expect(1682, "operationmode", "mode=0");
   core->set_operation_mode(workrave::OperationMode::Normal);
   // TODO:
   tick(false, 400);
@@ -2353,18 +2353,16 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_regard_micro_break_as_activity)
 
   tick(true, 1);
 
-  // TODO: 7200 in old core (4x)
-  expect(7201, "prelude", "break_id=daily_limit");
-  expect(7201, "show");
-  expect(7201, "break_event", "break_id=daily_limit event=BreakStart");
-  expect(7201, "break_event", "break_id=daily_limit event=ShowPrelude");
+  expect(7200, "prelude", "break_id=daily_limit");
+  expect(7200, "show");
+  expect(7200, "break_event", "break_id=daily_limit event=BreakStart");
+  expect(7200, "break_event", "break_id=daily_limit event=ShowPrelude");
   tick(false, 7200);
 
-  // TODO: 7209 in old core (4x)
-  expect(7210, "hide");
-  expect(7210, "break", "break_id=daily_limit break_hint=normal");
-  expect(7210, "show");
-  expect(7210, "break_event", "break_id=daily_limit event=ShowBreak");
+  expect(7209, "hide");
+  expect(7209, "break", "break_id=daily_limit break_hint=normal");
+  expect(7209, "show");
+  expect(7209, "break_event", "break_id=daily_limit event=ShowBreak");
   tick(false, 20);
 
   auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);

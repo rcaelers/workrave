@@ -180,21 +180,33 @@ void
 BreaksControl::process_timers(bool user_is_active)
 {
   TRACE_ENTRY();
+  TimerEvent events[BREAK_ID_SIZEOF]{};
+
+  // Process source timers before timers whose activity depends on them.
+  for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
+    {
+      auto break_id = static_cast<BreakId>(i);
+      if (!breaks[break_id]->is_microbreak_used_for_activity())
+        {
+          events[break_id] = timers[break_id]->process(user_is_active);
+        }
+    }
+
+  for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
+    {
+      auto break_id = static_cast<BreakId>(i);
+      if (breaks[break_id]->is_microbreak_used_for_activity())
+        {
+          events[break_id] = timers[break_id]->process(microbreak_activity_monitor->is_active());
+        }
+    }
+
   for (int i = BREAK_ID_DAILY_LIMIT; i > BREAK_ID_NONE; i--)
     {
       auto break_id = static_cast<BreakId>(i);
-
-      bool user_is_active_for_break = user_is_active;
-      if (breaks[break_id]->is_microbreak_used_for_activity())
-        {
-          user_is_active_for_break = microbreak_activity_monitor->is_active();
-        }
-
-      TimerEvent event = timers[break_id]->process(user_is_active_for_break);
-
       if (breaks[break_id]->is_enabled())
         {
-          switch (event)
+          switch (events[break_id])
             {
             case TIMER_EVENT_LIMIT_REACHED:
               TRACE_MSG("limit reached {}", break_id);

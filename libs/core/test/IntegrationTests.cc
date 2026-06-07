@@ -2373,14 +2373,12 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_regard_micro_break_as_activity)
 
   tick(true, 1);
 
-  // Next: 7201 (4x)
   expect(7200, "prelude", "break_id=daily_limit");
   expect(7200, "show");
   expect(7200, "break_event", "break_id=daily_limit event=BreakStart");
   expect(7200, "break_event", "break_id=daily_limit event=ShowPrelude");
   tick(false, 7200);
 
-  // Next: 7210 (4x)
   expect(7209, "hide");
   expect(7209, "break", "break_id=daily_limit break_hint=normal");
   expect(7209, "show");
