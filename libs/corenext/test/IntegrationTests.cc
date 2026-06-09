@@ -1463,6 +1463,14 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_resume_restores_listener)
   expect(400, "show");
   expect(400, "break_event", "break_id=micro_pause event=ShowPrelude");
   expect(400, "break_event", "break_id=micro_pause event=BreakStart");
+  expect(409, "hide");
+  expect(409, "break", "break_id=micro_pause break_hint=normal");
+  expect(409, "show");
+  expect(409, "break_event", "break_id=micro_pause event=ShowBreak");
+  expect(420, "hide");
+  expect(420, "break_event", "break_id=micro_pause event=BreakTaken");
+  expect(420, "break_event", "break_id=micro_pause event=BreakIdle");
+  expect(420, "break_event", "break_id=micro_pause event=BreakStop");
 
   verify();
 }
