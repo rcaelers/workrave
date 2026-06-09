@@ -37,6 +37,7 @@
 #include <fstream>
 #include <map>
 #include <chrono>
+#include <unistd.h>
 using namespace std::chrono_literals;
 
 #include "core/CoreTypes.hh"
@@ -44,6 +45,7 @@ using namespace std::chrono_literals;
 #include "core/ICore.hh"
 #include "core/IApp.hh"
 #include "core/IBreak.hh"
+#include "input-monitor/InputMonitorFactoryStub.hh"
 
 #include "config/Config.hh"
 #include "config/SettingCache.hh"
@@ -55,6 +57,7 @@ using namespace std::chrono_literals;
 #include "Timer.hh"
 #include "ICoreTestHooks.hh"
 #include "Core.hh"
+#include "Statistics.hh"
 
 #include "SimulatedTime.hh"
 #include "ActivityMonitorStub.hh"
@@ -122,6 +125,11 @@ public:
 
   void setup()
   {
+    portable_directory = std::filesystem::temp_directory_path()
+                         / ("workrave-core-integration-test-" + std::to_string(::getpid()));
+    std::filesystem::remove_all(portable_directory);
+    workrave::utils::Paths::set_portable_directory(portable_directory.string());
+
     const auto *log_file = "workrave-core-integration-test.log";
 
     auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(log_file, false);
@@ -140,7 +148,12 @@ public:
 
   void teardown()
   {
+    std::error_code ec;
+    std::filesystem::remove_all(portable_directory, ec);
   }
+
+private:
+  std::filesystem::path portable_directory;
 };
 
 template<typename It>
@@ -1569,6 +1582,190 @@ BOOST_AUTO_TEST_CASE(test_core_services_and_force_idle)
   BOOST_CHECK(!core->is_user_active());
 
   verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_statistics_counters_and_delete_history)
+{
+  init();
+
+  auto *statistics = dynamic_cast<Statistics *>(core->get_statistics());
+  BOOST_REQUIRE(statistics != nullptr);
+  auto *today = statistics->get_current_day();
+  BOOST_REQUIRE(today != nullptr);
+
+  statistics->set_break_counter(workrave::BREAK_ID_MICRO_BREAK, workrave::IStatistics::STATS_BREAKVALUE_PROMPTED, 4);
+  statistics->increment_break_counter(workrave::BREAK_ID_MICRO_BREAK, workrave::IStatistics::STATS_BREAKVALUE_PROMPTED);
+  statistics->add_break_counter(workrave::BREAK_ID_MICRO_BREAK, workrave::IStatistics::STATS_BREAKVALUE_PROMPTED, 3);
+  BOOST_CHECK_EQUAL(today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED], 8);
+
+  statistics->set_counter(workrave::IStatistics::STATS_VALUE_TOTAL_KEYSTROKES, 12);
+  BOOST_CHECK_EQUAL(statistics->get_counter(workrave::IStatistics::STATS_VALUE_TOTAL_KEYSTROKES), 12);
+  auto click_count = today->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_CLICKS];
+
+  workrave::input_monitor::test::fire_mouse(10, 10);
+  workrave::input_monitor::test::fire_button(true);
+  workrave::input_monitor::test::fire_mouse(20, 10);
+  workrave::input_monitor::test::fire_button(false);
+  workrave::input_monitor::test::fire_keyboard(false);
+  workrave::input_monitor::test::fire_keyboard(true);
+
+  BOOST_CHECK_GT(today->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_MOUSE_MOVEMENT], 0);
+  BOOST_CHECK_GT(today->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_CLICK_MOVEMENT], 0);
+  BOOST_CHECK_EQUAL(today->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_CLICKS], click_count + 1);
+  BOOST_CHECK_EQUAL(today->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_KEYSTROKES], 13);
+
+  statistics->dump();
+  BOOST_CHECK(statistics->delete_all_history());
+  BOOST_CHECK_EQUAL(statistics->get_history_size(), 0);
+  BOOST_REQUIRE(statistics->get_current_day() != nullptr);
+  BOOST_CHECK_EQUAL(statistics->get_current_day()->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_KEYSTROKES], 0);
+}
+
+BOOST_AUTO_TEST_CASE(test_statistics_load_current_day_and_history)
+{
+  auto state_directory = workrave::utils::Paths::get_state_directory();
+  {
+    std::ofstream today_file(state_directory / "todaystats");
+    today_file << "WorkRaveStats 4\n"
+               << "D 8 5 126 10 20 8 5 126 11 30\n"
+               << "B 0 9 1 2 3 4 5 6 7 8 9\n"
+               << "m 8 10 20 30 40 50 60 70 80\n"
+               << "G 42\n";
+  }
+  {
+    std::ofstream history_file(state_directory / "historystats");
+    history_file << "WorkRaveStats 3\n"
+                 << "D 3 0 120 0 0 3 0 120 1 0\n"
+                 << "M 6 1 2 3 4 5 6\n"
+                 << "D 1 0 120 0 0 1 0 120 1 0\n"
+                 << "G 11\n"
+                 << "D 2 0 120 0 0 2 0 120 1 0\n"
+                 << "m 6 7 8 9 10 11 12\n";
+  }
+
+  init();
+
+  auto *statistics = dynamic_cast<Statistics *>(core->get_statistics());
+  BOOST_REQUIRE(statistics != nullptr);
+  auto *today = statistics->get_current_day();
+  BOOST_REQUIRE(today != nullptr);
+  BOOST_CHECK_EQUAL(today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED], 1);
+  BOOST_CHECK_EQUAL(today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_TOTAL_OVERDUE], 7);
+  BOOST_CHECK_EQUAL(today->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME], 42);
+  BOOST_CHECK_EQUAL(today->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_KEYSTROKES], 60);
+
+  BOOST_CHECK_EQUAL(statistics->get_history_size(), 3);
+  BOOST_REQUIRE(statistics->get_day(-1) != nullptr);
+  BOOST_REQUIRE(statistics->get_day(-2) != nullptr);
+  BOOST_REQUIRE(statistics->get_day(1) != nullptr);
+  BOOST_CHECK_EQUAL(statistics->get_day(-1)->start.tm_mday, 1);
+  BOOST_CHECK_EQUAL(statistics->get_day(-2)->start.tm_mday, 2);
+  BOOST_CHECK_EQUAL(statistics->get_day(1)->start.tm_mday, 3);
+  BOOST_CHECK(statistics->get_day(4) == nullptr);
+  BOOST_CHECK(statistics->get_day(-4) == nullptr);
+
+  BOOST_CHECK_EQUAL(statistics->get_day(-1)->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME], 11);
+  BOOST_CHECK_EQUAL(statistics->get_day(-1)->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_KEYSTROKES], 0);
+  BOOST_CHECK_EQUAL(statistics->get_day(-2)->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME], 7);
+
+  int index = -1;
+  int next = -1;
+  int previous = -1;
+  statistics->get_day_index_by_date(2020, 1, 2, index, next, previous);
+  BOOST_CHECK_EQUAL(index, 2);
+  BOOST_CHECK_EQUAL(next, 1);
+  BOOST_CHECK_EQUAL(previous, 3);
+}
+
+BOOST_AUTO_TEST_CASE(test_statistics_start_new_day)
+{
+  init();
+
+  auto *statistics = dynamic_cast<Statistics *>(core->get_statistics());
+  BOOST_REQUIRE(statistics != nullptr);
+  BOOST_REQUIRE(statistics->delete_all_history());
+
+  auto *today = statistics->get_current_day();
+  BOOST_REQUIRE(today != nullptr);
+  statistics->set_break_counter(workrave::BREAK_ID_MICRO_BREAK, workrave::IStatistics::STATS_BREAKVALUE_PROMPTED, 7);
+
+  statistics->start_new_day();
+  BOOST_CHECK(statistics->get_current_day() == today);
+  BOOST_CHECK_EQUAL(statistics->get_history_size(), 0);
+  BOOST_CHECK_EQUAL(today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED], 7);
+
+  auto rollover = [statistics](auto change_date, int prompted) {
+    auto *old_day = statistics->get_current_day();
+    auto history_size = statistics->get_history_size();
+    statistics->set_break_counter(workrave::BREAK_ID_MICRO_BREAK, workrave::IStatistics::STATS_BREAKVALUE_PROMPTED, prompted);
+    change_date(old_day->start);
+    statistics->start_new_day();
+
+    BOOST_REQUIRE(statistics->get_current_day() != nullptr);
+    BOOST_CHECK(statistics->get_current_day() != old_day);
+    BOOST_CHECK_EQUAL(statistics->get_history_size(), history_size + 1);
+    BOOST_CHECK_EQUAL(old_day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED], prompted);
+    BOOST_CHECK_EQUAL(
+      statistics->get_current_day()->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED],
+      0);
+  };
+
+  rollover([](std::tm &date) { date.tm_mday = date.tm_mday == 1 ? 2 : 1; }, 7);
+  rollover([](std::tm &date) { date.tm_mon = date.tm_mon == 0 ? 1 : 0; }, 8);
+  rollover([](std::tm &date) { date.tm_year = date.tm_year == 1 ? 2 : 1; }, 9);
+  BOOST_CHECK(std::filesystem::is_regular_file(workrave::utils::Paths::get_state_directory() / "historystats"));
+}
+
+BOOST_AUTO_TEST_CASE(test_statistics_day_to_history)
+{
+  init();
+
+  auto *statistics = dynamic_cast<Statistics *>(core->get_statistics());
+  BOOST_REQUIRE(statistics != nullptr);
+  BOOST_REQUIRE(statistics->delete_all_history());
+
+  auto history_path = workrave::utils::Paths::get_state_directory() / "historystats";
+  auto history_file_counts = [&history_path]() {
+    std::array<int, 2> counts{};
+    std::ifstream history_file(history_path);
+    std::string line;
+    while (std::getline(history_file, line))
+      {
+        if (line == "WorkRaveStats 4")
+          {
+            counts[0]++;
+          }
+        else if (line.starts_with("D "))
+          {
+            counts[1]++;
+          }
+      }
+    return counts;
+  };
+  auto archive_current_day = [statistics](int year, int prompted) {
+    auto *day = statistics->get_current_day();
+    statistics->set_break_counter(workrave::BREAK_ID_MICRO_BREAK, workrave::IStatistics::STATS_BREAKVALUE_PROMPTED, prompted);
+    day->start.tm_year = year;
+    statistics->start_new_day();
+  };
+
+  archive_current_day(1, 11);
+  auto counts = history_file_counts();
+  BOOST_CHECK_EQUAL(counts[0], 1);
+  BOOST_CHECK_EQUAL(counts[1], 1);
+
+  archive_current_day(2, 12);
+  counts = history_file_counts();
+  BOOST_CHECK_EQUAL(counts[0], 1);
+  BOOST_CHECK_EQUAL(counts[1], 2);
+
+  BOOST_CHECK_EQUAL(statistics->get_history_size(), 2);
+  BOOST_REQUIRE(statistics->get_day(-1) != nullptr);
+  BOOST_REQUIRE(statistics->get_day(-2) != nullptr);
+  BOOST_CHECK_EQUAL(statistics->get_day(-1)->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED],
+                    11);
+  BOOST_CHECK_EQUAL(statistics->get_day(-2)->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED],
+                    12);
 }
 
 BOOST_AUTO_TEST_CASE(test_load_valid_timer_state)

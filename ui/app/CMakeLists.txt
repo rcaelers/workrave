@@ -158,6 +158,8 @@ else()
   add_executable(workrave main.cc $<TARGET_OBJECTS:workrave-app>)
 endif()
 
+target_code_coverage(workrave)
+
 set_target_properties(workrave PROPERTIES
     WIN32_EXECUTABLE ON
     MACOSX_BUNDLE ON

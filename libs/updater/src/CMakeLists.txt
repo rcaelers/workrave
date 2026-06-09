@@ -2,7 +2,7 @@ add_library(workrave-libs-updater STATIC
   Config.cc
 )
 
-target_code_coverage(workrave-libs-updater)
+target_code_coverage(workrave-libs-updater AUTO)
 
 target_link_libraries(workrave-libs-updater
   PUBLIC

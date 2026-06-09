@@ -26,6 +26,8 @@ add_executable(workrave-core-shadow-helper
   CoreShadowHelper.cc
   CoreShadowTypes.cc)
 
+target_code_coverage(workrave-core-shadow-helper)
+
 target_include_directories(workrave-core-shadow-helper
   PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}

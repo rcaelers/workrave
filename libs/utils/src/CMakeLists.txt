@@ -8,7 +8,7 @@ target_sources(workrave-libs-utils PRIVATE
   Paths.cc
   debug.cc)
 
-target_code_coverage(workrave-libs-utils)
+target_code_coverage(workrave-libs-utils AUTO)
 
 if (PLATFORM_OS_WINDOWS)
   target_sources(workrave-libs-utils PRIVATE Platform-windows.cc windows/W32ActiveSetup.cc windows/W32CriticalSection.cc windows/StringUtils.cc)
