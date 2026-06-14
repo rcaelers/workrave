@@ -63,6 +63,7 @@ struct _WorkraveTimerboxPrivate
   gboolean force_icon;
   gchar *mode;
   GSettings *settings;
+  double scale_factor;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE(WorkraveTimerbox, workrave_timerbox, G_TYPE_OBJECT);
@@ -103,6 +104,7 @@ workrave_timerbox_init(WorkraveTimerbox *self)
   priv->filled_slots = 0;
   priv->enabled = FALSE;
   priv->force_icon = FALSE;
+  priv->scale_factor = 1;
   priv->mode = g_strdup("normal");
   priv->settings = g_settings_new("org.workrave.gui");
   g_signal_connect(priv->settings, "changed", G_CALLBACK(workrave_on_settings_changed), self);
@@ -248,16 +250,10 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr)
             {
               WorkraveTimebar *bar = priv->slot_to_time_bar[bid];
 
-              cairo_surface_t *surface = cairo_get_target(cr);
-              cairo_surface_t *bar_surface = cairo_surface_create_for_rectangle(surface,
-                                                                                x + icon_width + PADDING_X,
-                                                                                y + bar_dy,
-                                                                                bar_width,
-                                                                                bar_height);
-              cairo_t *bar_cr = cairo_create(bar_surface);
-              workrave_timebar_draw(bar, bar_cr);
-              cairo_surface_destroy(bar_surface);
-              cairo_destroy(bar_cr);
+              cairo_save(cr);
+              cairo_translate(cr, x + icon_width + PADDING_X, y + bar_dy);
+              workrave_timebar_draw(bar, cr);
+              cairo_restore(cr);
 
               gdk_cairo_set_source_pixbuf(cr, priv->break_to_icon[bid], x, y + icon_dy);
               cairo_fill(cr);
@@ -373,14 +369,19 @@ workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
 void
 workrave_timerbox_draw(WorkraveTimerbox *self, cairo_t *cr)
 {
+  WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
+
   cairo_save(cr);
   cairo_set_source_rgba(cr, 0, 0, 0, 0);
   cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
   cairo_paint(cr);
   cairo_restore(cr);
 
+  cairo_save(cr);
+  cairo_scale(cr, priv->scale_factor, priv->scale_factor);
   workrave_timerbox_update_time_bars(self, cr);
   workrave_timerbox_update_sheep(self, cr);
+  cairo_restore(cr);
 }
 
 /**
@@ -393,10 +394,11 @@ workrave_timerbox_draw(WorkraveTimerbox *self, cairo_t *cr)
 int
 workrave_timerbox_get_width(WorkraveTimerbox *self)
 {
+  WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
   int width = 0;
   int height = 0;
   workrave_timerbox_compute_dimensions(self, &width, &height);
-  return width;
+  return (int)(width * priv->scale_factor + 0.5);
 }
 
 /**
@@ -409,10 +411,11 @@ workrave_timerbox_get_width(WorkraveTimerbox *self)
 int
 workrave_timerbox_get_height(WorkraveTimerbox *self)
 {
+  WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
   int width = 0;
   int height = 0;
   workrave_timerbox_compute_dimensions(self, &width, &height);
-  return height;
+  return (int)(height * priv->scale_factor + 0.5);
 }
 
 /**
@@ -468,6 +471,15 @@ workrave_timerbox_set_operation_mode(WorkraveTimerbox *self, gchar *mode)
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
   g_free(priv->mode);
   priv->mode = g_strdup(mode);
+}
+
+void
+workrave_timerbox_set_draw_scale_factor(WorkraveTimerbox *self, double scale_factor)
+{
+  WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
+  // Dimensions remain in logical units; this only compensates when the
+  // target drawing surface and native renderer use different device scales.
+  priv->scale_factor = scale_factor > 0.0 ? scale_factor : 1.0;
 }
 
 static GdkPixbuf *

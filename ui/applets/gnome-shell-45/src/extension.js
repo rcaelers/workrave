@@ -1,7 +1,9 @@
 import Clutter from "gi://Clutter";
+import Gdk from "gi://Gdk?version=4.0";
 import Gio from "gi://Gio";
 import GLib from "gi://GLib";
 import GObject from "gi://GObject";
+import Meta from "gi://Meta";
 import St from "gi://St";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
 import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
@@ -179,9 +181,10 @@ const WorkraveButton = GObject.registerClass(
     _init() {
       super._init(0.0, null, false);
 
+      this._themeContext = St.ThemeContext.get_for_stage(global.stage);
       this._timerbox = new Workrave.Timerbox();
+      this._timerbox.set_draw_scale_factor(this._getTimerboxDrawScaleFactor());
       this._force_icon = false;
-      this._height = 24;
       this._padding = 0;
       this._bus_name = "org.workrave.GnomeShellApplet";
       this._bus_id = 0;
@@ -194,9 +197,17 @@ const WorkraveButton = GObject.registerClass(
         reactive: true,
         y_align: Clutter.ActorAlign.CENTER,
       });
-      this._area.set_width((this._width = 24));
-      this._area.set_height((this._height = 24));
+      this._resizeTimerboxArea();
       this._area.connect("repaint", this._draw.bind(this));
+
+      this._scaleFactorChangedId = this._themeContext.connect(
+        "notify::scale-factor",
+        this._updateTimerboxScale.bind(this)
+      );
+      this._monitorsChangedId = Main.layoutManager.connect(
+        "monitors-changed",
+        this._updateTimerboxScale.bind(this)
+      );
 
       this._box = new St.Bin();
       if (typeof this._box.add_child === "function") {
@@ -261,6 +272,39 @@ const WorkraveButton = GObject.registerClass(
       this._prelude_manager = new PreludeManager.PreludeManager();
     }
 
+    _getTimerboxDrawScaleFactor() {
+      // Mutter already handles fractional Wayland scaling for this surface.
+      if (Meta.is_wayland_compositor()) {
+        return 1.0;
+      }
+
+      let shellResourceScale = this._themeContext.scale_factor;
+      let gdkScale = 1.0;
+      let display = Gdk.Display.get_default();
+      if (display != null) {
+        let monitors = display.get_monitors();
+        if (monitors != null && monitors.get_n_items() > 0) {
+          let monitor = monitors.get_item(0);
+          gdkScale =
+            typeof monitor.get_scale === "function"
+              ? monitor.get_scale()
+              : monitor.get_scale_factor();
+        }
+      }
+      return shellResourceScale / Math.max(1.0, gdkScale);
+    }
+
+    _resizeTimerboxArea() {
+      this._area.set_width((this._width = this._timerbox.get_width()));
+      this._area.set_height((this._height = this._timerbox.get_height()));
+      this._area.queue_repaint();
+    }
+
+    _updateTimerboxScale() {
+      this._timerbox.set_draw_scale_factor(this._getTimerboxDrawScaleFactor());
+      this._resizeTimerboxArea();
+    }
+
     _setOpenedSubmenu(submenu) {
       this._openedSubMenu = submenu;
     }
@@ -291,6 +335,14 @@ const WorkraveButton = GObject.registerClass(
     }
 
     _destroy() {
+      if (this._scaleFactorChangedId > 0) {
+        this._themeContext.disconnect(this._scaleFactorChangedId);
+        this._scaleFactorChangedId = 0;
+      }
+      if (this._monitorsChangedId > 0) {
+        Main.layoutManager.disconnect(this._monitorsChangedId);
+        this._monitorsChangedId = 0;
+      }
       if (this._watchid > 0) {
         Gio.DBus.session.unwatch_name(this._watchid);
         this._watchid = 0;
@@ -363,8 +415,7 @@ const WorkraveButton = GObject.registerClass(
         this._timerbox.set_force_icon(false);
         this._alive = false;
         this._updateMenu(null);
-        this._area.queue_repaint();
-        this._area.set_width((this._width = 24));
+        this._resizeTimerboxArea();
       }
     }
 
@@ -443,11 +494,7 @@ const WorkraveButton = GObject.registerClass(
         timebar.set_text(daily[0]);
       }
 
-      let timerbox_width = this._timerbox.get_width();
-      let timerbox_height = this._timerbox.get_height();
-
-      this._area.set_width((this._width = timerbox_width));
-      this._area.queue_repaint();
+      this._resizeTimerboxArea();
     }
 
     _onGetMenuReply([menuitems], excp) {
