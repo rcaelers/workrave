@@ -142,10 +142,10 @@ Item {
             anchors { bottom: parent.bottom; horizontalCenter: parent.horizontalCenter; bottomMargin: 12 }
 
             Rectangle {
-                height: 30; width: 100; radius: 2
+                height: 30; width: 100; radius: tok.actionRadius
                 property bool hovered: false
-                color: hovered ? tok.sageSoft : tok.panel2
-                border.color: tok.edge; border.width: 1
+                color: hovered ? tok.sageSoft : tok.actionBg
+                border.color: tok.actionEdge; border.width: 1
 
                 Text {
                     anchors.centerIn: parent

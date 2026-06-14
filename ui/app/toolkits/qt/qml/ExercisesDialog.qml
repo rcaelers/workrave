@@ -177,9 +177,9 @@ Item {
 
         height: 30
         width: Math.max(lbl.implicitWidth + 24, 100)
-        radius: 2
-        color: hovered ? tok.sageSoft : tok.panel2
-        border.color: tok.edge; border.width: 1
+        radius: tok.actionRadius
+        color: hovered ? tok.sageSoft : tok.actionBg
+        border.color: tok.actionEdge; border.width: 1
 
         Text {
             id: lbl

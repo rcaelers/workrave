@@ -19,11 +19,11 @@ Item {
     readonly property bool   isLocked:     bridge != null ? bridge.isLocked     : false
     readonly property double lockProgress: bridge != null ? bridge.lockProgress : 0.0
 
-    // ── Warm background fill (all modes except toast) ─────────────────────────
+    // ── Warm background fill (block screen mode only) ────────────────────────
     Rectangle {
         anchors.fill: parent
         color: tok.bg
-        visible: root.blockMode !== 0
+        visible: root.blockMode === 2
         z: 0
     }
 
@@ -38,8 +38,8 @@ Item {
         border.color: tok.edge
         border.width: 1
 
-        x: root.blockMode === 0 ? 0 : (root.width  - width)  / 2
-        y: root.blockMode === 0 ? 0 : (root.height - height) / 2
+        x: (root.width  - width)  / 2
+        y: (root.height - height) / 2
 
         scale: 1.0
         opacity: 1.0
@@ -92,9 +92,9 @@ Item {
                     Rectangle {
                         visible: root.lockable
                         width: 28; height: 28
-                        radius: 999
-                        color: "transparent"
-                        border.color: tok.edge
+                        radius: tok.actionRadius
+                        color: tok.actionBg
+                        border.color: tok.actionEdge
                         border.width: 1
 
                         Text {
@@ -116,9 +116,12 @@ Item {
                     // Shut down button
                     Rectangle {
                         visible: root.shutdownable
-                        width: 28; height: 28; radius: 999
-                        color: "transparent"; border.color: tok.edge; border.width: 1
-                        Text { anchors.centerIn: parent; text: "⏻"; font.pixelSize: 13 }
+                        width: 28; height: 28; radius: tok.actionRadius
+                        color: tok.actionBg; border.color: tok.actionEdge; border.width: 1
+                        Text {
+                            anchors.centerIn: parent; text: "⏻"
+                            font.pixelSize: 15; font.weight: Font.Bold; color: tok.ink2
+                        }
                         Accessible.role: Accessible.Button; Accessible.name: qsTr("Shut down")
                         MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: confirmDlg.ask("shutdown", qsTr("Shut down"), qsTr("Are you sure you want to shut down the computer?")) }
                     }
@@ -126,73 +129,16 @@ Item {
                     // Sleep button
                     Rectangle {
                         visible: root.sleepable
-                        width: 28; height: 28; radius: 999
-                        color: "transparent"; border.color: tok.edge; border.width: 1
-                        Text { anchors.centerIn: parent; text: "☽"; font.pixelSize: 14; color: tok.ink2 }
+                        width: 28; height: 28; radius: tok.actionRadius
+                        color: tok.actionBg; border.color: tok.actionEdge; border.width: 1
+                        Text {
+                            anchors.centerIn: parent; text: "☾"
+                            font.pixelSize: 17; font.weight: Font.Bold; color: tok.ink2
+                        }
                         Accessible.role: Accessible.Button; Accessible.name: qsTr("Sleep")
                         MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: confirmDlg.ask("sleep", qsTr("Sleep"), qsTr("Are you sure you want to put the computer to sleep?")) }
                     }
 
-                    // Postpone button (ghost pill)
-                    Rectangle {
-                        visible: root.canPostpone
-                        enabled: root.canPostpone
-                        height: 28
-                        width: postponeLabel.implicitWidth + 20
-                        radius: 999
-                        color: "transparent"
-                        border.color: tok.edge
-                        border.width: 1
-                        opacity: enabled ? 1.0 : 0.4
-
-                        Text {
-                            id: postponeLabel
-                            anchors.centerIn: parent
-                            text: qsTr("Postpone")
-                            font.pixelSize: 12
-                            font.weight: Font.Medium
-                            color: tok.ink2
-                        }
-
-                        Accessible.role: Accessible.Button
-                        Accessible.name: qsTr("Postpone")
-
-                        MouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: { if (bridge != null) bridge.requestPostpone() }
-                        }
-                    }
-
-                    // Skip
-                    Rectangle {
-                        visible: root.canSkip
-                        height: 34
-                        width: skipLabel.implicitWidth + 28
-                        radius: 999
-                        color: "transparent"
-                        border.color: tok.edge
-                        border.width: 1
-
-                        Text {
-                            id: skipLabel
-                            anchors.centerIn: parent
-                            text: qsTr("Skip")
-                            font.pixelSize: 13
-                            font.weight: Font.Medium
-                            font.letterSpacing: 0.12
-                            color: tok.ink2
-                        }
-
-                        Accessible.role: Accessible.Button
-                        Accessible.name: qsTr("Skip")
-
-                        MouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: { if (bridge != null) bridge.requestSkip() }
-                        }
-                    }
                 }
             }
 
@@ -245,43 +191,6 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            // ── Action row ───────────────────────────────────────────────────
-            Item {
-                width: parent.width
-                height: 40
-
-                Row {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    spacing: 10
-
-                    // Primary: Stop — same visual style as "Rest break" chip elsewhere
-                    Rectangle {
-                        height: 40
-                        width: stopLabel.implicitWidth + 32
-                        radius: 999
-                        color: tok.clay
-
-                        Text {
-                            id: stopLabel
-                            anchors.centerIn: parent
-                            text: qsTr("Stop working")
-                            font.pixelSize: 13
-                            font.weight: Font.Medium
-                            color: tok.panel
-                        }
-
-                        Accessible.role: Accessible.Button
-                        Accessible.name: qsTr("Stop working")
-
-                        MouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: { if (bridge != null) bridge.requestSkip() }
-                        }
-                    }
-                }
-            }
-
             // ── Lock indicator (visible when buttons are temporarily locked) ────
             Item {
                 width: parent.width
@@ -316,6 +225,80 @@ Item {
                             radius: 2
                             color: tok.sage
                             Behavior on width { NumberAnimation { duration: 500 } }
+                        }
+                    }
+                }
+            }
+
+            // ── Action row ───────────────────────────────────────────────────
+            Item {
+                width: parent.width
+                height: actionRow.implicitHeight
+
+                Row {
+                    id: actionRow
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    spacing: 8
+
+                    Rectangle {
+                        visible: root.canPostpone
+                        enabled: root.canPostpone
+                        height: 34
+                        width: postponeLabel.implicitWidth + 28
+                        radius: tok.actionRadius
+                        color: tok.actionBg
+                        border.color: tok.actionEdge
+                        border.width: 1
+                        opacity: enabled ? 1.0 : 0.4
+
+                        Text {
+                            id: postponeLabel
+                            anchors.centerIn: parent
+                            text: qsTr("Postpone")
+                            font.pixelSize: 13
+                            font.weight: Font.Medium
+                            font.letterSpacing: 0.12
+                            color: tok.ink2
+                        }
+
+                        Accessible.role: Accessible.Button
+                        Accessible.name: qsTr("Postpone")
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: { if (bridge != null) bridge.requestPostpone() }
+                        }
+                    }
+
+                    Rectangle {
+                        visible: root.canSkip
+                        enabled: root.canSkip
+                        height: 34
+                        width: skipLabel.implicitWidth + 28
+                        radius: tok.actionRadius
+                        color: tok.actionBg
+                        border.color: tok.actionEdge
+                        border.width: 1
+                        opacity: enabled ? 1.0 : 0.4
+
+                        Text {
+                            id: skipLabel
+                            anchors.centerIn: parent
+                            text: qsTr("Skip")
+                            font.pixelSize: 13
+                            font.weight: Font.Medium
+                            font.letterSpacing: 0.12
+                            color: tok.ink2
+                        }
+
+                        Accessible.role: Accessible.Button
+                        Accessible.name: qsTr("Skip")
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: { if (bridge != null) bridge.requestSkip() }
                         }
                     }
                 }

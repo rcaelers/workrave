@@ -283,11 +283,11 @@ QmlDailyLimitWindow::start()
   else
     {
       QRect geo = (screen != nullptr) ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
-      const int card_w = 560;
-      const int card_h = 360;
-      int x = geo.x() + (geo.width() - card_w) / 2;
-      int y = geo.y() + (geo.height() - card_h) / 2;
-      view->setGeometry(x, y, card_w, card_h);
+      const int window_width = 560;
+      const int window_height = 480;
+      int x = geo.x() + (geo.width() - window_width) / 2;
+      int y = geo.y() + (geo.height() - window_height) / 2;
+      view->setGeometry(x, y, window_width, window_height);
       view->show();
     }
 

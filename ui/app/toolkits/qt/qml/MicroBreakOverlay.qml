@@ -99,9 +99,9 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     visible: bridge != null ? bridge.lockable : false
                     width: 28; height: 28
-                    radius: 999
-                    color: "transparent"
-                    border.color: tok.edge
+                    radius: tok.actionRadius
+                    color: tok.actionBg
+                    border.color: tok.actionEdge
                     border.width: 1
 
                     Text {
@@ -198,7 +198,7 @@ Item {
                 }
             }
 
-            // ── Rest-break info chip ──────────────────────────────────────────
+            // ── Rest-break status ─────────────────────────────────────────────
             Item {
                 width: parent.width
                 height: restChip.visible ? restChip.height : 0
@@ -207,10 +207,9 @@ Item {
                     id: restChip
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: bridge != null && bridge.restBreakEnabled && bridge.restBreakInfo !== ""
-                    height: 30
-                    width: restChipRow.implicitWidth + 28
-                    radius: 999
-                    color: tok.claySoft
+                    height: 24
+                    width: restChipRow.implicitWidth
+                    color: "transparent"
 
                     Row {
                         id: restChipRow
@@ -227,7 +226,7 @@ Item {
                         Text {
                             text: bridge != null ? bridge.restBreakInfo : ""
                             font.pixelSize: 12
-                            color: tok.clay
+                            color: tok.mute
                             anchors.verticalCenter: parent.verticalCenter
                         }
                     }
@@ -249,7 +248,7 @@ Item {
                         visible: bridge != null ? bridge.restBreakEnabled : false
                         height: 34
                         width: restBtnLabel.implicitWidth + 28
-                        radius: 999
+                        radius: tok.actionRadius
                         color: tok.clay
 
                         Text {
@@ -278,9 +277,9 @@ Item {
                         enabled: bridge != null ? bridge.canPostpone : true
                         height: 34
                         width: postponeLabel.implicitWidth + 28
-                        radius: 999
-                        color: "transparent"
-                        border.color: tok.edge
+                        radius: tok.actionRadius
+                        color: tok.actionBg
+                        border.color: tok.actionEdge
                         border.width: 1
                         opacity: enabled ? 1.0 : 0.4
 
@@ -310,9 +309,9 @@ Item {
                         enabled: bridge != null ? bridge.canSkip : true
                         height: 34
                         width: skipLabel.implicitWidth + 28
-                        radius: 999
-                        color: "transparent"
-                        border.color: tok.edge
+                        radius: tok.actionRadius
+                        color: tok.actionBg
+                        border.color: tok.actionEdge
                         border.width: 1
                         opacity: enabled ? 1.0 : 0.4
 

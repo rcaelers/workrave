@@ -26,6 +26,9 @@ QtObject {
     readonly property color dangerSoft: isDark ? "#3D1F1A" : "#FFE8E5"
     readonly property color warn:       isDark ? "#E8A050" : "#D4872A"
     readonly property color rest:       isDark ? "#8FC99A" : "#7FAF88"
+    readonly property color actionBg:   isDark ? "#30332C" : "#F4F0E7"
+    readonly property color actionEdge: isDark ? Qt.rgba(232/255, 226/255, 210/255, 0.28)
+                                               : Qt.rgba( 42/255,  45/255,  41/255, 0.24)
 
     // ── Typography ────────────────────────────────────────────────────────────
     readonly property int labelPx:    14    // primary row label
@@ -44,4 +47,5 @@ QtObject {
     readonly property real hintLineH:    1.45  // hint / body text line height
     readonly property int  rowPad:       28    // vertical padding in toggle/choice rows
     readonly property int  rowPadLg:     36    // vertical padding in stepper/time rows
+    readonly property int  actionRadius: 8     // actions are visibly distinct from status pills
 }
