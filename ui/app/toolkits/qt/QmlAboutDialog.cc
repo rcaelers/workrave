@@ -95,8 +95,6 @@ QmlAboutDialog::QmlAboutDialog(QObject *parent)
       }
   });
 
-  QObject::connect(view, &QWindow::visibilityChanged, this, &QmlAboutDialog::onVisibilityChanged);
-
   view->setSource(QUrl(QStringLiteral("qrc:/sanctuary/AboutDialog.qml")));
 }
 
@@ -117,13 +115,4 @@ void
 QmlAboutDialog::onCloseRequested()
 {
   view->hide();
-}
-
-void
-QmlAboutDialog::onVisibilityChanged(QWindow::Visibility visibility)
-{
-  if (visibility == QWindow::Hidden)
-    {
-      deleteLater();
-    }
 }

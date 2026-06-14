@@ -33,7 +33,6 @@ public:
 
 private slots:
   void onCloseRequested();
-  void onVisibilityChanged(QWindow::Visibility visibility);
 
 private:
   QQuickView *view{nullptr};
