@@ -202,11 +202,11 @@ const WorkraveButton = GObject.registerClass(
 
       this._scaleFactorChangedId = this._themeContext.connect(
         "notify::scale-factor",
-        this._updateTimerboxScale.bind(this)
+        this._updateTimerboxScale.bind(this),
       );
       this._monitorsChangedId = Main.layoutManager.connect(
         "monitors-changed",
-        this._updateTimerboxScale.bind(this)
+        this._updateTimerboxScale.bind(this),
       );
 
       this._box = new St.Bin();
@@ -236,34 +236,34 @@ const WorkraveButton = GObject.registerClass(
         Gio.DBus.session,
         "org.workrave.Workrave",
         "/org/workrave/Workrave/UI",
-        this._connectUI.bind(this)
+        this._connectUI.bind(this),
       );
       this._timers_updated_id = this._ui_proxy.connectSignal(
         "TimersUpdated",
-        this._onTimersUpdated.bind(this)
+        this._onTimersUpdated.bind(this),
       );
       this._menu_updated_id = this._ui_proxy.connectSignal(
         "MenuUpdated",
-        this._onMenuUpdated.bind(this)
+        this._onMenuUpdated.bind(this),
       );
       this._menu_item_updated_id = this._ui_proxy.connectSignal(
         "MenuItemUpdated",
-        this._onMenuItemUpdated.bind(this)
+        this._onMenuItemUpdated.bind(this),
       );
       this._trayicon_updated_id = this._ui_proxy.connectSignal(
         "TrayIconUpdated",
-        this._onTrayIconUpdated.bind(this)
+        this._onTrayIconUpdated.bind(this),
       );
 
       this._core_proxy = new CoreProxy(
         Gio.DBus.session,
         "org.workrave.Workrave",
         "/org/workrave/Workrave/Core",
-        this._connectCore.bind(this)
+        this._connectCore.bind(this),
       );
       this._operation_mode_changed_id = this._core_proxy.connectSignal(
         "OperationModeChanged",
-        this._onOperationModeChanged.bind(this)
+        this._onOperationModeChanged.bind(this),
       );
 
       this.menu._setOpenedSubMenu = this._setOpenedSubmenu.bind(this);
@@ -274,7 +274,11 @@ const WorkraveButton = GObject.registerClass(
 
     _getTimerboxDrawScaleFactor() {
       // Mutter already handles fractional Wayland scaling for this surface.
-      if (Meta.is_wayland_compositor()) {
+      let sessionType = GLib.getenv("XDG_SESSION_TYPE");
+      if (
+        sessionType === "wayland" ||
+        (sessionType == null && GLib.getenv("WAYLAND_DISPLAY") != null)
+      ) {
         return 1.0;
       }
 
@@ -315,7 +319,7 @@ const WorkraveButton = GObject.registerClass(
           "org.workrave.Workrave",
           Gio.BusNameWatcherFlags.NONE, // no auto launch
           this._onWorkraveAppeared.bind(this),
-          this._onWorkraveVanished.bind(this)
+          this._onWorkraveVanished.bind(this),
         );
         return false;
       } catch (err) {
@@ -367,15 +371,15 @@ const WorkraveButton = GObject.registerClass(
           this._bus_name,
           Gio.BusNameOwnerFlags.NONE,
           null,
-          null
+          null,
         );
         this._ui_proxy.GetMenuRemote(this._onGetMenuReply.bind(this));
         this._ui_proxy.GetTrayIconEnabledRemote(
-          this._onGetTrayIconEnabledReply.bind(this)
+          this._onGetTrayIconEnabledReply.bind(this),
         );
         this._ui_proxy.EmbedRemote(true, this._bus_name);
         this._core_proxy.GetOperationModeRemote(
-          this._onGetOperationModeReply.bind(this)
+          this._onGetOperationModeReply.bind(this),
         );
 
         if (this._prelude_manager != null) {
@@ -385,7 +389,7 @@ const WorkraveButton = GObject.registerClass(
         this._timeoutId = GLib.timeout_add(
           GLib.PRIORITY_DEFAULT,
           5000,
-          this._onTimer.bind(this)
+          this._onTimer.bind(this),
         );
         this._alive = true;
         this._update_count = 0;
@@ -394,7 +398,7 @@ const WorkraveButton = GObject.registerClass(
 
     _stop_dbus() {
       console.log(
-        "workrave-applet: stopping dbus (alive = " + this._alive + ")"
+        "workrave-applet: stopping dbus (alive = " + this._alive + ")",
       );
       if (this._alive) {
         GLib.source_remove(this._timeoutId);
@@ -469,7 +473,7 @@ const WorkraveButton = GObject.registerClass(
         timebar.set_secondary_progress(
           microbreak[3],
           microbreak[4],
-          microbreak[2]
+          microbreak[2],
         );
         timebar.set_text(microbreak[0]);
       }
@@ -481,7 +485,7 @@ const WorkraveButton = GObject.registerClass(
         timebar.set_secondary_progress(
           restbreak[3],
           restbreak[4],
-          restbreak[2]
+          restbreak[2],
         );
         timebar.set_text(restbreak[0]);
       }
@@ -591,20 +595,20 @@ const WorkraveButton = GObject.registerClass(
             // Gnome 3.10 & newer
             else if (typeof popup.setOrnament === "function") {
               popup.setOrnament(
-                active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE
+                active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE,
               );
             }
           } else if (type == MENU_ITEM_TYPE_ACTION) {
             popup = new PopupMenu.PopupMenuItem(dynamic_text);
             popup.setOrnament(
-              active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE
+              active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE,
             );
           }
 
           if (popup) {
             popup.setSensitive(visible);
             popup.connect("activate", (item, event) =>
-              this._onMenuCommand(item, event, id)
+              this._onMenuCommand(item, event, id),
             );
             current_menu.addMenuItem(popup);
             this._menu_entries[action] = popup;
@@ -635,12 +639,12 @@ const WorkraveButton = GObject.registerClass(
         // Gnome 3.10 & newer
         else if (typeof popup.setOrnament === "function") {
           popup.setOrnament(
-            active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE
+            active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE,
           );
         }
       }
     }
-  }
+  },
 );
 
 let workravePanelButton;
