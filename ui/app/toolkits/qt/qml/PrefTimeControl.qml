@@ -12,6 +12,7 @@ Item {
     property real   sliderValue:   0.5
     property color  sliderColor:   tok.sage
     property var    ticks:         []
+    property int    secondsStep:   1
 
     signal increment()
     signal decrement()
@@ -66,6 +67,7 @@ Item {
             id: stepper
             anchors { right: parent.right; verticalCenter: parent.verticalCenter }
             value: root.value
+            secondsStep: root.secondsStep
             onIncrement:  root.increment()
             onDecrement:  root.decrement()
             onCommitted: (secs) => root.committed(secs)

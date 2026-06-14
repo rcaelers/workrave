@@ -16,6 +16,7 @@ Item {
     id: root
 
     property string value: "0:00"
+    property int secondsStep: 1
 
     signal increment()
     signal decrement()
@@ -25,6 +26,54 @@ Item {
     implicitHeight: 34
 
     PrefTokens { id: tok }
+
+    function step(direction, unit) {
+        if (unit > 0) {
+            var secs = root.parseTime(root.value)
+            if (secs >= 0)
+                root.committed(Math.max(1, secs + direction * unit))
+        } else if (!valueInput.stepSelectedField(direction)) {
+            if (!valueInput.readOnly) valueInput.cancelEdit()
+            if (direction > 0)
+                root.increment()
+            else
+                root.decrement()
+        }
+    }
+
+    property int repeatDirection: 0
+    property int repeatUnit: 0
+
+    Timer {
+        id: repeatDelay
+        interval: 400
+        repeat: false
+        onTriggered: {
+            repeatTimer.start()
+            root.step(root.repeatDirection, root.repeatUnit)
+        }
+    }
+
+    Timer {
+        id: repeatTimer
+        interval: 100
+        repeat: true
+        onTriggered: root.step(root.repeatDirection, root.repeatUnit)
+    }
+
+    function startRepeat(direction) {
+        repeatDirection = direction
+        repeatUnit = valueInput.selectedFieldUnit()
+        root.step(direction, repeatUnit)
+        repeatDelay.restart()
+    }
+
+    function stopRepeat() {
+        repeatDelay.stop()
+        repeatTimer.stop()
+        repeatDirection = 0
+        repeatUnit = 0
+    }
 
     function parseTime(text) {
         var parts = text.trim().split(":")
@@ -72,10 +121,9 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent; cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        if (!valueInput.readOnly) valueInput.cancelEdit()
-                        root.decrement()
-                    }
+                    onPressed: root.startRepeat(-1)
+                    onReleased: root.stopRepeat()
+                    onCanceled: root.stopRepeat()
                 }
             }
 
@@ -133,11 +181,56 @@ Item {
                     function commitEdit() {
                         var secs = root.parseTime(text)
                         if (secs >= 1) {
+                            readOnly = true
                             root.committed(secs)
                         } else {
                             text = root.value    // revert invalid input
+                            readOnly = true
                         }
+                    }
+
+                    function stepSelectedField(direction) {
+                        var unit = selectedFieldUnit()
+                        if (unit <= 0)
+                            return false
+
+                        var secs = root.parseTime(text)
+                        if (secs < 0)
+                            return false
+
                         readOnly = true
+                        root.committed(Math.max(1, secs + direction * unit))
+                        return true
+                    }
+
+                    function selectedFieldUnit() {
+                        if (readOnly || selectionStart === selectionEnd)
+                            return 0
+
+                        var start = Math.min(selectionStart, selectionEnd)
+                        var end = Math.max(selectionStart, selectionEnd)
+                        var fields = text.split(":")
+                        var fieldStart = 0
+                        var selectedField = -1
+
+                        for (var i = 0; i < fields.length; ++i) {
+                            var fieldEnd = fieldStart + fields[i].length
+                            if (start >= fieldStart && end <= fieldEnd) {
+                                selectedField = i
+                                break
+                            }
+                            fieldStart = fieldEnd + 1
+                        }
+
+                        if (selectedField < 0)
+                            return 0
+                        if (fields.length === 2 && selectedField === 0)
+                            return 60
+                        if (fields.length === 3 && selectedField === 0)
+                            return 3600
+                        if (fields.length === 3 && selectedField === 1)
+                            return 60
+                        return root.secondsStep
                     }
 
                     Keys.onReturnPressed: commitEdit()
@@ -173,10 +266,9 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent; cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        if (!valueInput.readOnly) valueInput.cancelEdit()
-                        root.increment()
-                    }
+                    onPressed: root.startRepeat(1)
+                    onReleased: root.stopRepeat()
+                    onCanceled: root.stopRepeat()
                 }
             }
         }

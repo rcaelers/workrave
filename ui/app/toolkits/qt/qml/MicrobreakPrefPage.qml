@@ -34,6 +34,7 @@ Item {
                 value: root.bridge ? root.bridge.limitDisplay : "3:00"
                 sliderValue: root.bridge ? root.bridge.limitNorm : 0.3
                 sliderColor: "#6B8068"
+                secondsStep: 5
                 ticks: [
                     { at: 0.000, label: "1m" },
                     { at: 0.111, label: "2m" },
@@ -54,6 +55,7 @@ Item {
                 value: root.bridge ? root.bridge.durationDisplay : "0:30"
                 sliderValue: root.bridge ? root.bridge.durationNorm : 0.143
                 sliderColor: "#6B8068"
+                secondsStep: 5
                 ticks: [
                     { at: 0.000, label: "15s" },
                     { at: 0.143, label: "30s" },

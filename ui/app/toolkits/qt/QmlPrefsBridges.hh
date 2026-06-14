@@ -33,6 +33,7 @@ namespace PrefUtils
   double  normalize(int value, int minVal, int maxVal);
   int     denormalize(double norm, int minVal, int maxVal, int step);
   int     clampStep(int value, int delta, int minVal, int maxVal, int step);
+  int     snapStep(int value, int minVal, int maxVal, int step);
 } // namespace PrefUtils
 
 // ── MicrobreakPrefBridge ───────────────────────────────────────────────────────
@@ -110,11 +111,11 @@ private:
 
   static constexpr int LIMIT_MIN  = 60;
   static constexpr int LIMIT_MAX  = 600;
-  static constexpr int LIMIT_STEP = 60;
+  static constexpr int LIMIT_STEP = 5;
 
   static constexpr int DUR_MIN  = 15;
   static constexpr int DUR_MAX  = 120;
-  static constexpr int DUR_STEP = 15;
+  static constexpr int DUR_STEP = 5;
 
   static constexpr int SNOOZE_MIN  = 60;
   static constexpr int SNOOZE_MAX  = 600;

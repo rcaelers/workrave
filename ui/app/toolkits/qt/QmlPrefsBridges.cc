@@ -88,6 +88,13 @@ namespace PrefUtils
   {
     return std::clamp(value + delta * step, minVal, maxVal);
   }
+
+  int
+  snapStep(int value, int minVal, int maxVal, int step)
+  {
+    int snapped = static_cast<int>(std::round(static_cast<double>(value) / step)) * step;
+    return std::clamp(snapped, minVal, maxVal);
+  }
 } // namespace PrefUtils
 
 // ── MicrobreakPrefBridge ───────────────────────────────────────────────────────
@@ -250,7 +257,7 @@ MicrobreakPrefBridge::setLimitNorm(double norm)
 void
 MicrobreakPrefBridge::setLimitSeconds(int seconds)
 {
-  CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK).set(std::clamp(seconds, 1, 86400));
+  CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK).set(PrefUtils::snapStep(seconds, 5, 86400, LIMIT_STEP));
   Q_EMIT timingChanged();
 }
 
@@ -281,7 +288,7 @@ MicrobreakPrefBridge::setDurationNorm(double norm)
 void
 MicrobreakPrefBridge::setDurationSeconds(int seconds)
 {
-  CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK).set(std::clamp(seconds, 1, 86400));
+  CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK).set(PrefUtils::snapStep(seconds, 5, 86400, DUR_STEP));
   Q_EMIT timingChanged();
 }
 
