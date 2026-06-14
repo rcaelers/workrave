@@ -12,7 +12,9 @@ target_code_coverage(workrave-libs-utils AUTO)
 
 if (PLATFORM_OS_WINDOWS)
   target_sources(workrave-libs-utils PRIVATE Platform-windows.cc windows/W32ActiveSetup.cc windows/W32CriticalSection.cc windows/StringUtils.cc)
-  target_include_directories(workrave-libs-utils PRIVATE ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
+  if (HAVE_HARPOON)
+    target_include_directories(workrave-libs-utils PRIVATE ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
+  endif()
 endif()
 
 if (PLATFORM_OS_UNIX)

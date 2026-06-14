@@ -24,9 +24,10 @@ if (WIN32)
   target_sources(workrave-libs-session PRIVATE
     windows/W32LockScreen.cc
     windows/W32Shutdown.cc)
-  target_include_directories(workrave-libs-session PRIVATE
-    ${CMAKE_SOURCE_DIR}/libs/session/src/windows/
-    ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
+  target_include_directories(workrave-libs-session PRIVATE ${CMAKE_SOURCE_DIR}/libs/session/src/windows/)
+  if (HAVE_HARPOON)
+    target_include_directories(workrave-libs-session PRIVATE ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
+  endif()
 endif()
 
 if (HAVE_GLIB)

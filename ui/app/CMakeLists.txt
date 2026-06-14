@@ -59,13 +59,6 @@ if (PLATFORM_OS_WINDOWS)
     target_sources(workrave-app PRIVATE platforms/windows/WindowsHarpoonLocker.cc)
   endif()
 
-  #  target_include_directories(workrave PRIVATE ${CMAKE_SOURCE_DIR}/ui/app/toolkits/gtkmm/src/windows)
-
-  #if (HAVE_HARPOON)
-  #  target_link_libraries(workrave PRIVATE harpoon64)
-  #  target_include_directories(workrave PRIVATE ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
-  #endif()
-
   target_include_directories(workrave-app
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/platforms/windows
