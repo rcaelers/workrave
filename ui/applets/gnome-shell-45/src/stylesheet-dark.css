@@ -26,3 +26,59 @@
   border-radius: 0px;
   margin: 0px;
 }
+
+.sanctuary-prelude-window {
+  color: #e8e2d2;
+}
+
+.sanctuary-prelude-frame {
+  width: 480px;
+  color: #e8e2d2;
+  background-color: #23261f;
+  border: 2px solid rgba(220, 215, 200, 0.10);
+  border-radius: 16px;
+}
+
+.sanctuary-prelude-content {
+  padding: 18px 22px;
+  spacing: 18px;
+}
+
+.sanctuary-prelude-icon-badge {
+  width: 48px;
+  height: 48px;
+  padding: 3px;
+  background-color: #384034;
+  border-radius: 24px;
+}
+
+.sanctuary-prelude-info {
+  spacing: 3px;
+}
+
+.sanctuary-prelude-heading {
+  color: #e8e2d2;
+  font-family: Georgia, serif;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.sanctuary-prelude-countdown {
+  color: #86887e;
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.sanctuary-prelude-progress {
+  margin-top: 5px;
+}
+
+.sanctuary-prelude-progress-track {
+  background-color: #2f322b;
+  border-radius: 2px;
+}
+
+.sanctuary-prelude-progress-fill {
+  background-color: #8fa88b;
+  border-radius: 2px;
+}

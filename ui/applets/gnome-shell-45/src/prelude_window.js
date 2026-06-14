@@ -93,12 +93,75 @@ class TimeBar extends St.Widget {
   }
 }
 
+class SanctuaryProgressBar extends St.Widget {
+  static {
+    GObject.registerClass({ GTypeName: "WorkraveSanctuaryProgressBar" }, this);
+  }
+
+  _init() {
+    super._init({
+      style_class: "sanctuary-prelude-progress",
+      x_expand: true,
+      x_align: Clutter.ActorAlign.FILL,
+    });
+
+    this._track = new St.Widget({
+      style_class: "sanctuary-prelude-progress-track",
+      x_expand: true,
+    });
+    this._fill = new St.Widget({
+      style_class: "sanctuary-prelude-progress-fill",
+    });
+    this.add_child(this._track);
+    this.add_child(this._fill);
+    this._fraction = 1.0;
+  }
+
+  set_progress(value, max_value, _color) {
+    this._fraction =
+      max_value > 0 ? Math.max(0, Math.min(1, (max_value - value) / max_value)) : 1.0;
+    this.queue_relayout();
+  }
+
+  set_secondary_progress(_value, _max_value, _color) {}
+
+  set_text(_text) {}
+
+  set_text_alignment(_align) {}
+
+  refresh() {}
+
+  vfunc_get_preferred_width(_forHeight) {
+    let themeNode = this.get_theme_node();
+    return themeNode.adjust_preferred_width(280, 360);
+  }
+
+  vfunc_get_preferred_height(_forWidth) {
+    let themeNode = this.get_theme_node();
+    return themeNode.adjust_preferred_height(3, 3);
+  }
+
+  vfunc_allocate(box) {
+    this.set_allocation(box);
+    let contentBox = this.get_theme_node().get_content_box(box);
+    this._track.allocate(contentBox);
+
+    let fillBox = new Clutter.ActorBox();
+    fillBox.x1 = contentBox.x1;
+    fillBox.y1 = contentBox.y1;
+    fillBox.x2 =
+      contentBox.x1 + (contentBox.x2 - contentBox.x1) * this._fraction;
+    fillBox.y2 = contentBox.y2;
+    this._fill.allocate(fillBox);
+  }
+}
+
 export class PreludeWindow extends St.Widget {
   static {
     GObject.registerClass({ GTypeName: "Workrave-PreludeWindow" }, this);
   }
 
-  _init(monitor, icon, sad_icon, warn_color, alert_color) {
+  _init(monitor, icon, sad_icon, warn_color, alert_color, sanctuary) {
     super._init({
       reactive: true,
       track_hover: true,
@@ -107,6 +170,7 @@ export class PreludeWindow extends St.Widget {
     this._monitor = monitor;
     this._warn_color = warn_color;
     this._alert_color = alert_color;
+    this._sanctuary = sanctuary;
 
     this._blink_timer = null;
     this._blink_stage = "";
@@ -128,13 +192,21 @@ export class PreludeWindow extends St.Widget {
   }
 
   set_progress_text(text) {
-    this._timebar.set_text(text);
+    if (this._sanctuary) {
+      this._countdown_label.set_text(text);
+    } else {
+      this._timebar.set_text(text);
+    }
   }
 
   set_text(text) {
-    let label_text = `<span weight="bold" size="larger">${text}</span>`;
-    this._label.set_text(label_text);
-    this._label.get_clutter_text().set_use_markup(true);
+    if (this._sanctuary) {
+      this._label.set_text(text);
+    } else {
+      let label_text = `<span weight="bold" size="larger">${text}</span>`;
+      this._label.set_text(label_text);
+      this._label.get_clutter_text().set_use_markup(true);
+    }
   }
 
   refresh(text) {
@@ -199,39 +271,67 @@ export class PreludeWindow extends St.Widget {
   }
 
   _init_ui() {
-    let text = `<span weight="bold" size="larger">${_(
-      "Time for a microbreak?"
-    )}</span>`;
-    let label = new St.Label({ text: text });
-    label.get_clutter_text().set_use_markup(true);
+    let default_text = _("Time for a microbreak?");
+    let label = new St.Label({
+      text: this._sanctuary
+        ? default_text
+        : `<span weight="bold" size="larger">${default_text}</span>`,
+    });
+    if (this._sanctuary) {
+      label.add_style_class_name("sanctuary-prelude-heading");
+    } else {
+      label.get_clutter_text().set_use_markup(true);
+    }
 
-    let timebar = new TimeBar();
+    let timebar = this._sanctuary ? new SanctuaryProgressBar() : new TimeBar();
+    let countdown_label = new St.Label({
+      style_class: "sanctuary-prelude-countdown",
+      text: "",
+    });
 
     let vbox = new St.BoxLayout({
-      style_class: "prelude-info",
+      style_class: this._sanctuary ? "sanctuary-prelude-info" : "prelude-info",
       vertical: true,
       reactive: true,
     });
     vbox.add_child(label);
+    if (this._sanctuary) {
+      vbox.add_child(countdown_label);
+    }
     vbox.add_child(timebar);
 
     let hbox = new St.BoxLayout({
-      style_class: "prelude-content",
+      style_class: this._sanctuary
+        ? "sanctuary-prelude-content"
+        : "prelude-content",
       reactive: true,
       vertical: false,
     });
-    hbox.add_child(this._normal_icon);
-    hbox.add_child(this._sad_icon);
+    if (this._sanctuary) {
+      let icon_badge = new St.BoxLayout({
+        style_class: "sanctuary-prelude-icon-badge",
+      });
+      icon_badge.add_child(this._normal_icon);
+      icon_badge.add_child(this._sad_icon);
+      hbox.add_child(icon_badge);
+    } else {
+      hbox.add_child(this._normal_icon);
+      hbox.add_child(this._sad_icon);
+    }
     hbox.add_child(vbox);
 
     let inner_frame = new St.BoxLayout({
-      style_class: "prelude-frame",
+      style_class: this._sanctuary
+        ? "sanctuary-prelude-frame"
+        : "prelude-frame",
       reactive: true,
     });
     inner_frame.add_child(hbox);
 
     let outer_frame = new St.BoxLayout({
-      style_class: "prelude-window",
+      style_class: this._sanctuary
+        ? "sanctuary-prelude-window"
+        : "prelude-window",
       reactive: true,
     });
     outer_frame.add_child(inner_frame);
@@ -254,6 +354,7 @@ export class PreludeWindow extends St.Widget {
     this._frame = inner_frame;
     this._timebar = timebar;
     this._label = label;
+    this._countdown_label = countdown_label;
   }
 
   avoid(window_height) {

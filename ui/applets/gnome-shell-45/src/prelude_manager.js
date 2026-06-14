@@ -30,6 +30,9 @@ const PreludesIface = `
     <method name="SetProgressText">
       <arg type="s" name="text" direction="in"/>
     </method>
+    <method name="SetSanctuary">
+      <arg type="b" name="enabled" direction="in"/>
+    </method>
   </interface>
 </node>
 `;
@@ -43,6 +46,7 @@ export class PreludeManager {
     this._sad_icon = null;
     this._warn_color = null;
     this._alert_color = null;
+    this._sanctuary = false;
 
     this._initialized = false;
     this._started = false;
@@ -79,7 +83,8 @@ export class PreludeManager {
         this._icon,
         this._sad_icon,
         this._warn_color,
-        this._alert_color
+        this._alert_color,
+        this._sanctuary
       );
 
       this._areas.push(area);
@@ -192,6 +197,25 @@ export class PreludeManager {
     for (let i = 0; i < this._areas.length; i++) {
       let area = this._areas[i];
       area.set_progress_text(text);
+    }
+  }
+
+  SetSanctuary(enabled) {
+    if (!this._initialized) {
+      throw new Error(_("PreludeManager not initialized"));
+    }
+    if (this._sanctuary === enabled) {
+      return;
+    }
+
+    let was_started = this._started;
+    if (was_started) {
+      this._disableAreas();
+    }
+    this._sanctuary = enabled;
+    this._updateAreas();
+    if (was_started) {
+      this._enableAreas();
     }
   }
 }
