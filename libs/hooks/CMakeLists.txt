@@ -43,7 +43,9 @@ if (WIN32)
     list(APPEND platforms ARM64)
     set(HARPOON_HAVE_ARM64_TOOLS ON)
   elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|ARM64")
-    message(FATAL_ERROR "Visual Studio ARM64 build tools not found under ${visual_studio_dir}")
+    message(FATAL_ERROR
+      "Visual Studio ARM64 build tools not found under ${visual_studio_dir}. "
+      "Install the MSVC ARM64 C++ build tools for this Visual Studio installation.")
   else()
     set(HARPOON_HAVE_ARM64_TOOLS OFF)
     message(STATUS "Visual Studio ARM64 build tools not found; skipping Harpoon ARM64 build.")
