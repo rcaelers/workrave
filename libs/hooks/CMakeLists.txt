@@ -30,7 +30,28 @@ if (WIN32)
   set(HARPOON_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/harpoon/_output")
 
   set(configurations Debug Release)
-  set(platforms x86 x64 ARM64)
+  set(platforms x86 x64)
+
+  cmake_path(GET MSBUILD_EXECUTABLE PARENT_PATH msbuild_bin_dir)
+  cmake_path(GET msbuild_bin_dir PARENT_PATH msbuild_current_dir)
+  cmake_path(GET msbuild_current_dir PARENT_PATH msbuild_root_dir)
+  cmake_path(GET msbuild_root_dir PARENT_PATH visual_studio_dir)
+
+  file(GLOB harpoon_arm64_compilers "${visual_studio_dir}/VC/Tools/MSVC/*/bin/Host*/arm64/cl.exe")
+  list(LENGTH harpoon_arm64_compilers harpoon_arm64_compiler_count)
+  file(GLOB harpoon_arm64_toolsets "${visual_studio_dir}/MSBuild/Microsoft/VC/v*/Platforms/ARM64/PlatformToolsets/v143/Toolset.props")
+  list(LENGTH harpoon_arm64_toolsets harpoon_arm64_toolset_count)
+  if(harpoon_arm64_compiler_count GREATER 0 AND harpoon_arm64_toolset_count GREATER 0)
+    list(APPEND platforms ARM64)
+    set(HARPOON_HAVE_ARM64_TOOLS ON)
+  elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|ARM64")
+    message(FATAL_ERROR
+      "Visual Studio ARM64 v143 build tools not found under ${visual_studio_dir}. "
+      "Install the MSVC v143 ARM64 C++ build tools for this Visual Studio installation.")
+  else()
+    set(HARPOON_HAVE_ARM64_TOOLS OFF)
+    message(STATUS "Visual Studio ARM64 v143 build tools not found; skipping Harpoon ARM64 build.")
+  endif()
 
   # Determine Workrave architecture to pass to harpoon build
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "amd64|AMD64")
@@ -93,8 +114,10 @@ if (WIN32)
     install(FILES "${HARPOON_OUTPUT_DIR}/Release/x86/harpoonHelper.exe" DESTINATION ${BINDIR32} RENAME WorkraveHelper.exe)
     install(FILES "${HARPOON_OUTPUT_DIR}/Release/x86/harpoon.dll" DESTINATION ${BINDIR32})
     install(FILES "${HARPOON_OUTPUT_DIR}/Release/x64/harpoon64.dll" DESTINATION ${BINDIR})
-    install(FILES "${HARPOON_OUTPUT_DIR}/Release/ARM64/harpoonHelper.exe" DESTINATION binarm RENAME WorkraveHelper.exe)
-    install(FILES "${HARPOON_OUTPUT_DIR}/Release/ARM64/harpoon64.dll" DESTINATION binarm)
+    if(HARPOON_HAVE_ARM64_TOOLS)
+      install(FILES "${HARPOON_OUTPUT_DIR}/Release/ARM64/harpoonHelper.exe" DESTINATION binarm RENAME WorkraveHelper.exe)
+      install(FILES "${HARPOON_OUTPUT_DIR}/Release/ARM64/harpoon64.dll" DESTINATION binarm)
+    endif()
 
   elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|ARM64")
     add_dependencies(harpoon64 Harpoon_Release_ARM64)
