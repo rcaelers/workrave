@@ -117,13 +117,15 @@ Hook::hook_callback(INT nCode, WPARAM wParam, LPARAM lParam)
       // bool is_key_down = ((wParam == WM_KEYDOWN) || (wParam == WM_SYSKEYDOWN));
 
       BOOL ctrl_down = GetAsyncKeyState(VK_CONTROL) >> ((sizeof(SHORT) * 8) - 1);
+      BOOL shift_down = GetAsyncKeyState(VK_SHIFT) >> ((sizeof(SHORT) * 8) - 1);
+      bool is_task_manager_shortcut = (data->vkCode == VK_ESCAPE && ctrl_down && shift_down);
 
-      if ((data->vkCode == VK_ESCAPE && ctrl_down) ||                   // Ctrl+Esc
+      if ((data->vkCode == VK_ESCAPE && ctrl_down && !shift_down) ||    // Ctrl+Esc
           (data->vkCode == VK_TAB && data->flags & LLKHF_ALTDOWN) ||    // Alt+TAB
           (data->vkCode == VK_ESCAPE && data->flags & LLKHF_ALTDOWN) || // Alt+Esc
           (data->vkCode == VK_LWIN || data->vkCode == VK_RWIN))         // Start Menu
         {
-          handled = true;
+          handled = !is_task_manager_shortcut;
         }
     }
 
@@ -149,9 +151,10 @@ WindowsLocker::prepare_lock()
 
   if (active_window != nullptr)
     {
-      std::string text = get_window_title(active_window);
+      HWND window = static_cast<HWND>(active_window);
+      std::string text = get_window_title(window);
       TRACE_MSG("Save active window: {}", text);
-      spdlog::info("Save active window: {} {}", text, reinterpret_cast<intptr_t>(active_window));
+      spdlog::info("Save active window: {} {}", text, reinterpret_cast<intptr_t>(window));
     }
 }
 
@@ -175,10 +178,11 @@ WindowsLocker::unlock()
 
   if (active_window != nullptr)
     {
-      std::string text = get_window_title(active_window);
+      HWND window = static_cast<HWND>(active_window);
+      std::string text = get_window_title(window);
       TRACE_MSG("Restore active window: {}", text);
-      spdlog::info("Restore active window: {} {}", text, reinterpret_cast<intptr_t>(active_window));
-      SetForegroundWindow(active_window);
+      spdlog::info("Restore active window: {} {}", text, reinterpret_cast<intptr_t>(window));
+      SetForegroundWindow(window);
       active_window = nullptr;
     }
 }

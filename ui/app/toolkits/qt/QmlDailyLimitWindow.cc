@@ -36,6 +36,11 @@
 #  include "IToolkitUnixPrivate.hh"
 #endif
 
+#if defined(PLATFORM_OS_WINDOWS)
+#  include "TaskManagerWatcher.hh"
+#  include "ui/windows/WindowsCompat.hh"
+#endif
+
 using namespace workrave;
 using namespace workrave::utils;
 
@@ -197,9 +202,7 @@ DailyLimitBridge::requestSleep()
 
 // ── QmlDailyLimitWindow ───────────────────────────────────────────────────────
 
-QmlDailyLimitWindow::QmlDailyLimitWindow(std::shared_ptr<IApplicationContext> app,
-                                         QScreen *screen,
-                                         BreakFlags break_flags)
+QmlDailyLimitWindow::QmlDailyLimitWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakFlags break_flags)
   : app(app)
   , screen(screen)
   , break_flags(break_flags)
@@ -213,6 +216,7 @@ QmlDailyLimitWindow::QmlDailyLimitWindow(std::shared_ptr<IApplicationContext> ap
 QmlDailyLimitWindow::~QmlDailyLimitWindow()
 {
   *alive_ = false;
+  delete topmost_timer_;
   delete view;
 }
 
@@ -222,7 +226,14 @@ QmlDailyLimitWindow::init()
   TRACE_ENTRY();
 
   bridge = new DailyLimitBridge(app, block_mode, break_flags);
-  bridge->setDismissHandler([this, alive = alive_]() { if (*alive) stop(); });
+  bridge->setDismissHandler([this, alive = alive_]() {
+    if (*alive)
+      stop();
+  });
+
+  topmost_timer_ = new QTimer();
+  topmost_timer_->setInterval(100);
+  QObject::connect(topmost_timer_, &QTimer::timeout, [this]() { refresh_topmost_state(); });
 
   view = new QQuickView();
   view->setResizeMode(QQuickView::SizeRootObjectToView);
@@ -231,7 +242,7 @@ QmlDailyLimitWindow::init()
   QObject::connect(view, &QQuickView::statusChanged, view, [this](QQuickView::Status status) {
     if (status == QQuickView::Error)
       {
-        for (const auto &err : view->errors())
+        for (const auto &err: view->errors())
           {
             spdlog::error("DailyLimitOverlay QML error: {}", err.toString().toStdString());
           }
@@ -281,12 +292,21 @@ QmlDailyLimitWindow::start()
     }
 
   view->raise();
+  refresh_topmost_state();
+  if (topmost_timer_ != nullptr)
+    {
+      topmost_timer_->start();
+    }
 }
 
 void
 QmlDailyLimitWindow::stop()
 {
   TRACE_ENTRY();
+  if (topmost_timer_ != nullptr)
+    {
+      topmost_timer_->stop();
+    }
   view->hide();
 
 #if defined(HAVE_WAYLAND)
@@ -298,7 +318,28 @@ QmlDailyLimitWindow::stop()
 void
 QmlDailyLimitWindow::refresh()
 {
+  refresh_topmost_state();
   bridge->updateUserActivity();
+}
+
+void
+QmlDailyLimitWindow::refresh_topmost_state()
+{
+#if defined(PLATFORM_OS_WINDOWS)
+  if (view == nullptr)
+    {
+      return;
+    }
+
+  bool should_be_topmost = !TaskManagerWatcher::is_running();
+  if (topmost_enabled_ != should_be_topmost)
+    {
+      WindowsCompat::SetWindowOnTop(reinterpret_cast<HWND>(view->winId()), should_be_topmost ? TRUE : FALSE);
+      topmost_enabled_ = should_be_topmost;
+    }
+#else
+  (void)topmost_enabled_;
+#endif
 }
 
 void

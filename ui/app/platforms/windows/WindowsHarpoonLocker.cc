@@ -72,9 +72,10 @@ WindowsHarpoonLocker::prepare_lock()
 
   if (active_window != nullptr)
     {
-      std::string text = get_window_title(active_window);
+      HWND window = static_cast<HWND>(active_window);
+      std::string text = get_window_title(window);
       TRACE_MSG("Save active window: {}", text);
-      spdlog::info("Save active window: {} {}", text, reinterpret_cast<intptr_t>(active_window));
+      spdlog::info("Save active window: {} {}", text, reinterpret_cast<intptr_t>(window));
     }
 }
 
@@ -92,10 +93,11 @@ WindowsHarpoonLocker::unlock()
   block_input(FALSE);
   if (active_window != nullptr)
     {
-      std::string text = get_window_title(active_window);
+      HWND window = static_cast<HWND>(active_window);
+      std::string text = get_window_title(window);
       TRACE_MSG("Restore active window: {}", text);
-      spdlog::info("Restore active window: {} {}", text, reinterpret_cast<intptr_t>(active_window));
-      SetForegroundWindow(active_window);
+      spdlog::info("Restore active window: {} {}", text, reinterpret_cast<intptr_t>(window));
+      SetForegroundWindow(window);
       active_window = nullptr;
     }
 }

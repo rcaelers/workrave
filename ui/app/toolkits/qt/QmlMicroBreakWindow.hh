@@ -60,9 +60,9 @@ class MicroBreakBridge
 
 public:
   explicit MicroBreakBridge(std::shared_ptr<IApplicationContext> app,
-                             BlockMode block_mode,
-                             BreakFlags break_flags,
-                             QObject *parent = nullptr);
+                            BlockMode block_mode,
+                            BreakFlags break_flags,
+                            QObject *parent = nullptr);
 
   int blockMode() const;
   bool lockable() const;
@@ -77,12 +77,21 @@ public:
   double lockProgress() const;
   bool isLocked() const;
   QString restBreakInfo() const;
-  bool userActive() const { return user_active; }
-  bool isClassic() const { return classic_; }
+  bool userActive() const
+  {
+    return user_active;
+  }
+  bool isClassic() const
+  {
+    return classic_;
+  }
 
   void setProgress(int value, int max_value);
   void setBreakButtonState(const BreakButtonState &state);
-  void setDismissHandler(std::function<void()> fn) { on_dismiss_ = std::move(fn); }
+  void setDismissHandler(std::function<void()> fn)
+  {
+    on_dismiss_ = std::move(fn);
+  }
   void updateRestBreakInfo();
   void updateUserActivity();
 
@@ -120,9 +129,7 @@ private:
 class QmlMicroBreakWindow : public IBreakWindow
 {
 public:
-  QmlMicroBreakWindow(std::shared_ptr<IApplicationContext> app,
-                      QScreen *screen,
-                      BreakFlags break_flags);
+  QmlMicroBreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakFlags break_flags);
   ~QmlMicroBreakWindow() override;
 
   void init() override;
@@ -134,6 +141,7 @@ public:
 
 private:
   void configure_view_for_block_mode();
+  void refresh_topmost_state();
 
   std::shared_ptr<IApplicationContext> app;
   QScreen *screen;
@@ -143,6 +151,8 @@ private:
   QQuickView *view{nullptr};
   MicroBreakBridge *bridge{nullptr};
   std::shared_ptr<bool> alive_{std::make_shared<bool>(true)};
+  bool topmost_enabled_{true};
+  QTimer *topmost_timer_{nullptr};
 
 #if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;

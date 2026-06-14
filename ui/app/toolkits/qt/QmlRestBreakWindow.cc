@@ -20,7 +20,6 @@
 
 #include "QmlRestBreakWindow.hh"
 
-#include <algorithm>
 #include <random>
 
 #include <QQmlContext>
@@ -41,6 +40,11 @@
 
 #if defined(HAVE_WAYLAND)
 #  include "IToolkitUnixPrivate.hh"
+#endif
+
+#if defined(PLATFORM_OS_WINDOWS)
+#  include "TaskManagerWatcher.hh"
+#  include "ui/windows/WindowsCompat.hh"
 #endif
 
 using namespace workrave;
@@ -149,7 +153,8 @@ QString
 RestBreakBridge::breakTime() const
 {
   time_t t = static_cast<time_t>(std::max(0, break_max - break_value));
-  return QString::fromStdString(fmt::format(fmt::runtime(tr("Rest break for {}").toStdString()), UiUtil::time_to_string(t).toStdString()));
+  return QString::fromStdString(
+    fmt::format(fmt::runtime(tr("Rest break for {}").toStdString()), UiUtil::time_to_string(t).toStdString()));
 }
 
 QString
@@ -316,7 +321,7 @@ RestBreakBridge::initExercises()
     }
 
   auto list = exercises_obj->get_exercises();
-  for (auto &e : list)
+  for (auto &e: list)
     {
       shuffled_exercises.push_back(e);
     }
@@ -541,9 +546,7 @@ RestBreakBridge::endExercises()
 
 // ── QmlRestBreakWindow ────────────────────────────────────────────────────────
 
-QmlRestBreakWindow::QmlRestBreakWindow(std::shared_ptr<IApplicationContext> app,
-                                       QScreen *screen,
-                                       BreakFlags break_flags)
+QmlRestBreakWindow::QmlRestBreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakFlags break_flags)
   : app(app)
   , screen(screen)
   , break_flags(break_flags)
@@ -557,6 +560,7 @@ QmlRestBreakWindow::QmlRestBreakWindow(std::shared_ptr<IApplicationContext> app,
 QmlRestBreakWindow::~QmlRestBreakWindow()
 {
   *alive_ = false;
+  delete topmost_timer_;
   delete view;
 }
 
@@ -566,8 +570,15 @@ QmlRestBreakWindow::init()
   TRACE_ENTRY();
 
   bridge = new RestBreakBridge(app, block_mode, break_flags);
-  bridge->setDismissHandler([this, alive = alive_]() { if (*alive) stop(); });
+  bridge->setDismissHandler([this, alive = alive_]() {
+    if (*alive)
+      stop();
+  });
   bridge->initExercises();
+
+  topmost_timer_ = new QTimer();
+  topmost_timer_->setInterval(100);
+  QObject::connect(topmost_timer_, &QTimer::timeout, [this]() { refresh_topmost_state(); });
 
   view = new QQuickView();
   view->setResizeMode(QQuickView::SizeRootObjectToView);
@@ -576,7 +587,7 @@ QmlRestBreakWindow::init()
   QObject::connect(view, &QQuickView::statusChanged, view, [this](QQuickView::Status status) {
     if (status == QQuickView::Error)
       {
-        for (const auto &err : view->errors())
+        for (const auto &err: view->errors())
           {
             spdlog::error("RestBreakOverlay QML error: {}", err.toString().toStdString());
           }
@@ -626,12 +637,21 @@ QmlRestBreakWindow::start()
     }
 
   view->raise();
+  refresh_topmost_state();
+  if (topmost_timer_ != nullptr)
+    {
+      topmost_timer_->start();
+    }
 }
 
 void
 QmlRestBreakWindow::stop()
 {
   TRACE_ENTRY();
+  if (topmost_timer_ != nullptr)
+    {
+      topmost_timer_->stop();
+    }
   view->hide();
 
 #if defined(HAVE_WAYLAND)
@@ -643,7 +663,28 @@ QmlRestBreakWindow::stop()
 void
 QmlRestBreakWindow::refresh()
 {
+  refresh_topmost_state();
   bridge->updateUserActivity();
+}
+
+void
+QmlRestBreakWindow::refresh_topmost_state()
+{
+#if defined(PLATFORM_OS_WINDOWS)
+  if (view == nullptr)
+    {
+      return;
+    }
+
+  bool should_be_topmost = !TaskManagerWatcher::is_running();
+  if (topmost_enabled_ != should_be_topmost)
+    {
+      WindowsCompat::SetWindowOnTop(reinterpret_cast<HWND>(view->winId()), should_be_topmost ? TRUE : FALSE);
+      topmost_enabled_ = should_be_topmost;
+    }
+#else
+  (void)topmost_enabled_;
+#endif
 }
 
 void

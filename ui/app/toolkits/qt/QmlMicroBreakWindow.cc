@@ -40,6 +40,11 @@
 #  include "IToolkitUnixPrivate.hh"
 #endif
 
+#if defined(PLATFORM_OS_WINDOWS)
+#  include "TaskManagerWatcher.hh"
+#  include "ui/windows/WindowsCompat.hh"
+#endif
+
 using namespace workrave;
 
 // ── MicroBreakBridge ──────────────────────────────────────────────────────────
@@ -183,11 +188,13 @@ MicroBreakBridge::updateRestBreakInfo()
       int64_t rb = restbreak->get_limit() - restbreak->get_elapsed_time();
       if (rb >= 0)
         {
-          info = QString::fromStdString(fmt::format(fmt::runtime(tr("Next rest break in {}").toStdString()), UiUtil::time_to_string(rb, true).toStdString()));
+          info = QString::fromStdString(
+            fmt::format(fmt::runtime(tr("Next rest break in {}").toStdString()), UiUtil::time_to_string(rb, true).toStdString()));
         }
       else
         {
-          info = QString::fromStdString(fmt::format(fmt::runtime(tr("Rest break {} overdue").toStdString()), UiUtil::time_to_string(-rb, true).toStdString()));
+          info = QString::fromStdString(fmt::format(fmt::runtime(tr("Rest break {} overdue").toStdString()),
+                                                    UiUtil::time_to_string(-rb, true).toStdString()));
         }
     }
   else if (daily->is_enabled())
@@ -195,7 +202,8 @@ MicroBreakBridge::updateRestBreakInfo()
       int64_t dl = daily->get_limit() - daily->get_elapsed_time();
       if (dl >= 0)
         {
-          info = QString::fromStdString(fmt::format(fmt::runtime(tr("Daily limit in {}").toStdString()), UiUtil::time_to_string(dl, true).toStdString()));
+          info = QString::fromStdString(
+            fmt::format(fmt::runtime(tr("Daily limit in {}").toStdString()), UiUtil::time_to_string(dl, true).toStdString()));
         }
     }
 
@@ -229,9 +237,7 @@ MicroBreakBridge::requestSkip()
 void
 MicroBreakBridge::requestRestBreak()
 {
-  QTimer::singleShot(0, this, [this]() {
-    app->get_core()->force_break(BREAK_ID_REST_BREAK, BreakHint::Normal);
-  });
+  QTimer::singleShot(0, this, [this]() { app->get_core()->force_break(BREAK_ID_REST_BREAK, BreakHint::Normal); });
 }
 
 void
@@ -248,9 +254,7 @@ MicroBreakBridge::requestLock()
 
 // ── QmlMicroBreakWindow ───────────────────────────────────────────────────────
 
-QmlMicroBreakWindow::QmlMicroBreakWindow(std::shared_ptr<IApplicationContext> app,
-                                         QScreen *screen,
-                                         BreakFlags break_flags)
+QmlMicroBreakWindow::QmlMicroBreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakFlags break_flags)
   : app(app)
   , screen(screen)
   , break_flags(break_flags)
@@ -264,6 +268,7 @@ QmlMicroBreakWindow::QmlMicroBreakWindow(std::shared_ptr<IApplicationContext> ap
 QmlMicroBreakWindow::~QmlMicroBreakWindow()
 {
   *alive_ = false;
+  delete topmost_timer_;
   delete view;
 }
 
@@ -273,7 +278,14 @@ QmlMicroBreakWindow::init()
   TRACE_ENTRY();
 
   bridge = new MicroBreakBridge(app, block_mode, break_flags);
-  bridge->setDismissHandler([this, alive = alive_]() { if (*alive) stop(); });
+  bridge->setDismissHandler([this, alive = alive_]() {
+    if (*alive)
+      stop();
+  });
+
+  topmost_timer_ = new QTimer();
+  topmost_timer_->setInterval(100);
+  QObject::connect(topmost_timer_, &QTimer::timeout, [this]() { refresh_topmost_state(); });
 
   view = new QQuickView();
   view->setResizeMode(QQuickView::SizeRootObjectToView);
@@ -283,7 +295,7 @@ QmlMicroBreakWindow::init()
   QObject::connect(view, &QQuickView::statusChanged, view, [this](QQuickView::Status status) {
     if (status == QQuickView::Error)
       {
-        for (const auto &err : view->errors())
+        for (const auto &err: view->errors())
           {
             spdlog::error("MicroBreakOverlay QML error: {}", err.toString().toStdString());
           }
@@ -345,12 +357,21 @@ QmlMicroBreakWindow::start()
     }
 
   view->raise();
+  refresh_topmost_state();
+  if (topmost_timer_ != nullptr)
+    {
+      topmost_timer_->start();
+    }
 }
 
 void
 QmlMicroBreakWindow::stop()
 {
   TRACE_ENTRY();
+  if (topmost_timer_ != nullptr)
+    {
+      topmost_timer_->stop();
+    }
   view->hide();
 
 #if defined(HAVE_WAYLAND)
@@ -363,8 +384,29 @@ void
 QmlMicroBreakWindow::refresh()
 {
   TRACE_ENTRY();
+  refresh_topmost_state();
   bridge->updateRestBreakInfo();
   bridge->updateUserActivity();
+}
+
+void
+QmlMicroBreakWindow::refresh_topmost_state()
+{
+#if defined(PLATFORM_OS_WINDOWS)
+  if (view == nullptr)
+    {
+      return;
+    }
+
+  bool should_be_topmost = !TaskManagerWatcher::is_running();
+  if (topmost_enabled_ != should_be_topmost)
+    {
+      WindowsCompat::SetWindowOnTop(reinterpret_cast<HWND>(view->winId()), should_be_topmost ? TRUE : FALSE);
+      topmost_enabled_ = should_be_topmost;
+    }
+#else
+  (void)topmost_enabled_;
+#endif
 }
 
 void

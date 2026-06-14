@@ -18,8 +18,6 @@
 #ifndef WINDOWS_LOCKER_HH
 #define WINDOWS_LOCKER_HH
 
-#include <windows.h>
-
 #include "ui/Locker.hh"
 
 class WindowsLocker : public Locker
@@ -34,7 +32,7 @@ public:
   void unlock() override;
 
 private:
-  HWND active_window = nullptr;
+  void *active_window = nullptr;
 };
 
 #endif // WINDOWS_LOCKER_HH

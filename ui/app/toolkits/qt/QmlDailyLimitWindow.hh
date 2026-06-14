@@ -42,36 +42,45 @@ class DailyLimitBridge
 {
   Q_OBJECT
 
-  Q_PROPERTY(int  blockMode   READ blockMode   CONSTANT)
-  Q_PROPERTY(bool lockable    READ lockable    CONSTANT)
+  Q_PROPERTY(int blockMode READ blockMode CONSTANT)
+  Q_PROPERTY(bool lockable READ lockable CONSTANT)
   Q_PROPERTY(bool shutdownable READ shutdownable CONSTANT)
-  Q_PROPERTY(bool sleepable    READ sleepable    CONSTANT)
-  Q_PROPERTY(bool canPostpone  READ canPostpone  NOTIFY lockStateChanged)
-  Q_PROPERTY(bool canSkip      READ canSkip      NOTIFY lockStateChanged)
+  Q_PROPERTY(bool sleepable READ sleepable CONSTANT)
+  Q_PROPERTY(bool canPostpone READ canPostpone NOTIFY lockStateChanged)
+  Q_PROPERTY(bool canSkip READ canSkip NOTIFY lockStateChanged)
   Q_PROPERTY(double lockProgress READ lockProgress NOTIFY lockStateChanged)
-  Q_PROPERTY(bool isLocked     READ isLocked     NOTIFY lockStateChanged)
-  Q_PROPERTY(bool userActive   READ userActive   NOTIFY userActivityChanged)
-  Q_PROPERTY(bool classic      READ isClassic    NOTIFY classicChanged)
+  Q_PROPERTY(bool isLocked READ isLocked NOTIFY lockStateChanged)
+  Q_PROPERTY(bool userActive READ userActive NOTIFY userActivityChanged)
+  Q_PROPERTY(bool classic READ isClassic NOTIFY classicChanged)
 
 public:
   explicit DailyLimitBridge(std::shared_ptr<IApplicationContext> app,
-                             BlockMode block_mode,
-                             BreakFlags break_flags,
-                             QObject *parent = nullptr);
+                            BlockMode block_mode,
+                            BreakFlags break_flags,
+                            QObject *parent = nullptr);
 
-  int  blockMode()   const;
-  bool lockable()    const;
+  int blockMode() const;
+  bool lockable() const;
   bool shutdownable() const;
-  bool sleepable()    const;
-  bool canPostpone()   const;
-  bool canSkip()       const;
+  bool sleepable() const;
+  bool canPostpone() const;
+  bool canSkip() const;
   double lockProgress() const;
-  bool isLocked()      const;
-  bool userActive() const { return user_active_; }
-  bool isClassic() const { return classic_; }
+  bool isLocked() const;
+  bool userActive() const
+  {
+    return user_active_;
+  }
+  bool isClassic() const
+  {
+    return classic_;
+  }
 
   void setBreakButtonState(const BreakButtonState &state);
-  void setDismissHandler(std::function<void()> fn) { on_dismiss_ = std::move(fn); }
+  void setDismissHandler(std::function<void()> fn)
+  {
+    on_dismiss_ = std::move(fn);
+  }
   void updateUserActivity();
 
 Q_SIGNALS:
@@ -104,9 +113,7 @@ private:
 class QmlDailyLimitWindow : public IBreakWindow
 {
 public:
-  QmlDailyLimitWindow(std::shared_ptr<IApplicationContext> app,
-                      QScreen *screen,
-                      BreakFlags break_flags);
+  QmlDailyLimitWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakFlags break_flags);
   ~QmlDailyLimitWindow() override;
 
   void init() override;
@@ -118,6 +125,7 @@ public:
 
 private:
   void configure_view_for_block_mode();
+  void refresh_topmost_state();
 
   std::shared_ptr<IApplicationContext> app;
   QScreen *screen;
@@ -127,6 +135,8 @@ private:
   QQuickView *view{nullptr};
   DailyLimitBridge *bridge{nullptr};
   std::shared_ptr<bool> alive_{std::make_shared<bool>(true)};
+  bool topmost_enabled_{true};
+  QTimer *topmost_timer_{nullptr};
 
 #if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;
