@@ -19,8 +19,11 @@
 #define TOOLKIT_MACOS_HH
 
 #include "Toolkit.hh"
+#include "ToolkitMenu.hh"
 
 #include "ui/macos/MacOSLocker.hh"
+
+#include <QMenuBar>
 
 class ToolkitMacOS : public Toolkit
 {
@@ -37,6 +40,8 @@ public:
 private:
   std::shared_ptr<MacOSLocker> locker;
   std::shared_ptr<ToolkitMenu> dock_menu;
+  std::shared_ptr<ToolkitMenu> menu_bar_menu;
+  QMenuBar *menu_bar{nullptr};
 };
 
 #endif // TOOLKIT_MACOS_HH
