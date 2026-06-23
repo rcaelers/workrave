@@ -37,6 +37,8 @@ public:
 
   auto get_desktop_image() -> QPixmap override;
 
+  bool event(QEvent *e) override;
+
 private:
   std::shared_ptr<MacOSLocker> locker;
   std::shared_ptr<ToolkitMenu> dock_menu;

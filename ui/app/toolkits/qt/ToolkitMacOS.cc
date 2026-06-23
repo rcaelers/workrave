@@ -23,6 +23,7 @@
 #include "commonui/MenuDefs.hh"
 #include "MacOSDesktopWindow.hh"
 
+#include <QEvent>
 #include <QMenuBar>
 
 // TODO:
@@ -66,4 +67,14 @@ auto
 ToolkitMacOS::get_desktop_image() -> QPixmap
 {
   return MacOSDesktopWindow::get_desktop_image();
+}
+
+bool
+ToolkitMacOS::event(QEvent *e)
+{
+  if (e->type() == QEvent::ApplicationActivate)
+    {
+      show_window(IToolkit::WindowType::Main);
+    }
+  return Toolkit::event(e);
 }

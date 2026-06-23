@@ -35,15 +35,18 @@ endif()
 
 INSTALL(CODE "
     message(\"-- Installing dependencies...\")
-    execute_process(COMMAND ln -s ./Frameworks ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app/Contents/lib)
-    execute_process(COMMAND ${MACDEPLOYQT_EXECUTABLE} ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app -verbose=1
+    set(_app ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E rm -rf \${_app}/Contents/Frameworks)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E rm -rf \${_app}/Contents/PlugIns)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E rm -rf \${_app}/Contents/lib)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ./Frameworks \${_app}/Contents/lib)
+    execute_process(COMMAND ${MACDEPLOYQT_EXECUTABLE} \${_app} -verbose=1
            \"$<$<BOOL:${BOOST_ROOT}>:-libpath=${BOOST_ROOT}/lib>\"
            \"${_FMT_LIBPATH}\"
            \"${_SPDLOG_LIBPATH}\"
-           \"$<$<BOOL:${WORKRAVE_SIGN_IDENTITY}>:-sign-for-notarization=${WORKRAVE_SIGN_IDENTITY}>\" ${NO_STRIP} -always-overwrite)
+           \"$<$<BOOL:${WORKRAVE_SIGN_IDENTITY}>:-sign-for-notarization=${WORKRAVE_SIGN_IDENTITY}>\" ${NO_STRIP})
     if(NOT \"${WORKRAVE_SIGN_IDENTITY}\")
         message(\"-- Ad-hoc signing app bundle...\")
-        execute_process(COMMAND codesign --force --deep --sign -
-                        ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app)
+        execute_process(COMMAND codesign --force --deep --sign - \${_app})
     endif()
     ")
