@@ -1059,6 +1059,12 @@ endif()
 
 include(FetchContent)
 
+# On macOS, always use a self-contained fetched fmt+spdlog pair to avoid
+# version mismatches between the system fmt (12.x) and the bundled spdlog.
+if(APPLE)
+  set(CMAKE_DISABLE_FIND_PACKAGE_fmt ON)
+endif()
+
 find_package(fmt 6.1.2 CONFIG QUIET)
 if(${fmt_FOUND})
   find_package(spdlog 1.5.0 CONFIG QUIET)
@@ -1069,20 +1075,44 @@ else()
       "MIT"
       GIT_REPOSITORY https://github.com/fmtlib/fmt.git
       GIT_SHALLOW TRUE
-      GIT_TAG 10.0.0
+      GIT_TAG 11.1.4
     )
   FetchContent_MakeAvailable(fmt)
   target_compile_definitions(fmt INTERFACE FMT_HEADER_ONLY=1)
 endif()
 
-if((NOT ${spdlog_FOUND}) OR (NOT ${fmt_FOUND}))
+if(NOT TARGET spdlog::spdlog)
+  if (APPLE)
+    # fmt 11.x moved fmt::basic_format_string from fmt/format.h to fmt/xchar.h.
+    # spdlog's common.h only includes xchar.h under SPDLOG_WCHAR_* guards (which
+    # error on non-Windows), so we patch the source to include it whenever
+    # SPDLOG_FMT_EXTERNAL is defined.  The patch is idempotent.
+    file(WRITE "${CMAKE_BINARY_DIR}/patch_spdlog.py" [=[
+path = 'include/spdlog/common.h'
+with open(path) as f:
+    content = f.read()
+needle = '#include <spdlog/fmt/fmt.h>'
+replacement = (
+    '#include <spdlog/fmt/fmt.h>\n'
+    '#if !defined(SPDLOG_USE_STD_FORMAT) && defined(SPDLOG_FMT_EXTERNAL)\n'
+    '#  include <spdlog/fmt/xchar.h>\n'
+    '#endif'
+)
+# Guard: only patch if our block is not already there
+if 'defined(SPDLOG_FMT_EXTERNAL)' not in content:
+    open(path, 'w').write(content.replace(needle, replacement))
+    print('Patched spdlog/common.h for fmt 11.x xchar.h compatibility')
+]=])
+    set(_SPDLOG_PATCH PATCH_COMMAND python3 "${CMAKE_BINARY_DIR}/patch_spdlog.py")
+  endif()
   FetchContent_Declare_Logged(
       spdlog
       "Fast C++ logging library"
       "MIT"
       GIT_REPOSITORY https://github.com/gabime/spdlog.git
       GIT_SHALLOW TRUE
-      GIT_TAG v1.12.0
+      GIT_TAG v1.15.0
+      ${_SPDLOG_PATCH}
     )
   if (WIN32)
     set(SPDLOG_INSTALL ON)

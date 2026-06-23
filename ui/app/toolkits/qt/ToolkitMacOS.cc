@@ -23,6 +23,9 @@
 #include "commonui/MenuDefs.hh"
 #include "MacOSDesktopWindow.hh"
 
+#include <QEvent>
+#include <QMenuBar>
+
 // TODO:
 
 // #if defined(PLATFORM_OS_MACOS)
@@ -43,6 +46,15 @@ ToolkitMacOS::init(std::shared_ptr<IApplicationContext> app)
   dock_menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
                                             [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
   dock_menu->get_menu()->setAsDockMenu();
+
+  // Native macOS menu bar.  QMenuBar with nullptr parent becomes the global
+  // system menu bar on macOS.  Qt automatically promotes actions whose text
+  // matches "About", "Preferences", or "Quit" into the "Workrave" app menu
+  // at the top-left, so they appear there without any extra work.
+  menu_bar = new QMenuBar(nullptr);
+  menu_bar_menu = std::make_shared<ToolkitMenu>(app->get_menu_model());
+  menu_bar_menu->get_menu()->setTitle(QObject::tr("Workrave"));
+  menu_bar->addMenu(menu_bar_menu->get_menu());
 }
 
 auto
@@ -55,4 +67,14 @@ auto
 ToolkitMacOS::get_desktop_image() -> QPixmap
 {
   return MacOSDesktopWindow::get_desktop_image();
+}
+
+bool
+ToolkitMacOS::event(QEvent *e)
+{
+  if (e->type() == QEvent::ApplicationActivate)
+    {
+      show_window(IToolkit::WindowType::Main);
+    }
+  return Toolkit::event(e);
 }

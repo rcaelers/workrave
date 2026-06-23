@@ -155,7 +155,11 @@ ToolkitRadioGroupMenuEntry::ToolkitRadioGroupMenuEntry(ToolkitMenuContext::Ptr c
     {
       ToolkitMenuEntry::Ptr child = ToolkitMenuEntryFactory::create(get_context(), parent, child_node);
       children.push_back(child);
-      menu->insertAction(nullptr, child->get_action());
+      auto *action = child->get_action();
+      if (action != nullptr)
+        {
+          menu->insertAction(nullptr, action);
+        }
     }
 }
 
@@ -274,7 +278,11 @@ ToolkitSectionMenuEntry::ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context
     {
       auto child = ToolkitMenuEntryFactory::create(get_context(), parent, child_node);
       children.push_back(child);
-      menu->insertAction(nullptr, child->get_action());
+      auto *action = child->get_action();
+      if (action != nullptr)
+        {
+          menu->insertAction(nullptr, action);
+        }
     }
 }
 
