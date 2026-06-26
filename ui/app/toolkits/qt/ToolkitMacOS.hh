@@ -33,6 +33,7 @@ public:
 
   // IToolkit
   void init(std::shared_ptr<IApplicationContext> app) override;
+  auto get_head_count() const -> int override { return 1; }
   auto get_locker() -> std::shared_ptr<Locker> override;
 
   auto get_desktop_image() -> QPixmap override;
