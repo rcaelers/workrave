@@ -36,7 +36,14 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
   : QWidget(parent)
 {
   setFixedSize(minimumSize());
+#if defined(PLATFORM_OS_MACOS)
+  // Qt::Tool on macOS creates an NSPanel that auto-hides whenever another app
+  // gains focus, causing the timer window to vanish unexpectedly. A regular
+  // Qt::Window stays visible across app switches.
+  setWindowFlags(Qt::Window);
+#else
   setWindowFlags(Qt::Tool);
+#endif
 
   timer_box_view = new TimerBoxView;
   timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);

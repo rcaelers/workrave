@@ -35,10 +35,11 @@ add_library(workrave-toolkit-qt OBJECT
 if (PLATFORM_OS_MACOS)
   target_sources(workrave-toolkit-qt PRIVATE
     ToolkitMacOS.cc
+    platforms/macos/MacOSBlockingOverlay.cc
     platforms/macos/MouseMonitor.cc
     platforms/macos/MacOSDesktopWindow.cc)
 
-    set_source_files_properties(BreakWindow.cc PreludeWindow.cc ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+    set_source_files_properties(BreakWindow.cc PreludeWindow.cc ToolkitMacOS.cc platforms/macos/MacOSBlockingOverlay.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
     target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
 
