@@ -63,6 +63,17 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(std::shared_ptr<IApplicationConte
       UiUtil::add_widget(sound_options_layout, tr("Volume:"), sound_volume_scale);
     }
 
+  if (sound_theme->capability(workrave::audio::SoundCapability::DEVICE))
+    {
+      device_combo = new QComboBox;
+      UiUtil::add_widget(sound_options_layout, tr("Output device:"), device_combo);
+
+      void (QComboBox::*device_signal)(int) = &QComboBox::currentIndexChanged;
+      QObject::connect(device_combo, device_signal, this, &SoundsPreferencesPanel::on_device_changed);
+
+      update_device_selection();
+    }
+
   enabled_cb = new QCheckBox;
   enabled_cb->setText(tr("Enable sounds"));
   connector->connect(sound_theme->sound_enabled(), dc::wrap(enabled_cb));
@@ -252,4 +263,46 @@ SoundsPreferencesPanel::currentEvent() const -> SoundEvent
   QStandardItem *item = sounds_model->item(index.row(), 2);
   std::string id = item->text().toStdString();
   return sound_theme->sound_id_to_event(id);
+}
+
+void
+SoundsPreferencesPanel::on_device_changed(int index)
+{
+  if (device_combo && index >= 0)
+    {
+      std::string device_id = device_combo->itemData(index).toString().toStdString();
+      sound_theme->sound_device().set(device_id);
+      sound_theme->set_device(device_id);
+    }
+}
+
+void
+SoundsPreferencesPanel::update_device_selection()
+{
+  if (!device_combo)
+    {
+      return;
+    }
+
+  device_combo->clear();
+
+  auto devices = sound_theme->get_devices();
+  std::string current_device = sound_theme->sound_device()();
+
+  int active_index = 0;
+  for (size_t i = 0; i < devices.size(); i++)
+    {
+      const auto &dev = devices[i];
+      device_combo->addItem(QString::fromStdString(dev.name), QString::fromStdString(dev.id));
+      if (dev.id == current_device)
+        {
+          active_index = static_cast<int>(i);
+        }
+      else if (dev.is_default && current_device.empty())
+        {
+          active_index = static_cast<int>(i);
+        }
+    }
+
+  device_combo->setCurrentIndex(active_index);
 }
