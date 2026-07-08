@@ -19,6 +19,7 @@
 #define ISOUNDDRIVER_HH
 
 #include <string>
+#include <vector>
 
 #include "audio/ISoundPlayer.hh"
 #include "ISoundPlayerEvents.hh"
@@ -31,6 +32,10 @@ public:
   virtual void init(ISoundPlayerEvents *events = nullptr) = 0;
   virtual bool capability(workrave::audio::SoundCapability cap) = 0;
   virtual void play_sound(std::string wavfile, int volume) = 0;
+
+  virtual std::vector<workrave::audio::SoundDevice> get_devices() = 0;
+  virtual void set_device(const std::string &device_id) = 0;
+  virtual std::string get_device() const = 0;
 };
 
 #endif // ISOUNDDRIVER_HH

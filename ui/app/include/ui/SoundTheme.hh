@@ -68,6 +68,9 @@ public:
   auto sound_event(SoundEvent event) -> workrave::config::Setting<std::string> &;
   auto sound_event_enabled(SoundEvent event) -> workrave::config::Setting<bool> &;
 
+  auto get_devices() -> std::vector<workrave::audio::SoundDevice>;
+  void set_device(const std::string &device_id);
+
   static auto events() -> std::list<SoundEvent>
   {
     return std::list<SoundEvent>{SoundEvent::BreakPrelude,

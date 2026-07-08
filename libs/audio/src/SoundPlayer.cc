@@ -141,6 +141,35 @@ SoundPlayer::capability(SoundCapability cap)
   return ret;
 }
 
+std::vector<workrave::audio::SoundDevice>
+SoundPlayer::get_devices()
+{
+  if (driver != nullptr)
+    {
+      return driver->get_devices();
+    }
+  return {};
+}
+
+void
+SoundPlayer::set_device(const std::string &device_id)
+{
+  if (driver != nullptr)
+    {
+      driver->set_device(device_id);
+    }
+}
+
+std::string
+SoundPlayer::get_device() const
+{
+  if (driver != nullptr)
+    {
+      return driver->get_device();
+    }
+  return {};
+}
+
 void
 SoundPlayer::restore_mute()
 {

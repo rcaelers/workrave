@@ -32,11 +32,17 @@ public:
   bool capability(workrave::audio::SoundCapability cap) override;
   void play_sound(std::string wavfile, int volume) override;
 
+  std::vector<workrave::audio::SoundDevice> get_devices() override;
+  void set_device(const std::string &device_id) override;
+  std::string get_device() const override;
+
   static gboolean bus_watch(GstBus *bus, GstMessage *msg, gpointer data);
 
 private:
   gboolean gst_ok{false};
   ISoundPlayerEvents *events{nullptr};
+  std::string current_device;
+  std::vector<workrave::audio::SoundDevice> devices_cache;
 
   struct WatchData
   {

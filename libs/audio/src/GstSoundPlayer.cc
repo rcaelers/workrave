@@ -57,7 +57,15 @@ GstSoundPlayer::init(ISoundPlayerEvents *events)
 bool
 GstSoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
-  return (cap == workrave::audio::SoundCapability::VOLUME || cap == workrave::audio::SoundCapability::EOS_EVENT);
+  if (cap == workrave::audio::SoundCapability::VOLUME || cap == workrave::audio::SoundCapability::EOS_EVENT)
+    {
+      return true;
+    }
+  if (cap == workrave::audio::SoundCapability::DEVICE)
+    {
+      return true;
+    }
+  return false;
 }
 
 void
@@ -66,7 +74,20 @@ GstSoundPlayer::play_sound(std::string wavfile, int volume)
   TRACE_ENTRY_PAR(wavfile, volume);
 
   GstElement *play = nullptr;
-  GstElement *sink = gst_element_factory_make("autoaudiosink", "sink");
+  GstElement *sink = nullptr;
+
+  if (!current_device.empty() && current_device != "default")
+    {
+      sink = gst_element_factory_make("autoaudiosink", "sink");
+      if (sink != nullptr)
+        {
+          g_object_set(G_OBJECT(sink), "device", current_device.c_str(), NULL);
+        }
+    }
+  else
+    {
+      sink = gst_element_factory_make("autoaudiosink", "sink");
+    }
 
   if (sink != nullptr)
     {
@@ -93,6 +114,56 @@ GstSoundPlayer::play_sound(std::string wavfile, int volume)
       gst_object_unref(bus);
       g_free(uri);
     }
+}
+
+std::vector<workrave::audio::SoundDevice>
+GstSoundPlayer::get_devices()
+{
+  if (!devices_cache.empty())
+    {
+      return devices_cache;
+    }
+
+  devices_cache.push_back({"default", "System Default", true});
+
+  GstDeviceMonitor *monitor = gst_device_monitor_new();
+  GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
+  gst_device_monitor_add_filter(monitor, "Audio/Sink", caps);
+  gst_caps_unref(caps);
+
+  if (gst_device_monitor_start(monitor))
+    {
+      GList *devices = gst_device_monitor_get_devices(monitor);
+      for (GList *l = devices; l != nullptr; l = l->next)
+        {
+          auto *device = GST_DEVICE(l->data);
+          auto *props = gst_device_get_properties(device);
+          const char *display_name = gst_structure_get_string(props, "device.description");
+          const char *device_name = gst_structure_get_string(props, "device.name");
+          if (device_name && display_name)
+            {
+              devices_cache.push_back({device_name, display_name, false});
+            }
+          gst_structure_free(props);
+        }
+      g_list_free_full(devices, gst_object_unref);
+      gst_device_monitor_stop(monitor);
+    }
+
+  gst_object_unref(monitor);
+  return devices_cache;
+}
+
+void
+GstSoundPlayer::set_device(const std::string &device_id)
+{
+  current_device = device_id;
+}
+
+std::string
+GstSoundPlayer::get_device() const
+{
+  return current_device;
 }
 
 gboolean
