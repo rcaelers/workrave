@@ -250,9 +250,9 @@ Item {
                                 width: playText.implicitWidth + 20; height: 28
 
                                 Rectangle {
-                                    anchors.fill: parent; radius: 6
-                                    color: playMouse.containsMouse ? tok.sageSoft : tok.panel2
-                                    border.color: tok.edge; border.width: 1
+                                    anchors.fill: parent; radius: tok.actionRadius
+                                    color: playMouse.containsMouse ? tok.sageSoft : tok.actionBg
+                                    border.color: tok.actionEdge; border.width: 1
                                     Behavior on color { ColorAnimation { duration: 120 } }
                                 }
                                 Text {
@@ -276,9 +276,9 @@ Item {
                                 width: chooseText.implicitWidth + 20; height: 28
 
                                 Rectangle {
-                                    anchors.fill: parent; radius: 6
-                                    color: chooseMouse.containsMouse ? tok.sageSoft : tok.panel2
-                                    border.color: tok.edge; border.width: 1
+                                    anchors.fill: parent; radius: tok.actionRadius
+                                    color: chooseMouse.containsMouse ? tok.sageSoft : tok.actionBg
+                                    border.color: tok.actionEdge; border.width: 1
                                     Behavior on color { ColorAnimation { duration: 120 } }
                                 }
                                 Text {
@@ -303,9 +303,9 @@ Item {
                                 width: visible ? clearText.implicitWidth + 20 : 0; height: 28
 
                                 Rectangle {
-                                    anchors.fill: parent; radius: 6
-                                    color: clearMouse.containsMouse ? tok.dangerSoft : tok.panel2
-                                    border.color: tok.edge; border.width: 1
+                                    anchors.fill: parent; radius: tok.actionRadius
+                                    color: clearMouse.containsMouse ? tok.dangerSoft : tok.actionBg
+                                    border.color: tok.actionEdge; border.width: 1
                                     Behavior on color { ColorAnimation { duration: 120 } }
                                 }
                                 Text {

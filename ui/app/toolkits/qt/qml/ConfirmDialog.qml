@@ -86,7 +86,7 @@ Item {
                 Rectangle {
                     height: 34
                     width: confirmLbl.implicitWidth + 24
-                    radius: 8
+                    radius: tok.actionRadius
                     color: tok.danger
 
                     Text {
@@ -112,9 +112,9 @@ Item {
                 Rectangle {
                     height: 34
                     width: cancelLbl.implicitWidth + 24
-                    radius: 8
-                    color: tok.panel2
-                    border.color: tok.edge
+                    radius: tok.actionRadius
+                    color: tok.actionBg
+                    border.color: tok.actionEdge
                     border.width: 1
 
                     Text {

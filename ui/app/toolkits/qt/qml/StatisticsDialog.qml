@@ -218,8 +218,8 @@ Item {
                         anchors.horizontalCenter: parent.horizontalCenter
                         height: 30
                         width: Math.max(deleteLbl.implicitWidth + 24, parent.width - 16)
-                        radius: 2
-                        color: deleteBtnArea.containsMouse ? tok.dangerSoft : tok.panel2
+                        radius: tok.actionRadius
+                        color: deleteBtnArea.containsMouse ? tok.dangerSoft : tok.actionBg
                         border.color: tok.danger
                         border.width: 1
 
@@ -518,11 +518,11 @@ Item {
 
         height: 30
         width: Math.max(lbl.implicitWidth + 24, 100)
-        radius: 2
+        radius: tok.actionRadius
         color: !enabled ? tok.track
                : hovered ? (highlighted ? tok.sageDeep : tok.sageSoft)
-               : (highlighted ? tok.sage : tok.panel2)
-        border.color: highlighted ? tok.sage : tok.edge
+               : (highlighted ? tok.sage : tok.actionBg)
+        border.color: highlighted ? tok.sage : tok.actionEdge
         border.width: 1
 
         Text {
@@ -552,11 +552,11 @@ Item {
         signal clicked()
 
         width: 30; height: 30
-        radius: 4
+        radius: tok.actionRadius
         color: !enabled ? "transparent"
                : hovered ? tok.sageSoft
-               : "transparent"
-        border.color: enabled ? tok.edge : "transparent"
+               : tok.actionBg
+        border.color: enabled ? tok.actionEdge : "transparent"
         border.width: 1
 
         Text {

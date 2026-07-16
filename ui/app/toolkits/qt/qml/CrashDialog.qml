@@ -289,11 +289,11 @@ Item {
 
         height: 30
         width: Math.max(lbl.implicitWidth + 24, 100)
-        radius: 2
+        radius: tok.actionRadius
         color: !enabled ? tok.track
                : hovered ? (highlighted ? tok.sageDeep : tok.sageSoft)
-               : (highlighted ? tok.sage : tok.panel2)
-        border.color: highlighted ? tok.sage : tok.edge
+               : (highlighted ? tok.sage : tok.actionBg)
+        border.color: highlighted ? tok.sage : tok.actionEdge
         border.width: 1
 
         Text {

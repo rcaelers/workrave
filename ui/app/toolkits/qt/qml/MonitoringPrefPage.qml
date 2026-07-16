@@ -89,16 +89,16 @@ Item {
                         }
                     }
 
-                    // Pill button
+                    // Action button
                     Item {
                         id: debugBtn
                         anchors { right: parent.right; verticalCenter: parent.verticalCenter }
                         width: btnText.implicitWidth + 24; height: 30
 
                         Rectangle {
-                            anchors.fill: parent; radius: 6
-                            color: debugMouse.containsMouse ? tok.sageSoft : tok.panel2
-                            border.color: tok.edge; border.width: 1
+                            anchors.fill: parent; radius: tok.actionRadius
+                            color: debugMouse.containsMouse ? tok.sageSoft : tok.actionBg
+                            border.color: tok.actionEdge; border.width: 1
                             Behavior on color { ColorAnimation { duration: 120 } }
                         }
 
