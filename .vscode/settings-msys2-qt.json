@@ -16,10 +16,13 @@
     "CODE_COVERAGE": "OFF",
     "WITH_SBOM": "OFF",
     "WITH_TRACING": "ON",
-    "WITH_UI": "Gtk+3",
-    "WITH_CRASHPAD": "OFF",
+    "WITH_UI": "Qt",
+    "WITH_CRASHPAD": "ON",
     "WITH_AUTO_UPDATE": "ON",
-    "WITH_CORE_NEXT": "OFF",
+    "WITH_CORE_NEXT": "ON",
+    "WITH_DBUS": "ON",
+    "WITH_CRASHPAD_STAGING": "ON",
+    "WITH_UPDATER_STAGING": "ON",
     "CMAKE_PREFIX_PATH": "${workspaceFolder}/_ext",
     "CMAKE_BUILD_TYPE": "${buildType}",
     "CMAKE_C_COMPILER": "clang",
@@ -29,6 +32,7 @@
   },
   "cmake.environment": {
     "MINGW_PREFIX": "C:/msys64/clang64",
+    "MSYSTEM": "CLANG64",
     "PATH": "C:/msys64/clang64/bin;$env{PATH}"
   },
   "cSpell.words": [
