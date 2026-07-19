@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-02-10 20:25+0100\n"
+"POT-Creation-Date: 2026-05-16 20:30+0200\n"
 "PO-Revision-Date: 2011-02-16 19:21+0100\n"
 "Last-Translator: Prokopis Prokopidis <prokopidis@gmail.com>\n"
 "Language-Team:  <en@li.org>\n"
@@ -68,11 +68,11 @@ msgstr "Αυτό το πρόγραμμα βοηθά στην πρόληψη κα
 msgid "Auto"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:213
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:235
 msgid "Auto update"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:214
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:236
 msgid "Automatically check for updates"
 msgstr ""
 
@@ -80,7 +80,7 @@ msgstr ""
 msgid "Backward shoulder stretch"
 msgstr "Τέντωμα των ώμων προς τα πίσω"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:209
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Beta"
 msgstr ""
 
@@ -145,7 +145,7 @@ msgstr "Διαλείμματα που παραλείψατε"
 msgid "Browse history"
 msgstr "Ιστορικό περιήγησης"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:251
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
 msgid "Check for _Updates"
 msgstr ""
 
@@ -175,7 +175,7 @@ msgstr ""
 msgid "Crash report details"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 msgid "Custom proxy"
 msgstr ""
 
@@ -189,7 +189,7 @@ msgid "Daily"
 msgstr "Ημερήσιο όριο"
 
 #. label
-#: ui/app/Application.cc:666 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
 #: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
 #: ui/app/toolkits/gtkmm/Ui.cc:101
@@ -322,19 +322,19 @@ msgstr "Τέλος ασκήσεων"
 msgid "Exercises player"
 msgstr "Οδηγός ασκήσεων"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:364
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:387
 msgid "Failed to download appcast"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:367
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:390
 msgid "Failed to download installer"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:373
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:396
 msgid "Failed to execute installer"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:370
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:393
 msgid "Failed to validate installer integrity. Aborting upgrade"
 msgstr ""
 
@@ -355,8 +355,8 @@ msgstr ""
 msgid "Finger stretch"
 msgstr "Τεντώστε τα δάκτυλα"
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:83
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:80
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:81
 msgid "Focus Assist"
 msgstr ""
 
@@ -394,7 +394,7 @@ msgstr ""
 msgid "General"
 msgstr "Γενικά"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:216
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:238
 msgid "Get updates as soon as they are available"
 msgstr ""
 
@@ -429,12 +429,12 @@ msgstr ""
 msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
 msgstr "Ενώστε τα δάχτυλά σας πίσω από την πλάτη. Ύστερα σπρώξτε απαλά τους ώμους προς τα μέσα, τεντώνοντας συγχρόνως τα χέρια. Κρατήστε αυτή τη στάση για περίπου 5 με 15 δευτερόλεπτα, και επαναλάβετε την άσκηση δύο φορές."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:378
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:384
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:401
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:407
 msgid "Internal failure. Aborting upgrade"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:361
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:384
 msgid "Invalid appcast"
 msgstr ""
 
@@ -481,7 +481,7 @@ msgid "Maximum number of prompts:"
 msgstr "Μέγιστος αριθμός προτροπών:"
 
 #. FIXME: duplicate
-#: ui/app/Application.cc:666 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
@@ -502,7 +502,7 @@ msgstr "Αρχή μικρο-παύσης"
 msgid "Micro-break:"
 msgstr "Μικρο-παύση:"
 
-#: ui/app/Application.cc:673 ui/app/Application.cc:677
+#: ui/app/Application.cc:674 ui/app/Application.cc:678
 #, fuzzy
 msgid "Mode: "
 msgstr "_Λειτουργία"
@@ -582,7 +582,7 @@ msgstr "Το επόμενο διάλειμμα είναι σε %s"
 msgid "No blocking"
 msgstr "Χωρίς κλείδωμα"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 msgid "No proxy"
 msgstr ""
 
@@ -615,7 +615,7 @@ msgstr "Αριθμός ασκήσεων:"
 msgid "Number of pixels the mouse should move before it is considered activity."
 msgstr ""
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:87
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
 msgid "Operation mode during Focus Assist:"
 msgstr ""
 
@@ -709,11 +709,11 @@ msgstr "Προτροπή πριν το διάλειμμα"
 msgid "Prompted breaks taken"
 msgstr "Διαλείμματα μετά από προτροπή"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
 msgid "Proxy Type:"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:237
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
 msgid "Proxy:"
 msgstr ""
 
@@ -725,16 +725,16 @@ msgstr "Ακουμπήστε τα χέρια σας στα μπράτσα της
 msgid "Q_uiet"
 msgstr "Σ_ιωπηλό"
 
-#: ui/app/Menus.cc:294
+#: ui/app/Menus.cc:295
 #, qt-format
 msgid "Q_uiet (until %1%)"
 msgstr ""
 
-#: ui/app/Menus.cc:307
+#: ui/app/Menus.cc:308
 msgid "Q_uiet (until next day)"
 msgstr ""
 
-#: ui/app/Application.cc:677 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/app/Application.cc:678 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:389
 #, fuzzy
 msgid "Quiet"
@@ -748,11 +748,11 @@ msgstr ""
 msgid "Regard micro-breaks as activity"
 msgstr "Οι μικροπαύσεις να θεωρούνται δραστηριότητα"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:209
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Release Candidate"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:224
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
 msgid "Release channel:"
 msgstr ""
 
@@ -769,7 +769,7 @@ msgstr "Επαναλαμβανόμενες προτροπές"
 msgid "Replaced by use-microbreak-activity"
 msgstr "Οι μικροπαύσεις να θεωρούνται δραστηριότητα"
 
-#: ui/app/Application.cc:666 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
@@ -820,7 +820,7 @@ msgstr "Στατιστικά"
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
 msgstr "Χωρίστε και τεντώστε τα δάχτυλά σας μέχρι να νιώσετε μια ελαφριά πίεση, και διατηρήστε τα σε αυτή τη θέση για 10 δευτερόλεπτα. Χαλαρώστε, λυγίστε τις αρθρώσεις και περιμένετε και πάλι για 10 δευτερόλεπτα. Επαναλάβετε την άσκηση άλλη μία φορά."
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:85
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:82
 msgid "Set operation mode based on Windows Focus Assist"
 msgstr ""
 
@@ -885,8 +885,8 @@ msgstr "Σίγηση σε"
 msgid "Software Update"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:212
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:242
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:234
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:265
 msgid "Software updates"
 msgstr ""
 
@@ -926,7 +926,7 @@ msgstr "Ήχος:"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "Περιστρέψτε αργά το δεξιό σας μπράτσο σαν έλικα αεροπλάνου, κρατώντας το κοντά στο σώμα σας. Επαναλάβετε 4 φορές προς τα μπροστά, 4 φορές προς τα πίσω και χαλαρώστε για μερικά δευτερόλεπτα. Επαναλάβετε με το αριστερό χέρι."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:209
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Stable"
 msgstr ""
 
@@ -973,7 +973,7 @@ msgstr "_Απενεργοποιημένο"
 msgid "Suspend hybrid"
 msgstr "_Απενεργοποιημένο"
 
-#: ui/app/Application.cc:673 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/app/Application.cc:674 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:387
 #, fuzzy
 msgid "Suspended"
@@ -983,7 +983,7 @@ msgstr "_Απενεργοποιημένο"
 msgid "System default"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 msgid "System proxy"
 msgstr ""
 
@@ -1115,10 +1115,10 @@ msgstr ""
 "κάθισμα και απομακρυνθείτε από τον υπολογιστή.\n"
 "Περπατήστε μερικά λεπτά, τεντωθείτε και χαλαρώστε."
 
-#: ui/app/toolkits/gtkmm/Toolkit.cc:293
+#: ui/app/toolkits/gtkmm/Toolkit.cc:294
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
 #: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
-#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
+#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:350
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Αυτό το πρόγραμμα βοηθά στην πρόληψη και την θεραπεία των Κακώσεων λόγω Επαναλαμβανόμενης Καταπόνησης (Repetitive Strain Injury, RSI)"
 
@@ -1231,7 +1231,7 @@ msgstr "Αυτό το πρόγραμμα βοηθά στην πρόληψη κα
 msgid "Workrave can use its GNOME Shell extension to enhance its integration with the desktop environment running on Wayland."
 msgstr ""
 
-#: ui/app/Application.cc:421
+#: ui/app/Application.cc:425
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
@@ -1256,17 +1256,17 @@ msgstr ""
 msgid "Workrave is a free program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). It frequently alerts you to take microbreaks, rest breaks and restricts you to your daily computer usage."
 msgstr ""
 
-#: ui/app/Application.cc:656
+#: ui/app/Application.cc:657
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ui/app/Application.cc:648
+#: ui/app/Application.cc:649
 msgid ""
 "Workrave is in suspended mode.\n"
 "Mouse and keyboard activity will not be monitored."
 msgstr ""
 
-#: ui/app/Application.cc:632
+#: ui/app/Application.cc:633
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
@@ -1382,12 +1382,12 @@ msgstr "_Στατιστικά"
 msgid "_Suspended"
 msgstr "_Απενεργοποιημένο"
 
-#: ui/app/Menus.cc:299
+#: ui/app/Menus.cc:300
 #, fuzzy, qt-format
 msgid "_Suspended (until %1%)"
 msgstr "_Απενεργοποιημένο"
 
-#: ui/app/Menus.cc:312
+#: ui/app/Menus.cc:313
 msgid "_Suspended (until next day)"
 msgstr ""
 

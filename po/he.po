@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave cvs\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-02-10 20:25+0100\n"
+"POT-Creation-Date: 2026-05-16 20:30+0200\n"
 "PO-Revision-Date: 2021-12-02 15:32+0200\n"
 "Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>\n"
 "Language-Team: Hebrew <en@li.org>\n"
@@ -73,11 +73,11 @@ msgstr "תוכנית שמסייעת בהחלמה ומניעת פגיעת מתח 
 msgid "Auto"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:213
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:235
 msgid "Auto update"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:214
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:236
 msgid "Automatically check for updates"
 msgstr ""
 
@@ -85,7 +85,7 @@ msgstr ""
 msgid "Backward shoulder stretch"
 msgstr "מתיחת הכתף האחורית"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:209
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Beta"
 msgstr ""
 
@@ -149,7 +149,7 @@ msgstr "הפסקות שדולגו"
 msgid "Browse history"
 msgstr "עיון בהיסטוריה"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:251
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
 msgid "Check for _Updates"
 msgstr ""
 
@@ -178,7 +178,7 @@ msgstr ""
 msgid "Crash report details"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 msgid "Custom proxy"
 msgstr ""
 
@@ -191,7 +191,7 @@ msgid "Daily"
 msgstr "יום"
 
 #. label
-#: ui/app/Application.cc:666 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
 #: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
 #: ui/app/toolkits/gtkmm/Ui.cc:101
@@ -321,19 +321,19 @@ msgstr "סוף התרגילים"
 msgid "Exercises player"
 msgstr "מציג התרגילים"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:364
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:387
 msgid "Failed to download appcast"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:367
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:390
 msgid "Failed to download installer"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:373
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:396
 msgid "Failed to execute installer"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:370
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:393
 msgid "Failed to validate installer integrity. Aborting upgrade"
 msgstr ""
 
@@ -353,8 +353,8 @@ msgstr "הקבצים נמחקו!"
 msgid "Finger stretch"
 msgstr "מתיחת האצבעות"
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:83
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:80
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:81
 msgid "Focus Assist"
 msgstr ""
 
@@ -392,7 +392,7 @@ msgstr "צבע קִדמה לסמלים סימבוליים"
 msgid "General"
 msgstr "כללי"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:216
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:238
 msgid "Get updates as soon as they are available"
 msgstr ""
 
@@ -424,12 +424,12 @@ msgstr "מידע"
 msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
 msgstr "יש לשלב את האצבעות מאחורי הגב. לאחר מכן יש לסובב בעדינות את המרפקים פנימה, תוך יישור הידיים. יש להישאר במצב זה למשך 5 עד 15 שניות, ואז לחזור על התרגיל פעמיים."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:378
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:384
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:401
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:407
 msgid "Internal failure. Aborting upgrade"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:361
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:384
 msgid "Invalid appcast"
 msgstr ""
 
@@ -474,7 +474,7 @@ msgid "Maximum number of prompts:"
 msgstr "מספר הצעות מרבי:"
 
 #. FIXME: duplicate
-#: ui/app/Application.cc:666 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
@@ -494,7 +494,7 @@ msgstr "התחלה הפסקה זעירה"
 msgid "Micro-break:"
 msgstr "הפסקה זעירה:"
 
-#: ui/app/Application.cc:673 ui/app/Application.cc:677
+#: ui/app/Application.cc:674 ui/app/Application.cc:678
 msgid "Mode: "
 msgstr "מצב: "
 
@@ -570,7 +570,7 @@ msgstr "הפסקת המנוחה הבאה בעוד %s"
 msgid "No blocking"
 msgstr "ללא חסימה"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 msgid "No proxy"
 msgstr ""
 
@@ -602,7 +602,7 @@ msgstr "מספר התרגילים:"
 msgid "Number of pixels the mouse should move before it is considered activity."
 msgstr ""
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:87
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
 msgid "Operation mode during Focus Assist:"
 msgstr ""
 
@@ -695,11 +695,11 @@ msgstr "להציע לקחת הפסקה"
 msgid "Prompted breaks taken"
 msgstr "הפסקות שנלקחו"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
 msgid "Proxy Type:"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:237
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
 msgid "Proxy:"
 msgstr ""
 
@@ -711,16 +711,16 @@ msgstr "יש לשים את הידיים על משענות הכיסא שעליו 
 msgid "Q_uiet"
 msgstr "_שקט"
 
-#: ui/app/Menus.cc:294
+#: ui/app/Menus.cc:295
 #, qt-format
 msgid "Q_uiet (until %1%)"
 msgstr ""
 
-#: ui/app/Menus.cc:307
+#: ui/app/Menus.cc:308
 msgid "Q_uiet (until next day)"
 msgstr ""
 
-#: ui/app/Application.cc:677 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/app/Application.cc:678 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:389
 msgid "Quiet"
 msgstr "שקט"
@@ -733,11 +733,11 @@ msgstr "מצב קריאה"
 msgid "Regard micro-breaks as activity"
 msgstr "התיחס להפסקות זעירות כאל פעילות"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:209
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Release Candidate"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:224
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
 msgid "Release channel:"
 msgstr ""
 
@@ -754,7 +754,7 @@ msgstr "הצעות חוזרות"
 msgid "Replaced by use-microbreak-activity"
 msgstr "התיחס להפסקות זעירות כאל פעילות"
 
-#: ui/app/Application.cc:666 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
@@ -803,7 +803,7 @@ msgstr "ס_טטיסטיקה"
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
 msgstr "יש להפריד ולמתוח את האצבעות עד לתחושת מתיחה קלה, ולהישאר במצב זה למשך 10 שניות. לאחר מכן יש להירגע, ולכופף את האצבעות במפרקים, ולהישאר במצב זה למשך 10 שניות נוספות. יש לחזור על התרגיל פעם נוספת."
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:85
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:82
 msgid "Set operation mode based on Windows Focus Assist"
 msgstr ""
 
@@ -863,8 +863,8 @@ msgstr "שקט בעוד %s"
 msgid "Software Update"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:212
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:242
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:234
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:265
 msgid "Software updates"
 msgstr ""
 
@@ -895,7 +895,7 @@ msgstr "צלילים"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "יש לסובב את ידך הימנית לאט כמו מדחף של מטוס לצד הגוף. יש לעשות זאת 4 פעמים קדימה, 4 פעמים לאחור, ואז יש להירגע למשך מספר שניות. יש לחזור על התרגיל עם היד השמאלית."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:209
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Stable"
 msgstr ""
 
@@ -940,7 +940,7 @@ msgstr "השהיה"
 msgid "Suspend hybrid"
 msgstr "השהייה היברידית"
 
-#: ui/app/Application.cc:673 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/app/Application.cc:674 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:387
 msgid "Suspended"
 msgstr "מושהה"
@@ -949,7 +949,7 @@ msgstr "מושהה"
 msgid "System default"
 msgstr "ברירת המחדל של המערכת"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 msgid "System proxy"
 msgstr ""
 
@@ -1077,10 +1077,10 @@ msgstr ""
 "ולהתרחק מהמחשב באופן סדיר. אפשר פשוט\n"
 "להתהלך סביב לכמה דקות, להתמתח, ולהירגע."
 
-#: ui/app/toolkits/gtkmm/Toolkit.cc:293
+#: ui/app/toolkits/gtkmm/Toolkit.cc:294
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
 #: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
-#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
+#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:350
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "תוכנית זו מסייעת במניעה והחלמה מפגיעת מתח חוזרת (Repetitive Strain Injury - RSI)."
 
@@ -1192,7 +1192,7 @@ msgstr "תוכנית שמסייעת בהחלמה ומניעת פגיעת מתח 
 msgid "Workrave can use its GNOME Shell extension to enhance its integration with the desktop environment running on Wayland."
 msgstr ""
 
-#: ui/app/Application.cc:421
+#: ui/app/Application.cc:425
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "לא היה באפשרות Workrave לעקוב אחר פעילות המקלדת והעכבר שלך.\n"
 
@@ -1218,11 +1218,11 @@ msgstr ""
 msgid "Workrave is a free program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). It frequently alerts you to take microbreaks, rest breaks and restricts you to your daily computer usage."
 msgstr "Workrave היא תוכנית שמסייעת בהחלמה ומניעת פגיעת מתח חוזרת (Repetitive Strain Injury - RSI). התוכנית מבקשת ממך באופן תדיר לקחת הפסקות זעירות, הפסקות מנוחה, ומגבילה את זמן השימוש היומי שלך במחשב."
 
-#: ui/app/Application.cc:656
+#: ui/app/Application.cc:657
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave במצב שקט. לא יופיעו חלוניות הפסקה."
 
-#: ui/app/Application.cc:648
+#: ui/app/Application.cc:649
 msgid ""
 "Workrave is in suspended mode.\n"
 "Mouse and keyboard activity will not be monitored."
@@ -1230,7 +1230,7 @@ msgstr ""
 "Workrave במצב השהיה.\n"
 "לא יתבצע מעקב אחר פעילות העכבר והמקלדת."
 
-#: ui/app/Application.cc:632
+#: ui/app/Application.cc:633
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr "Workrave עדיין פועל. אפשר לגשת ל־Workrave בעזרת לחיצה על סמל הכבשה הלבנה. לחיצה על בועת דיבור זו תעלים את ההודעה"
 
@@ -1343,12 +1343,12 @@ msgstr "_סטטיסטיקה"
 msgid "_Suspended"
 msgstr "_השהיה"
 
-#: ui/app/Menus.cc:299
+#: ui/app/Menus.cc:300
 #, fuzzy, qt-format
 msgid "_Suspended (until %1%)"
 msgstr "_השהיה"
 
-#: ui/app/Menus.cc:312
+#: ui/app/Menus.cc:313
 msgid "_Suspended (until next day)"
 msgstr ""
 

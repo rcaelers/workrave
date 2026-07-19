@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.10.48\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-02-10 20:25+0100\n"
+"POT-Creation-Date: 2026-05-16 20:30+0200\n"
 "PO-Revision-Date: 2021-09-17 12:59+0200\n"
 "Last-Translator: Jordi Mallach <jordi@mallach.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -69,11 +69,11 @@ msgstr "Ajuda a la prevenció i recuperació del mal de pressió repetitiva (RSI
 msgid "Auto"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:213
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:235
 msgid "Auto update"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:214
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:236
 msgid "Automatically check for updates"
 msgstr ""
 
@@ -81,7 +81,7 @@ msgstr ""
 msgid "Backward shoulder stretch"
 msgstr "Estirament de muscles cap enrere"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:209
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Beta"
 msgstr ""
 
@@ -145,7 +145,7 @@ msgstr "Descansos omesos"
 msgid "Browse history"
 msgstr "Navega l'historial"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:251
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
 msgid "Check for _Updates"
 msgstr ""
 
@@ -174,7 +174,7 @@ msgstr ""
 msgid "Crash report details"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 #, fuzzy
 msgid "Custom proxy"
 msgstr "Personalitzat"
@@ -188,7 +188,7 @@ msgid "Daily"
 msgstr "Diari"
 
 #. label
-#: ui/app/Application.cc:666 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
 #: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
 #: ui/app/toolkits/gtkmm/Ui.cc:101
@@ -318,19 +318,19 @@ msgstr "Final dels exercicis"
 msgid "Exercises player"
 msgstr "Reproductor d'exercicis"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:364
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:387
 msgid "Failed to download appcast"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:367
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:390
 msgid "Failed to download installer"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:373
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:396
 msgid "Failed to execute installer"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:370
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:393
 msgid "Failed to validate installer integrity. Aborting upgrade"
 msgstr ""
 
@@ -350,8 +350,8 @@ msgstr "S'ha suprimit els fitxers!"
 msgid "Finger stretch"
 msgstr "Estirament de dits"
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:83
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:80
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:81
 msgid "Focus Assist"
 msgstr ""
 
@@ -389,7 +389,7 @@ msgstr "Color de primer pla per a icones simbòliques"
 msgid "General"
 msgstr "General"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:216
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:238
 msgid "Get updates as soon as they are available"
 msgstr ""
 
@@ -421,12 +421,12 @@ msgstr "Informació"
 msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
 msgstr "Entrellaceu els dits per darrere de l'esquena. Gireu els colzes lleugerament cap a dins, mentre estireu els braços. Mantingueu aquesta posició entre 5 i 15 segons, i repetiu l'exercici dues vegades."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:378
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:384
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:401
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:407
 msgid "Internal failure. Aborting upgrade"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:361
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:384
 msgid "Invalid appcast"
 msgstr ""
 
@@ -472,7 +472,7 @@ msgid "Maximum number of prompts:"
 msgstr "Nombre màxim de preguntes:"
 
 #. FIXME: duplicate
-#: ui/app/Application.cc:666 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
@@ -492,7 +492,7 @@ msgstr "Inici de la micropausa"
 msgid "Micro-break:"
 msgstr "Micropausa:"
 
-#: ui/app/Application.cc:673 ui/app/Application.cc:677
+#: ui/app/Application.cc:674 ui/app/Application.cc:678
 msgid "Mode: "
 msgstr "Mode: "
 
@@ -568,7 +568,7 @@ msgstr "El següent descans és en %s"
 msgid "No blocking"
 msgstr "No bloques"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 msgid "No proxy"
 msgstr ""
 
@@ -600,7 +600,7 @@ msgstr "Nombre d'exercicis:"
 msgid "Number of pixels the mouse should move before it is considered activity."
 msgstr "Nombre de píxels que s'ha de moure el ratolí abans de considerar-se activitat."
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:87
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
 msgid "Operation mode during Focus Assist:"
 msgstr ""
 
@@ -693,11 +693,11 @@ msgstr "Pregunta abans de descansar"
 msgid "Prompted breaks taken"
 msgstr "Vegades que es va descansar quan es va demanar"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
 msgid "Proxy Type:"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:237
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
 msgid "Proxy:"
 msgstr ""
 
@@ -709,16 +709,16 @@ msgstr "Poseu les mans al reposabraços de la cadira mentre esteu asseguts i emp
 msgid "Q_uiet"
 msgstr "S_ilenciós"
 
-#: ui/app/Menus.cc:294
+#: ui/app/Menus.cc:295
 #, qt-format
 msgid "Q_uiet (until %1%)"
 msgstr ""
 
-#: ui/app/Menus.cc:307
+#: ui/app/Menus.cc:308
 msgid "Q_uiet (until next day)"
 msgstr ""
 
-#: ui/app/Application.cc:677 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/app/Application.cc:678 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:389
 msgid "Quiet"
 msgstr "Silenciós"
@@ -731,11 +731,11 @@ msgstr "Mode de lectura"
 msgid "Regard micro-breaks as activity"
 msgstr "Compta les micropauses com a activitat"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:209
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Release Candidate"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:224
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
 msgid "Release channel:"
 msgstr ""
 
@@ -752,7 +752,7 @@ msgstr "Preguntes repetides"
 msgid "Replaced by use-microbreak-activity"
 msgstr "Compta les micropauses com a activitat"
 
-#: ui/app/Application.cc:666 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
@@ -801,7 +801,7 @@ msgstr "Es_tadístiques"
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
 msgstr "Separeu i estireu els dits fins que noteu una tensió lleugera, i mantingueu aquesta posició durant 10 segons. Relaxeu-vos i flexioneu els dits pels artells i mantingueu la posició durant 10 segons. Repetiu aquest exercici una vegada més."
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:85
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:82
 msgid "Set operation mode based on Windows Focus Assist"
 msgstr ""
 
@@ -861,8 +861,8 @@ msgstr "Silenciós en %s"
 msgid "Software Update"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:212
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:242
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:234
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:265
 msgid "Software updates"
 msgstr ""
 
@@ -893,7 +893,7 @@ msgstr "Sons"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "Gireu el braç dret lentament en cercles con una hèlice d'un avió, pel costat del cos. Feu això 4 vegades cap a davant i 4 vegades cap a enrere i relaxeu-vos durant uns segons. Repetiu-ho amb el braç esquerre."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:209
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Stable"
 msgstr ""
 
@@ -938,7 +938,7 @@ msgstr "Suspèn"
 msgid "Suspend hybrid"
 msgstr "Suspèn híbrid"
 
-#: ui/app/Application.cc:673 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/app/Application.cc:674 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:387
 msgid "Suspended"
 msgstr "Suspés"
@@ -947,7 +947,7 @@ msgstr "Suspés"
 msgid "System default"
 msgstr "Predeterminat del sistema"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 msgid "System proxy"
 msgstr ""
 
@@ -1075,10 +1075,10 @@ msgstr ""
 "us allunyeu de l'ordinador de tant en tant. Simplement\n"
 "camineu durants uns minuts, estireu-vos i relaxeu-vos."
 
-#: ui/app/toolkits/gtkmm/Toolkit.cc:293
+#: ui/app/toolkits/gtkmm/Toolkit.cc:294
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
 #: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
-#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
+#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:350
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Aquest programa ajuda a la prevenció i recuperació del mal de pressió repetitiva (RSI)."
 
@@ -1190,7 +1190,7 @@ msgstr "Ajuda a la prevenció i recuperació del mal de pressió repetitiva (RSI
 msgid "Workrave can use its GNOME Shell extension to enhance its integration with the desktop environment running on Wayland."
 msgstr ""
 
-#: ui/app/Application.cc:421
+#: ui/app/Application.cc:425
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "El Workrave no ha pogut monitoritzar l'activitat del vostre teclat i ratolí.\n"
 
@@ -1215,18 +1215,18 @@ msgstr ""
 msgid "Workrave is a free program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). It frequently alerts you to take microbreaks, rest breaks and restricts you to your daily computer usage."
 msgstr ""
 
-#: ui/app/Application.cc:656
+#: ui/app/Application.cc:657
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "El Workrave és en mode silenciós. No es mostraran avisos de pausa."
 
-#: ui/app/Application.cc:648
+#: ui/app/Application.cc:649
 #, fuzzy
 msgid ""
 "Workrave is in suspended mode.\n"
 "Mouse and keyboard activity will not be monitored."
 msgstr "El Workrave és en mode suspès. L'activitat del ratolí i teclat no es monitoritzarà."
 
-#: ui/app/Application.cc:632
+#: ui/app/Application.cc:633
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr "El Workrave encara s'està executant. Podeu accedir-hi al Workrave fent clic a la icona de l'ovella blanca. Feu clic en aquest globus per inhabilitar aquest missatge."
 
@@ -1339,12 +1339,12 @@ msgstr "_Estadístiques"
 msgid "_Suspended"
 msgstr "_Suspés"
 
-#: ui/app/Menus.cc:299
+#: ui/app/Menus.cc:300
 #, fuzzy, qt-format
 msgid "_Suspended (until %1%)"
 msgstr "_Suspés"
 
-#: ui/app/Menus.cc:312
+#: ui/app/Menus.cc:313
 msgid "_Suspended (until next day)"
 msgstr ""
 

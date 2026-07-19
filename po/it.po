@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-02-10 20:25+0100\n"
+"POT-Creation-Date: 2026-05-16 20:30+0200\n"
 "PO-Revision-Date: 2024-03-02 15:24+0100\n"
 "Last-Translator: Albano Battistella <albanobattistella@gmail.com>\n"
 "Language-Team:Italian\n"
@@ -70,11 +70,11 @@ msgstr "Questo programma assiste nella prevenzione e recupero delle lesioni da s
 msgid "Auto"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:213
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:235
 msgid "Auto update"
 msgstr "Aggiornamento automatico"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:214
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:236
 msgid "Automatically check for updates"
 msgstr "Verifica automaticamente la disponibilità di aggiornamenti"
 
@@ -82,7 +82,7 @@ msgstr "Verifica automaticamente la disponibilità di aggiornamenti"
 msgid "Backward shoulder stretch"
 msgstr "Stretching delle spalle all'indietro"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:209
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Beta"
 msgstr ""
 
@@ -146,7 +146,7 @@ msgstr "Pause saltate"
 msgid "Browse history"
 msgstr "Sfoglia cronologia"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:251
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
 msgid "Check for _Updates"
 msgstr "Verifica la disponibilità di _Aggiornamenti"
 
@@ -175,7 +175,7 @@ msgstr "Rapporto di arresto anomalo"
 msgid "Crash report details"
 msgstr "Dettagli del rapporto sugli arresti anomali"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 #, fuzzy
 msgid "Custom proxy"
 msgstr "Personalizzato"
@@ -189,7 +189,7 @@ msgid "Daily"
 msgstr "Giornaliero"
 
 #. label
-#: ui/app/Application.cc:666 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
 #: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
 #: ui/app/toolkits/gtkmm/Ui.cc:101
@@ -319,19 +319,19 @@ msgstr "Esercizi terminati"
 msgid "Exercises player"
 msgstr "Turno di esercizi"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:364
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:387
 msgid "Failed to download appcast"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:367
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:390
 msgid "Failed to download installer"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:373
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:396
 msgid "Failed to execute installer"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:370
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:393
 msgid "Failed to validate installer integrity. Aborting upgrade"
 msgstr ""
 
@@ -351,8 +351,8 @@ msgstr "File cancellati!"
 msgid "Finger stretch"
 msgstr "Stretching delle dita"
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:83
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:80
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:81
 msgid "Focus Assist"
 msgstr "Messa a fuoco assistita"
 
@@ -390,7 +390,7 @@ msgstr "Colore di primo piano per le icone simboliche"
 msgid "General"
 msgstr "Generale"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:216
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:238
 msgid "Get updates as soon as they are available"
 msgstr ""
 
@@ -422,12 +422,12 @@ msgstr "Informazioni"
 msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
 msgstr "Intreccia le dita dietro la schiena. Poi ruota delicatamente i gomiti verso l'interno, mentre stiri le braccia. Tieni questa posizione da 5 a 15 secondi, e ripeti l'esercizio 2 volte."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:378
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:384
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:401
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:407
 msgid "Internal failure. Aborting upgrade"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:361
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:384
 msgid "Invalid appcast"
 msgstr ""
 
@@ -472,7 +472,7 @@ msgid "Maximum number of prompts:"
 msgstr "Massimo numero di avvisi:"
 
 #. FIXME: duplicate
-#: ui/app/Application.cc:666 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
@@ -492,7 +492,7 @@ msgstr "Micropausa iniziata"
 msgid "Micro-break:"
 msgstr "Micropausa:"
 
-#: ui/app/Application.cc:673 ui/app/Application.cc:677
+#: ui/app/Application.cc:674 ui/app/Application.cc:678
 msgid "Mode: "
 msgstr "Modalità:"
 
@@ -567,7 +567,7 @@ msgstr "Prossimo riposo tra %s"
 msgid "No blocking"
 msgstr "No blocco"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 msgid "No proxy"
 msgstr ""
 
@@ -599,7 +599,7 @@ msgstr "Numero di esercizi:"
 msgid "Number of pixels the mouse should move before it is considered activity."
 msgstr "Numero di pixel che il mouse dovrebbe spostare prima di essere considerato attività."
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:87
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
 msgid "Operation mode during Focus Assist:"
 msgstr "Modalità di funzionamento durante la messa a fuoco assistita:"
 
@@ -692,11 +692,11 @@ msgstr "Avvisa prima della pausa"
 msgid "Prompted breaks taken"
 msgstr "Pause effettuate"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
 msgid "Proxy Type:"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:237
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
 msgid "Proxy:"
 msgstr ""
 
@@ -708,16 +708,16 @@ msgstr "Poggia le mani sui braccioli della sedia e spingi il corpo verso l'alto 
 msgid "Q_uiet"
 msgstr "_Silenzioso"
 
-#: ui/app/Menus.cc:294
+#: ui/app/Menus.cc:295
 #, qt-format
 msgid "Q_uiet (until %1%)"
 msgstr "_Silenzioso (fino al %1%)"
 
-#: ui/app/Menus.cc:307
+#: ui/app/Menus.cc:308
 msgid "Q_uiet (until next day)"
 msgstr "_Silenzioso (fino al giorno successivo)"
 
-#: ui/app/Application.cc:677 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/app/Application.cc:678 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:389
 msgid "Quiet"
 msgstr "Silenzioso"
@@ -730,12 +730,12 @@ msgstr "Modalità lettura"
 msgid "Regard micro-breaks as activity"
 msgstr "Considera la micropausa come attività"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:209
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 #, fuzzy
 msgid "Release Candidate"
 msgstr "Note di rilascio"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:224
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
 msgid "Release channel:"
 msgstr "Canale di rilascio:"
 
@@ -752,7 +752,7 @@ msgstr "Avvisi ripetuti"
 msgid "Replaced by use-microbreak-activity"
 msgstr "Considera la micropausa come attività"
 
-#: ui/app/Application.cc:666 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
@@ -801,7 +801,7 @@ msgstr "S_tatistiche"
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
 msgstr "Separa e stira le dita fino a sentire una certa tensione e mantieni per 10 secondi. Rilassati, poi piega le dita verso le nocche e mantieni per altri 10 secondi. Ripeti l'esercizio una volta."
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:85
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:82
 msgid "Set operation mode based on Windows Focus Assist"
 msgstr "Imposta la modalità di funzionamento basata su Windows Focus Assist"
 
@@ -861,8 +861,8 @@ msgstr "Silenzioso"
 msgid "Software Update"
 msgstr "Aggiornamento software"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:212
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:242
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:234
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:265
 msgid "Software updates"
 msgstr "Aggiornamenti software"
 
@@ -893,7 +893,7 @@ msgstr "Suoni"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "Stendi in basso il braccio destro e muovilo lentamente come un pendolo al lato del corpo. Fallo 4 volte in avanti e 4 volte all'indietro e rilassati per pochi secondi. Ripeti con il braccio sinistro."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:209
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Stable"
 msgstr ""
 
@@ -938,7 +938,7 @@ msgstr "Sospeso"
 msgid "Suspend hybrid"
 msgstr "Sospendi ibrido"
 
-#: ui/app/Application.cc:673 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/app/Application.cc:674 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:387
 msgid "Suspended"
 msgstr "Sospeso"
@@ -947,7 +947,7 @@ msgstr "Sospeso"
 msgid "System default"
 msgstr "Sistema predefinito"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 msgid "System proxy"
 msgstr ""
 
@@ -1075,10 +1075,10 @@ msgstr ""
 "dal tuo computer. Fai giusto due passi lì intorno per qualche\n"
 "minuto, stiracchiati, e rilassati."
 
-#: ui/app/toolkits/gtkmm/Toolkit.cc:293
+#: ui/app/toolkits/gtkmm/Toolkit.cc:294
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
 #: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
-#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
+#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:350
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Questo programma assiste nella prevenzione e recupero dalle lesioni da sforzo ripetuto (Repetitive Strain Injury - RSI)"
 
@@ -1190,7 +1190,7 @@ msgstr "Questo programma assiste nella prevenzione e recupero delle lesioni da s
 msgid "Workrave can use its GNOME Shell extension to enhance its integration with the desktop environment running on Wayland."
 msgstr ""
 
-#: ui/app/Application.cc:421
+#: ui/app/Application.cc:425
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "Workrave non ha potuto monitorare l'attività della tastiera e del mouse.\n"
 
@@ -1217,11 +1217,11 @@ msgstr "Workrave è andato in crash."
 msgid "Workrave is a free program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). It frequently alerts you to take microbreaks, rest breaks and restricts you to your daily computer usage."
 msgstr "Workrave è un programma che aiuta nel recupero e nella prevenzione di Repetitive Strain Injury (RSI). Il programma ti avvisa frequentemente di prendere micro-pause, pause di riposo e ti limita al tuo limite giornaliero."
 
-#: ui/app/Application.cc:656
+#: ui/app/Application.cc:657
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave è in modalità silenziosa. Non verranno visualizzate finestre di pausa."
 
-#: ui/app/Application.cc:648
+#: ui/app/Application.cc:649
 msgid ""
 "Workrave is in suspended mode.\n"
 "Mouse and keyboard activity will not be monitored."
@@ -1229,7 +1229,7 @@ msgstr ""
 "Workrave è in modalità sospesa.\n"
 "L'attività del mouse e della tastiera non saranno monitorati."
 
-#: ui/app/Application.cc:632
+#: ui/app/Application.cc:633
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr "Workrave è ancora in esecuzione. Puoi accedere a Workrave facendo clic sull' icona biancaa forma di pecora. Fare clic su questo fumetto per disabilitare questo messaggio"
 
@@ -1342,12 +1342,12 @@ msgstr "_Statistiche"
 msgid "_Suspended"
 msgstr "_Sospeso"
 
-#: ui/app/Menus.cc:299
+#: ui/app/Menus.cc:300
 #, qt-format
 msgid "_Suspended (until %1%)"
 msgstr "_Sospeso (fino al %1%)"
 
-#: ui/app/Menus.cc:312
+#: ui/app/Menus.cc:313
 msgid "_Suspended (until next day)"
 msgstr "_Sospeso (fino al giorno successivo)"
 
