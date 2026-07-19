@@ -161,11 +161,9 @@ CrashReporter::Pimpl::init()
 
       base::FilePath handler(app_dir / "bin" / handler_exe);
 #if defined(HAVE_CRASHPAD_STAGING)
-      const std::string url(
-        "http://crashes-dev.workrave.org/api/minidump/ljedvhandhqns8ey218x0m65/upload");
+      const std::string url("http://crashes-dev.workrave.org/api/minidump/ljedvhandhqns8ey218x0m65/upload");
 #else
-      const std::string url(
-        "http://crashes.workrave.org/api/minidump/ljedvhandhqns8ey218x0m65/upload");
+      const std::string url("http://crashes.workrave.org/api/minidump/hyltb0goi8jblxonczzw3fsi/upload");
 #endif
 
       std::map<std::string, std::string> annotations;
