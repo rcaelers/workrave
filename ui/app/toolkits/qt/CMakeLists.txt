@@ -61,7 +61,10 @@ endif()
 if (PLATFORM_OS_WINDOWS)
   target_sources(workrave-toolkit-qt PRIVATE ToolkitWindows.cc platforms/windows/TaskManagerWatcher.cc)
   target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/windows)
-  target_link_libraries(workrave-toolkit-qt PUBLIC Unfold::unfold ${WORKRAVE_CMARK_TARGET} webview2 ws2_32 mswsock)
+  if(HAVE_AUTO_UPDATE)
+    target_link_libraries(workrave-toolkit-qt PUBLIC Unfold::unfold ${WORKRAVE_CMARK_TARGET} webview2 ws2_32 mswsock)
+  endif()
+
 endif()
 
 if (PLATFORM_OS_MACOS)
