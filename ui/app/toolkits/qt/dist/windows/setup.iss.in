@@ -34,7 +34,7 @@ LicenseFile=@INSTALL_WIN_PATH@\COPYING.txt
 AppMutex=WorkraveQtMutex
 WizardImageFile=@INSTALL_WIN_PATH@\dist\WizModernImage.bmp
 WizardSmallImageFile=@INSTALL_WIN_PATH@\dist\WizModernSmall.bmp
-PrivilegesRequired=admin
+PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 CloseApplications=yes
 RestartApplications=no
@@ -51,7 +51,7 @@ Name: "autoupdate"; Description: "Automatically check for updates"; GroupDescrip
 Name: "gdbus"; Description: "Install D-Bus utility (allows other applications to control Workrave)"; GroupDescription: "Additional tasks:"; Flags: unchecked
 
 [Files]
-Source: "@INSTALL_WIN_PATH@\bin\harpoon64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+;TODO;Source: "@INSTALL_WIN_PATH@\bin\harpoon64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "@INSTALL_WIN_PATH@\bin\workrave.exe"; DestDir: "{app}\bin"; DestName: "WorkraveQt.exe"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\bin\gdbus.exe"; DestDir: "{app}\bin"; Flags: ignoreversion; Tasks: gdbus
 Source: "@INSTALL_WIN_PATH@\bin\qt.conf"; DestDir: "{app}\bin"; Flags: ignoreversion;
@@ -65,8 +65,8 @@ Source: "@INSTALL_WIN_PATH@\README.txt"; DestDir: "{app}"; DestName: "README.txt
 #include "libraries.iss"
 
 [Registry]
-Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\WorkraveQt.exe"; ValueType: string; ValueData: "{app}\bin\WorkraveQt.exe"; Flags: uninsdeletekeyifempty
-Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\WorkraveQt.exe"; ValueName: "Path"; ValueType: string; ValueData: "{code:GetAppPath}"; Flags: uninsdeletekeyifempty
+;TODO;Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\WorkraveQt.exe"; ValueType: string; ValueData: "{app}\bin\WorkraveQt.exe"; Flags: uninsdeletekeyifempty
+;TODO;Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\WorkraveQt.exe"; ValueName: "Path"; ValueType: string; ValueData: "{code:GetAppPath}"; Flags: uninsdeletekeyifempty
 Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "WorkraveQt"; ValueData: "{app}\bin\WorkraveQt.exe"; Flags: uninsdeletevalue; Tasks: startupmenu
 
 [Icons]
