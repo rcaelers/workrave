@@ -61,11 +61,7 @@ init_tools() {
     fi
 
     export PATH="/c/Program Files/nodejs:/opt/jq/bin":$PATH
-    if [ "${DEPLOY_ENVIRONMENT}" = "staging" ]; then
-        export SYMBOL_SERVER_URL="${SYMBOL_SERVER_URL:-https://crashes-dev.workrave.org}"
-    else
-        export SYMBOL_SERVER_URL="${SYMBOL_SERVER_URL:-https://crashes.workrave.org}"
-    fi
+    export SYMBOL_SERVER_URL="${SYMBOL_SERVER_URL:-https://crashes.workrave.org}"
 }
 
 init() {
