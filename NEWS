@@ -1,9 +1,96 @@
-Workrave NEWS -- history of user-visible changes. 19 May 2026
+Workrave NEWS -- history of user-visible changes. 21 July 2026
 Copyright (C) 2001-2026 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.11.0
+
+** Highlights:
+   - You can now change the operation mode for a limited amount of time (#98,
+     #305)
+   - Workrave can automatically change the operation mode based on Windows Focus
+     Assist (#255, #226)
+   - High DPI support on both Windows (#650, Charlie Lin) and Xorg
+   - Several new sounds contributed by Phil Dibbs
+   - The Windows version is now 64 bit, with a modern Windows 11 UI theme
+   - Modern desktop integration on Linux: StatusNotifierItem tray icons and a
+     redesigned GNOME Shell extension supporting GNOME Shell 50, Wayland
+     (experimental), and high-DPI/fractional scaling
+   - An auto-update feature for Windows
+   - ARM64 Windows support, including keyboard/mouse locking
+   - The Workrave networking functionality was removed
+   - The legacy Windows DeskBand/taskbar applet was removed
+** New features and improvements:
+   - Workrave now follows the XDG Base Directory specification (#192)
+   - A dark UI theme on Windows now follows the OS dark/light mode setting (#214,
+     #529)
+   - The default sound theme was changed to the "Subtle" theme (#362)
+   - It is no longer required to accept the GPL license on installation on
+     Windows (#648)
+   - The Windows installer now asks whether to install Workrave per-user or
+     system-wide
+   - The D-Bus utility (gdbus) is no longer installed by default by the installer
+   - Added examples of usage with swaybar (#597, J. J. Ramsey)
+   - Ported the Workrave Python scripts for waybar, Yambar, etc. to dasbus
+     (#557-#563, #627, J. J. Ramsey)
+   - Allow Workrave to ignore idle inhibitors if possible (#596, J. J. Ramsey)
+   - A portable version is now available for Windows and Linux
+** Desktop integration:
+   - Support for the StatusNotifierItem protocol (#447)
+   - The redesigned GNOME Shell extension supports GNOME Shell 50 and fixes
+     several extension issues beyond the support already available in Workrave
+     1.10 (#396, #582, #661)
+   - Added DPI scaling support for the GNOME Shell extension on Xorg, and fixed
+     Wayland detection
+   - Use the GNOME Shell extension to display prelude windows (#621)
+   - Added Cinnamon applet support with GTK 4 (#487)
+   - Fixed Wayland activity monitoring on KDE, and improved layer-shell support
+     on other Wayland compositors
+   - Handle the screen lock shortcut during breaks under Xorg
+   - Enable application autostart across all Linux desktop managers (#548, Jon
+     Petrissans)
+** Notable bug fixes (spanning the full 1.11 development cycle):
+   - Fixed crash when a monitor is powered off (#606)
+   - Fixed an empty AppIndicator menu (#556, #614, wojnilowicz)
+   - Fixed the tray icon not appearing on waybar, swaybar, or wf-shell (#555,
+     #613, wojnilowicz)
+   - Fixed the status window showing when Sway reloads despite being disabled
+     (#612, #615, wojnilowicz)
+   - Fixed the Rest Break window appearing in the top left corner in "No Lock"
+     mode (#663, #664, ValdikSS)
+   - Fixed a crash on wlroots compositors when a break starts (#550, #552, #553,
+     #554, Kirill Primak)
+   - Fixed high DPI fractional scaling on Windows
+   - Fixed the application icon on Linux
+   - Fixed DPI scaling with multiple monitors (#308, #315)
+   - Prevented state and daily-statistics data loss by saving files atomically
+   - Fixed focus changing unexpectedly after a break warning
+   - Fixed the main window reopening after the screen was unlocked
+   - Fixed the Rest Break window opening below other Workrave windows
+   - Fixed exercises not always appearing on the primary monitor
+   - Fixed issues that prevented sounds or the status window from being disabled
+     (#443, #444)
+   - Fixed Windows language selection, special characters in the tray menu, and
+     unselectable menu items
+   - Improved hibernate/suspend handling (#539, #540)
+** Translations:
+   - Added Georgian translation (#669, NorwayFun)
+   - Created and maintained the Tamil translation (#498, #579, #581, TamilNeram)
+   - Simplified Chinese: complete overhaul (#385, #391, sr093906) and further
+     updates (#645, Sisyphe42)
+   - Updated Indonesian translation (#560, #653, Andika Triwidada)
+   - Updated Italian translation (#359, #403, #489, #490, #496,
+     albanobattistella)
+   - Updated Polish translation (#423, #465, #484, ChuckMichael, Hanna Kraska)
+   - Updated French translation (#545, WedoneOfficiel; fix #656)
+   - Updated Brazilian Portuguese translation (#512, Paulo Haddad Martim)
+   - Updated Dutch translation (#437, WKobes) and fixed several strings
+   - Updated Hebrew translation (#361, Omer I.S.)
+   - Updated Persian translation (#358, MSKF)
+   - Updated Catalan translation (#338, Jordi Mallach)
+   - Updated Spanish translation (#494, Cristian Martínez)
 
 * Workrave 1.11.0-rc.4
 
@@ -228,6 +315,30 @@ https://github.com/rcaelers/workrave/issues
    - Updated Persian translation (#358 by MSKF)
    - Updated Catalan translation (#338 by Jordi Mallach)
 ** and more... (the final 1.11 release will have a more complete list of changes)
+
+* Workrave 1.10.54
+
+** Add support for GNOME Shell 49 (#636, Alessandro Astone)
+
+* Workrave 1.10.53
+
+** Fix GNOME Shell 46 support (#532)
+** Add support for GNOME Shell 47 and 48 (#601)
+
+* Workrave 1.10.52
+
+** Fix GNOME 45 compatibility (#508)
+
+* Workrave 1.10.51.1
+
+** Fix packaging
+
+* Workrave 1.10.51
+
+** Support GNOME Shell 43 (#430 by Jeremy Bich,async from 1.11)
+** Add option to force the use of the X11 Gtk backend on Wayland
+** Support GNOME Shell 44 (#487)
+** Fix crash on Linux when not using GNOME.
 
 * Workrave 1.10.50
 

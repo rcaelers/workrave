@@ -2,6 +2,7 @@
 releases:
   - version: 1.11.0
     date: 2026-07-21T09:00:00+02:00
+    previous_version: 1.10.54
     short: |-
       Workrave 1.11.0 has been released. This is the first stable release of the 1.11 series,
       the result of more than three years of alpha, beta, and release candidate development.
@@ -361,6 +362,45 @@ releases:
         - Updated Persian translation (#358 by MSKF)
         - Updated Catalan translation (#338 by Jordi Mallach)
       - and more... (the final 1.11 release will have a more complete list of changes)
+
+  - version: 1.10.54
+    date: 2025-10-16T19:12:54+02:00
+    short: |-
+      Workrave 1.10.54 has been released. This release adds support for GNOME Shell 49.
+    changes:
+      - Add support for GNOME Shell 49 (#636, Alessandro Astone)
+
+  - version: 1.10.53
+    date: 2025-02-15T21:37:52+01:00
+    short: |-
+      Workrave 1.10.53 has been released. This release adds support for GNOME Shell 46, 47 and 48.
+    changes:
+      - Fix GNOME Shell 46 support (#532)
+      - Add support for GNOME Shell 47 and 48 (#601)
+
+  - version: 1.10.52
+    date: 2023-09-25T20:08:51+02:00
+    short: |-
+      Workrave 1.10.52 has been released. This release fixes GNOME 45 compatibility.
+    changes:
+      - Fix GNOME 45 compatibility (#508)
+
+  - version: 1.10.51.1
+    date: 2023-06-18T17:09:46+02:00
+    short: |-
+      Workrave 1.10.51.1 has been released. This minor release only contains packaging fixes and is functionally identical to 1.10.50.
+    changes:
+      - Fix packaging
+
+  - version: 1.10.51
+    date: 2023-06-14T22:04:39+02:00
+    short: |-
+      Workrave 1.10.51 has been released. This release improves compatibility with GNOME 44 and Wayland.
+    changes:
+      - Support GNOME Shell 43 (#430 by Jeremy Bich,async from 1.11)
+      - Add option to force the use of the X11 Gtk backend on Wayland
+      - Support GNOME Shell 44 (#487)
+      - Fix crash on Linux when not using GNOME.
 
   - version: 1.10.50
     date: 2022-04-01T14:35:10+02:00
