@@ -154,7 +154,7 @@ catalog() {
 }
 
 appcast() {
-    node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT} --file
+    node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${DEPLOY_ENVIRONMENT:+--environment $DEPLOY_ENVIRONMENT} --file
     if [ -n "$DOSIGN" ]; then
         ${SCRIPTS_DIR}/local/sign-cosign.sh appcast.xml
         MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml.sigstore s3://snapshots/${S3_ARTIFACT_DIR}/
