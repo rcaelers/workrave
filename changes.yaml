@@ -1,7 +1,7 @@
 ---
 releases:
   - version: 1.11.0
-    date: 2026-07-21T09:00:00+02:00
+    date: 2026-07-21T10:14:29+02:00
     previous_version: 1.10.54
     short: |-
       Workrave 1.11.0 has been released. This is the first stable release of the 1.11 series,
