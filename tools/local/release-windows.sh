@@ -168,7 +168,7 @@ upload_symbols() {
         fi
         sym_found=1
         local SYMBOL_UPLOAD_TOKEN
-        SYMBOL_UPLOAD_TOKEN=$(curl -ksf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.symbol_upload.${DEPLOY_ENVIRONMENT}" | jq -r .value)
+        SYMBOL_UPLOAD_TOKEN=$(curl -ksf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.symbol_upload.production" | jq -r .value)
         curl -X POST "${SYMBOL_SERVER_URL}/api/symbols/hyltb0goi8jblxonczzw3fsi/upload" \
             --insecure \
             -H "Authorization: Bearer ${SYMBOL_UPLOAD_TOKEN}" \
