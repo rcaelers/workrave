@@ -59,11 +59,7 @@ init_tools() {
     fi
 
     export PATH="/c/Program Files/nodejs:/opt/jq/bin":$PATH
-    if [ "${DEPLOY_ENVIRONMENT}" = "staging" ]; then
-        export SYMBOL_SERVER_URL="${SYMBOL_SERVER_URL:-https://crashes-dev.workrave.org}"
-    else
-        export SYMBOL_SERVER_URL="${SYMBOL_SERVER_URL:-https://crashes.workrave.org}"
-    fi
+    export SYMBOL_SERVER_URL="${SYMBOL_SERVER_URL:-https://crashes.workrave.org}"
 }
 
 init() {
@@ -152,7 +148,7 @@ catalog() {
 }
 
 appcast() {
-    run_ship appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT} --file
+    node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${DEPLOY_ENVIRONMENT:+--environment $DEPLOY_ENVIRONMENT} --file
     if [ -n "$DOSIGN" ]; then
         ${SCRIPTS_DIR}/local/sign-cosign.sh appcast.xml
         MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml.sigstore s3://snapshots/${S3_ARTIFACT_DIR}/
@@ -170,8 +166,8 @@ upload_symbols() {
         fi
         sym_found=1
         local SYMBOL_UPLOAD_TOKEN
-        SYMBOL_UPLOAD_TOKEN=$(curl -ksf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.symbol_upload.${DEPLOY_ENVIRONMENT}" | jq -r .value)
-        curl -X POST "${SYMBOL_SERVER_URL}/api/symbols/ljedvhandhqns8ey218x0m65/upload" \
+        SYMBOL_UPLOAD_TOKEN=$(curl -ksf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.symbol_upload.production" | jq -r .value)
+        curl -X POST "${SYMBOL_SERVER_URL}/api/symbols/hyltb0goi8jblxonczzw3fsi/upload" \
             --insecure \
             -H "Authorization: Bearer ${SYMBOL_UPLOAD_TOKEN}" \
             -Fupload_file_symbols=@"${SYM_FILE}" \

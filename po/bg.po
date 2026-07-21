@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-06-01 20:40+0200\n"
+"POT-Creation-Date: 2026-05-16 20:30+0200\n"
 "PO-Revision-Date: 2011-02-16 19:19+0100\n"
 "Last-Translator: Иван Димов <idimov@users.sourceforge.net>\n"
 "Language-Team: <i18n@workrave.org>\n"
@@ -27,18 +27,20 @@ msgstr "Зачитане на микро-почивките като дейно�
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
-#: ui/app/Application.cc:689
-msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:235
+msgid "Auto update"
 msgstr ""
 
-#: ui/app/Application.cc:705
-msgid ""
-"Workrave is in suspended mode.\n"
-"Mouse and keyboard activity will not be monitored."
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:236
+msgid "Automatically check for updates"
 msgstr ""
 
-#: ui/app/Application.cc:713
-msgid "Workrave is in quiet mode. No break windows will appear."
+#: ui/data/exercises/exercises.xml.in:38
+msgid "Backward shoulder stretch"
+msgstr "Разтягане на рамената назад."
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
+msgid "Beta"
 msgstr ""
 
 # ОПРАВИМЕ: повтарящ се
@@ -55,26 +57,108 @@ msgstr ""
 msgid "Micro-break"
 msgstr "Микро-почивка"
 
-#: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
-#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:266
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:19
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:55
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:213
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:237
-msgid "Rest break"
-msgstr "Почивка"
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:76
+msgid "Block input and screen"
+msgstr "Блокиране на вход и екран"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
+msgid "Block mode:"
+msgstr "Режим на блокиране:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
+msgid "Break duration:"
+msgstr "Продължителност на почивка:"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:86
+msgid "Break ignored"
+msgstr "Почивката пренебрегната"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:264
+#, c-format
+msgid "Break in %s"
+msgstr "Почивка след %s"
+
+#: ui/app/toolkits/gtkmm/Prelude.cc:51
+#, fuzzy, c++-format
+msgid "Break in {}"
+msgstr "Почивка след %s"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:83
+msgid "Break prompt"
+msgstr "Напомняне за почивка"
+
+# Встъпителен кадър
+#. Prelude frame
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:95
+msgid "Break prompting"
+msgstr "Напомняне за почивка"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:161
+msgid "Break prompts"
+msgstr "Напомняне за почивки"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:153
+msgid "Breaks"
+msgstr "Почивки"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
+msgid "Breaks postponed"
+msgstr "Отложени почивки"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
+msgid "Breaks skipped"
+msgstr "Пропуснати почивки"
+
+#. Navigation box
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:108
+msgid "Browse history"
+msgstr "Преглед на историята"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
+msgid "Check for _Updates"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
+#, fuzzy
+msgid "Choose a sound"
+msgstr "Без звук"
+
+#. Dialog
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:51
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:90
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:143
+msgid "Close"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:73
+#, fuzzy
+msgid "Cover your eyes with your palms in such a way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
+msgstr "Закрийте с длани очите си но така, че да можете да държите отворени клепачите си. Сега отворете очите си и се вгледайте в мрака във вашите длани. Това упражнение дава по-добро облекчение на очите Ви отколкото затварянето им."
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:132
+msgid "Crash report"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:49
+msgid "Crash report details"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
+msgid "Custom proxy"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
+msgid "Cycle time:"
+msgstr "Време за цикъл:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:185
+#, fuzzy
+msgid "Daily"
+msgstr "Дневен лимит"
 
 #. label
-#: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
 #: ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
@@ -123,7 +207,23 @@ msgstr "_Почивка"
 msgid "_Exercises"
 msgstr "_Упражнения"
 
-#: ui/app/Menus.cc:79
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:387
+msgid "Failed to download appcast"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:390
+msgid "Failed to download installer"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:396
+msgid "Failed to execute installer"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:393
+msgid "Failed to validate installer integrity. Aborting upgrade"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
 msgid "S_tatistics"
 msgstr "Статистика"
@@ -157,21 +257,9 @@ msgstr ""
 msgid "_Reading mode"
 msgstr ""
 
-#: ui/app/Menus.cc:135 ui/applets/mate/src/main.c:372
-#, fuzzy
-msgid "_About"
-msgstr "_Относно..."
-
-#: ui/app/Menus.cc:138 ui/applets/mate/src/main.c:374
-msgid "_Quit"
-msgstr "_Изход"
-
-#: ui/app/Menus.cc:164
-msgid "Indefinitely"
-msgstr ""
-
-#: ui/app/Menus.cc:176
-msgid "For 1 hour"
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:80
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:81
+msgid "Focus Assist"
 msgstr ""
 
 #: ui/app/Menus.cc:177
@@ -192,10 +280,782 @@ msgstr "%s%d:%02d минути"
 msgid "For 1 minute"
 msgstr ""
 
-#: ui/app/Menus.cc:187
-#, fuzzy, qt-format
-msgid "For %1% minutes"
-msgstr "%s%d:%02d минути"
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
+msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
+msgid "Foreground color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:129
+msgid "Foreground color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
+msgid "General"
+msgstr "Основни"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:238
+msgid "Get updates as soon as they are available"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:285
+msgid "Hibernate"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:92
+msgid "Hide"
+msgstr "Скриване"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:167
+msgid "Icon Size"
+msgstr ""
+
+# panel->add(*start_in_tray_cb);
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:243
+#, fuzzy
+msgid "Icon Theme:"
+msgstr "Звук:"
+
+#: ui/app/Menus.cc:164
+msgid "Indefinitely"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:657
+msgid "Info"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:39
+msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
+msgstr "Сплетете пръсти зад гърба си. После внимателно завъртете лактите навътре леко изпъвайки ръцете. Задръжте в тази позиция от 5 до 15 секунди и повторете упражнеието."
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:401
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:407
+msgid "Internal failure. Aborting upgrade"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:384
+msgid "Invalid appcast"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:5
+msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
+msgstr "Дръжте едната си ръка изпъната хоризонтално пред гърдите си. Притиснете я с другата ръка към Вас докато почувствате леко напрежение в рамото. Задръжте за кратко тази позиция и после повторете упражнението с другата си ръка."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:289
+msgid "Keystrokes:"
+msgstr "Удари по калвиши:"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
+msgid "Language:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:248
+msgid "Light"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:273
+#, fuzzy
+msgid "Lock"
+msgstr "_Заключване"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:269
+#, fuzzy
+msgid "Lock..."
+msgstr "_Заключване"
+
+#: ui/data/exercises/exercises.xml.in:46
+msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
+msgstr "Погледнете към външния ръб на горния ляв ъгъл на вашият монитор. Проследете бавно с поглед ръба до горния десен ъгъл. Продължете към следващият ъгъл докато направите две обиколки. После направете упражнението и в обратна посока."
+
+#: ui/data/exercises/exercises.xml.in:65
+msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you cannot look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
+msgstr "Вгледайте се в най-далечната точка, която можете да видите зад монитора си. Фокусирайте очи в отдалечената точка, после ги фокусирайте върху ръба по монитора. Повторете. Ако нямате достатъчно видима площ зад монитора, обърнете се в друга посока където имате по-далечен изглед и тогава прехвърляйте фокуса между отдалечен обект и писалка която държите на същото разстояние от очите си като монитора."
+
+#: ui/data/exercises/exercises.xml.in:72
+msgid "Look into the darkness"
+msgstr "Вгледайте се в тъмнината"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
+msgid "Maximum number of prompts:"
+msgstr "Максимален брой напомняния:"
+
+# ОПРАВИМЕ: повтарящ се
+#. FIXME: duplicate
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
+msgid "Micro-break"
+msgstr "Микро-почивка"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:98
+msgid "Micro-break ended"
+msgstr "Микро-почивката свърши"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:95
+msgid "Micro-break started"
+msgstr "Микро-почивката започна"
+
+# Разположение
+#. Layout
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+msgid "Micro-break:"
+msgstr "Микро-почивка:"
+
+# Меню Режим
+#: ui/app/Application.cc:674 ui/app/Application.cc:678
+#, fuzzy
+msgid "Mode: "
+msgstr "_Режим"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:135
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:137
+msgid "Monitoring"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:193
+msgid "Monthly"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:287
+msgid "Mouse button clicks:"
+msgstr "Натискане бутон на мишката:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:281
+msgid "Mouse movement:"
+msgstr "Движение на мишката:"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
+#, fuzzy
+msgid "Mouse sensitivity:"
+msgstr "Движение на мишката:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:279
+msgid "Mouse usage:"
+msgstr "Използване на мишка:"
+
+#: ui/data/exercises/exercises.xml.in:45
+msgid "Move the eyes"
+msgstr "Движете очите"
+
+#: ui/data/exercises/exercises.xml.in:79
+msgid "Move the shoulders"
+msgstr "Движете рамената"
+
+#: ui/data/exercises/exercises.xml.in:87
+msgid "Move the shoulders up and down"
+msgstr "Движете рамената надолу-нагоре"
+
+#. Volume
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
+#, fuzzy
+msgid "Mute sounds during rest break and daily limit"
+msgstr "Почивката и дневния лимит на едно място"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:173
+msgid "Natural breaks taken"
+msgstr "Оползотворени естествени почивки"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#, fuzzy
+msgid "Natural rest break"
+msgstr "Оползотворени естествени почивки"
+
+#: ui/data/exercises/exercises.xml.in:30
+msgid "Neck tilt stretch"
+msgstr "Накланяне и разтягане врата"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:93
+msgid "Next"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:147
+#, fuzzy
+msgid "Next exercise"
+msgstr "Брой упражнения:"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
+#, c-format
+msgid "Next rest break in %s"
+msgstr "Следващата почивка е след %s"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
+msgid "No blocking"
+msgstr "Без блокиране"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
+msgid "No proxy"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:61
+msgid "No sounds"
+msgstr "Без звук"
+
+#: ui/applets/mate/src/main.c:385
+#, fuzzy
+msgid "Normal"
+msgstr "_Нормален"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:206
+msgid "Note that not all desktop environments show system tray icons, or have disabled system tray icons by default."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:113
+msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environments do not support, or have disabled status icons."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
+msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
+msgid "Number of exercises:"
+msgstr "Брой упражнения:"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
+msgid "Number of pixels the mouse should move before it is considered activity."
+msgstr ""
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
+msgid "Operation mode during Focus Assist:"
+msgstr ""
+
+# Настройки
+#. Options
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:126
+msgid "Options"
+msgstr "Конфигуриране"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
+msgid "Orientation"
+msgstr "Ориентация"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:181
+msgid "Overdue time"
+msgstr "Просрочено време"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:157
+msgid "Padding"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:158
+msgid "Padding that should be put around icons in the tray"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
+msgid "Pause"
+msgstr "Пауза"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:148
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:325
+#, fuzzy
+msgid "Pause exercises"
+msgstr "Брой упражнения:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:76
+msgid "Place all timers in one spot"
+msgstr "Всички таймери на едно място"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:74
+msgid "Place micro-break and rest break in one spot"
+msgstr "Микро-почивката и почивката на едно място"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:75
+msgid "Place rest break and daily limit in one spot"
+msgstr "Почивката и дневния лимит на едно място"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:73
+msgid "Place timers next to each other"
+msgstr "Таймерите един до друг"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
+msgid "Placement:"
+msgstr "Разположение:"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:129
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:147
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:167
+msgid "Play"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:62
+msgid "Play sounds using sound card"
+msgstr "Просвирване на звуците през звуковата карта"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
+msgid "Please relax for a few seconds"
+msgstr "Моля отпуснете се за няколко секунди"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
+msgid "Postpone time:"
+msgstr "Време за отлагане:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:45
+msgid "Preferences"
+msgstr "Предпочитания"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:92
+msgid "Previous"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:146
+msgid "Previous exercise"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
+msgid "Prompt before breaking"
+msgstr "Напомняне преди почивка"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
+msgid "Prompted breaks taken"
+msgstr "Оползотворени почивки при напомняне"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
+msgid "Proxy Type:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
+msgid "Proxy:"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:88
+msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
+msgstr "Седнали поставете ръце на облегалките на стола и повдигнете тялото нагоре докато ръцете Ви се изпънат. Опитайте се да  изпънете глава още по-напред снишавайки раменете. Бавно седнете обратно на стола си."
+
+#: ui/app/Menus.cc:110
+msgid "Q_uiet"
+msgstr "Т_их"
+
+#: ui/app/Menus.cc:295
+#, qt-format
+msgid "Q_uiet (until %1%)"
+msgstr ""
+
+#: ui/app/Menus.cc:308
+msgid "Q_uiet (until next day)"
+msgstr ""
+
+#: ui/app/Application.cc:678 ui/app/platforms/windows/WindowsFocusAssist.cc:78
+#: ui/applets/mate/src/main.c:389
+#, fuzzy
+msgid "Quiet"
+msgstr "Т_их"
+
+#: ui/applets/mate/src/main.c:381
+msgid "Reading mode"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:144
+msgid "Regard micro-breaks as activity"
+msgstr "Зачитане на микро-почивките като дейност"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
+msgid "Release Candidate"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
+msgid "Release channel:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:148
+msgid "Release notes"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
+msgid "Repeated prompts"
+msgstr "Повтарящи се напомняния"
+
+#: libs/corenext/src/org.workrave.gschema.xml.in:45
+#, fuzzy
+msgid "Replaced by use-microbreak-activity"
+msgstr "Зачитане на микро-почивките като дейност"
+
+#: ui/app/Application.cc:667 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
+msgid "Rest break"
+msgstr "Почивка"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
+#, c-format
+msgid "Rest break %s overdue"
+msgstr "Почивката %s е просрочена"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:92
+msgid "Rest break ended"
+msgstr "Почивката свърши"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
+#, c-format
+msgid "Rest break for %s"
+msgstr "Почивка за %s"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:89
+msgid "Rest break started"
+msgstr "Почивката започна"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+msgid "Rest break:"
+msgstr "Почивка:"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
+msgid "Resume"
+msgstr "Продължаване"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:321
+#, fuzzy
+msgid "Resume exercises"
+msgstr "Брой упражнения:"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:315
+msgid "Running installer"
+msgstr ""
+
+#: ui/app/Menus.cc:79
+#, fuzzy
+msgid "S_tatistics"
+msgstr "Статистика"
+
+#: ui/data/exercises/exercises.xml.in:23
+msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
+msgstr "Разделете и изпънете пръстите на ръцете си докато почувствате леко напрежение и задръжте така за 10 секунди. Отпуснете се, свийте пръсти в кокалчетата и задръжте отново за 10 секунди. Повторете упражнението още веднъж."
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:82
+msgid "Set operation mode based on Windows Focus Assist"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:4
+msgid "Shoulder-arm stretch"
+msgstr "Разтягане на рамената"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:93
+msgid "Show"
+msgstr "Показване"
+
+#. Ignorable
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
+#, fuzzy
+msgid "Show 'Postpone' button"
+msgstr "Показване на бутоните 'Отлагане' и 'Пропускане'"
+
+#. Skippable
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:133
+#, fuzzy
+msgid "Show 'Skip' button"
+msgstr "Показване на бутоните 'Отлагане' и 'Пропускане'"
+
+#: ui/applets/mate/src/main.c:379
+#, fuzzy
+msgid "Show log"
+msgstr "Показване на _дневника"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:94
+msgid "Show only when this timer is first due"
+msgstr "Показване само при първото изтичане на този таймер"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:144
+#, fuzzy
+msgid "Show status icon"
+msgstr "Показване прозореца за състоянието"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:112
+msgid "Show status window"
+msgstr "Показване прозореца за състоянието"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:205
+msgid "Show system tray icon"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:277
+#, fuzzy
+msgid "Shutdown"
+msgstr "_Изключване"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:272
+#, c-format
+msgid "Silent in %s"
+msgstr "Замлъква след %s"
+
+#: ui/app/toolkits/gtkmm/Prelude.cc:55
+#, fuzzy, c++-format
+msgid "Silent in {}"
+msgstr "Замлъква след %s"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:90
+msgid "Software Update"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:234
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:265
+msgid "Software updates"
+msgstr ""
+
+#. Sound themes
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
+msgid "Sound Events"
+msgstr ""
+
+# Настройки
+#. Options
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:56
+#, fuzzy
+msgid "Sound Options"
+msgstr "Конфигуриране"
+
+# panel->add(*start_in_tray_cb);
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:106
+#, fuzzy
+msgid "Sound Theme:"
+msgstr "Звук:"
+
+# panel->add(*start_in_tray_cb);
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
+msgid "Sound:"
+msgstr "Звук:"
+
+# panel->add(*start_in_tray_cb);
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:143
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:145
+#, fuzzy
+msgid "Sounds"
+msgstr "Звук:"
+
+#: ui/data/exercises/exercises.xml.in:80
+msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
+msgstr "Завъртете бавно дясната си ръка в кръг покрай тялото като перка на самолет. Направете това 4 пъти напред, 4 пъти назад и се отпуснете за няколко секунди. Повторете и с лявата ръка."
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
+msgid "Stable"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
+msgid "Start Workrave on logon"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
+msgid "Start restbreak when screen is locked"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:31
+msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
+msgstr "Застанете с нормално изправена глава и леко я наклонете към дясното си рамо за да разтегнете леко мускулите отляво на врата. Задръжте тази позиция за 5 секунди. После наклонете глава наляво за да разтегнете и на другата страна. Направете по два пъти за всяка страна."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:46
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:119
+msgid "Statistics"
+msgstr "Статистика"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
+msgid "Status Window"
+msgstr "Прозорец за състоянието"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:162
+msgid "Submit crash report to the Workrave developers"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
+msgid "Success color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:150
+msgid "Success color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:281
+#, fuzzy
+msgid "Suspend"
+msgstr "_Летаргичен"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:289
+#, fuzzy
+msgid "Suspend hybrid"
+msgstr "_Летаргичен"
+
+#: ui/app/Application.cc:674 ui/app/platforms/windows/WindowsFocusAssist.cc:78
+#: ui/applets/mate/src/main.c:387
+#, fuzzy
+msgid "Suspended"
+msgstr "_Летаргичен"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
+msgid "System default"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
+msgid "System proxy"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:166
+#, fuzzy
+msgid "Take rest break now"
+msgstr "Следващата почивка е след %s"
+
+#: ui/app/Menus.cc:119
+msgid "Temporarily Quiet..."
+msgstr ""
+
+#: ui/app/Menus.cc:116
+msgid "Temporarily Suspended..."
+msgstr ""
+
+#: ui/app/workrave.metainfo.xml:17
+msgid "The break warning window"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:663
+msgid "The files containing your statistics history could not be deleted. Try again?"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:655
+msgid "The files containing your statistics history have been deleted."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:71
+msgid "The following logging will be attached to the crash report:"
+msgstr ""
+
+#: ui/app/workrave.metainfo.xml:25
+#, fuzzy
+msgid "The main window"
+msgstr "Показване прозореца за състоянието"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:179
+msgid "The number of breaks you postponed"
+msgstr "Брой почивки които сте отложили"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
+msgid "The number of breaks you skipped"
+msgstr "Брой почивки които сте пропуснали"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:170
+msgid "The number of times you took a break when being prompted"
+msgstr "Брой пъти в който сте взели почивка при напомняне"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:174
+msgid "The number of times you took a break without being prompted"
+msgstr "Брой пъти в които сте взели почивка без напомняне"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:162
+msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgstr "Брой напомняния за почивка без повтарящите се за същата почивка"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:167
+msgid "The number of times you were repeatedly prompted to break"
+msgstr "Брой напомняния за почивка по няколко пъти"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:120
+#, fuzzy
+msgid "The orientation of the tray"
+msgstr "Ориентация на лентата."
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:168
+msgid "The pixel size that icons should be forced to, or zero"
+msgstr ""
+
+#: ui/app/workrave.metainfo.xml:21
+#, fuzzy
+msgid "The restbreak window"
+msgstr "Следващата почивка е след %s"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:106
+msgid "The status window stays always on top of other windows"
+msgstr "Прозореца за състояние остава винаги отгоре над др. прозорци"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:186
+#, fuzzy
+msgid "The total computer usage for the selected day"
+msgstr "Общо употеба на компютър"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:194
+msgid "The total computer usage for the whole month of the selected day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:190
+msgid "The total computer usage for the whole week of the selected day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:285
+msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
+msgstr "Общо придвижване на мишката което бихте имали ако я движехте по права линия между натискане на бутоните"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:289
+msgid "The total number of keys pressed"
+msgstr "Общ брой натиснати клавиши"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+msgid "The total number of mouse button clicks"
+msgstr "Общ брой натискания на бутони на мишката"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:282
+msgid "The total on-screen mouse movement"
+msgstr "Общо придвижване на мишката по екрана"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:181
+msgid "The total time this break was overdue"
+msgstr "Общо време за което тази почивка е просрочвана"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:280
+msgid "The total time you were using the mouse"
+msgstr "Общо време на използване на мишката"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#, fuzzy
+msgid "This is your natural rest break."
+msgstr "Вие имате нужда от почивка..."
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
+msgid ""
+"This is your rest break. Make sure you stand up and\n"
+"walk away from your computer on a regular basis. Just\n"
+"walk around for a few minutes, stretch, and relax."
+msgstr ""
+"Това е вашата почивка. Уверете се, че периодично\n"
+"се изправяте и се разхождате встрани от компютъра.\n"
+"Просто се поразходете наоколо за няколко минути,\n"
+"протегнете се, отпуснете се и си починете."
+
+#: ui/app/toolkits/gtkmm/Toolkit.cc:294
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
+#: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
+#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:350
+msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
+msgstr "Тази програма подпомага при предотвратяване и възстановяване от ПИЕД - заболяване свързано с Продължителното Извършване на Еднотипни Движения (Repetitive Strain Injury - RSI)."
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
+msgid "Time before end:"
+msgstr "Време преди завършване:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
+msgid "Time between breaks:"
+msgstr "Време между почиките:"
+
+#: ui/app/toolkits/gtkmm/Prelude.cc:35
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:112
+msgid "Time for a micro-break?"
+msgstr "Време за микро-почивка?"
+
+# Бележник
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:100
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
+msgid "Timers"
+msgstr "Таймери"
+
+#: ui/data/exercises/exercises.xml.in:64
+msgid "Train focusing the eyes"
+msgstr "Тренировка за фокусиране на очите"
+
+#: ui/data/exercises/exercises.xml.in:125
+msgid "Turn your head"
+msgstr "Завъртете глава"
+
+#: ui/data/exercises/exercises.xml.in:126
+msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
+msgstr "Завъртете глава наляво и задръжте така за 2 секунди. После завъртете глава надясно и я задръжте така за 2 секунди."
 
 #: ui/app/Menus.cc:196
 msgid "Until next day"
@@ -233,9 +1093,8 @@ msgstr "Тази програма подпомага при предотврат
 msgid "typing;break;timer;wrists;health;rsi;"
 msgstr ""
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:80
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:81
-msgid "Focus Assist"
+#: ui/app/Application.cc:425
+msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:82
@@ -260,18 +1119,18 @@ msgstr ""
 msgid "{} {} is now available -- you have {}. Would you like to download it now?"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:148
-msgid "Release notes"
+#: ui/app/Application.cc:657
+msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:164
-#, c++-format
-msgid "<h3>Version {}</h3>\n"
+#: ui/app/Application.cc:649
+msgid ""
+"Workrave is in suspended mode.\n"
+"Mouse and keyboard activity will not be monitored."
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:211
-#, c++-format
-msgid "Version {}\n"
+#: ui/app/Application.cc:633
+msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:258
@@ -1232,8 +2091,21 @@ msgstr "Общо употеба на компютър"
 msgid "Weekly"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:190
-msgid "The total computer usage for the whole week of the selected day"
+#: ui/applets/mate/src/main.c:362
+msgid "_Statistics"
+msgstr "_Статистика"
+
+#: ui/app/Menus.cc:103
+msgid "_Suspended"
+msgstr "_Летаргичен"
+
+#: ui/app/Menus.cc:300
+#, fuzzy, qt-format
+msgid "_Suspended (until %1%)"
+msgstr "_Летаргичен"
+
+#: ui/app/Menus.cc:313
+msgid "_Suspended (until next day)"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:193

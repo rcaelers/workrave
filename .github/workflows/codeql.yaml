@@ -3,13 +3,13 @@ on:
   push:
     branches:
       - 'main'
-      - 'topic/*'
+      - 'feature/*'
     tags:
       - 'v1_11_*'
   pull_request:
     branches:
       - 'main'
-      - 'topic/*'
+      - 'feature/*'
 
 jobs:
   check-msys2:
