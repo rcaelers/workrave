@@ -1193,9 +1193,9 @@ msgstr ""
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "Workrave 无法监视你的键盘和鼠标活动。\n"
 
-#: ui/app/Application.cc:689
-msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
-msgstr "Workrave 仍在运行。你可以单击白羊图标访问 Workrave。单击这个气泡禁用这则消息"
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:136
+msgid "Workrave crash reporter"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:218
 msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
@@ -1231,428 +1231,21 @@ msgstr ""
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr "Workrave 仍在运行。你可以单击白羊图标访问 Workrave。单击这个气泡禁用这则消息"
 
-#. FIXME: duplicate
-#. Layout
-#: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-#: ui/app/toolkits/gtkmm/Ui.cc:38
-#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
-msgid "Micro-break"
-msgstr "小憩"
-
-#: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
-#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:266
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:19
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:55
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:213
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:237
-msgid "Rest break"
-msgstr "休息"
-
-#. label
-#: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
-#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
-#: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:94
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:76
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:20
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:245
-msgid "Daily limit"
-msgstr "每日上限"
-
-#: ui/app/Application.cc:730 ui/app/Application.cc:734
-msgid "Mode: "
-msgstr "模式： "
-
-#: ui/app/Application.cc:730 ui/app/platforms/windows/WindowsFocusAssist.cc:78
-#: ui/applets/mate/src/main.c:387
-msgid "Suspended"
-msgstr "已暂停"
-
-#: ui/app/Application.cc:734 ui/app/platforms/windows/WindowsFocusAssist.cc:78
-#: ui/applets/mate/src/main.c:389
-msgid "Quiet"
-msgstr "勿扰"
-
-#: ui/app/Menus.cc:64 ui/applets/mate/src/main.c:360
-msgid "_Open"
-msgstr "打开(_O)"
-
-#: ui/app/Menus.cc:70 ui/applets/mate/src/main.c:364
-msgid "_Preferences"
-msgstr "偏好设置(_P)"
-
-#: ui/app/Menus.cc:73
-msgid "_Rest break"
-msgstr "休息(_R)"
-
-#: ui/app/Menus.cc:76 ui/applets/mate/src/main.c:366
-msgid "_Exercises"
-msgstr "锻炼(_E)"
-
-#: ui/app/Menus.cc:79
-msgid "S_tatistics"
-msgstr "统计数据(_t)"
-
-#: ui/app/Menus.cc:88 ui/applets/mate/src/main.c:370
-msgid "_Mode"
-msgstr "模式(_M)"
-
-#: ui/app/Menus.cc:96
-msgid "_Normal"
-msgstr "常规(_N)"
-
-#: ui/app/Menus.cc:103
-msgid "_Suspended"
-msgstr "已暂停(_S)"
-
-#: ui/app/Menus.cc:110
-msgid "Q_uiet"
-msgstr "勿扰(_u)"
-
-#: ui/app/Menus.cc:116
-msgid "Temporarily Suspended..."
-msgstr "临时暂停..."
-
-#: ui/app/Menus.cc:119
-msgid "Temporarily Quiet..."
-msgstr "临时勿扰..."
-
-#: ui/app/Menus.cc:125
-msgid "_Reading mode"
-msgstr "阅读模式(_R)"
-
-#: ui/app/Menus.cc:135 ui/applets/mate/src/main.c:372
-msgid "_About"
-msgstr "关于(_A)"
-
-#: ui/app/Menus.cc:138 ui/applets/mate/src/main.c:374
-msgid "_Quit"
-msgstr "退出(_Q)"
-
-#: ui/app/Menus.cc:164
-msgid "Indefinitely"
-msgstr ""
-
-#: ui/app/Menus.cc:176
-msgid "For 1 hour"
-msgstr ""
-
-#: ui/app/Menus.cc:177
-#, qt-format
-msgid "For %1% hours"
-msgstr ""
-
-#: ui/app/Menus.cc:183
-msgid "and 1 minute"
-msgstr "和 1 分钟"
-
-#: ui/app/Menus.cc:183
-#, fuzzy, qt-format
-msgid "and %1% minutes"
-msgstr "和 1 分钟"
-
-#: ui/app/Menus.cc:187
-msgid "For 1 minute"
-msgstr ""
-
-#: ui/app/Menus.cc:187
-#, fuzzy, qt-format
-msgid "For %1% minutes"
-msgstr "和 1 分钟"
-
-#: ui/app/Menus.cc:196
-msgid "Until next day"
-msgstr ""
-
-#: ui/app/Menus.cc:295
-#, qt-format
-msgid "Q_uiet (until %1%)"
-msgstr ""
-
-#: ui/app/Menus.cc:300
-#, fuzzy, qt-format
-msgid "_Suspended (until %1%)"
-msgstr "已暂停(_S)"
-
-#: ui/app/Menus.cc:308
-msgid "Q_uiet (until next day)"
-msgstr ""
-
-#: ui/app/Menus.cc:313
-msgid "_Suspended (until next day)"
-msgstr ""
-
-#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:4
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-msgid "Workrave"
-msgstr "Workrave"
-
-#: ui/app/org.workrave.Workrave.desktop.in:5
-msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr "辅助重复性劳损（RSI）的预防和恢复"
-
-#: ui/app/org.workrave.Workrave.desktop.in:6
-msgid "typing;break;timer;wrists;health;rsi;"
-msgstr "打字；休息；计时器；手腕；健康；RSI"
-
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:80
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:81
-msgid "Focus Assist"
-msgstr "专注助手"
-
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:82
-msgid "Set operation mode based on Windows Focus Assist"
-msgstr ""
-
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
-msgid "Operation mode during Focus Assist:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:90
-msgid "Software Update"
-msgstr "软件更新"
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:131
-#, c++-format
-msgid "A new version of {} is available"
-msgstr "有新版本的 {} 可用"
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:139
-#, c++-format
-msgid "{} {} is now available -- you have {}. Would you like to download it now?"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:148
-msgid "Release notes"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:164
-#, c++-format
-msgid "<h3>Version {}</h3>\n"
-msgstr "<h3>版本 {}</h3>\n"
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:211
-#, c++-format
-msgid "Version {}\n"
-msgstr "版本 {}\n"
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:258
-msgid "_Skip this version"
-msgstr "跳过此版本(_S)"
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:264
-msgid "_Remind me later"
-msgstr "稍后提醒(_R)"
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:267
-msgid "_Install update"
-msgstr "安装更新(_I)"
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:274
-#, fuzzy
-msgid "_Close"
-msgstr "关闭"
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:309
-msgid "Downloading installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:312
-msgid "Verifying installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:315
-msgid "Running installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
-msgid "Stable"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
-msgid "Release Candidate"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
-msgid "Beta"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
-msgid "No proxy"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
-msgid "System proxy"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
-msgid "Custom proxy"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:234
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:265
-msgid "Software updates"
-msgstr "软件更新"
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:235
-msgid "Auto update"
-msgstr "自动更新"
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:236
-msgid "Automatically check for updates"
-msgstr "自动检查更新"
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:238
-msgid "Get updates as soon as they are available"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
-msgid "Release channel:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
-msgid "Proxy Type:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
-msgid "Proxy:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
-msgid "Check for _Updates"
-msgstr "检查更新(_U)"
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:384
-msgid "Invalid appcast"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:387
-msgid "Failed to download appcast"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:390
-msgid "Failed to download installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:393
-msgid "Failed to validate installer integrity. Aborting upgrade"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:396
-msgid "Failed to execute installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:401
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:407
-msgid "Internal failure. Aborting upgrade"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:269
-msgid "Lock..."
-msgstr "锁定..."
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:273
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:145
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:290
-msgid "Lock"
-msgstr "锁定"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:277
-msgid "Shutdown"
-msgstr "关闭"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:281
-msgid "Suspend"
-msgstr "暂停"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:285
-msgid "Hibernate"
-msgstr "休眠"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:289
-msgid "Suspend hybrid"
-msgstr "暂停混合"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:408
-msgid "_Skip"
-msgstr "跳过(_S)"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:418
-msgid "_Postpone"
-msgstr "推迟(_P)"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:588
-msgid "You cannot skip this break while another non-skippable break is overdue."
-msgstr "当另一个不可跳过的休息过期时，你不能跳过这个休息。"
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:66
+msgid "Workrave needs to be restarted manually after changing this setting"
+msgstr "更改此设定后，需手动重启 Workrave"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:602
 msgid "You cannot postpone this break while another non-postponable break is overdue."
 msgstr "当另一个不可延后的休息过期时，你不能推迟这个休息。"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:108
-msgid "Crash report details"
-msgstr "崩溃报告详情"
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:588
+msgid "You cannot skip this break while another non-skippable break is overdue."
+msgstr "当另一个不可跳过的休息过期时，你不能跳过这个休息。"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:111
-#, fuzzy
-msgid "Crash details"
-msgstr "崩溃详情"
-
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:160
-#, fuzzy
-msgid "Crash Info"
-msgstr "崩溃报告"
-
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:304
-msgid "(file not found or not readable)"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:337
-msgid "Crash report"
-msgstr "崩溃报告"
-
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:342
-msgid "Workrave crash reporter"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:379
-msgid "Workrave encountered a problem and crashed. Please help us diagnose and fix this problem by sending a crash report."
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:401
-msgid "Submit crash report to the Workrave developers"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:410
-msgid "Details..."
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:415
-msgid "<small><i>Shows the crash information and files that will be submitted.</i></small>"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:422
-msgid "Additional comments (optional):"
-msgstr ""
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr "你选择了删除统计数据历史。继续吗？"
 
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
 msgid ""
@@ -1664,613 +1257,40 @@ msgstr ""
 "请不要再盯着计算机。\n"
 "如果你的工作日还没结束，找点别的事情做，比如阅读一份文件。"
 
-#: ui/app/toolkits/gtkmm/DebugDialog.cc:33
-msgid "Debug log"
-msgstr "调试日志"
-
-#. Dialog
-#: ui/app/toolkits/gtkmm/DebugDialog.cc:51
-#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:90
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:143
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:54
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:357
-#: ui/app/toolkits/qt/qml/StatusWindow.qml:95
-msgid "Close"
-msgstr "关闭"
-
-#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:29
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:600
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:160
-msgid "Exercises"
-msgstr "锻炼"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:92
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:40
-msgid "Previous"
-msgstr "上一个"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:93
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:50
-msgid "Next"
-msgstr "下一个"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:112
-msgid "Exercises player"
-msgstr "锻炼播放器"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:146
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:300
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:698
-msgid "Previous exercise"
-msgstr "上个锻炼"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:147
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:316
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:710
-msgid "Next exercise"
-msgstr "下个锻炼"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:148
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:325
-msgid "Pause exercises"
-msgstr "暂停锻炼"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:152
-msgid "End exercises"
-msgstr "结束锻炼"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:45
-msgid "Resume"
-msgstr "继续"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:45
-msgid "Pause"
-msgstr "暂停"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:321
-msgid "Resume exercises"
-msgstr "继续锻炼"
-
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
-#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:194
-msgid "Please relax for a few seconds"
-msgstr "请放松数秒"
-
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, fuzzy, c++-format
-msgid "Next rest break in {}"
-msgstr "离下次休息还有 %s"
-
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, fuzzy, c++-format
-msgid "Rest break {} overdue"
-msgstr "休息过期了 %s"
-
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
-#, fuzzy, c++-format
-msgid "Daily limit in {}"
-msgstr "距每日上限还有 %s"
-
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
-#, fuzzy, c++-format
-msgid "Daily limit {} overdue"
-msgstr "每日上限已过 %s"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
-msgid "Orientation"
-msgstr "方向"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:120
-msgid "The orientation of the tray"
-msgstr "托盘方向"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
-msgid "Foreground color"
-msgstr "前景色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:129
-msgid "Foreground color for symbolic icons"
-msgstr "象征图标的前景色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
-msgid "Error color"
-msgstr "错误颜色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
-msgid "Error color for symbolic icons"
-msgstr "象征图标的错误颜色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:141
-msgid "Warning color"
-msgstr "警告色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:142
-msgid "Warning color for symbolic icons"
-msgstr "象征图标的警告色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
-msgid "Success color"
-msgstr "成功颜色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:150
-msgid "Success color for symbolic icons"
-msgstr "象征图标的成功色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:157
-msgid "Padding"
-msgstr "填充"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:158
-msgid "Padding that should be put around icons in the tray"
-msgstr "应当被放在托盘图标周围的填充"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:167
-msgid "Icon Size"
-msgstr "图标尺寸"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:168
-msgid "The pixel size that icons should be forced to, or zero"
-msgstr "图标应被强制的像素大小，或者为 0"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:45
-msgid "Preferences"
-msgstr "偏好设置"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:100
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:17
-msgid "Timers"
-msgstr "计时器"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:116
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:23
-msgid "User interface"
-msgstr "用户界面"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:24
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:72
-msgid "General"
-msgstr "常规"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:26
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
-msgid "Status window"
-msgstr "状态窗口"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
-msgid "Applet"
-msgstr "小程序"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:135
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:137
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:65
-#, fuzzy
-msgid "Monitoring"
-msgstr "调试监控"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:143
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:145
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:25
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:77
-msgid "Sounds"
-msgstr "声音"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:85
-msgid "No blocking"
-msgstr "无拦截"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:67
-msgid "Block input"
-msgstr "拦截输入"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:76
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:76
-msgid "Block input and screen"
-msgstr "拦截输入和屏幕"
-
-#. Options
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:126
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:104
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:122
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:123
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:26
-msgid "Options"
-msgstr "选项"
-
-#
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-msgid "Block mode"
-msgstr "拦截模式"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
-msgid "System default"
-msgstr "系统默认"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:157
-msgid "(font not available)"
-msgstr "(字体不可用)"
-
-#
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-msgid "Language"
-msgstr "语言"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
-msgid "Start Workrave on logon"
-msgstr "登录系统时启动 Workrave"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:205
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:117
-msgid "Show system tray icon"
-msgstr "显示系统托盘图标"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:206
-msgid "Note that not all desktop environments show system tray icons, or have disabled system tray icons by default."
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:227
-msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
-msgstr "在 Wayland 上强制使用 X11（需要重启 Workrave）"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:218
-msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:229
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:236
-msgid "Use GNOME Shell extension for showing break prompts on Wayland (EXPERIMENTAL)"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:230
-msgid "Workrave can use its GNOME Shell extension to enhance its integration with the desktop environment running on Wayland."
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:243
-msgid "Icon Theme:"
-msgstr "图标主题："
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:248
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:145
-msgid "Light"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:249
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:145
-msgid "Dark"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:250
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:145
-msgid "Auto"
-msgstr ""
-
-#
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-msgid "Dark mode"
-msgstr "拦截模式"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:158
-msgid "Default"
-msgstr "默认"
-
-#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:56
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:29
-msgid "Use alternate monitor"
-msgstr "使用另一台显示器"
-
-#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:63
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:30
-msgid "Enable this option if Workrave fails to detect when you are using your computer"
-msgstr "如 Workrave 未能检测到你何时在使用计算机，请启用此选项"
-
-#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:66
-msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr "更改此设定后，需手动重启 Workrave"
-
-#
-#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-msgid "Mouse sensitivity"
-msgstr "鼠标敏感度"
-
-#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
-msgid "Number of pixels the mouse should move before it is considered activity."
-msgstr "鼠标需移动多少像素，才被认为是在活动。"
-
-#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:88
-msgid "Debug monitoring"
-msgstr "调试监控"
-
-#. Options
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:56
-msgid "Sound Options"
-msgstr "声音选项"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:61
-msgid "No sounds"
-msgstr "无声音"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:62
-msgid "Play sounds using sound card"
-msgstr "使用声卡播放声音"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-msgid "Volume"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
-msgid "Sound:"
-msgstr "声音："
-
-#. Volume
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:105
-msgid "Mute sounds during rest break and daily limit"
-msgstr "在休息和每日上限期间静音"
-
-#. Sound themes
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:177
-msgid "Sound Events"
-msgstr "声音事件"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:106
-msgid "Sound Theme:"
-msgstr "声音主题："
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:129
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:147
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:167
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:261
-msgid "Play"
-msgstr "播放"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:134
-msgid "Event"
-msgstr "事件"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
-msgid "Choose a sound"
-msgstr "选择声音"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
-msgid "Wavefiles"
-msgstr "Wav 文件"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:73
-msgid "Place timers next to each other"
-msgstr "并排放置计时器"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:74
-msgid "Place micro-break and rest break in one spot"
-msgstr "将小憩和休息放在一起"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:75
-msgid "Place rest break and daily limit in one spot"
-msgstr "将休息和每日上限放在一起"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:76
-msgid "Place all timers in one spot"
-msgstr "将所有计时器放在一起"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:92
-#: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:72
-msgid "Hide"
-msgstr "隐藏"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:93
-#: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:70
-msgid "Show"
-msgstr "显示"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:94
-msgid "Show only when this timer is first due"
-msgstr "只在计时器首次到期时显示"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:97
-msgid "Display"
-msgstr "展示"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:106
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:39
-msgid "The status window stays always on top of other windows"
-msgstr "状态窗口始终在最上层"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:112
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:30
-msgid "Show status window"
-msgstr "显示状态窗口"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:113
-msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environments do not support, or have disabled status icons."
-msgstr ""
-
-#
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-msgid "Placement"
-msgstr "放置"
-
-#
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-msgid "Cycle time"
-msgstr "循环时间"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
-msgid "Fallback applet enabled"
-msgstr "已启用备份小程序"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:144
-msgid "Show status icon"
-msgstr "显示状态图标"
-
-#. Enabled/Disabled checkbox
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:58
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:20
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:20
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:20
-msgid "Enable timer"
-msgstr "启用计时器"
-
-#. Prelude frame
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:95
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:72
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:90
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:91
-msgid "Break prompting"
-msgstr "休息提示"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:95
-msgid "Prompt before breaking"
-msgstr "休息前提示"
-
-#
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-msgid "Maximum number of prompts"
-msgstr "最多提示几次"
-
-#. Ignorable
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:108
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:126
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:127
-msgid "Show 'Postpone' button"
-msgstr "显示“推迟”按钮"
-
-#. Skippable
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:133
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:116
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:134
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:135
-msgid "Show 'Skip' button"
-msgstr "显示“跳过”按钮"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:144
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:124
-msgid "Regard micro-breaks as activity"
-msgstr "将小憩视为活动"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-#, fuzzy
-msgid "Number of exercises"
-msgstr "继续锻炼"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
-msgid "Start restbreak when screen is locked"
-msgstr "屏幕锁定时开始休息"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:163
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:151
-msgid "Enable shutting down the computer from the rest screen"
-msgstr "允许从其他屏幕关闭计算机"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-msgid "Time before end:"
-msgstr "结束时限："
-
-#
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-msgid "Time between breaks"
-msgstr "休息间隔"
-
-#
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-msgid "Break duration"
-msgstr "休息持续时间"
-
-#
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-msgid "Postpone time"
-msgstr "推迟多久"
-
-#: ui/app/toolkits/gtkmm/Prelude.cc:35
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:113
-#: ui/app/toolkits/qt/qml/PreludeOverlay.qml:15
-msgid "Time for a micro-break?"
-msgstr "小憩一下？"
-
 #: ui/app/toolkits/gtkmm/Prelude.cc:37
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:117
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:116
 msgid "You need a rest break..."
 msgstr "你需要一次休息..."
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:39
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:121
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:120
 msgid "You should stop for today..."
 msgstr "今天到此为止吧..."
 
-#: ui/app/toolkits/gtkmm/Prelude.cc:51
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:263
-#: ui/app/toolkits/qt/qml/PreludeClassic.qml:101
-#: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
-#, fuzzy, c++-format
-msgid "Break in {}"
-msgstr "%s 后休息"
+#: ui/app/Menus.cc:135 ui/applets/mate/src/main.c:372
+msgid "_About"
+msgstr "关于(_A)"
 
-#: ui/app/toolkits/gtkmm/Prelude.cc:53
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:267
-#, fuzzy, c++-format
-msgid "Disappears in {}"
-msgstr "%s 后消失"
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:274
+#, fuzzy
+msgid "_Close"
+msgstr "关闭"
 
-#: ui/app/toolkits/gtkmm/Prelude.cc:55
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:271
-#, fuzzy, c++-format
-msgid "Silent in {}"
-msgstr "%s 后静默"
+#: ui/app/Menus.cc:76 ui/applets/mate/src/main.c:366
+msgid "_Exercises"
+msgstr "锻炼(_E)"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:248
-#, fuzzy, c++-format
-msgid "Rest break for {}"
-msgstr "休息 %s"
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:267
+msgid "_Install update"
+msgstr "安装更新(_I)"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:213
-msgid "Natural rest break"
-msgstr "自行休息"
+#: ui/app/Menus.cc:88 ui/applets/mate/src/main.c:370
+msgid "_Mode"
+msgstr "模式(_M)"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
-msgid "This is your natural rest break."
-msgstr "这是你的自行休息。"
+#: ui/app/Menus.cc:96
+msgid "_Normal"
+msgstr "常规(_N)"
 
 #: ui/app/Menus.cc:64 ui/applets/mate/src/main.c:360
 msgid "_Open"
@@ -2328,1026 +1348,197 @@ msgstr "已暂停(_S)"
 #: ui/app/Menus.cc:313
 msgid "_Suspended (until next day)"
 msgstr ""
-"这是你的休息时间。\n"
-"确保你定期起身并离开计算机。\n"
-"四处走走，伸展一下身体，放松一下。"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:46
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:119
-msgid "Statistics"
-msgstr "统计数据"
+#: ui/app/Menus.cc:183
+#, fuzzy, qt-format
+msgid "and %1% minutes"
+msgstr "和 1 分钟"
 
-#. Navigation box
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:108
-msgid "Browse history"
-msgstr "浏览历史"
+#: ui/app/Menus.cc:183
+msgid "and 1 minute"
+msgstr "和 1 分钟"
 
-#. Delete button
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:113
-msgid "Delete all statistics history"
-msgstr "删除所有统计数据历史"
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:52
+msgid "crash details"
+msgstr "崩溃详情"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:120
-msgid "Date:"
-msgstr "日期："
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:153
-msgid "Breaks"
-msgstr "休息"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:161
-msgid "Break prompts"
-msgstr "休息提示"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:162
-msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
-msgstr "除了同一次休息的重复提示外，程序提示你进行休息的次数"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
-msgid "Repeated prompts"
-msgstr "重复的提示"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:167
-msgid "The number of times you were repeatedly prompted to break"
-msgstr "程序重复提示你休息的次数"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
-msgid "Prompted breaks taken"
-msgstr "根据提示休息的次数"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:170
-msgid "The number of times you took a break when being prompted"
-msgstr "你在程序提示下休息的次数"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:173
-msgid "Natural breaks taken"
-msgstr "自行休息次数"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:174
-msgid "The number of times you took a break without being prompted"
-msgstr "未经提示自行休息的次数"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
-msgid "Breaks skipped"
-msgstr "跳过的休息"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
-msgid "The number of breaks you skipped"
-msgstr "你跳过的休息次数"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
-msgid "Breaks postponed"
-msgstr "推迟的休息"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:179
-msgid "The number of breaks you postponed"
-msgstr "你推迟的休息次数"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:181
-msgid "Overdue time"
-msgstr "过期时间"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:181
-msgid "The total time this break was overdue"
-msgstr "本次休息总过期时长"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:183
-msgid "Usage"
-msgstr "使用"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:183
-msgid "Active computer usage"
-msgstr "活跃计算机使用"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:185
-msgid "Daily"
-msgstr "日数据"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:186
-msgid "The total computer usage for the selected day"
-msgstr "选定日期当天共使用了多少时间的计算机"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:189
-msgid "Weekly"
-msgstr "周数据"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:190
-msgid "The total computer usage for the whole week of the selected day"
-msgstr "选定周期间共使用了多少时间的计算机"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:193
-msgid "Monthly"
-msgstr "月数据"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:194
-msgid "The total computer usage for the whole month of the selected day"
-msgstr "选定月份共使用了多少时间的计算机"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:271
-msgid "Activity"
-msgstr "活动"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:279
-msgid "Mouse usage:"
-msgstr "鼠标使用："
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:280
-msgid "The total time you were using the mouse"
-msgstr "使用鼠标的总时长"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:281
-msgid "Mouse movement:"
-msgstr "鼠标移动距离："
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:282
-msgid "The total on-screen mouse movement"
-msgstr "鼠标屏上总移动距离"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:284
-msgid "Effective mouse movement:"
-msgstr "有效鼠标移动："
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:285
-msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
-msgstr "鼠标单击直线移动总距离"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:287
-msgid "Mouse button clicks:"
-msgstr "鼠标按钮点击次数："
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
-msgid "The total number of mouse button clicks"
-msgstr "鼠标按钮点击的总次数"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:289
-msgid "Keystrokes:"
-msgstr "击键数："
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:289
-msgid "The total number of keys pressed"
-msgstr "按键总数"
+#: ui/app/org.workrave.Workrave.desktop.in:6
+msgid "typing;break;timer;wrists;health;rsi;"
+msgstr "打字；休息；计时器；手腕；健康；RSI"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:325
 #, c-format
 msgid "{:%x}, from {:%X} to {:%X}"
 msgstr "{:%x}, 从 {:%X} 到 {:%X}"
 
-#. Confirm the user's intention
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:643
-msgid "Warning"
-msgstr "警告"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
-msgid "You have chosen to delete your statistics history. Continue?"
-msgstr "你选择了删除统计数据历史。继续吗？"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:654
-msgid "Files deleted!"
-msgstr "已删除文件！"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:655
-msgid "The files containing your statistics history have been deleted."
-msgstr "已删除包含统计数据历史的文件。"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:657
-msgid "Info"
-msgstr "信息"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:662
-msgid "File deletion failed!"
-msgstr "文件删除失败！"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:663
-msgid "The files containing your statistics history could not be deleted. Try again?"
-msgstr "无法删除包含统计数据历史的文件。再试一次？"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:665
-msgid "Error"
-msgstr "错误"
-
-#: ui/app/toolkits/gtkmm/Toolkit.cc:294
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
-#: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
-#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:350
-msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
-msgstr "此程序辅助重复性劳损（RSI）的预防和恢复。"
-
-#: ui/app/toolkits/gtkmm/Ui.cc:83
-msgid "Break prompt"
-msgstr "休息提示"
-
-#: ui/app/toolkits/gtkmm/Ui.cc:86
-msgid "Break ignored"
-msgstr "已忽略休息"
-
-#: ui/app/toolkits/gtkmm/Ui.cc:89
-msgid "Rest break started"
-msgstr "休息开始"
-
-#: ui/app/toolkits/gtkmm/Ui.cc:92
-msgid "Rest break ended"
-msgstr "休息结束"
-
-#: ui/app/toolkits/gtkmm/Ui.cc:95
-msgid "Micro-break started"
-msgstr "小憩开始"
-
-#: ui/app/toolkits/gtkmm/Ui.cc:98
-msgid "Micro-break ended"
-msgstr "小憩结束"
-
-#: ui/app/toolkits/gtkmm/Ui.cc:104
-msgid "Exercise ended"
-msgstr "锻炼结束"
-
-#: ui/app/toolkits/gtkmm/Ui.cc:107
-msgid "Exercises ended"
-msgstr "锻炼结束"
-
-#: ui/app/toolkits/gtkmm/Ui.cc:110
-msgid "Exercise change"
-msgstr "锻炼更改"
-
-#: ui/app/toolkits/gtkmm/Ui.cc:113
-msgid "?"
-msgstr "？"
-
-#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:166
-msgid "Take rest break now"
-msgstr "立即休息"
-
-#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:184
-msgid "Wait"
-msgstr "等待"
-
-#: ui/app/workrave.metainfo.xml:5
-#, fuzzy
-msgid "Workrave assists in the recovery and prevention of Repetitive Strain Injury (RSI)"
-msgstr "辅助重复性劳损（RSI）的预防和恢复"
-
-#: ui/app/workrave.metainfo.xml:9
-#, fuzzy
-msgid "Workrave is a free program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). It frequently alerts you to take microbreaks, rest breaks and restricts you to your daily computer usage."
-msgstr "Workrave 是一个辅助恢复和预防重复性劳损（RSI）的程序。这个程序经常提醒你进行短时间停顿和常规休息，并限制每天计算机用时。"
-
-#: ui/app/workrave.metainfo.xml:17
-msgid "The break warning window"
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:139
+#, c++-format
+msgid "{} {} is now available -- you have {}. Would you like to download it now?"
 msgstr ""
 
-#: ui/app/workrave.metainfo.xml:21
-#, fuzzy
-msgid "The restbreak window"
-msgstr "立即休息"
-
-#: ui/app/workrave.metainfo.xml:25
-#, fuzzy
-msgid "The main window"
-msgstr "显示状态窗口"
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-msgid "Workrave Applet"
-msgstr "Workrave 小程序"
-
-#: ui/applets/mate/src/main.c:362
-msgid "_Statistics"
-msgstr "统计数据(_S)"
-
-#: ui/applets/mate/src/main.c:368
-msgid "_Restbreak"
-msgstr "休息(_R)"
-
-#: ui/applets/mate/src/main.c:379
-msgid "Show log"
-msgstr "显示日志"
-
-#: ui/applets/mate/src/main.c:381
-msgid "Reading mode"
-msgstr "阅读模式"
-
-#: ui/applets/mate/src/main.c:385
-msgid "Normal"
-msgstr "常规"
-
-#: ui/data/exercises/exercises.xml.in:4
-msgid "Shoulder-arm stretch"
-msgstr "肩膀手臂拉伸运动"
-
-#: ui/data/exercises/exercises.xml.in:5
-msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
-msgstr "保持一只手臂水平伸展在胸前。用另一只手臂将这只手臂推向你的身体，直到你感到肩膀有轻微的紧张感。短暂保持这个姿势，然后在另一只手臂上重复这个动作。"
-
-#: ui/data/exercises/exercises.xml.in:22
-msgid "Finger stretch"
-msgstr "手指伸展"
-
-#: ui/data/exercises/exercises.xml.in:23
-msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
-msgstr "分开并伸展你的手指，直到感觉到轻微的拉力，保持10秒钟。放松，然后弯曲手指的指关节，再坚持10秒。再做一遍这个练习。"
-
-#: ui/data/exercises/exercises.xml.in:30
-msgid "Neck tilt stretch"
-msgstr "颈部倾斜拉伸"
-
-#: ui/data/exercises/exercises.xml.in:31
-msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
-msgstr "开始时头处于舒适的笔直姿势。然后，慢慢地将头向右肩倾斜，轻轻伸展颈部左侧的肌肉。保持这个姿势5秒。然后，将头向左侧倾斜，伸展另一侧身体。每边做两次。"
-
-#: ui/data/exercises/exercises.xml.in:38
-msgid "Backward shoulder stretch"
-msgstr "后肩伸展"
-
-#: ui/data/exercises/exercises.xml.in:39
-msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
-msgstr "把你的手指交叉放在背后。然后将你的肘部轻轻地向内弯曲，同时伸直你的手臂。保持这个姿势5到15秒，然后重复这个练习两次。"
-
-#: ui/data/exercises/exercises.xml.in:45
-msgid "Move the eyes"
-msgstr "移动眼球"
-
-#: ui/data/exercises/exercises.xml.in:46
-msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
-msgstr "注视显示器外边框的左上角，目光沿着边框慢慢移到右上角。继续到下一个拐角，直到环绕屏幕边框两次。然后，反方向练习。"
-
-#: ui/data/exercises/exercises.xml.in:64
-msgid "Train focusing the eyes"
-msgstr "训练聚焦眼球"
-
-#: ui/data/exercises/exercises.xml.in:65
-msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you cannot look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
-msgstr "寻找显示器后面你能看到的最远的点。把你的眼睛集中在远处。然后专注于你的显示器边框。重复它。如果你没法看得离显示器很远，那就换一个方向，看得远一点。然后在一个远处物体和一支离你的眼睛和显示器相同距离的笔之间切换你的焦点。"
-
-#: ui/data/exercises/exercises.xml.in:72
-msgid "Look into the darkness"
-msgstr "注视黑暗"
-
-#: ui/data/exercises/exercises.xml.in:73
-#, fuzzy
-msgid "Cover your eyes with your palms in such a way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
-msgstr "用手掌遮住你的眼睛，但保证还可以睁开你的眼睑。现在睁开你的眼睛，看看你手掌的黑暗。与简单闭上眼睛相比，这个练习能更好地放松你的眼睛。"
-
-#: ui/data/exercises/exercises.xml.in:79
-msgid "Move the shoulders"
-msgstr "移动肩膀"
-
-#: ui/data/exercises/exercises.xml.in:80
-msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
-msgstr "慢慢旋转你的右臂，就像身体旁边的飞机螺旋桨一样。向前做4次，向后做4次，放松几秒钟。左臂重复此动作。"
-
-#: ui/data/exercises/exercises.xml.in:87
-msgid "Move the shoulders up and down"
-msgstr "上下移动肩膀"
-
-#: ui/data/exercises/exercises.xml.in:88
-msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
-msgstr "当你坐着的时候，把你的手放在椅子的扶手上，把你的身体向上压，直到你的手臂伸直。试着通过降低肩膀来让头移得更远。慢慢移回到椅子上。"
-
-#: ui/data/exercises/exercises.xml.in:125
-msgid "Turn your head"
-msgstr "转头"
-
-#: ui/data/exercises/exercises.xml.in:126
-msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
-msgstr "把头向左转，保持2秒钟。然后把头向右转，保持2秒钟。"
-
-#: ui/libs/commonui/src/Text.cc:71
-#, c-format, qt-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d 小时"
-
-#: ui/libs/commonui/src/Text.cc:75
-#, c-format, qt-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d 分钟"
-
-#: ui/libs/commonui/src/Text.cc:79
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d 秒"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:26
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:26
-msgid "Visibility"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:30
-#, fuzzy
-msgid "Show status applet"
-msgstr "显示状态图标"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:31
-msgid "Turn off to hide the panel applet — Workrave still runs from the tray."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:40
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:48
-#, fuzzy
-msgid "Display style"
-msgstr "展示"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:61
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:69
-msgid "Timer layout"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:67
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:75
-msgid "Three ways to render the three timers. Pick whichever reads best at a glance."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:80
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:88
-msgid "A · Rings"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:81
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:89
-msgid "Three circular rings. Closest to the classic look."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:89
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:97
-msgid "B · Bars"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:90
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:98
-msgid "Icon + tiny progress bar + timecode. Compact and scannable."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:98
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:106
-msgid "C · Focus"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:99
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:107
-msgid "Big ring on the active timer; the others are chips alongside."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:107
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:115
-msgid "D · Classic"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:108
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:116
-msgid "The original Workrave widget — text timers, no transparency."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:120
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:128
-msgid "Layout"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:148
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
-msgid "Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:161
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:169
-#, fuzzy
-msgid "Next to each other"
-msgstr "并排放置计时器"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:169
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:177
-msgid "Micro + Rest together"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:177
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:185
-msgid "Rest + Daily together"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:185
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:193
-#, fuzzy
-msgid "All in one slot"
-msgstr "将所有计时器放在一起"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:198
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
-msgid "When timers share a slot, switch between them this often."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:217
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:225
-msgid "Per-timer visibility"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:221
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:18
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:50
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
-#, fuzzy
-msgid "Microbreak"
-msgstr "小憩"
-
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:101
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:240
-#, fuzzy
-msgid "You have reached your daily limit. Please stop working behind the computer. If your working day is not over yet, find something else to do, such as reviewing a document."
-msgstr ""
-"你已达到每日计算机使用时间上限。\n"
-"请不要再盯着计算机。\n"
-"如果你的工作日还没结束，找点别的事情做，比如阅读一份文件。"
-
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:150
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:151
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:122
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:123
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:295
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:296
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:133
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:134
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:385
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:386
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:387
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:503
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:504
-#, fuzzy
-msgid "Shut down"
-msgstr "关闭"
-
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:151
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:123
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:296
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:134
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:387
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:504
-msgid "Are you sure you want to shut down the computer?"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:155
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:156
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:132
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:300
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:143
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:144
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:395
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:396
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:397
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:513
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:514
-msgid "Sleep"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:156
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:144
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:397
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:514
-msgid "Are you sure you want to put the computer to sleep?"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:169
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:151
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:158
-#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:188
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:290
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:298
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:314
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:163
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:166
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:408
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:410
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:529
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:530
-#, fuzzy
-msgid "Postpone"
-msgstr "推迟"
-
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:175
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:180
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:188
-#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:195
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:322
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:330
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:320
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:181
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:183
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:421
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:424
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:542
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:544
-#, fuzzy
-msgid "Skip"
-msgstr "跳过"
-
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:107
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:115
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:120
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:493
-#, fuzzy
-msgid "Lock screen"
-msgstr "拦截输入和屏幕"
-
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:267
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:274
-#, fuzzy
-msgid "Stop working"
-msgstr "无拦截"
-
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:302
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:357
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:212
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:564
-msgid "Postpone and skip will unlock after resting"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:21
-msgid "When off, no daily limit prompts will be shown."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:28
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:28
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:28
-msgid "Timing"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:33
-msgid "When today's active time crosses this, the daily-limit window appears."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:72
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
-msgid "When postponed, Workrave reminds you again after this long."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:76
-#, fuzzy
-msgid "Prompt before enforcing limit"
-msgstr "休息前提示"
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:77
-msgid "Show a gentle reminder a few seconds before the limit is enforced."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:85
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:103
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
-#, fuzzy
-msgid "Limit number of prompts"
-msgstr "最多提示几次："
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
-msgid "When off, Workrave keeps reminding you until the limit is enforced."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:127
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:128
-msgid "Whether the postpone button appears on the break window."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:117
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:135
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:136
-msgid "Whether the skip button appears on the break window."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:125
-msgid "During a microbreak you're usually still seated. Turn on to limit the time spent at the computer; turn off to limit only active use."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:132
-#, fuzzy
-msgid "Enable shutting down the computer from the daily limit screen"
-msgstr "允许从其他屏幕关闭计算机"
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:133
-msgid "Adds power buttons to the daily limit window so you can stop work and shut down or sleep the computer."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
-msgid "During breaks"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:53
-msgid "What Workrave does to the rest of your screen when a break starts."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:68
-msgid "Keyboard and mouse are blocked. You can still see your desktop."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:77
-msgid "Break window covers everything but your wallpaper."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:86
-msgid "Workrave shows the break window but doesn't interrupt input."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
-#, fuzzy
-msgid "Theme"
-msgstr "图标主题："
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
-msgid "Use Sanctuary UI"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:103
-msgid "When enabled, break windows and the status window use the new QML-based design. Restart Workrave after changing this setting."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:113
-#, fuzzy
-msgid "System"
-msgstr "系统默认"
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:118
-msgid "Adds a Workrave icon to the system tray for quick access."
-msgstr ""
+#~ msgid "Accepted new client."
+#~ msgstr "已接受新客户端。"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:126
-msgid "Launches Workrave automatically when you sign in."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
-msgid "Language used for Workrave's interface."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
-msgid "Light or dark colour scheme for the Workrave windows."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
-#, fuzzy
-msgid "Icon theme"
-msgstr "图标主题："
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
-msgid "Visual style used for Workrave's icons."
-msgstr ""
+#~ msgid "Acknowledging master request from client %s."
+#~ msgstr "认可来自客户端 %s 的主请求"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:185
-msgid "Lock & power"
-msgstr ""
+#~ msgid "Advanced"
+#~ msgstr "高级"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:189
-msgid "Custom lock command"
-msgstr ""
+#~ msgid "Allow incoming connections"
+#~ msgstr "允许入站连接"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:190
-msgid "Shell command for locking the screen. When set, appears as 'Custom command' in the lock method list."
-msgstr ""
+#~ msgid "Client %s access denied."
+#~ msgstr "客户端 %s 访问被拒。"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:192
-msgid "e.g. /usr/bin/pmset displaysleepnow"
-msgstr ""
+#~ msgid "Client %s closed connection."
+#~ msgstr "客户端 %s 关闭了连接。"
 
-#
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:199
-#, fuzzy
-msgid "Lock method"
-msgstr "拦截模式"
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:200
-msgid "Which screen-lock backend to use when the Lock button is pressed."
-msgstr ""
+#~ msgid "Client %s connected."
+#~ msgstr "客户端 %s 已连接。"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:209
-msgid "Sleep action"
-msgstr ""
+#~ msgid "Client %s is duplicate."
+#~ msgstr "客户端 %s 重复。"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:210
-msgid "What the Sleep button does — suspend, hibernate, or hybrid sleep."
-msgstr ""
+#~ msgid "Client %s is now master."
+#~ msgstr "客户端 %s 现在是主控。"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:222
-msgid "Linux display server"
-msgstr ""
+#~ msgid "Client %s is now the new master."
+#~ msgstr "客户端 %s 现在是新主控。"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:228
-#, fuzzy
-msgid "Runs Workrave under XWayland instead of native Wayland. Requires a restart of Workrave."
-msgstr "在 Wayland 上强制使用 X11（需要重启 Workrave）"
+#~ msgid "Client %s is welcoming us."
+#~ msgstr "客户端 %s 正欢迎我们。"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:237
-msgid "Uses the Workrave GNOME Shell extension to show break prompts on Wayland. Experimental."
-msgstr ""
+#~ msgid "Client %s read error, closing."
+#~ msgstr "客户端 %s 读取出错，关闭中。"
 
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:182
-msgid "Please stop and relax"
-msgstr ""
+#~ msgid "Client %s rejected master request, delaying."
+#~ msgstr "客户端 %s 拒绝了主请求，延迟中。"
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:21
-msgid "When off, no microbreak prompts will be shown."
-msgstr ""
+#~ msgid "Client %s saying hello."
+#~ msgstr "客户端 %s 正在问好。"
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
-msgid "How long you've been using the keyboard or mouse before being prompted."
-msgstr ""
+#~ msgid "Client %s signed off."
+#~ msgstr "客户端 %s 已注销。"
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
-msgid "How long each microbreak lasts."
-msgstr ""
+#~ msgid "Client timeout from %s."
+#~ msgstr "客户端 %s 超时。"
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:95
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:96
-msgid "Show a gentle reminder a few seconds before the break starts."
-msgstr ""
+#~ msgid "Connecting to %s."
+#~ msgstr "正连接至 %s。"
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:104
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:105
-msgid "When off, Workrave keeps reminding you until the break starts."
-msgstr ""
+#~ msgid "Could not connect to client %s."
+#~ msgstr "无法连接到客户端 %s。"
 
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:25
-#, fuzzy
-msgid "Activity detection"
-msgstr "活动"
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
-#, fuzzy
-msgid "Debug"
-msgstr "调试日志"
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:80
-#, fuzzy
-msgid "Activity monitor"
-msgstr "活动"
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:86
-msgid "Open the debug window to inspect raw activity events and monitor state."
-msgstr ""
+#~ msgid "Could not enable network operation."
+#~ msgstr "无法启用网络操作。"
 
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:108
-msgid "Open debug window"
-msgstr ""
+#~ msgid "Disabling network operation."
+#~ msgstr "禁用网络操作。"
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:27
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:87
-#, fuzzy
-msgid "Status applet"
-msgstr "显示状态图标"
-
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:51
-msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
-msgstr ""
+#~ msgid "Disconnecting %s"
+#~ msgstr "断开连接 %s"
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:56
-msgid "A longer break with guided exercises. Workrave suggests one every 30–60 minutes of activity."
-msgstr ""
+#~ msgid "Enable networking"
+#~ msgstr "启用网络连接"
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:61
-msgid "A cap on how long you'll work at the computer in a day. Workrave nudges you to stop when you reach it."
-msgstr ""
+#~ msgid ""
+#~ "Enter the host name and port number of a computer\n"
+#~ "in the network you wish to connect to."
+#~ msgstr ""
+#~ "输入你想连接到的网络中\n"
+#~ "一台计算机的主机名和和端口号。"
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:66
-msgid "How Workrave detects your activity — keyboard, mouse, and system idle state."
-msgstr ""
+#~ msgid "Host name"
+#~ msgstr "主机名"
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:73
-msgid "How Workrave behaves on your system, and how forcefully it interrupts."
-msgstr ""
+#~ msgid "Host name:"
+#~ msgstr "主机名："
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:78
-msgid "Choose which sounds Workrave plays at break events, and adjust the volume."
-msgstr ""
+#~ msgid "Hosts"
+#~ msgstr "主机"
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:83
-msgid "The little always-visible window with your three timers."
-msgstr ""
+#~ msgid "I'm now master."
+#~ msgstr "我现在是主控。"
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:88
-msgid "The system-tray or panel applet showing your three timers."
-msgstr ""
+#~ msgid "Is Workrave already running?"
+#~ msgstr "Workrave 是否已在运行？"
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:131
-#, fuzzy
-msgid "Workrave — Preferences"
-msgstr "偏好设置"
-
-#: ui/app/toolkits/qt/qml/PreludeClassic.qml:71
-#, fuzzy
-msgid "Time for a break?"
-msgstr "小憩一下？"
-
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:168
-#, fuzzy
-msgid "Exercises player:"
-msgstr "锻炼播放器"
-
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:221
-#, fuzzy
-msgid "This is your rest break. Make sure you stand up and walk away from your computer on a regular basis. Just walk around for a few minutes, stretch, and relax."
-msgstr ""
-"这是你的休息时间。\n"
-"确保你定期起身并离开计算机。\n"
-"四处走走，伸展一下身体，放松一下。"
-
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:83
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:101
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
-msgid "OF"
-msgstr ""
+#~ msgid "Network"
+#~ msgstr "网络"
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:84
-msgid "INPUT BLOCKED"
-msgstr ""
+#~ msgid "Network connect"
+#~ msgstr "网络连接"
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:363
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:770
-msgid "Exercises complete — please relax"
-msgstr ""
+#~ msgid "Network log"
+#~ msgstr "网络日志"
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:369
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:771
-msgid "Please stand up and walk away from your computer"
-msgstr ""
+#~ msgid "Network operation started."
+#~ msgstr "网络操作已开始。"
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:647
-msgid "Total left"
-msgstr ""
+#~ msgid "Non-master client %s rejected master request."
+#~ msgstr "非主客户端 %s 拒绝了主请求。"
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:777
-msgid "End break early"
-msgstr ""
+#~ msgid "Password:"
+#~ msgstr "密码："
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:21
-msgid "When off, no rest break prompts will be shown."
-msgstr ""
+#~ msgid "Port"
+#~ msgstr "端口"
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:33
-msgid "Active time required before a rest break is prompted."
-msgstr ""
+#~ msgid "Port:"
+#~ msgstr "端口："
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:53
-#, fuzzy
-msgid "How long each rest break lasts."
-msgstr "你需要一次休息..."
+#~ msgid "Program that assists in the recovery and prevention of RSI"
+#~ msgstr "辅助恢复和预防重复性劳损（RSI）的程序"
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:144
-msgid "Counts time the screen is locked as part of your break. Prevents being prompted right after you unlock."
-msgstr ""
+#~ msgid "Reconnect attempts:"
+#~ msgstr "重连尝试次数："
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:152
-msgid "Adds a power button to the rest break window so you can stop work and shut down or sleep the computer."
-msgstr ""
+#~ msgid "Reconnect interval:"
+#~ msgstr "重连间隔："
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
-msgid "Workrave picks this many at random from its library each rest break."
-msgstr ""
+#~ msgid "Reconnecting to %s."
+#~ msgstr "重新连接到 %s。"
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:30
-#, fuzzy
-msgid "Enable sounds"
-msgstr "无声音"
+#~ msgid "Rejecting master request from client %s."
+#~ msgstr "拒绝来自客户端 %s 的主请求"
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
-msgid "Play a sound when a break starts or ends."
-msgstr ""
+#~ msgid "Removing client %s."
+#~ msgstr "删除客户端 %s。"
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106
-msgid "Silences system audio when a rest break or daily limit begins."
-msgstr ""
+#~ msgid "Requesting master status from %s."
+#~ msgstr "从 %s 请求主状态。"
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:129
-#, fuzzy
-msgid "Sound theme"
-msgstr "声音主题："
+#~ msgid "Server port:"
+#~ msgstr "服务器端口："
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:287
-msgid "Choose…"
-msgstr ""
+#~ msgid "Server settings"
+#~ msgstr "服务器设置"
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:314
-msgid "Clear"
-msgstr ""
+#~ msgid ""
+#~ "The following list specifies the hosts that Workrave connects to on\n"
+#~ "start-up. Click the host name or port number to edit."
+#~ msgstr ""
+#~ "下列列表指定了 Workrave 启动时连接到的主机\n"
+#~ "单击主机名或端口号进行编辑"
 
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:31
-msgid "Turn off to hide the main window — Workrave still runs from the tray."
-msgstr ""
+#~ msgid "Use dark theme"
+#~ msgstr "使用深色主题"
 
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:38
-msgid "Always on top"
-msgstr ""
+#~ msgid "Username:"
+#~ msgstr "用户名："
 
-#: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
-msgid "When first due"
-msgstr ""
+#~ msgid "Workrave failed to start"
+#~ msgstr "Workrave 未能启动"
 
-#, fuzzy
-#~ msgid "← Previous"
-#~ msgstr "上一个"
+#~ msgid "_Disconnect"
+#~ msgstr "断开连接(_D)"
 
-#, fuzzy
-#~ msgid "▶ Resume"
-#~ msgstr "继续"
+#~ msgid "_Join"
+#~ msgstr "加入(_J)"
 
-#, fuzzy
-#~ msgid "⏸ Pause"
-#~ msgstr "暂停"
+#~ msgid "_Network"
+#~ msgstr "网络(_N)"
 
-#, fuzzy
-#~ msgid "Next →"
-#~ msgstr "下一个"
+#~ msgid "_Reconnect"
+#~ msgstr "重新连接(_R)"

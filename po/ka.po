@@ -87,19 +87,16 @@ msgid "Beta"
 msgstr "ბეტა"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:67
 msgid "Block input"
 msgstr "შეყვანის დაბლოკვა"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:76
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:76
 msgid "Block input and screen"
 msgstr "ეკრანისა და შეყვანის დაბლოკვა"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-msgid "Block mode"
-msgstr "დაბლოკვის რეჟიმი"
+msgid "Block mode:"
+msgstr "დაბლოკვის რეჟიმი:"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
 msgid "Break duration:"
@@ -212,14 +209,12 @@ msgid "Daily limit:"
 msgstr "დღიური ლიმიტი:"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:249
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:145
 msgid "Dark"
 msgstr "მუქი"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-msgid "Dark mode"
-msgstr "მუქი რეჟიმი"
+msgid "Dark mode:"
+msgstr "მუქი რეჟიმი:"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:120
 msgid "Date:"
@@ -537,7 +532,6 @@ msgstr "გაამოძრავეთ მხრები ზემო-თქ
 
 #. Volume
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:105
 msgid "Mute sounds during rest break and daily limit"
 msgstr "ხმების დადუმება დასასვენებელი შესვენებისა და დღიური ლიმიტის დროს"
 
@@ -653,12 +647,9 @@ msgstr "დასვენების შესვენებისა და 
 msgid "Place timers next to each other"
 msgstr "წამმზომების გვერდიგვერდ მოთავსება"
 
-#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-msgid "Placement"
-msgstr "განლაგება"
+msgid "Placement:"
+msgstr "განლაგება:"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:129
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:147
@@ -691,8 +682,6 @@ msgid "Previous exercise"
 msgstr "წინა ვარჯიში"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:95
 msgid "Prompt before breaking"
 msgstr "შეხსენება შესვენებამდე"
 
@@ -821,17 +810,11 @@ msgstr "ჩვენება"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:108
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:126
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:127
 msgid "Show 'Postpone' button"
 msgstr "'გადადების' ღილაკის ჩვენება"
 
 #. Skippable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:133
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:116
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:134
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:135
 msgid "Show 'Skip' button"
 msgstr "'გამოტოვების' ღილაკის ჩვენება"
 
@@ -1071,12 +1054,11 @@ msgstr "ჯამური დრო, რომლითაც ეს შეს�
 msgid "The total time you were using the mouse"
 msgstr "თაგუნას გამოყენების ჯამური დრო"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
 msgid "This is your natural rest break."
 msgstr "ეს თქვენი ბუნებრივი დასვენების შესვენებაა."
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
