@@ -20,7 +20,7 @@ export default class AppcastCmd extends Command {
     branch: Flags.string({
       char: 'b',
       description: 'branch',
-      default: 'v1.11',
+      default: 'v1.12',
     }),
     bucket: Flags.string({
       char: 'B',

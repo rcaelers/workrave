@@ -30,7 +30,7 @@ enum Command {
 
 #[derive(clap::Args, Debug)]
 struct AppcastArgs {
-    #[arg(short = 'b', long, default_value = "v1.11")]
+    #[arg(short = 'b', long, default_value = "v1.12")]
     branch: String,
     #[arg(short = 'B', long, default_value = "snapshots")]
     bucket: String,
@@ -60,7 +60,7 @@ struct AppcastArgs {
 
 #[derive(clap::Args, Debug)]
 struct CatalogArgs {
-    #[arg(short = 'b', long, default_value = "v1.11")]
+    #[arg(short = 'b', long, default_value = "v1.12")]
     branch: String,
     #[arg(short = 'B', long, default_value = "snapshots")]
     bucket: String,
@@ -225,7 +225,7 @@ mod tests {
     async fn appcast_errors_still_propagate_like_typescript() {
         let cli = Cli {
             command: Command::Appcast(AppcastArgs {
-                branch: "v1.11".to_string(),
+                branch: "v1.12".to_string(),
                 bucket: "snapshots".to_string(),
                 environment: String::new(),
                 key: "github".to_string(),

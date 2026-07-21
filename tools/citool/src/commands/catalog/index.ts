@@ -15,7 +15,7 @@ export default class CatalogCmd extends Command {
     branch: Flags.string({
       char: 'b',
       description: 'Workave branch to use',
-      default: 'v1.11',
+      default: 'v1.12',
     }),
     bucket: Flags.string({
       char: 'B',

@@ -310,9 +310,9 @@ init
 source ${SCRIPTS_DIR}/ci/config.sh
 
 if [ "${DEPLOY_ENVIRONMENT}" = "staging" ]; then
-    export S3_ARTIFACT_DIR=staging/v1.11
+    export S3_ARTIFACT_DIR=staging/v1.12
 else
-    export S3_ARTIFACT_DIR=v1.11
+    export S3_ARTIFACT_DIR=v1.12
 fi
 export WORKRAVE_UPLOAD_DIR="snapshots/${S3_ARTIFACT_DIR}/${WORKRAVE_BUILD_ID}"
 

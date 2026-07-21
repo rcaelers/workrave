@@ -1,6 +1,6 @@
 {
   "name": "workrave",
-  "version": "1.11.0-beta.16",
+  "version": "1.12.0-beta.1",
   "dependencies": [
     {
       "name": "gettext",
@@ -9,7 +9,9 @@
     {
       "name": "gettext",
       "host": true,
-      "features": ["tools"],
+      "features": [
+        "tools"
+      ],
       "platform": "x86 | x64 | arm64"
     },
     {
@@ -20,7 +22,9 @@
     {
       "name": "boost-asio",
       "version>=": "1.86.0",
-      "features": ["ssl"],
+      "features": [
+        "ssl"
+      ],
       "platform": "x64"
     },
     {
