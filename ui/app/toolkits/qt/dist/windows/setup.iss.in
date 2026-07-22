@@ -48,12 +48,10 @@ SignedUninstaller=yes
 Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional tasks:"
 Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDescription: "Additional tasks:"
 Name: "autoupdate"; Description: "Automatically check for updates"; GroupDescription: "Additional tasks:"
-;TODO;Name: "gdbus"; Description: "Install D-Bus utility (allows other applications to control Workrave)"; GroupDescription: "Additional tasks:"; Flags: unchecked
 
 [Files]
 ;TODO;Source: "@INSTALL_WIN_PATH@\bin\harpoon64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "@INSTALL_WIN_PATH@\bin\workrave.exe"; DestDir: "{app}\bin"; DestName: "WorkraveQt.exe"; Flags: ignoreversion;
-;TODO;Source: "@INSTALL_WIN_PATH@\bin\gdbus.exe"; DestDir: "{app}\bin"; Flags: ignoreversion; Tasks: gdbus
 Source: "@INSTALL_WIN_PATH@\bin\qt.conf"; DestDir: "{app}\bin"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\lib\plugins\*.*"; DestDir: "{app}\lib\plugins"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "@INSTALL_WIN_PATH@\share\*.*"; DestDir: "{app}\share"; Flags: ignoreversion recursesubdirs;
