@@ -107,73 +107,14 @@ Item {
     Column {
         anchors.fill: parent
 
-        // ── Title bar ────────────────────────────────────────────────────────
-        Rectangle {
-            width: parent.width
-            height: 38
-            color: tok.panel
-
-            Rectangle {
-                anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
-                height: 1; color: tok.edge
-            }
-
-            Row {
-                anchors { left: parent.left; leftMargin: 14; verticalCenter: parent.verticalCenter }
-                spacing: 10
-
-                Rectangle {
-                    width: 7; height: 7; radius: 99; color: tok.sage
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-
-                Text {
-                    text: qsTr("Workrave — Preferences")
-                    font.pixelSize: 15
-                    font.family: "Georgia"
-                    font.italic: true
-                    color: tok.ink
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-            }
-
-            // Close button
-            Item {
-                id: closeBtn
-                anchors { right: parent.right; rightMargin: 12; verticalCenter: parent.verticalCenter }
-                width: 22; height: 22
-
-                property bool hovered: false
-
-                Rectangle {
-                    anchors.fill: parent
-                    radius: 11
-                    color: closeBtn.hovered ? tok.edge2 : "transparent"
-                }
-
-                Text {
-                    anchors.centerIn: parent
-                    text: "✕"
-                    font.pixelSize: 13
-                    color: closeBtn.hovered ? tok.ink : tok.mute
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    hoverEnabled: true
-                    onEntered: closeBtn.hovered = true
-                    onExited:  closeBtn.hovered = false
-                    onClicked: root.closeRequested()
-                }
-            }
-        }
-
         // ── Body: sidebar + content ──────────────────────────────────────────
+        // No custom title bar here — the native window title bar (set via
+        // QQuickView::setTitle) already shows "Workrave — Preferences" and
+        // provides the close button; drawing our own duplicated both.
         Item {
             id: body
             width: parent.width
-            height: parent.height - 38 - 52
+            height: parent.height - 52
 
             // ── Sidebar ──────────────────────────────────────────────────────
             Rectangle {
