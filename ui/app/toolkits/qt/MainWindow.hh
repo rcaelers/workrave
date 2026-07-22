@@ -58,6 +58,7 @@ private:
   void move_to_start_position();
   void on_enabled_changed();
   void switch_view(DisplayStyle style);
+  void set_classic_window_chrome();
 
 private:
   std::shared_ptr<IApplicationContext> app;

@@ -55,7 +55,7 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
     }
   else
     {
-      setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+      set_classic_window_chrome();
 
       timer_box_view = new TimerBoxView(app->get_core());
       timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
@@ -93,6 +93,21 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
 }
 
 void
+MainWindow::set_classic_window_chrome()
+{
+#if defined(PLATFORM_OS_MACOS)
+  // NSPanel-style utility window: compact title bar, like the Gtk main window.
+  setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+  setAttribute(Qt::WA_MacAlwaysShowToolWindow);
+#else
+  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+#endif
+  setAttribute(Qt::WA_TranslucentBackground, false);
+  // Same 2px border as the Gtk main window (set_border_width(2)).
+  layout()->setContentsMargins(2, 2, 2, 2);
+}
+
+void
 MainWindow::switch_view(DisplayStyle style)
 {
   bool was_visible = isVisible();
@@ -119,8 +134,7 @@ MainWindow::switch_view(DisplayStyle style)
 
   if (style == DisplayStyle::Classic)
     {
-      setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
-      setAttribute(Qt::WA_TranslucentBackground, false);
+      set_classic_window_chrome();
 
       timer_box_view = new TimerBoxView(app->get_core());
       timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
@@ -130,6 +144,7 @@ MainWindow::switch_view(DisplayStyle style)
     {
       setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
       setAttribute(Qt::WA_TranslucentBackground);
+      vbox->setContentsMargins(0, 0, 0, 0);
 
       qml_timer_box_view = new QmlTimerBoxView(app->get_core(), this, this);
       timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", qml_timer_box_view);

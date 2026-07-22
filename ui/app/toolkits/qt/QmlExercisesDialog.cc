@@ -44,7 +44,18 @@ ExercisesBridge::ExercisesBridge(std::shared_ptr<IApplicationContext> app, QObje
   : QObject(parent)
   , app(std::move(app))
   , sound_theme(this->app->get_sound_theme())
+  , classic_(!GUIConfig::sanctuary_ui_enabled()())
 {
+  // Live-switch between Sanctuary and Classic designs without restarting.
+  GUIConfig::sanctuary_ui_enabled().connect(this, [this](bool enabled) {
+    bool new_classic = !enabled;
+    if (new_classic != classic_)
+      {
+        classic_ = new_classic;
+        Q_EMIT classicChanged();
+      }
+  });
+
   auto exercises_obj = this->app->get_exercises();
   exercises_obj->set_language(GUIConfig::locale()());
   auto list = exercises_obj->get_exercises();
@@ -312,7 +323,7 @@ QmlExercisesDialog::QmlExercisesDialog(std::shared_ptr<IApplicationContext> app,
       }
   });
 
-  view->setSource(QUrl("qrc:/sanctuary/ExercisesDialog.qml"));
+  view->setSource(QUrl("qrc:/sanctuary/ExercisesShell.qml"));
 }
 
 QmlExercisesDialog::~QmlExercisesDialog()

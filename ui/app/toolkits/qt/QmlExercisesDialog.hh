@@ -46,6 +46,9 @@ class ExercisesBridge
   Q_PROPERTY(double  exerciseProgress    READ exerciseProgress    NOTIFY exerciseTimerChanged)
   Q_PROPERTY(QString exerciseTimeStr     READ exerciseTimeStr     NOTIFY exerciseTimerChanged)
   Q_PROPERTY(bool    isPaused            READ isPaused            NOTIFY pauseStateChanged)
+  // classic == true  → ExercisesClassic.qml (Gtk look)
+  // classic == false → ExercisesDialog.qml (Sanctuary)
+  Q_PROPERTY(bool    classic             READ isClassic           NOTIFY classicChanged)
 
 public:
   explicit ExercisesBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
@@ -57,6 +60,7 @@ public:
   double  exerciseProgress() const;
   QString exerciseTimeStr() const;
   bool    isPaused() const { return ex_paused; }
+  bool    isClassic() const { return classic_; }
 
   void setCloseHandler(std::function<void()> fn) { on_close_ = std::move(fn); }
 
@@ -65,6 +69,7 @@ Q_SIGNALS:
   void exerciseImageChanged();
   void exerciseTimerChanged();
   void pauseStateChanged();
+  void classicChanged();
 
 public Q_SLOTS:
   void prevExercise();
@@ -90,6 +95,7 @@ private:
   int  ex_time{0};
   int  ex_seq_time{0};
   bool ex_paused{false};
+  bool classic_{false};
 
   QTimer *ex_timer{nullptr};
 };

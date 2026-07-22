@@ -7,6 +7,11 @@ import QtQuick
 Item {
     id: root
 
+    // Historical Gtk msgids — reuses the existing po translations. The
+    // mnemonic underscore ("_Skip") is stripped for display.
+    readonly property string txtSkip:     qsTr("_Skip").replace("_", "")
+    readonly property string txtPostpone: qsTr("_Postpone").replace("_", "")
+
     PrefTokens { id: tok }
 
     // blockMode: 0=Off (toast), 1=Input (centered, no dim), 2=All (fullscreen + dim)
@@ -271,38 +276,6 @@ Item {
                         }
                     }
 
-                    // Postpone
-                    Rectangle {
-                        visible: bridge != null ? bridge.canPostpone : true
-                        enabled: bridge != null ? bridge.canPostpone : true
-                        height: 34
-                        width: postponeLabel.implicitWidth + 28
-                        radius: tok.actionRadius
-                        color: tok.actionBg
-                        border.color: tok.actionEdge
-                        border.width: 1
-                        opacity: enabled ? 1.0 : 0.4
-
-                        Text {
-                            id: postponeLabel
-                            anchors.centerIn: parent
-                            text: qsTr("Postpone")
-                            font.pixelSize: 13
-                            font.weight: Font.Medium
-                            font.letterSpacing: 0.12
-                            color: tok.ink2
-                        }
-
-                        Accessible.role: Accessible.Button
-                        Accessible.name: qsTr("Postpone")
-
-                        MouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: { if (bridge != null) bridge.requestPostpone() }
-                        }
-                    }
-
                     // Skip
                     Rectangle {
                         visible: bridge != null ? bridge.canSkip : true
@@ -318,7 +291,7 @@ Item {
                         Text {
                             id: skipLabel
                             anchors.centerIn: parent
-                            text: qsTr("Skip")
+                            text: root.txtSkip
                             font.pixelSize: 13
                             font.weight: Font.Medium
                             font.letterSpacing: 0.12
@@ -326,12 +299,44 @@ Item {
                         }
 
                         Accessible.role: Accessible.Button
-                        Accessible.name: qsTr("Skip")
+                        Accessible.name: root.txtSkip
 
                         MouseArea {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             onClicked: { if (bridge != null) bridge.requestSkip() }
+                        }
+                    }
+
+                    // Postpone
+                    Rectangle {
+                        visible: bridge != null ? bridge.canPostpone : true
+                        enabled: bridge != null ? bridge.canPostpone : true
+                        height: 34
+                        width: postponeLabel.implicitWidth + 28
+                        radius: tok.actionRadius
+                        color: tok.actionBg
+                        border.color: tok.actionEdge
+                        border.width: 1
+                        opacity: enabled ? 1.0 : 0.4
+
+                        Text {
+                            id: postponeLabel
+                            anchors.centerIn: parent
+                            text: root.txtPostpone
+                            font.pixelSize: 13
+                            font.weight: Font.Medium
+                            font.letterSpacing: 0.12
+                            color: tok.ink2
+                        }
+
+                        Accessible.role: Accessible.Button
+                        Accessible.name: root.txtPostpone
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: { if (bridge != null) bridge.requestPostpone() }
                         }
                     }
                 }
