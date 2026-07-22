@@ -112,8 +112,16 @@ MainWindow::set_classic_window_chrome()
 #else
   setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
 #endif
+#if defined(PLATFORM_OS_MACOS) || defined(PLATFORM_OS_WINDOWS)
+  // macOS windows always have rounded corners (~10px radius), and Windows 11
+  // rounds top-level window corners by default too — unlike the Gtk build's
+  // windows on Linux/Windows, which stay square. Give the content extra
+  // clearance here so it isn't cut off in the corners.
+  layout()->setContentsMargins(8, 8, 8, 8);
+#else
   // Same 2px border as the Gtk main window (set_border_width(2)).
   layout()->setContentsMargins(2, 2, 2, 2);
+#endif
 }
 
 void
