@@ -30,8 +30,15 @@
 #include <QTimer>
 #include <QWindow>
 
+// Re-asserts the NSWindow's opaque/background state to match the QWidget's
+// Qt::WA_TranslucentBackground attribute. Needed because Qt only decides an
+// NSWindow's opacity when the platform window is (re)created, and on macOS a
+// window that was ever created translucent can keep rendering with a black
+// background even after WA_TranslucentBackground is cleared and the window
+// is destroyed/recreated — forcing it here every time is more reliable than
+// depending on Qt's own bookkeeping surviving that transition.
 static void
-configure_floating_panel(QWindow *qwindow)
+configure_native_window(QWindow *qwindow, bool translucent, bool floating)
 {
   if (qwindow == nullptr)
     {
@@ -48,9 +55,16 @@ configure_floating_panel(QWindow *qwindow)
     {
       return;
     }
-  [nswindow setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorStationary
-                                  | NSWindowCollectionBehaviorIgnoresCycle];
-  [nswindow setHidesOnDeactivate:NO];
+
+  [nswindow setOpaque:!translucent];
+  [nswindow setBackgroundColor:translucent ? [NSColor clearColor] : [NSColor windowBackgroundColor]];
+
+  if (floating)
+    {
+      [nswindow setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorStationary
+                                      | NSWindowCollectionBehaviorIgnoresCycle];
+      [nswindow setHidesOnDeactivate:NO];
+    }
 }
 
 int
@@ -92,10 +106,8 @@ ToolkitMacOS::eventFilter(QObject *obj, QEvent *event)
 {
   if (obj == main_window && event->type() == QEvent::WinIdChange)
     {
-      if (main_window->windowFlags().testFlag(Qt::FramelessWindowHint) || main_window->windowType() == Qt::Tool)
-        {
-          configure_floating_panel(main_window->windowHandle());
-        }
+      bool floating = main_window->windowFlags().testFlag(Qt::FramelessWindowHint) || main_window->windowType() == Qt::Tool;
+      configure_native_window(main_window->windowHandle(), main_window->testAttribute(Qt::WA_TranslucentBackground), floating);
     }
   return Toolkit::eventFilter(obj, event);
 }

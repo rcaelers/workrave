@@ -98,6 +98,13 @@ MainWindow::set_classic_window_chrome()
   // Must be cleared before the native window is (re)created — a surface
   // created translucent stays translucent and renders a black background.
   setAttribute(Qt::WA_TranslucentBackground, false);
+  // Qt::WA_TranslucentBackground implicitly sets WA_NoSystemBackground, but
+  // clearing WA_TranslucentBackground does NOT implicitly clear it back —
+  // left set, the widget stops erasing its own background before paint, so
+  // any area not covered by a child widget (e.g. the layout margins below)
+  // shows whatever was left in the old translucent backing store: black.
+  setAttribute(Qt::WA_NoSystemBackground, false);
+  setAutoFillBackground(true);
 #if defined(PLATFORM_OS_MACOS)
   // NSPanel-style utility window: compact title bar, like the Gtk main window.
   setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
@@ -149,6 +156,10 @@ MainWindow::switch_view(DisplayStyle style)
   else
     {
       setAttribute(Qt::WA_TranslucentBackground);
+      // Reset explicitly: set_classic_window_chrome() may have forced these
+      // on for a previous Classic view, and they don't clear on their own.
+      setAttribute(Qt::WA_NoSystemBackground, true);
+      setAutoFillBackground(false);
       setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
       vbox->setContentsMargins(0, 0, 0, 0);
 

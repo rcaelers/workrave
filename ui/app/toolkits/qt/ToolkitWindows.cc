@@ -29,6 +29,7 @@
 #include <dbt.h>
 #include <windows.h>
 
+#include <QEvent>
 #include <QGuiApplication>
 #include <QStyleHints>
 #include <QTimer>
@@ -38,6 +39,34 @@
 
 using namespace workrave;
 using namespace workrave::config;
+
+// Re-asserts the HWND's layered/opaque state to match the widget's
+// Qt::WA_TranslucentBackground attribute. Needed because a window that was
+// ever created translucent (frameless Sanctuary view) can keep compositing
+// with a stale alpha surface even after WA_TranslucentBackground is cleared
+// and the window is destroyed/recreated for the Classic view — forcing it
+// here every time the native window is (re)created is more reliable than
+// depending on Qt's own bookkeeping surviving that transition.
+static void
+reassert_native_window_opacity(HWND hwnd, bool translucent)
+{
+  if (hwnd == nullptr || !IsWindow(hwnd))
+    {
+      return;
+    }
+
+  LONG_PTR ex_style = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+  LONG_PTR new_ex_style = translucent ? (ex_style | WS_EX_LAYERED) : (ex_style & ~WS_EX_LAYERED);
+  if (new_ex_style != ex_style)
+    {
+      SetWindowLongPtr(hwnd, GWL_EXSTYLE, new_ex_style);
+    }
+
+  // Force the compositor to fully re-evaluate the window's frame/surface
+  // instead of reusing a stale (alpha-enabled) composition surface.
+  SetWindowPos(hwnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+  RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_ALLCHILDREN | RDW_FRAME | RDW_UPDATENOW);
+}
 
 ToolkitWindows::ToolkitWindows(int argc, char **argv)
   : Toolkit(argc, argv)
@@ -90,6 +119,17 @@ ToolkitWindows::hook_event()
 {
   return event_hook;
 };
+
+bool
+ToolkitWindows::eventFilter(QObject *obj, QEvent *event)
+{
+  if (obj == main_window && event->type() == QEvent::WinIdChange)
+    {
+      auto hwnd = reinterpret_cast<HWND>(main_window->winId());
+      reassert_native_window_opacity(hwnd, main_window->testAttribute(Qt::WA_TranslucentBackground));
+    }
+  return Toolkit::eventFilter(obj, event);
+}
 
 void
 ToolkitWindows::init_gui()

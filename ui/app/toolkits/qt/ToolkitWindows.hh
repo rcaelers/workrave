@@ -61,6 +61,8 @@ private:
   void request_graceful_shutdown(const char *reason);
 
   bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override;
+  bool eventFilter(QObject *obj, QEvent *event) override;
+
 private:
   boost::signals2::signal<bool(MSG *msg), IToolkitWindows::event_combiner> event_hook;
   workrave::utils::Trackable config_tracker;
