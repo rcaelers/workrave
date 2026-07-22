@@ -1,9 +1,16 @@
-Workrave NEWS -- history of user-visible changes. 21 July 2026
+Workrave NEWS -- history of user-visible changes. 22 July 2026
 Copyright (C) 2001-2026 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.11.1
+
+** Bug fixes:
+   - Fixed missing Microsoft Visual C++ runtime dependency on Windows, which
+     could cause Workrave to fail to start with a "VCRUNTIME140.dll was not
+     found" error
 
 * Workrave 1.11.0
 
