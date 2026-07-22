@@ -95,6 +95,9 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
 void
 MainWindow::set_classic_window_chrome()
 {
+  // Must be cleared before the native window is (re)created — a surface
+  // created translucent stays translucent and renders a black background.
+  setAttribute(Qt::WA_TranslucentBackground, false);
 #if defined(PLATFORM_OS_MACOS)
   // NSPanel-style utility window: compact title bar, like the Gtk main window.
   setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
@@ -102,7 +105,6 @@ MainWindow::set_classic_window_chrome()
 #else
   setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
 #endif
-  setAttribute(Qt::WA_TranslucentBackground, false);
   // Same 2px border as the Gtk main window (set_border_width(2)).
   layout()->setContentsMargins(2, 2, 2, 2);
 }
@@ -132,6 +134,10 @@ MainWindow::switch_view(DisplayStyle style)
     }
   timer_box_control.reset();
 
+  // Drop the native window (and its QWindow surface format): translucency
+  // cannot be toggled on a live window, only chosen when it is created.
+  destroy();
+
   if (style == DisplayStyle::Classic)
     {
       set_classic_window_chrome();
@@ -142,8 +148,8 @@ MainWindow::switch_view(DisplayStyle style)
     }
   else
     {
-      setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
       setAttribute(Qt::WA_TranslucentBackground);
+      setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
       vbox->setContentsMargins(0, 0, 0, 0);
 
       qml_timer_box_view = new QmlTimerBoxView(app->get_core(), this, this);
