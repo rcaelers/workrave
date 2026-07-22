@@ -63,8 +63,6 @@ Source: "@INSTALL_WIN_PATH@\README.txt"; DestDir: "{app}"; DestName: "README.txt
 #include "libraries.iss"
 
 [Registry]
-;TODO;Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\WorkraveQt.exe"; ValueType: string; ValueData: "{app}\bin\WorkraveQt.exe"; Flags: uninsdeletekeyifempty
-;TODO;Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\WorkraveQt.exe"; ValueName: "Path"; ValueType: string; ValueData: "{code:GetAppPath}"; Flags: uninsdeletekeyifempty
 Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "WorkraveQt"; ValueData: "{app}\bin\WorkraveQt.exe"; Flags: uninsdeletevalue; Tasks: startupmenu
 
 [Icons]
