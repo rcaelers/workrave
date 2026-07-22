@@ -7,6 +7,13 @@ import QtQuick
 Item {
     id: root
 
+    // Historical Gtk msgids — reuses the existing po translations. The
+    // mnemonic underscore ("_Skip") is stripped for display.
+    readonly property string txtSkip:     qsTr("_Skip").replace("_", "")
+    readonly property string txtPostpone: qsTr("_Postpone").replace("_", "")
+    readonly property string txtShutdown: qsTr("Shutdown")
+    readonly property string txtSleep:    qsTr("Suspend")
+
     // ── Design tokens ────────────────────────────────────────────────────────
     readonly property color colBg:     "#E8E8E8"
     readonly property color colBar:    "#4A90D9"
@@ -98,7 +105,7 @@ Item {
 
                     Text {
                         width: parent.width
-                        text: qsTr("You have reached your daily limit. Please stop working behind the computer. If your working day is not over yet, find something else to do, such as reviewing a document.")
+                        text: qsTr("You have reached your daily limit. Please stop working\nbehind the computer. If your working day is not over yet,\nfind something else to do, such as reviewing a document.")
                         font.pixelSize: 13
                         color: colInk
                         wrapMode: Text.WordWrap
@@ -126,7 +133,7 @@ Item {
                 }
             }
 
-            Item { width: 1; height: 8 }
+            Item { width: 1; height: 18 }
 
             // ── Button row ───────────────────────────────────────────────────
             Item {
@@ -134,46 +141,35 @@ Item {
                 height: 28 + 8
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                // Left-aligned: Lock / Shut down / Sleep
-                Row {
+                // Left-aligned: Gtk-style "Lock..." dropdown (or single button)
+                ClassicSysOperMenu {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
-                    spacing: 6
-
-                    ClassicButton {
-                        visible: root.lockable
-                        label: qsTr("Lock")
-                        onClicked: { if (bridge != null) bridge.requestLock() }
-                    }
-                    ClassicButton {
-                        visible: root.shutdownable
-                        label: qsTr("Shut down")
-                        onClicked: confirmDlg.ask("shutdown", qsTr("Shut down"), qsTr("Are you sure you want to shut down the computer?"))
-                    }
-                    ClassicButton {
-                        visible: root.sleepable
-                        label: qsTr("Sleep")
-                        onClicked: confirmDlg.ask("sleep", qsTr("Sleep"), qsTr("Are you sure you want to put the computer to sleep?"))
-                    }
+                    lockable: root.lockable
+                    shutdownable: root.shutdownable
+                    sleepable: root.sleepable
+                    onLockRequested: { if (bridge != null) bridge.requestLock() }
+                    onShutdownRequested: confirmDlg.ask("shutdown", root.txtShutdown, qsTr("Are you sure you want to shut down the computer?"))
+                    onSleepRequested: confirmDlg.ask("sleep", root.txtSleep, qsTr("Are you sure you want to put the computer to sleep?"))
                 }
 
-                // Right-aligned: Postpone / Skip
+                // Right-aligned: Skip / Postpone (Gtk order)
                 Row {
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: 6
 
                     ClassicButton {
-                        visible: root.canPostpone
-                        enabled: root.canPostpone
-                        label: qsTr("Postpone")
-                        onClicked: { if (bridge != null) bridge.requestPostpone() }
-                    }
-                    ClassicButton {
                         visible: root.canSkip
                         enabled: root.canSkip
-                        label: qsTr("Skip")
+                        label: root.txtSkip
                         onClicked: { if (bridge != null) bridge.requestSkip() }
+                    }
+                    ClassicButton {
+                        visible: root.canPostpone
+                        enabled: root.canPostpone
+                        label: root.txtPostpone
+                        onClicked: { if (bridge != null) bridge.requestPostpone() }
                     }
                 }
             }

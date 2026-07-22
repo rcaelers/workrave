@@ -92,7 +92,7 @@ ToolkitMacOS::eventFilter(QObject *obj, QEvent *event)
 {
   if (obj == main_window && event->type() == QEvent::WinIdChange)
     {
-      if (main_window->windowFlags().testFlag(Qt::FramelessWindowHint))
+      if (main_window->windowFlags().testFlag(Qt::FramelessWindowHint) || main_window->windowType() == Qt::Tool)
         {
           configure_floating_panel(main_window->windowHandle());
         }

@@ -78,6 +78,8 @@ class PreludeBridge
   // classic == true  → PreludeClassic.qml (GTK look)
   // classic == false → PreludeOverlay.qml (Sanctuary)
   Q_PROPERTY(bool    classic       READ isClassic     NOTIFY classicChanged)
+  Q_PROPERTY(int     cardW         READ cardW         NOTIFY classicChanged)
+  Q_PROPERTY(int     cardH         READ cardH         NOTIFY classicChanged)
 
 public:
   explicit PreludeBridge(workrave::BreakId break_id, QObject *parent = nullptr);
@@ -92,6 +94,9 @@ public:
   bool    isFullscreen()   const { return fullscreen_; }
   bool    isCardAtBottom() const { return card_at_bottom_; }
   bool    isClassic()      const { return classic_; }
+  // Compact content-sized card like the Gtk prelude; roomier card for Sanctuary.
+  int     cardW()          const { return classic_ ? 320 : 480; }
+  int     cardH()          const { return classic_ ? 72 : 80; }
 
   void setProgress(int value, int max_value);
   void setStage(workrave::IApp::PreludeStage stage);
@@ -136,8 +141,6 @@ public:
   void set_progress_text(workrave::IApp::PreludeProgressText text) override;
 
 private:
-  static constexpr int CARD_W = 480;
-  static constexpr int CARD_H = 80;
   static constexpr int MARGIN = 20;
 
   QRect top_rect()    const;

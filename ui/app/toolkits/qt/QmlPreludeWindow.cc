@@ -197,18 +197,18 @@ QRect
 QmlPreludeWindow::top_rect() const
 {
   QRect geo = screen ? screen->availableGeometry() : QGuiApplication::primaryScreen()->availableGeometry();
-  int x     = geo.left() + (geo.width() - CARD_W) / 2;
+  int x     = geo.left() + (geo.width() - bridge->cardW()) / 2;
   int y     = geo.top() + MARGIN;
-  return {x, y, CARD_W, CARD_H};
+  return {x, y, bridge->cardW(), bridge->cardH()};
 }
 
 QRect
 QmlPreludeWindow::bottom_rect() const
 {
   QRect geo = screen ? screen->availableGeometry() : QGuiApplication::primaryScreen()->availableGeometry();
-  int x     = geo.left() + (geo.width() - CARD_W) / 2;
-  int y     = geo.bottom() - CARD_H - MARGIN;
-  return {x, y, CARD_W, CARD_H};
+  int x     = geo.left() + (geo.width() - bridge->cardW()) / 2;
+  int y     = geo.bottom() - bridge->cardH() - MARGIN;
+  return {x, y, bridge->cardW(), bridge->cardH()};
 }
 
 void
@@ -346,8 +346,8 @@ QmlPreludeWindow::update_input_region()
       // Restrict mouse input to the card area so the transparent surroundings
       // do not steal events from the desktop.
       QRect geo = screen ? screen->availableGeometry() : QGuiApplication::primaryScreen()->availableGeometry();
-      int card_x = (geo.width() - CARD_W) / 2;
-      int card_y = at_bottom ? (geo.height() - CARD_H - MARGIN) : MARGIN;
-      view->setMask(QRegion(card_x, card_y, CARD_W, CARD_H));
+      int card_x = (geo.width() - bridge->cardW()) / 2;
+      int card_y = at_bottom ? (geo.height() - bridge->cardH() - MARGIN) : MARGIN;
+      view->setMask(QRegion(card_x, card_y, bridge->cardW(), bridge->cardH()));
     }
 }

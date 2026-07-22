@@ -7,6 +7,11 @@ import QtQuick
 Item {
     id: root
 
+    // Historical Gtk msgids — reuses the existing po translations. The
+    // mnemonic underscore ("_Skip") is stripped for display.
+    readonly property string txtSkip:     qsTr("_Skip").replace("_", "")
+    readonly property string txtPostpone: qsTr("_Postpone").replace("_", "")
+
     // ── Design tokens ────────────────────────────────────────────────────────
     readonly property color colBg:     "#E8E8E8"
     readonly property color colBar:    "#4A90D9"
@@ -117,29 +122,31 @@ Item {
                 }
             }
 
-            Item { width: 1; height: 10 }
+            Item { width: 1; height: 12 }
 
-            // ── TimeBar ──────────────────────────────────────────────────────
+            // ── TimeBar — white background, lightgreen fill, black text, like
+            // the Gtk TimeBar widget ─────────────────────────────────────────
             Rectangle {
                 width: parent.width - 24
                 height: 22
                 anchors.horizontalCenter: parent.horizontalCenter
-                color: "#C0C0C0"
+                color: "#FFFFFF"
+                border.color: "#8F8F8F"; border.width: 1
                 clip: true
 
                 Rectangle {
-                    width: Math.max(0, parent.width * root.barProgress)
-                    height: parent.height
-                    color: colBar
+                    x: 1; y: 1
+                    width: Math.max(0, (parent.width - 2) * root.barProgress)
+                    height: parent.height - 2
+                    color: "#90EE90"
                     Behavior on width { NumberAnimation { duration: 500 } }
                 }
 
                 Text {
                     anchors.centerIn: parent
                     text: root.breakName + " " + root.timeLeft
-                    font.pixelSize: 11; font.bold: true
-                    color: "#FFFFFF"
-                    style: Text.Outline; styleColor: "#00000066"
+                    font.pixelSize: 12
+                    color: colInk
                 }
             }
 
@@ -162,9 +169,9 @@ Item {
                 }
             }
 
-            Item { width: 1; height: 8 }
+            Item { width: 1; height: 18 }
 
-            // ── Button row: Rest break (left) | Postpone + Skip (right) ──────
+            // ── Button row: Rest break (left) | Skip + Postpone (right) ──────
             // Mirrors GTK layout: image button on left, skip/postpone right-aligned.
             Item {
                 width: parent.width - 24
@@ -183,17 +190,17 @@ Item {
                     spacing: 6
 
                     ClassicButton {
-                        visible: root.canPostpone
-                        enabled: root.canPostpone
-                        label: qsTr("Postpone")
-                        onClicked: { if (bridge != null) bridge.requestPostpone() }
+                        visible: root.canSkip
+                        enabled: root.canSkip
+                        label: root.txtSkip
+                        onClicked: { if (bridge != null) bridge.requestSkip() }
                     }
 
                     ClassicButton {
-                        visible: root.canSkip
-                        enabled: root.canSkip
-                        label: qsTr("Skip")
-                        onClicked: { if (bridge != null) bridge.requestSkip() }
+                        visible: root.canPostpone
+                        enabled: root.canPostpone
+                        label: root.txtPostpone
+                        onClicked: { if (bridge != null) bridge.requestPostpone() }
                     }
                 }
             }

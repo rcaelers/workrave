@@ -7,10 +7,17 @@ import QtQuick
 Item {
     id: root
 
+    // Historical Gtk msgids — reuses the existing po translations. The
+    // mnemonic underscore ("_Skip") is stripped for display.
+    readonly property string txtSkip:     qsTr("_Skip").replace("_", "")
+    readonly property string txtPostpone: qsTr("_Postpone").replace("_", "")
+    readonly property string txtShutdown: qsTr("Shutdown")
+    readonly property string txtSleep:    qsTr("Suspend")
+
     // ── Design tokens ────────────────────────────────────────────────────────
     readonly property color colBg:      "#E8E8E8"
     readonly property color colBar:     "#4A90D9"
-    readonly property color colTimeBar: "#6ABF69"   // green, matches GTK Adwaita
+    readonly property color colTimeBar: "#90EE90"   // lightgreen, same as the Gtk TimeBar widget
     readonly property color colBorder:  "#AAAAAA"
     readonly property color colWarn:    "#F08700"
     readonly property color colInk:     "#1A1A1A"
@@ -61,7 +68,7 @@ Item {
     Rectangle {
         id: card
         z: 1
-        width: root.showEx ? Math.min(parent.width - 48, 640)
+        width: root.showEx ? Math.min(parent.width - 48, 600)
                            : Math.min(parent.width - 48, 440)
         color: colBg
         radius: 0
@@ -87,7 +94,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 // ── Exercise panel ───────────────────────────────────────────
-                // Layout: [image 200×200][vert-bar 8×200][title+desc+controls]
+                // Layout: [image 250×250][vert-bar 8×250][title+desc+controls]
                 Row {
                     id: exercisePanel
                     visible: root.showEx
@@ -96,7 +103,7 @@ Item {
 
                     // Exercise image
                     Rectangle {
-                        width: 200; height: 200
+                        width: 250; height: 250
                         color: "#D0D0D0"
 
                         Image {
@@ -116,7 +123,7 @@ Item {
 
                     // Vertical countdown bar — remaining fraction fills from top, shrinks downward
                     Rectangle {
-                        width: 8; height: 200
+                        width: 8; height: 250
                         color: "#C0C0C0"
 
                         Rectangle {
@@ -131,9 +138,9 @@ Item {
                     // Title, description, and exercise player controls
                     Item {
                         id: textCol
-                        width: parent.width - 208
+                        width: parent.width - 258
                         // Grow tall enough for text + controls; never less than the image height
-                        height: Math.max(textBlock.implicitHeight + 8 + exControls.height + 8, 200)
+                        height: Math.max(textBlock.implicitHeight + 8 + exControls.height + 8, 250)
 
                         Column {
                             id: textBlock
@@ -165,7 +172,7 @@ Item {
 
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
-                                text: qsTr("Exercises player:")
+                                text: qsTr("Exercises player") + ":"
                                 font.pixelSize: 11; color: colInk2
                             }
 
@@ -218,7 +225,7 @@ Item {
                             width: parent.width
                             text: root.isNatural
                                   ? qsTr("This is your natural rest break.")
-                                  : qsTr("This is your rest break. Make sure you stand up and walk away from your computer on a regular basis. Just walk around for a few minutes, stretch, and relax.")
+                                  : qsTr("This is your rest break. Make sure you stand up and\nwalk away from your computer on a regular basis. Just\nwalk around for a few minutes, stretch, and relax.")
                             font.pixelSize: 13; color: colInk
                             wrapMode: Text.WordWrap; lineHeight: 1.4
                         }
@@ -226,19 +233,22 @@ Item {
                 }
             }
 
-            Item { width: 1; height: 8 }
+            Item { width: 1; height: 12 }
 
-            // ── TimeBar (green) ──────────────────────────────────────────────
+            // ── TimeBar — white background, lightgreen fill, black text, like
+            // the Gtk TimeBar widget ─────────────────────────────────────────
             Rectangle {
                 width: parent.width - 24
                 height: 22
                 anchors.horizontalCenter: parent.horizontalCenter
-                color: "#C0C0C0"
+                color: "#FFFFFF"
+                border.color: "#8F8F8F"; border.width: 1
                 clip: true
 
                 Rectangle {
-                    width: Math.max(0, parent.width * root.barProgress)
-                    height: parent.height
+                    x: 1; y: 1
+                    width: Math.max(0, (parent.width - 2) * root.barProgress)
+                    height: parent.height - 2
                     color: colTimeBar
                     Behavior on width { NumberAnimation { duration: 500 } }
                 }
@@ -246,9 +256,8 @@ Item {
                 Text {
                     anchors.centerIn: parent
                     text: bridge != null ? bridge.breakTime : qsTr("Rest break for {}")
-                    font.pixelSize: 11; font.bold: true
-                    color: "#FFFFFF"
-                    style: Text.Outline; styleColor: "#00000066"
+                    font.pixelSize: 12
+                    color: colInk
                 }
             }
 
@@ -271,7 +280,9 @@ Item {
                 }
             }
 
-            Item { width: 1; height: 8 }
+            // Gtk packs the timebar and button box with 6px padding each plus
+            // 6px box spacing: 18px gap in total.
+            Item { width: 1; height: 18 }
 
             // ── Button row ───────────────────────────────────────────────────
             Item {
@@ -279,46 +290,35 @@ Item {
                 height: 28 + 8
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                // Left-aligned: Lock / Shut down / Sleep
-                Row {
+                // Left-aligned: Gtk-style "Lock..." dropdown (or single button)
+                ClassicSysOperMenu {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
-                    spacing: 6
-
-                    ClassicButton {
-                        visible: root.lockable
-                        label: qsTr("Lock")
-                        onClicked: { if (bridge != null) bridge.requestLock() }
-                    }
-                    ClassicButton {
-                        visible: root.shutdownable
-                        label: qsTr("Shut down")
-                        onClicked: confirmDlg.ask("shutdown", qsTr("Shut down"), qsTr("Are you sure you want to shut down the computer?"))
-                    }
-                    ClassicButton {
-                        visible: root.sleepable
-                        label: qsTr("Sleep")
-                        onClicked: confirmDlg.ask("sleep", qsTr("Sleep"), qsTr("Are you sure you want to put the computer to sleep?"))
-                    }
+                    lockable: root.lockable
+                    shutdownable: root.shutdownable
+                    sleepable: root.sleepable
+                    onLockRequested: { if (bridge != null) bridge.requestLock() }
+                    onShutdownRequested: confirmDlg.ask("shutdown", root.txtShutdown, qsTr("Are you sure you want to shut down the computer?"))
+                    onSleepRequested: confirmDlg.ask("sleep", root.txtSleep, qsTr("Are you sure you want to put the computer to sleep?"))
                 }
 
-                // Right-aligned: Postpone / Skip
+                // Right-aligned: Skip / Postpone (Gtk order)
                 Row {
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: 6
 
                     ClassicButton {
-                        visible: root.canPostpone
-                        enabled: root.canPostpone
-                        label: qsTr("Postpone")
-                        onClicked: { if (bridge != null) bridge.requestPostpone() }
-                    }
-                    ClassicButton {
                         visible: root.canSkip
                         enabled: root.canSkip
-                        label: qsTr("Skip")
+                        label: root.txtSkip
                         onClicked: { if (bridge != null) bridge.requestSkip() }
+                    }
+                    ClassicButton {
+                        visible: root.canPostpone
+                        enabled: root.canPostpone
+                        label: root.txtPostpone
+                        onClicked: { if (bridge != null) bridge.requestPostpone() }
                     }
                 }
             }

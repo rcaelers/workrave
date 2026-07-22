@@ -40,13 +40,14 @@ Item {
                     :                    "#8A8885"
 
         // ── Row: icon | heading + progress bar ───────────────────────────────
+        // Gtk metrics: 6px frame + 6px border = 12px padding, 6px box spacing.
         Row {
             anchors {
                 fill: parent
-                leftMargin: 8; rightMargin: 8
-                topMargin:  8; bottomMargin: 8
+                leftMargin: 12; rightMargin: 12
+                topMargin:  12; bottomMargin: 12
             }
-            spacing: 8
+            spacing: 6
 
             // Icon: happy in Initial, sad in Warn / Alert / MoveOut
             Image {
@@ -64,20 +65,20 @@ Item {
             Column {
                 anchors.verticalCenter: parent.verticalCenter
                 width: parent.width - hintIcon.width - parent.spacing
-                spacing: 5
+                spacing: 6
 
                 Text {
                     width: parent.width
                     text: bridge != null ? bridge.heading : qsTr("Time for a break?")
                     font.bold: true
-                    font.pixelSize: 14
+                    font.pixelSize: 15
                     color: "#1A1A1A"
                     elide: Text.ElideRight
                     renderType: Text.NativeRendering
                 }
 
-                // Progress bar: fill grows left→right showing elapsed time;
-                // countdown text ("Break in 0:22") is centred on the bar.
+                // Progress bar — like the Gtk TimeBar: bordered track, "orange"
+                // fill, plain black text centred over the whole bar.
                 Item {
                     width: parent.width
                     height: 20
@@ -85,22 +86,21 @@ Item {
                     Rectangle {
                         anchors.fill: parent
                         color: "#D0CBC6"
-                        radius: 2
+                        border.color: "#8F8F8F"; border.width: 1
                     }
 
                     // Elapsed = 1 − remaining (bridge.ringProgress = remaining/max)
                     Rectangle {
-                        anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
-                        width: parent.width * (bridge != null ? (1.0 - bridge.ringProgress) : 0.0)
-                        color: "#F08700"
-                        radius: 2
+                        x: 1; y: 1
+                        width: Math.max(0, (parent.width - 2) * (bridge != null ? (1.0 - bridge.ringProgress) : 0.0))
+                        height: parent.height - 2
+                        color: "#FFA500"
                     }
 
                     Text {
                         anchors.centerIn: parent
                         text: bridge != null ? bridge.countdownText : qsTr("Break in {}")
-                        font.pixelSize: 11
-                        font.bold: true
+                        font.pixelSize: 12
                         color: "#1A1A1A"
                         renderType: Text.NativeRendering
                     }

@@ -10,6 +10,8 @@
         <file>AboutDialog.qml</file>
         <file>AutoUpdateDialog.qml</file>
         <file>ExercisesDialog.qml</file>
+        <file>ExercisesShell.qml</file>
+        <file>ExercisesClassic.qml</file>
         <file>DailyLimitClassic.qml</file>
         <file>DailyLimitOverlay.qml</file>
         <file>DailyLimitShell.qml</file>
@@ -23,6 +25,7 @@
         <file>RestBreakOverlay.qml</file>
         <file>RestBreakShell.qml</file>
         <file>StatusWindow.qml</file>
+        <file>ClassicSysOperMenu.qml</file>
         <file>ConfirmDialog.qml</file>
         <file>PrefTokens.qml</file>
         <file>PrefsShell.qml</file>

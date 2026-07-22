@@ -21,7 +21,6 @@
 
 #include "TimeBar.hh"
 
-#include <QFontDatabase>
 #include <QStylePainter>
 #include <algorithm>
 
@@ -47,19 +46,6 @@ TimeBar::TimeBar(QWidget *parent)
 {
   setAttribute(Qt::WA_OpaquePaintEvent);
   setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-
-  const QStringList families = QFontDatabase::families();
-  const QStringList preferred_families = {"Cascadia Mono", "Consolas", "DejaVu Sans Mono"};
-  for (const auto &family: preferred_families)
-    {
-      if (families.contains(family))
-        {
-          QFont mono_font(family);
-          mono_font.setPointSize(font().pointSize());
-          setFont(mono_font);
-          break;
-        }
-    }
 }
 
 void

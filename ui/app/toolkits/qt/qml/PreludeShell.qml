@@ -13,9 +13,9 @@ Item {
     readonly property bool isFullscreen: bridge != null ? bridge.fullscreen  : false
     readonly property bool cardAtBottom: bridge != null ? bridge.cardAtBottom : false
 
-    // Must match QmlPreludeWindow::CARD_W / CARD_H constants.
-    readonly property int cardW:      480
-    readonly property int cardH:      80
+    // Style-dependent card size, provided by PreludeBridge.
+    readonly property int cardW:      bridge != null ? bridge.cardW : 480
+    readonly property int cardH:      bridge != null ? bridge.cardH : 80
     readonly property int cardMargin: 20
 
     // ── Content loader ────────────────────────────────────────────────────────
