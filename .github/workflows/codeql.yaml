@@ -3,12 +3,14 @@ on:
   push:
     branches:
       - 'main'
+      - 'release/v1.11'
       - 'feature/*'
     tags:
       - 'v1_11_*'
   pull_request:
     branches:
       - 'main'
+      - 'release/v1.11'
       - 'feature/*'
 
 jobs:
