@@ -82,6 +82,14 @@ SoundPreferencePanel::create_panel()
       hig->add_label(_("Volume:"), *sound_volume_scale, true, true);
     }
 
+  if (sound_theme->capability(workrave::audio::SoundCapability::DEVICE))
+    {
+      device_combo = Gtk::manage(new Gtk::ComboBoxText());
+      device_combo->signal_changed().connect(sigc::mem_fun(*this, &SoundPreferencePanel::on_device_changed));
+      hig->add_label(_("Output device:"), *device_combo);
+      update_device_selection();
+    }
+
   hig->add_label(_("Sound:"), *sound_button);
 
   if (sound_theme->capability(workrave::audio::SoundCapability::MUTE))
@@ -381,5 +389,47 @@ SoundPreferencePanel::update_sound_theme_selection()
           sound_theme_button->set_active(active_index);
         }
       active_index++;
+    }
+}
+
+void
+SoundPreferencePanel::on_device_changed()
+{
+  if (device_combo)
+    {
+      std::string device_id = device_combo->get_active_id();
+      if (!device_id.empty())
+        {
+          sound_theme->sound_device().set(device_id);
+          sound_theme->set_device(device_id);
+        }
+    }
+}
+
+void
+SoundPreferencePanel::update_device_selection()
+{
+  if (!device_combo)
+    {
+      return;
+    }
+
+  device_combo->remove_all();
+
+  auto devices = sound_theme->get_devices();
+  std::string current_device = sound_theme->sound_device()();
+
+  for (const auto &dev: devices)
+    {
+      device_combo->append(dev.id, dev.name);
+    }
+
+  if (!current_device.empty())
+    {
+      device_combo->set_active_id(current_device);
+    }
+  else
+    {
+      device_combo->set_active(0);
     }
 }

@@ -45,7 +45,9 @@ private:
   void on_sound_filechooser_select();
   void on_sound_events_changed();
   void on_sound_theme_changed();
+  void on_device_changed();
   void update_sound_theme_selection();
+  void update_device_selection();
   void update_senstives();
 
 private:
@@ -84,6 +86,7 @@ private:
   Gtk::FileChooserButton *fsbutton{nullptr};
   Glib::RefPtr<Gtk::FileFilter> filefilter;
   std::string fsbutton_filename;
+  Gtk::ComboBoxText *device_combo{nullptr};
 };
 
 #endif // SOUNDPREFERENCEPANEL_HH

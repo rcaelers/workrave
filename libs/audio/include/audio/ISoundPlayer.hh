@@ -19,6 +19,7 @@
 #define WORKRAVE_AUDIO_ISOUNDPLAYER_HH
 
 #include <string>
+#include <vector>
 
 #include <memory>
 
@@ -29,7 +30,15 @@ namespace workrave::audio
   {
     VOLUME,
     MUTE,
-    EOS_EVENT
+    EOS_EVENT,
+    DEVICE
+  };
+
+  struct SoundDevice
+  {
+    std::string id;
+    std::string name;
+    bool is_default{false};
   };
 
   class ISoundPlayer
@@ -43,6 +52,10 @@ namespace workrave::audio
     virtual bool capability(SoundCapability cap) = 0;
     virtual void restore_mute() = 0;
     virtual void play_sound(const std::string &wavfile, bool mute_after_playback, int volume) = 0;
+
+    virtual std::vector<SoundDevice> get_devices() = 0;
+    virtual void set_device(const std::string &device_id) = 0;
+    virtual std::string get_device() const = 0;
   };
 
   class SoundPlayerFactory

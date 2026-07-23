@@ -35,6 +35,10 @@ public:
   void restore_mute() override;
   void play_sound(const std::string &wavfile, bool mute_after_playback, int volume) override;
 
+  std::vector<workrave::audio::SoundDevice> get_devices() override;
+  void set_device(const std::string &device_id) override;
+  std::string get_device() const override;
+
   void eos_event() override;
 
 private:
