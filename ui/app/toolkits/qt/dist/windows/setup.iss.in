@@ -156,7 +156,7 @@ begin
       count := count - 1;
     end;
 
-    Result := isRunning;
+    Result := not isRunning;
 end;
 
 Function EnsureWorkraveIsNotRunning(silent : Boolean) : Boolean;
