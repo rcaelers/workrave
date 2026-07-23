@@ -25,6 +25,7 @@
 
 #include "debug.hh"
 
+#include <cstdlib>
 #include <filesystem>
 
 #include "Core.hh"
@@ -46,6 +47,10 @@
 #  include "DBusWorkraveNext.hh"
 #  define DBUS_PATH_WORKRAVE "/org/workrave/Workrave/"
 #  define DBUS_SERVICE_WORKRAVE "org.workrave.Workrave"
+#endif
+
+#if defined(HAVE_RPC)
+#  include "RpcCoreServer.hh"
 #endif
 
 using namespace std;
@@ -112,6 +117,18 @@ Core::init(IApp *app, const char *display_name)
   breaks_control->init();
 
   init_bus();
+
+#if defined(HAVE_TESTS)
+  // Tests install hook_create_monitor() (see above) and construct a fresh
+  // Core per test case — starting a real gRPC server bound to a fixed port
+  // on every one of those would fight itself for the port and bind a real
+  // network listener during CI for no reason. Skip it whenever running under
+  // that harness; production Core::init() callers never install these hooks.
+  if (!hooks->hook_create_monitor())
+#endif
+    {
+      init_rpc();
+    }
 }
 
 //! Initializes the communication bus.
@@ -133,6 +150,42 @@ Core::init_bus()
     }
 #endif
 }
+
+//! Starts the gRPC server exposing CoreService/BreakService/ConfigService.
+void
+Core::init_rpc()
+{
+#if defined(HAVE_RPC)
+  try
+    {
+      // A unix domain socket in the per-user state directory, not TCP
+      // loopback: no port number to fix, guess, or clash with another
+      // instance/process, and access is naturally scoped by filesystem
+      // permissions on that directory instead of by whoever can reach
+      // 127.0.0.1. Override via WORKRAVE_RPC_ADDRESS for development/testing
+      // (e.g. "127.0.0.1:0" for an ephemeral TCP port, printed via the "RPC
+      // server listening on" log line) or to point at a different socket.
+      std::string listen_address = "unix:" + (Paths::get_state_directory() / "rpc.sock").string();
+      if (const char *override_address = std::getenv("WORKRAVE_RPC_ADDRESS"); override_address != nullptr)
+        {
+          listen_address = override_address;
+        }
+      rpc_server = std::make_unique<RpcCoreServer>(*this, *configurator, listen_address);
+    }
+  catch (std::exception &e)
+    {
+      spdlog::warn("RPC server failed to start: {}", e.what());
+    }
+#endif
+}
+
+#if defined(HAVE_RPC)
+rpc::InstanceRegistry<workrave::BreakId, Break> &
+Core::get_break_registry()
+{
+  return breaks_control->get_break_registry();
+}
+#endif
 
 //! Periodic heartbeat.
 void

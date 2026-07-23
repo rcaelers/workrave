@@ -26,6 +26,13 @@ if (HAVE_TESTS)
   endif()
 
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-core-next)
+  if (HAVE_RPC)
+    # This test constructs a real Core (see IntegrationTests.cc), which pulls
+    # in Core.o and therefore Core::init_rpc()'s reference to RpcCoreServer —
+    # see libs/corenext/src/RpcCoreServer.hh for why that symbol lives in a
+    # separate library that must be linked explicitly.
+    target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-core-next-rpc)
+  endif()
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-config)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-utils)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-dbus-stub)

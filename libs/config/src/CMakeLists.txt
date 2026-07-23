@@ -37,3 +37,22 @@ target_include_directories(workrave-libs-config
   ${CMAKE_SOURCE_DIR}/libs/config/include
   ${Boost_INCLUDE_DIR})
 
+if (HAVE_RPC)
+  rpc_generate_source(${CMAKE_SOURCE_DIR}/libs/config/include/config/IConfigurator.hh ${CMAKE_CURRENT_BINARY_DIR} RpcConfig
+    ANCHOR_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/Configurator.cc
+    HEADER_INCLUDE "config/IConfigurator.hh")
+
+  # Separate, opt-in static library — see libs/corenext/src/CMakeLists.txt
+  # for why this can't just be sources+link deps added to workrave-libs-config
+  # itself (a static library can't hide PRIVATE link deps from whoever links
+  # it, so grpc++/protobuf/absl would land on every consumer's link line).
+  add_library(workrave-libs-config-rpc STATIC
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcConfigServiceImpl.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcConfig.pb.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcConfig.grpc.pb.cc)
+  target_link_libraries(workrave-libs-config-rpc
+    PUBLIC workrave-libs-config
+    PRIVATE workrave-libs-rpc gRPC::grpc++ protobuf::libprotobuf)
+  target_include_directories(workrave-libs-config-rpc PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+endif()
+

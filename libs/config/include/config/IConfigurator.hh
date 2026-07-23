@@ -53,6 +53,7 @@ namespace workrave::config
     CONFIG_FLAG_IMMEDIATE = 2
   };
 
+  // @rpc(service="ConfigService")
   class IConfigurator
   {
   public:
@@ -67,40 +68,70 @@ namespace workrave::config
     virtual bool load(std::string filename) = 0;
     virtual void save() = 0;
 
+    // @rpc(name="RemoveKey")
     virtual void remove_key(const std::string &key) const = 0;
+    // @rpc(name="RenameKey")
     virtual void rename_key(const std::string &key, const std::string &new_key) = 0;
 
+    // @rpc(name="HasUserValue")
     virtual bool has_user_value(const std::string &key) = 0;
 
+    // @rpc(name="GetString")
+    // @rpc.param(out, dir=out)
     virtual bool get_value(const std::string &key, std::string &out) const = 0;
+    // @rpc(name="GetBool")
+    // @rpc.param(out, dir=out)
     virtual bool get_value(const std::string &key, bool &out) const = 0;
+    // @rpc(name="GetInt")
+    // @rpc.param(out, dir=out)
     virtual bool get_value(const std::string &key, int32_t &out) const = 0;
+    // @rpc(name="GetInt64")
+    // @rpc.param(out, dir=out)
     virtual bool get_value(const std::string &key, int64_t &out) const = 0;
+    // @rpc(name="GetDouble")
+    // @rpc.param(out, dir=out)
     virtual bool get_value(const std::string &key, double &out) const = 0;
 
+    // Not exposed: returns std::optional<std::variant<...>>, a shape the
+    // tool doesn't map to a proto message yet.
     virtual std::optional<ConfigValue> get_value(const std::string &key, ConfigType type) const = 0;
 
+    // @rpc(name="GetStringWithDefault")
+    // @rpc.param(out, dir=out)
     virtual void get_value_with_default(const std::string &key, std::string &out, const std::string &s) const = 0;
+    // @rpc(name="GetBoolWithDefault")
+    // @rpc.param(out, dir=out)
     virtual void get_value_with_default(const std::string &key, bool &out, bool def) const = 0;
+    // @rpc(name="GetIntWithDefault")
+    // @rpc.param(out, dir=out)
     virtual void get_value_with_default(const std::string &key, int32_t &out, int32_t def) const = 0;
+    // @rpc(name="GetInt64WithDefault")
+    // @rpc.param(out, dir=out)
     virtual void get_value_with_default(const std::string &key, int64_t &out, int64_t def) const = 0;
+    // @rpc(name="GetDoubleWithDefault")
+    // @rpc.param(out, dir=out)
     virtual void get_value_with_default(const std::string &key, double &out, double def) const = 0;
 
+    // @rpc(name="SetString")
     virtual void set_value(const std::string &key,
                            const std::string &v,
                            workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
     virtual void set_value(const std::string &key,
                            const char *v,
                            workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
+    // @rpc(name="SetInt")
     virtual void set_value(const std::string &key,
                            int32_t v,
                            workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
+    // @rpc(name="SetInt64")
     virtual void set_value(const std::string &key,
                            int64_t v,
                            workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
+    // @rpc(name="SetBool")
     virtual void set_value(const std::string &key,
                            bool v,
                            workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
+    // @rpc(name="SetDouble")
     virtual void set_value(const std::string &key,
                            double v,
                            workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;

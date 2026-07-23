@@ -37,6 +37,11 @@ namespace workrave
   class IApp;
 }
 
+#if defined(HAVE_RPC)
+class RpcCoreServer;
+#endif
+
+// @rpc(service="CoreService")
 class Core : public workrave::ICore
 {
 public:
@@ -44,35 +49,59 @@ public:
   ~Core() override;
 
   // ICore
+  // @rpc.signal(name="OperationModeChanged")
   boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() override;
+  // @rpc.signal(name="UsageModeChanged")
   boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed() override;
   void init(workrave::IApp *application, const char *display_name) override;
   void heartbeat() override;
+  // @rpc(name="ForceBreak")
   void force_break(workrave::BreakId id, workrave::utils::Flags<workrave::BreakHint> break_hint) override;
   workrave::IBreak::Ptr get_break(workrave::BreakId id) const override;
   workrave::IStatistics::Ptr get_statistics() const override;
   ICoreHooks::Ptr get_hooks() const override;
   std::shared_ptr<workrave::dbus::IDBus> get_dbus() const override;
+  // @rpc(name="IsActive")
   bool is_user_active() const override;
+  // @rpc(name="IsTaking")
   bool is_taking() const override;
+  // @rpc(name="GetActiveOperationMode")
   workrave::OperationMode get_active_operation_mode() override;
+  // @rpc(name="GetOperationMode")
   workrave::OperationMode get_regular_operation_mode() override;
+  // @rpc(name="IsOperationModeAnOverride")
   bool is_operation_mode_an_override() override;
+  // @rpc(name="SetOperationMode")
   void set_operation_mode(workrave::OperationMode mode) override;
+  // @rpc(name="SetOperationModeFor")
   void set_operation_mode_for(workrave::OperationMode mode, std::chrono::minutes duration) override;
   void set_operation_mode_override(workrave::OperationMode mode, const std::string &id) override;
   void remove_operation_mode_override(const std::string &id) override;
+  // @rpc(name="GetUsageMode")
   workrave::UsageMode get_usage_mode() override;
+  // @rpc(name="SetUsageMode")
   void set_usage_mode(workrave::UsageMode mode) override;
   void set_powersave(bool down) override;
   void set_insist_policy(workrave::InsistPolicy p) override;
   void force_idle() override;
 
-  // DBus functions.
+  // DBus/RPC functions.
+  // @rpc(name="ReportActivity")
   void report_external_activity(std::string who, bool act);
+
+#if defined(HAVE_RPC)
+  // The gRPC analog of BreakDBus's per-object-path registration; forwards to
+  // BreaksControl so whoever wires up the RpcServer (see init_rpc()) can
+  // construct a BreakServiceServiceImpl without reaching into BreaksControl
+  // directly.
+  rpc::InstanceRegistry<workrave::BreakId, Break> &get_break_registry();
+#endif
 
 private:
   void init_bus();
+#if defined(HAVE_RPC)
+  void init_rpc();
+#endif
 
 private:
   //! List of breaks.
@@ -104,6 +133,13 @@ private:
 
   //! DBUS bridge
   std::shared_ptr<workrave::dbus::IDBus> dbus;
+
+#if defined(HAVE_RPC)
+  // Declared last so it is destroyed first: it holds references into
+  // breaks_control/configurator and must stop serving before those are torn
+  // down.
+  std::unique_ptr<RpcCoreServer> rpc_server;
+#endif
 };
 
 #endif // CORE_HH

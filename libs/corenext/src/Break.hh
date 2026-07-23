@@ -32,6 +32,7 @@
 #include "core/IBreak.hh"
 #include "dbus/IDBus.hh"
 
+// @rpc(service="BreakService", keyed_by="workrave::BreakId")
 class Break : public workrave::IBreak
 {
 public:
@@ -47,22 +48,39 @@ public:
         CoreHooks::Ptr hooks);
 
   // IBreak
+  // @rpc.signal(name="BreakEvent")
   boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event() override;
+  // @rpc(name="GetName")
   [[nodiscard]] std::string get_name() const override;
+  // @rpc(name="IsEnabled")
   [[nodiscard]] bool is_enabled() const override;
+  // @rpc(name="IsTimerRunning")
   [[nodiscard]] bool is_running() const override;
+  // @rpc(name="IsTaking")
   [[nodiscard]] bool is_taking() const override;
+  // @rpc(name="IsMaxPreludesReached")
   [[nodiscard]] bool is_max_preludes_reached() const override;
+  // @rpc(name="IsActive")
   [[nodiscard]] bool is_active() const override;
+  // @rpc(name="GetTimerElapsed")
   [[nodiscard]] int64_t get_elapsed_time() const override;
+  // @rpc(name="GetTimerIdle")
   [[nodiscard]] int64_t get_elapsed_idle_time() const override;
+  // @rpc(name="GetAutoReset")
   [[nodiscard]] int64_t get_auto_reset() const override;
+  // @rpc(name="IsAutoResetEnabled")
   [[nodiscard]] bool is_auto_reset_enabled() const override;
+  // @rpc(name="GetLimit")
   [[nodiscard]] int64_t get_limit() const override;
+  // @rpc(name="IsLimitEnabled")
   [[nodiscard]] bool is_limit_enabled() const override;
+  // @rpc(name="GetTimerRemaining")
   [[nodiscard]] int64_t get_timer_remaining() const;
+  // @rpc(name="GetTimerOverdue")
   [[nodiscard]] int64_t get_total_overdue_time() const override;
+  // @rpc(name="PostponeBreak")
   void postpone_break() override;
+  // @rpc(name="SkipBreak")
   void skip_break() override;
 
   void process();
@@ -72,6 +90,7 @@ public:
   void override(workrave::BreakId id);
   void daily_reset();
   [[nodiscard]] bool is_microbreak_used_for_activity() const;
+  // @rpc(name="GetBreakState")
   [[nodiscard]] std::string get_break_stage() const;
 
   static std::string get_stage_text(BreakStage stage);

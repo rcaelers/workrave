@@ -61,6 +61,13 @@ BreaksControl::BreaksControl(IApp *app,
 BreaksControl::~BreaksControl()
 {
   save_state();
+
+#if defined(HAVE_RPC)
+  for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
+    {
+      break_registry.unregister_instance(break_id);
+    }
+#endif
 }
 
 void
@@ -84,6 +91,9 @@ BreaksControl::init()
                                                  statistics,
                                                  dbus,
                                                  hooks);
+#if defined(HAVE_RPC)
+      break_registry.register_instance(break_id, *breaks[break_id]);
+#endif
       connect(breaks[break_id]->signal_break_event(), this, [this, break_id](auto &&event) {
         on_break_event(break_id, std::forward<decltype(event)>(event));
       });

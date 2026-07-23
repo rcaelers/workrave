@@ -1,0 +1,52 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+#pragma once
+
+#include "{{ view.proto_basename }}.grpc.pb.h"
+#include "{{ view.header_include }}"
+{% if view.keyed_by.is_some() %}
+#include "rpc/InstanceRegistry.hh"
+{% endif %}
+{% if !view.signals.is_empty() %}
+#include "rpc/EventQueue.hh"
+{% endif %}
+
+class {{ view.impl_class_name }} final : public ::{{ view.proto_cpp_ns }}::{{ view.service_name }}::Service
+{
+public:
+{% if let Some(keyed_by) = view.keyed_by %}
+  // {{ view.cxx_impl_type }} has multiple live instances; the caller supplies a
+  // registry that instances register themselves into (see rpc::InstanceRegistry),
+  // and each RPC resolves its target from the request's `id` field — the gRPC
+  // analog of DBus's per-object-path routing.
+  explicit {{ view.impl_class_name }}(::rpc::InstanceRegistry<{{ keyed_by.cxx_type }}, {{ view.cxx_impl_type }}> &registry)
+    : registry_(registry)
+  {
+  }
+{% else %}
+  explicit {{ view.impl_class_name }}({{ view.cxx_impl_type }} &impl)
+    : impl_(impl)
+  {
+  }
+{% endif %}
+
+{% for m in view.methods %}
+  ::grpc::Status {{ m.rpc_name }}(::grpc::ServerContext *context,
+                                 const ::{{ view.proto_cpp_ns }}::{{ m.rpc_name }}Request *request,
+                                 ::{{ view.proto_cpp_ns }}::{{ m.rpc_name }}Response *response) override;
+{% endfor %}
+
+{% for sig in view.signals %}
+  ::grpc::Status {{ sig.rpc_name }}(::grpc::ServerContext *context,
+                                 const ::{{ view.proto_cpp_ns }}::{{ sig.rpc_name }}Request *request,
+                                 ::grpc::ServerWriter<::{{ view.proto_cpp_ns }}::{{ sig.rpc_name }}Event> *writer) override;
+{% endfor %}
+
+private:
+{% if let Some(keyed_by) = view.keyed_by %}
+  ::rpc::InstanceRegistry<{{ keyed_by.cxx_type }}, {{ view.cxx_impl_type }}> &registry_;
+{% else %}
+  {{ view.cxx_impl_type }} &impl_;
+{% endif %}
+};

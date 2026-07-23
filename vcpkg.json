@@ -131,6 +131,18 @@
       "name": "adwaita-icon-theme",
       "version>=": "43#1",
       "platform": "x64"
+    },
+    {
+      "name": "gtest",
+      "platform": "x64"
+    },
+    {
+      "name": "protobuf",
+      "platform": "x64"
+    },
+    {
+      "name": "grpc",
+      "platform": "x64"
     }
   ]
 }

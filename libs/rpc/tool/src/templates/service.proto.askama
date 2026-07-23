@@ -1,0 +1,68 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package {{ package }};
+
+{% for e in enums %}
+{% if let Some(canonical_name) = e.canonical_name %}
+// canonical_name: "{{ canonical_name }}"
+{% endif %}
+enum {{ e.name }} {
+{% for v in e.values %}
+{% if let Some(canonical_name) = v.canonical_name %}
+  // canonical_name: "{{ canonical_name }}"
+{% endif %}
+  {{ v.name }} = {{ v.number }};
+{% endfor %}
+}
+
+{% endfor %}
+{% for st in structs %}
+message {{ st.name }} {
+{% for f in st.fields %}
+  {{ f.proto_type }} {{ f.field_name }} = {{ f.number }};
+{% endfor %}
+}
+
+{% endfor %}
+{% for s in services %}
+{% for m in s.methods %}
+message {{ m.request.name }} {
+{% for f in m.request.fields %}
+  {{ f.proto_type }} {{ f.field_name }} = {{ f.number }};
+{% endfor %}
+}
+
+message {{ m.response.name }} {
+{% for f in m.response.fields %}
+  {{ f.proto_type }} {{ f.field_name }} = {{ f.number }};
+{% endfor %}
+}
+
+{% endfor %}
+{% for sig in s.signals %}
+message {{ sig.request.name }} {
+{% for f in sig.request.fields %}
+  {{ f.proto_type }} {{ f.field_name }} = {{ f.number }};
+{% endfor %}
+}
+
+message {{ sig.event.name }} {
+{% for f in sig.event.fields %}
+  {{ f.proto_type }} {{ f.field_name }} = {{ f.number }};
+{% endfor %}
+}
+
+{% endfor %}
+service {{ s.name }} {
+{% for m in s.methods %}
+  rpc {{ m.rpc_name }}({{ m.request.name }}) returns ({{ m.response.name }});
+{% endfor %}
+{% for sig in s.signals %}
+  rpc {{ sig.rpc_name }}({{ sig.request.name }}) returns (stream {{ sig.event.name }});
+{% endfor %}
+}
+
+{% endfor %}

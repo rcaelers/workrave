@@ -1,0 +1,62 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+#include "{{ view.adapter_header_filename }}"
+
+#include <exception>
+{% if view.has_duration %}
+#include "rpc/Duration.hh"
+{% endif %}
+
+{% for m in view.methods %}
+::grpc::Status {{ view.impl_class_name }}::{{ m.rpc_name }}(::grpc::ServerContext * /*context*/,
+                                                            const ::{{ view.proto_cpp_ns }}::{{ m.rpc_name }}Request *request,
+                                                            ::{{ view.proto_cpp_ns }}::{{ m.rpc_name }}Response *response)
+{
+  try
+    {
+{% for line in m.body_lines %}
+      {{ line }}
+{% endfor %}
+    }
+  catch (const std::exception &e)
+    {
+      return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, e.what());
+    }
+  return ::grpc::Status::OK;
+}
+
+{% endfor %}
+{% for sig in view.signals %}
+::grpc::Status {{ view.impl_class_name }}::{{ sig.rpc_name }}(::grpc::ServerContext *context,
+                                                            const ::{{ view.proto_cpp_ns }}::{{ sig.rpc_name }}Request *{% if sig.resolve_line.is_some() %}request{% else %}/*request*/{% endif %},
+                                                            ::grpc::ServerWriter<::{{ view.proto_cpp_ns }}::{{ sig.rpc_name }}Event> *writer)
+{
+{% if let Some(resolve_line) = sig.resolve_line %}
+  {{ resolve_line }}
+{% endif %}
+  ::rpc::EventQueue<::{{ view.proto_cpp_ns }}::{{ sig.rpc_name }}Event> queue;
+  auto connection = impl_.{{ sig.cxx_symbol }}().connect(
+    [&queue]({{ sig.lambda_params }})
+    {
+      ::{{ view.proto_cpp_ns }}::{{ sig.rpc_name }}Event event;
+{% for line in sig.event_set_stmts %}
+      {{ line }}
+{% endfor %}
+      queue.push(event);
+    });
+
+  ::{{ view.proto_cpp_ns }}::{{ sig.rpc_name }}Event event;
+  while (queue.wait_and_pop(event, context))
+    {
+      if (!writer->Write(event))
+        {
+          break;
+        }
+    }
+
+  connection.disconnect();
+  return ::grpc::Status::OK;
+}
+
+{% endfor %}

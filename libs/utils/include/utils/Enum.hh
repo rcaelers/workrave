@@ -170,6 +170,13 @@ namespace workrave::utils
     }
   };
 
+  // @rpc.bitmask
+  // Any Flags<Enum> parameter or return value is RPC-representable as
+  // `repeated Enum` on the wire (clang-rpc-gen detects the pattern
+  // structurally by type name, then confirms this tag is present on the
+  // primary template before treating it as a bitmask — see
+  // clang_index.rs::flags_enum_type()). Only ever needs saying once, here,
+  // not at each usage site.
   template<typename Enum>
   requires workrave::utils::enum_traits<Enum>::flag
   class Flags

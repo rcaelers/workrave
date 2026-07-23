@@ -31,6 +31,10 @@
 #include "ReadingActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
 
+#if defined(HAVE_RPC)
+#  include "rpc/InstanceRegistry.hh"
+#endif
+
 class BreaksControl
   : public std::enable_shared_from_this<BreaksControl>
   , public workrave::utils::Trackable
@@ -55,6 +59,17 @@ public:
   workrave::IBreak::Ptr get_break(workrave::BreakId id);
 
   void set_insist_policy(workrave::InsistPolicy p);
+
+#if defined(HAVE_RPC)
+  // The gRPC analog of BreakDBus's per-object-path registration: whoever
+  // wires up the actual RpcServer resolves BreakService calls against this
+  // registry, keyed by BreakId, exactly like DBus routes a call to one of
+  // the three /org/workrave/Workrave/Break/<name> objects.
+  rpc::InstanceRegistry<workrave::BreakId, Break> &get_break_registry()
+  {
+    return break_registry;
+  }
+#endif
 
 private:
   void set_freeze_all_breaks(bool freeze);
@@ -83,6 +98,10 @@ private:
 
   Break::Ptr breaks[workrave::BREAK_ID_SIZEOF];
   Timer::Ptr timers[workrave::BREAK_ID_SIZEOF];
+
+#if defined(HAVE_RPC)
+  rpc::InstanceRegistry<workrave::BreakId, Break> break_registry;
+#endif
 
   workrave::InsistPolicy insist_policy;
   workrave::InsistPolicy active_insist_policy;

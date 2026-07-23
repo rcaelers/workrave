@@ -30,6 +30,11 @@ set (WORKRAVE_CHANNEL "candidate" )
 set (CMAKE_BUILD_TYPE_INIT "Release")
 set (CMAKE_INCLUDE_CURRENT_DIR OFF)
 
+# Needed by clang-rpc-gen (libs/rpc/tool) to resolve real per-file compiler
+# flags via libclang's compilation-database support. Also improves the
+# clang-tidy workflow documented in CLAUDE.md.
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 include(GNUInstallDirs)
 include(CheckLibraryExists)
 include(CheckStructHasMember)
@@ -417,6 +422,18 @@ if (WITH_DBUS)
      set(HAVE_JINJA2 ON)
   endif()
   include(DBus)
+endif()
+
+#----------------------------------------------------------------------------------------------------
+# RPC (gRPC, via libs/rpc's annotation-driven codegen)
+
+option(WITH_RPC "Enable gRPC-based remoting" OFF)
+
+if (WITH_RPC)
+  find_package(Protobuf CONFIG REQUIRED)
+  find_package(gRPC CONFIG REQUIRED)
+  set(HAVE_RPC ON)
+  include(Rpc)
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -845,6 +862,10 @@ if (HAVE_TESTS)
     set(Boost_USE_SHARED_LIBS OFF)
   endif()
   find_package(Boost ${BOOST_MIN_VERSION} REQUIRED COMPONENTS test_exec_monitor)
+
+  # New test suites use GoogleTest; existing Boost.Test suites are untouched
+  # for now (in-progress migration, not project-wide yet).
+  find_package(GTest CONFIG REQUIRED)
 endif()
 
 
@@ -1321,6 +1342,7 @@ feature_bool("Pulseaudio" HAVE_PULSE)
 feature_bool("Wayland" HAVE_WAYLAND)
 endif()
 feature_bool("DBUS" HAVE_DBUS)
+feature_bool("RPC" HAVE_RPC)
 if(PLATFORM_OS_WINDOWS)
 feature_bool("Crash reporting" HAVE_CRASHPAD)
 feature_bool("Auto update" HAVE_UNFOLD_AUTO_UPDATE)

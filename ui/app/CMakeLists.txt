@@ -123,6 +123,13 @@ target_link_libraries(workrave-app
 
 if (HAVE_CORE_NEXT)
   target_link_libraries(workrave-app PRIVATE workrave-libs-core-next)
+  if (HAVE_RPC)
+    # Core::init_rpc() (compiled into workrave-libs-core-next) references
+    # RpcCoreServer's constructor, which is only defined here — see
+    # libs/corenext/src/RpcCoreServer.hh for why that link edge can't be
+    # declared directly on workrave-libs-core-next.
+    target_link_libraries(workrave-app PRIVATE workrave-libs-core-next-rpc)
+  endif()
 else()
   target_link_libraries(workrave-app PRIVATE workrave-libs-core)
 endif()
@@ -172,6 +179,9 @@ endif()
 
 if (HAVE_CORE_NEXT)
   target_link_libraries(workrave PRIVATE workrave-libs-core-next)
+  if (HAVE_RPC)
+    target_link_libraries(workrave PRIVATE workrave-libs-core-next-rpc)
+  endif()
 else()
   target_link_libraries(workrave PRIVATE workrave-libs-core)
 endif()

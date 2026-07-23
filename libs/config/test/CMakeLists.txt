@@ -35,4 +35,28 @@ if (HAVE_TESTS)
   endif()
 
   workrave_add_test(workrave-config-test)
+
+  if (HAVE_RPC)
+    add_executable(workrave-config-rpc-test RpcConfigTest.cc)
+    # workrave-libs-config is built with code-coverage instrumentation
+    # (target_code_coverage below); any executable linking it needs the same
+    # so the link step can resolve the LLVM profiling runtime symbols that
+    # end up in libworkrave-libs-config.a.
+    target_code_coverage(workrave-config-rpc-test AUTO)
+    target_include_directories(workrave-config-rpc-test PRIVATE
+      ${CMAKE_SOURCE_DIR}/libs/config/src
+      ${CMAKE_CURRENT_BINARY_DIR}/../src
+      )
+    target_link_libraries(workrave-config-rpc-test PRIVATE
+      workrave-libs-config-rpc
+      workrave-libs-config
+      workrave-libs-rpc
+      workrave-libs-utils
+      gRPC::grpc++
+      protobuf::libprotobuf
+      GTest::gtest_main
+      ${EXTRA_LIBRARIES}
+      )
+    workrave_add_test(workrave-config-rpc-test)
+  endif()
 endif()
