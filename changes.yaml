@@ -1,10 +1,11 @@
 ---
 releases:
   - version: 1.11.1
-    date: 2026-07-22T10:14:29+02:00
+    date: 2026-07-23T13:36:14+02:00
     short: |-
       Workrave 1.11.1 has been released. This release fixes several Windows installation
-      issues.
+      issues. This release contains no functional changes to Workrave itself; all changes
+      are limited to the Windows installer.
     changes:
       - |-
         Bug fixes:
