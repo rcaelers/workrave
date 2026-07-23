@@ -1439,6 +1439,42 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
   verify();
 }
 
+BOOST_AUTO_TEST_CASE(test_reading_mode_resume_restores_listener)
+{
+  init();
+
+  expect(0, "usagemode", "mode=1");
+  core->set_usage_mode(workrave::UsageMode::Reading);
+
+  monitor->set_listener(nullptr);
+
+  expect(0, "operationmode", "mode=1");
+  core->set_operation_mode(workrave::OperationMode::Suspended);
+  tick(false, 100);
+
+  expect(100, "operationmode", "mode=0");
+  core->set_operation_mode(workrave::OperationMode::Normal);
+
+  monitor->notify();
+  tick(true, 2);
+  tick(false, 399);
+
+  expect(400, "prelude", "break_id=micro_pause");
+  expect(400, "show");
+  expect(400, "break_event", "break_id=micro_pause event=ShowPrelude");
+  expect(400, "break_event", "break_id=micro_pause event=BreakStart");
+  expect(409, "hide");
+  expect(409, "break", "break_id=micro_pause break_hint=normal");
+  expect(409, "show");
+  expect(409, "break_event", "break_id=micro_pause event=ShowBreak");
+  expect(420, "hide");
+  expect(420, "break_event", "break_id=micro_pause event=BreakTaken");
+  expect(420, "break_event", "break_id=micro_pause event=BreakIdle");
+  expect(420, "break_event", "break_id=micro_pause event=BreakStop");
+
+  verify();
+}
+
 BOOST_AUTO_TEST_CASE(test_user_idle)
 {
   init();
