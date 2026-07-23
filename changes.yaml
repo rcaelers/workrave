@@ -3,13 +3,19 @@ releases:
   - version: 1.11.1
     date: 2026-07-22T10:14:29+02:00
     short: |-
-      Workrave 1.11.1 has been released. This release fixes a Windows issue that could
-      prevent Workrave from starting.
+      Workrave 1.11.1 has been released. This release fixes several Windows installation
+      issues.
     changes:
       - |-
         Bug fixes:
         - Fixed missing Microsoft Visual C++ runtime dependency on Windows, which could cause
           Workrave to fail to start with a "VCRUNTIME140.dll was not found" error
+        - Fixed an issue where the installer would repeatedly claim Workrave was still running
+          and refuse to continue, even when it wasn't
+        - Fixed the installed version number not being shown for Workrave in the Windows
+          "Apps & Features" list
+        - Fixed an issue where the installer did not uninstall Workrave 1.10 when upgrading,
+          leaving both versions installed side by side
 
   - version: 1.11.0
     date: 2026-07-21T10:14:29+02:00
