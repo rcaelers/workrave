@@ -298,7 +298,9 @@ begin
   uninstallCommand := '';
 
   if not RegQueryStringValue(HKLM, uninstallPath, 'UninstallString', uninstallCommand) then
-    RegQueryStringValue(HKCU, uninstallPath, 'UninstallString', uninstallCommand);
+    if not RegQueryStringValue(HKLM32, uninstallPath, 'UninstallString', uninstallCommand) then
+      if not RegQueryStringValue(HKCU, uninstallPath, 'UninstallString', uninstallCommand) then
+        RegQueryStringValue(HKCU32, uninstallPath, 'UninstallString', uninstallCommand);
   Result := uninstallCommand;
 end;
 
@@ -311,7 +313,9 @@ begin
   installLocation := '';
 
   if not RegQueryStringValue(HKLM, uninstallPath, 'InstallLocation', installLocation) then
-    RegQueryStringValue(HKCU, uninstallPath, 'InstallLocation', installLocation);
+    if not RegQueryStringValue(HKLM32, uninstallPath, 'InstallLocation', installLocation) then
+      if not RegQueryStringValue(HKCU, uninstallPath, 'InstallLocation', installLocation) then
+        RegQueryStringValue(HKCU32, uninstallPath, 'InstallLocation', installLocation);
   Result := installLocation;
 end;
 
