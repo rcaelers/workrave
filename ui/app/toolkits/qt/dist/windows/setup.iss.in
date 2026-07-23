@@ -101,6 +101,7 @@ function KillWorkraveProcesses(name : String): Boolean;
 external 'KillWorkraveProcesses@{tmp}\libzapper-0.dll cdecl delayload';
 
 function GetInstallLocation(): String; forward;
+function GetLegacyInstallLocation(): String; forward;
 
 Function FindWorkraveWithRetries() : Boolean;
 var retVal : Boolean;
@@ -184,7 +185,7 @@ begin
           end;
         end;
 
-        if IsWorkraveTerminated() then
+        if not IsWorkraveTerminated() then
         begin
           MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
           Result := False;
@@ -204,7 +205,7 @@ var
 begin
   directories[0] := 'lib';
   directories[1] := 'bin';
-  installLocation := GetInstallLocation();
+  installLocation := GetLegacyInstallLocation();
 
   if installLocation <> '' then
   begin
@@ -289,21 +290,6 @@ begin
 #endif
 end;
 
-function GetUninstallCommand(): String;
-var
-  uninstallPath: String;
-  uninstallCommand: String;
-begin
-  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
-  uninstallCommand := '';
-
-  if not RegQueryStringValue(HKLM, uninstallPath, 'UninstallString', uninstallCommand) then
-    if not RegQueryStringValue(HKLM32, uninstallPath, 'UninstallString', uninstallCommand) then
-      if not RegQueryStringValue(HKCU, uninstallPath, 'UninstallString', uninstallCommand) then
-        RegQueryStringValue(HKCU32, uninstallPath, 'UninstallString', uninstallCommand);
-  Result := uninstallCommand;
-end;
-
 function GetInstallLocation(): String;
 var
   uninstallPath: String;
@@ -319,12 +305,44 @@ begin
   Result := installLocation;
 end;
 
+// Workrave 1.11 and up is always installed in 64-bit (native) mode, so any
+// pre-1.11 install can only be registered in the 32-bit registry view. Unlike
+// GetInstallLocation (which is used to find whichever Workrave is currently
+// installed/running), these must not fall back to the native view: on a
+// machine that already has 1.11+ installed, that fallback would just find
+// the current install again and hide a leftover legacy one.
+function GetLegacyUninstallCommand(): String;
+var
+  uninstallPath: String;
+  uninstallCommand: String;
+begin
+  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
+  uninstallCommand := '';
+
+  if not RegQueryStringValue(HKLM32, uninstallPath, 'UninstallString', uninstallCommand) then
+    RegQueryStringValue(HKCU32, uninstallPath, 'UninstallString', uninstallCommand);
+  Result := uninstallCommand;
+end;
+
+function GetLegacyInstallLocation(): String;
+var
+  uninstallPath: String;
+  installLocation: String;
+begin
+  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
+  installLocation := '';
+
+  if not RegQueryStringValue(HKLM32, uninstallPath, 'InstallLocation', installLocation) then
+    RegQueryStringValue(HKCU32, uninstallPath, 'InstallLocation', installLocation);
+  Result := installLocation;
+end;
+
 Procedure UninstallPreviousVersion();
 var
   uninstallCommand: String;
   iResultCode: Integer;
 begin
-  uninstallCommand := GetUninstallCommand();
+  uninstallCommand := GetLegacyUninstallCommand();
 
   if uninstallCommand <> '' then begin
     uninstallCommand := RemoveQuotes(uninstallCommand);
