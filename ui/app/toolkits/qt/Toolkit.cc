@@ -215,8 +215,16 @@ Toolkit::show_exercises()
 void
 Toolkit::show_main_window()
 {
-  main_window->show();
+  if (main_window->isMinimized())
+    {
+      main_window->showNormal();
+    }
+  else
+    {
+      main_window->show();
+    }
   main_window->raise();
+  main_window->activateWindow();
 }
 
 void

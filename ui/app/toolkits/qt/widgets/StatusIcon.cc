@@ -30,9 +30,25 @@ using namespace workrave;
 
 StatusIcon::StatusIcon(std::shared_ptr<IApplicationContext> app)
 {
+#if defined(PLATFORM_OS_MACOS)
+  // macOS Retina menu bar icons: render from SVG at 22pt; provide both 1x
+  // and 2x pixmaps so Qt picks the right one for the display's pixel ratio.
+  auto make_tray_icon = [](const QString &svg) -> QIcon {
+    QIcon icon;
+    icon.addPixmap(UiUtil::create_pixmap(svg, 22));
+    QPixmap pm2x = UiUtil::create_pixmap(svg, 44);
+    pm2x.setDevicePixelRatio(2.0);
+    icon.addPixmap(pm2x);
+    return icon;
+  };
+  mode_icons[workrave::OperationMode::Normal]    = make_tray_icon("workrave-normal.svg");
+  mode_icons[workrave::OperationMode::Suspended] = make_tray_icon("workrave-suspended.svg");
+  mode_icons[workrave::OperationMode::Quiet]     = make_tray_icon("workrave-quiet.svg");
+#else
   mode_icons[workrave::OperationMode::Normal] = UiUtil::create_icon("workrave-icon-medium.png");
   mode_icons[workrave::OperationMode::Suspended] = UiUtil::create_icon("workrave-suspended-icon-medium.png");
   mode_icons[workrave::OperationMode::Quiet] = UiUtil::create_icon("workrave-quiet-icon-medium.png");
+#endif
 
   tray_icon = std::make_shared<QSystemTrayIcon>();
 

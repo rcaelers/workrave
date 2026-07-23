@@ -18,19 +18,35 @@ if (CMAKE_BUILD_TYPE MATCHES "Debug")
     set(NO_STRIP "-no-strip")
 endif()
 
-get_target_property(FMT_PATH fmt::fmt LOCATION)
-get_filename_component(FMT_PATH "${FMT_PATH}" DIRECTORY)
-
-get_target_property(SPDLOG_PATH spdlog::spdlog LOCATION)
-get_filename_component(SPDLOG_PATH "${SPDLOG_PATH}" DIRECTORY)
+set(_FMT_LIBPATH "")
+set(_SPDLOG_LIBPATH "")
+if(TARGET fmt::fmt)
+    get_target_property(_fmt_type fmt::fmt TYPE)
+    if(NOT _fmt_type STREQUAL "INTERFACE_LIBRARY")
+        set(_FMT_LIBPATH "-libpath=$<TARGET_FILE_DIR:fmt::fmt>")
+    endif()
+endif()
+if(TARGET spdlog::spdlog)
+    get_target_property(_spdlog_type spdlog::spdlog TYPE)
+    if(NOT _spdlog_type STREQUAL "INTERFACE_LIBRARY")
+        set(_SPDLOG_LIBPATH "-libpath=$<TARGET_FILE_DIR:spdlog::spdlog>")
+    endif()
+endif()
 
 INSTALL(CODE "
     message(\"-- Installing dependencies...\")
-    message(\"-- $<$<BOOL:${SPDLOG_PATH}>:-libpath=${SPDLOG_PATH}/lib>\")
-    execute_process(COMMAND ln -s ./Frameworks ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app/Contents/lib)
-    execute_process(COMMAND ${MACDEPLOYQT_EXECUTABLE} ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app -verbose=1
+    set(_app ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E rm -rf \${_app}/Contents/Frameworks)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E rm -rf \${_app}/Contents/PlugIns)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E rm -rf \${_app}/Contents/lib)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ./Frameworks \${_app}/Contents/lib)
+    execute_process(COMMAND ${MACDEPLOYQT_EXECUTABLE} \${_app} -verbose=1
            \"$<$<BOOL:${BOOST_ROOT}>:-libpath=${BOOST_ROOT}/lib>\"
-           \"$<$<BOOL:${FMT_PATH}>:-libpath=${FMT_PATH}>\"
-           \"$<$<BOOL:${SPDLOG_PATH}>:-libpath=${SPDLOG_PATH}>\"
-           \"$<$<BOOL:${WORKRAVE_SIGN_IDENTITY}>:-sign-for-notarization=${WORKRAVE_SIGN_IDENTITY}>\" ${NO_STRIP} -always-overwrite)
+           \"${_FMT_LIBPATH}\"
+           \"${_SPDLOG_LIBPATH}\"
+           \"$<$<BOOL:${WORKRAVE_SIGN_IDENTITY}>:-sign-for-notarization=${WORKRAVE_SIGN_IDENTITY}>\" ${NO_STRIP})
+    if(NOT \"${WORKRAVE_SIGN_IDENTITY}\")
+        message(\"-- Ad-hoc signing app bundle...\")
+        execute_process(COMMAND codesign --force --deep --sign - \${_app})
+    endif()
     ")

@@ -19,8 +19,12 @@
 #define TOOLKIT_MACOS_HH
 
 #include "Toolkit.hh"
+#include "ToolkitMenu.hh"
+#include "ui/IBreakWindow.hh"
 
 #include "ui/macos/MacOSLocker.hh"
+
+#include <QMenuBar>
 
 class ToolkitMacOS : public Toolkit
 {
@@ -30,13 +34,18 @@ public:
 
   // IToolkit
   void init(std::shared_ptr<IApplicationContext> app) override;
+  auto create_break_window(int screen_index, workrave::BreakId break_id, BreakFlags break_flags) -> IBreakWindow::Ptr override;
   auto get_locker() -> std::shared_ptr<Locker> override;
 
   auto get_desktop_image() -> QPixmap override;
 
+  bool event(QEvent *e) override;
+
 private:
   std::shared_ptr<MacOSLocker> locker;
   std::shared_ptr<ToolkitMenu> dock_menu;
+  std::shared_ptr<ToolkitMenu> menu_bar_menu;
+  QMenuBar *menu_bar{nullptr};
 };
 
 #endif // TOOLKIT_MACOS_HH
