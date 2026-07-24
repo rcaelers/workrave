@@ -22,8 +22,8 @@
 [Setup]
 AppId=WorkraveQt
 AppName=WorkraveQt
-AppVersion=@VERSION@
-AppVerName=WorkraveQt @VERSION@
+AppVersion=@WORKRAVE_VERSION@
+AppVerName=WorkraveQt @WORKRAVE_VERSION@
 AppPublisher=Rob Caelers & Raymond Penners
 AppPublisherURL=https://www.workrave.org
 AppSupportURL=https://www.workrave.org
@@ -86,6 +86,7 @@ Var
   taskPageShown: boolean;
 
 function GetInstallLocation(): String; forward;
+function GetLegacyInstallLocation(): String; forward;
 
 function ShouldUninstall(): Boolean;
 var
@@ -98,7 +99,7 @@ var
 begin
   executableNames[0] := 'WorkraveQt.exe';
   executableNames[1] := 'workrave.exe';
-  installLocation := GetInstallLocation();
+  installLocation := GetLegacyInstallLocation();
 
   if installLocation <> '' then
   begin
@@ -190,19 +191,6 @@ begin
 #endif
 end;
 
-function GetUninstallCommand(): String;
-var
-  uninstallPath: String;
-  uninstallCommand: String;
-begin
-  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\WorkraveQt_is1');
-  uninstallCommand := '';
-
-  if not RegQueryStringValue(HKLM, uninstallPath, 'UninstallString', uninstallCommand) then
-    RegQueryStringValue(HKCU, uninstallPath, 'UninstallString', uninstallCommand);
-  Result := uninstallCommand;
-end;
-
 function GetInstallLocation(): String;
 var
   uninstallPath: String;
@@ -212,7 +200,41 @@ begin
   installLocation := '';
 
   if not RegQueryStringValue(HKLM, uninstallPath, 'InstallLocation', installLocation) then
-    RegQueryStringValue(HKCU, uninstallPath, 'InstallLocation', installLocation);
+    if not RegQueryStringValue(HKLM32, uninstallPath, 'InstallLocation', installLocation) then
+      if not RegQueryStringValue(HKCU, uninstallPath, 'InstallLocation', installLocation) then
+        RegQueryStringValue(HKCU32, uninstallPath, 'InstallLocation', installLocation);
+  Result := installLocation;
+end;
+
+// Workrave 1.11 and up is always installed in 64-bit (native) mode, so any
+// pre-1.11 install can only be registered in the 32-bit registry view. Unlike
+// GetInstallLocation (which is used to find whichever Workrave is currently
+// installed/running), these must not fall back to the native view: on a
+// machine that already has 1.11+ installed, that fallback would just find
+// the current install again and hide a leftover legacy one.
+function GetLegacyUninstallCommand(): String;
+var
+  uninstallPath: String;
+  uninstallCommand: String;
+begin
+  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
+  uninstallCommand := '';
+
+  if not RegQueryStringValue(HKLM32, uninstallPath, 'UninstallString', uninstallCommand) then
+    RegQueryStringValue(HKCU32, uninstallPath, 'UninstallString', uninstallCommand);
+  Result := uninstallCommand;
+end;
+
+function GetLegacyInstallLocation(): String;
+var
+  uninstallPath: String;
+  installLocation: String;
+begin
+  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
+  installLocation := '';
+
+  if not RegQueryStringValue(HKLM32, uninstallPath, 'InstallLocation', installLocation) then
+    RegQueryStringValue(HKCU32, uninstallPath, 'InstallLocation', installLocation);
   Result := installLocation;
 end;
 
@@ -221,7 +243,7 @@ var
   uninstallCommand: String;
   iResultCode: Integer;
 begin
-  uninstallCommand := GetUninstallCommand();
+  uninstallCommand := GetLegacyUninstallCommand();
 
   if uninstallCommand <> '' then begin
     uninstallCommand := RemoveQuotes(uninstallCommand);
