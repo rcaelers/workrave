@@ -1,26 +1,33 @@
-//! `clang-rpc-gen`: generates a gRPC C++ service adapter from an annotated
+//! `clang-rpc-gen`: generates C++ RPC glue (gRPC, DBus) from an annotated
 //! C++ header, using libclang to parse the header directly — no separate
 //! IDL, no changes to the annotated code. See `README.md` for the tag
-//! vocabulary (`@rpc(service=...)`, `@rpc(name=...)`, `@rpc.param(...)`).
+//! vocabulary (`@rpc(service=...)`, `@rpc(name=...)`, `@rpc.param(...)`,
+//! `@rpc.dbus(interface=...)`).
 //!
 //! This crate is deliberately generic: it knows nothing about any specific
 //! consumer project. All project-specific input (which header, which proto
 //! package, where outputs go) comes in through [`GenerateOptions`].
+//!
+//! [`generate`] itself is target-agnostic: it parses the header once, then
+//! asks each requested [`backend::Backend`] (`backends::grpc`, always;
+//! `backends::dbus`, when requested) for its output files, and writes
+//! whatever they return. It has no knowledge of what either backend
+//! actually produces — see `backend.rs` and `backends/`.
 
 pub mod annotations;
+pub mod backend;
+pub mod backends;
 pub mod clang_index;
 pub mod compile_db;
-pub mod cpp_gen;
-pub mod dbus_gen;
 pub mod external_annotations;
 pub mod ir;
-pub mod proto_gen;
 
 use std::fs;
 use std::path::{Path, PathBuf};
 
 use anyhow::{bail, Context, Result};
 
+use backend::Backend;
 use external_annotations::ExternalAnnotations;
 
 pub struct GenerateOptions {
@@ -39,10 +46,10 @@ pub struct GenerateOptions {
     /// (third-party/generated headers) — see `external_annotations`.
     pub external_annotations: Option<PathBuf>,
     /// Where to write the generated DBus binding header/source (see
-    /// `dbus_gen`), if requested. Both must be given together, and the
-    /// interface must carry `@rpc.dbus(interface="...")` — DBus generation
-    /// is entirely opt-in, on top of (never instead of) the gRPC output
-    /// above.
+    /// `backends::dbus`), if requested. Both must be given together, and
+    /// the interface must carry `@rpc.dbus(interface="...")` — DBus
+    /// generation is entirely opt-in, on top of (never instead of) the
+    /// gRPC output above.
     pub out_dbus_hh: Option<PathBuf>,
     pub out_dbus_cc: Option<PathBuf>,
 }
@@ -90,55 +97,66 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
             .to_string()
     });
 
-    let proto_basename = opts
-        .out_proto
-        .file_stem()
-        .context("--out-proto has no file stem")?
-        .to_string_lossy()
-        .to_string();
-
-    let adapter_header_filename = opts
-        .out_adapter_hh
-        .file_name()
-        .context("--out-adapter-hh has no file name")?
-        .to_string_lossy()
-        .to_string();
-
-    let proto_text = proto_gen::render_proto(&unit, &opts.proto_package)?;
-    let adapter = cpp_gen::render_adapter(
-        iface,
-        &unit,
-        &opts.proto_package,
-        &header_include,
-        &proto_basename,
-        &adapter_header_filename,
-    )?;
-
-    write_if_changed(&opts.out_proto, &proto_text)?;
-    write_if_changed(&opts.out_adapter_hh, &adapter.header)?;
-    write_if_changed(&opts.out_adapter_cc, &adapter.source)?;
-
-    let (dbus_hh, dbus_cc) = match (&opts.out_dbus_hh, &opts.out_dbus_cc) {
+    // gRPC is unconditional; DBus is opt-in via a matched pair of CLI flags
+    // — this is the one and only place that decides *which* backends run,
+    // and with what configuration. Once a backend is in this list, the
+    // driver loop below treats it identically to any other: it has no idea
+    // "grpc" or "dbus" mean anything in particular.
+    let mut active: Vec<Box<dyn Backend>> = vec![Box::new(backends::grpc::GrpcBackend {
+        out_proto: opts.out_proto.clone(),
+        out_adapter_hh: opts.out_adapter_hh.clone(),
+        out_adapter_cc: opts.out_adapter_cc.clone(),
+        proto_package: opts.proto_package.clone(),
+    })];
+    match (&opts.out_dbus_hh, &opts.out_dbus_cc) {
         (Some(out_hh), Some(out_cc)) => {
-            let dbus_header_filename = out_hh
-                .file_name()
-                .context("--out-dbus-hh has no file name")?
-                .to_string_lossy()
-                .to_string();
-            let binding = dbus_gen::render_dbus_binding(iface, &unit, &header_include, &dbus_header_filename)
-                .with_context(|| format!("generating DBus binding for {}", opts.header.display()))?;
-            write_if_changed(out_hh, &binding.header)?;
-            write_if_changed(out_cc, &binding.source)?;
-            (Some(out_hh.clone()), Some(out_cc.clone()))
+            active.push(Box::new(backends::dbus::DbusBackend {
+                out_hh: out_hh.clone(),
+                out_cc: out_cc.clone(),
+            }));
         }
-        (None, None) => (None, None),
+        (None, None) => {}
         _ => bail!("--out-dbus-hh and --out-dbus-cc must be given together"),
+    }
+
+    let mut by_backend: Vec<(&'static str, Vec<backend::GeneratedFile>)> = Vec::new();
+    for b in &active {
+        let files = b
+            .generate(iface, &unit, &header_include)
+            .with_context(|| format!("generating {} output for {}", b.name(), opts.header.display()))?;
+        for f in &files {
+            write_if_changed(&f.path, &f.contents)?;
+        }
+        by_backend.push((b.name(), files));
+    }
+
+    // Translate the generic (backend name -> files) results back into the
+    // named fields callers (this crate's CLI and tests) already expect.
+    // GrpcBackend/DbusBackend each document their own fixed output order
+    // (see their `generate()` bodies) — this is the one place that relies
+    // on it, so a backend can't reorder its own outputs without updating
+    // its match arm here too.
+    let grpc_files = by_backend
+        .iter()
+        .find(|(name, _)| *name == "grpc")
+        .map(|(_, files)| files)
+        .expect("GrpcBackend is always active");
+    let [proto, adapter_hh, adapter_cc] = &grpc_files[..] else {
+        bail!("GrpcBackend produced {} file(s), expected exactly 3", grpc_files.len());
+    };
+
+    let (dbus_hh, dbus_cc) = match by_backend.iter().find(|(name, _)| *name == "dbus") {
+        Some((_, files)) => match &files[..] {
+            [hh, cc] => (Some(hh.path.clone()), Some(cc.path.clone())),
+            _ => bail!("DbusBackend produced {} file(s), expected exactly 2", files.len()),
+        },
+        None => (None, None),
     };
 
     Ok(GeneratedFiles {
-        proto: opts.out_proto.clone(),
-        adapter_hh: opts.out_adapter_hh.clone(),
-        adapter_cc: opts.out_adapter_cc.clone(),
+        proto: proto.path.clone(),
+        adapter_hh: adapter_hh.path.clone(),
+        adapter_cc: adapter_cc.path.clone(),
         dbus_hh,
         dbus_cc,
     })

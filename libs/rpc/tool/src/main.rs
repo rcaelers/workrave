@@ -51,7 +51,7 @@ struct Cli {
 
     /// Where to write the generated DBus binding header, if the interface
     /// carries `@rpc.dbus(interface="...")`. Must be given together with
-    /// --out-dbus-cc. See dbus_gen.rs.
+    /// --out-dbus-cc. See backends/dbus/.
     #[arg(long)]
     out_dbus_hh: Option<PathBuf>,
 

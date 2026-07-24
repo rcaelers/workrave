@@ -1,2 +1,2 @@
 [general]
-dirs = ["src/templates"]
+dirs = ["src/backends/grpc/templates", "src/backends/dbus/templates"]
