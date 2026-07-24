@@ -8,8 +8,8 @@ use anyhow::{bail, Context, Result};
 use clang::{Accessibility, Clang, Entity, EntityKind, Index, Type, TypeKind};
 
 use crate::annotations::{
-    has_bitmask_tag, parse_enum_tag, parse_enum_value_tag, parse_method_tag, parse_param_tags,
-    parse_service_tag, parse_signal_tag, ParamKindTag,
+    has_bitmask_tag, parse_dbus_tag, parse_enum_tag, parse_enum_value_tag, parse_method_tag,
+    parse_param_tags, parse_service_tag, parse_signal_tag, ParamKindTag,
 };
 use crate::external_annotations::{effective_comment, ExternalAnnotations};
 use crate::ir::{
@@ -133,7 +133,9 @@ fn visit_for_interfaces(
                     let qualified = qualified_name(&namespace_path(&child), &child.get_name().unwrap_or_default());
                     let comment = effective_comment(child.get_comment(), external.lookup(&qualified));
                     if let Some(tag) = comment.as_deref().and_then(parse_service_tag) {
-                        let interface = build_interface(tu_root, &child, tag, external, unit)?;
+                        let dbus_interface = comment.as_deref().and_then(parse_dbus_tag);
+                        let interface =
+                            build_interface(tu_root, &child, tag, dbus_interface, external, unit)?;
                         unit.interfaces.push(interface);
                     }
                 }
@@ -388,6 +390,7 @@ fn build_interface(
     tu_root: &Entity,
     class_entity: &Entity,
     tag: crate::annotations::ServiceTag,
+    dbus_interface: Option<String>,
     external: &ExternalAnnotations,
     unit: &mut Unit,
 ) -> Result<Interface> {
@@ -447,6 +450,7 @@ fn build_interface(
         methods,
         signals,
         keyed_by,
+        dbus_interface,
     })
 }
 
@@ -1006,8 +1010,18 @@ fn cxx_type_of(ty: &Type) -> CxxType {
         None => ty.is_const_qualified(),
     };
     let base_ty = pointee.as_ref().unwrap_or(ty);
-    let base_spelling =
-        qualified_type_spelling(base_ty).unwrap_or_else(|| base_ty.get_display_name());
+    let base_spelling = qualified_type_spelling(base_ty).unwrap_or_else(|| base_ty.get_display_name());
+    // `base_spelling` must stay cv-unqualified: it's used to declare plain
+    // local variables (e.g. `{base_spelling} p_foo{{}};`) that generated code
+    // then assigns into — a leading "const" there (which `get_display_name()`
+    // includes for a `const std::string&` parameter's pointee type, since
+    // qualified_type_spelling only strips it for the Record/Enum paths it
+    // itself constructs) makes that assignment fail to compile. `is_const` is
+    // tracked separately for call sites that need to know constness itself.
+    let base_spelling = base_spelling
+        .strip_prefix("const ")
+        .map(str::to_string)
+        .unwrap_or(base_spelling);
 
     // The pointer/reference case keeps the original (possibly-unqualified,
     // for a class-nested struct) full spelling: none of the generated

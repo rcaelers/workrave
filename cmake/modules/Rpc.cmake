@@ -23,7 +23,7 @@ add_custom_target(clang_rpc_gen_tool ALL DEPENDS ${RPC_TOOL_BIN})
 
 # rpc_generate_source(HEADER DIRECTORY NAME
 #                      [ANCHOR_SOURCE <path>] [PROTO_PACKAGE <pkg>] [HEADER_INCLUDE <literal>]
-#                      [ANNOTATIONS <path>])
+#                      [ANNOTATIONS <path>] [DBUS])
 #
 # Runs clang-rpc-gen against an @rpc-annotated HEADER to produce
 # DIRECTORY/NAME.proto + DIRECTORY/NAME ServiceImpl.hh/.cc, then runs the
@@ -52,9 +52,18 @@ add_custom_target(clang_rpc_gen_tool ALL DEPENDS ${RPC_TOOL_BIN})
 # HEADER that can't carry annotation comments of its own, e.g. third-party or
 # generated code. Merges with (doesn't replace) whatever real comments HEADER
 # already has.
+#
+# DBUS additionally requests a DBus binding (DIRECTORY/NAME DBus.hh/.cc, see
+# libs/rpc/tool/src/dbus_gen.rs) alongside the gRPC output — HEADER's
+# interface must carry @rpc.dbus(interface="..."). No-op if HAVE_DBUS isn't
+# set, since the generated code #includes libs/dbus's runtime headers.
+# Deliberately just generates the files: it's the caller's job to decide
+# what (if anything) links them — see libs/corenext/src/CMakeLists.txt for
+# why this exists as an unlinked-by-default, comparison-only opt-in rather
+# than something wired into the real app.
 macro(rpc_generate_source HEADER DIRECTORY NAME)
   if (HAVE_RPC)
-    cmake_parse_arguments(_rpc "" "ANCHOR_SOURCE;PROTO_PACKAGE;HEADER_INCLUDE;ANNOTATIONS" "" ${ARGN})
+    cmake_parse_arguments(_rpc "DBUS" "ANCHOR_SOURCE;PROTO_PACKAGE;HEADER_INCLUDE;ANNOTATIONS" "" ${ARGN})
 
     if (_rpc_PROTO_PACKAGE)
       set(_rpc_proto_package ${_rpc_PROTO_PACKAGE})
@@ -86,8 +95,17 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
       set(_rpc_annotations_depends ${_rpc_ANNOTATIONS})
     endif()
 
+    set(_rpc_dbus_args "")
+    set(_rpc_dbus_outputs "")
+    if (_rpc_DBUS AND HAVE_DBUS)
+      set(_rpc_dbus_hh ${DIRECTORY}/${NAME}DBus.hh)
+      set(_rpc_dbus_cc ${DIRECTORY}/${NAME}DBus.cc)
+      set(_rpc_dbus_args --out-dbus-hh ${_rpc_dbus_hh} --out-dbus-cc ${_rpc_dbus_cc})
+      set(_rpc_dbus_outputs ${_rpc_dbus_hh} ${_rpc_dbus_cc})
+    endif()
+
     add_custom_command(
-      OUTPUT ${_rpc_proto_output} ${_rpc_adapter_hh} ${_rpc_adapter_cc}
+      OUTPUT ${_rpc_proto_output} ${_rpc_adapter_hh} ${_rpc_adapter_cc} ${_rpc_dbus_outputs}
       COMMAND ${RPC_TOOL_BIN}
               --header ${HEADER}
               --anchor-source ${_rpc_anchor_source}
@@ -98,6 +116,7 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
               --proto-package ${_rpc_proto_package}
               ${_rpc_header_include_args}
               ${_rpc_annotations_args}
+              ${_rpc_dbus_args}
       DEPENDS ${HEADER} ${_rpc_anchor_source} ${RPC_TOOL_BIN} ${_rpc_annotations_depends}
       COMMENT "Generating gRPC bindings for ${HEADER}"
       )
@@ -121,11 +140,11 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
 
     add_custom_target(
       ${NAME}_rpc_source_target ALL
-      DEPENDS ${_rpc_adapter_hh} ${_rpc_adapter_cc} ${_rpc_pb_hh} ${_rpc_pb_cc} ${_rpc_grpc_pb_hh} ${_rpc_grpc_pb_cc}
+      DEPENDS ${_rpc_adapter_hh} ${_rpc_adapter_cc} ${_rpc_pb_hh} ${_rpc_pb_cc} ${_rpc_grpc_pb_hh} ${_rpc_grpc_pb_cc} ${_rpc_dbus_outputs}
       )
 
     set_source_files_properties(
-      ${_rpc_proto_output} ${_rpc_adapter_hh} ${_rpc_adapter_cc} ${_rpc_pb_hh} ${_rpc_pb_cc} ${_rpc_grpc_pb_hh} ${_rpc_grpc_pb_cc}
+      ${_rpc_proto_output} ${_rpc_adapter_hh} ${_rpc_adapter_cc} ${_rpc_pb_hh} ${_rpc_pb_cc} ${_rpc_grpc_pb_hh} ${_rpc_grpc_pb_cc} ${_rpc_dbus_outputs}
       PROPERTIES GENERATED TRUE
       )
   endif()

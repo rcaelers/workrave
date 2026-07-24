@@ -42,6 +42,7 @@ class RpcCoreServer;
 #endif
 
 // @rpc(service="CoreService")
+// @rpc.dbus(interface="org.workrave.CoreInterface")
 class Core : public workrave::ICore
 {
 public:

@@ -23,15 +23,19 @@
 namespace workrave
 {
   /* Mode */
+  // @rpc.enum(name="operation_mode")
   enum class OperationMode
   {
     /* Breaks are reported to the user when due. */
+    // @rpc.enum.value(name="normal")
     Normal,
 
     /* Monitoring is suspended. */
+    // @rpc.enum.value(name="suspended")
     Suspended,
 
     /* Breaks are not reported to the user when due. */
+    // @rpc.enum.value(name="quiet")
     Quiet,
   };
 
@@ -46,12 +50,15 @@ namespace workrave
       {{"normal", OperationMode::Normal}, {"suspended", OperationMode::Suspended}, {"quiet", OperationMode::Quiet}}};
   };
 
+  // @rpc.enum(name="usage_mode")
   enum class UsageMode
   {
     /* Normal 'average' PC usage. */
+    // @rpc.enum.value(name="normal")
     Normal,
 
     /* User is reading. */
+    // @rpc.enum.value(name="reading")
     Reading,
   };
 
@@ -66,11 +73,16 @@ namespace workrave
       {{"normal", UsageMode::Normal}, {"reading", UsageMode::Reading}}};
   };
 
+  // @rpc.enum(name="break_id")
   enum BreakId
   {
+    // @rpc.enum.value(name="none")
     BREAK_ID_NONE = -1,
+    // @rpc.enum.value(name="microbreak")
     BREAK_ID_MICRO_BREAK = 0,
+    // @rpc.enum.value(name="restbreak")
     BREAK_ID_REST_BREAK = 1,
+    // @rpc.enum.value(name="dailylimit")
     BREAK_ID_DAILY_LIMIT = 2,
   };
 
@@ -91,14 +103,18 @@ namespace workrave
 
   std::string operator%(const std::string &key, BreakId id);
 
+  // @rpc.enum(name="break_hint")
   enum class BreakHint
   {
+    // @rpc.enum.value(name="normal")
     Normal = 0,
 
     // Break was started on user request
+    // @rpc.enum.value(name="userinitiated")
     UserInitiated = 1,
 
     // Natural break.
+    // @rpc.enum.value(name="naturalbreak")
     NaturalBreak = 2
   };
 

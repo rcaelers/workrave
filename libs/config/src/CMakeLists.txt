@@ -40,7 +40,8 @@ target_include_directories(workrave-libs-config
 if (HAVE_RPC)
   rpc_generate_source(${CMAKE_SOURCE_DIR}/libs/config/include/config/IConfigurator.hh ${CMAKE_CURRENT_BINARY_DIR} RpcConfig
     ANCHOR_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/Configurator.cc
-    HEADER_INCLUDE "config/IConfigurator.hh")
+    HEADER_INCLUDE "config/IConfigurator.hh"
+    DBUS)
 
   # Separate, opt-in static library — see libs/corenext/src/CMakeLists.txt
   # for why this can't just be sources+link deps added to workrave-libs-config
@@ -54,5 +55,23 @@ if (HAVE_RPC)
     PUBLIC workrave-libs-config
     PRIVATE workrave-libs-rpc gRPC::grpc++ protobuf::libprotobuf)
   target_include_directories(workrave-libs-config-rpc PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+  if (HAVE_DBUS)
+    # See workrave-libs-core-next-dbus-comparison in
+    # libs/corenext/src/CMakeLists.txt — same rationale: a separate,
+    # unlinked-by-default library existing only for the DBus introspection
+    # comparison test, generated from the exact same @rpc-annotated
+    # IConfigurator.hh as the gRPC output above.
+    add_library(workrave-libs-config-dbus-comparison STATIC
+      ${CMAKE_CURRENT_BINARY_DIR}/RpcConfigDBus.cc)
+    target_link_libraries(workrave-libs-config-dbus-comparison
+      PUBLIC workrave-libs-config
+      # workrave-libs-config only links workrave-libs-utils PRIVATE, so its
+      # PUBLIC spdlog::spdlog (and SPDLOG_FMT_EXTERNAL) doesn't reach us
+      # transitively via workrave-libs-config above — needed directly since
+      # DBusBindingQt.hh (via workrave-libs-dbus) includes spdlog.
+      PRIVATE workrave-libs-dbus workrave-libs-rpc workrave-libs-utils)
+    target_include_directories(workrave-libs-config-dbus-comparison PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+  endif()
 endif()
 

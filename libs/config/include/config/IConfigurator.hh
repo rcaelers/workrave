@@ -41,19 +41,24 @@ namespace workrave::config
   using ConfigValue = std::variant<bool, int32_t, int64_t, double, std::string>;
 
   //! Hints on how to set a configuration value.
+  // @rpc.enum(name="config_flags")
   enum ConfigFlags
   {
     //! No special hints.
+    // @rpc.enum.value(name="none")
     CONFIG_FLAG_NONE = 0,
 
     //! The initial value is set.
+    // @rpc.enum.value(name="initial")
     CONFIG_FLAG_INITIAL = 1,
 
     //! The value must be set immediately, without delay.
+    // @rpc.enum.value(name="immediate")
     CONFIG_FLAG_IMMEDIATE = 2
   };
 
   // @rpc(service="ConfigService")
+  // @rpc.dbus(interface="org.workrave.ConfigInterface")
   class IConfigurator
   {
   public:

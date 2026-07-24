@@ -62,6 +62,18 @@ pub fn parse_service_tag(comment: &str) -> Option<ServiceTag> {
     None
 }
 
+/// `@rpc.dbus(interface="org.workrave.CoreInterface")` on a class — opts
+/// the same annotated interface into DBus generation too, alongside gRPC.
+/// Orthogonal to `@rpc(service=...)`: method/signal DBus names reuse the
+/// existing `@rpc(name=...)`/`@rpc.signal(name=...)` tags unchanged (DBus's
+/// PascalCase convention already matches), this only supplies the one
+/// DBus-specific thing gRPC has no equivalent of — the dotted interface
+/// name.
+pub fn parse_dbus_tag(comment: &str) -> Option<String> {
+    let re = Regex::new(r#"@rpc\.dbus\(\s*interface\s*=\s*"([^"]+)"\s*\)"#).expect("valid regex");
+    re.captures(comment).map(|c| c[1].to_string())
+}
+
 /// `@rpc(name="Name")` on a method (or a specific overload) — marks it as an RPC.
 pub fn parse_method_tag(comment: &str) -> Option<String> {
     let re = Regex::new(r#"@rpc\(\s*name\s*=\s*"([^"]+)"\s*\)"#).expect("valid regex");
@@ -220,6 +232,16 @@ mod tests {
     fn param_tags_bytes_without_size_errors() {
         let c = "//! @rpc.param(data, dir=out, kind=bytes)";
         assert!(parse_param_tags(c).is_err());
+    }
+
+    #[test]
+    fn dbus_tag() {
+        let c = "// @rpc.dbus(interface=\"org.workrave.CoreInterface\")";
+        assert_eq!(
+            parse_dbus_tag(c),
+            Some("org.workrave.CoreInterface".to_string())
+        );
+        assert_eq!(parse_dbus_tag("// no tag here"), None);
     }
 
     #[test]

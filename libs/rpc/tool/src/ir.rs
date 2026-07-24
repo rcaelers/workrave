@@ -229,6 +229,11 @@ pub struct Interface {
     pub methods: Vec<Method>,
     pub signals: Vec<Signal>,
     pub keyed_by: Option<KeyType>,
+    /// From `@rpc.dbus(interface="org.workrave.CoreInterface")`, if present
+    /// — opts this interface into DBus generation too, alongside gRPC.
+    /// `None` means DBus output isn't requested for this interface (the
+    /// common case; DBus generation is opt-in per interface).
+    pub dbus_interface: Option<String>,
 }
 
 impl Interface {

@@ -26,17 +26,33 @@
 
 namespace workrave
 {
+  // @rpc.enum(name="break_event")
+  // Canonical names below are snake_case, matching
+  // libs/corenext/src/workrave-service.xml's <enum name="break_event">
+  // wire values — deliberately not the same as enum_traits<BreakEvent>::names
+  // below, which is PascalCase and serves debug/logging output, not the
+  // DBus wire format.
   enum class BreakEvent
   {
+    // @rpc.enum.value(name="show_prelude")
     ShowPrelude,
+    // @rpc.enum.value(name="show_break")
     ShowBreak,
+    // @rpc.enum.value(name="show_break_forced")
     ShowBreakForced,
+    // @rpc.enum.value(name="break_start")
     BreakStart,
+    // @rpc.enum.value(name="break_idle")
     BreakIdle,
+    // @rpc.enum.value(name="break_stop")
     BreakStop,
+    // @rpc.enum.value(name="break_ignored")
     BreakIgnored,
+    // @rpc.enum.value(name="break_postponed")
     BreakPostponed,
+    // @rpc.enum.value(name="break_skipped")
     BreakSkipped,
+    // @rpc.enum.value(name="break_taken")
     BreakTaken,
   };
 

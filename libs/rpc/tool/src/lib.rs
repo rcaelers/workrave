@@ -11,6 +11,7 @@ pub mod annotations;
 pub mod clang_index;
 pub mod compile_db;
 pub mod cpp_gen;
+pub mod dbus_gen;
 pub mod external_annotations;
 pub mod ir;
 pub mod proto_gen;
@@ -37,6 +38,13 @@ pub struct GenerateOptions {
     /// declarations that can't carry an annotation comment of their own
     /// (third-party/generated headers) — see `external_annotations`.
     pub external_annotations: Option<PathBuf>,
+    /// Where to write the generated DBus binding header/source (see
+    /// `dbus_gen`), if requested. Both must be given together, and the
+    /// interface must carry `@rpc.dbus(interface="...")` — DBus generation
+    /// is entirely opt-in, on top of (never instead of) the gRPC output
+    /// above.
+    pub out_dbus_hh: Option<PathBuf>,
+    pub out_dbus_cc: Option<PathBuf>,
 }
 
 #[derive(Debug)]
@@ -44,6 +52,8 @@ pub struct GeneratedFiles {
     pub proto: PathBuf,
     pub adapter_hh: PathBuf,
     pub adapter_cc: PathBuf,
+    pub dbus_hh: Option<PathBuf>,
+    pub dbus_cc: Option<PathBuf>,
 }
 
 pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
@@ -108,10 +118,29 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
     write_if_changed(&opts.out_adapter_hh, &adapter.header)?;
     write_if_changed(&opts.out_adapter_cc, &adapter.source)?;
 
+    let (dbus_hh, dbus_cc) = match (&opts.out_dbus_hh, &opts.out_dbus_cc) {
+        (Some(out_hh), Some(out_cc)) => {
+            let dbus_header_filename = out_hh
+                .file_name()
+                .context("--out-dbus-hh has no file name")?
+                .to_string_lossy()
+                .to_string();
+            let binding = dbus_gen::render_dbus_binding(iface, &unit, &header_include, &dbus_header_filename)
+                .with_context(|| format!("generating DBus binding for {}", opts.header.display()))?;
+            write_if_changed(out_hh, &binding.header)?;
+            write_if_changed(out_cc, &binding.source)?;
+            (Some(out_hh.clone()), Some(out_cc.clone()))
+        }
+        (None, None) => (None, None),
+        _ => bail!("--out-dbus-hh and --out-dbus-cc must be given together"),
+    };
+
     Ok(GeneratedFiles {
         proto: opts.out_proto.clone(),
         adapter_hh: opts.out_adapter_hh.clone(),
         adapter_cc: opts.out_adapter_cc.clone(),
+        dbus_hh,
+        dbus_cc,
     })
 }
 

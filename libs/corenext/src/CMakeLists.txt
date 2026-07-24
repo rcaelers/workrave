@@ -42,8 +42,8 @@ if (HAVE_RPC)
   # two same-named, same-namespace C++ message classes (one per .proto) and
   # this file would fail with ODR redefinition errors the moment both are
   # included together.
-  rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Core.hh ${CMAKE_CURRENT_BINARY_DIR} RpcCore PROTO_PACKAGE workrave.rpc.core)
-  rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Break.hh ${CMAKE_CURRENT_BINARY_DIR} RpcBreak PROTO_PACKAGE workrave.rpc.breaks)
+  rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Core.hh ${CMAKE_CURRENT_BINARY_DIR} RpcCore PROTO_PACKAGE workrave.rpc.core DBUS)
+  rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Break.hh ${CMAKE_CURRENT_BINARY_DIR} RpcBreak PROTO_PACKAGE workrave.rpc.breaks DBUS)
 
   # Deliberately a SEPARATE, opt-in static library rather than sources added
   # to workrave-libs-core-next itself: for a static library, CMake can't hide
@@ -78,6 +78,27 @@ if (HAVE_RPC)
     # the same rpc_generate_source() call as libs/config/src/CMakeLists.txt's
     # workrave-libs-config-rpc.
     ${CMAKE_BINARY_DIR}/libs/config/src)
+
+  if (HAVE_DBUS)
+    # clang-rpc-gen's DBus backend, generated from the exact same
+    # @rpc-annotated Core.hh/Break.hh as the gRPC output above (see the DBUS
+    # keyword on the rpc_generate_source() calls) — deliberately a SEPARATE
+    # library, not linked into workrave-libs-core-next-rpc or the real app:
+    # this exists purely so libs/rpc/test/DBusComparisonTest.cc can compare
+    # its generated introspection XML against the existing hand-maintained
+    # workrave-service.xml/DBusWorkraveNext.cc pipeline (still the one and
+    # only thing the real app links — see RpcCoreServer.hh/Core::init_rpc()).
+    # Nothing here switches Workrave over to this new DBus code path.
+    add_library(workrave-libs-core-next-dbus-comparison STATIC
+      ${CMAKE_CURRENT_BINARY_DIR}/RpcCoreDBus.cc
+      ${CMAKE_CURRENT_BINARY_DIR}/RpcBreakDBus.cc)
+    target_link_libraries(workrave-libs-core-next-dbus-comparison
+      PUBLIC workrave-libs-core-next
+      PRIVATE workrave-libs-dbus workrave-libs-rpc)
+    target_include_directories(workrave-libs-core-next-dbus-comparison PRIVATE
+      ${CMAKE_CURRENT_BINARY_DIR}
+      ${CMAKE_CURRENT_SOURCE_DIR})
+  endif()
 endif()
 
 if (WITH_CORE_NEXT)

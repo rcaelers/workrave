@@ -48,6 +48,17 @@ struct Cli {
     /// their own. See external_annotations.rs for the file format.
     #[arg(long)]
     annotations: Option<PathBuf>,
+
+    /// Where to write the generated DBus binding header, if the interface
+    /// carries `@rpc.dbus(interface="...")`. Must be given together with
+    /// --out-dbus-cc. See dbus_gen.rs.
+    #[arg(long)]
+    out_dbus_hh: Option<PathBuf>,
+
+    /// Where to write the generated DBus binding source. Must be given
+    /// together with --out-dbus-hh.
+    #[arg(long)]
+    out_dbus_cc: Option<PathBuf>,
 }
 
 fn main() -> Result<()> {
@@ -63,12 +74,20 @@ fn main() -> Result<()> {
         proto_package: cli.proto_package,
         header_include: cli.header_include,
         external_annotations: cli.annotations,
+        out_dbus_hh: cli.out_dbus_hh,
+        out_dbus_cc: cli.out_dbus_cc,
     };
 
     let generated = generate(&opts)?;
     println!("generated {}", generated.proto.display());
     println!("generated {}", generated.adapter_hh.display());
     println!("generated {}", generated.adapter_cc.display());
+    if let Some(p) = &generated.dbus_hh {
+        println!("generated {}", p.display());
+    }
+    if let Some(p) = &generated.dbus_cc {
+        println!("generated {}", p.display());
+    }
 
     Ok(())
 }
