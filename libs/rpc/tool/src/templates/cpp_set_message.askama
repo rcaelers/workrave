@@ -1,0 +1,2 @@
+auto *{{ view.msg_var }} = {{ view.target_prefix }}mutable_{{ view.field }}();
+{{ view.inner }}

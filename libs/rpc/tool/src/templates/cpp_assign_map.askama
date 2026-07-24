@@ -1,0 +1,1 @@
+for (const auto &{{ view.kv }} : {{ view.wire_expr }}) { {{ view.val_ty }} {{ view.val }}{}; {{ view.inner }} {{ view.dest_expr }}.emplace({{ view.kv }}.first, {{ view.val }}); }

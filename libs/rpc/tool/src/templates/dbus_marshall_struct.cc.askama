@@ -1,0 +1,47 @@
+namespace workrave::dbus
+{
+template<>
+struct DBusMarshall<{{ view.cxx_type }}>
+{
+  static {{ view.cxx_type }} convert(const QVariant &variant)
+  {
+    const auto arg = variant.value<QDBusArgument>();
+    {{ view.cxx_type }} result{};
+    arg.beginStructure();
+{% for f in view.fields %}
+    result.{{ f.cxx_name }} = DBusMarshall<{{ f.cxx_type }}>::convert(arg.asVariant());
+{% endfor %}
+    arg.endStructure();
+    return result;
+  }
+  static void marshall(QDBusArgument &arg, const {{ view.cxx_type }} &value)
+  {
+    arg.beginStructure();
+{% for f in view.fields %}
+    DBusMarshall<{{ f.cxx_type }}>::marshall(arg, value.{{ f.cxx_name }});
+{% endfor %}
+    arg.endStructure();
+  }
+  static QVariant convert(const {{ view.cxx_type }} &value)
+  {
+    QDBusArgument arg;
+    marshall(arg, value);
+    return QVariant::fromValue(arg);
+  }
+};
+} // namespace workrave::dbus
+
+// See the enum case above for why these are at global scope, not nested in
+// workrave::dbus: ADL needs to find them from {{ view.cxx_type }}'s own associated
+// namespace, not this library's.
+[[maybe_unused]] static QDBusArgument &operator<<(QDBusArgument &arg, const {{ view.cxx_type }} &data)
+{
+  workrave::dbus::DBusMarshall<{{ view.cxx_type }}>::marshall(arg, data);
+  return arg;
+}
+
+[[maybe_unused]] static const QDBusArgument &operator>>(const QDBusArgument &arg, {{ view.cxx_type }} &data)
+{
+  data = workrave::dbus::DBusMarshall<{{ view.cxx_type }}>::convert(QVariant::fromValue(arg));
+  return arg;
+}

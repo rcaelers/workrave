@@ -1,0 +1,2 @@
+{{ view.cxx_type }} local_{{ view.cxx_name }};
+for (int i = 0; i < request->{{ view.field }}_size(); ++i) { local_{{ view.cxx_name }} |= static_cast<{{ view.enum_cxx_type }}>(request->{{ view.field }}(i)); }

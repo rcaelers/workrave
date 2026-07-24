@@ -1,0 +1,1 @@
+for (const auto &{{ view.wire_item }} : {{ view.wire_expr }}) { {{ view.elem_ty }} {{ view.item }}{}; {{ view.inner }} {{ view.dest_expr }}.push_back({{ view.item }}); }

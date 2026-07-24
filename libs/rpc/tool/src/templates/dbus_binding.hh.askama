@@ -1,0 +1,20 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen's DBus backend from an annotated C++ header.
+#pragma once
+
+#include <memory>
+#include <string>
+
+#include "dbus/IDBus.hh"
+
+#include "{{ view.header_include }}"
+
+class {{ view.ident }}
+{
+public:
+  virtual ~{{ view.ident }}() = default;
+  static {{ view.ident }} *instance(std::shared_ptr<::workrave::dbus::IDBus> dbus);
+{% for sig in view.signals %}
+  virtual void {{ sig.rpc_name }}(const std::string &path{{ sig.params }}) = 0;
+{% endfor %}
+};

@@ -1,0 +1,1 @@
+{{ view.cxx_type }} local_{{ view.cxx_name }}{% if let Some(init) = view.init %} = {{ init }}{% else %}{}{% endif %};

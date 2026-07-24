@@ -3,6 +3,12 @@
 //! IR the gRPC backend (`cpp_gen.rs`/`proto_gen.rs`) uses — this is the
 //! payoff of keeping that IR free of gRPC-specific concepts from the start.
 //!
+//! Follows `cpp_gen.rs`'s split: this module only computes plain-data "view"
+//! structs from the IR (support/data-prep logic — type mapping, custom-type
+//! discovery, parameter classification), and askama templates
+//! (`src/templates/dbus_*.askama`) own the actual generated-code structure
+//! and boilerplate. Nothing here hand-builds C++/XML text via `format!`.
+//!
 //! Targets **QtDBus only** (the only backend actually live in a Qt UI
 //! build — GDBus needs Linux+GTK). Generated code plugs into the existing,
 //! unmodified `libs/dbus` runtime (`IDBus`, `DBusBindingQt`, the generic
@@ -24,6 +30,7 @@
 use std::collections::HashSet;
 
 use anyhow::{bail, Context, Result};
+use askama::Template;
 
 use crate::ir::{Direction, Interface, Method, ParamKind, ProtoType, Signal, StructDef, Unit};
 
@@ -68,6 +75,39 @@ fn dbus_signature(proto_type: &ProtoType, unit: &Unit) -> Result<String> {
     })
 }
 
+struct XmlMethodArgView {
+    sig: String,
+    name: String,
+    direction: &'static str,
+}
+
+struct XmlSignalArgView {
+    sig: String,
+    name: String,
+}
+
+struct XmlMethodView {
+    name: String,
+    args: Vec<XmlMethodArgView>,
+}
+
+struct XmlSignalView {
+    name: String,
+    args: Vec<XmlSignalArgView>,
+}
+
+struct IntrospectView {
+    dbus_interface: String,
+    methods: Vec<XmlMethodView>,
+    signals: Vec<XmlSignalView>,
+}
+
+#[derive(Template)]
+#[template(path = "dbus_introspect.xml.askama", escape = "none")]
+struct IntrospectTemplate<'a> {
+    view: &'a IntrospectView,
+}
+
 /// Renders the `<interface>...</interface>` introspection XML fragment for
 /// one interface — the same fragment shape `qt-cc.jinja` bakes into its
 /// generated `interface_introspect` string constant (2-space indented,
@@ -78,16 +118,14 @@ fn dbus_signature(proto_type: &ProtoType, unit: &Unit) -> Result<String> {
 /// from `GetInt`'s) — comparisons against it should be structural (a set of
 /// (type, direction) per method/signal), not a strict sequence.
 pub fn render_introspect_xml(iface: &Interface, dbus_interface: &str, unit: &Unit) -> Result<String> {
-    let mut xml = String::new();
-    xml.push_str(&format!("  <interface name=\"{dbus_interface}\">\n"));
-
+    let mut methods = Vec::new();
     for m in &iface.methods {
-        xml.push_str(&format!("    <method name=\"{}\">\n", m.rpc_name));
+        let mut args = Vec::new();
         for p in &m.params {
             if p.proto_field.is_empty() {
                 continue;
             }
-            let dir = match p.direction {
+            let direction = match p.direction {
                 Direction::In => "in",
                 Direction::Out => "out",
                 Direction::InOut => bail!(
@@ -99,34 +137,48 @@ pub fn render_introspect_xml(iface: &Interface, dbus_interface: &str, unit: &Uni
             };
             let sig = dbus_signature(&p.proto_type, unit)
                 .with_context(|| format!("{}: parameter '{}'", m.rpc_name, p.cxx_name))?;
-            xml.push_str(&format!(
-                "      <arg type=\"{sig}\" name=\"{}\" direction=\"{dir}\" />\n",
-                p.proto_field
-            ));
+            args.push(XmlMethodArgView {
+                sig,
+                name: p.proto_field.clone(),
+                direction,
+            });
         }
         if let Some(rv) = &m.return_value {
-            let sig = dbus_signature(&rv.proto_type, unit)
-                .with_context(|| format!("{}: return type", m.rpc_name))?;
-            xml.push_str(&format!(
-                "      <arg type=\"{sig}\" name=\"{}\" direction=\"out\" />\n",
-                rv.proto_field
-            ));
+            let sig = dbus_signature(&rv.proto_type, unit).with_context(|| format!("{}: return type", m.rpc_name))?;
+            args.push(XmlMethodArgView {
+                sig,
+                name: rv.proto_field.clone(),
+                direction: "out",
+            });
         }
-        xml.push_str("    </method>\n");
+        methods.push(XmlMethodView {
+            name: m.rpc_name.clone(),
+            args,
+        });
     }
 
+    let mut signals = Vec::new();
     for s in &iface.signals {
-        xml.push_str(&format!("    <signal name=\"{}\">\n", s.rpc_name));
+        let mut args = Vec::new();
         for f in &s.fields {
-            let sig = dbus_signature(&f.proto_type, unit)
-                .with_context(|| format!("{}: field '{}'", s.rpc_name, f.proto_field))?;
-            xml.push_str(&format!("      <arg type=\"{sig}\" name=\"{}\" />\n", f.proto_field));
+            let sig = dbus_signature(&f.proto_type, unit).with_context(|| format!("{}: field '{}'", s.rpc_name, f.proto_field))?;
+            args.push(XmlSignalArgView {
+                sig,
+                name: f.proto_field.clone(),
+            });
         }
-        xml.push_str("    </signal>\n");
+        signals.push(XmlSignalView {
+            name: s.rpc_name.clone(),
+            args,
+        });
     }
 
-    xml.push_str("  </interface>\n");
-    Ok(xml)
+    let view = IntrospectView {
+        dbus_interface: dbus_interface.to_string(),
+        methods,
+        signals,
+    };
+    Ok(IntrospectTemplate { view: &view }.render()?)
 }
 
 /// `"org.workrave.CoreInterface"` -> `"org_workrave_CoreInterface"` — the
@@ -260,11 +312,24 @@ fn collect_custom_types(iface: &Interface, unit: &Unit, out: &mut Vec<(String, C
     Ok(())
 }
 
-fn render_enum_marshall(cxx_type: &str, enum_def: &crate::ir::EnumDef) -> Result<String> {
-    let mut convert_from_variant = String::new();
-    let mut marshall_to_arg = String::new();
-    let mut convert_to_variant = String::new();
+struct EnumValueView {
+    cxx_symbol: String,
+    name: String,
+}
 
+struct EnumMarshallView<'a> {
+    cxx_type: &'a str,
+    values: Vec<EnumValueView>,
+}
+
+#[derive(Template)]
+#[template(path = "dbus_marshall_enum.cc.askama", escape = "none")]
+struct EnumMarshallTemplate<'a> {
+    view: &'a EnumMarshallView<'a>,
+}
+
+fn render_enum_marshall(cxx_type: &str, enum_def: &crate::ir::EnumDef) -> Result<String> {
+    let mut values = Vec::new();
     for v in &enum_def.values {
         let name = v.canonical_name.as_deref().with_context(|| {
             format!(
@@ -274,356 +339,234 @@ fn render_enum_marshall(cxx_type: &str, enum_def: &crate::ir::EnumDef) -> Result
                 enum_def.cxx_symbol, v.cxx_symbol
             )
         })?;
-        convert_from_variant.push_str(&format!(
-            "    if (\"{name}\" == arg) {{ value = {}; }}\n",
-            v.cxx_symbol
-        ));
-        marshall_to_arg.push_str(&format!(
-            "      case {}: str = \"{name}\"; break;\n",
-            v.cxx_symbol
-        ));
-        convert_to_variant.push_str(&format!(
-            "      case {}: str = \"{name}\"; break;\n",
-            v.cxx_symbol
-        ));
+        values.push(EnumValueView {
+            cxx_symbol: v.cxx_symbol.clone(),
+            name: name.to_string(),
+        });
     }
-
-    Ok(format!(
-        r#"namespace workrave::dbus
-{{
-template<>
-struct DBusMarshall<{cxx_type}>
-{{
-  static {cxx_type} convert(const QVariant &variant)
-  {{
-    QString arg = variant.value<QString>();
-    {cxx_type} value{{}};
-{convert_from_variant}    return value;
-  }}
-  static void marshall(QDBusArgument &arg, const {cxx_type} &value)
-  {{
-    std::string str;
-    switch (value)
-      {{
-{marshall_to_arg}      default:
-        throw workrave::dbus::DBusRemoteException()
-          << workrave::dbus::message_info("Type error in enum")
-          << workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS);
-      }}
-    arg << QString::fromStdString(str);
-  }}
-  static QVariant convert(const {cxx_type} &value)
-  {{
-    std::string str;
-    switch (value)
-      {{
-{convert_to_variant}      default:
-        throw workrave::dbus::DBusRemoteException()
-          << workrave::dbus::message_info("Type error in enum")
-          << workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS);
-      }}
-    return QVariant::fromValue(QString::fromStdString(str));
-  }}
-}};
-}} // namespace workrave::dbus
-
-// ADL requires these at global scope (or a namespace associated with one of
-// the parameter types) to be found from Qt's own template code — nesting
-// them inside workrave::dbus, where they'd only be found via {cxx_type}'s
-// own namespace (which may not be workrave::dbus at all), silently breaks
-// qDBusRegisterMetaType<{cxx_type}>() and any use as a sequence/map element.
-[[maybe_unused]] static QDBusArgument &operator<<(QDBusArgument &arg, const {cxx_type} &data)
-{{
-  workrave::dbus::DBusMarshall<{cxx_type}>::marshall(arg, data);
-  return arg;
-}}
-
-[[maybe_unused]] static const QDBusArgument &operator>>(const QDBusArgument &arg, {cxx_type} &data)
-{{
-  QString value;
-  arg >> value;
-  data = workrave::dbus::DBusMarshall<{cxx_type}>::convert(QVariant::fromValue(value));
-  return arg;
-}}
-"#
-    ))
+    let view = EnumMarshallView { cxx_type, values };
+    Ok(EnumMarshallTemplate { view: &view }.render()?)
 }
 
-fn render_struct_marshall(cxx_type: &str, struct_def: &StructDef) -> String {
-    let mut convert_fields = String::new();
-    let mut marshall_fields = String::new();
-    for f in &struct_def.fields {
-        convert_fields.push_str(&format!(
-            "    result.{} = DBusMarshall<{}>::convert(arg.asVariant());\n",
-            f.cxx_name, f.cxx_type.spelling
-        ));
-        marshall_fields.push_str(&format!(
-            "    DBusMarshall<{}>::marshall(arg, value.{});\n",
-            f.cxx_type.spelling, f.cxx_name
-        ));
-    }
-
-    format!(
-        r#"namespace workrave::dbus
-{{
-template<>
-struct DBusMarshall<{cxx_type}>
-{{
-  static {cxx_type} convert(const QVariant &variant)
-  {{
-    const auto arg = variant.value<QDBusArgument>();
-    {cxx_type} result{{}};
-    arg.beginStructure();
-{convert_fields}    arg.endStructure();
-    return result;
-  }}
-  static void marshall(QDBusArgument &arg, const {cxx_type} &value)
-  {{
-    arg.beginStructure();
-{marshall_fields}    arg.endStructure();
-  }}
-  static QVariant convert(const {cxx_type} &value)
-  {{
-    QDBusArgument arg;
-    marshall(arg, value);
-    return QVariant::fromValue(arg);
-  }}
-}};
-}} // namespace workrave::dbus
-
-// See the enum case above for why these are at global scope, not nested in
-// workrave::dbus: ADL needs to find them from {cxx_type}'s own associated
-// namespace, not this library's.
-[[maybe_unused]] static QDBusArgument &operator<<(QDBusArgument &arg, const {cxx_type} &data)
-{{
-  workrave::dbus::DBusMarshall<{cxx_type}>::marshall(arg, data);
-  return arg;
-}}
-
-[[maybe_unused]] static const QDBusArgument &operator>>(const QDBusArgument &arg, {cxx_type} &data)
-{{
-  data = workrave::dbus::DBusMarshall<{cxx_type}>::convert(QVariant::fromValue(arg));
-  return arg;
-}}
-"#
-    )
+struct StructFieldView {
+    cxx_name: String,
+    cxx_type: String,
 }
 
-fn render_vector_marshall(cxx_type: &str, element_cxx_type: &str) -> String {
-    format!(
-        r#"namespace workrave::dbus
-{{
-template<>
-struct DBusMarshall<{cxx_type}>
-{{
-  static {cxx_type} convert(const QVariant &variant)
-  {{
-    const auto arg = variant.value<QDBusArgument>();
-    {cxx_type} result;
-    arg.beginArray();
-    while (!arg.atEnd())
-      {{
-        result.push_back(DBusMarshall<{element_cxx_type}>::convert(arg.asVariant()));
-      }}
-    arg.endArray();
-    return result;
-  }}
-  static void marshall(QDBusArgument &arg, const {cxx_type} &value)
-  {{
-    arg.beginArray(qMetaTypeId<QVariant>());
-    for (const auto &item : value)
-      {{
-        DBusMarshall<{element_cxx_type}>::marshall(arg, item);
-      }}
-    arg.endArray();
-  }}
-  static QVariant convert(const {cxx_type} &value)
-  {{
-    QDBusArgument arg;
-    marshall(arg, value);
-    return QVariant::fromValue(arg);
-  }}
-}};
-}} // namespace workrave::dbus
-"#
-    )
+struct StructMarshallView<'a> {
+    cxx_type: &'a str,
+    fields: Vec<StructFieldView>,
 }
 
-fn render_duration_marshall(cxx_type: &str) -> String {
-    format!(
-        r#"namespace workrave::dbus
-{{
-template<>
-struct DBusMarshall<{cxx_type}>
-{{
-  static {cxx_type} convert(const QVariant &variant)
-  {{
-    std::string text = DBusMarshall<std::string>::convert(variant);
-    return std::chrono::duration_cast<{cxx_type}>(rpc::parse_duration(text));
-  }}
-}};
-}} // namespace workrave::dbus
-"#
-    )
+#[derive(Template)]
+#[template(path = "dbus_marshall_struct.cc.askama", escape = "none")]
+struct StructMarshallTemplate<'a> {
+    view: &'a StructMarshallView<'a>,
 }
 
-fn render_bitmask_marshall(cxx_type: &str, enum_cxx_type: &str) -> String {
-    format!(
-        r#"namespace workrave::dbus
-{{
-template<>
-struct DBusMarshall<{cxx_type}>
-{{
-  static {cxx_type} convert(const QVariant &variant)
-  {{
-    std::list<{enum_cxx_type}> items = DBusMarshall<std::list<{enum_cxx_type}>>::convert(variant);
-    {cxx_type} result;
-    for (const auto &item : items)
-      {{
-        result |= item;
-      }}
-    return result;
-  }}
-  static void marshall(QDBusArgument &arg, const {cxx_type} &value)
-  {{
-    std::list<{enum_cxx_type}> items;
-    for (unsigned int b = 0; b < workrave::utils::enum_traits<{enum_cxx_type}>::bits; ++b)
-      {{
-        auto e = static_cast<{enum_cxx_type}>(1 << b);
-        if (value.is_set(e))
-          {{
-            items.push_back(e);
-          }}
-      }}
-    DBusMarshall<std::list<{enum_cxx_type}>>::marshall(arg, items);
-  }}
-  static QVariant convert(const {cxx_type} &value)
-  {{
-    QDBusArgument arg;
-    marshall(arg, value);
-    return QVariant::fromValue(arg);
-  }}
-}};
-}} // namespace workrave::dbus
-"#
-    )
-}
-
-fn render_method_body(m: &Method, dbus_interface: &str, cxx_impl_type: &str) -> Vec<String> {
-    let num_in = m
-        .params
+fn render_struct_marshall(cxx_type: &str, struct_def: &StructDef) -> Result<String> {
+    let fields = struct_def
+        .fields
         .iter()
-        .filter(|p| !p.proto_field.is_empty() && matches!(p.direction, Direction::In))
-        .count();
-
-    let mut lines = Vec::new();
-    lines.push(format!("auto *dbus_object = static_cast<{cxx_impl_type} *>(object);"));
-    lines.push(String::new());
-
-    // Declare a local for every real parameter (in and out both need one —
-    // "in" so DBusMarshall::convert has somewhere to assign into before the
-    // call, "out" so the real method has an lvalue to write through) and
-    // for the return value, if any (the call's result is captured into it
-    // before being marshalled into the reply).
-    for p in &m.params {
-        if p.proto_field.is_empty() {
-            continue;
-        }
-        lines.push(format!("{} p_{}{{}};", p.cxx_type.base_spelling, p.cxx_name));
-    }
-    if let Some(rv) = &m.return_value {
-        lines.push(format!("{} p_{}{{}};", rv.cxx_type.base_spelling, rv.proto_field));
-    }
-    lines.push(String::new());
-
-    lines.push("auto num_in_args = message.arguments().size();".to_string());
-    lines.push(format!("if (num_in_args != {num_in})"));
-    lines.push("  {".to_string());
-    lines.push("    throw workrave::dbus::DBusRemoteException()".to_string());
-    lines.push("      << workrave::dbus::message_info(\"Incorrect number of in-parameters\")".to_string());
-    lines.push("      << workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS)".to_string());
-    lines.push(format!(
-        "      << workrave::dbus::method_info(\"{}\")",
-        m.rpc_name
-    ));
-    lines.push(format!(
-        "      << workrave::dbus::interface_info(\"{dbus_interface}\");"
-    ));
-    lines.push("  }".to_string());
-    lines.push(String::new());
-
-    let mut arg_index = 0usize;
-    for p in &m.params {
-        if p.proto_field.is_empty() || !matches!(p.direction, Direction::In) {
-            continue;
-        }
-        lines.push(format!(
-            "p_{} = DBusMarshall<{}>::convert(message.arguments().at({arg_index}));",
-            p.cxx_name, p.cxx_type.base_spelling
-        ));
-        arg_index += 1;
-    }
-    lines.push(String::new());
-
-    let call_args: Vec<String> = m
-        .params
-        .iter()
-        .map(|p| {
-            if p.proto_field.is_empty() {
-                // Absorbed size param — not expected in real @rpc.dbus
-                // interfaces today (cstring/bytes aren't DBus-mapped), but
-                // keep the shape consistent if it ever occurs.
-                format!("p_{}", p.cxx_name)
-            } else if p.cxx_type.is_pointer {
-                format!("&p_{}", p.cxx_name)
-            } else {
-                format!("p_{}", p.cxx_name)
-            }
+        .map(|f| StructFieldView {
+            cxx_name: f.cxx_name.clone(),
+            cxx_type: f.cxx_type.spelling.clone(),
         })
         .collect();
-    let call = format!("dbus_object->{}({})", m.cxx_symbol, call_args.join(", "));
+    let view = StructMarshallView { cxx_type, fields };
+    Ok(StructMarshallTemplate { view: &view }.render()?)
+}
 
-    if let Some(rv) = &m.return_value {
-        lines.push(format!("p_{} = {call};", rv.proto_field));
-    } else {
-        lines.push(format!("{call};"));
-    }
-    lines.push(String::new());
+struct VectorMarshallView<'a> {
+    cxx_type: &'a str,
+    element_cxx_type: &'a str,
+}
 
-    lines.push("QDBusMessage reply = message.createReply();".to_string());
-    if let Some(rv) = &m.return_value {
-        lines.push(format!(
-            "reply << DBusMarshall<{}>::convert(p_{});",
-            rv.cxx_type.base_spelling, rv.proto_field
-        ));
-    }
+#[derive(Template)]
+#[template(path = "dbus_marshall_vector.cc.askama", escape = "none")]
+struct VectorMarshallTemplate<'a> {
+    view: &'a VectorMarshallView<'a>,
+}
+
+fn render_vector_marshall(cxx_type: &str, element_cxx_type: &str) -> Result<String> {
+    let view = VectorMarshallView { cxx_type, element_cxx_type };
+    Ok(VectorMarshallTemplate { view: &view }.render()?)
+}
+
+struct DurationMarshallView<'a> {
+    cxx_type: &'a str,
+}
+
+#[derive(Template)]
+#[template(path = "dbus_marshall_duration.cc.askama", escape = "none")]
+struct DurationMarshallTemplate<'a> {
+    view: &'a DurationMarshallView<'a>,
+}
+
+fn render_duration_marshall(cxx_type: &str) -> Result<String> {
+    let view = DurationMarshallView { cxx_type };
+    Ok(DurationMarshallTemplate { view: &view }.render()?)
+}
+
+struct BitmaskMarshallView<'a> {
+    cxx_type: &'a str,
+    enum_cxx_type: &'a str,
+}
+
+#[derive(Template)]
+#[template(path = "dbus_marshall_bitmask.cc.askama", escape = "none")]
+struct BitmaskMarshallTemplate<'a> {
+    view: &'a BitmaskMarshallView<'a>,
+}
+
+fn render_bitmask_marshall(cxx_type: &str, enum_cxx_type: &str) -> Result<String> {
+    let view = BitmaskMarshallView { cxx_type, enum_cxx_type };
+    Ok(BitmaskMarshallTemplate { view: &view }.render()?)
+}
+
+struct DBusParamView {
+    cxx_name: String,
+    base_spelling: String,
+    is_out: bool,
+    /// Position among the method's `in` (or `inout`, once supported)
+    /// arguments in `message.arguments()` — `None` for an `out`-only param,
+    /// which has no wire representation to read from.
+    arg_index: Option<usize>,
+}
+
+struct DBusMethodView {
+    rpc_name: String,
+    cxx_symbol: String,
+    num_in: usize,
+    params: Vec<DBusParamView>,
+    /// Pre-joined real-call argument list, e.g. "p_key, &p_out" — a
+    /// mechanical `&`-if-pointer/`p_`-prefix transform, not a structural
+    /// decision, so joining it here (rather than in the template) is just
+    /// data prep.
+    call_args: String,
+    has_return_value: bool,
+    return_base_spelling: String,
+    return_proto_field: String,
+}
+
+fn method_view(m: &Method) -> DBusMethodView {
+    let mut params = Vec::new();
+    let mut call_args = Vec::new();
+    let mut arg_index = 0usize;
+    let mut num_in = 0usize;
+
     for p in &m.params {
-        if p.proto_field.is_empty() || !matches!(p.direction, Direction::Out) {
+        if p.proto_field.is_empty() {
+            // Absorbed size param — not expected in real @rpc.dbus
+            // interfaces today (cstring/bytes aren't DBus-mapped), but
+            // keep the shape consistent if it ever occurs.
+            call_args.push(format!("p_{}", p.cxx_name));
             continue;
         }
-        lines.push(format!(
-            "reply << DBusMarshall<{}>::convert(p_{});",
-            p.cxx_type.base_spelling, p.cxx_name
-        ));
+
+        let is_in = matches!(p.direction, Direction::In);
+        let is_out = matches!(p.direction, Direction::Out);
+        let idx = if is_in {
+            let i = arg_index;
+            arg_index += 1;
+            num_in += 1;
+            Some(i)
+        } else {
+            None
+        };
+
+        params.push(DBusParamView {
+            cxx_name: p.cxx_name.clone(),
+            base_spelling: p.cxx_type.base_spelling.clone(),
+            is_out,
+            arg_index: idx,
+        });
+        call_args.push(if p.cxx_type.is_pointer {
+            format!("&p_{}", p.cxx_name)
+        } else {
+            format!("p_{}", p.cxx_name)
+        });
     }
-    lines.push(String::new());
 
-    lines.push("bool rc = connection.send(reply);".to_string());
-    lines.push("if (!rc)".to_string());
-    lines.push("  {".to_string());
-    lines.push("    throw workrave::dbus::DBusRemoteException()".to_string());
-    lines.push("      << workrave::dbus::message_info(\"Failed to send reply\")".to_string());
-    lines.push("      << workrave::dbus::error_code_info(DBUS_ERROR_FAILED)".to_string());
-    lines.push(format!(
-        "      << workrave::dbus::method_info(\"{}\")",
-        m.rpc_name
-    ));
-    lines.push(format!(
-        "      << workrave::dbus::interface_info(\"{dbus_interface}\");"
-    ));
-    lines.push("  }".to_string());
+    let (has_return_value, return_base_spelling, return_proto_field) = match &m.return_value {
+        Some(rv) => (true, rv.cxx_type.base_spelling.clone(), rv.proto_field.clone()),
+        None => (false, String::new(), String::new()),
+    };
 
-    lines
+    DBusMethodView {
+        rpc_name: m.rpc_name.clone(),
+        cxx_symbol: m.cxx_symbol.clone(),
+        num_in,
+        params,
+        call_args: call_args.join(", "),
+        has_return_value,
+        return_base_spelling,
+        return_proto_field,
+    }
+}
+
+struct DBusSignalFieldView {
+    cxx_type: String,
+    cxx_name: String,
+}
+
+struct DBusSignalView {
+    rpc_name: String,
+    /// Pre-joined trailing parameter list, e.g. ", workrave::OperationMode
+    /// value" — same mechanical-join rationale as DBusMethodView::call_args.
+    params: String,
+    fields: Vec<DBusSignalFieldView>,
+}
+
+fn signal_view(s: &Signal) -> DBusSignalView {
+    let params = s
+        .fields
+        .iter()
+        .map(|f| format!(", {} {}", f.cxx_type.spelling, f.cxx_name))
+        .collect::<String>();
+    let fields = s
+        .fields
+        .iter()
+        .map(|f| DBusSignalFieldView {
+            cxx_type: f.cxx_type.spelling.clone(),
+            cxx_name: f.cxx_name.clone(),
+        })
+        .collect();
+    DBusSignalView { rpc_name: s.rpc_name.clone(), params, fields }
+}
+
+struct DBusBindingView {
+    ident: String,
+    stub_name: String,
+    dbus_interface: String,
+    header_include: String,
+    dbus_header_filename: String,
+    cxx_impl_type: String,
+    has_duration: bool,
+    /// Each already-rendered via its own dbus_marshall_*.cc.askama template
+    /// (self-contained `namespace workrave::dbus {...}` blocks with any free
+    /// operators at global scope — see the ADL note on render_enum_marshall
+    /// in the template itself) — spliced in verbatim, same as how
+    /// HeaderTemplate/SourceTemplate compose in cpp_gen.rs.
+    marshall_blocks: Vec<String>,
+    /// Already C++-string-literal-escaped, one XML line each — the template
+    /// only needs to wrap each in `"...\n"`.
+    introspect_xml_lines: Vec<String>,
+    methods: Vec<DBusMethodView>,
+    signals: Vec<DBusSignalView>,
+    enum_metatype_registrations: Vec<String>,
+}
+
+#[derive(Template)]
+#[template(path = "dbus_binding.hh.askama", escape = "none")]
+struct DBusHeaderTemplate<'a> {
+    view: &'a DBusBindingView,
+}
+
+#[derive(Template)]
+#[template(path = "dbus_binding.cc.askama", escape = "none")]
+struct DBusSourceTemplate<'a> {
+    view: &'a DBusBindingView,
 }
 
 pub fn render_dbus_binding(
@@ -640,54 +583,12 @@ pub fn render_dbus_binding(
     let stub_name = format!("{ident}_Stub");
     let cxx_impl_type = iface.cxx_qualified_class();
 
-    // Header: pure-virtual signal-emit interface, mirroring dbusgen.py's
-    // I<Interface> classes.
-    let mut header = String::new();
-    header.push_str("// GENERATED FILE - DO NOT EDIT.\n");
-    header.push_str("// Produced by clang-rpc-gen's DBus backend from an annotated C++ header.\n");
-    header.push_str("#pragma once\n\n");
-    header.push_str("#include <memory>\n#include <string>\n\n");
-    header.push_str("#include \"dbus/IDBus.hh\"\n\n");
-    header.push_str(&format!("#include \"{header_include}\"\n\n"));
-    header.push_str(&format!("class {ident}\n{{\npublic:\n"));
-    header.push_str(&format!("  virtual ~{ident}() = default;\n"));
-    header.push_str(&format!(
-        "  static {ident} *instance(std::shared_ptr<::workrave::dbus::IDBus> dbus);\n"
-    ));
-    for s in &iface.signals {
-        let params: String = s
-            .fields
-            .iter()
-            .map(|f| format!(", {} {}", f.cxx_type.spelling, f.cxx_name))
-            .collect();
-        header.push_str(&format!(
-            "  virtual void {}(const std::string &path{params}) = 0;\n",
-            s.rpc_name
-        ));
-    }
-    header.push_str("};\n");
-
-    // Source.
     let mut custom_types = Vec::new();
     let mut seen = HashSet::new();
     collect_custom_types(iface, unit, &mut custom_types, &mut seen)?;
 
-    let mut source = String::new();
-    source.push_str("// GENERATED FILE - DO NOT EDIT.\n");
-    source.push_str("// Produced by clang-rpc-gen's DBus backend from an annotated C++ header.\n");
-    source.push_str("#ifdef HAVE_CONFIG_H\n#  include \"config.h\"\n#endif\n\n");
-    source.push_str("#include <array>\n#include <chrono>\n#include <list>\n#include <map>\n#include <string>\n#include <string_view>\n#include <vector>\n\n");
-    source.push_str("#include \"dbus/DBusBindingQt.hh\"\n#include \"dbus/DBusException.hh\"\n");
-    if custom_types.iter().any(|(_, t)| matches!(t, CustomType::Duration)) {
-        source.push_str("#include \"rpc/Duration.hh\"\n");
-    }
-    source.push_str(&format!("#include \"{dbus_header_filename}\"\n\n"));
-    source.push_str("using namespace workrave::dbus;\n\n");
-
-    // Each type's render_*_marshall function wraps its own DBusMarshall<T>
-    // specialization in `namespace workrave::dbus { ... }` and emits any
-    // free operator<</>> at global scope itself — see the ADL note in
-    // render_enum_marshall. No shared outer namespace block here.
+    let mut marshall_blocks = Vec::new();
+    let mut enum_metatype_registrations = Vec::new();
     for (cxx_type, shape) in &custom_types {
         match shape {
             CustomType::Enum { proto_name } => {
@@ -696,179 +597,49 @@ pub fn render_dbus_binding(
                     .iter()
                     .find(|e| &e.proto_name == proto_name)
                     .with_context(|| format!("enum '{proto_name}' not registered"))?;
-                source.push_str(&render_enum_marshall(cxx_type, enum_def)?);
+                marshall_blocks.push(render_enum_marshall(cxx_type, enum_def)?);
+                enum_metatype_registrations.push(cxx_type.clone());
             }
             CustomType::Struct { proto_name } => {
                 let struct_def = unit
                     .find_struct_by_proto_name(proto_name)
                     .with_context(|| format!("struct '{proto_name}' not registered"))?;
-                source.push_str(&render_struct_marshall(cxx_type, struct_def));
+                marshall_blocks.push(render_struct_marshall(cxx_type, struct_def)?);
             }
             CustomType::Vector { element_cxx_type } => {
-                source.push_str(&render_vector_marshall(cxx_type, element_cxx_type));
+                marshall_blocks.push(render_vector_marshall(cxx_type, element_cxx_type)?);
             }
             CustomType::Duration => {
-                source.push_str(&render_duration_marshall(cxx_type));
+                marshall_blocks.push(render_duration_marshall(cxx_type)?);
             }
             CustomType::Bitmask { enum_cxx_type } => {
-                source.push_str(&render_bitmask_marshall(cxx_type, enum_cxx_type));
+                marshall_blocks.push(render_bitmask_marshall(cxx_type, enum_cxx_type)?);
             }
         }
-        source.push('\n');
     }
+    let has_duration = custom_types.iter().any(|(_, t)| matches!(t, CustomType::Duration));
 
     let introspect_xml = render_introspect_xml(iface, dbus_interface, unit)?;
+    let introspect_xml_lines: Vec<String> = introspect_xml.lines().map(escape_cxx_string).collect();
 
-    source.push_str(&format!(
-        "class {stub_name} : public DBusBindingQt, public {ident}\n{{\nprivate:\n"
-    ));
-    source.push_str(&format!(
-        "  using DBusMethodPointer = void ({stub_name}::*)(void *object, const QDBusMessage &message, const QDBusConnection &connection);\n\n"
-    ));
-    source.push_str("  struct DBusMethod\n  {\n    std::string_view name;\n    DBusMethodPointer fn;\n  };\n\n");
-    source.push_str("  bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) override;\n\n");
-    source.push_str("  std::string_view get_interface_introspect() override\n  {\n    return interface_introspect;\n  }\n\n");
-    source.push_str("public:\n");
-    source.push_str(&format!(
-        "  explicit {stub_name}(std::shared_ptr<IDBus> dbus) : DBusBindingQt(std::move(dbus)) {{}}\n"
-    ));
-    source.push_str(&format!("  ~{stub_name}() override = default;\n\n"));
-    for s in &iface.signals {
-        let params: String = s
-            .fields
-            .iter()
-            .map(|f| format!(", {} {}", f.cxx_type.spelling, f.cxx_name))
-            .collect();
-        source.push_str(&format!(
-            "  void {}(const std::string &path{params}) override;\n",
-            s.rpc_name
-        ));
-    }
-    source.push_str("\nprivate:\n");
-    for m in &iface.methods {
-        source.push_str(&format!(
-            "  void {}(void *object, const QDBusMessage &message, const QDBusConnection &connection);\n",
-            m.rpc_name
-        ));
-    }
-    source.push('\n');
-    source.push_str(&format!(
-        "  static constexpr std::array<DBusMethod, {}> method_table =\n  {{ {{\n",
-        iface.methods.len()
-    ));
-    for m in &iface.methods {
-        source.push_str(&format!(
-            "      {{.name = \"{}\", .fn = &{stub_name}::{}}},\n",
-            m.rpc_name, m.rpc_name
-        ));
-    }
-    source.push_str("  } };\n\n");
-    source.push_str("  static constexpr std::string_view interface_introspect =\n");
-    for line in introspect_xml.lines() {
-        source.push_str(&format!("  \"{}\\n\"\n", escape_cxx_string(line)));
-    }
-    source.push_str(";\n");
-    source.push_str("};\n\n");
+    let view = DBusBindingView {
+        ident,
+        stub_name,
+        dbus_interface: dbus_interface.to_string(),
+        header_include: header_include.to_string(),
+        dbus_header_filename: dbus_header_filename.to_string(),
+        cxx_impl_type,
+        has_duration,
+        marshall_blocks,
+        introspect_xml_lines,
+        methods: iface.methods.iter().map(method_view).collect(),
+        signals: iface.signals.iter().map(signal_view).collect(),
+        enum_metatype_registrations,
+    };
 
-    source.push_str(&format!(
-        "{ident} *{ident}::instance(std::shared_ptr<::workrave::dbus::IDBus> dbus)\n{{\n"
-    ));
-    source.push_str(&format!("  {stub_name} *iface = nullptr;\n"));
-    source.push_str(&format!(
-        "  DBusBinding *binding = dbus->find_binding(\"{dbus_interface}\");\n"
-    ));
-    source.push_str("  if (binding != nullptr)\n    {\n");
-    source.push_str(&format!("      iface = dynamic_cast<{stub_name} *>(binding);\n"));
-    source.push_str("    }\n  return iface;\n}\n\n");
-
-    source.push_str(&format!(
-        "bool\n{stub_name}::call(void *object, const QDBusMessage &message, const QDBusConnection &connection)\n{{\n"
-    ));
-    source.push_str("  std::string method_name = message.member().toStdString();\n");
-    source.push_str(&format!(
-        "  constexpr std::array<DBusMethod, {}> table = method_table;\n",
-        iface.methods.len()
-    ));
-    source.push_str("  for (const auto &method : table)\n    {\n");
-    source.push_str("      if (method_name == method.name)\n        {\n");
-    source.push_str("          DBusMethodPointer ptr = method.fn;\n");
-    source.push_str("          if (ptr != nullptr)\n            {\n");
-    source.push_str("              (this->*ptr)(object, message, connection);\n");
-    source.push_str("            }\n          return true;\n        }\n    }\n");
-    source.push_str("  throw DBusRemoteException()\n");
-    source.push_str("    << message_info(\"Unknown method\")\n");
-    source.push_str("    << error_code_info(DBUS_ERROR_UNKNOWN_METHOD)\n");
-    source.push_str("    << method_info(method_name)\n");
-    source.push_str(&format!("    << interface_info(\"{dbus_interface}\");\n}}\n\n"));
-
-    for m in &iface.methods {
-        let body = render_method_body(m, dbus_interface, &cxx_impl_type);
-        source.push_str(&format!(
-            "void\n{stub_name}::{}(void *object, const QDBusMessage &message, const QDBusConnection &connection)\n{{\n  try\n    {{\n",
-            m.rpc_name
-        ));
-        for line in &body {
-            if line.is_empty() {
-                source.push('\n');
-            } else {
-                source.push_str("      ");
-                source.push_str(line);
-                source.push('\n');
-            }
-        }
-        source.push_str("    }\n");
-        source.push_str("  catch (const DBusRemoteException &e)\n    {\n");
-        source.push_str(&format!(
-            "      e << method_info(\"{}\") << interface_info(\"{dbus_interface}\");\n",
-            m.rpc_name
-        ));
-        source.push_str("      throw;\n    }\n}\n\n");
-    }
-
-    for s in &iface.signals {
-        source.push_str(&render_signal_emit(s, &stub_name, dbus_interface));
-    }
-
-    source.push_str(&format!(
-        "void init_{}(std::shared_ptr<IDBus> dbus)\n{{\n",
-        ident
-    ));
-    source.push_str(&format!(
-        "  dbus->register_binding(\"{dbus_interface}\", new {stub_name}(dbus));\n\n"
-    ));
-    for (cxx_type, shape) in &custom_types {
-        if matches!(shape, CustomType::Enum { .. }) {
-            source.push_str(&format!("  qDBusRegisterMetaType<{cxx_type}>();\n"));
-        }
-    }
-    source.push_str("}\n");
-
+    let header = DBusHeaderTemplate { view: &view }.render()?;
+    let source = DBusSourceTemplate { view: &view }.render()?;
     Ok(RenderedDBusBinding { header, source })
-}
-
-fn render_signal_emit(s: &Signal, stub_name: &str, dbus_interface: &str) -> String {
-    let params: String = s
-        .fields
-        .iter()
-        .map(|f| format!(", {} {}", f.cxx_type.spelling, f.cxx_name))
-        .collect();
-    let mut out = format!(
-        "void\n{stub_name}::{}(const std::string &path{params})\n{{\n",
-        s.rpc_name
-    );
-    out.push_str(&format!(
-        "  QDBusMessage sig = QDBusMessage::createSignal(QString::fromStdString(path), \"{dbus_interface}\", \"{}\");\n",
-        s.rpc_name
-    ));
-    for f in &s.fields {
-        out.push_str(&format!(
-            "  sig << DBusMarshall<{}>::convert({});\n",
-            f.cxx_type.spelling, f.cxx_name
-        ));
-    }
-    out.push_str("  IDBusPrivateQt::Ptr priv = std::dynamic_pointer_cast<IDBusPrivateQt>(dbus);\n");
-    out.push_str("  priv->get_connection().send(sig);\n}\n\n");
-    out
 }
 
 fn escape_cxx_string(s: &str) -> String {

@@ -1,0 +1,16 @@
+  <interface name="{{ view.dbus_interface }}">
+{% for m in view.methods %}
+    <method name="{{ m.name }}">
+{% for a in m.args %}
+      <arg type="{{ a.sig }}" name="{{ a.name }}" direction="{{ a.direction }}" />
+{% endfor %}
+    </method>
+{% endfor %}
+{% for s in view.signals %}
+    <signal name="{{ s.name }}">
+{% for a in s.args %}
+      <arg type="{{ a.sig }}" name="{{ a.name }}" />
+{% endfor %}
+    </signal>
+{% endfor %}
+  </interface>

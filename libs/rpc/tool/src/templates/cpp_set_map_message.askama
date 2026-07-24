@@ -1,0 +1,1 @@
+for (const auto &{{ view.kv }} : {{ view.src_expr }}) { auto &{{ view.map_val_var }} = (*{{ view.target_prefix }}mutable_{{ view.field }}())[{{ view.kv }}.first]; {{ view.inner }} }

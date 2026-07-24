@@ -1,0 +1,1 @@
+for (const auto &{{ view.kv }} : {{ view.src_expr }}) { (*{{ view.target_prefix }}mutable_{{ view.field }}())[{{ view.kv }}.first] = {% if let Some(enum_type) = view.enum_cast %}static_cast<::{{ view.proto_ns }}::{{ enum_type }}>({{ view.kv }}.second){% else %}{{ view.kv }}.second{% endif %}; }
