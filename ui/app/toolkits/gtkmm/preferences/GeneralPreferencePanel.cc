@@ -93,7 +93,7 @@ GeneralPreferencePanel::create_panel()
   // Options
   HigCategoryPanel *panel = Gtk::manage(new HigCategoryPanel(_("Options")));
 
-  panel->add_label(_("Block mode:"), *block_button);
+  panel->add_label(std::string(_("Block mode")) + ":", *block_button);
 
 #if defined(HAVE_LANGUAGE_SELECTION)
   std::string current_locale = GUIConfig::locale()();
@@ -173,7 +173,7 @@ GeneralPreferencePanel::create_panel()
 
   languages_combo.set_active(selected);
 
-  panel->add_label(_("Language:"), languages_combo);
+  panel->add_label(std::string(_("Language")) + ":", languages_combo);
 #endif
 
   bool show_autostart = false;
@@ -248,7 +248,7 @@ GeneralPreferencePanel::create_panel()
   dark_combo->append(_("Light"));
   dark_combo->append(_("Dark"));
   dark_combo->append(_("Auto"));
-  panel->add_label(_("Dark mode:"), *dark_combo);
+  panel->add_label(std::string(_("Dark mode")) + ":", *dark_combo);
 
   // Block types
 

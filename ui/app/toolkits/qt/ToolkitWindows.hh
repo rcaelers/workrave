@@ -22,7 +22,10 @@
 #include <boost/signals2.hpp>
 
 #include "ui/windows/IToolkitWindows.hh"
+#include "ui/GUIConfig.hh"
 #include "Toolkit.hh"
+#include "utils/Logging.hh"
+#include "utils/Signals.hh"
 
 #include "ui/windows/WindowsLocker.hh"
 #if defined(HAVE_HARPOON)
@@ -32,12 +35,14 @@
 class ToolkitWindows
   : public Toolkit
   , public IToolkitWindows
+  , public QAbstractNativeEventFilter
 {
 public:
   ToolkitWindows(int argc, char **argv);
   ~ToolkitWindows() override;
 
   void init(std::shared_ptr<IApplicationContext> app) override;
+  void deinit() override;
   void release() override;
 
   std::shared_ptr<Locker> get_locker() override;
@@ -47,19 +52,29 @@ public:
 
   auto get_desktop_image() -> QPixmap override;
 
+  static bool is_windows_app_theme_dark();
+
 private:
   void init_filter();
   void init_gui();
-  bool filter_func(MSG *msg);
+  void apply_light_dark_mode(LightDarkTheme mode) override;
+  void request_graceful_shutdown(const char *reason);
+
+  bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override;
+  bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
   boost::signals2::signal<bool(MSG *msg), IToolkitWindows::event_combiner> event_hook;
+  workrave::utils::Trackable config_tracker;
+  bool shutdown_requested{false};
 
 #if defined(HAVE_HARPOON)
   std::shared_ptr<WindowsHarpoonLocker> locker;
 #else
   std::shared_ptr<WindowsLocker> locker;
 #endif
+
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("toolkit:windows")};
 };
 
 #endif // TOOLKIT_WINDOWS_HH

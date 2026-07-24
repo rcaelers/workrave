@@ -19,7 +19,6 @@
 #define WORKRAVE_UI_PREFWIDGETS_QT_TOGGLEWIDGET_HH
 
 #include <memory>
-#include <string>
 
 #include <QCheckBox>
 

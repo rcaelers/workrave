@@ -59,13 +59,6 @@ if (PLATFORM_OS_WINDOWS)
     target_sources(workrave-app PRIVATE platforms/windows/WindowsHarpoonLocker.cc)
   endif()
 
-  #  target_include_directories(workrave PRIVATE ${CMAKE_SOURCE_DIR}/ui/app/toolkits/gtkmm/src/windows)
-
-  #if (HAVE_HARPOON)
-  #  target_link_libraries(workrave PRIVATE harpoon64)
-  #  target_include_directories(workrave PRIVATE ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
-  #endif()
-
   target_include_directories(workrave-app
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/platforms/windows
@@ -90,6 +83,10 @@ if (PLATFORM_OS_MACOS)
                               platforms/macos/MacOSLocker.cc
                               platforms/macos/MacOSDock.mm
                               PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+  set_source_files_properties(Locale.cc
+                              platforms/macos/MacOSLocker.cc
+                              platforms/macos/MacOSDock.mm
+                              PROPERTIES SKIP_LINTING ON)
 
   target_include_directories(workrave-app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
@@ -130,6 +127,10 @@ else()
   target_link_libraries(workrave-app PRIVATE workrave-libs-core)
 endif()
 
+if (HAVE_CORE_SHADOW)
+  target_link_libraries(workrave-app PRIVATE workrave-libs-core-shadow)
+endif()
+
 if (HAVE_CRASH_REPORT)
   target_link_libraries(workrave-app PRIVATE workrave-libs-crash)
 endif()
@@ -149,6 +150,8 @@ if (HAVE_APP_QT)
 else()
   add_executable(workrave main.cc $<TARGET_OBJECTS:workrave-app>)
 endif()
+
+target_code_coverage(workrave)
 
 set_target_properties(workrave PROPERTIES
     WIN32_EXECUTABLE ON
@@ -171,6 +174,10 @@ if (HAVE_CORE_NEXT)
   target_link_libraries(workrave PRIVATE workrave-libs-core-next)
 else()
   target_link_libraries(workrave PRIVATE workrave-libs-core)
+endif()
+
+if (HAVE_CORE_SHADOW)
+  target_link_libraries(workrave PRIVATE workrave-libs-core-shadow)
 endif()
 
 if (HAVE_APP_GTK)

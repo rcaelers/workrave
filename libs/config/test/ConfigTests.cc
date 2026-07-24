@@ -26,9 +26,7 @@ using namespace boost::unit_test;
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
-#if SPDLOG_VERSION >= 10801
-#  include <spdlog/cfg/env.h>
-#endif
+#include <spdlog/cfg/env.h>
 
 #include "SimulatedTime.hh"
 
@@ -83,10 +81,7 @@ public:
 
     spdlog::set_level(spdlog::level::info);
     spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%-5l%$] %v");
-
-#if SPDLOG_VERSION >= 10801
     spdlog::cfg::load_env_levels();
-#endif
   }
 
   void teardown()

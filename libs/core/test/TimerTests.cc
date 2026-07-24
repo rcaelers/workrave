@@ -91,9 +91,9 @@ public:
     return timer;
   }
 
-  void tick(bool active)
+  void tick(bool active) const
   {
-    TimerInfo info;
+    TimerInfo info{};
     info.event = TIMER_EVENT_NONE;
     info.idle_time = 0;
     info.elapsed_time = 0;
@@ -103,13 +103,13 @@ public:
     sim->current_time += 1000000;
   }
 
-  void tick(bool active, int seconds, const std::function<void(int count)> &check_func)
+  void tick(bool active, int seconds, const std::function<void(int count)> &check_func) const
   {
     for (int i = 0; i < seconds; i++)
       {
         try
           {
-            TimerInfo info;
+            TimerInfo info{};
             info.event = TIMER_EVENT_NONE;
             info.idle_time = 0;
             info.elapsed_time = 0;
@@ -141,7 +141,7 @@ public:
       {
         try
           {
-            TimerInfo info;
+            TimerInfo info{};
             info.event = TIMER_EVENT_NONE;
             info.idle_time = 0;
             info.elapsed_time = 0;
@@ -1163,7 +1163,6 @@ BOOST_AUTO_TEST_CASE(test_timer_limit_reached_inhibit_snooze_event)
 
   timer->inhibit_snooze();
 
-  // Next: tick(true, 200, [=,this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
   tick(true, 200, [](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, count == 48 ? TIMER_EVENT_LIMIT_REACHED : TIMER_EVENT_NONE);
   });
@@ -1546,12 +1545,9 @@ BOOST_AUTO_TEST_CASE(test_timer_enable_limit_when_active_and_not_overdue)
   init();
 
   tick(false, 50, [this](int count, TimerEvent event) {
-    // Next: BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(event, count == 20 ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
-    // Next:BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 20 + count);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), count < 20 ? 20 + count : count);
-
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
   });
 
@@ -1581,10 +1577,8 @@ BOOST_AUTO_TEST_CASE(test_timer_enable_limit_when_active_and_overdue)
   init();
 
   tick(false, 50, [this](int count, TimerEvent event) {
-    // Next: BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(event, count == 20 ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
-    // Next: BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 20 + count);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), count < 20 ? 20 + count : count);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
   });
@@ -1883,10 +1877,8 @@ BOOST_AUTO_TEST_CASE(test_timer_disable_limit_when_timer_is_disabled)
   timer->enable();
 
   tick(false, 50, [this](int count, TimerEvent event) {
-    // Next: BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(event, count == 0 ? TIMER_EVENT_RESET : TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
-    // Next: BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 21 + count);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 20 + count);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
   });
@@ -2148,6 +2140,72 @@ BOOST_AUTO_TEST_CASE(test_timer_serialize)
   std::string s2 = t->serialize_state();
   s2 = s2.substr(s2.find_first_of(" ") + 1);
   BOOST_REQUIRE_EQUAL(s1, s2);
+}
+
+BOOST_AUTO_TEST_CASE(test_timer_noop_controls)
+{
+  init();
+
+  timer->start_timer();
+  timer->start_timer();
+
+  timer->disable();
+  timer->snooze_timer();
+
+  BOOST_REQUIRE(!timer->is_enabled());
+}
+
+BOOST_AUTO_TEST_CASE(test_timer_zero_limit_and_reset_without_auto_reset)
+{
+  init();
+
+  timer->set_limit(0);
+  BOOST_REQUIRE_EQUAL(timer->get_limit(), 0);
+
+  timer->set_auto_reset_enabled(false);
+  timer->reset_timer();
+
+  BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
+}
+
+BOOST_AUTO_TEST_CASE(test_timer_deserialize_version_two_with_future_reset)
+{
+  init();
+
+  const auto now = sim->get_real_time_usec() / 1000000;
+  timer->set_auto_reset_enabled(false);
+
+  std::ostringstream state;
+  state << now << " 10 " << now + 1 << " 3 0 0 0";
+
+  BOOST_REQUIRE(timer->deserialize_state(state.str(), 2));
+  BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 10);
+  BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 3);
+}
+
+BOOST_AUTO_TEST_CASE(test_timer_deserialize_too_old_state)
+{
+  init();
+
+  const auto now = sim->get_real_time_usec() / 1000000;
+  std::ostringstream state;
+  state << now - 100 << " 10 " << now - 100 << " 0 0 0 0 0";
+
+  BOOST_REQUIRE(timer->deserialize_state(state.str(), 3));
+  BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
+}
+
+BOOST_AUTO_TEST_CASE(test_timer_deserialize_overdue_state)
+{
+  init();
+
+  const auto now = sim->get_real_time_usec() / 1000000;
+  std::ostringstream state;
+  state << now << " 150 " << now << " 0 0 0 120 0";
+
+  BOOST_REQUIRE(timer->deserialize_state(state.str(), 3));
+  BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 150);
+  BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 50);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

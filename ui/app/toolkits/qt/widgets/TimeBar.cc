@@ -22,13 +22,15 @@
 #include "TimeBar.hh"
 
 #include <QStylePainter>
-#include <QStyleOptionProgressBar>
+#include <algorithm>
 
 #include "UiUtil.hh"
 #include "debug.hh"
 
 const int MARGINX = 4;
 const int MARGINY = 2;
+const int MINIMUM_HEIGHT = 20;
+const int BORDER_SIZE = 1;
 
 std::map<TimerColorId, QColor> TimeBar::bar_colors{
   {TimerColorId::Active, QColor("lightblue")},
@@ -42,17 +44,14 @@ std::map<TimerColorId, QColor> TimeBar::bar_colors{
 TimeBar::TimeBar(QWidget *parent)
   : QWidget(parent)
 {
-  setBackgroundRole(QPalette::Base);
-  setAutoFillBackground(true);
+  setAttribute(Qt::WA_OpaquePaintEvent);
+  setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 }
 
 void
 TimeBar::set_progress(int value, int max_value)
 {
-  if (value > max_value)
-    {
-      value = max_value;
-    }
+  value = std::min(value, max_value);
 
   bar_value = value;
   bar_max_value = max_value;
@@ -61,10 +60,7 @@ TimeBar::set_progress(int value, int max_value)
 void
 TimeBar::set_secondary_progress(int value, int max_value)
 {
-  if (value > max_value)
-    {
-      value = max_value;
-    }
+  value = std::min(value, max_value);
 
   secondary_bar_value = value;
   secondary_bar_max_value = max_value;
@@ -106,16 +102,13 @@ TimeBar::minimumSizeHint() const -> QSize
   int width = fontMetrics().horizontalAdvance(bar_text);
   int height = fontMetrics().height();
 
-  QString full_text = UiUtil::time_to_string(-(59 + 59 * 60 + 9 * 60 * 60));
+  QString full_text = UiUtil::time_to_string(-(59 + (59 * 60) + (9 * 60 * 60)));
   int full_width = fontMetrics().horizontalAdvance(full_text);
 
-  if (full_width > width)
-    {
-      width = full_width;
-    }
+  width = std::max(full_width, width);
 
   width = width + 2 * MARGINX;
-  height = std::max(height + 2 * MARGINY, 20);
+  height = std::max(height + (2 * MARGINY), MINIMUM_HEIGHT);
 
   return QSize(width, height);
 }
@@ -132,37 +125,26 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
   TRACE_ENTRY();
   QStylePainter painter(this);
 
-  const int border_size = 1;
+  const QRect frame_rect = rect().adjusted(0, 0, -1, -1);
+  const QRect text_rect = frame_rect.adjusted(MARGINX + BORDER_SIZE, BORDER_SIZE, -(MARGINX + BORDER_SIZE), -BORDER_SIZE);
+  const int bar_height = std::max(frame_rect.height(), 0);
 
   // Draw background
-  painter.fillRect(0, 0, width() - 1, height() - 1, QColor("white"));
-  painter.setPen(QColor("black"));
-  painter.drawRect(0, 0, width() - 1, height() - 1);
-
-  QStyleOptionFrame option;
-  option.initFrom(this);
-  option.features = QStyleOptionFrame::Flat;
-  option.frameShape = QFrame::Panel;
-  option.lineWidth = 2;
-  option.midLineWidth = 0;
-
-  painter.drawPrimitive(QStyle::PE_Frame, option);
+  painter.fillRect(frame_rect, QColor("white"));
 
   // Bar
   int bar_width = 0;
-  if (bar_max_value > 0)
+  if (bar_max_value > 0 && frame_rect.width() > 0)
     {
-      bar_width = (bar_value * (width() - 2 * border_size - 1)) / bar_max_value;
+      bar_width = (bar_value * frame_rect.width()) / bar_max_value;
     }
 
   // Secondary bar
   int sbar_width = 0;
-  if (secondary_bar_max_value > 0)
+  if (secondary_bar_max_value > 0 && frame_rect.width() > 0)
     {
-      sbar_width = (secondary_bar_value * (width() - 2 * border_size - 1)) / secondary_bar_max_value;
+      sbar_width = (secondary_bar_value * frame_rect.width()) / secondary_bar_max_value;
     }
-
-  int bar_height = height() - 2 * border_size;
 
   if (sbar_width > 0)
     {
@@ -173,7 +155,7 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
       // in which this still happens.. need to check
       // this out some time.
       // assert(secondary_bar_color == TimerColorId::Inactive);
-      TimerColorId overlap_color;
+      TimerColorId overlap_color{TimerColorId::InactiveOverActive};
       switch (bar_color)
         {
         case TimerColorId::Active:
@@ -194,12 +176,12 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
         {
           if (bar_width != 0)
             {
-              painter.fillRect(border_size, border_size, bar_width, bar_height, bar_colors[overlap_color]);
+              painter.fillRect(frame_rect.x(), frame_rect.y(), bar_width, bar_height, bar_colors[overlap_color]);
             }
           if (sbar_width > bar_width)
             {
-              painter.fillRect(border_size + bar_width,
-                               border_size,
+              painter.fillRect(frame_rect.x() + bar_width,
+                               frame_rect.y(),
                                sbar_width - bar_width,
                                bar_height,
                                bar_colors[secondary_bar_color]);
@@ -209,46 +191,42 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
         {
           if (sbar_width != 0)
             {
-              painter.fillRect(border_size, border_size, sbar_width, bar_height, bar_colors[overlap_color]);
+              painter.fillRect(frame_rect.x(), frame_rect.y(), sbar_width, bar_height, bar_colors[overlap_color]);
             }
-          painter.fillRect(border_size + sbar_width, border_size, bar_width - sbar_width, bar_height, bar_colors[bar_color]);
+          painter.fillRect(frame_rect.x() + sbar_width,
+                           frame_rect.y(),
+                           bar_width - sbar_width,
+                           bar_height,
+                           bar_colors[bar_color]);
         }
     }
   else
     {
       // No overlap
-      painter.fillRect(border_size, border_size, bar_width, bar_height, bar_colors[bar_color]);
+      painter.fillRect(frame_rect.x(), frame_rect.y(), bar_width, bar_height, bar_colors[bar_color]);
     }
 
-  int text_width = painter.fontMetrics().horizontalAdvance(bar_text);
-  int text_height = painter.fontMetrics().height();
+  painter.setPen(QColor("#8f8f8f"));
+  painter.drawRect(frame_rect);
 
-  int text_x = 0;
+  Qt::Alignment alignment = Qt::AlignVCenter;
   if (bar_text_align > 0)
     {
-      text_x = std::max(width() - text_width - MARGINX, 0);
+      alignment |= Qt::AlignRight;
     }
   else if (bar_text_align < 0)
     {
-      text_x = MARGINX;
+      alignment |= Qt::AlignLeft;
     }
   else
     {
-      text_x = (width() - text_width) / 2;
+      alignment |= Qt::AlignHCenter;
     }
 
-  int text_y = (height() + text_height) / 2 - MARGINY;
-
-  TRACE_MSG("x = {} y = {}", text_x, text_y);
-
-  int left_width = (bar_width > sbar_width) ? bar_width : sbar_width;
-  left_width += border_size;
-
-  QRegion left_rect(0, 0, left_width, height());
-  QRegion right_rect(left_width, 0, width() - left_width, height());
-
   painter.setPen(QColor("black"));
-  painter.drawText(text_x, text_y, bar_text);
+  painter.drawText(text_rect, alignment, bar_text);
 
+  int text_width = painter.fontMetrics().horizontalAdvance(bar_text);
+  int text_height = painter.fontMetrics().height();
   TRACE_MSG("width = {} height = {}", text_width, text_height);
 }

@@ -35,9 +35,9 @@ TimeEntryWidget::TimeEntryWidget(std::shared_ptr<ui::prefwidgets::Time> def,
 void
 TimeEntryWidget::set_value(int32_t t)
 {
-  hrs->setValue(static_cast<double>(t / (60 * 60)));
-  mins->setValue(static_cast<double>((t / 60) % 60));
-  secs->setValue(static_cast<double>(t % 60));
+  hrs->setValue(t / (60 * 60));
+  mins->setValue((t / 60) % 60);
+  secs->setValue(t % 60);
 }
 
 int32_t
@@ -46,14 +46,12 @@ TimeEntryWidget::get_value()
   int s = secs->value();
   int h = hrs->value();
   int m = mins->value();
-  return h * 60 * 60 + m * 60 + s;
+  return (h * 60 * 60) + (m * 60) + s;
 }
 
 void
 TimeEntryWidget::init_ui(std::shared_ptr<ContainerWidget> container)
 {
-  // adjustment = Gtk::Adjustment::create(def->get_value(), def->get_min(), def->get_max());
-
   widget = new QWidget;
   auto *layout = new QHBoxLayout;
   widget->setLayout(layout);

@@ -24,6 +24,8 @@
 #import <Cocoa/Cocoa.h>
 #include <ApplicationServices/ApplicationServices.h>
 #import <AppKit/NSRunningApplication.h>
+
+
 #include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
 
@@ -38,7 +40,8 @@ class MacOSLocker::Pimpl
 public:
   Pimpl() = default;
 
-  void foreground();
+  void prepare_foreground();
+  void activate();
   void restore_foreground();
   bool can_lock();
   void lock();
@@ -54,9 +57,7 @@ MacOSLocker::MacOSLocker()
   pimpl = std::make_unique<Pimpl>();
 }
 
-MacOSLocker::~MacOSLocker()
-{
-}
+MacOSLocker::~MacOSLocker() = default;
 
 bool
 MacOSLocker::can_lock()
@@ -67,12 +68,13 @@ MacOSLocker::can_lock()
 void
 MacOSLocker::prepare_lock()
 {
+  pimpl->prepare_foreground();
 }
 
 void
 MacOSLocker::lock()
 {
-  pimpl->foreground();
+  pimpl->activate();
   pimpl->lock();
 }
 
@@ -84,11 +86,30 @@ MacOSLocker::unlock()
 }
 
 void
-MacOSLocker::Pimpl::foreground()
+MacOSLocker::Pimpl::prepare_foreground()
 {
-  active_app = [[NSWorkspace sharedWorkspace] frontmostApplication];
-  active_app_hidden = [NSApp isHidden];
-  [NSApp activateIgnoringOtherApps:YES];
+  if (active_app == nil)
+    {
+      active_app = [[NSWorkspace sharedWorkspace] frontmostApplication];
+      active_app_hidden = (static_cast<int>([NSApp isHidden]) != 0);
+    }
+}
+
+void
+MacOSLocker::Pimpl::activate()
+{
+  prepare_foreground();
+  if (@available(macOS 14.0, *))
+    {
+      [NSApp activate];
+    }
+  else
+    {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+      [NSApp activateIgnoringOtherApps:YES];
+#pragma clang diagnostic pop
+    }
 }
 
 void
@@ -96,7 +117,10 @@ MacOSLocker::Pimpl::restore_foreground()
 {
   if (active_app != nil)
     {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
       [active_app activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+#pragma clang diagnostic pop
       if (active_app_hidden)
         {
           [NSApp hide:active_app];

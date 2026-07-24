@@ -49,9 +49,9 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
   workrave::updater::Config::init(context->get_configurator());
 
 #ifdef HAVE_UPDATER_STAGING
-  auto rc = updater->set_appcast("https://appcast.workrave.org/staging/v1.11/appcast.xml");
+  auto rc = updater->set_appcast("https://appcast.workrave.org/staging/v1.12/appcast.xml");
 #else
-  auto rc = updater->set_appcast("https://appcast.workrave.org/v1.11/appcast.xml");
+  auto rc = updater->set_appcast("https://appcast.workrave.org/v1.12/appcast.xml");
 #endif
   if (!rc)
     {
@@ -205,7 +205,7 @@ AutoUpdater::init_channels()
       allowed_channels.emplace_back("alpha");
       [[fallthrough]];
 
-      case workrave::updater::Channel::Beta:
+    case workrave::updater::Channel::Beta:
       allowed_channels.emplace_back("beta");
       [[fallthrough]];
 

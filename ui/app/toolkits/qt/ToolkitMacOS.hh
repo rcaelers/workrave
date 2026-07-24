@@ -20,7 +20,18 @@
 
 #include "Toolkit.hh"
 
+#include <memory>
+#include <QProxyStyle>
+#include <QStyleOption>
+#include "MacDockTile.hh"
 #include "ui/macos/MacOSLocker.hh"
+
+class MacOSMenuStyle : public QProxyStyle
+{
+public:
+  using QProxyStyle::QProxyStyle;
+  int pixelMetric(PixelMetric metric, const QStyleOption *opt, const QWidget *w) const override;
+};
 
 class ToolkitMacOS : public Toolkit
 {
@@ -35,8 +46,12 @@ public:
   auto get_desktop_image() -> QPixmap override;
 
 private:
+  bool eventFilter(QObject *obj, QEvent *event) override;
+
   std::shared_ptr<MacOSLocker> locker;
   std::shared_ptr<ToolkitMenu> dock_menu;
+  std::unique_ptr<MacDockTile> dock_tile;
+  QTimer *dock_timer{nullptr};
 };
 
 #endif // TOOLKIT_MACOS_HH

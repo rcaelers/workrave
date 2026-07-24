@@ -21,6 +21,7 @@
 
 #include "ToolkitWindows.hh"
 
+#include <cstddef>
 #ifndef PLATFORM_OS_WINDOWS_NATIVE
 #  include <pbt.h>
 #endif
@@ -28,34 +29,76 @@
 #include <dbt.h>
 #include <windows.h>
 
-#include "ui/GUIConfig.hh"
+#include <QEvent>
+#include <QGuiApplication>
+#include <QStyleHints>
+#include <QTimer>
+
 #include "debug.hh"
+#include "ui/GUIConfig.hh"
 
 using namespace workrave;
 using namespace workrave::config;
+
+// Re-asserts the HWND's layered/opaque state to match the widget's
+// Qt::WA_TranslucentBackground attribute. Needed because a window that was
+// ever created translucent (frameless Sanctuary view) can keep compositing
+// with a stale alpha surface even after WA_TranslucentBackground is cleared
+// and the window is destroyed/recreated for the Classic view — forcing it
+// here every time the native window is (re)created is more reliable than
+// depending on Qt's own bookkeeping surviving that transition.
+static void
+reassert_native_window_opacity(HWND hwnd, bool translucent)
+{
+  if (hwnd == nullptr || !IsWindow(hwnd))
+    {
+      return;
+    }
+
+  LONG_PTR ex_style = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+  LONG_PTR new_ex_style = translucent ? (ex_style | WS_EX_LAYERED) : (ex_style & ~WS_EX_LAYERED);
+  if (new_ex_style != ex_style)
+    {
+      SetWindowLongPtr(hwnd, GWL_EXSTYLE, new_ex_style);
+    }
+
+  // Force the compositor to fully re-evaluate the window's frame/surface
+  // instead of reusing a stale (alpha-enabled) composition surface.
+  SetWindowPos(hwnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+  RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_ALLCHILDREN | RDW_FRAME | RDW_UPDATENOW);
+}
 
 ToolkitWindows::ToolkitWindows(int argc, char **argv)
   : Toolkit(argc, argv)
 {
 #if defined(HAVE_HARPOON)
+  spdlog::info("Using Harpoon locker");
   locker = std::make_shared<WindowsHarpoonLocker>();
 #else
+  spdlog::info("Using standard locker");
   locker = std::make_shared<WindowsLocker>();
 #endif
 }
 
 ToolkitWindows::~ToolkitWindows()
 {
+  TRACE_ENTRY();
 }
 
 void
 ToolkitWindows::init(std::shared_ptr<IApplicationContext> app)
 {
-  init_gui();
 
   Toolkit::init(app);
 
+  init_gui();
   init_filter();
+}
+
+void
+ToolkitWindows::deinit()
+{
+  Toolkit::deinit();
 }
 
 void
@@ -77,22 +120,74 @@ ToolkitWindows::hook_event()
   return event_hook;
 };
 
+bool
+ToolkitWindows::eventFilter(QObject *obj, QEvent *event)
+{
+  if (obj == main_window && event->type() == QEvent::WinIdChange)
+    {
+      auto hwnd = reinterpret_cast<HWND>(main_window->winId());
+      reassert_native_window_opacity(hwnd, main_window->testAttribute(Qt::WA_TranslucentBackground));
+    }
+  return Toolkit::eventFilter(obj, event);
+}
+
 void
 ToolkitWindows::init_gui()
 {
 }
 
 void
+ToolkitWindows::apply_light_dark_mode(LightDarkTheme mode)
+{
+  Qt::ColorScheme scheme = Qt::ColorScheme::Unknown;
+  switch (mode)
+    {
+    case LightDarkTheme::Light:
+      scheme = Qt::ColorScheme::Light;
+      break;
+    case LightDarkTheme::Dark:
+      scheme = Qt::ColorScheme::Dark;
+      break;
+    case LightDarkTheme::Auto:
+      scheme = is_windows_app_theme_dark() ? Qt::ColorScheme::Dark : Qt::ColorScheme::Light;
+      break;
+    }
+
+  QGuiApplication::styleHints()->setColorScheme(scheme);
+}
+
+void
 ToolkitWindows::init_filter()
 {
+  QCoreApplication::instance()->installNativeEventFilter(this);
 }
 
 bool
-ToolkitWindows::filter_func(MSG *msg)
+ToolkitWindows::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
 {
   TRACE_ENTRY();
+  (void)eventType;
+  auto *msg = static_cast<MSG *>(message);
   switch (msg->message)
     {
+    case WM_QUERYENDSESSION:
+      {
+        logger->info("Windows session end requested: reason=0x{:x}", static_cast<unsigned int>(msg->lParam));
+        *result = TRUE;
+        return true;
+      }
+
+    case WM_ENDSESSION:
+      {
+        logger->info("Windows session ending: end={}, reason=0x{:x}", msg->wParam != FALSE, static_cast<unsigned int>(msg->lParam));
+        if (msg->wParam != FALSE)
+          {
+            request_graceful_shutdown((msg->lParam & ENDSESSION_CLOSEAPP) != 0 ? "Restart Manager close request"
+                                                                               : "Windows session end");
+          }
+      }
+      break;
+
     case WM_WTSSESSION_CHANGE:
       {
         if (msg->wParam == WTS_SESSION_LOCK)
@@ -138,6 +233,9 @@ ToolkitWindows::filter_func(MSG *msg)
               core->set_powersave(true);
             }
             break;
+
+          default:
+            break;
           }
       }
       break;
@@ -158,30 +256,42 @@ ToolkitWindows::filter_func(MSG *msg)
       break;
 #endif
 
-    case WM_DEVICECHANGE:
+    case WM_SETTINGCHANGE:
       {
-        TRACE_MSG("WM_DEVICECHANGE {} {}", msg->wParam, msg->lParam);
-        switch (msg->wParam)
+        if (msg->lParam != 0 && _wcsicmp(L"ImmersiveColorSet", reinterpret_cast<wchar_t *>(msg->lParam)) == 0)
           {
-          case DBT_DEVICEARRIVAL:
-          case DBT_DEVICEREMOVECOMPLETE:
-            {
-              HWND hwnd = FindWindowExA(NULL, NULL, "GdkDisplayChange", NULL);
-              if (hwnd)
-                {
-                  SendMessage(hwnd, WM_DISPLAYCHANGE, 0, 0);
-                }
-            }
-          default:
-            break;
+            if (GUIConfig::light_dark_mode()() == LightDarkTheme::Auto)
+              {
+                logger->info("Theme change detected: switching to {} theme", is_windows_app_theme_dark() ? "dark" : "light");
+                apply_light_dark_mode(LightDarkTheme::Auto);
+              }
           }
-        break;
       }
+      break;
+
+    default:
+      break;
     }
 
   event_hook(msg);
 
-  return true;
+  return false;
+}
+
+void
+ToolkitWindows::request_graceful_shutdown(const char *reason)
+{
+  if (shutdown_requested)
+    {
+      return;
+    }
+
+  shutdown_requested = true;
+  logger->info("Gracefully shutting down Workrave: {}", reason);
+
+  get_locker()->unlock();
+
+  QTimer::singleShot(0, this, [this]() { terminate(); });
 }
 
 HWND
@@ -201,4 +311,20 @@ std::shared_ptr<Locker>
 ToolkitWindows::get_locker()
 {
   return locker;
+}
+
+// TODO: Duplicate code gtkmm and qt toolkits. Move to platform.
+bool
+ToolkitWindows::is_windows_app_theme_dark()
+{
+  DWORD value = 1; // Default to light theme
+  DWORD dataSize = sizeof(value);
+  HKEY hKey = nullptr;
+  if (RegOpenKeyExW(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, KEY_READ, &hKey)
+      == ERROR_SUCCESS)
+    {
+      RegQueryValueExW(hKey, L"AppsUseLightTheme", nullptr, nullptr, reinterpret_cast<LPBYTE>(&value), &dataSize);
+      RegCloseKey(hKey);
+    }
+  return value == 0;
 }

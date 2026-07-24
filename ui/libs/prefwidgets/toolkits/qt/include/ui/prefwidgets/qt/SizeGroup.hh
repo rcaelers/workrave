@@ -30,6 +30,7 @@ namespace ui::prefwidgets::qt
     Q_OBJECT
 
   public:
+    explicit SizeGroup(ui::prefwidgets::Orientation);
     explicit SizeGroup(std::shared_ptr<ui::prefwidgets::SizeGroup> def);
     ~SizeGroup() override = default;
 
@@ -40,7 +41,6 @@ namespace ui::prefwidgets::qt
     void update();
 
   private:
-    std::shared_ptr<ui::prefwidgets::SizeGroup> def;
     ui::prefwidgets::Orientation orientation;
     QTimer *timer{nullptr};
     QList<QWidget *> widgets;

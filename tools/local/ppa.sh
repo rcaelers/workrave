@@ -2,6 +2,7 @@
 
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/../ci/config.sh
+source ${SCRIPTS_DIR}/ci/ship.sh
 
 usage() {
     echo "Usage: $0 " 1>&2
@@ -52,9 +53,7 @@ init_dependencies() {
 }
 
 init_newsgen() {
-    cd ${SCRIPTS_DIR}/citool
-    npm ci
-    npm run build
+    build_ship
 }
 
 build_tarball() {
@@ -75,7 +74,7 @@ build_changelog() {
     series=$1
 
     cd /
-    node ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
+    run_ship newsgen \
         --input "$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}/changes.yaml" \
         --ubuntu $series \
         --increment $PPA \

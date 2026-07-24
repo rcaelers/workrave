@@ -1,0 +1,28 @@
+if(NOT EXISTS "@WINDEPLOYQT_EXECUTABLE@")
+  message(FATAL_ERROR "windeployqt not found: @WINDEPLOYQT_EXECUTABLE@")
+endif()
+
+set(_windeployqt_args
+  --qtpaths "@QT_QTPATHS_EXECUTABLE@"
+  --qmldir "@CMAKE_SOURCE_DIR@/ui/app/toolkits/qt/qml"
+  --qml-deploy-dir "${CMAKE_INSTALL_PREFIX}/@qml_dest_dir@"
+  --plugindir "${CMAKE_INSTALL_PREFIX}/@plugin_dest_dir@"
+  --libdir "${CMAKE_INSTALL_PREFIX}/@qtconf_dest_dir@"
+  --no-translations
+  --no-compiler-runtime
+  --force)
+
+set(_windeployqt_path "@QT_HOST_LIBEXECS_DIR@;@QT_BIN_DIR@")
+if(DEFINED ENV{PATH})
+  file(TO_CMAKE_PATH "$ENV{PATH}" _windeployqt_env_path)
+  set(_windeployqt_path "${_windeployqt_path};${_windeployqt_env_path}")
+endif()
+
+message("-- Deploying Qt runtime with windeployqt...")
+execute_process(
+  COMMAND "@CMAKE_COMMAND@" -E env "PATH=${_windeployqt_path}" "@WINDEPLOYQT_EXECUTABLE@" ${_windeployqt_args}
+          "${CMAKE_INSTALL_PREFIX}/@qtconf_dest_dir@/workrave.exe"
+  RESULT_VARIABLE _windeployqt_result)
+if(NOT _windeployqt_result EQUAL 0)
+  message(FATAL_ERROR "windeployqt failed with exit code ${_windeployqt_result}")
+endif()

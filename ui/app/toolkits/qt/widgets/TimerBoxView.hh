@@ -18,24 +18,31 @@
 #ifndef TIMERBOXVIEW_HH
 #define TIMERBOXVIEW_HH
 
-#include <string>
-
 #include <QWidget>
 #include <QLabel>
 #include <QGridLayout>
+#include <array>
+#include <memory>
 
 #include "ui/ITimerBoxView.hh"
+#include "utils/Signals.hh"
 
 #include "TimeBar.hh"
+
+namespace workrave
+{
+  class ICore;
+}
 
 class TimerBoxView
   : public QWidget
   , public ITimerBoxView
+  , public workrave::utils::Trackable
 {
   Q_OBJECT
 
 public:
-  TimerBoxView();
+  explicit TimerBoxView(std::shared_ptr<workrave::ICore> core);
   ~TimerBoxView() override;
 
   void set_slot(workrave::BreakId id, int slot) override;
@@ -53,6 +60,7 @@ public:
 private:
   void init_table();
   void init();
+  void update_widgets();
 
   auto get_number_of_timers() const -> int;
   auto is_sheep_only() const -> bool;
@@ -60,13 +68,15 @@ private:
 
 private:
   QGridLayout *layout{nullptr};
-  QWidget *labels[workrave::BREAK_ID_SIZEOF];
-  TimeBar *bars[workrave::BREAK_ID_SIZEOF];
+  std::array<QWidget *, workrave::BREAK_ID_SIZEOF> labels{};
+  std::array<TimeBar *, workrave::BREAK_ID_SIZEOF> bars{};
   QLabel *sheep{nullptr};
   bool reconfigure{true};
   int size{0};
-  int current_content[workrave::BREAK_ID_SIZEOF];
-  int new_content[workrave::BREAK_ID_SIZEOF];
+  std::array<int, workrave::BREAK_ID_SIZEOF> current_content{};
+  std::array<int, workrave::BREAK_ID_SIZEOF> new_content{};
+  std::shared_ptr<workrave::ICore> core;
+  OperationModeIcon current_icon{OperationModeIcon::Normal};
   int visible_count{-1};
   bool sheep_only{false};
 };

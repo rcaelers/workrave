@@ -26,6 +26,7 @@
 
 #include "DBusTestServerQt.hh"
 #include "DBusTestQt.hh"
+#include "DBusTestDataMeta.hh"
 
 #include "dbus/IDBus.hh"
 
@@ -56,13 +57,14 @@ DBusTestServerQt::run(int argc, char **argv)
       qDBusRegisterMetaType<DBusTestData::StructWithAllBasicTypesReorder>();
       qDBusRegisterMetaType<DBusTestData::Data>();
       qDBusRegisterMetaType<QList<DBusTestData::Data>>();
+      qDBusRegisterMetaType<std::list<DBusTestData::Data>>();
       qDBusRegisterMetaType<QMap<QString, DBusTestData::Data>>();
 
       dbus = std::make_shared<workrave::dbus::DBusQt>();
 
       dbus->init();
 
-      extern void init_DBusTestQt(workrave::dbus::IDBus::Ptr dbus);
+      extern void init_DBusTestQt(std::shared_ptr<workrave::dbus::IDBus> dbus);
       init_DBusTestQt(dbus);
 
       dbus->connect(WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, this);
@@ -98,7 +100,7 @@ DBusTestServerQt::test_fire_signal()
   DBusTestData::DataList l;
   DBusTestData::DataMap m;
 
-  l.push_back(DBusTestData::Data(1, 2));
+  l.emplace_back(1, 2);
   m["1"] = DBusTestData::Data(1, 2);
 
   if (test != nullptr)
@@ -154,7 +156,7 @@ DBusTestServerQt::test_fire_signal_with_ref()
   DBusTestData::DataList l;
   DBusTestData::DataMap m;
 
-  l.push_back(DBusTestData::Data(1, 2));
+  l.emplace_back(1, 2);
   m["1"] = DBusTestData::Data(1, 2);
 
   if (test != nullptr)

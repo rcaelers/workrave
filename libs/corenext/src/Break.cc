@@ -32,7 +32,7 @@ Break::Break(BreakId break_id,
              Timer::Ptr timer,
              IActivityMonitor::Ptr activity_monitor,
              Statistics::Ptr statistics,
-             IDBus::Ptr dbus,
+             std::shared_ptr<IDBus> dbus,
              CoreHooks::Ptr hooks)
   : break_id(break_id)
   , timer(timer)

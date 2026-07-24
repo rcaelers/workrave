@@ -40,7 +40,7 @@ public:
   void test_fire_signal_without_args();
   void test_fire_signal_with_ref();
 
-  workrave::dbus::IDBus::Ptr dbus;
+  std::shared_ptr<workrave::dbus::IDBus> dbus;
 };
 
 #endif // DBUSTESTSERVERGIO_HH

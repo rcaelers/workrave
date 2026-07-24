@@ -1,4 +1,4 @@
-// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2013, 2025 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -18,74 +18,294 @@
 #ifndef WORKRAVE_DBUS_DBUSBINDINGQT_HH
 #define WORKRAVE_DBUS_DBUSBINDINGQT_HH
 
+#include <qdbusargument.h>
+#include <qtypes.h>
+#include <qvariant.h>
+#include <spdlog/spdlog.h>
 #include <string>
+#include <cstdint>
+#include <boost/lexical_cast.hpp>
 
 #include <QtDBus/QtDBus>
 
 #include "dbus/DBusBinding.hh"
 #include "dbus/IDBus.hh"
 
-namespace workrave
+namespace workrave::dbus
 {
-  namespace dbus
+  class DBus;
+
+  class IDBusPrivateQt
   {
-    class DBus;
+  public:
+    using Ptr = std::shared_ptr<IDBusPrivateQt>;
+    virtual ~IDBusPrivateQt() = default;
+    IDBusPrivateQt() = default;
+    IDBusPrivateQt(const IDBusPrivateQt &) = delete;
+    IDBusPrivateQt &operator=(const IDBusPrivateQt &) = delete;
+    IDBusPrivateQt(IDBusPrivateQt &&) = delete;
+    IDBusPrivateQt &operator=(IDBusPrivateQt &&) = delete;
 
-    class IDBusPrivateQt
+    virtual QDBusConnection get_connection() = 0;
+  };
+
+  class DBusBindingQt : public DBusBinding
+  {
+  public:
+    explicit DBusBindingQt(std::shared_ptr<IDBus> dbus);
+    ~DBusBindingQt() override = default;
+
+    virtual std::string_view get_interface_introspect() = 0;
+    virtual bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) = 0;
+
+  protected:
+    std::shared_ptr<IDBus> dbus;
+  };
+
+  template<typename T>
+  struct DBusCpptoQt
+  {
+    using Type = T;
+    static QMetaType::Type qt_type()
     {
-    public:
-      typedef std::shared_ptr<IDBusPrivateQt> Ptr;
+      return static_cast<QMetaType::Type>(QMetaType::fromType<T>().id());
+    }
+  };
 
-      virtual ~IDBusPrivateQt()
-      {
-      }
-
-      virtual QDBusConnection get_connection() = 0;
-    };
-
-    class DBusBindingQt : public DBusBinding
+  template<>
+  struct DBusCpptoQt<std::string>
+  {
+    using Type = QString;
+    static QMetaType::Type qt_type()
     {
-    public:
-      explicit DBusBindingQt(IDBus::Ptr dbus);
-      ~DBusBindingQt() override = default;
+      return QMetaType::QString;
+    }
+  };
 
-      virtual const char *get_interface_introspect() = 0;
-      virtual bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) = 0;
-
-    protected:
-      IDBus::Ptr dbus;
-    };
-
-    class DBusMarshallQt
+  template<>
+  struct DBusCpptoQt<int64_t>
+  {
+    using Type = qlonglong;
+    static QMetaType::Type qt_type()
     {
-    public:
-      void get_int(const QVariant &variant, int &value);
-      void get_uint8(const QVariant &variant, uint8_t &value);
-      void get_uint16(const QVariant &variant, uint16_t &value);
-      void get_int16(const QVariant &variant, int16_t &value);
-      void get_uint32(const QVariant &variant, uint32_t &value);
-      void get_int32(const QVariant &variant, int32_t &value);
-      void get_uint64(const QVariant &variant, uint64_t &value);
-      void get_int64(const QVariant &variant, int64_t &value);
-      void get_bool(const QVariant &variant, bool &value);
-      void get_double(const QVariant &variant, double &value);
-      void get_string(const QVariant &variant, std::string &value);
-      void get_string(const QVariant &variant, QString &value);
+      return QMetaType::LongLong;
+    }
+  };
 
-      QVariant put_uint8(const uint8_t &value);
-      QVariant put_int(const int &value);
-      QVariant put_uint16(const uint16_t &value);
-      QVariant put_int16(const int16_t &value);
-      QVariant put_uint32(const uint32_t &value);
-      QVariant put_int32(const int32_t &value);
-      QVariant put_uint64(const uint64_t &value);
-      QVariant put_int64(const int64_t &value);
-      QVariant put_bool(const bool &value);
-      QVariant put_double(const double &value);
-      QVariant put_string(const std::string &value);
-      QVariant put_string(const QString &value);
-    };
-  } // namespace dbus
-} // namespace workrave
+  template<>
+  struct DBusCpptoQt<uint64_t>
+  {
+    using Type = qulonglong;
+    static QMetaType::Type qt_type()
+    {
+      return QMetaType::ULongLong;
+    }
+  };
+
+  template<typename T>
+  struct DBusMarshall
+  {
+    static T convert(const QVariant &variant)
+    {
+      if (variant.typeId() != DBusCpptoQt<T>::qt_type())
+        {
+          throw DBusRemoteException() << message_info("Incorrect type") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                      << expected_type_info(QMetaType::fromType<T>().name());
+        }
+      return variant.value<T>();
+    }
+    static QVariant convert(const T &value)
+    {
+      return QVariant::fromValue(value);
+    }
+    static void marshall(QDBusArgument &arg, const T &value)
+    {
+      arg << value;
+    }
+  };
+
+  template<>
+  struct DBusMarshall<std::string>
+  {
+    static std::string convert(const QVariant &variant)
+    {
+      if (variant.typeId() != DBusCpptoQt<std::string>::qt_type())
+        {
+          throw DBusRemoteException() << message_info("Incorrect type") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                      << expected_type_info("string");
+        }
+      return variant.toString().toStdString();
+    }
+    static QVariant convert(const std::string &value)
+    {
+      return QString::fromStdString(value);
+    }
+    static void marshall(QDBusArgument &arg, const std::string &value)
+    {
+      arg << QString::fromStdString(value);
+    }
+  };
+
+  template<>
+  struct DBusMarshall<int64_t>
+  {
+    static int64_t convert(const QVariant &variant)
+    {
+      if (variant.typeId() != DBusCpptoQt<int64_t>::qt_type())
+        {
+          throw DBusRemoteException() << message_info("Incorrect type") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                      << expected_type_info("int64_t");
+        }
+      return static_cast<int64_t>(variant.value<qlonglong>());
+    }
+    static QVariant convert(int64_t value)
+    {
+      return static_cast<qlonglong>(value);
+    }
+    static void marshall(QDBusArgument &arg, int64_t value)
+    {
+      arg << static_cast<qlonglong>(value);
+    }
+  };
+
+  template<>
+  struct DBusMarshall<uint64_t>
+  {
+    static uint64_t convert(const QVariant &variant)
+    {
+      if (variant.typeId() != DBusCpptoQt<uint64_t>::qt_type())
+        {
+          throw DBusRemoteException() << message_info("Incorrect type") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                      << expected_type_info("uint64_t");
+        }
+      return static_cast<uint64_t>(variant.value<qulonglong>());
+    }
+    static QVariant convert(uint64_t value)
+    {
+      return static_cast<qulonglong>(value);
+    }
+    static void marshall(QDBusArgument &arg, uint64_t value)
+    {
+      arg << static_cast<qulonglong>(value);
+    }
+  };
+
+  template<typename K, typename V>
+  struct DBusMarshall<std::map<K, V>>
+  {
+    using K_qt = DBusCpptoQt<K>::Type;
+    using V_qt = DBusCpptoQt<V>::Type;
+
+    static std::map<K, V> convert(const QVariant &variant)
+    {
+      const auto arg = variant.value<QDBusArgument>();
+      std::map<K, V> result;
+
+      if (arg.currentType() != QDBusArgument::MapType)
+        {
+          throw DBusRemoteException() << message_info("Incorrect type") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                      << expected_type_info("std::map");
+        }
+
+      arg.beginMap();
+
+      while (!arg.atEnd())
+        {
+          K key;
+          V value;
+
+          arg.beginMapEntry();
+          try
+            {
+              key = DBusMarshall<K>::convert(arg.asVariant());
+              value = DBusMarshall<V>::convert(arg.asVariant());
+            }
+          catch (const DBusRemoteException &e)
+            {
+              e << field_info(key);
+              throw;
+            }
+          arg.endMapEntry();
+
+          (result)[key] = value;
+        }
+
+      arg.endMap();
+      return result;
+    }
+    static void marshall(QDBusArgument &arg, const std::map<K, V> &value)
+    {
+      arg.beginMap(qMetaTypeId<K_qt>(), qMetaTypeId<V_qt>());
+
+      for (auto &it: value)
+        {
+          arg.beginMapEntry();
+          DBusMarshall<K>::marshall(arg, it.first);
+          DBusMarshall<V>::marshall(arg, it.second);
+          arg.endMapEntry();
+        }
+      arg.endMap();
+    }
+    static QVariant convert(const std::map<K, V> &value)
+    {
+      QDBusArgument arg;
+      marshall(arg, value);
+      return QVariant::fromValue(arg);
+    }
+  };
+
+  template<typename V>
+  struct DBusMarshall<std::list<V>>
+  {
+    using V_qt = DBusCpptoQt<V>::Type;
+
+    static std::list<V> convert(const QVariant &variant)
+    {
+      const auto arg = variant.value<QDBusArgument>();
+      std::list<V> result;
+
+      if (arg.currentType() != QDBusArgument::ArrayType)
+        {
+          throw DBusRemoteException() << message_info("Incorrect type") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                      << expected_type_info("std::list");
+        }
+
+      arg.beginArray();
+      while (!arg.atEnd())
+        {
+          V value;
+          try
+            {
+              value = DBusMarshall<V>::convert(arg.asVariant());
+            }
+          catch (const DBusRemoteException &e)
+            {
+              e << field_info(std::string("[") + boost::lexical_cast<std::string>(result.size()) + "]");
+              throw;
+            }
+
+          result.push_back(value);
+        }
+      arg.endArray();
+      return result;
+    }
+    static void marshall(QDBusArgument &arg, const std::list<V> &value)
+    {
+      arg.beginArray(qMetaTypeId<V_qt>());
+      for (auto &it: value)
+        {
+          DBusMarshall<V>::marshall(arg, it);
+        }
+      arg.endArray();
+    }
+    static QVariant convert(const std::list<V> &value)
+    {
+      QDBusArgument arg;
+      marshall(arg, value);
+      return QVariant::fromValue(arg);
+    }
+  };
+
+} // namespace workrave::dbus
 
 #endif // WORKRAVE_DBUS_DBUSBINDINGQT_HH

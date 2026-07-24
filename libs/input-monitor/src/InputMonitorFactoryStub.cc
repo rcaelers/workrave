@@ -17,12 +17,22 @@
 #endif
 
 #include "input-monitor/InputMonitorFactory.hh"
+#include "input-monitor/InputMonitorFactoryStub.hh"
 #include "input-monitor/IInputMonitor.hh"
+#include "input-monitor/IInputMonitorListener.hh"
 
 #include "config/IConfigurator.hh"
 
+#include <algorithm>
+#include <vector>
+
 using namespace workrave::input_monitor;
 using namespace workrave::config;
+
+namespace
+{
+  std::vector<IInputMonitorListener *> listeners;
+}
 
 class InputMonitorStub : public IInputMonitor
 {
@@ -40,14 +50,41 @@ public:
 
   void subscribe(IInputMonitorListener *listener) override
   {
-    (void)listener;
+    listeners.push_back(listener);
   }
 
   void unsubscribe(IInputMonitorListener *listener) override
   {
-    (void)listener;
+    std::erase(listeners, listener);
   }
 };
+
+void
+workrave::input_monitor::test::fire_mouse(int x, int y, int wheel)
+{
+  for (auto *listener: listeners)
+    {
+      listener->mouse_notify(x, y, wheel);
+    }
+}
+
+void
+workrave::input_monitor::test::fire_button(bool is_press)
+{
+  for (auto *listener: listeners)
+    {
+      listener->button_notify(is_press);
+    }
+}
+
+void
+workrave::input_monitor::test::fire_keyboard(bool repeat)
+{
+  for (auto *listener: listeners)
+    {
+      listener->keyboard_notify(repeat);
+    }
+}
 
 void
 InputMonitorFactory::init(IConfigurator::Ptr config, const char *display)

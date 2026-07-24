@@ -36,7 +36,7 @@ const char *workrave_authors[] = {"Developers:",
                                   "Phil Dibbs",
                                   NULL};
 
-const char *workrave_translators =
+const char *const workrave_translators =
   /* bg */
   "Иван Димов\n"
   /* ca */

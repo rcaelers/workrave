@@ -6,7 +6,6 @@ if (HAVE_TESTS)
 
   target_link_libraries(workrave-core-timer-test PRIVATE workrave-libs-core)
   target_link_libraries(workrave-core-timer-test PRIVATE Boost::unit_test_framework)
-  target_link_libraries(workrave-core-timer-test PRIVATE Boost::test_exec_monitor)
   target_link_libraries(workrave-core-timer-test PRIVATE ${EXTRA_LIBRARIES})
   set_target_properties(workrave-core-timer-test PROPERTIES USE_STUBS ON)
 
@@ -30,7 +29,6 @@ if (HAVE_TESTS)
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-utils)
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-dbus-stub)
   target_link_libraries(workrave-core-integration-test PRIVATE Boost::unit_test_framework)
-  target_link_libraries(workrave-core-integration-test PRIVATE Boost::test_exec_monitor)
   target_link_libraries(workrave-core-integration-test PRIVATE ${EXTRA_LIBRARIES})
 
   target_include_directories(workrave-core-integration-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/core/src)
@@ -53,12 +51,7 @@ if (HAVE_TESTS)
     target_link_libraries(workrave-core-timer-test PRIVATE ${SSP_LIBRARY})
   endif()
 
-  add_test(NAME workrave-core-integration-test COMMAND workrave-core-integration-test)
-  add_test(NAME workrave-core-timer-test COMMAND workrave-core-timer-test)
-
-  set_tests_properties(workrave-core-integration-test PROPERTIES
-    ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:${CMAKE_BINARY_DIR}/Frameworks:$ENV{LD_LIBRARY_PATH})
-  set_tests_properties(workrave-core-timer-test PROPERTIES
-    ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:${CMAKE_BINARY_DIR}/Frameworks:$ENV{LD_LIBRARY_PATH})
+  workrave_add_test(workrave-core-integration-test)
+  workrave_add_test(workrave-core-timer-test)
 
 endif()

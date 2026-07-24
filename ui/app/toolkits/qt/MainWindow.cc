@@ -21,6 +21,10 @@
 
 #include "MainWindow.hh"
 
+#include <algorithm>
+
+#include <QCloseEvent>
+#include <QIcon>
 #include <QMoveEvent>
 #include <QApplication>
 #include <QScreen>
@@ -31,21 +35,32 @@
 
 #include "ToolkitMenu.hh"
 #include "commonui/MenuDefs.hh"
+#include "Ui.hh"
 
 MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent)
   : QWidget(parent)
+  , app(app)
 {
-  setFixedSize(minimumSize());
-  setWindowFlags(Qt::Tool);
-
-  timer_box_view = new TimerBoxView;
-  timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
+  setWindowTitle("Workrave");
+  setWindowIcon(QIcon(Ui::get_status_icon_filename(OperationModeIcon::Normal)));
 
   auto *layout = new QVBoxLayout();
-  layout->setContentsMargins(1, 1, 1, 1);
+  layout->setContentsMargins(0, 0, 0, 0);
   setLayout(layout);
 
-  layout->addWidget(timer_box_view);
+  if (GUIConfig::sanctuary_ui_enabled()())
+    {
+      switch_view(GUIConfig::display_style()());
+      GUIConfig::display_style().connect(this, [this](DisplayStyle style) { switch_view(style); });
+    }
+  else
+    {
+      set_classic_window_chrome();
+
+      timer_box_view = new TimerBoxView(app->get_core());
+      timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
+      layout->addWidget(timer_box_view);
+    }
 
   menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
                                        [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
@@ -65,13 +80,198 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
     show();
   });
 
+  GUIConfig::key_timerbox("main_window").connect(this, [this]() { on_enabled_changed(); });
+  timer_box_control->update();
+  setFixedSize(sizeHint());
+  enabled = GUIConfig::timerbox_enabled("main_window")();
   move_to_start_position();
+
+  if (enabled)
+    {
+      open_window();
+    }
+}
+
+void
+MainWindow::set_classic_window_chrome()
+{
+  // Must be cleared before the native window is (re)created — a surface
+  // created translucent stays translucent and renders a black background.
+  setAttribute(Qt::WA_TranslucentBackground, false);
+  // Qt::WA_TranslucentBackground implicitly sets WA_NoSystemBackground, but
+  // clearing WA_TranslucentBackground does NOT implicitly clear it back —
+  // left set, the widget stops erasing its own background before paint, so
+  // any area not covered by a child widget (e.g. the layout margins below)
+  // shows whatever was left in the old translucent backing store: black.
+  setAttribute(Qt::WA_NoSystemBackground, false);
+  setAutoFillBackground(true);
+#if defined(PLATFORM_OS_MACOS)
+  // NSPanel-style utility window: compact title bar, like the Gtk main window.
+  setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+  setAttribute(Qt::WA_MacAlwaysShowToolWindow);
+#else
+  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+#endif
+#if defined(PLATFORM_OS_MACOS) || defined(PLATFORM_OS_WINDOWS)
+  // macOS windows always have rounded corners (~10px radius), and Windows 11
+  // rounds top-level window corners by default too — unlike the Gtk build's
+  // windows on Linux/Windows, which stay square. Give the content extra
+  // clearance here so it isn't cut off in the corners.
+  layout()->setContentsMargins(8, 8, 8, 8);
+#else
+  // Same 2px border as the Gtk main window (set_border_width(2)).
+  layout()->setContentsMargins(2, 2, 2, 2);
+#endif
+}
+
+void
+MainWindow::switch_view(DisplayStyle style)
+{
+  bool was_visible = isVisible();
+  if (was_visible)
+    {
+      hide();
+    }
+
+  auto *vbox = qobject_cast<QVBoxLayout *>(layout());
+
+  if (qml_timer_box_view != nullptr)
+    {
+      vbox->removeWidget(qml_timer_box_view);
+      qml_timer_box_view->deleteLater();
+      qml_timer_box_view = nullptr;
+    }
+  if (timer_box_view != nullptr)
+    {
+      vbox->removeWidget(timer_box_view);
+      timer_box_view->deleteLater();
+      timer_box_view = nullptr;
+    }
+  timer_box_control.reset();
+
+  // Drop the native window (and its QWindow surface format): translucency
+  // cannot be toggled on a live window, only chosen when it is created.
+  destroy();
+
+  if (style == DisplayStyle::Classic)
+    {
+      set_classic_window_chrome();
+
+      timer_box_view = new TimerBoxView(app->get_core());
+      timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
+      vbox->addWidget(timer_box_view);
+    }
+  else
+    {
+      setAttribute(Qt::WA_TranslucentBackground);
+      // Reset explicitly: set_classic_window_chrome() may have forced these
+      // on for a previous Classic view, and they don't clear on their own.
+      setAttribute(Qt::WA_NoSystemBackground, true);
+      setAutoFillBackground(false);
+      setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+      vbox->setContentsMargins(0, 0, 0, 0);
+
+      qml_timer_box_view = new QmlTimerBoxView(app->get_core(), this, this);
+      timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", qml_timer_box_view);
+      vbox->addWidget(qml_timer_box_view);
+    }
+
+  timer_box_control->update();
+  setFixedSize(sizeHint());
+
+  if (was_visible)
+    {
+      show();
+    }
+}
+
+void
+MainWindow::open_window()
+{
+  TRACE_ENTRY();
+  if (app->get_toolkit()->get_head_count() <= 0)
+    {
+      return;
+    }
+
+  timer_box_control->update();
+  setFixedSize(sizeHint());
+
+  show();
+  if (isMinimized())
+    {
+      showNormal();
+    }
+  raise();
+  activateWindow();
+  move_to_start_position();
+  GUIConfig::timerbox_enabled("main_window").set(true);
+}
+
+void
+MainWindow::close_window()
+{
+  TRACE_ENTRY();
+  if (can_close)
+    {
+      hide();
+    }
+  else
+    {
+      showMinimized();
+    }
+
+  GUIConfig::timerbox_enabled("main_window").set(false);
+}
+
+void
+MainWindow::set_can_close(bool can_close)
+{
+  TRACE_ENTRY_PAR(can_close);
+  this->can_close = can_close;
+
+  if (!can_close && !isVisible())
+    {
+      open_window();
+    }
+}
+
+void
+MainWindow::on_enabled_changed()
+{
+  TRACE_ENTRY();
+  bool new_enabled = GUIConfig::timerbox_enabled("main_window")();
+
+  if (enabled != new_enabled)
+    {
+      enabled = new_enabled;
+      if (enabled)
+        {
+          open_window();
+        }
+      else
+        {
+          close_window();
+        }
+    }
 }
 
 void
 MainWindow::heartbeat()
 {
   timer_box_control->update();
+
+  // Resize the main window to match QML implicit size when display style changes
+  if (qml_timer_box_view != nullptr)
+    {
+      setFixedSize(sizeHint());
+    }
+}
+
+auto
+MainWindow::signal_closed() -> boost::signals2::signal<void()> &
+{
+  return closed_signal;
 }
 
 void
@@ -82,42 +282,148 @@ MainWindow::move_to_start_position()
   int y = GUIConfig::main_window_y()();
   int head = GUIConfig::main_window_head()();
 
-  QList<QScreen *> screens = QGuiApplication::screens();
-  QScreen *screen = nullptr;
+  if (head >= app->get_toolkit()->get_head_count())
+    {
+      head = 0;
+    }
+  convert_monitor_to_display(x, y, head);
 
-  if (head < 0 || head >= screens.size())
+  QScreen *screen = QGuiApplication::screenAt(QPoint(x, y));
+  if (screen == nullptr)
     {
       screen = QGuiApplication::primaryScreen();
     }
-  else
+  if (screen == nullptr)
     {
-      screen = screens.at(head);
+      return;
     }
 
   const QRect availableGeometry = screen->availableGeometry();
 
-  QRect geometry = frameGeometry();
-  geometry.moveTo(x, y);
+  QRect target_frame_geometry = frameGeometry();
+  target_frame_geometry.moveTo(x, y);
 
-  if (!geometry.intersects(availableGeometry))
+  if (!target_frame_geometry.intersects(availableGeometry))
     {
-      geometry.moveBottom(qMin(geometry.bottom(), availableGeometry.bottom()));
-      geometry.moveLeft(qMax(geometry.left(), availableGeometry.left()));
-      geometry.moveRight(qMin(geometry.right(), availableGeometry.right()));
+      target_frame_geometry.moveBottom(qMin(target_frame_geometry.bottom(), availableGeometry.bottom()));
+      target_frame_geometry.moveLeft(qMax(target_frame_geometry.left(), availableGeometry.left()));
+      target_frame_geometry.moveRight(qMin(target_frame_geometry.right(), availableGeometry.right()));
     }
-  geometry.moveTop(qMax(geometry.top(), availableGeometry.top()));
+  target_frame_geometry.moveTop(qMax(target_frame_geometry.top(), availableGeometry.top()));
 
   TRACE_VAR(x, y, head);
-  TRACE_VAR(geometry.x(), geometry.y(), head);
+  TRACE_VAR(target_frame_geometry.x(), target_frame_geometry.y(), head);
 
-  move(geometry.topLeft());
+  const QPoint frame_offset = geometry().topLeft() - frameGeometry().topLeft();
+  move(target_frame_geometry.topLeft() + frame_offset);
+}
+
+int
+MainWindow::convert_display_to_monitor(int &x, int &y)
+{
+  const QList<QScreen *> screens = QGuiApplication::screens();
+  const QRect frame = frameGeometry();
+
+  for (int i = 0; i < screens.size(); i++)
+    {
+      QScreen *screen = screens.at(i);
+      if (screen == nullptr)
+        {
+          continue;
+        }
+
+      QRect geometry = screen->geometry();
+      if (x >= geometry.left() && y >= geometry.top() && x < geometry.left() + geometry.width()
+          && y < geometry.top() + geometry.height())
+        {
+          if (x - geometry.left() >= geometry.width() / 2)
+            {
+              const int frame_right = x + frame.width();
+              const int screen_right = geometry.left() + geometry.width();
+              x = frame_right - screen_right - 1;
+            }
+          else
+            {
+              x -= geometry.left();
+            }
+
+          if (y - geometry.top() >= geometry.height() / 2)
+            {
+              const int frame_bottom = y + frame.height();
+              const int screen_bottom = geometry.top() + geometry.height();
+              y = frame_bottom - screen_bottom - 1;
+            }
+          else
+            {
+              y -= geometry.top();
+            }
+          return i;
+        }
+    }
+
+  x = y = 100;
+  return 0;
+}
+
+void
+MainWindow::convert_monitor_to_display(int &x, int &y, int head)
+{
+  const QList<QScreen *> screens = QGuiApplication::screens();
+  if (head < 0 || head >= screens.size() || screens.at(head) == nullptr)
+    {
+      return;
+    }
+
+  QRect geometry = screens.at(head)->geometry();
+  const QSize frame_size = frameGeometry().size();
+
+  if (x < 0)
+    {
+      const int screen_right = geometry.left() + geometry.width();
+      x = x <= -frame_size.width() ? screen_right + x : screen_right + x + 1 - frame_size.width();
+    }
+  else
+    {
+      x = std::clamp(x, 0, geometry.width());
+      x += geometry.left();
+    }
+
+  if (y < 0)
+    {
+      const int screen_bottom = geometry.top() + geometry.height();
+      y = y <= -frame_size.height() ? screen_bottom + y : screen_bottom + y + 1 - frame_size.height();
+    }
+  else
+    {
+      y = std::clamp(y, 0, geometry.height());
+      y += geometry.top();
+    }
 }
 
 void
 MainWindow::on_show_contextmenu(const QPoint &pos)
 {
+  bool taking = app->get_core()->is_taking();
+  if (taking && (GUIConfig::block_mode()() == BlockMode::All || GUIConfig::block_mode()() == BlockMode::Input))
+    {
+      return;
+    }
+
+  app->get_menu_model()->update();
   QPoint globalPos = mapToGlobal(pos);
   menu->get_menu()->popup(globalPos);
+}
+
+void
+MainWindow::closeEvent(QCloseEvent *event)
+{
+  TRACE_ENTRY();
+  if (can_close)
+    {
+      close_window();
+    }
+  closed_signal();
+  event->ignore();
 }
 
 void
@@ -125,11 +431,12 @@ MainWindow::moveEvent(QMoveEvent *event)
 {
   if (isVisible())
     {
-      GUIConfig::main_window_x().set(frameGeometry().x());
-      GUIConfig::main_window_y().set(frameGeometry().y());
+      int x = frameGeometry().x();
+      int y = frameGeometry().y();
+      int screen_index = convert_display_to_monitor(x, y);
 
-      QScreen *screen = window()->windowHandle()->screen();
-      auto screen_index = QGuiApplication::screens().indexOf(screen);
+      GUIConfig::main_window_x().set(x);
+      GUIConfig::main_window_y().set(y);
       GUIConfig::main_window_head().set(screen_index);
     }
   QWidget::moveEvent(event);

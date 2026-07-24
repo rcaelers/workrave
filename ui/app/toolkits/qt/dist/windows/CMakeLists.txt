@@ -1,6 +1,13 @@
 include(InstallRequiredSystemLibraries)
 
+execute_process(
+  COMMAND ${QT_QTPATHS_EXECUTABLE} --query QT_HOST_LIBEXECS
+  OUTPUT_VARIABLE QT_HOST_LIBEXECS_DIR
+  OUTPUT_STRIP_TRAILING_WHITESPACE)
+string(REPLACE ";" "\\;" QT_ENV_PATH_LITERAL "${QT_ENV_PATH_VALUE}")
+
 set(plugin_dest_dir "lib/plugins")
+set(qml_dest_dir "qml")
 set(qtconf_dest_dir "bin")
 
 set(IMAGE_PLUGINS QJpegPlugin QGifPlugin)
@@ -24,26 +31,47 @@ set(PLATFORM_PLUGINS QMinimalIntegrationPlugin QWindowsIntegrationPlugin)
 install(FILES WizModernImage.bmp DESTINATION dist)
 install(FILES WizModernSmall.bmp DESTINATION dist)
 
-install(DIRECTORY "${QT_PLUGINS_DIR}/platforms"     DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
-install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats"  DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
-install(DIRECTORY "${QT_PLUGINS_DIR}/iconengines"   DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
-install(DIRECTORY "${QT_PLUGINS_DIR}/styles"        DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/WindeployQt.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/WindeployQt.cmake"
+  @ONLY)
+
+install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/WindeployQt.cmake" COMPONENT Runtime)
 
 # Install a qt.conf file.
 # This inserts some cmake code into the install script to write the file
 install(CODE "
-  file(WRITE \"${CMAKE_INSTALL_PREFIX}/${qtconf_dest_dir}/qt.conf\" \"[Paths]\\nPlugins = ../lib/plugins/\")
+  file(WRITE \"${CMAKE_INSTALL_PREFIX}/${qtconf_dest_dir}/qt.conf\" \"[Paths]\\nPlugins = ../lib/plugins/\\nQmlImports = ../qml/\")
   " COMPONENT Runtime)
 
 install(CODE "set(SYS_ROOT ${SYS_ROOT})")
 install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)")
+install(CODE "set(BINARY_DIR \"${CMAKE_BINARY_DIR}\")")
 install(CODE "set(DIST_PATH \"${CMAKE_CURRENT_BINARY_DIR}\")")
 install(CODE "set(INSTALL_PATH \"${CMAKE_INSTALL_PREFIX}\")")
 install(CODE "set(DEP_DIRS \"${CMAKE_INSTALL_PREFIX}/bin;${SYS_ROOT}/bin;${spdlog_BINARY_DIR}\")")
 install(CODE "set(BINDIR \"${BINDIR}\")")
 install(CODE "set(BINDIR32 \"${BINDIR32}\")")
+install(CODE "set(HAVE_CRASHPAD \"${HAVE_CRASHPAD}\")")
+install(CODE "set(HAVE_DBUS \"${HAVE_DBUS}\")")
+install(CODE "set(HAVE_SBOM \"${HAVE_SBOM}\")")
+install(CODE "set(SOURCE_DIR \"${CMAKE_SOURCE_DIR}\")")
+
+if (HAVE_SBOM)
+  find_program(BASH_CMD bash REQUIRED)
+  install(CODE "set(BASH_CMD \"${BASH_CMD}\")")
+endif()
+
+if (MSVC)
+  install(CODE "set(MSVC ${MSVC})")
+  install(CODE "set(VCPKG_INSTALLED_DIR \"${VCPKG_INSTALLED_DIR}\")")
+  install(CODE "set(VCPKG_TARGET_TRIPLET \"${VCPKG_TARGET_TRIPLET}\")")
+  install(CODE "set(CONFIG ${CONFIG})")
+  install(CODE "set(DEP_DIRS \"${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/$<$<CONFIG:Debug>:debug/>bin\")")
+endif()
 
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/InstallDependencies.cmake")
+install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/GenerateSBOM.cmake")
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
 
 string(REPLACE "/" "\\" INSTALL_WIN_PATH "${CMAKE_INSTALL_PREFIX}")
@@ -54,50 +82,24 @@ configure_file(
   @ONLY
 )
 
-set(INSTALLER_NAME "workrave-installer")
+set(INSTALLER_NAME "workrave-qt-installer")
 set(INSTALLER_TARGET "${INSTALLER_NAME}.exe")
 set(ISCC_FILENAME_FLAGS "/F${INSTALLER_NAME}")
+set(PREPARE_INNO_SETUP_COMMAND
+    "${CMAKE_COMMAND}"
+    "-DINSTALL_PATH=${CMAKE_INSTALL_PREFIX}"
+    "-DDIST_PATH=${CMAKE_CURRENT_BINARY_DIR}"
+    "-DBINDIR=${BINDIR}"
+    "-DBINDIR32=${BINDIR32}"
+    "-DHAVE_CRASHPAD=${HAVE_CRASHPAD}"
+    "-DHAVE_SBOM=${HAVE_SBOM}"
+    "-P"
+    "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
 
-if(WINE)
-  add_custom_command(OUTPUT ${INSTALLER_TARGET}
-                     COMMAND "${WINE}" "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" "/DCHANNEL=${WORKRAVE_CHANNEL}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
-                     DEPENDS workrave)
-else()
-  add_custom_command(OUTPUT ${INSTALLER_TARGET}
-                     COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" "/DCHANNEL=${WORKRAVE_CHANNEL}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
-                     DEPENDS workrave
-                     VERBATIM)
-endif()
+add_custom_command(OUTPUT ${INSTALLER_TARGET}
+                   COMMAND ${PREPARE_INNO_SETUP_COMMAND}
+                   COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" "/DCHANNEL=${WORKRAVE_CHANNEL}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
+                   DEPENDS workrave "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake"
+                   VERBATIM)
 
 add_custom_target(installer DEPENDS ${INSTALLER_TARGET})
-
-if (CMAKE_CROSSCOMPILING)
-  ExternalProject_Add(ZapperQt32Bit
-    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src
-    BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/.32
-    CMAKE_CACHE_ARGS
-      -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_SOURCE_DIR}/cmake/toolchains/mingw32-gcc.cmake
-      -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
-  )
-elseif (MSVC)
-  ExternalProject_Add(ZapperQt32Bit
-    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src
-    BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/.32
-    CMAKE_GENERATOR "Visual Studio 17 2022"
-    CMAKE_ARGS -A Win32
-    CMAKE_CACHE_ARGS
-      -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_TOOLCHAIN_FILE}
-      -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
-      -DVCPKG_TARGET_TRIPLET:STRING=x86-windows
-  )
-elseif (MINGW)
-  set(CMAKE_COMMAND32 ${MSYS_CMD} -here -mingw32 -no-start -defterm -c "cmake \$*" cmake)
-  ExternalProject_Add(ZapperQt32Bit
-    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src
-    BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/.32
-    CMAKE_COMMAND ${CMAKE_COMMAND32}
-    CMAKE_CACHE_ARGS
-      -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_SOURCE_DIR}/cmake/toolchains/mingw32-gcc.cmake
-      -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
-  )
-endif()

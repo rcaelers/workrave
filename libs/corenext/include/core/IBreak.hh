@@ -22,7 +22,6 @@
 
 #include <boost/signals2.hpp>
 
-#include "core/CoreTypes.hh"
 #include "utils/Enum.hh"
 
 namespace workrave

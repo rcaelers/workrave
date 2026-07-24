@@ -25,6 +25,7 @@
 #include "ToggleWidget.hh"
 #include "FrameWidget.hh"
 #include "BoxWidget.hh"
+#include "EntryWidget.hh"
 #include "SpinWidget.hh"
 #include "SliderWidget.hh"
 #include "TimeEntryWidget.hh"
@@ -79,6 +80,10 @@ Builder::build(std::shared_ptr<ui::prefwidgets::Widget> def, std::shared_ptr<Con
   if (auto d = std::dynamic_pointer_cast<ui::prefwidgets::Toggle>(def); d)
     {
       widget = std::make_shared<ToggleWidget>(d, container, this);
+    }
+  if (auto d = std::dynamic_pointer_cast<ui::prefwidgets::Entry>(def); d)
+    {
+      widget = std::make_shared<EntryWidget>(d, container, this);
     }
   if (auto d = std::dynamic_pointer_cast<ui::prefwidgets::Time>(def); d)
     {

@@ -15,12 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include <spdlog/common.h>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
 #include "utils/Logging.hh"
+
+#include <memory>
+#include <string>
 
 #include <spdlog/spdlog.h>
 

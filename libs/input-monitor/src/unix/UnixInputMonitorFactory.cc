@@ -36,7 +36,11 @@
 #include "MutterInputMonitor.hh"
 
 #if defined(HAVE_WAYLAND)
-#  include "WaylandInputMonitor.hh"
+#  if defined(HAVE_APP_GTK)
+#    include "WaylandInputMonitor.hh"
+#  elif defined(HAVE_APP_QT)
+#    include "QtWaylandInputMonitor.hh"
+#  endif
 #endif
 
 using namespace std;
@@ -115,24 +119,30 @@ UnixInputMonitorFactory::create_monitor(MonitorCapability capability)
               monitor = IInputMonitor::Ptr(new MutterInputMonitor());
             }
 #if defined(HAVE_WAYLAND)
+#  if defined(HAVE_APP_GTK)
           else if (monitor_method == "wayland")
             {
               monitor = IInputMonitor::Ptr(new WaylandInputMonitor());
             }
+#  elif defined(HAVE_APP_QT)
+          else if (monitor_method == "wayland")
+            {
+              monitor = IInputMonitor::Ptr(new QtWaylandInputMonitor());
+            }
+#  endif
 #endif
-
           if (monitor)
-          {
-            initialized = monitor->init();
+            {
+              initialized = monitor->init();
 
-            if (initialized)
-              {
-                TRACE_MSG("Success");
-                break;
-              }
+              if (initialized)
+                {
+                  TRACE_MSG("Success");
+                  break;
+                }
 
-            monitor.reset();
-          }
+              monitor.reset();
+            }
 
           loop++;
           if (loop == available_monitors.end())

@@ -45,13 +45,55 @@
 #include "utils/AssetPath.hh"
 #include "config/ConfiguratorFactory.hh"
 #include "core/CoreConfig.hh"
+#if defined(HAVE_CORE_SHADOW)
+#  include "core-shadow/CoreShadow.hh"
+#endif
 
 // #if defined(HAVE_DBUS)
 // #  include "GenericDBusApplet.hh"
 // #endif
 
 using namespace workrave;
+
 using namespace workrave::utils;
+
+BreakButtonState
+Application::compute_break_button_state() const
+{
+  BreakButtonState state;
+
+  if (core->get_active_operation_mode() != OperationMode::Normal)
+    {
+      return state;
+    }
+
+  for (int id = static_cast<int>(active_break_id) - 1; id >= 0; id--)
+    {
+      auto b = core->get_break(BreakId(id));
+      bool overdue = b->get_elapsed_time() > b->get_limit();
+
+      if (((active_break_flags & BREAK_FLAGS_USER_INITIATED) == 0) || b->is_max_preludes_reached())
+        {
+          if (!GUIConfig::break_ignorable(BreakId(id))())
+            {
+              state.can_postpone = state.can_postpone && !overdue;
+            }
+          if (!GUIConfig::break_skippable(BreakId(id))())
+            {
+              state.can_skip = state.can_skip && !overdue;
+            }
+          if (!state.can_postpone || !state.can_skip)
+            {
+              state.overdue_break_id = BreakId(id);
+              state.lock_max = b->get_auto_reset();
+              state.lock_value = b->get_elapsed_idle_time();
+              break;
+            }
+        }
+    }
+
+  return state;
+}
 
 Application::Application(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory)
   : toolkit_factory(toolkit_factory)
@@ -259,6 +301,9 @@ void
 Application::init_core()
 {
   core = CoreFactory::create(configurator);
+#if defined(HAVE_CORE_SHADOW)
+  core = workrave::core_shadow::CoreShadowFactory::wrap(core, configurator);
+#endif
   context->set_core(core);
 #if defined(HAVE_CORE_NEXT)
   core->init(this, toolkit->get_display_name());
@@ -287,7 +332,9 @@ Application::init_dbus()
           // dialog.set_secondary_text(_("Is Workrave already running?"));
           // dialog.show();
           // dialog.run();
+#if !defined(HAVE_APP_QT)
           exit(1);
+#endif
         }
 
       try
@@ -303,7 +350,7 @@ Application::init_dbus()
 #if defined(HAVE_DBUS)
   try
     {
-      extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
+      extern void init_DBusGUI(std::shared_ptr<workrave::dbus::IDBus> dbus);
       init_DBusGUI(dbus);
     }
   catch (workrave::dbus::DBusException &)
@@ -360,19 +407,21 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
     BreakId id;
     BreakEvent break_event;
     SoundEvent sound_event;
-  } event_mappings[] = {
-    {BREAK_ID_MICRO_BREAK, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude},
-    {BREAK_ID_MICRO_BREAK, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored},
-    {BREAK_ID_MICRO_BREAK, BreakEvent::ShowBreak, SoundEvent::MicroBreakStarted},
-    {BREAK_ID_MICRO_BREAK, BreakEvent::BreakTaken, SoundEvent::MicroBreakEnded},
-    {BREAK_ID_REST_BREAK, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude},
-    {BREAK_ID_REST_BREAK, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored},
-    {BREAK_ID_REST_BREAK, BreakEvent::ShowBreak, SoundEvent::RestBreakStarted},
-    {BREAK_ID_REST_BREAK, BreakEvent::BreakTaken, SoundEvent::RestBreakEnded},
-    {BREAK_ID_DAILY_LIMIT, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude},
-    {BREAK_ID_DAILY_LIMIT, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored},
-    {BREAK_ID_DAILY_LIMIT, BreakEvent::ShowBreak, SoundEvent::MicroBreakEnded},
   };
+
+  std::array<EventMap, 11> event_mappings = {{
+    {.id = BREAK_ID_MICRO_BREAK, .break_event = BreakEvent::ShowPrelude, .sound_event = SoundEvent::BreakPrelude},
+    {.id = BREAK_ID_MICRO_BREAK, .break_event = BreakEvent::BreakIgnored, .sound_event = SoundEvent::BreakIgnored},
+    {.id = BREAK_ID_MICRO_BREAK, .break_event = BreakEvent::ShowBreak, .sound_event = SoundEvent::MicroBreakStarted},
+    {.id = BREAK_ID_MICRO_BREAK, .break_event = BreakEvent::BreakTaken, .sound_event = SoundEvent::MicroBreakEnded},
+    {.id = BREAK_ID_REST_BREAK, .break_event = BreakEvent::ShowPrelude, .sound_event = SoundEvent::BreakPrelude},
+    {.id = BREAK_ID_REST_BREAK, .break_event = BreakEvent::BreakIgnored, .sound_event = SoundEvent::BreakIgnored},
+    {.id = BREAK_ID_REST_BREAK, .break_event = BreakEvent::ShowBreak, .sound_event = SoundEvent::RestBreakStarted},
+    {.id = BREAK_ID_REST_BREAK, .break_event = BreakEvent::BreakTaken, .sound_event = SoundEvent::RestBreakEnded},
+    {.id = BREAK_ID_DAILY_LIMIT, .break_event = BreakEvent::ShowPrelude, .sound_event = SoundEvent::BreakPrelude},
+    {.id = BREAK_ID_DAILY_LIMIT, .break_event = BreakEvent::BreakIgnored, .sound_event = SoundEvent::BreakIgnored},
+    {.id = BREAK_ID_DAILY_LIMIT, .break_event = BreakEvent::ShowBreak, .sound_event = SoundEvent::MicroBreakEnded},
+  }};
 
   for (auto &event_mapping: event_mappings)
     {
@@ -481,6 +530,8 @@ Application::create_break_window(BreakId break_id, workrave::utils::Flags<BreakH
     }
 
   active_break_id = break_id;
+  active_break_flags = break_flags;
+  cached_break_button_state = compute_break_button_state();
 
   for (int i = 0; i < toolkit->get_head_count(); i++)
     {
@@ -500,6 +551,8 @@ Application::hide_break_window()
   TRACE_ENTRY();
   active_break_id = BREAK_ID_NONE;
 
+  spdlog::info("Hide break window");
+
   for (auto &window: prelude_windows)
     {
       window->stop();
@@ -512,8 +565,10 @@ Application::hide_break_window()
 
   break_windows.clear();
   prelude_windows.clear();
+  cached_break_button_state = BreakButtonState{};
 
   toolkit->get_locker()->unlock();
+  spdlog::info("Unlocking screen");
 }
 
 void
@@ -533,12 +588,14 @@ Application::show_break_window()
 
   for (auto &window: break_windows)
     {
+      window->set_break_button_state(cached_break_button_state);
       window->start();
     }
 
   if (!break_windows.empty() && GUIConfig::block_mode()() != BlockMode::Off)
     {
       TRACE_MSG("Locking screen");
+      spdlog::info("Locking screen");
       toolkit->get_locker()->lock();
     }
 }
@@ -549,6 +606,19 @@ Application::refresh_break_window()
   for (auto &window: prelude_windows)
     {
       window->refresh();
+    }
+
+  if (active_break_id != BREAK_ID_NONE)
+    {
+      BreakButtonState new_state = compute_break_button_state();
+      if (!(new_state == cached_break_button_state))
+        {
+          cached_break_button_state = new_state;
+          for (auto &window: break_windows)
+            {
+              window->set_break_button_state(cached_break_button_state);
+            }
+        }
     }
 
   for (auto &window: break_windows)
@@ -656,7 +726,7 @@ std::string
 Application::get_timers_tooltip()
 {
   // FIXME: duplicate
-  const char *labels[] = {_("Micro-break"), _("Rest break"), _("Daily limit")};
+  const std::array<const char *, 3> labels = {_("Micro-break"), _("Rest break"), _("Daily limit")};
   std::string tip;
 
   OperationMode mode = core->get_regular_operation_mode();
@@ -706,7 +776,7 @@ Application::get_timers_tooltip()
               tip += "\n";
             }
 
-          tip += labels[count];
+          tip += labels.at(count);
           tip += ": " + text;
         }
     }

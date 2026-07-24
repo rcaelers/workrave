@@ -25,6 +25,7 @@
 #include <giomm.h>
 
 #include "GtkUtil.hh"
+#include "ui/GUIConfig.hh"
 #include "utils/Exception.hh"
 #include "utils/Enum.hh"
 #include "commonui/Text.hh"
@@ -63,6 +64,15 @@ public:
         GtkUtil::override_color("workrave-flash-alert", "prelude", color_alert);
 
         callMethod("Init", icon, sad_icon, color_warn.to_string(), color_alert.to_string());
+        try
+          {
+            callMethod("SetSanctuary", GUIConfig::sanctuary_ui_enabled()());
+          }
+        catch (const Glib::Error &e)
+          {
+            // Older extension versions do not expose SetSanctuary.
+            spdlog::debug("GNOME shell extension does not support Sanctuary preludes: {}", e.what().c_str());
+          }
       }
     catch (const Glib::Error &e)
       {
@@ -215,7 +225,7 @@ DBusPreludeWindow::set_progress_text(workrave::IApp::PreludeProgressText text)
 }
 
 bool
-DBusPreludeWindow::is_gnome_shell_applet_available(workrave::dbus::IDBus::Ptr dbus)
+DBusPreludeWindow::is_gnome_shell_applet_available(std::shared_ptr<workrave::dbus::IDBus> dbus)
 {
   try
     {

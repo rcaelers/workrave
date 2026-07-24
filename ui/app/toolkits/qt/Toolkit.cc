@@ -22,15 +22,23 @@
 #include "Toolkit.hh"
 
 #include <QApplication>
+#include <QDir>
+#include <QFile>
+#include <QGuiApplication>
+#include <QQmlEngine>
+#include <QQuickView>
+#include <QQuickWidget>
+#include <QStyleHints>
+#include <QTimer>
+#include <QTranslator>
 
-#include "Icon.hh"
-#include "DailyLimitWindow.hh"
-#include "MicroBreakWindow.hh"
-#include "PreludeWindow.hh"
-#include "RestBreakWindow.hh"
-#include "UiUtil.hh"
-#include "ui/GUIConfig.hh"
+#include "QmlMicroBreakWindow.hh"
+#include "QmlPreludeWindow.hh"
+#include "QmlDailyLimitWindow.hh"
+#include "QmlRestBreakWindow.hh"
 #include "debug.hh"
+#include "ui/GUIConfig.hh"
+#include "utils/Signals.hh"
 
 using namespace workrave;
 using namespace workrave::config;
@@ -39,6 +47,7 @@ Toolkit::Toolkit(int argc, char **argv)
   : QApplication(argc, argv)
   , heartbeat_timer(new QTimer(this))
 {
+  TRACE_ENTRY();
   QCoreApplication::setOrganizationName("Workrave");
   QCoreApplication::setOrganizationDomain("workrave.org");
   QCoreApplication::setApplicationName("Workrave");
@@ -56,26 +65,27 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   this->app = app;
 
   setQuitOnLastWindowClosed(false);
+  installEventFilter(this);
 
   menu_model = app->get_menu_model();
   sound_theme = app->get_sound_theme();
 
+  GUIConfig::light_dark_mode().attach(tracker, [this](auto mode) { apply_light_dark_mode(mode); });
+  GUIConfig::locale().attach(tracker, [this](const std::string &locale) { apply_qt_locale(locale); });
+  apply_qt_locale(GUIConfig::locale()());
+
   main_window = new MainWindow(app);
 
-  // event_connections.emplace_back(main_window->signal_closed().connect(sigc::mem_fun(*this,
-  // &Toolkit::on_main_window_closed)));
+  workrave::utils::connect(main_window->signal_closed(), tracker, [this]() { on_main_window_closed(); });
 
-  status_icon = std::make_shared<StatusIcon>(app);
-  // event_connections.emplace_back(status_icon->signal_activated().connect(sigc::mem_fun(*this,
-  // &Toolkit::on_status_icon_activated)));
-  // event_connections.emplace_back(status_icon->signal_balloon_activated().connect(sigc::mem_fun(*this,
-  // &Toolkit::on_status_icon_balloon_activated)));
+  status_icon = std::make_unique<StatusIcon>(app);
+  workrave::utils::connect(status_icon->signal_activate(), tracker, [this]() { on_status_icon_activated(); });
+  workrave::utils::connect(status_icon->signal_balloon_activate(), tracker, [this](auto id) {
+    on_status_icon_balloon_activated(id);
+  });
 
   connect(heartbeat_timer, SIGNAL(timeout()), this, SLOT(on_timer()));
   heartbeat_timer->start(1000);
-
-  main_window->show();
-  main_window->raise();
 }
 
 void
@@ -95,7 +105,7 @@ Toolkit::hold()
 {
   TRACE_ENTRY_PAR(hold_count);
   hold_count++;
-  // TODO: main_window->set_can_close(hold_count > 0);
+  main_window->set_can_close(can_close());
   setQuitOnLastWindowClosed(hold_count == 0);
 }
 
@@ -104,8 +114,14 @@ Toolkit::release()
 {
   TRACE_ENTRY_PAR(hold_count);
   hold_count--;
+  main_window->set_can_close(can_close());
   setQuitOnLastWindowClosed(hold_count == 0);
-  // TODO: main_window->set_can_close(hold_count > 0);
+}
+
+auto
+Toolkit::can_close() const -> bool
+{
+  return hold_count > 0;
 }
 
 void
@@ -118,7 +134,7 @@ auto
 Toolkit::get_head_count() const -> int
 {
   QList<QScreen *> screens = QGuiApplication::screens();
-  return screens.size();
+  return static_cast<int>(screens.size());
 }
 
 auto
@@ -131,15 +147,15 @@ Toolkit::create_break_window(int screen_index, BreakId break_id, BreakFlags brea
 
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
-      ret = std::make_shared<MicroBreakWindow>(app, screen, break_flags);
+      ret = std::make_shared<QmlMicroBreakWindow>(app, screen, break_flags);
     }
   else if (break_id == BREAK_ID_REST_BREAK)
     {
-      ret = std::make_shared<RestBreakWindow>(app, screen, break_flags);
+      ret = std::make_shared<QmlRestBreakWindow>(app, screen, break_flags);
     }
   else if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      ret = std::make_shared<DailyLimitWindow>(app, screen, break_flags);
+      ret = std::make_shared<QmlDailyLimitWindow>(app, screen, break_flags);
     }
 
   return ret;
@@ -151,7 +167,9 @@ Toolkit::create_prelude_window(int screen_index, workrave::BreakId break_id) -> 
   QList<QScreen *> screens = QGuiApplication::screens();
   QScreen *screen = screens.at(screen_index);
 
-  return std::make_shared<PreludeWindow>(screen, break_id);
+  // Always use the QML prelude window; it switches between Sanctuary and Classic
+  // designs live via bridge.classic without requiring a Workrave restart.
+  return std::make_shared<QmlPreludeWindow>(app, screen, break_id);
 }
 
 void
@@ -188,10 +206,9 @@ Toolkit::show_window(WindowType type)
 void
 Toolkit::show_about()
 {
-  if (about_dialog == nullptr)
+  if (!about_dialog)
     {
-      about_dialog = new AboutDialog;
-      about_dialog->setAttribute(Qt::WA_DeleteOnClose);
+      about_dialog = std::make_unique<QmlAboutDialog>();
     }
   about_dialog->show();
 }
@@ -199,15 +216,20 @@ Toolkit::show_about()
 void
 Toolkit::show_debug()
 {
+  if (debug_dialog == nullptr)
+    {
+      debug_dialog = new DebugDialog(app);
+      debug_dialog->setAttribute(Qt::WA_DeleteOnClose);
+    }
+  debug_dialog->show();
 }
 
 void
 Toolkit::show_exercises()
 {
-  if (exercises_dialog == nullptr)
+  if (!exercises_dialog)
     {
-      exercises_dialog = new ExercisesDialog(app);
-      exercises_dialog->setAttribute(Qt::WA_DeleteOnClose);
+      exercises_dialog = std::make_unique<QmlExercisesDialog>(app);
     }
   exercises_dialog->show();
 }
@@ -215,8 +237,8 @@ Toolkit::show_exercises()
 void
 Toolkit::show_main_window()
 {
-  main_window->show();
-  main_window->raise();
+  TRACE_ENTRY();
+  main_window->open_window();
 }
 
 void
@@ -224,8 +246,7 @@ Toolkit::show_preferences()
 {
   if (preferences_dialog == nullptr)
     {
-      preferences_dialog = new PreferencesDialog(app);
-      preferences_dialog->setAttribute(Qt::WA_DeleteOnClose);
+      preferences_dialog = std::make_unique<QmlPrefsDialog>(app);
     }
   preferences_dialog->show();
 }
@@ -233,12 +254,12 @@ Toolkit::show_preferences()
 void
 Toolkit::show_statistics()
 {
-  if (statistics_dialog == nullptr)
+  if (!statistics_dialog)
     {
-      statistics_dialog = new StatisticsDialog(app);
-      statistics_dialog->setAttribute(Qt::WA_DeleteOnClose);
+      statistics_dialog = std::make_unique<QmlStatisticsDialog>(app);
     }
   statistics_dialog->show();
+  statistics_dialog->raise();
 }
 
 auto
@@ -274,14 +295,14 @@ Toolkit::signal_status_icon_activated() -> boost::signals2::signal<void()> &
 auto
 Toolkit::get_display_name() const -> const char *
 {
-  return nullptr;
+  display_name = QGuiApplication::platformName().toStdString();
+  return display_name.c_str();
 }
 
 void
 Toolkit::create_oneshot_timer(int ms, std::function<void()> func)
 {
-  // TODO: ms == 0
-  new OneshotTimer(ms, func);
+  QTimer::singleShot(ms, this, [func = std::move(func)]() { func(); });
 }
 
 void
@@ -297,6 +318,7 @@ Toolkit::show_notification(const std::string &id,
 void
 Toolkit::show_tooltip(const std::string &tip)
 {
+  status_icon->set_tooltip(QString::fromStdString(tip));
 }
 
 void
@@ -309,7 +331,15 @@ Toolkit::on_timer()
 void
 Toolkit::on_main_window_closed()
 {
-  main_window_closed_signal();
+  if (can_close())
+    {
+      GUIConfig::timerbox_enabled("main_window").set(false);
+      main_window_closed_signal();
+    }
+  else
+    {
+      terminate();
+    }
 }
 
 void
@@ -329,14 +359,122 @@ Toolkit::on_status_icon_activated()
 void
 Toolkit::notify_add_confirm_function(const std::string &id, std::function<void()> func)
 {
+  TRACE_ENTRY();
   notifiers[id] = func;
 }
 
 void
 Toolkit::notify_confirm(const std::string &id)
 {
-  if (notifiers.find(id) != notifiers.end())
+  TRACE_ENTRY();
+  if (notifiers.contains(id))
     {
       notifiers[id]();
     }
+}
+
+void
+Toolkit::apply_qt_locale(const std::string &locale_code)
+{
+  if (current_translator != nullptr)
+    {
+      removeTranslator(current_translator);
+      delete current_translator;
+      current_translator = nullptr;
+    }
+
+  if (locale_code.empty())
+    {
+      return;
+    }
+
+  QString filename = "workrave_" + QString::fromStdString(locale_code) + ".qm";
+
+  // Find the .qm file: check installed bundle location, then walk up from
+  // the executable for dev-build layouts (po/ sibling of the build tree).
+  auto appDir = QCoreApplication::applicationDirPath();
+  QStringList candidates{
+    appDir + "/../Resources/share/translations/" + filename, // macOS bundle
+    appDir + "/../share/translations/" + filename,           // Linux/Windows installed
+  };
+  // Walk up from executable looking for a po/ directory (dev build)
+  {
+    QDir d(appDir);
+    for (int i = 0; i < 10; ++i)
+      {
+        candidates << d.filePath("po/" + filename);
+        if (!d.cdUp())
+          {
+            break;
+          }
+      }
+  }
+
+  for (const QString &candidate : std::as_const(candidates))
+    {
+      if (QFile::exists(candidate))
+        {
+          auto *translator = new GettextTranslator(this);
+          if (translator->load(candidate))
+            {
+              current_translator = translator;
+              installTranslator(current_translator);
+              spdlog::info("Qt translation loaded: {}", candidate.toStdString());
+              retranslate_all_qml_views();
+              return;
+            }
+          delete translator;
+        }
+    }
+  spdlog::warn("Qt translation not found for locale: {}", locale_code);
+  retranslate_all_qml_views();
+}
+
+void
+Toolkit::apply_light_dark_mode(LightDarkTheme mode)
+{
+  Qt::ColorScheme scheme = Qt::ColorScheme::Unknown;
+  switch (mode)
+    {
+    case LightDarkTheme::Light:
+      scheme = Qt::ColorScheme::Light;
+      break;
+    case LightDarkTheme::Dark:
+      scheme = Qt::ColorScheme::Dark;
+      break;
+    case LightDarkTheme::Auto:
+      scheme = Qt::ColorScheme::Unknown;
+      break;
+    }
+  QGuiApplication::styleHints()->setColorScheme(scheme);
+}
+
+void
+Toolkit::retranslate_all_qml_views()
+{
+  for (QWindow *w: QGuiApplication::topLevelWindows())
+    {
+      if (auto *qv = qobject_cast<QQuickView *>(w))
+        {
+          qv->engine()->retranslate();
+        }
+    }
+  for (QWidget *w: QApplication::allWidgets())
+    {
+      if (auto *qw = qobject_cast<QQuickWidget *>(w))
+        {
+          qw->engine()->retranslate();
+        }
+    }
+}
+
+bool
+Toolkit::eventFilter(QObject *obj, QEvent *event)
+{
+  if (event->type() == QEvent::ApplicationPaletteChange || event->type() == QEvent::ThemeChange)
+    {
+      spdlog::info("Theme changed to {}",
+                   (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Light) ? "Light" : "Dark");
+    }
+  return false;
 }

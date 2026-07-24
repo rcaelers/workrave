@@ -30,6 +30,9 @@ public:
   void prepare_lock() override;
   void lock() override;
   void unlock() override;
+
+private:
+  void *active_window = nullptr;
 };
 
 #endif // WINDOWS_LOCKER_HH

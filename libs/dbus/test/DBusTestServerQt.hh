@@ -43,7 +43,7 @@ public:
 
 private:
   QCoreApplication *app;
-  workrave::dbus::IDBus::Ptr dbus;
+  std::shared_ptr<workrave::dbus::IDBus> dbus;
 };
 
 #endif // DBUSTESTSERVERQT_HH

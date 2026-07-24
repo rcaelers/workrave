@@ -21,31 +21,12 @@
 
 #include "ActivityMonitorStub.hh"
 
-#include "utils/TimeSource.hh"
-
-#include "debug.hh"
-
-using namespace std;
-using namespace workrave::utils;
-
-ActivityMonitorStub::ActivityMonitorStub()
-  : active(false)
-  , suspended(false)
-  , forced_idle(false)
-{
-}
-
 void
 ActivityMonitorStub::set_active(bool active)
 {
   this->active = active;
   forced_idle = false;
 }
-
-// void
-// ActivityMonitorStub::init()
-// {
-// }
 
 void
 ActivityMonitorStub::terminate()
@@ -71,18 +52,6 @@ ActivityMonitorStub::force_idle()
   count = 0;
 }
 
-// bool
-// ActivityMonitorStub::is_active()
-// {
-//   return !suspended && !forced_idle && active;
-// }
-
-// void
-// ActivityMonitorStub::set_listener(IActivityMonitorListener::Ptr l)
-// {
-//   listener = l;
-// }
-
 void
 ActivityMonitorStub::set_listener(IActivityMonitorListener *l)
 {
@@ -96,49 +65,22 @@ ActivityMonitorStub::get_current_state()
     {
       return ACTIVITY_SUSPENDED;
     }
-  else if (active && !forced_idle)
+  if (active && !forced_idle)
     {
       return ACTIVITY_ACTIVE;
     }
-  else
-    {
-      return ACTIVITY_IDLE;
-    }
+  return ACTIVITY_IDLE;
 }
 
 void
 ActivityMonitorStub::notify()
 {
-  // ActivityMonitorListener::Ptr l;
-  IActivityMonitorListener *l;
-
-  l = listener;
-  if (l)
+  IActivityMonitorListener *l = listener;
+  if (l != nullptr)
     {
       if (!l->action_notify())
         {
-          listener = nullptr; // .reset();
-        }
-    }
-}
-
-void
-ActivityMonitorStub::heartbeat()
-{
-  if (listener)
-    {
-      if (count == 5)
-        {
-          notify();
-        }
-
-      if (get_current_state() == ACTIVITY_ACTIVE)
-        {
-          count++;
-        }
-      else
-        {
-          count = 0;
+          listener = nullptr;
         }
     }
 }

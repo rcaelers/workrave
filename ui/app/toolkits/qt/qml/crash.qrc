@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/crash">
+        <file>CrashDialog.qml</file>
+        <file alias="PrefTokens.qml">PrefTokens.qml</file>
+        <file alias="workrave-sheep-crashed.svg">../../../../data/images/workrave-sheep-crashed.svg</file>
+    </qresource>
+</RCC>

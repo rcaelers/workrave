@@ -18,25 +18,47 @@
 #ifndef TOOLKIT_UNIX_HH
 #define TOOLKIT_UNIX_HH
 
+#include <string>
+
+#include "IToolkitUnixPrivate.hh"
 #include "Toolkit.hh"
 
 #include "UnixLocker.hh"
+#if defined(HAVE_WAYLAND)
+#  include "WaylandWindowManager.hh"
+#endif
 
-class ToolkitUnix : public Toolkit
+class ToolkitUnix
+  : public Toolkit
+  , public IToolkitUnixPrivate
 {
 public:
   ToolkitUnix(int argc, char **argv);
   ~ToolkitUnix() override = default;
 
   // IToolkit
+  void preinit(std::shared_ptr<workrave::config::IConfigurator> config) override;
   void init(std::shared_ptr<IApplicationContext> app) override;
-  IBreakWindow::Ptr create_break_window(int screen_index, workrave::BreakId break_id, BreakFlags break_flags) override;
   std::shared_ptr<Locker> get_locker() override;
+  auto get_display_name() const -> const char * override;
 
-  void show_notification(const std::string &id, const std::string &title, const std::string &balloon, std::function<void()> func);
+  void show_notification(const std::string &id,
+                         const std::string &title,
+                         const std::string &balloon,
+                         std::function<void()> func) override;
+  auto get_desktop_image() -> QPixmap override;
+
+// IToolkitUnixPrivate
+#if defined(HAVE_WAYLAND)
+  auto get_wayland_window_manager() -> std::shared_ptr<WaylandWindowManager> override;
+#endif
 
 private:
   std::shared_ptr<UnixLocker> locker;
+  mutable std::string display_name;
+#if defined(HAVE_WAYLAND)
+  std::shared_ptr<WaylandWindowManager> wayland_window_manager;
+#endif
 };
 
 #endif // TOOLKIT_UNIX_HH

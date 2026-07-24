@@ -20,7 +20,6 @@
 
 #include <string>
 #include <vector>
-#include <map>
 
 #include <memory>
 
@@ -143,7 +142,7 @@ private:
     std::string id;
   };
 
-  static const SoundRegistry sound_registry[];
+  static const std::array<SoundRegistry, 10> sound_registry;
 
   static const std::string CFG_KEY_SOUND_ENABLED;
   static const std::string CFG_KEY_SOUND_DEVICE;

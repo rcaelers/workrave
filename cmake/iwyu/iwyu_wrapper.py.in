@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+"""
+IWYU wrapper — configured by CMake, do not edit the generated copy.
+
+  * Silently skips Objective-C++ compilation units (IWYU aborts on ObjC).
+  * Suppresses the verbose "The full include-list for ..." summary blocks;
+    the add/remove lines above them already carry the same information.
+"""
+import sys
+import subprocess
+
+args = sys.argv[1:]
+
+# Skip Objective-C++: -x objective-c* flag or a .mm source file argument.
+prev = None
+for arg in args:
+    if prev == '-x' and arg.startswith('objective-c'):
+        sys.exit(0)
+    if not arg.startswith('-') and arg.endswith('.mm'):
+        sys.exit(0)
+    prev = arg
+
+proc = subprocess.run(
+    ['@IWYU_EXECUTABLE@'] + args,
+    stderr=subprocess.PIPE,
+    text=True,
+)
+
+# Strip "The full include-list for <file>:\n...\n---\n" blocks.
+filtered = []
+in_full_list = False
+for line in proc.stderr.splitlines(keepends=True):
+    if line.startswith('The full include-list for '):
+        in_full_list = True
+        continue
+    if in_full_list:
+        if line.rstrip('\n') == '---':
+            in_full_list = False
+        continue
+    filtered.append(line)
+
+sys.stderr.write(''.join(filtered))
+sys.exit(proc.returncode)
