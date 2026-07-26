@@ -22,15 +22,13 @@
 
 #include "dbus/IDBus.hh"
 
-namespace workrave
+namespace workrave::dbus
 {
-  namespace dbus
+  class DBusFactory
   {
-    class DBusFactory
-    {
-    public:
-      static IDBus::Ptr create();
-    };
-  } // namespace dbus
-} // namespace workrave
+  public:
+    static std::shared_ptr<IDBus> create();
+  };
+} // namespace workrave::dbus
+
 #endif // WORKRAVE_DBUS_IDBUS_HH

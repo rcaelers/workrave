@@ -21,5 +21,6 @@
 #include "config/IConfigurator.hh"
 #include "config/IConfiguratorListener.hh"
 #include "config/ConfiguratorFactory.hh"
+#include "config/Setting.hh"
 
 #endif // WORKRAVE_CONFIG_CONFIGURATOR_HH

@@ -49,6 +49,24 @@ using namespace workrave::utils;
 
 namespace
 {
+  using namespace std::string_view_literals;
+
+#ifdef PLATFORM_OS_WINDOWS
+#  ifdef HAVE_APP_QT
+  constexpr std::string_view app_name = "WorkraveQt"sv;
+#  else
+  constexpr std::string_view app_name = "Workrave"sv;
+#  endif
+#else
+#  ifdef HAVE_APP_QT
+  constexpr std::string_view app_name = "workrave-qt"sv;
+  constexpr std::string_view dot_app_name = ".workrave-qt"sv;
+#  else
+  constexpr std::string_view app_name = "workrave-qt"sv;
+  constexpr std::string_view dot_app_name = ".Workrave"sv;
+#  endif
+#endif
+
   std::filesystem::path portable_directory;
 
 #if defined(PLATFORM_OS_WINDOWS)
@@ -189,7 +207,7 @@ Paths::get_data_directories()
 
 #if defined(HAVE_GLIB)
       const gchar *user_data_dir = g_get_user_data_dir();
-      directories.push_back(std::filesystem::path(user_data_dir) / "workrave");
+      directories.push_back(std::filesystem::path(user_data_dir) / app_name);
 
       const char *const *system_data_dirs = g_get_system_data_dirs();
       for (int i = 0; system_data_dirs && system_data_dirs[i]; ++i)
@@ -230,17 +248,17 @@ Paths::get_config_directories()
   try
     {
 #if defined(PLATFORM_OS_WINDOWS)
-      directories.push_back(get_home_directory() / "Workrave");
+      directories.push_back(get_home_directory() / app_name);
       directories.push_back(get_application_directory() / "etc");
 #endif
 
 #if defined(HAVE_GLIB)
       const gchar *user_config_dir = g_get_user_config_dir();
-      directories.push_back(std::filesystem::path(user_config_dir) / "workrave");
+      directories.push_back(std::filesystem::path(user_config_dir) / app_name);
 #endif
 
 #if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_MACOS)
-      directories.push_back(get_home_directory() / ".workrave");
+      directories.push_back(get_home_directory() / dot_app_name);
 #endif
     }
   catch (std::exception &e)
@@ -266,22 +284,22 @@ Paths::get_state_directories()
     {
 #if defined(PLATFORM_OS_WINDOWS)
       directories.push_back(get_application_directory() / "etc");
-      directories.push_back(get_home_directory() / "Workrave");
+      directories.push_back(get_home_directory() / app_name);
 #endif
 
 #if defined(HAVE_GLIB)
 #  if GLIB_CHECK_VERSION(2, 72, 0)
       const gchar *user_state_dir = g_get_user_state_dir();
-      directories.push_back(std::filesystem::path(user_state_dir) / "workrave");
+      directories.push_back(std::filesystem::path(user_state_dir) / app_name);
 #  endif
       const gchar *user_data_dir = g_get_user_data_dir();
-      directories.push_back(std::filesystem::path(user_data_dir) / "workrave");
+      directories.push_back(std::filesystem::path(user_data_dir) / app_name);
       const gchar *user_config_dir = g_get_user_config_dir();
-      directories.push_back(std::filesystem::path(user_config_dir) / "workrave");
+      directories.push_back(std::filesystem::path(user_config_dir) / app_name);
 #endif
 
 #if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_MACOS)
-      directories.push_back(get_home_directory() / ".workrave");
+      directories.push_back(get_home_directory() / dot_app_name);
 #endif
     }
   catch (std::exception &e)
@@ -378,16 +396,16 @@ Paths::get_state_directory()
             {
               TRACE_MSG("Using preferred directory");
 #if defined(PLATFORM_OS_WINDOWS)
-              ret = get_home_directory() / "Workrave";
+              ret = get_home_directory() / app_name;
 #elif defined(HAVE_GLIB)
 #  if GLIB_CHECK_VERSION(2, 72, 0)
               const gchar *user_state_dir = g_get_user_state_dir();
 #  else
               const gchar *user_state_dir = g_get_user_data_dir();
 #  endif
-              ret = std::filesystem::path(user_state_dir) / "workrave";
+              ret = std::filesystem::path(user_state_dir) / app_name;
 #else
-              ret = get_home_directory() / ".workrave";
+              ret = get_home_directory() / dot_app_name;
 #endif
             }
 
@@ -458,7 +476,7 @@ Paths::get_log_directory()
       return "/tmp";
     }
 
-  return dir / "workrave";
+  return dir / app_name;
 }
 
 #elif defined(PLATFORM_OS_MACOS)
@@ -469,7 +487,7 @@ Paths::get_log_directory()
   std::filesystem::path dir = get_home_directory();
   if (!dir.empty())
     {
-      dir /= std::filesystem::path("Library") / "Logs" / "Workrave";
+      dir /= std::filesystem::path("Library") / "Logs" / app_name;
       return dir;
     }
 
@@ -484,7 +502,7 @@ Paths::get_log_directory()
   std::filesystem::path dir = get_special_folder(FOLDERID_LocalAppData);
   if (!dir.empty())
     {
-      dir /= std::filesystem::path("Workrave") / "Logs";
+      dir /= std::filesystem::path(app_name) / "Logs";
       return dir;
     }
 

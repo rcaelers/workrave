@@ -46,7 +46,7 @@ private:
   std::shared_ptr<std::thread> monitor_thread;
   XScreenSaverInfo *screen_saver_info{nullptr};
   Display *xdisplay{nullptr};
-  Drawable root;
+  Drawable root{};
 
   std::mutex mutex;
   std::condition_variable cond;

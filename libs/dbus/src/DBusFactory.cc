@@ -33,7 +33,7 @@
 #  include "DBusDummy.hh"
 #endif
 
-workrave::dbus::IDBus::Ptr
+std::shared_ptr<workrave::dbus::IDBus>
 workrave::dbus::DBusFactory::create()
 {
 #if defined(HAVE_DBUS_DUMMY)

@@ -18,18 +18,13 @@
 #ifndef WORKRAVE_DBUS_DBUSBINDING_HH
 #define WORKRAVE_DBUS_DBUSBINDING_HH
 
-#include <string>
-
-namespace workrave
+namespace workrave::dbus
 {
-  namespace dbus
+  class DBusBinding
   {
-    class DBusBinding
-    {
-    public:
-      virtual ~DBusBinding() = default;
-    };
-  } // namespace dbus
-} // namespace workrave
+  public:
+    virtual ~DBusBinding() = default;
+  };
+} // namespace workrave::dbus
 
 #endif // WORKRAVE_DBUS_DBUSBINDING_HH

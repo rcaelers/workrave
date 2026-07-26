@@ -26,7 +26,6 @@
 #include <commctrl.h>
 
 #include "core/CoreTypes.hh"
-#include "commonui/MenuDefs.hh"
 #include "utils/StringUtils.hh"
 #include "ui/GUIConfig.hh"
 

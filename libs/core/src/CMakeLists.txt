@@ -23,12 +23,12 @@ add_library(workrave-libs-core STATIC
 
 target_code_coverage(workrave-libs-core)
 
-if (HAVE_DBUS)
+if (HAVE_DBUS AND NOT HAVE_CORE_SHADOW)
   dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-service.xml ${CMAKE_CURRENT_BINARY_DIR} DBusWorkrave)
   target_sources(workrave-libs-core PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkrave.cc)
 endif()
 
-if (HAVE_GSETTINGS)
+if (HAVE_GSETTINGS AND NOT HAVE_CORE_SHADOW)
   gsettings_add_schemas(${CMAKE_CURRENT_SOURCE_DIR})
 endif()
 
@@ -50,4 +50,3 @@ target_include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   PUBLIC
   ${CMAKE_SOURCE_DIR}/libs/core/include)
-

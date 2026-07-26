@@ -115,7 +115,7 @@ QtSettingsConfigurator::set_value(const std::string &key, const ConfigValue &val
         }
       else if constexpr (!std::is_same_v<std::monostate, T>)
         {
-          QVariant qval = value;
+          QVariant qval = QVariant::fromValue(value);
           settings.setValue(qkey, qval);
         }
     },

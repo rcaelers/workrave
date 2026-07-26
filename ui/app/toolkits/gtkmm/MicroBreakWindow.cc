@@ -25,6 +25,7 @@
 
 #include "commonui/nls.h"
 #include "debug.hh"
+#include <fmt/format.h>
 
 #include "core/IBreak.hh"
 #include "MicroBreakWindow.hh"
@@ -202,33 +203,29 @@ MicroBreakWindow::update_label()
   Glib::ustring txt(_("Please relax for a few seconds"));
   if (show_next == BREAK_ID_REST_BREAK)
     {
-      char s[128];
-
+      std::string s;
       if (rb >= 0)
         {
-          sprintf(s, _("Next rest break in %s"), Text::time_to_string(rb, true).c_str());
+          s = fmt::format(fmt::runtime(_("Next rest break in {}")), Text::time_to_string(rb, true));
         }
       else
         {
-          sprintf(s, _("Rest break %s overdue"), Text::time_to_string(-rb, true).c_str());
+          s = fmt::format(fmt::runtime(_("Rest break {} overdue")), Text::time_to_string(-rb, true));
         }
-
       txt += "\n";
       txt += s;
     }
   else if (show_next == BREAK_ID_DAILY_LIMIT)
     {
-      char s[128];
-
+      std::string s;
       if (dl >= 0)
         {
-          sprintf(s, _("Daily limit in %s"), Text::time_to_string(dl, true).c_str());
+          s = fmt::format(fmt::runtime(_("Daily limit in {}")), Text::time_to_string(dl, true));
         }
       else
         {
-          sprintf(s, _("Daily limit %s overdue"), Text::time_to_string(-dl, true).c_str());
+          s = fmt::format(fmt::runtime(_("Daily limit {} overdue")), Text::time_to_string(-dl, true));
         }
-
       txt += "\n";
       txt += s;
     }

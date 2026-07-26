@@ -21,20 +21,25 @@
 
 #include <QPushButton>
 #include <QLabel>
+#include <QIcon>
+#include <QSizePolicy>
+#include <utility>
 
 #include "debug.hh"
 
+#include "core/ICore.hh"
+#include "ui/GUIConfig.hh"
+
 #include "Ui.hh"
 #include "UiUtil.hh"
-#include "utils/AssetPath.hh"
 
-#include "SizeGroup.hh"
 #include "TimerBoxView.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
 
-TimerBoxView::TimerBoxView()
+TimerBoxView::TimerBoxView(std::shared_ptr<workrave::ICore> core)
+  : core(std::move(core))
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -60,31 +65,36 @@ void
 TimerBoxView::init()
 {
   layout = new QGridLayout();
-  layout->setSpacing(2);
-  layout->setContentsMargins(2, 2, 2, 2);
+  layout->setHorizontalSpacing(3);
+  layout->setVerticalSpacing(2);
+  layout->setContentsMargins(0, 0, 0, 0);
 
   setLayout(layout);
 
-  auto *size_group = new SizeGroup(Qt::Horizontal | Qt::Vertical);
-
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      QPixmap pixmap(Ui::get_break_icon_filename(BreakId(i)));
-
-      if (false) // TODO: i == BREAK_ID_REST_BREAK)
+      if (i == BREAK_ID_REST_BREAK)
         {
           auto *button = new QPushButton("");
-          button->setIcon(pixmap);
+          button->setFlat(true);
+          button->setFocusPolicy(Qt::NoFocus);
+          button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+          button->setToolTip(tr("Take rest break now"));
+          button->setStyleSheet("QPushButton { border: 0; margin: 0; padding: 1px 0; background: transparent; }");
+          connect(button, &QPushButton::clicked, this, [this]() {
+            if (core)
+              {
+                core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
+              }
+          });
           labels[i] = button;
         }
       else
         {
           auto *label = new QLabel("");
-          label->setPixmap(pixmap);
+          label->setAlignment(Qt::AlignCenter);
           labels[i] = label;
         }
-
-      size_group->add_widget(labels[i]);
 
       bars[i] = new TimeBar();
       bars[i]->set_text_alignment(1);
@@ -92,12 +102,11 @@ TimerBoxView::init()
       bars[i]->set_text(tr("Wait"));
     }
 
-  // TODO: move to UiUtil
-  std::string sheep_file = AssetPath::complete_directory("workrave-icon-medium.png", SearchPathId::Images);
-  QPixmap pixmap(QString::fromStdString(sheep_file));
   sheep = new QLabel("");
-  sheep->setPixmap(pixmap);
-  // sheep->set_tooltip_text("Workrave");
+  sheep->setToolTip("Workrave");
+
+  GUIConfig::icon_theme().attach(this, [this](std::string) { update_widgets(); });
+  update_widgets();
 }
 
 auto
@@ -183,6 +192,7 @@ TimerBoxView::init_table()
           int cur_col = (2 * item) % columns;
 
           layout->addWidget(labels[id], cur_row, cur_col);
+          layout->setColumnStretch(cur_col, 0);
           labels[id]->show();
 
           int bias = 1;
@@ -195,6 +205,7 @@ TimerBoxView::init_table()
           cur_col = (2 * item + bias) % columns;
 
           layout->addWidget(bars[id], cur_row, cur_col);
+          layout->setColumnStretch(cur_col, 1);
           bars[id]->show();
         }
     }
@@ -246,8 +257,38 @@ TimerBoxView::set_time_bar(BreakId id,
 void
 TimerBoxView::set_icon(OperationModeIcon icon)
 {
-  QString file = Ui::get_status_icon_filename(icon);
-  // TODO:
+  current_icon = icon;
+  sheep->setPixmap(QPixmap(Ui::get_status_icon_filename(icon)));
+}
+
+void
+TimerBoxView::update_widgets()
+{
+  std::array<QPixmap, BREAK_ID_SIZEOF> pixmaps;
+  QSize icon_size;
+
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      pixmaps[i] = QPixmap(Ui::get_break_icon_filename(BreakId(i)));
+      icon_size = icon_size.expandedTo(pixmaps[i].size());
+    }
+
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      if (auto *button = qobject_cast<QPushButton *>(labels[i]); button != nullptr)
+        {
+          button->setIcon(QIcon(pixmaps[i]));
+          button->setIconSize(pixmaps[i].size());
+          button->setFixedSize(icon_size);
+        }
+      else if (auto *label = qobject_cast<QLabel *>(labels[i]); label != nullptr)
+        {
+          label->setPixmap(pixmaps[i]);
+          label->setFixedSize(icon_size);
+        }
+    }
+
+  set_icon(current_icon);
 }
 
 void

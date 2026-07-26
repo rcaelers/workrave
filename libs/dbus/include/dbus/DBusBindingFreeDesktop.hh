@@ -57,7 +57,7 @@ namespace workrave
     class DBusBindingFreeDesktop : public DBusBinding
     {
     public:
-      explicit DBusBindingFreeDesktop(IDBus::Ptr dbus);
+      explicit DBusBindingFreeDesktop(std::shared_ptr<IDBus> dbus);
       virtual ~DBusBindingFreeDesktop();
 
       virtual DBusIntrospect *get_method_introspect() = 0;
@@ -91,7 +91,7 @@ namespace workrave
       void put_double(DBusMessageIter *it, const double *value);
       void put_string(DBusMessageIter *it, const std::string *value);
 
-      IDBus::Ptr dbus;
+      std::shared_ptr<IDBus> dbus;
     };
   } // namespace dbus
 } // namespace workrave

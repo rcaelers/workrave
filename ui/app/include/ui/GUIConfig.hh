@@ -37,6 +37,14 @@ enum class FocusMode
   Quiet
 };
 
+enum class DisplayStyle
+{
+  Rings   = 0,
+  Bars    = 1,
+  Focus   = 2,
+  Classic = 3
+};
+
 enum class LightDarkTheme
 {
   Light,
@@ -61,6 +69,9 @@ public:
   static workrave::config::Setting<bool> &break_ignorable(workrave::BreakId break_id);
   static workrave::config::Setting<bool> &break_skippable(workrave::BreakId break_id);
   static workrave::config::Setting<bool> &break_enable_shutdown(workrave::BreakId break_id);
+  static workrave::config::Setting<std::string> &preferred_lock_method();
+  static workrave::config::Setting<std::string> &preferred_sleep_operation();
+  static workrave::config::Setting<std::string> &custom_lock_command();
   static workrave::config::Setting<int> &break_exercises(workrave::BreakId break_id);
   static workrave::config::Setting<int, BlockMode> &block_mode();
   static workrave::config::Setting<bool> &follow_focus_assist_enabled();
@@ -70,14 +81,16 @@ public:
   static workrave::config::Setting<bool> &closewarn_enabled();
   static workrave::config::Setting<bool> &autostart_enabled();
   static workrave::config::Setting<std::string> &icon_theme();
+  static workrave::config::Setting<int, LightDarkTheme> &light_dark_mode();
 #if defined(PLATFORM_OS_WINDOWS)
   static workrave::config::Setting<std::string> &theme_name();
-  static workrave::config::Setting<int, LightDarkTheme> &light_dark_mode();
 #endif
 #if defined(PLATFORM_OS_UNIX)
   static workrave::config::Setting<bool> &force_x11();
   static workrave::config::Setting<bool> &use_gnome_shell_preludes();
 #endif
+  static workrave::config::Setting<bool> &sanctuary_ui_enabled();
+  static workrave::config::Setting<int, DisplayStyle> &display_style();
   static workrave::config::Setting<bool> &main_window_always_on_top();
   static workrave::config::Setting<bool> &main_window_start_in_tray();
   static workrave::config::Setting<int> &main_window_x();
@@ -104,6 +117,9 @@ private:
   static const std::string CFG_KEY_BREAK_SKIPPABLE;
   static const std::string CFG_KEY_BREAK_EXERCISES;
   static const std::string CFG_KEY_BREAK_ENABLE_SHUTDOWN;
+  static const std::string CFG_KEY_PREFERRED_LOCK_METHOD;
+  static const std::string CFG_KEY_PREFERRED_SLEEP_OPERATION;
+  static const std::string CFG_KEY_CUSTOM_LOCK_COMMAND;
   static const std::string CFG_KEY_BLOCK_MODE;
   static const std::string CFG_KEY_FOCUS_MODE;
   static const std::string CFG_KEY_FOLLOW_FOCUS_ASSIST_ENABLED;
@@ -112,16 +128,18 @@ private:
   static const std::string CFG_KEY_AUTOSTART;
   static const std::string CFG_KEY_CLOSEWARN_ENABLED;
   static const std::string CFG_KEY_ICONTHEME;
+  static const std::string CFG_KEY_LIGHT_DARK_MODE;
 #if defined(PLATFORM_OS_WINDOWS)
   static const std::string CFG_KEY_THEME_NAME;
   static const std::string CFG_KEY_THEME_DARK;
-  static const std::string CFG_KEY_LIGHT_DARK_MODE;
 #endif
 #if defined(PLATFORM_OS_UNIX)
   static const std::string CFG_KEY_FORCE_X11;
   static const std::string CFG_KEY_USE_GNOME_SHELL_PRELUDES;
 #endif
 
+  static const std::string CFG_KEY_SANCTUARY_UI_ENABLED;
+  static const std::string CFG_KEY_DISPLAY_STYLE;
   static const std::string CFG_KEY_MAIN_WINDOW;
   static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
   static const std::string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
@@ -141,7 +159,7 @@ private:
 
 private:
   static std::string get_break_name(workrave::BreakId id);
-  static std::string expand(const std::string &str, workrave::BreakId id);
+  static std::string expand(const std::string &key, workrave::BreakId id);
 
 private:
   static inline std::shared_ptr<workrave::config::IConfigurator> config;

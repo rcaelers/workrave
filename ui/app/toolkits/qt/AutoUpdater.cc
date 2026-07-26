@@ -1,0 +1,426 @@
+// Copyright (C) 2022 Rob Caelers <rob.caelers@gmail.com>
+// All rights reserved.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include <memory>
+#include <utility>
+#include <boost/asio.hpp>
+#include <boost/outcome/std_result.hpp>
+
+#include "AutoUpdater.hh"
+
+#include <spdlog/spdlog.h>
+#include <spdlog/fmt/ostr.h>
+
+#include "commonui/nls.h"
+#include "debug.hh"
+#include "sigstore/Bundle.hh"
+#include "unfold/Unfold.hh"
+#include "unfold/UnfoldErrors.hh"
+#include "updater/Config.hh"
+#include "ui/prefwidgets/Widgets.hh"
+
+#include "QmlAutoUpdateDialog.hh"
+
+namespace outcome = boost::outcome_v2;
+
+AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
+  : context(context)
+  , scheduler(&main_thread, io_context.get_io_context())
+  , updater(unfold::Unfold::create(io_context))
+
+{
+  TRACE_ENTRY();
+
+  workrave::updater::Config::init(context->get_configurator());
+
+#ifdef HAVE_UPDATER_STAGING
+  auto rc = updater->set_appcast("https://appcast.workrave.org/staging/v1.12-qt/appcast.xml");
+#else
+  auto rc = updater->set_appcast("https://appcast.workrave.org/v1.12-qt/appcast.xml");
+#endif
+  if (!rc)
+    {
+      logger->error("Invalid appcast URL");
+      return;
+    }
+
+  rc = updater->set_signature_verification_key("MCowBQYDK2VwAyEAZ1I+iYYFpFMPcSj15BnHl6x7uow2CdxT0t2BmUzMGXk=");
+
+  if (!rc)
+    {
+      logger->error("Invalid signature key");
+      return;
+    }
+
+  rc = updater->set_current_version(WORKRAVE_VERSION);
+  if (!rc)
+    {
+      logger->error("Invalid version");
+      return;
+    }
+
+  updater->set_configuration_prefix("Software\\Workrave");
+
+  init_channels();
+
+  updater->set_update_available_callback(
+    [&]() -> boost::asio::awaitable<unfold::UpdateResponse> { return on_update_available(); });
+
+  updater->set_pre_download_validation_callback([&](const unfold::UpdateInfo &update_info) -> outcome::std_result<bool> {
+    logger->info("Pre download validating {} {}", update_info.version, update_info.download_url);
+#ifdef HAVE_UPDATER_STAGING
+    return update_info.download_url.starts_with("https://snapshots.workrave.org/snapshots/")
+           || update_info.download_url.starts_with("https://github.com/rcaelers/workrave/");
+#else
+    return update_info.download_url.starts_with("https://github.com/rcaelers/workrave/");
+#endif
+  });
+
+  updater->set_pre_install_validation_callback(
+    [&](const unfold::UpdateEnclosureInfo &installer_info) -> outcome::std_result<bool> {
+      logger->info("Pre install validating {}", installer_info.download_url);
+      if (!installer_info.authenticode_info.has_value())
+        {
+          logger->error("Installer is not Authenticode signed");
+          return false;
+        }
+      const auto &auth = *installer_info.authenticode_info;
+      logger->info("Authenticode: signed={} valid={} subject={}", auth.is_signed, auth.is_valid, auth.subject_name);
+      if (!auth.is_signed || !auth.is_valid || auth.subject_name != "Rob Caelers")
+        {
+          logger->error("Authenticode signature verification failed");
+          return false;
+        }
+      return true;
+    });
+
+  updater->set_sigstore_verification_enabled(true);
+  updater->set_sigstore_validation_callback([&](std::shared_ptr<sigstore::Bundle> bundle) -> outcome::std_result<bool> {
+    logger->info("Validating sigstore bundle");
+    auto cert = bundle->get_certificate_info();
+    logger->info("Validating sigstore certificate {} {}", cert->subject_email(), cert->oidc_issuer());
+    return cert->oidc_issuer() == "https://github.com/login/oauth" && cert->subject_email() == "rob.caelers@gmail.com";
+  });
+
+  updater->set_periodic_update_check_interval(std::chrono::hours{24});
+  updater->set_periodic_update_check_enabled(workrave::updater::Config::enabled()());
+  updater->set_proxy(workrave::updater::Config::proxy_type()());
+  updater->set_custom_proxy(workrave::updater::Config::proxy()());
+
+  rc = updater->set_priority(workrave::updater::Config::priority()());
+  if (!rc)
+    {
+      logger->error("Invalid priority");
+      workrave::updater::Config::priority()(0);
+    }
+
+  init_preferences();
+  init_menu();
+
+  workrave::updater::Config::enabled().connect(this, [this](auto enabled) {
+    logger->info("Enabled changed to {}", enabled);
+    updater->set_periodic_update_check_enabled(enabled);
+  });
+
+  workrave::updater::Config::channel().connect(this, [this](auto channel) {
+    logger->info("Channel changed to {}", workrave::utils::enum_to_string(channel));
+    init_channels();
+  });
+
+  workrave::updater::Config::proxy_type().connect(this, [this](auto proxy_type) {
+    logger->info("Proxy type changed to {}", workrave::utils::enum_to_string(proxy_type));
+    updater->set_proxy(proxy_type);
+  });
+
+  workrave::updater::Config::proxy().connect(this, [this](auto proxy) {
+    logger->info("Proxy changed to {}", proxy);
+    updater->set_custom_proxy(proxy);
+  });
+
+  workrave::updater::Config::priority().connect(this, [this](auto priority) {
+    auto rc = updater->set_priority(priority);
+    if (!rc)
+      {
+        logger->error("Invalid priority");
+      }
+    else
+      {
+        logger->info("Priority changed to {}, active priority {}",
+                     priority == 1 ? "high" : "normal",
+                     updater->get_active_priority());
+      }
+  });
+
+  updater->set_update_status_callback([&](unfold::outcome::std_result<void> state) -> void { set_error_state(state); });
+
+  updater->set_download_progress_callback([this](unfold::UpdateStage stage, double p) -> void {
+    this->progress = p;
+    unfold::coro::qttask<void> task = [this](unfold::UpdateStage stage) -> unfold::coro::qttask<void> {
+      if (dialog)
+        {
+          dialog->set_stage(stage, progress);
+        }
+      co_return;
+    }(stage);
+    scheduler.spawn(std::move(task));
+  });
+
+  logger->info("Auto updater initialized, channel: {} prio: {}",
+               workrave::utils::enum_to_string(workrave::updater::Config::channel()()),
+               updater->get_active_priority());
+}
+
+AutoUpdater::~AutoUpdater()
+{
+  TRACE_ENTRY();
+}
+
+void
+AutoUpdater::init_channels()
+{
+  TRACE_ENTRY();
+
+  auto channel = workrave::updater::Config::channel()();
+
+  std::vector<std::string> allowed_channels;
+
+  switch (channel)
+    {
+
+    case workrave::updater::Channel::Alpha:
+      allowed_channels.emplace_back("alpha");
+      [[fallthrough]];
+
+    case workrave::updater::Channel::Beta:
+      allowed_channels.emplace_back("beta");
+      [[fallthrough]];
+
+    case workrave::updater::Channel::Candidate:
+      allowed_channels.emplace_back("rc");
+      [[fallthrough]];
+
+    case workrave::updater::Channel::Stable:
+      allowed_channels.emplace_back("stable");
+      break;
+    }
+
+  auto rc = updater->set_allowed_channels(allowed_channels);
+  if (!rc)
+    {
+      logger->error("Invalid allowed channels");
+    }
+}
+
+void
+AutoUpdater::init_preferences()
+{
+  std::vector<std::string> channels{_("Stable"), _("Release Candidate"), _("Beta")};
+  std::vector<std::string> proxy_types{_("No proxy"), _("System proxy"), _("Custom proxy")};
+
+  auto_update_def = ui::prefwidgets::PanelDef::create("auto-update", "auto-update", N_("Software updates"))
+                    << (ui::prefwidgets::Frame::create(N_("Auto update"))
+                        << ui::prefwidgets::Toggle::create(N_("Automatically check for updates"))
+                             ->connect(&workrave::updater::Config::enabled())
+                        << ui::prefwidgets::Toggle::create(N_("Get updates as soon as they are available"))
+                             ->connect(&workrave::updater::Config::priority(),
+                                       []() {
+                                         auto priority = workrave::updater::Config::priority()();
+                                         return priority == 1;
+                                       })
+                             ->when(&workrave::updater::Config::enabled())
+                             ->on_save([](bool first) { workrave::updater::Config::priority().set(first ? 1 : 0); })
+                        << ui::prefwidgets::Choice::create(N_("Release channel:"))
+                             ->connect(&workrave::updater::Config::channel(),
+                                       {{workrave::updater::Channel::Stable, 0},
+                                        {workrave::updater::Channel::Candidate, 1},
+                                        {workrave::updater::Channel::Beta, 2}})
+                             ->assign(channels)
+                             ->when(&workrave::updater::Config::enabled())
+                        << ui::prefwidgets::Choice::create(N_("Proxy Type:"))
+                             ->connect(
+                               &workrave::updater::Config::proxy_type(),
+                               {{unfold::ProxyType::None, 0}, {unfold::ProxyType::System, 1}, {unfold::ProxyType::Custom, 2}})
+                             ->assign(proxy_types)
+                             ->when(&workrave::updater::Config::enabled())
+                        << ui::prefwidgets::Entry::create(N_("Proxy:"))
+                             ->connect(&workrave::updater::Config::proxy())
+                             ->when(&workrave::updater::Config::proxy_type(),
+                                    [](unfold::ProxyType t) { return t == unfold::ProxyType::Custom; }));
+
+  // TODO: image is toolkit specific
+  context->get_preferences_registry()->add_page("auto-update", N_("Software updates"), "update.svg");
+  context->get_preferences_registry()->add(auto_update_def);
+}
+
+void
+AutoUpdater::init_menu()
+{
+  auto menu_model = context->get_menu_model();
+  auto section = menu_model->find_section("workrave.section.tail");
+  auto item = menus::ActionNode::create(CHECK_FOR_UPDATE, N_("Check for _Updates"), [this] { on_check_for_update(); });
+  section->add_before(item, "workrave.about");
+  menu_model->update();
+}
+
+unfold::coro::qttask<void>
+AutoUpdater::show_update()
+{
+  auto update_info = updater->get_update_info();
+  if (!update_info)
+    {
+      co_return;
+    }
+
+  dialog = std::make_shared<QmlAutoUpdateDialog>(update_info, [this](auto choice) {
+    auto response = unfold::UpdateResponse::Later;
+    switch (choice)
+      {
+      case QmlAutoUpdateDialog::UpdateChoice::Now:
+        {
+          response = unfold::UpdateResponse::Install;
+          unfold::coro::qttask<void> task = [this]() -> unfold::coro::qttask<void> {
+            if (dialog)
+              {
+                dialog->start_install();
+              }
+            co_return;
+          }();
+          scheduler.spawn(std::move(task));
+        }
+        break;
+
+      case QmlAutoUpdateDialog::UpdateChoice::Later:
+        response = unfold::UpdateResponse::Later;
+        dialog->close();
+        break;
+
+      case QmlAutoUpdateDialog::UpdateChoice::Skip:
+        response = unfold::UpdateResponse::Skip;
+        dialog->close();
+        break;
+      }
+    if (dialog_handler)
+      {
+        (*dialog_handler)(response);
+        dialog_handler.reset();
+      }
+  });
+  // dialog->signal_hide().connect([this]() { dialog.reset(); });
+  dialog->show();
+  dialog->raise();
+}
+
+boost::asio::awaitable<unfold::UpdateResponse>
+AutoUpdater::on_update_available()
+{
+  logger->info("Update available");
+
+  if (dialog_handler)
+    {
+      logger->error("Update dialog already open");
+      co_return unfold::UpdateResponse::Later;
+    }
+
+  auto response = co_await boost::asio::async_initiate<decltype(boost::asio::use_awaitable), void(unfold::UpdateResponse)>(
+    [this](auto &&handler) {
+      dialog_handler.emplace(std::forward<decltype(handler)>(handler));
+      unfold::coro::qttask<void> task = show_update();
+      scheduler.spawn(std::move(task));
+    },
+    boost::asio::use_awaitable);
+
+  co_return response;
+}
+
+void
+AutoUpdater::on_check_for_update()
+{
+  boost::asio::co_spawn(
+    *io_context.get_io_context(),
+    [&]() -> boost::asio::awaitable<void> {
+      try
+        {
+          auto rc = co_await updater->check_for_update_and_notify();
+          if (!rc)
+            {
+              logger->error("Check for update failed");
+            }
+        }
+      catch (std::exception &e)
+        {
+          logger->error("Exception in on_check_for_update: {}", e.what());
+        }
+    },
+    boost::asio::detached);
+}
+
+void
+AutoUpdater::set_error_state(unfold::outcome::std_result<void> state)
+{
+  logger->error("Error state {}", state.error().message());
+  auto errc = unfold::to_errc(state.error());
+
+  if (errc)
+    {
+      switch (*errc)
+        {
+        case unfold::UnfoldErrc::Success:
+          break;
+        case unfold::UnfoldErrc::InvalidAppcast:
+          set_status(_("Invalid appcast"));
+          break;
+        case unfold::UnfoldErrc::AppcastDownloadFailed:
+          set_status(_("Failed to download appcast"));
+          break;
+        case unfold::UnfoldErrc::InstallerDownloadFailed:
+          set_status(_("Failed to download installer"));
+          break;
+        case unfold::UnfoldErrc::InstallerVerificationFailed:
+          set_status(_("Failed to validate installer integrity. Aborting upgrade"));
+          break;
+        case unfold::UnfoldErrc::InstallerExecutionFailed:
+          set_status(_("Failed to execute installer"));
+          break;
+        case unfold::UnfoldErrc::InvalidArgument:
+        case unfold::UnfoldErrc::InternalError:
+        default:
+          set_status(_("Internal failure. Aborting upgrade"));
+          break;
+        }
+    }
+  else
+    {
+      set_status(_("Internal failure. Aborting upgrade"));
+    }
+}
+
+void
+AutoUpdater::set_status(std::string status)
+{
+  unfold::coro::qttask<void> task = [this](std::string status) -> unfold::coro::qttask<void> {
+    if (dialog)
+      {
+        dialog->set_status(status);
+      }
+    co_return;
+  }(status);
+  scheduler.spawn(std::move(task));
+}

@@ -19,7 +19,6 @@
 #define DBUSTESTDATA_HH
 
 #include <string>
-#include <set>
 
 #if defined(DBUS_BACKEND_QT)
 #  include <QDBusArgument>
@@ -54,6 +53,12 @@ public:
     Enum m_enum;
   };
 
+  struct StructWithInStruct
+  {
+    StructWithAllBasicTypes m_struct;
+    uint8_t m_uint8;
+  };
+
   struct StructWithAllBasicTypesReorder
   {
     int m_int;
@@ -70,8 +75,8 @@ public:
     Enum m_enum;
   };
 
-  typedef std::list<StructWithAllBasicTypes> ListOfStructWithAllBasicTypes;
-  typedef std::map<std::string, StructWithAllBasicTypes> MapOfStructWithAllBasicTypes;
+  using ListOfStructWithAllBasicTypes = std::list<StructWithAllBasicTypes>;
+  using MapOfStructWithAllBasicTypes = std::map<std::string, StructWithAllBasicTypes>;
 
   struct Data
   {
@@ -95,11 +100,11 @@ public:
     int m_data;
   };
 
-  typedef std::map<std::string, Data> DataMap;
-  typedef std::list<Data> DataList;
+  using DataMap = std::map<std::string, Data>;
+  using DataList = std::list<Data>;
 
-  typedef std::map<std::string, std::string> StringMap;
-  typedef std::list<std::string> StringList;
+  using StringMap = std::map<std::string, std::string>;
+  using StringList = std::list<std::string>;
 
   static std::string enum_to_str(DBusTestData::Enum value)
   {
@@ -157,20 +162,5 @@ public:
   DBusTestData() = default;
   virtual ~DBusTestData() = default;
 };
-
-#if defined(DBUS_BACKEND_QT)
-Q_DECLARE_METATYPE(DBusTestData::StructWithAllBasicTypes)
-Q_DECLARE_METATYPE(DBusTestData::StructWithAllBasicTypesReorder)
-Q_DECLARE_METATYPE(DBusTestData::Data)
-
-QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypes &message);
-const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::StructWithAllBasicTypes &message);
-
-QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypesReorder &message);
-const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::StructWithAllBasicTypesReorder &message);
-
-QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::Data &message);
-const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::Data &message);
-#endif
 
 #endif // DBUSTESTDATA_HH

@@ -30,12 +30,8 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/rotating_file_sink.h>
-#if SPDLOG_VERSION >= 10600
-#  include <spdlog/pattern_formatter.h>
-#endif
-#if SPDLOG_VERSION >= 10801
-#  include <spdlog/cfg/env.h>
-#endif
+#include <spdlog/pattern_formatter.h>
+#include <spdlog/cfg/env.h>
 
 extern "C" int run(int argc, char **argv);
 

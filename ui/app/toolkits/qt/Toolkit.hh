@@ -24,20 +24,22 @@
 
 #include <QApplication>
 #include <QTimer>
+#include <QTranslator>
 
-#include "AboutDialog.hh"
 #include "DebugDialog.hh"
-#include "ExercisesDialog.hh"
+#include "QmlAboutDialog.hh"
+#include "QmlExercisesDialog.hh"
 #include "IToolkitPrivate.hh"
 #include "MainWindow.hh"
-#include "PreferencesDialog.hh"
-#include "StatisticsDialog.hh"
+#include "QmlPrefsDialog.hh"
+#include "QmlStatisticsDialog.hh"
 #include "StatusIcon.hh"
-#include "ToolkitMenu.hh"
 
 #include "core/CoreTypes.hh"
+#include "ui/GUIConfig.hh"
 #include "ui/IApplicationContext.hh"
 #include "ui/IToolkit.hh"
+#include "utils/Logging.hh"
 #include "utils/Signals.hh"
 
 class Toolkit
@@ -85,6 +87,13 @@ public:
 public Q_SLOTS:
   void on_timer();
 
+protected:
+  void notify_add_confirm_function(const std::string &id, std::function<void()> func);
+  void notify_confirm(const std::string &id);
+  virtual void apply_light_dark_mode(LightDarkTheme mode);
+  void apply_qt_locale(const std::string &locale_code);
+  void retranslate_all_qml_views();
+
 private:
   void show_about();
   void show_debug();
@@ -92,42 +101,65 @@ private:
   void show_main_window();
   void show_preferences();
   void show_statistics();
+  auto can_close() const -> bool;
 
   void on_main_window_closed();
   void on_status_icon_balloon_activated(const std::string &id);
   void on_status_icon_activated();
 
 protected:
-  void notify_add_confirm_function(const std::string &id, std::function<void()> func);
-  void notify_confirm(const std::string &id);
+  bool eventFilter(QObject *obj, QEvent *event) override;
 
-protected:
   std::shared_ptr<IApplicationContext> app;
   MainWindow *main_window{nullptr};
 
 private:
   int argc{};
   char **argv{};
-  QPointer<StatisticsDialog> statistics_dialog;
-  QPointer<PreferencesDialog> preferences_dialog;
-  // QPointer<DebugDialog> debug_dialog;
-  QPointer<ExercisesDialog> exercises_dialog;
-  QPointer<AboutDialog> about_dialog;
-  std::shared_ptr<StatusIcon> status_icon;
+  std::unique_ptr<QmlStatisticsDialog> statistics_dialog;
+  std::unique_ptr<QmlPrefsDialog> preferences_dialog;
+  QPointer<DebugDialog> debug_dialog;
+  std::unique_ptr<QmlExercisesDialog> exercises_dialog;
+  std::unique_ptr<QmlAboutDialog> about_dialog;
+  std::unique_ptr<StatusIcon> status_icon;
   int hold_count{0};
 
   QTimer *heartbeat_timer{nullptr};
 
   std::shared_ptr<MenuModel> menu_model;
   std::shared_ptr<SoundTheme> sound_theme;
+  mutable std::string display_name;
 
   std::map<std::string, std::function<void()>> notifiers;
+
+  workrave::utils::Trackable tracker;
+  QTranslator *current_translator{nullptr};
 
   boost::signals2::signal<void()> timer_signal;
   boost::signals2::signal<void()> main_window_closed_signal;
   boost::signals2::signal<void(bool)> session_idle_changed_signal;
   boost::signals2::signal<void()> session_unlocked_signal;
   boost::signals2::signal<void()> status_icon_activated_signal;
+
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("toolkit")};
+};
+
+// Translator that looks up strings without context so that .qm files generated
+// from gettext .po files (which have no Qt context info) are found by qsTr().
+class GettextTranslator : public QTranslator
+{
+  Q_OBJECT
+
+public:
+  using QTranslator::QTranslator;
+
+  QString translate(const char *context, const char *sourceText, const char *disambiguation = nullptr, int n = -1) const override
+  {
+    QString r = QTranslator::translate("", sourceText, disambiguation, n);
+    if (!r.isEmpty())
+      return r;
+    return QTranslator::translate(context, sourceText, disambiguation, n);
+  }
 };
 
 class OneshotTimer : public QObject

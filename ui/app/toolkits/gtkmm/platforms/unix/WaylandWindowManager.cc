@@ -155,14 +155,18 @@ LayerSurface::LayerSurface(struct zwlr_layer_shell_v1 *layer_shell,
                                      | ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT | ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT);
   zwlr_layer_surface_v1_set_size(layer_surface, 0, 0);
   zwlr_layer_surface_v1_set_margin(layer_surface, 0, 0, 0, 0);
-  zwlr_layer_surface_v1_set_keyboard_interactivity(layer_surface, keyboard_focus ? TRUE : FALSE);
+  zwlr_layer_surface_v1_set_exclusive_zone(layer_surface, -1);
+  zwlr_layer_surface_v1_set_keyboard_interactivity(layer_surface,
+                                                   keyboard_focus ? ZWLR_LAYER_SURFACE_V1_KEYBOARD_INTERACTIVITY_EXCLUSIVE
+                                                                  : ZWLR_LAYER_SURFACE_V1_KEYBOARD_INTERACTIVITY_NONE);
   zwlr_layer_surface_v1_add_listener(layer_surface, &layer_surface_listener, this);
 
   wl_surface_commit(surface);
   wl_display_roundtrip(display);
 }
 
-LayerSurface::~LayerSurface() {
+LayerSurface::~LayerSurface()
+{
   zwlr_layer_surface_v1_destroy(this->layer_surface);
 }
 

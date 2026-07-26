@@ -18,7 +18,6 @@
 #ifndef APPLICATION_HH
 #define APPLICATION_HH
 
-#include <list>
 #include <vector>
 #include <string>
 #include <memory>
@@ -30,8 +29,6 @@
 #include "Menus.hh"
 #include "core/IApp.hh"
 #include "core/ICore.hh"
-#include "ui/IApplicationContext.hh"
-#include "ui/IPluginContext.hh"
 #include "config/IConfigurator.hh"
 #include "ui/IBreakWindow.hh"
 #include "ui/IPreludeWindow.hh"
@@ -84,6 +81,8 @@ public:
 #endif
 
 private:
+  BreakButtonState compute_break_button_state() const;
+
   auto get_timers_tooltip() -> std::string;
   void on_timer();
   void init_configurator();
@@ -121,6 +120,8 @@ private:
   std::vector<IBreakWindow::Ptr> break_windows;
   std::vector<IPreludeWindow::Ptr> prelude_windows;
   workrave::BreakId active_break_id{workrave::BREAK_ID_NONE};
+  BreakFlags active_break_flags{BREAK_FLAGS_NONE};
+  BreakButtonState cached_break_button_state;
   bool muted{false};
   bool closewarn_shown{false};
   bool is_idle{false};

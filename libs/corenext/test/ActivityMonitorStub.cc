@@ -21,13 +21,6 @@
 
 #include "ActivityMonitorStub.hh"
 
-#include "utils/TimeSource.hh"
-
-#include "debug.hh"
-
-using namespace std;
-using namespace workrave::utils;
-
 ActivityMonitorStub::ActivityMonitorStub()
   : active(false)
   , suspended(false)

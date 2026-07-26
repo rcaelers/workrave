@@ -23,14 +23,15 @@
 
 #include "config/IConfigurator.hh"
 #include "config/SettingCache.hh"
-#include "core/ICore.hh"
-#include "core/IBreak.hh"
 
 using namespace workrave::config;
 
 const std::string GUIConfig::CFG_KEY_BREAK_IGNORABLE = "gui/breaks/%b/ignorable_break";
 const std::string GUIConfig::CFG_KEY_BREAK_SKIPPABLE = "gui/breaks/%b/skippable_break";
 const std::string GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN = "gui/breaks/%b/enable_shutdown";
+const std::string GUIConfig::CFG_KEY_PREFERRED_LOCK_METHOD = "gui/preferred_lock_method";
+const std::string GUIConfig::CFG_KEY_PREFERRED_SLEEP_OPERATION = "gui/preferred_sleep_operation";
+const std::string GUIConfig::CFG_KEY_CUSTOM_LOCK_COMMAND = "gui/custom_lock_command";
 const std::string GUIConfig::CFG_KEY_BREAK_EXERCISES = "gui/breaks/%b/exercises";
 const std::string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
 const std::string GUIConfig::CFG_KEY_BLOCK_MODE = "gui/breaks/block_mode";
@@ -41,15 +42,17 @@ const std::string GUIConfig::CFG_KEY_TRAYICON_ENABLED = "gui/trayicon_enabled";
 const std::string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED = "gui/closewarn_enabled";
 const std::string GUIConfig::CFG_KEY_AUTOSTART = "gui/autostart";
 const std::string GUIConfig::CFG_KEY_ICONTHEME = "gui/icontheme";
+const std::string GUIConfig::CFG_KEY_LIGHT_DARK_MODE = "gui/light_dark_mode";
 #if defined(PLATFORM_OS_WINDOWS)
 const std::string GUIConfig::CFG_KEY_THEME_NAME = "gui/theme_name";
 const std::string GUIConfig::CFG_KEY_THEME_DARK = "gui/theme_dark";
-const std::string GUIConfig::CFG_KEY_LIGHT_DARK_MODE = "gui/light_dark_mode";
 #endif
 #if defined(PLATFORM_OS_UNIX)
 const std::string GUIConfig::CFG_KEY_FORCE_X11 = "gui/force_x11";
 const std::string GUIConfig::CFG_KEY_USE_GNOME_SHELL_PRELUDES = "gui/use_gnome_shell_preludes";
 #endif
+const std::string GUIConfig::CFG_KEY_SANCTUARY_UI_ENABLED = "gui/sanctuary_ui_enabled";
+const std::string GUIConfig::CFG_KEY_DISPLAY_STYLE = "gui/display_style";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW = "gui/main_window";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_START_IN_TRAY = "gui/main_window/start_in_tray";
@@ -105,6 +108,8 @@ GUIConfig::init(std::shared_ptr<workrave::config::IConfigurator> config)
   config->set_value(CFG_KEY_CLOSEWARN_ENABLED, true, workrave::config::CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_AUTOSTART, true, CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_LOCALE, "", CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_SANCTUARY_UI_ENABLED, false, CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_DISPLAY_STYLE, static_cast<int>(DisplayStyle::Rings), CONFIG_FLAG_INITIAL);
 
 #if defined(PLATFORM_OS_WINDOWS)
   bool dark = false;
@@ -151,6 +156,24 @@ auto
 GUIConfig::break_enable_shutdown(workrave::BreakId break_id) -> Setting<bool> &
 {
   return SettingCache::get<bool>(config, expand(CFG_KEY_BREAK_ENABLE_SHUTDOWN, break_id), true);
+}
+
+auto
+GUIConfig::preferred_lock_method() -> Setting<std::string> &
+{
+  return SettingCache::get<std::string>(config, CFG_KEY_PREFERRED_LOCK_METHOD, std::string{});
+}
+
+auto
+GUIConfig::preferred_sleep_operation() -> Setting<std::string> &
+{
+  return SettingCache::get<std::string>(config, CFG_KEY_PREFERRED_SLEEP_OPERATION, std::string{"suspend"});
+}
+
+auto
+GUIConfig::custom_lock_command() -> Setting<std::string> &
+{
+  return SettingCache::get<std::string>(config, CFG_KEY_CUSTOM_LOCK_COMMAND, std::string{});
 }
 
 auto
@@ -207,17 +230,17 @@ GUIConfig::icon_theme() -> Setting<std::string> &
   return SettingCache::get<std::string>(config, CFG_KEY_ICONTHEME, std::string());
 }
 
+auto
+GUIConfig::light_dark_mode() -> workrave::config::Setting<int, LightDarkTheme> &
+{
+  return SettingCache::get<int, LightDarkTheme>(config, CFG_KEY_LIGHT_DARK_MODE, LightDarkTheme::Auto);
+}
+
 #if defined(PLATFORM_OS_WINDOWS)
 auto
 GUIConfig::theme_name() -> workrave::config::Setting<std::string> &
 {
   return SettingCache::get<std::string>(config, CFG_KEY_THEME_NAME, std::string());
-}
-
-auto
-GUIConfig::light_dark_mode() -> workrave::config::Setting<int, LightDarkTheme> &
-{
-  return SettingCache::get<int, LightDarkTheme>(config, CFG_KEY_LIGHT_DARK_MODE, LightDarkTheme::Auto);
 }
 #endif
 
@@ -239,6 +262,18 @@ auto
 GUIConfig::key_main_window() -> workrave::config::SettingGroup &
 {
   return SettingCache::group(config, CFG_KEY_MAIN_WINDOW);
+}
+
+auto
+GUIConfig::sanctuary_ui_enabled() -> Setting<bool> &
+{
+  return SettingCache::get<bool>(config, CFG_KEY_SANCTUARY_UI_ENABLED, false);
+}
+
+auto
+GUIConfig::display_style() -> Setting<int, DisplayStyle> &
+{
+  return SettingCache::get<int, DisplayStyle>(config, CFG_KEY_DISPLAY_STYLE, DisplayStyle::Rings);
 }
 
 auto

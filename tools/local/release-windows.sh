@@ -42,10 +42,8 @@ init_version() {
     fi
 }
 
-init_citool() {
-    cd ${SCRIPTS_DIR}/citool
-    npm ci
-    npm run build
+init_ship() {
+    build_ship
     cd ${SOURCES_DIR}
 }
 
@@ -68,7 +66,7 @@ init() {
     init_workspace
     init_tools
     init_version
-    init_citool
+    init_ship
     init_s3
 }
 
@@ -113,7 +111,7 @@ build_post() {
 }
 
 newsgen() {
-    node ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
+    run_ship newsgen \
         --input changes.yaml \
         --template github \
         --single \
@@ -146,7 +144,7 @@ upload() {
 }
 
 catalog() {
-    node ${SCRIPTS_DIR}/citool/dist/citool.js catalog --branch ${S3_ARTIFACT_DIR} --workspace ${SOURCES_DIR}
+    run_ship catalog --branch ${S3_ARTIFACT_DIR} --workspace ${SOURCES_DIR}
 }
 
 appcast() {
@@ -308,6 +306,7 @@ mkdir -p ${SOURCES_DIR}
 
 export WORKRAVE_BUILD_ID_SUFFIX=local
 source ${SCRIPTS_DIR}/ci/config.sh
+source ${SCRIPTS_DIR}/ci/ship.sh
 
 SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://studio.local:50051}"
 export SNAPSHOTS_SECRET_ACCESS_KEY=$(curl -skf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.s3_access_key.${DEPLOY_ENVIRONMENT}" | jq -r .value)
@@ -317,9 +316,9 @@ init
 source ${SCRIPTS_DIR}/ci/config.sh
 
 if [ "${DEPLOY_ENVIRONMENT}" = "staging" ]; then
-    export S3_ARTIFACT_DIR=staging/v1.11
+    export S3_ARTIFACT_DIR=staging/v1.12
 else
-    export S3_ARTIFACT_DIR=v1.11
+    export S3_ARTIFACT_DIR=v1.12
 fi
 export WORKRAVE_UPLOAD_DIR="snapshots/${S3_ARTIFACT_DIR}/${WORKRAVE_BUILD_ID}"
 

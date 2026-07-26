@@ -46,6 +46,7 @@ namespace ui::prefwidgets::qt
     QGroupBox *panel{};
     QVBoxLayout *layout{};
     std::list<std::shared_ptr<Widget>> children;
+    std::shared_ptr<ui::prefwidgets::qt::SizeGroup> size_group;
   };
 } // namespace ui::prefwidgets::qt
 

@@ -46,6 +46,7 @@ jobs:
             mingw-w64-clang-x86_64-python
             mingw-w64-clang-x86_64-python-pip
             mingw-w64-clang-x86_64-qt6-base
+            mingw-w64-clang-x86_64-qt6-declarative
             mingw-w64-clang-x86_64-qt6-svg
             mingw-w64-clang-x86_64-qt6-tools
             mingw-w64-clang-x86_64-rust
@@ -60,7 +61,7 @@ jobs:
             zip
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: c-cpp
           build-mode: manual
@@ -81,7 +82,7 @@ jobs:
           cmake --build '${{github.workspace}}/_build' --config Debug
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           category: '/language:c-cpp'
 
@@ -99,7 +100,7 @@ jobs:
           fetch-depth: 0
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: c-cpp
           build-mode: manual
@@ -157,6 +158,6 @@ jobs:
           cmake --build '${{github.workspace}}/_build' --config Debug
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           category: '/language:c-cpp'

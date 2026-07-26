@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.22)
-cmake_policy(VERSION 3.22)
+cmake_minimum_required(VERSION 3.28)
+cmake_policy(VERSION 3.28)
 
 if(POLICY CMP0135)
   cmake_policy(SET CMP0135 NEW)
@@ -23,9 +23,9 @@ macro_ensure_out_of_source_build(
  )
 
 # Set Workrave version
-set (WORKRAVE_VERSION "1.11.1" )
-set (WORKRAVE_RESOURCE_VERSION "1,11,1,0" )
-set (WORKRAVE_CHANNEL "stable" )
+set (WORKRAVE_VERSION "1.12.0-rc.1" )
+set (WORKRAVE_RESOURCE_VERSION "1,11,999,1" )
+set (WORKRAVE_CHANNEL "candidate" )
 
 set (CMAKE_BUILD_TYPE_INIT "Release")
 set (CMAKE_INCLUDE_CURRENT_DIR OFF)
@@ -277,6 +277,8 @@ if (WITH_TESTS)
 endif()
 
 include(code-coverage)
+include(IWYU)
+include(WorkraveTests)
 
 #----------------------------------------------------------------------------------------------------
 # Toolkit selection
@@ -299,6 +301,12 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   set (WITH_UI_GTK TRUE)
 endif()
 
+if (UNIX AND (NOT APPLE))
+  option(WITH_WAYLAND "Enable Wayland support" ON)
+else()
+  set(WITH_WAYLAND OFF)
+endif()
+
 #----------------------------------------------------------------------------------------------------
 # Locations
 
@@ -315,8 +323,9 @@ if (UNIX AND NOT APPLE)
   set (XDGCONFDIR "${SYSCONFDIR}/xdg")
   set (XDGAUTOSTARTDIR "${XDGCONFDIR}/autostart")
 elseif (APPLE)
-  set (BUNDLEDIR Workrave.app/Contents/)
-  set (BINDIR ${BUNDLEDIR}/MacOS/)
+  set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0" CACHE STRING "Minimum macOS deployment target")
+  set (BUNDLEDIR Workrave.app/Contents)
+  set (BINDIR ${BUNDLEDIR}/MacOS)
   set (RESOURCESDIR ${BUNDLEDIR}/Resources)
   set (DATADIR ${RESOURCESDIR}/share                        CACHE PATH "datadir")
   set (LIBDIR ${RESOURCESDIR}/lib                           CACHE PATH "libdir")
@@ -355,6 +364,16 @@ endif()
 if (WITH_UI_QT)
   message("Using CoreNext With with Qt")
   set (HAVE_CORE_NEXT ON)
+endif()
+
+option (WITH_CORE_SHADOW "Build legacy core helper for shadow behavior comparison" OFF)
+
+if (WITH_CORE_SHADOW)
+  if (NOT HAVE_CORE_NEXT)
+    message(FATAL_ERROR "WITH_CORE_SHADOW requires corenext as the live backend (enable WITH_UI_QT or WITH_CORE_NEXT)")
+  endif()
+  set(HAVE_CORE_SHADOW ON)
+  message(STATUS "Building legacy core shadow comparator helper")
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -402,6 +421,16 @@ endif()
 
 #----------------------------------------------------------------------------------------------------
 # GTK
+
+pkg_check_modules(GTK3 gtk+-3.0>=3.24.0)
+if (GTK3_FOUND)
+  set (HAVE_GTK3 ON)
+endif()
+
+pkg_check_modules(GTK4 gtk4>=4.10.0)
+if (GTK4_FOUND)
+  set (HAVE_GTK4 ON)
+endif()
 
 if ("${WITH_UI}" STREQUAL "Gtk+3")
   message(STATUS "Checking for: Gtk 3")
@@ -466,10 +495,23 @@ endif()
 # Qt
 
 if ("${WITH_UI}" STREQUAL "Qt")
-  message(STATUS "Checking for: Qt")
 
+  set(EXTRA_QT_COMPONENTS "")
+  message(STATUS "Checking for Wayland ${WITH_WAYLAND}")
+  if (WITH_WAYLAND)
+    find_package(ECM 5.68.0 NO_MODULE)
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
+
+    list(APPEND EXTRA_QT_COMPONENTS WaylandClient)
+    message(STATUS "Checking for: Wayland Client")
+    find_package(Wayland COMPONENTS Client)
+    set(HAVE_WAYLAND ON)
+  endif()
+
+  message(STATUS "Checking for: Qt")
+  set(QT_NO_PRIVATE_MODULE_WARNING ON)
   find_package(QT NAMES Qt6 COMPONENTS Core REQUIRED)
-  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools Xml REQUIRED)
+  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui GuiPrivate Svg LinguistTools Xml Quick QuickControls2 QuickWidgets ${EXTRA_QT_COMPONENTS} REQUIRED)
   qt6_standard_project_setup()
   set(CMAKE_AUTORCC ON)
 
@@ -507,6 +549,7 @@ if ("${WITH_UI}" STREQUAL "Qt")
   endif()
 
   find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${QT_BIN_DIR}")
+  find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${QT_BIN_DIR}")
 
   set (HAVE_QT ON)
   set (HAVE_APP_QT ON)
@@ -636,10 +679,6 @@ endif()
 if (UNIX AND NOT APPLE)
   option(WITH_INDICATOR "Enable Ayatana indicator support" ON)
   option(LOCALINSTALL "Install file locally instead of to system location" OFF)
-
-  pkg_check_modules(
-    GTK3
-    gtk+-3.0>=3.10.0)
 
   if (WITH_INDICATOR AND HAVE_DBUSMENU)
     message(STATUS "Checking for: Ayatana Indicators")
@@ -812,9 +851,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Wayland
 
-option(WITH_WAYLAND "Enable Wayland support" ON)
-
-if (UNIX AND NOT APPLE)
+if (UNIX AND (NOT APPLE) AND WITH_UI_GTK)
   if (WITH_WAYLAND)
     message(STATUS "Checking for: Wayland")
 
@@ -913,7 +950,11 @@ if (WIN32)
     set (PLATFORM_OS_WINDOWS_NATIVE 1)
   endif()
 
-  set (HAVE_HARPOON ON)
+  if (WITH_UI_QT)
+    set (HAVE_HARPOON OFF)
+  else()
+    set (HAVE_HARPOON ON)
+  endif()
 
   if (NOT MSVC)
     find_program(MSYS2_SHELL
@@ -932,19 +973,12 @@ if (WIN32)
   find_library(SSP_LIBRARY libssp)
 
   if (NOT ISCC)
-    if (NOT WINE)
-      get_filename_component(PROGRAM_FILES_PATH
-        "[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion;ProgramFilesDir]" ABSOLUTE)
+    get_filename_component(PROGRAM_FILES_PATH
+      "[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion;ProgramFilesDir]" ABSOLUTE)
 
-      get_filename_component(PROGRAM_FILES_X86_PATH
-        "[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion;ProgramFilesDir (x86)]" ABSOLUTE)
-
-      file(GLOB ISCC_PATHS "${PROGRAM_FILES_PATH}/Inno Setup 6" "${PROGRAM_FILES_X86_PATH}/Inno Setup 6")
-      find_program(INNOCC NAMES iscc.exe ISCC.exe PATHS ${ISCC_PATHS})
-      set(ISCC "${INNOCC}")
-    else()
-      set(ISCC "C:/Program Files/Inno Setup 6/ISCC.exe")
-    endif()
+    file(GLOB ISCC_PATHS "${PROGRAM_FILES_PATH}/Inno Setup 7")
+    find_program(INNOCC NAMES iscc.exe ISCC.exe PATHS ${ISCC_PATHS})
+    set(ISCC "${INNOCC}")
   endif()
 
   set (HAVE_GSETTINGS OFF)
@@ -1127,6 +1161,7 @@ if (WITH_CRASHPAD)
     GIT_TAG v2.3.7
   )
   FetchContent_MakeAvailable(dump_syms)
+
 
   set(DUMP_SYMS ${dump_syms_SOURCE_DIR}/target/release/dump_syms.exe)
   add_custom_target(dump_syms ALL DEPENDS ${DUMP_SYMS})

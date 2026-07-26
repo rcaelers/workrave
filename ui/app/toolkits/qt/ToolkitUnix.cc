@@ -21,49 +21,61 @@
 
 #include "ToolkitUnix.hh"
 
+#include <QByteArray>
+
 #include <X11/Xlib.h>
-#include "X11SystrayAppletWindow.hh"
-#include "GnomeSession.hh"
+
+#include "debug.hh"
+#include "utils/Platform.hh"
+#include "ui/GUIConfig.hh"
+// #include "GnomeSession.hh"
 
 #if defined(HAVE_INDICATOR)
 #  include "IndicatorAppletMenu.hh"
 #endif
 
-#include "BreakWindow.hh"
+using namespace workrave::utils;
+
+#include "config/IConfigurator.hh"
+#include "debug.hh"
 
 ToolkitUnix::ToolkitUnix(int argc, char **argv)
   : Toolkit(argc, argv)
 {
+}
+
+void
+ToolkitUnix::preinit(std::shared_ptr<workrave::config::IConfigurator> config)
+{
+  TRACE_ENTRY();
+  if (GUIConfig::force_x11()())
+    {
+      spdlog::info("Forcing X11 backend -> Not implemented");
+    }
+
+  XInitThreads();
+
   locker = std::make_shared<UnixLocker>();
 }
 
 void
 ToolkitUnix::init(std::shared_ptr<IApplicationContext> app)
 {
-#if defined(PLATFORM_OS_UNIX)
-  XInitThreads();
+  TRACE_ENTRY();
+
+#if defined(HAVE_WAYLAND)
+  if (Platform::running_on_wayland())
+    {
+      auto wm = std::make_shared<WaylandWindowManager>();
+      bool success = wm->init();
+      if (success)
+        {
+          wayland_window_manager = wm;
+        }
+    }
 #endif
 
   Toolkit::init(app);
-
-  Glib::VariantType String(Glib::VARIANT_TYPE_STRING);
-  gapp->add_action_with_parameter("confirm-notification", String, [this](const Glib::VariantBase &value) {
-    Glib::Variant<Glib::ustring> s = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
-    notify_confirm(s.get());
-  });
-}
-
-IBreakWindow::Ptr
-ToolkitUnix::create_break_window(int screen_index, workrave::BreakId break_id, BreakFlags break_flags)
-{
-  auto ret = Toolkit::create_break_window(screen_index, break_id, break_flags);
-  // FIXME: remove hack
-  if (auto break_window = std::dynamic_pointer_cast<BreakWindow>(ret); break_window)
-    {
-      auto gdk_window = break_window->get_window()->gobj();
-      locker->set_window(gdk_window);
-    }
-  return ret;
 }
 
 std::shared_ptr<Locker>
@@ -72,17 +84,45 @@ ToolkitUnix::get_locker()
   return locker;
 }
 
+auto
+ToolkitUnix::get_display_name() const -> const char *
+{
+  QByteArray wayland_display = qgetenv("WAYLAND_DISPLAY");
+  if (!wayland_display.isEmpty())
+    {
+      display_name = wayland_display.toStdString();
+      return display_name.c_str();
+    }
+
+  QByteArray x11_display = qgetenv("DISPLAY");
+  if (!x11_display.isEmpty())
+    {
+      display_name = x11_display.toStdString();
+      return display_name.c_str();
+    }
+
+  return Toolkit::get_display_name();
+}
+
+auto
+ToolkitUnix::get_desktop_image() -> QPixmap
+{
+  return {};
+}
+
+#if defined(HAVE_WAYLAND)
+auto
+ToolkitUnix::get_wayland_window_manager() -> std::shared_ptr<WaylandWindowManager>
+{
+  return wayland_window_manager;
+}
+#endif
+
 void
 ToolkitUnix::show_notification(const std::string &id,
                                const std::string &title,
                                const std::string &balloon,
                                std::function<void()> func)
 {
-  notify_add_confirm_function(id, func);
-  auto notification = Gio::Notification::create("Workrave");
-  notification->set_body(balloon);
-  notification->set_default_action_variant("app.confirm-notification", Glib::Variant<Glib::ustring>::create(id));
-  auto icon = Gio::ThemedIcon::create("dialog-information");
-  notification->set_icon(icon);
-  gapp->send_notification(id, notification);
+  Toolkit::show_notification(id, title, balloon, std::move(func));
 }

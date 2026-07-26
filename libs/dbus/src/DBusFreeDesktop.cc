@@ -243,7 +243,7 @@ DBusFreeDesktop::dispatch(DBusConnection *connection, DBusMessage *message)
 DBusHandlerResult
 DBusFreeDesktop::dispatch_static(DBusConnection *connection, DBusMessage *message, void *user_data)
 {
-  IDBus::Ptr dbus = (DBus *)user_data;
+  std::shared_ptr<IDBus> dbus = (DBus *)user_data;
   return dbus->dispatch(connection, message);
 }
 
@@ -379,14 +379,14 @@ typedef struct
 {
   DBusWatch *watch;
   GSource *source;
-  IDBus::Ptr dbus;
+  std::shared_ptr<IDBus> dbus;
 } WatchData;
 
 typedef struct
 {
   DBusTimeout *timeout;
   guint id;
-  IDBus::Ptr dbus;
+  std::shared_ptr<IDBus> dbus;
 } TimeoutData;
 
 typedef struct

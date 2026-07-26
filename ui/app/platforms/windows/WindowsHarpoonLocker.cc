@@ -19,11 +19,28 @@
 #  include "config.h"
 #endif
 
+#include <algorithm>
+#include <cstdint>
+#include <string>
+#include <spdlog/spdlog.h>
+
 #include "ui/windows/WindowsHarpoonLocker.hh"
 
 #include "input-monitor/Harpoon.hh"
 
 #include "debug.hh"
+
+namespace
+{
+  auto get_window_title(HWND window) -> std::string
+  {
+    int length = GetWindowTextLengthA(window);
+    std::string text(static_cast<size_t>(length) + 1, '\0');
+    int copied = GetWindowTextA(window, text.data(), static_cast<int>(text.size()));
+    text.resize(static_cast<size_t>(std::max(copied, 0)));
+    return text;
+  }
+} // namespace
 
 bool
 WindowsHarpoonLocker::can_lock()
@@ -53,10 +70,13 @@ WindowsHarpoonLocker::prepare_lock()
   TRACE_ENTRY();
   active_window = GetForegroundWindow();
 
-  std::string text;
-  text.resize(GetWindowTextLengthA(active_window));
-  GetWindowTextA(active_window, text.data(), text.size() + 1);
-  TRACE_MSG("Save active window: {}", text);
+  if (active_window != nullptr)
+    {
+      HWND window = static_cast<HWND>(active_window);
+      std::string text = get_window_title(window);
+      TRACE_MSG("Save active window: {}", text);
+      spdlog::info("Save active window: {} {}", text, reinterpret_cast<intptr_t>(window));
+    }
 }
 
 void
@@ -73,12 +93,11 @@ WindowsHarpoonLocker::unlock()
   block_input(FALSE);
   if (active_window != nullptr)
     {
-      std::string text;
-      text.resize(GetWindowTextLengthA(active_window));
-      GetWindowTextA(active_window, text.data(), text.size() + 1);
+      HWND window = static_cast<HWND>(active_window);
+      std::string text = get_window_title(window);
       TRACE_MSG("Restore active window: {}", text);
-
-      SetForegroundWindow(active_window);
+      spdlog::info("Restore active window: {} {}", text, reinterpret_cast<intptr_t>(window));
+      SetForegroundWindow(window);
       active_window = nullptr;
     }
 }

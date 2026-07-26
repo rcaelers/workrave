@@ -18,8 +18,6 @@
 #ifndef WORKRAVE_BACKEND_CORETYPES_HH
 #define WORKRAVE_BACKEND_CORETYPES_HH
 
-#include <iostream>
-
 #include "utils/Enum.hh"
 
 namespace workrave

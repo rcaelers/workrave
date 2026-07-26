@@ -79,7 +79,7 @@ SoundPreferencePanel::create_panel()
       sound_volume_scale->set_increments(1.0, 5.0);
       connector->connect(sound_theme->sound_volume(), dc::wrap(sound_volume_scale->get_adjustment()));
 
-      hig->add_label(_("Volume:"), *sound_volume_scale, true, true);
+      hig->add_label(std::string(_("Volume")) + ":", *sound_volume_scale, true, true);
     }
 
   hig->add_label(_("Sound:"), *sound_button);

@@ -29,7 +29,7 @@
 using namespace workrave;
 using namespace workrave::dbus;
 
-DBusBindingGio::DBusBindingGio(IDBus::Ptr dbus)
+DBusBindingGio::DBusBindingGio(std::shared_ptr<IDBus> dbus)
   : dbus(dbus)
 {
 }

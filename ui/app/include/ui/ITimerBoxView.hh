@@ -18,8 +18,6 @@
 #ifndef WORKRAVE_UI_ITIMERBOXVIEW_HH
 #define WORKRAVE_UI_ITIMERBOXVIEW_HH
 
-#include <string>
-
 #include "core/CoreTypes.hh"
 #include "ui/UiTypes.hh"
 

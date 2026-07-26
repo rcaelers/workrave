@@ -22,7 +22,6 @@
 
 #include <boost/signals2.hpp>
 #include <memory>
-#include <string>
 
 #include <QMenu>
 

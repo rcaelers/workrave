@@ -21,7 +21,25 @@
 
 #include "ui/windows/WindowsLocker.hh"
 
+#include <algorithm>
+#include <string>
 #include <windows.h>
+
+#include <spdlog/spdlog.h>
+
+#include "debug.hh"
+
+namespace
+{
+  auto get_window_title(HWND window) -> std::string
+  {
+    int length = GetWindowTextLengthA(window);
+    std::string text(static_cast<size_t>(length) + 1, '\0');
+    int copied = GetWindowTextA(window, text.data(), static_cast<int>(text.size()));
+    text.resize(static_cast<size_t>(std::max(copied, 0)));
+    return text;
+  }
+} // namespace
 
 class Hook
 {
@@ -31,13 +49,18 @@ public:
 
   static Hook *instance();
 
+  Hook(const Hook &other) = delete;
+  Hook &operator=(const Hook &other) = delete;
+  Hook(Hook &&other) noexcept = delete;
+  Hook &operator=(Hook &&other) noexcept = delete;
+
 private:
   Hook() = default;
   ~Hook();
 
   static LRESULT CALLBACK hook_callback(INT nCode, WPARAM wParam, LPARAM lParam);
 
-  HHOOK hook;
+  HHOOK hook = nullptr;
 };
 
 Hook::~Hook()
@@ -60,9 +83,13 @@ Hook::instance()
 void
 Hook::enable()
 {
-  if (hook != nullptr)
+  if (hook == nullptr)
     {
-      hook = SetWindowsHookEx(WH_KEYBOARD_LL, hook_callback, GetModuleHandle(NULL), 0);
+      hook = SetWindowsHookEx(WH_KEYBOARD_LL, hook_callback, GetModuleHandle(nullptr), 0);
+      if (hook == nullptr)
+        {
+          spdlog::warn("Failed to install Windows break keyboard hook: {}", GetLastError());
+        }
     }
 }
 
@@ -85,18 +112,20 @@ Hook::hook_callback(INT nCode, WPARAM wParam, LPARAM lParam)
 
   if (nCode == HC_ACTION)
     {
-      KBDLLHOOKSTRUCT *data = (KBDLLHOOKSTRUCT *)lParam;
+      auto *data = (KBDLLHOOKSTRUCT *)lParam;
 
       // bool is_key_down = ((wParam == WM_KEYDOWN) || (wParam == WM_SYSKEYDOWN));
 
       BOOL ctrl_down = GetAsyncKeyState(VK_CONTROL) >> ((sizeof(SHORT) * 8) - 1);
+      BOOL shift_down = GetAsyncKeyState(VK_SHIFT) >> ((sizeof(SHORT) * 8) - 1);
+      bool is_task_manager_shortcut = (data->vkCode == VK_ESCAPE && ctrl_down && shift_down);
 
-      if ((data->vkCode == VK_ESCAPE && ctrl_down) ||                   // Ctrl+Esc
+      if ((data->vkCode == VK_ESCAPE && ctrl_down && !shift_down) ||    // Ctrl+Esc
           (data->vkCode == VK_TAB && data->flags & LLKHF_ALTDOWN) ||    // Alt+TAB
           (data->vkCode == VK_ESCAPE && data->flags & LLKHF_ALTDOWN) || // Alt+Esc
           (data->vkCode == VK_LWIN || data->vkCode == VK_RWIN))         // Start Menu
         {
-          handled = true;
+          handled = !is_task_manager_shortcut;
         }
     }
 
@@ -116,17 +145,44 @@ WindowsLocker::can_lock()
 void
 WindowsLocker::prepare_lock()
 {
-}
+  TRACE_ENTRY();
 
+  active_window = GetForegroundWindow();
+
+  if (active_window != nullptr)
+    {
+      HWND window = static_cast<HWND>(active_window);
+      std::string text = get_window_title(window);
+      TRACE_MSG("Save active window: {}", text);
+      spdlog::info("Save active window: {} {}", text, reinterpret_cast<intptr_t>(window));
+    }
+}
 
 void
 WindowsLocker::lock()
 {
   Hook::instance()->enable();
+
+  UINT previous_state = 0;
+  SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, TRUE, &previous_state, 0);
 }
 
 void
 WindowsLocker::unlock()
 {
+  TRACE_ENTRY();
+
+  UINT previous_state = 0;
+  SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, FALSE, &previous_state, 0);
   Hook::instance()->disable();
+
+  if (active_window != nullptr)
+    {
+      HWND window = static_cast<HWND>(active_window);
+      std::string text = get_window_title(window);
+      TRACE_MSG("Restore active window: {}", text);
+      spdlog::info("Restore active window: {} {}", text, reinterpret_cast<intptr_t>(window));
+      SetForegroundWindow(window);
+      active_window = nullptr;
+    }
 }

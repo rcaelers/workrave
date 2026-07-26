@@ -31,7 +31,7 @@ public:
   using Ptr = std::shared_ptr<BreakDBus>;
 
 public:
-  BreakDBus(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, workrave::dbus::IDBus::Ptr dbus);
+  BreakDBus(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, std::shared_ptr<workrave::dbus::IDBus> dbus);
   virtual ~BreakDBus() = default;
 
 private:
@@ -41,7 +41,7 @@ private:
 private:
   workrave::BreakId break_id;
   BreakStateModel::Ptr break_state_model;
-  workrave::dbus::IDBus::Ptr dbus;
+  std::shared_ptr<workrave::dbus::IDBus> dbus;
 };
 
 #endif // BREAKDBUS_HH

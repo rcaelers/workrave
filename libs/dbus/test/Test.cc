@@ -36,6 +36,7 @@
 
 #include "dbus/IDBus.hh"
 #include "DBusTestData.hh"
+#include "DBusTestDataMeta.hh"
 #include "Test.hh"
 
 using namespace std;
@@ -59,9 +60,6 @@ struct Fixture
 
   ~Fixture()
   {
-    BOOST_TEST_MESSAGE("destructing cores");
-    BOOST_TEST_MESSAGE("destructing cores...done");
-
     delete app;
   }
 

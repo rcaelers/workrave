@@ -29,6 +29,7 @@
 using namespace workrave;
 
 StatusIcon::StatusIcon(std::shared_ptr<IApplicationContext> app)
+  : apphold(app->get_toolkit())
 {
   mode_icons[workrave::OperationMode::Normal] = UiUtil::create_icon("workrave-icon-medium.png");
   mode_icons[workrave::OperationMode::Suspended] = UiUtil::create_icon("workrave-suspended-icon-medium.png");
@@ -45,9 +46,13 @@ StatusIcon::StatusIcon(std::shared_ptr<IApplicationContext> app)
   OperationMode mode = core->get_regular_operation_mode();
   tray_icon->setIcon(mode_icons[mode]);
 
-  GUIConfig::trayicon_enabled().attach(this, [&](bool enabled) { tray_icon->setVisible(enabled); });
+  GUIConfig::trayicon_enabled().attach(this, [&](bool enabled) {
+    tray_icon->setVisible(enabled);
+    apphold.set_hold(enabled && QSystemTrayIcon::isSystemTrayAvailable());
+  });
 
   QObject::connect(tray_icon.get(), &QSystemTrayIcon::activated, this, &StatusIcon::on_activate);
+  QObject::connect(tray_icon.get(), &QSystemTrayIcon::messageClicked, this, &StatusIcon::on_balloon_activate);
 }
 
 void
@@ -63,19 +68,38 @@ StatusIcon::set_tooltip(const QString &tip)
 }
 
 void
-StatusIcon::show_balloon(const QString & /*id*/, const QString &title, const QString &balloon)
+StatusIcon::show_balloon(const QString &id, const QString &title, const QString &balloon)
 {
+  active_balloon_id = id.toStdString();
   tray_icon->showMessage(title, balloon);
 }
 
 void
-StatusIcon::on_activate(QSystemTrayIcon::ActivationReason /*reason*/)
+StatusIcon::on_activate(QSystemTrayIcon::ActivationReason reason)
 {
-  activate_signal();
+  if (reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick)
+    {
+      activate_signal();
+    }
+}
+
+void
+StatusIcon::on_balloon_activate()
+{
+  if (!active_balloon_id.empty())
+    {
+      balloon_activate_signal(active_balloon_id);
+    }
 }
 
 auto
 StatusIcon::signal_activate() -> boost::signals2::signal<void()> &
 {
   return activate_signal;
+}
+
+auto
+StatusIcon::signal_balloon_activate() -> boost::signals2::signal<void(std::string)> &
+{
+  return balloon_activate_signal;
 }

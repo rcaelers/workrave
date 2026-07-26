@@ -41,7 +41,7 @@ namespace workrave
     class DBusBindingGio : public DBusBinding
     {
     public:
-      explicit DBusBindingGio(IDBus::Ptr dbus);
+      explicit DBusBindingGio(std::shared_ptr<IDBus> dbus);
       ~DBusBindingGio() override = default;
 
       virtual const char *get_interface_introspect() = 0;
@@ -52,7 +52,7 @@ namespace workrave
                         GVariant *inargs) = 0;
 
     protected:
-      IDBus::Ptr dbus;
+      std::shared_ptr<IDBus> dbus;
     };
 
     class DBusMarshallGio

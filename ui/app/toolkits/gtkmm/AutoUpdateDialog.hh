@@ -67,9 +67,6 @@ public:
   void start_install();
 
 private:
-  void on_auto_toggled();
-
-private:
   update_choice_callback_t callback;
   Gtk::TextView *text_view{nullptr};
   Gtk::ScrolledWindow scrolled_window;

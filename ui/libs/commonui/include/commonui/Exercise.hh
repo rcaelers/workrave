@@ -56,12 +56,14 @@ public:
   std::list<Exercise> get_exercises();
   bool has_exercises();
   void load();
+  void set_language(const std::string &locale);
 
 private:
   void parse_exercises(const std::string &file_name);
 
 private:
   std::list<Exercise> exercises;
+  std::string language_code_;
 };
 
 #endif // WORKRAVE_UI_EXERCISE_HH

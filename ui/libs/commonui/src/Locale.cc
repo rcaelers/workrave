@@ -21,11 +21,9 @@
 
 #include "commonui/Locale.hh"
 
-#include "debug.hh"
 #include "commonui/nls.h"
 
 #include <cstdlib>
-#include <cstdio>
 #include <vector>
 #include <cstring>
 #include <boost/algorithm/string.hpp>
@@ -197,16 +195,16 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
 }
 
 void
-Locale::get_all_languages_in_native_locale(LanguageMap &list)
+Locale::get_all_languages_in_native_locale(LanguageMap &languages)
 {
-  (void)list;
+  (void)languages;
 
 #if defined(HAVE_LANGUAGE_SELECTION)
   static bool init_done = false;
 
   if (init_done)
     {
-      list = languages_native_locale;
+      languages = languages_native_locale;
       return;
     }
 
@@ -241,7 +239,7 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 
   init_done = true;
   Locale::set_locale(lang_save);
-  list = languages_native_locale;
+  languages = languages_native_locale;
 #endif
 }
 

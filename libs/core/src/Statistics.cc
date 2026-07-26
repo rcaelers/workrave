@@ -117,7 +117,7 @@ Statistics::delete_all_history()
   update();
 
   std::filesystem::path histpath = Paths::get_state_directory() / "historystats";
-  if (std::filesystem::is_regular_file(histpath) && std::filesystem::remove(histpath))
+  if (std::filesystem::is_regular_file(histpath) && !std::filesystem::remove(histpath))
     {
       return false;
     }
@@ -130,7 +130,7 @@ Statistics::delete_all_history()
     }
 
   std::filesystem::path todaypath = Paths::get_state_directory() / "todaystats";
-  if (std::filesystem::is_regular_file(todaypath) && std::filesystem::remove(todaypath))
+  if (std::filesystem::is_regular_file(todaypath) && !std::filesystem::remove(todaypath))
     {
       return false;
     }

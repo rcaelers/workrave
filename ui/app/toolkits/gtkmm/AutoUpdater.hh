@@ -19,15 +19,13 @@
 #define AUTO_UPDATER_HH
 
 #include <string>
-
 #include <type_traits>
-
-#include "ui/Plugin.hh"
 
 #include "unfold/Unfold.hh"
 #include "unfold/coro/gtask.hh"
 #include "unfold/coro/IOContext.hh"
 
+#include "ui/Plugin.hh"
 #include "ui/prefwidgets/Widgets.hh"
 
 #include "utils/Logging.hh"

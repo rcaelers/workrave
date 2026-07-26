@@ -1,0 +1,8 @@
+[
+  { "include": ["\"config/ConfiguratorFactory.hh\"", "private", "\"config/Config.hh\"", "public"] },
+  { "include": ["\"config/IConfigurator.hh\"",        "private", "\"config/Config.hh\"", "public"] },
+  { "include": ["\"config/IConfiguratorListener.hh\"","private", "\"config/Config.hh\"", "public"] },
+  { "include": ["\"config/Setting.hh\"",              "private", "\"config/Config.hh\"", "public"] },
+
+  { "include": ["\"core/ICoreHooks.hh\"", "private", "\"core/ICore.hh\"", "public"] }
+]

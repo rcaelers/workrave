@@ -25,6 +25,7 @@ namespace workrave::crash
   class CrashHandler
   {
   public:
+    virtual ~CrashHandler() = default;
     virtual void on_crashed() = 0;
   };
 

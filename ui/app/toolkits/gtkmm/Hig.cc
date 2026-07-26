@@ -91,6 +91,14 @@ HigCategoryPanel::add_label(const char *text, Gtk::Widget &widget, bool expand, 
   return lab;
 }
 
+Gtk::Label *
+HigCategoryPanel::add_label(const std::string &text, Gtk::Widget &widget, bool expand, bool fill)
+{
+  Gtk::Label *lab = Gtk::manage(new Gtk::Label(text));
+  add_label(*lab, widget, expand, fill);
+  return lab;
+}
+
 void
 HigCategoryPanel::add_label(Gtk::Label &label, Gtk::Widget &widget, bool expand, bool fill)
 {
