@@ -45,18 +45,18 @@ enabled by default, so `grpcurl` can discover everything at runtime.
 # List services
 grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock list
 
-# workrave.rpc.ConfigService
-# workrave.rpc.breaks.BreakService
-# workrave.rpc.core.CoreService
+# workrave.ConfigService
+# workrave.breaks.BreakService
+# workrave.core.CoreService
 # grpc.reflection.v1.ServerReflection
 # grpc.reflection.v1alpha.ServerReflection
 
 # List a service's methods
-grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock list workrave.rpc.core.CoreService
+grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock list workrave.core.CoreService
 
 # Describe a method's request/response shape, including enum values
-grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock describe workrave.rpc.core.CoreService.SetOperationMode
-grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock describe workrave.rpc.core.OperationMode
+grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock describe workrave.core.CoreService.SetOperationMode
+grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock describe workrave.core.OperationMode
 ```
 
 `describe` is the fastest way to find the exact field/enum-value names
@@ -82,7 +82,7 @@ see it explicitly:
 
 ```bash
 grpcurl -plaintext -emit-defaults -d '{}' \
-  unix:$SOCKET workrave.rpc.core.CoreService/GetActiveOperationMode
+  unix:$SOCKET workrave.core.CoreService/GetActiveOperationMode
 # {
 #   "result": "OPERATION_MODE_NORMAL"
 # }
@@ -101,21 +101,21 @@ SOCKET=$HOME/.workrave-qt/rpc.sock
 
 ```bash
 # Is the user currently active?
-grpcurl -plaintext -d '{}' unix:$SOCKET workrave.rpc.core.CoreService/IsActive
+grpcurl -plaintext -d '{}' unix:$SOCKET workrave.core.CoreService/IsActive
 
 # Current operation mode
-grpcurl -plaintext -d '{}' unix:$SOCKET workrave.rpc.core.CoreService/GetActiveOperationMode
+grpcurl -plaintext -d '{}' unix:$SOCKET workrave.core.CoreService/GetActiveOperationMode
 
 # Suspend Workrave (NORMAL / SUSPENDED / QUIET)
 grpcurl -plaintext -d '{"mode":"OPERATION_MODE_SUSPENDED"}' \
-  unix:$SOCKET workrave.rpc.core.CoreService/SetOperationMode
+  unix:$SOCKET workrave.core.CoreService/SetOperationMode
 
 # Suspend for a while, then automatically revert. `duration` accepts
 # human-friendly text — "1h30m", "1h 30m", "90m", "45s", or a bare number
 # (treated as minutes) — parsed server-side, not a raw integer whose unit
 # you'd have to guess.
 grpcurl -plaintext -d '{"mode":"OPERATION_MODE_SUSPENDED","duration":"1h30m"}' \
-  unix:$SOCKET workrave.rpc.core.CoreService/SetOperationModeFor
+  unix:$SOCKET workrave.core.CoreService/SetOperationModeFor
 
 # ForceBreak's request shape — `break_hint` is a repeated enum (a bitmask on
 # the C++ side, workrave::utils::Flags<BreakHint>) — pass zero or more
@@ -130,13 +130,13 @@ grpcurl -plaintext -d '{"mode":"OPERATION_MODE_SUSPENDED","duration":"1h30m"}' \
 # Tell Workrave about activity from an external source (e.g. a script
 # watching some other input device)
 grpcurl -plaintext -d '{"who":"my-script","act":true}' \
-  unix:$SOCKET workrave.rpc.core.CoreService/ReportActivity
+  unix:$SOCKET workrave.core.CoreService/ReportActivity
 ```
 
 Note `BreakId`'s enum values are double-prefixed
 (`BREAK_ID_BREAK_ID_REST_BREAK`, not `BREAK_ID_REST_BREAK`) — an artifact of
 the auto-naming (`<EnumName>_<CxxValueName>`, and the C++ enum's own values
-already start with `BREAK_ID_`). Run `describe workrave.rpc.core.BreakId` if
+already start with `BREAK_ID_`). Run `describe workrave.core.BreakId` if
 in doubt; don't rely on this document staying byte-for-byte in sync.
 
 ## BreakService — per-break state (micro-break / rest break / daily limit)
@@ -148,19 +148,19 @@ target — the gRPC analog of DBus's per-object-path routing.
 ```bash
 # Is the rest break currently enabled / running?
 grpcurl -plaintext -d '{"id":"BREAK_ID_BREAK_ID_REST_BREAK"}' \
-  unix:$SOCKET workrave.rpc.breaks.BreakService/IsEnabled
+  unix:$SOCKET workrave.breaks.BreakService/IsEnabled
 grpcurl -plaintext -d '{"id":"BREAK_ID_BREAK_ID_REST_BREAK"}' \
-  unix:$SOCKET workrave.rpc.breaks.BreakService/IsTimerRunning
+  unix:$SOCKET workrave.breaks.BreakService/IsTimerRunning
 
 # Seconds until the rest break is due
 grpcurl -plaintext -d '{"id":"BREAK_ID_BREAK_ID_REST_BREAK"}' \
-  unix:$SOCKET workrave.rpc.breaks.BreakService/GetTimerRemaining
+  unix:$SOCKET workrave.breaks.BreakService/GetTimerRemaining
 
 # Postpone / skip the currently showing break
 grpcurl -plaintext -d '{"id":"BREAK_ID_BREAK_ID_MICRO_BREAK"}' \
-  unix:$SOCKET workrave.rpc.breaks.BreakService/PostponeBreak
+  unix:$SOCKET workrave.breaks.BreakService/PostponeBreak
 grpcurl -plaintext -d '{"id":"BREAK_ID_BREAK_ID_MICRO_BREAK"}' \
-  unix:$SOCKET workrave.rpc.breaks.BreakService/SkipBreak
+  unix:$SOCKET workrave.breaks.BreakService/SkipBreak
 ```
 
 ## ConfigService — read/write Workrave's own settings
@@ -170,22 +170,22 @@ backend already uses internally (e.g. `timers/micro_pause/limit`).
 
 ```bash
 # Typed get/set — pick the RPC matching the value's real C++ type
-grpcurl -plaintext -d '{"key":"my/custom/key"}' unix:$SOCKET workrave.rpc.ConfigService/GetString
-grpcurl -plaintext -d '{"key":"my/custom/key","v":"hello"}' unix:$SOCKET workrave.rpc.ConfigService/SetString
+grpcurl -plaintext -d '{"key":"my/custom/key"}' unix:$SOCKET workrave.ConfigService/GetString
+grpcurl -plaintext -d '{"key":"my/custom/key","v":"hello"}' unix:$SOCKET workrave.ConfigService/SetString
 
 # GetString/GetBool/GetInt/GetInt64/GetDouble all respond with
 # {out, result} — result is false (and out empty/zero) if the key doesn't
 # exist, mirroring the real Configurator::get_value()'s bool return. Prints
 # as `{}` for a missing key, not `{"result": false}` — see "A gotcha" above.
-grpcurl -plaintext -d '{"key":"does/not/exist"}' unix:$SOCKET workrave.rpc.ConfigService/GetString
+grpcurl -plaintext -d '{"key":"does/not/exist"}' unix:$SOCKET workrave.ConfigService/GetString
 # {}
 
 # ...WithDefault variants never fail — they return the fallback if unset.
 grpcurl -plaintext -d '{"key":"does/not/exist","s":"fallback"}' \
-  unix:$SOCKET workrave.rpc.ConfigService/GetStringWithDefault
+  unix:$SOCKET workrave.ConfigService/GetStringWithDefault
 
-grpcurl -plaintext -d '{"key":"my/custom/key"}' unix:$SOCKET workrave.rpc.ConfigService/HasUserValue
-grpcurl -plaintext -d '{"key":"my/custom/key"}' unix:$SOCKET workrave.rpc.ConfigService/RemoveKey
+grpcurl -plaintext -d '{"key":"my/custom/key"}' unix:$SOCKET workrave.ConfigService/HasUserValue
+grpcurl -plaintext -d '{"key":"my/custom/key"}' unix:$SOCKET workrave.ConfigService/RemoveKey
 ```
 
 ## Signals — streaming events
@@ -198,12 +198,12 @@ another:
 
 ```bash
 # Operation mode changes
-grpcurl -plaintext -d '{}' unix:$SOCKET workrave.rpc.core.CoreService/OperationModeChanged
+grpcurl -plaintext -d '{}' unix:$SOCKET workrave.core.CoreService/OperationModeChanged
 
 # Break lifecycle events for the rest break specifically (keyed, like the
 # unary BreakService calls above)
 grpcurl -plaintext -d '{"id":"BREAK_ID_BREAK_ID_REST_BREAK"}' \
-  unix:$SOCKET workrave.rpc.breaks.BreakService/BreakEvent
+  unix:$SOCKET workrave.breaks.BreakService/BreakEvent
 ```
 
 Ctrl-C to stop watching.
@@ -215,7 +215,7 @@ normal gRPC error status rather than crashing anything:
 
 ```bash
 grpcurl -plaintext -d '{"mode":"OPERATION_MODE_NORMAL","duration":"garbage"}' \
-  unix:$SOCKET workrave.rpc.core.CoreService/SetOperationModeFor
+  unix:$SOCKET workrave.core.CoreService/SetOperationModeFor
 # ERROR:
 #   Code: InvalidArgument
 #   Message: invalid duration 'garbage': expected a number

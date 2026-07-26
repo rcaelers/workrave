@@ -1,0 +1,77 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave.test;
+
+
+
+enum WidgetId {
+
+
+  WIDGET_ID_FIRST = 0;
+
+
+  WIDGET_ID_SECOND = 1;
+
+
+  WIDGET_ID_THIRD = 2;
+
+}
+
+
+
+
+
+message GetValueRequest {
+
+  WidgetId id = 1;
+
+}
+
+message GetValueResponse {
+
+  int32 result = 1;
+
+}
+
+
+message SetValueRequest {
+
+  WidgetId id = 1;
+
+  int32 v = 2;
+
+}
+
+message SetValueResponse {
+
+}
+
+
+
+message ValueChangedRequest {
+
+  WidgetId id = 1;
+
+}
+
+message ValueChangedEvent {
+
+  int32 value = 1;
+
+}
+
+
+service WidgetService {
+
+  rpc GetValue(GetValueRequest) returns (GetValueResponse);
+
+  rpc SetValue(SetValueRequest) returns (SetValueResponse);
+
+
+  rpc ValueChanged(ValueChangedRequest) returns (stream ValueChangedEvent);
+
+}
+

@@ -14,7 +14,7 @@ use std::path::PathBuf;
 use anyhow::{Context, Result};
 
 use crate::backend::{Backend, GeneratedFile};
-use crate::ir::{Interface, Unit};
+use crate::template_model::GenerationModel;
 
 pub struct DbusBackend {
     pub out_hh: PathBuf,
@@ -26,7 +26,11 @@ impl Backend for DbusBackend {
         "dbus"
     }
 
-    fn generate(&self, iface: &Interface, unit: &Unit, header_include: &str) -> Result<Vec<GeneratedFile>> {
+    fn generate(
+        &self,
+        model: &GenerationModel,
+        header_include: &str,
+    ) -> Result<Vec<GeneratedFile>> {
         let dbus_header_filename = self
             .out_hh
             .file_name()
@@ -34,7 +38,8 @@ impl Backend for DbusBackend {
             .to_string_lossy()
             .to_string();
 
-        let binding = dbus_gen::render_dbus_binding(iface, unit, header_include, &dbus_header_filename)?;
+        let binding =
+            dbus_gen::render_dbus_binding(model, header_include, &dbus_header_filename)?;
 
         Ok(vec![
             GeneratedFile {

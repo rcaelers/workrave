@@ -56,7 +56,7 @@ namespace
 
       auto channel = grpc::CreateChannel("127.0.0.1:" + std::to_string(rpc_server->bound_port()),
                                          grpc::InsecureChannelCredentials());
-      stub = workrave::rpc::TestService::NewStub(channel);
+      stub = workrave::TestService::NewStub(channel);
     }
 
     ~RpcTest() override
@@ -67,16 +67,16 @@ namespace
     RpcTestServer server_object;
     TestServiceServiceImpl impl;
     std::unique_ptr<rpc::RpcServer> rpc_server;
-    std::unique_ptr<workrave::rpc::TestService::Stub> stub;
+    std::unique_ptr<workrave::TestService::Stub> stub;
   };
 } // namespace
 
 TEST_F(RpcTest, ping_calls_real_method)
 {
   grpc::ClientContext ctx;
-  workrave::rpc::PingRequest request;
+  workrave::PingRequest request;
   request.set_message("hello");
-  workrave::rpc::PingResponse response;
+  workrave::PingResponse response;
 
   grpc::Status status = stub->Ping(&ctx, request, &response);
   ASSERT_TRUE(status.ok());
@@ -86,10 +86,10 @@ TEST_F(RpcTest, ping_calls_real_method)
 TEST_F(RpcTest, add_calls_real_method)
 {
   grpc::ClientContext ctx;
-  workrave::rpc::AddRequest request;
+  workrave::AddRequest request;
   request.set_a(3);
   request.set_b(4);
-  workrave::rpc::AddResponse response;
+  workrave::AddResponse response;
 
   grpc::Status status = stub->Add(&ctx, request, &response);
   ASSERT_TRUE(status.ok());
@@ -101,9 +101,9 @@ TEST_F(RpcTest, set_flag_reaches_real_object)
   EXPECT_FALSE(server_object.get_flag());
 
   grpc::ClientContext ctx;
-  workrave::rpc::SetFlagRequest request;
+  workrave::SetFlagRequest request;
   request.set_value(true);
-  workrave::rpc::SetFlagResponse response;
+  workrave::SetFlagResponse response;
 
   grpc::Status status = stub->SetFlag(&ctx, request, &response);
   ASSERT_TRUE(status.ok());
@@ -118,21 +118,21 @@ TEST_F(RpcTest, get_mode_out_ref_roundtrips)
   server_object.set_mode_for_test(TestMode::Active);
 
   grpc::ClientContext ctx;
-  workrave::rpc::GetModeRequest request;
-  workrave::rpc::GetModeResponse response;
+  workrave::GetModeRequest request;
+  workrave::GetModeResponse response;
 
   grpc::Status status = stub->GetMode(&ctx, request, &response);
   ASSERT_TRUE(status.ok());
   EXPECT_TRUE(response.result());
-  EXPECT_EQ(response.mode(), workrave::rpc::TestMode::TEST_MODE_ACTIVE);
+  EXPECT_EQ(response.mode(), workrave::TestMode::TEST_MODE_ACTIVE);
 }
 
 TEST_F(RpcTest, greet_const_ref_param)
 {
   grpc::ClientContext ctx;
-  workrave::rpc::GreetRequest request;
+  workrave::GreetRequest request;
   request.set_name("world");
-  workrave::rpc::GreetResponse response;
+  workrave::GreetResponse response;
 
   grpc::Status status = stub->Greet(&ctx, request, &response);
   ASSERT_TRUE(status.ok());
@@ -145,8 +145,8 @@ TEST_F(RpcTest, mode_changed_signal_streams_real_events)
   // libs/corenext/src/Core.hh's @rpc.signal-annotated
   // signal_operation_mode_changed() for the real-world use this proves out.
   grpc::ClientContext ctx;
-  workrave::rpc::ModeChangedRequest request;
-  std::unique_ptr<grpc::ClientReaderInterface<workrave::rpc::ModeChangedEvent>> reader = stub->ModeChanged(&ctx, request);
+  workrave::ModeChangedRequest request;
+  std::unique_ptr<grpc::ClientReaderInterface<workrave::ModeChangedEvent>> reader = stub->ModeChanged(&ctx, request);
 
   // Give the server handler time to reach signal().connect() before firing —
   // otherwise the signal could fire before anything is subscribed.
@@ -154,14 +154,14 @@ TEST_F(RpcTest, mode_changed_signal_streams_real_events)
 
   server_object.fire_mode_changed_for_test(TestMode::Active);
 
-  workrave::rpc::ModeChangedEvent event;
+  workrave::ModeChangedEvent event;
   ASSERT_TRUE(reader->Read(&event));
-  EXPECT_EQ(event.value(), workrave::rpc::TestMode::TEST_MODE_ACTIVE);
+  EXPECT_EQ(event.value(), workrave::TestMode::TEST_MODE_ACTIVE);
 
   // A second firing must produce a second event on the same stream.
   server_object.fire_mode_changed_for_test(TestMode::Idle);
   ASSERT_TRUE(reader->Read(&event));
-  EXPECT_EQ(event.value(), workrave::rpc::TestMode::TEST_MODE_IDLE);
+  EXPECT_EQ(event.value(), workrave::TestMode::TEST_MODE_IDLE);
 
   ctx.TryCancel();
   (void)reader->Finish();
@@ -195,7 +195,7 @@ namespace
 
       auto channel = grpc::CreateChannel("127.0.0.1:" + std::to_string(rpc_server->bound_port()),
                                          grpc::InsecureChannelCredentials());
-      stub = workrave::rpc::WidgetService::NewStub(channel);
+      stub = workrave::WidgetService::NewStub(channel);
     }
 
     ~RpcKeyedTest() override
@@ -212,34 +212,34 @@ namespace
     rpc::InstanceRegistry<WidgetId, RpcKeyedServer> registry;
     WidgetServiceServiceImpl impl;
     std::unique_ptr<rpc::RpcServer> rpc_server;
-    std::unique_ptr<workrave::rpc::WidgetService::Stub> stub;
+    std::unique_ptr<workrave::WidgetService::Stub> stub;
   };
 } // namespace
 
 TEST_F(RpcKeyedTest, get_value_routes_to_correct_instance)
 {
-  auto get_value = [this](workrave::rpc::WidgetId id) {
+  auto get_value = [this](workrave::WidgetId id) {
     grpc::ClientContext ctx;
-    workrave::rpc::GetValueRequest request;
+    workrave::GetValueRequest request;
     request.set_id(id);
-    workrave::rpc::GetValueResponse response;
+    workrave::GetValueResponse response;
     grpc::Status status = stub->GetValue(&ctx, request, &response);
     EXPECT_TRUE(status.ok());
     return response.result();
   };
 
-  EXPECT_EQ(get_value(workrave::rpc::WidgetId::WIDGET_ID_FIRST), 1);
-  EXPECT_EQ(get_value(workrave::rpc::WidgetId::WIDGET_ID_SECOND), 2);
-  EXPECT_EQ(get_value(workrave::rpc::WidgetId::WIDGET_ID_THIRD), 3);
+  EXPECT_EQ(get_value(workrave::WidgetId::WIDGET_ID_FIRST), 1);
+  EXPECT_EQ(get_value(workrave::WidgetId::WIDGET_ID_SECOND), 2);
+  EXPECT_EQ(get_value(workrave::WidgetId::WIDGET_ID_THIRD), 3);
 }
 
 TEST_F(RpcKeyedTest, set_value_only_touches_the_targeted_instance)
 {
   grpc::ClientContext ctx;
-  workrave::rpc::SetValueRequest request;
-  request.set_id(workrave::rpc::WidgetId::WIDGET_ID_SECOND);
+  workrave::SetValueRequest request;
+  request.set_id(workrave::WidgetId::WIDGET_ID_SECOND);
   request.set_v(99);
-  workrave::rpc::SetValueResponse response;
+  workrave::SetValueResponse response;
   grpc::Status status = stub->SetValue(&ctx, request, &response);
   ASSERT_TRUE(status.ok());
 
@@ -254,9 +254,9 @@ TEST_F(RpcKeyedTest, value_changed_signal_routes_to_subscribed_instance_only)
 {
   // Subscribe to `second` only.
   grpc::ClientContext ctx;
-  workrave::rpc::ValueChangedRequest request;
-  request.set_id(workrave::rpc::WidgetId::WIDGET_ID_SECOND);
-  std::unique_ptr<grpc::ClientReaderInterface<workrave::rpc::ValueChangedEvent>> reader = stub->ValueChanged(&ctx, request);
+  workrave::ValueChangedRequest request;
+  request.set_id(workrave::WidgetId::WIDGET_ID_SECOND);
+  std::unique_ptr<grpc::ClientReaderInterface<workrave::ValueChangedEvent>> reader = stub->ValueChanged(&ctx, request);
 
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
@@ -265,7 +265,7 @@ TEST_F(RpcKeyedTest, value_changed_signal_routes_to_subscribed_instance_only)
   third.fire_value_changed_for_test(333);
   second.fire_value_changed_for_test(222);
 
-  workrave::rpc::ValueChangedEvent event;
+  workrave::ValueChangedEvent event;
   ASSERT_TRUE(reader->Read(&event));
   EXPECT_EQ(event.value(), 222);
 

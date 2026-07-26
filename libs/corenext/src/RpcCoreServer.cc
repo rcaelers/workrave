@@ -57,9 +57,9 @@ struct RpcCoreServer::Impl
   Impl(Impl &&) = delete;
   Impl &operator=(Impl &&) = delete;
 
-  CoreServiceServiceImpl core_service;
-  BreakServiceServiceImpl break_service;
-  ConfigServiceServiceImpl config_service;
+  workrave::core::rpc::CoreServiceServiceImpl core_service;
+  workrave::core::rpc::BreakServiceServiceImpl break_service;
+  workrave::config::rpc::ConfigServiceServiceImpl config_service;
   rpc::RpcServer server;
 };
 

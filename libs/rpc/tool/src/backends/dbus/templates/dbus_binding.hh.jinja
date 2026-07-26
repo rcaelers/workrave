@@ -1,0 +1,22 @@
+{%- set service = model.interfaces[0] -%}
+{%- set ident = service.dbus.name | replace(".", "_") -%}
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen's DBus backend from an annotated C++ header.
+#pragma once
+
+#include <memory>
+#include <string>
+
+#include "dbus/IDBus.hh"
+
+#include "{{ header_include }}"
+
+class {{ ident }}
+{
+public:
+  virtual ~{{ ident }}() = default;
+  static {{ ident }} *instance(std::shared_ptr<::workrave::dbus::IDBus> dbus);
+{% for signal in service.signals %}
+  virtual void {{ signal.rpc_name }}(const std::string &path{% for field in signal.event_fields %}, {{ model.types[field.type_id].cxx.spelling }} {{ field.cxx_name }}{% endfor %}) = 0;
+{% endfor %}
+};{{- "" -}}

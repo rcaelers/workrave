@@ -34,9 +34,14 @@ struct Cli {
     #[arg(long)]
     out_adapter_cc: PathBuf,
 
-    /// The proto package (dotted), e.g. "workrave.rpc".
+    /// The proto package (dotted), e.g. "workrave.core".
     #[arg(long)]
     proto_package: String,
+
+    /// Optional C++ namespace for the generated ServiceImpl adapter. This
+    /// does not affect the protobuf package or protoc-generated types.
+    #[arg(long)]
+    adapter_namespace: Option<String>,
 
     /// Literal text for the generated `#include "..."` of the annotated
     /// header. Defaults to the header's file name.
@@ -72,6 +77,7 @@ fn main() -> Result<()> {
         out_adapter_hh: cli.out_adapter_hh,
         out_adapter_cc: cli.out_adapter_cc,
         proto_package: cli.proto_package,
+        adapter_namespace: cli.adapter_namespace,
         header_include: cli.header_include,
         external_annotations: cli.annotations,
         out_dbus_hh: cli.out_dbus_hh,

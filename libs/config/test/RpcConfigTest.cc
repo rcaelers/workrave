@@ -56,7 +56,7 @@ namespace
 
       auto channel = grpc::CreateChannel("127.0.0.1:" + std::to_string(rpc_server->bound_port()),
                                          grpc::InsecureChannelCredentials());
-      stub = workrave::rpc::ConfigService::NewStub(channel);
+      stub = workrave::ConfigService::NewStub(channel);
     }
 
     ~RpcConfigTest() override
@@ -65,9 +65,9 @@ namespace
     }
 
     Configurator configurator;
-    ConfigServiceServiceImpl impl;
+    workrave::config::rpc::ConfigServiceServiceImpl impl;
     std::unique_ptr<rpc::RpcServer> rpc_server;
-    std::unique_ptr<workrave::rpc::ConfigService::Stub> stub;
+    std::unique_ptr<workrave::ConfigService::Stub> stub;
   };
 } // namespace
 
@@ -75,18 +75,18 @@ TEST_F(RpcConfigTest, set_get_string_roundtrip)
 {
   {
     grpc::ClientContext ctx;
-    workrave::rpc::SetStringRequest request;
+    workrave::SetStringRequest request;
     request.set_key("test/rpc/string");
     request.set_v("hello");
-    workrave::rpc::SetStringResponse response;
+    workrave::SetStringResponse response;
     grpc::Status status = stub->SetString(&ctx, request, &response);
     ASSERT_TRUE(status.ok());
   }
   {
     grpc::ClientContext ctx;
-    workrave::rpc::GetStringRequest request;
+    workrave::GetStringRequest request;
     request.set_key("test/rpc/string");
-    workrave::rpc::GetStringResponse response;
+    workrave::GetStringResponse response;
     grpc::Status status = stub->GetString(&ctx, request, &response);
     ASSERT_TRUE(status.ok());
     EXPECT_TRUE(response.result());
@@ -104,18 +104,18 @@ TEST_F(RpcConfigTest, set_get_int_roundtrip)
 {
   {
     grpc::ClientContext ctx;
-    workrave::rpc::SetIntRequest request;
+    workrave::SetIntRequest request;
     request.set_key("test/rpc/int");
     request.set_v(42);
-    workrave::rpc::SetIntResponse response;
+    workrave::SetIntResponse response;
     grpc::Status status = stub->SetInt(&ctx, request, &response);
     ASSERT_TRUE(status.ok());
   }
   {
     grpc::ClientContext ctx;
-    workrave::rpc::GetIntRequest request;
+    workrave::GetIntRequest request;
     request.set_key("test/rpc/int");
-    workrave::rpc::GetIntResponse response;
+    workrave::GetIntResponse response;
     grpc::Status status = stub->GetInt(&ctx, request, &response);
     ASSERT_TRUE(status.ok());
     EXPECT_TRUE(response.result());
@@ -127,18 +127,18 @@ TEST_F(RpcConfigTest, set_get_bool_roundtrip)
 {
   {
     grpc::ClientContext ctx;
-    workrave::rpc::SetBoolRequest request;
+    workrave::SetBoolRequest request;
     request.set_key("test/rpc/bool");
     request.set_v(true);
-    workrave::rpc::SetBoolResponse response;
+    workrave::SetBoolResponse response;
     grpc::Status status = stub->SetBool(&ctx, request, &response);
     ASSERT_TRUE(status.ok());
   }
   {
     grpc::ClientContext ctx;
-    workrave::rpc::GetBoolRequest request;
+    workrave::GetBoolRequest request;
     request.set_key("test/rpc/bool");
-    workrave::rpc::GetBoolResponse response;
+    workrave::GetBoolResponse response;
     grpc::Status status = stub->GetBool(&ctx, request, &response);
     ASSERT_TRUE(status.ok());
     EXPECT_TRUE(response.result());
@@ -149,9 +149,9 @@ TEST_F(RpcConfigTest, set_get_bool_roundtrip)
 TEST_F(RpcConfigTest, get_missing_key_reports_not_found)
 {
   grpc::ClientContext ctx;
-  workrave::rpc::GetStringRequest request;
+  workrave::GetStringRequest request;
   request.set_key("test/rpc/does-not-exist");
-  workrave::rpc::GetStringResponse response;
+  workrave::GetStringResponse response;
   grpc::Status status = stub->GetString(&ctx, request, &response);
   ASSERT_TRUE(status.ok());
   EXPECT_FALSE(response.result());
@@ -161,35 +161,35 @@ TEST_F(RpcConfigTest, has_user_value_and_remove_key_reach_the_real_object)
 {
   {
     grpc::ClientContext ctx;
-    workrave::rpc::HasUserValueRequest request;
+    workrave::HasUserValueRequest request;
     request.set_key("test/rpc/removable");
-    workrave::rpc::HasUserValueResponse response;
+    workrave::HasUserValueResponse response;
     grpc::Status status = stub->HasUserValue(&ctx, request, &response);
     ASSERT_TRUE(status.ok());
     EXPECT_FALSE(response.result());
   }
   {
     grpc::ClientContext ctx;
-    workrave::rpc::SetStringRequest request;
+    workrave::SetStringRequest request;
     request.set_key("test/rpc/removable");
     request.set_v("temporary");
-    workrave::rpc::SetStringResponse response;
+    workrave::SetStringResponse response;
     ASSERT_TRUE(stub->SetString(&ctx, request, &response).ok());
   }
   {
     grpc::ClientContext ctx;
-    workrave::rpc::HasUserValueRequest request;
+    workrave::HasUserValueRequest request;
     request.set_key("test/rpc/removable");
-    workrave::rpc::HasUserValueResponse response;
+    workrave::HasUserValueResponse response;
     grpc::Status status = stub->HasUserValue(&ctx, request, &response);
     ASSERT_TRUE(status.ok());
     EXPECT_TRUE(response.result());
   }
   {
     grpc::ClientContext ctx;
-    workrave::rpc::RemoveKeyRequest request;
+    workrave::RemoveKeyRequest request;
     request.set_key("test/rpc/removable");
-    workrave::rpc::RemoveKeyResponse response;
+    workrave::RemoveKeyResponse response;
     ASSERT_TRUE(stub->RemoveKey(&ctx, request, &response).ok());
   }
 
@@ -201,10 +201,10 @@ TEST_F(RpcConfigTest, has_user_value_and_remove_key_reach_the_real_object)
 TEST_F(RpcConfigTest, get_string_with_default_falls_back_when_unset)
 {
   grpc::ClientContext ctx;
-  workrave::rpc::GetStringWithDefaultRequest request;
+  workrave::GetStringWithDefaultRequest request;
   request.set_key("test/rpc/does-not-exist");
   request.set_s("fallback");
-  workrave::rpc::GetStringWithDefaultResponse response;
+  workrave::GetStringWithDefaultResponse response;
   grpc::Status status = stub->GetStringWithDefault(&ctx, request, &response);
   ASSERT_TRUE(status.ok());
   EXPECT_EQ(response.out(), "fallback");

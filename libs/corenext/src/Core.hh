@@ -93,8 +93,8 @@ public:
 #if defined(HAVE_RPC)
   // The gRPC analog of BreakDBus's per-object-path registration; forwards to
   // BreaksControl so whoever wires up the RpcServer (see init_rpc()) can
-  // construct a BreakServiceServiceImpl without reaching into BreaksControl
-  // directly.
+  // construct a workrave::core::rpc::BreakServiceServiceImpl without reaching
+  // into BreaksControl directly.
   rpc::InstanceRegistry<workrave::BreakId, Break> &get_break_registry();
 #endif
 

@@ -14,6 +14,63 @@ fn fixtures_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures")
 }
 
+fn golden_dir() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/golden")
+}
+
+/// Compares one complete generated artifact with its checked-in golden. Set
+/// `UPDATE_RPC_GOLDENS=1` to refresh the files intentionally; normal test runs
+/// never modify them.
+fn assert_golden(name: &str, actual: &str) {
+    let path = golden_dir().join(name);
+    if std::env::var_os("UPDATE_RPC_GOLDENS").is_some_and(|value| value == "1") {
+        fs::create_dir_all(path.parent().expect("golden has a parent")).unwrap();
+        fs::write(&path, actual).unwrap();
+        return;
+    }
+
+    let expected = fs::read_to_string(&path).unwrap_or_else(|error| {
+        panic!(
+            "failed to read golden {}: {error}; run with UPDATE_RPC_GOLDENS=1 to create it",
+            path.display()
+        )
+    });
+    assert_eq!(
+        actual,
+        expected,
+        "generated output differs from {}",
+        path.display()
+    );
+}
+
+fn assert_generated_goldens(prefix: &str, generated: &GeneratedFiles) {
+    assert_golden(
+        &format!("{prefix}.proto"),
+        &fs::read_to_string(&generated.proto).unwrap(),
+    );
+    assert_golden(
+        &format!("{prefix}.grpc.hh"),
+        &fs::read_to_string(&generated.adapter_hh).unwrap(),
+    );
+    assert_golden(
+        &format!("{prefix}.grpc.cc"),
+        &fs::read_to_string(&generated.adapter_cc).unwrap(),
+    );
+
+    if let Some(path) = &generated.dbus_hh {
+        assert_golden(
+            &format!("{prefix}.dbus.hh"),
+            &fs::read_to_string(path).unwrap(),
+        );
+    }
+    if let Some(path) = &generated.dbus_cc {
+        assert_golden(
+            &format!("{prefix}.dbus.cc"),
+            &fs::read_to_string(path).unwrap(),
+        );
+    }
+}
+
 /// `clang::Clang::new()` (called inside `generate()`) is a process-wide
 /// singleton guard — only one may exist at a time. `cargo test` runs tests in
 /// this binary concurrently on separate threads of the same process, so
@@ -42,14 +99,14 @@ fn generate_fixture_with_annotations(
     name: &str,
     annotations: Option<&str>,
 ) -> (TempDir, GeneratedFiles) {
-    generate_fixture_full(fixture_name, name, annotations, false)
+    generate_fixture_full(fixture_name, name, annotations, false, None)
 }
 
 /// Like `generate_fixture`, but also requests DBus output
 /// (`--out-dbus-hh`/`--out-dbus-cc`) — the fixture must carry
 /// `@rpc.dbus(interface="...")`.
 fn generate_fixture_with_dbus(fixture_name: &str, name: &str) -> (TempDir, GeneratedFiles) {
-    generate_fixture_full(fixture_name, name, None, true)
+    generate_fixture_full(fixture_name, name, None, true, None)
 }
 
 fn generate_fixture_full(
@@ -57,6 +114,7 @@ fn generate_fixture_full(
     name: &str,
     annotations: Option<&str>,
     with_dbus: bool,
+    adapter_namespace: Option<&str>,
 ) -> (TempDir, GeneratedFiles) {
     let _guard = clang_test_lock().lock().unwrap_or_else(|e| e.into_inner());
     let dir = tempfile::tempdir().unwrap();
@@ -118,7 +176,8 @@ fn generate_fixture_full(
         out_proto: out_dir.join(format!("{name}.proto")),
         out_adapter_hh: out_dir.join(format!("{name}ServiceImpl.hh")),
         out_adapter_cc: out_dir.join(format!("{name}ServiceImpl.cc")),
-        proto_package: "workrave.rpc".to_string(),
+        proto_package: "workrave.test".to_string(),
+        adapter_namespace: adapter_namespace.map(str::to_string),
         header_include: None,
         external_annotations,
         out_dbus_hh,
@@ -127,6 +186,37 @@ fn generate_fixture_full(
 
     let generated = generate(&opts).expect("generate should succeed");
     (dir, generated)
+}
+
+/// Full-file characterization coverage for the current renderer. The focused
+/// tests below explain individual behavior; these goldens ensure the template
+/// migration cannot silently change unrelated syntax or whitespace.
+#[test]
+fn generated_outputs_match_goldens() {
+    for (fixture, output_name, golden_prefix) in [
+        ("simple.hh", "RpcTest", "simple"),
+        ("keyed.hh", "RpcKeyed", "keyed"),
+        ("enum_names.hh", "RpcEnumNames", "enum_names"),
+        ("map_types.hh", "RpcMapTypes", "map_types"),
+        ("struct_sequence.hh", "RpcStructSeq", "struct_sequence"),
+        ("nested_struct.hh", "RpcNested", "nested_struct"),
+        ("duration_flags.hh", "RpcDurationFlags", "duration_flags"),
+    ] {
+        let (_dir, generated) = generate_fixture(fixture, output_name);
+        assert_generated_goldens(golden_prefix, &generated);
+    }
+
+    for (fixture, output_name, golden_prefix) in [
+        ("dbus_scalar.hh", "RpcDbusScalar", "dbus_scalar"),
+        (
+            "dbus_struct_sequence.hh",
+            "RpcDbusStructSeq",
+            "dbus_struct_sequence",
+        ),
+    ] {
+        let (_dir, generated) = generate_fixture_with_dbus(fixture, output_name);
+        assert_generated_goldens(golden_prefix, &generated);
+    }
 }
 
 #[test]
@@ -161,7 +251,7 @@ fn generates_proto_and_adapter_for_simple_fixture() {
     let header_out = fs::read_to_string(&generated.adapter_hh).unwrap();
     assert!(
         header_out.contains(
-            "class TestServiceServiceImpl final : public ::workrave::rpc::TestService::Service"
+            "class TestServiceServiceImpl final : public ::workrave::test::TestService::Service"
         ),
         "{header_out}"
     );
@@ -172,7 +262,7 @@ fn generates_proto_and_adapter_for_simple_fixture() {
     );
     assert!(
         header_out
-            .contains("::grpc::ServerWriter<::workrave::rpc::ModeChangedEvent> *writer) override;"),
+            .contains("::grpc::ServerWriter<::workrave::test::ModeChangedEvent> *writer) override;"),
         "{header_out}"
     );
 
@@ -208,7 +298,7 @@ fn generates_proto_and_adapter_for_simple_fixture() {
         "{source_out}"
     );
     assert!(
-        source_out.contains("static_cast<::workrave::rpc::TestMode>(local_mode)"),
+        source_out.contains("static_cast<::workrave::test::TestMode>(local_mode)"),
         "{source_out}"
     );
     assert!(
@@ -220,12 +310,53 @@ fn generates_proto_and_adapter_for_simple_fixture() {
         "{source_out}"
     );
     assert!(
-        source_out.contains("event.set_value(static_cast<::workrave::rpc::TestMode>(value));"),
+        source_out.contains("event.set_value(static_cast<::workrave::test::TestMode>(value));"),
         "{source_out}"
     );
     assert!(
         source_out.contains("queue.wait_and_pop(event, context)"),
         "{source_out}"
+    );
+}
+
+#[test]
+fn adapter_namespace_is_independent_from_proto_package() {
+    let (_dir, generated) = generate_fixture_full(
+        "simple.hh",
+        "RpcTest",
+        None,
+        false,
+        Some("workrave::core::rpc"),
+    );
+
+    let proto = fs::read_to_string(&generated.proto).unwrap();
+    assert!(proto.contains("package workrave.test;"), "{proto}");
+
+    let header = fs::read_to_string(&generated.adapter_hh).unwrap();
+    assert!(
+        header.contains("namespace workrave::core::rpc\n{"),
+        "{header}"
+    );
+    assert!(
+        header.contains(
+            "class TestServiceServiceImpl final : public ::workrave::test::TestService::Service"
+        ),
+        "{header}"
+    );
+    assert!(
+        header.contains("} // namespace workrave::core::rpc"),
+        "{header}"
+    );
+
+    let source = fs::read_to_string(&generated.adapter_cc).unwrap();
+    assert!(
+        source.contains("namespace workrave::core::rpc\n{"),
+        "{source}"
+    );
+    assert!(source.contains("TestServiceServiceImpl::Ping"), "{source}");
+    assert!(
+        source.contains("} // namespace workrave::core::rpc"),
+        "{source}"
     );
 }
 
@@ -290,7 +421,7 @@ fn generates_keyed_service_with_instance_registry() {
     );
     assert!(
         source_out.contains(
-            "auto &impl_ = registry_.resolve(static_cast<WidgetId>(request->id()));\n\n  ::rpc::EventQueue<::workrave::rpc::ValueChangedEvent> queue;"
+            "auto &impl_ = registry_.resolve(static_cast<WidgetId>(request->id()));\n\n  ::rpc::EventQueue<::workrave::test::ValueChangedEvent> queue;"
         ),
         "{source_out}"
     );
@@ -495,7 +626,8 @@ public:
         out_proto: out_dir.join("BadKey.proto"),
         out_adapter_hh: out_dir.join("BadKeyServiceImpl.hh"),
         out_adapter_cc: out_dir.join("BadKeyServiceImpl.cc"),
-        proto_package: "workrave.rpc".to_string(),
+        proto_package: "workrave.test".to_string(),
+        adapter_namespace: None,
         header_include: None,
         external_annotations: None,
         out_dbus_hh: None,
@@ -732,7 +864,7 @@ fn generates_duration_and_bitmask_parameters() {
     );
     assert!(
         source_out.contains(
-            "impl_.set_timeout(std::chrono::duration_cast<std::chrono::minutes>(rpc::parse_duration(request->duration())));"
+            "impl_.set_timeout(std::chrono::duration_cast<std::chrono::minutes>(::rpc::parse_duration(request->duration())));"
         ),
         "{source_out}"
     );

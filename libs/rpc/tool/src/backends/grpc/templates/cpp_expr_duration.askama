@@ -1,1 +1,0 @@
-std::chrono::duration_cast<{{ view.cxx_type }}>(rpc::parse_duration(request->{{ view.field }}()))

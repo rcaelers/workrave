@@ -1,0 +1,68 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package {{ package }};
+
+{% for e in model.enums %}
+{% if e.canonical_name is not none %}
+// canonical_name: "{{ e.canonical_name }}"
+{% endif %}
+enum {{ e.proto_name }} {
+{% for v in e.values %}
+{% if v.canonical_name is not none %}
+  // canonical_name: "{{ v.canonical_name }}"
+{% endif %}
+  {{ v.proto_name }} = {{ v.number }};
+{% endfor %}
+}
+
+{% endfor %}
+{% for st in model.structs %}
+message {{ st.proto_name }} {
+{% for f in st.fields %}
+  {{ model.types[f.type_id].grpc.spelling }} {{ f.proto_name }} = {{ f.number }};
+{% endfor %}
+}
+
+{% endfor %}
+{% for service in model.interfaces %}
+{% for method in service.methods %}
+message {{ method.rpc_name }}Request {
+{% for f in method.request_fields %}
+  {{ model.types[f.type_id].grpc.spelling }} {{ f.proto_name }} = {{ f.number }};
+{% endfor %}
+}
+
+message {{ method.rpc_name }}Response {
+{% for f in method.response_fields %}
+  {{ model.types[f.type_id].grpc.spelling }} {{ f.proto_name }} = {{ f.number }};
+{% endfor %}
+}
+
+{% endfor %}
+{% for signal in service.signals %}
+message {{ signal.rpc_name }}Request {
+{% for f in signal.request_fields %}
+  {{ model.types[f.type_id].grpc.spelling }} {{ f.proto_name }} = {{ f.number }};
+{% endfor %}
+}
+
+message {{ signal.rpc_name }}Event {
+{% for f in signal.event_fields %}
+  {{ model.types[f.type_id].grpc.spelling }} {{ f.proto_name }} = {{ f.number }};
+{% endfor %}
+}
+
+{% endfor %}
+service {{ service.service_name }} {
+{% for method in service.methods %}
+  rpc {{ method.rpc_name }}({{ method.rpc_name }}Request) returns ({{ method.rpc_name }}Response);
+{% endfor %}
+{% for signal in service.signals %}
+  rpc {{ signal.rpc_name }}({{ signal.rpc_name }}Request) returns (stream {{ signal.rpc_name }}Event);
+{% endfor %}
+}
+
+{% endfor -%}

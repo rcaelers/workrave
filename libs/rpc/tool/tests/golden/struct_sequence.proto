@@ -1,0 +1,104 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave.test;
+
+
+
+message TimerData {
+
+  string bar_text = 1;
+
+  int32 slot = 2;
+
+  uint32 bar_primary_val = 3;
+
+}
+
+
+message MenuItem {
+
+  string text = 1;
+
+  uint32 command = 2;
+
+  uint32 flags = 3;
+
+}
+
+
+
+
+message SetTimerDataRequest {
+
+  TimerData data = 1;
+
+}
+
+message SetTimerDataResponse {
+
+}
+
+
+message GetTimerDataRequest {
+
+}
+
+message GetTimerDataResponse {
+
+  TimerData result = 1;
+
+}
+
+
+message GetMenuRequest {
+
+}
+
+message GetMenuResponse {
+
+  repeated MenuItem out = 1;
+
+}
+
+
+message SetTagsRequest {
+
+  repeated int32 tags = 1;
+
+}
+
+message SetTagsResponse {
+
+}
+
+
+
+message TimerUpdatedRequest {
+
+}
+
+message TimerUpdatedEvent {
+
+  TimerData value = 1;
+
+}
+
+
+service StructSeqService {
+
+  rpc SetTimerData(SetTimerDataRequest) returns (SetTimerDataResponse);
+
+  rpc GetTimerData(GetTimerDataRequest) returns (GetTimerDataResponse);
+
+  rpc GetMenu(GetMenuRequest) returns (GetMenuResponse);
+
+  rpc SetTags(SetTagsRequest) returns (SetTagsResponse);
+
+
+  rpc TimerUpdated(TimerUpdatedRequest) returns (stream TimerUpdatedEvent);
+
+}
+

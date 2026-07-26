@@ -21,6 +21,8 @@ pub mod clang_index;
 pub mod compile_db;
 pub mod external_annotations;
 pub mod ir;
+mod template_engine;
+mod template_model;
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -38,6 +40,10 @@ pub struct GenerateOptions {
     pub out_adapter_hh: PathBuf,
     pub out_adapter_cc: PathBuf,
     pub proto_package: String,
+    /// Optional C++ namespace that wraps only the generated ServiceImpl
+    /// adapter. The protobuf package remains the source of truth for the
+    /// protoc-generated message and gRPC service namespaces.
+    pub adapter_namespace: Option<String>,
     /// Literal text for the generated `#include "..."` of the annotated
     /// header. Defaults to the header's file name.
     pub header_include: Option<String>,
@@ -87,8 +93,6 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
             unit.interfaces.len()
         );
     }
-    let iface = &unit.interfaces[0];
-
     let header_include = opts.header_include.clone().unwrap_or_else(|| {
         opts.header
             .file_name()
@@ -107,6 +111,7 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
         out_adapter_hh: opts.out_adapter_hh.clone(),
         out_adapter_cc: opts.out_adapter_cc.clone(),
         proto_package: opts.proto_package.clone(),
+        adapter_namespace: opts.adapter_namespace.clone(),
     })];
     match (&opts.out_dbus_hh, &opts.out_dbus_cc) {
         (Some(out_hh), Some(out_cc)) => {
@@ -119,10 +124,15 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
         _ => bail!("--out-dbus-hh and --out-dbus-cc must be given together"),
     }
 
+    let model = template_model::GenerationModel::build_with_dbus(
+        &unit,
+        opts.out_dbus_hh.is_some(),
+    )?;
+
     let mut by_backend: Vec<(&'static str, Vec<backend::GeneratedFile>)> = Vec::new();
     for b in &active {
         let files = b
-            .generate(iface, &unit, &header_include)
+            .generate(&model, &header_include)
             .with_context(|| format!("generating {} output for {}", b.name(), opts.header.display()))?;
         for f in &files {
             write_if_changed(&f.path, &f.contents)?;

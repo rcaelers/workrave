@@ -1,0 +1,52 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave.test;
+
+
+
+message MenuItem {
+
+  string text = 1;
+
+  uint32 command = 2;
+
+}
+
+
+
+
+message SetCountersRequest {
+
+  map<string, int32> counters = 1;
+
+}
+
+message SetCountersResponse {
+
+}
+
+
+message GetMenuByActionRequest {
+
+}
+
+message GetMenuByActionResponse {
+
+  map<string, MenuItem> out = 1;
+
+}
+
+
+
+service MapTypesService {
+
+  rpc SetCounters(SetCountersRequest) returns (SetCountersResponse);
+
+  rpc GetMenuByAction(GetMenuByActionRequest) returns (GetMenuByActionResponse);
+
+
+}
+

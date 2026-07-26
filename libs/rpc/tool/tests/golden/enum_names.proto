@@ -1,0 +1,51 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave.test;
+
+
+
+// canonical_name: "operation_mode"
+
+enum OperationMode {
+
+
+  // canonical_name: "normal"
+
+  OPERATION_MODE_NORMAL = 0;
+
+
+  // canonical_name: "suspended"
+
+  OPERATION_MODE_SUSPENDED = 1;
+
+
+  OPERATION_MODE_QUIET = 2;
+
+}
+
+
+
+
+
+message SetOperationModeRequest {
+
+  OperationMode mode = 1;
+
+}
+
+message SetOperationModeResponse {
+
+}
+
+
+
+service EnumNamesService {
+
+  rpc SetOperationMode(SetOperationModeRequest) returns (SetOperationModeResponse);
+
+
+}
+

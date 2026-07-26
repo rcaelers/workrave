@@ -1,1 +1,0 @@
-for (const auto &{{ view.item }} : {{ view.src_expr }}) { {{ view.target_prefix }}add_{{ view.field }}({% if let Some(enum_type) = view.enum_cast %}static_cast<::{{ view.proto_ns }}::{{ enum_type }}>({{ view.item }}){% else %}{{ view.item }}{% endif %}); }

@@ -1,0 +1,78 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave.test;
+
+
+
+message Point {
+
+  int32 x = 1;
+
+  int32 y = 2;
+
+}
+
+
+
+
+message SetPointRequest {
+
+  Point p = 1;
+
+}
+
+message SetPointResponse {
+
+}
+
+
+message GetPointRequest {
+
+}
+
+message GetPointResponse {
+
+  Point result = 1;
+
+}
+
+
+message SetTagsRequest {
+
+  repeated int32 tags = 1;
+
+}
+
+message SetTagsResponse {
+
+}
+
+
+message GetPointsRequest {
+
+}
+
+message GetPointsResponse {
+
+  repeated Point result = 1;
+
+}
+
+
+
+service DBusFixture2Service {
+
+  rpc SetPoint(SetPointRequest) returns (SetPointResponse);
+
+  rpc GetPoint(GetPointRequest) returns (GetPointResponse);
+
+  rpc SetTags(SetTagsRequest) returns (SetTagsResponse);
+
+  rpc GetPoints(GetPointsRequest) returns (GetPointsResponse);
+
+
+}
+

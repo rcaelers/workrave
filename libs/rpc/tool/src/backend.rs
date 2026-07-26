@@ -12,25 +12,29 @@ use std::path::PathBuf;
 
 use anyhow::Result;
 
-use crate::ir::{Interface, Unit};
+use crate::template_model::GenerationModel;
 
 /// One file this backend wants written, relative to nothing in particular —
 /// the path is always supplied by whoever constructed the `Backend`
 /// (ultimately from CLI flags), never invented by the backend itself.
-pub struct GeneratedFile {
+pub(crate) struct GeneratedFile {
     pub path: PathBuf,
     pub contents: String,
 }
 
-pub trait Backend {
+pub(crate) trait Backend {
     /// Short, stable identifier for logging and error messages, e.g.
     /// "grpc", "dbus" — not used for any file naming.
     fn name(&self) -> &'static str;
 
-    /// Renders this backend's output for the single annotated interface in
-    /// `unit` (`clang-rpc-gen` is one-header-one-interface in v1; see
-    /// `lib.rs::generate`). `header_include` is the already-resolved literal
+    /// Renders this backend's output from the single immutable semantic model
+    /// built by the driver (`clang-rpc-gen` is one-header-one-interface in v1;
+    /// see `lib.rs::generate`). `header_include` is the already-resolved literal
     /// text for the generated `#include "..."` of the original annotated
     /// header, shared by every backend so they don't each re-derive it.
-    fn generate(&self, iface: &Interface, unit: &Unit, header_include: &str) -> Result<Vec<GeneratedFile>>;
+    fn generate(
+        &self,
+        model: &GenerationModel,
+        header_include: &str,
+    ) -> Result<Vec<GeneratedFile>>;
 }

@@ -1,1 +1,0 @@
-for (const auto &{{ view.item }} : {{ view.src_expr }}) { auto *{{ view.elem_var }} = {{ view.target_prefix }}add_{{ view.field }}(); {{ view.inner }} }

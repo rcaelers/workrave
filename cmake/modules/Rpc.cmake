@@ -8,14 +8,14 @@ endif()
 
 file(GLOB_RECURSE RPC_TOOL_SOURCES CONFIGURE_DEPENDS
   ${RPC_TOOL_DIR}/src/*.rs
-  ${RPC_TOOL_DIR}/src/templates/*
+  ${RPC_TOOL_DIR}/src/*.jinja
   )
 
 add_custom_command(
   OUTPUT ${RPC_TOOL_BIN}
   COMMAND ${CARGO} build --release --locked
   WORKING_DIRECTORY ${RPC_TOOL_DIR}
-  DEPENDS ${RPC_TOOL_SOURCES} ${RPC_TOOL_DIR}/Cargo.toml ${RPC_TOOL_DIR}/askama.toml
+  DEPENDS ${RPC_TOOL_SOURCES} ${RPC_TOOL_DIR}/Cargo.toml
   COMMENT "Building clang-rpc-gen (Rust)"
   )
 
@@ -23,7 +23,7 @@ add_custom_target(clang_rpc_gen_tool ALL DEPENDS ${RPC_TOOL_BIN})
 
 # rpc_generate_source(HEADER DIRECTORY NAME
 #                      [ANCHOR_SOURCE <path>] [PROTO_PACKAGE <pkg>] [HEADER_INCLUDE <literal>]
-#                      [ANNOTATIONS <path>] [DBUS])
+#                      [ADAPTER_NAMESPACE <cxx-ns>] [ANNOTATIONS <path>] [DBUS])
 #
 # Runs clang-rpc-gen against an @rpc-annotated HEADER to produce
 # DIRECTORY/NAME.proto + DIRECTORY/NAME ServiceImpl.hh/.cc, then runs the
@@ -47,6 +47,11 @@ add_custom_target(clang_rpc_gen_tool ALL DEPENDS ${RPC_TOOL_BIN})
 # targets linking against that library, not just the library itself, can
 # compile the generated adapter too).
 #
+# ADAPTER_NAMESPACE wraps the generated ServiceImpl class in the specified
+# C++ namespace (for example "workrave::core::rpc"). It deliberately does
+# not affect the protobuf package, wire endpoint, or protoc-generated C++
+# message/service namespaces; those continue to follow PROTO_PACKAGE.
+#
 # ANNOTATIONS points at a file supplying `@rpc` tags by fully-qualified name
 # (see libs/rpc/tool/src/external_annotations.rs for the format) — for a
 # HEADER that can't carry annotation comments of its own, e.g. third-party or
@@ -63,12 +68,12 @@ add_custom_target(clang_rpc_gen_tool ALL DEPENDS ${RPC_TOOL_BIN})
 # than something wired into the real app.
 macro(rpc_generate_source HEADER DIRECTORY NAME)
   if (HAVE_RPC)
-    cmake_parse_arguments(_rpc "DBUS" "ANCHOR_SOURCE;PROTO_PACKAGE;HEADER_INCLUDE;ANNOTATIONS" "" ${ARGN})
+    cmake_parse_arguments(_rpc "DBUS" "ANCHOR_SOURCE;PROTO_PACKAGE;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS" "" ${ARGN})
 
     if (_rpc_PROTO_PACKAGE)
       set(_rpc_proto_package ${_rpc_PROTO_PACKAGE})
     else()
-      set(_rpc_proto_package "workrave.rpc")
+      set(_rpc_proto_package "workrave")
     endif()
 
     if (_rpc_ANCHOR_SOURCE)
@@ -86,6 +91,11 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
     set(_rpc_header_include_args "")
     if (_rpc_HEADER_INCLUDE)
       set(_rpc_header_include_args --header-include ${_rpc_HEADER_INCLUDE})
+    endif()
+
+    set(_rpc_adapter_namespace_args "")
+    if (_rpc_ADAPTER_NAMESPACE)
+      set(_rpc_adapter_namespace_args --adapter-namespace ${_rpc_ADAPTER_NAMESPACE})
     endif()
 
     set(_rpc_annotations_args "")
@@ -115,6 +125,7 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
               --out-adapter-cc ${_rpc_adapter_cc}
               --proto-package ${_rpc_proto_package}
               ${_rpc_header_include_args}
+              ${_rpc_adapter_namespace_args}
               ${_rpc_annotations_args}
               ${_rpc_dbus_args}
       DEPENDS ${HEADER} ${_rpc_anchor_source} ${RPC_TOOL_BIN} ${_rpc_annotations_depends}

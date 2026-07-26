@@ -1,1 +1,0 @@
-reinterpret_cast<{{ view.cxx_type }}>(request->{{ view.field }}().data())

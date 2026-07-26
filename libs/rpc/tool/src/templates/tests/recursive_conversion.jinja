@@ -1,0 +1,5 @@
+{% from "conversion_macros.jinja" import decode, encode %}
+DECODE:
+{{ decode(model, "root", "request->root()", "local_root") }}
+ENCODE:
+{{ encode(model, "root", "local_root", "response->", "root") }}

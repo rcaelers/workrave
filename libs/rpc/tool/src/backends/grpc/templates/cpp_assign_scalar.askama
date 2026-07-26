@@ -1,1 +1,0 @@
-{{ view.dest }} = {% if let Some(enum_type) = view.enum_cast %}static_cast<{{ enum_type }}>({{ view.wire }}){% else %}{{ view.wire }}{% endif %};

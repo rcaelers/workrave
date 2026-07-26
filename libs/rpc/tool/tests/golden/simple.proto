@@ -1,0 +1,117 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave.test;
+
+
+
+enum TestMode {
+
+
+  TEST_MODE_IDLE = 0;
+
+
+  TEST_MODE_ACTIVE = 1;
+
+}
+
+
+
+
+
+message PingRequest {
+
+  string message = 1;
+
+}
+
+message PingResponse {
+
+  string result = 1;
+
+}
+
+
+message AddRequest {
+
+  int32 a = 1;
+
+  int32 b = 2;
+
+}
+
+message AddResponse {
+
+  int32 result = 1;
+
+}
+
+
+message SetFlagRequest {
+
+  bool value = 1;
+
+}
+
+message SetFlagResponse {
+
+}
+
+
+message GetModeRequest {
+
+}
+
+message GetModeResponse {
+
+  TestMode mode = 1;
+
+  bool result = 2;
+
+}
+
+
+message GreetRequest {
+
+  string name = 1;
+
+}
+
+message GreetResponse {
+
+  string result = 1;
+
+}
+
+
+
+message ModeChangedRequest {
+
+}
+
+message ModeChangedEvent {
+
+  TestMode value = 1;
+
+}
+
+
+service TestService {
+
+  rpc Ping(PingRequest) returns (PingResponse);
+
+  rpc Add(AddRequest) returns (AddResponse);
+
+  rpc SetFlag(SetFlagRequest) returns (SetFlagResponse);
+
+  rpc GetMode(GetModeRequest) returns (GetModeResponse);
+
+  rpc Greet(GreetRequest) returns (GreetResponse);
+
+
+  rpc ModeChanged(ModeChangedRequest) returns (stream ModeChangedEvent);
+
+}
+

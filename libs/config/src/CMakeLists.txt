@@ -41,6 +41,7 @@ if (HAVE_RPC)
   rpc_generate_source(${CMAKE_SOURCE_DIR}/libs/config/include/config/IConfigurator.hh ${CMAKE_CURRENT_BINARY_DIR} RpcConfig
     ANCHOR_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/Configurator.cc
     HEADER_INCLUDE "config/IConfigurator.hh"
+    ADAPTER_NAMESPACE workrave::config::rpc
     DBUS)
 
   # Separate, opt-in static library — see libs/corenext/src/CMakeLists.txt
@@ -74,4 +75,3 @@ if (HAVE_RPC)
     target_include_directories(workrave-libs-config-dbus-comparison PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
   endif()
 endif()
-

@@ -162,8 +162,13 @@ clang-rpc-gen \
   --out-adapter-hh build/AnnotatedServiceImpl.hh \
   --out-adapter-cc build/AnnotatedServiceImpl.cc \
   --proto-package your.proto.package \
+  --adapter-namespace your::adapter::namespace \
   --annotations path/to/annotations.rpc   # optional, see "Out-of-band annotations"
 ```
+
+`--adapter-namespace` is optional and wraps only the generated
+`<Service>ServiceImpl` class. It does not change the protobuf package, wire
+service name, or protoc-generated C++ namespace.
 
 `--anchor-source` is a `.cc`/`.cpp` that `#include`s `--header`, used to look
 up its real compiler flags in `--compile-commands` (headers themselves are
@@ -193,5 +198,11 @@ construct (`if consteval`) end to end as a regression check for this.
 This crate has no dependency on any particular consumer project — everything
 project-specific comes in through CLI flags. See `src/lib.rs` for the
 library API (`generate()`), `src/clang_index.rs` for the libclang traversal,
-`src/ir.rs` for the parsed model, and `src/proto_gen.rs`/`src/cpp_gen.rs` for
-the two code generators (both askama-templated, see `src/templates/`).
+`src/ir.rs` for the parsed model, `src/template_model.rs` for the owned
+semantic context exposed to templates, and `src/backends/` for the artifact
+renderers. Each generated file is rendered once from an embedded MiniJinja
+root template. Iteration over interfaces, methods, parameters, signals, and
+types lives in those templates; recursive gRPC wire conversion lives in
+`service_impl_macros.jinja`. Rust remains responsible for parsing, semantic
+validation, deterministic type lookup, and DBus wire signatures, and does not
+construct generated statements or render per-method/per-argument fragments.

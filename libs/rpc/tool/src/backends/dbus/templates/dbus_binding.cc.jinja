@@ -1,0 +1,234 @@
+{%- from "dbus/dbus_marshalling.jinja" import marshall_type -%}
+{%- set service = model.interfaces[0] -%}
+{%- set dbus = service.dbus -%}
+{%- set ident = dbus.name | replace(".", "_") -%}
+{%- set stub_name = ident ~ "_Stub" -%}
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen's DBus backend from an annotated C++ header.
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include <array>
+#include <chrono>
+#include <list>
+#include <map>
+#include <string>
+#include <string_view>
+#include <vector>
+
+#include "dbus/DBusBindingQt.hh"
+#include "dbus/DBusException.hh"
+{% if dbus.has_duration %}
+#include "rpc/Duration.hh"
+{% endif %}
+#include "{{ dbus_header_filename }}"
+
+using namespace workrave::dbus;
+
+{% for custom in dbus.custom_types %}
+{{ marshall_type(custom, model) }}
+{% endfor %}
+class {{ stub_name }} : public DBusBindingQt, public {{ ident }}
+{
+private:
+  using DBusMethodPointer = void ({{ stub_name }}::*)(void *object, const QDBusMessage &message, const QDBusConnection &connection);
+
+  struct DBusMethod
+  {
+    std::string_view name;
+    DBusMethodPointer fn;
+  };
+
+  bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) override;
+
+  std::string_view get_interface_introspect() override
+  {
+    return interface_introspect;
+  }
+
+public:
+  explicit {{ stub_name }}(std::shared_ptr<IDBus> dbus) : DBusBindingQt(std::move(dbus)) {}
+  ~{{ stub_name }}() override = default;
+
+{% for signal in service.signals %}
+  void {{ signal.rpc_name }}(const std::string &path{% for field in signal.event_fields %}, {{ model.types[field.type_id].cxx.spelling }} {{ field.cxx_name }}{% endfor %}) override;
+{% endfor %}
+
+private:
+{% for method in service.methods %}
+  void {{ method.rpc_name }}(void *object, const QDBusMessage &message, const QDBusConnection &connection);
+{% endfor %}
+
+  static constexpr std::array<DBusMethod, {{ service.methods | length }}> method_table =
+  { {
+{% for method in service.methods %}
+      {.name = "{{ method.rpc_name }}", .fn = &{{ stub_name }}::{{ method.rpc_name }}},
+{% endfor %}
+  } };
+
+  static constexpr std::string_view interface_introspect =
+
+  "  <interface name=\"{{ dbus.name }}\">\n"
+{% for method in service.methods %}
+  "\n"
+
+  "    <method name=\"{{ method.rpc_name }}\">\n"
+{% for param in method.params %}
+  "\n"
+
+  "      <arg type=\"{{ model.types[param.type_id].dbus_signature }}\" name=\"{{ param.proto_field }}\" direction=\"{{ param.direction | replace("_", "") }}\" />\n"
+{% endfor -%}
+{% if method.return_value is not none %}
+  "\n"
+
+  "      <arg type=\"{{ model.types[method.return_value.type_id].dbus_signature }}\" name=\"{{ method.return_value.proto_field }}\" direction=\"out\" />\n"
+{% endif %}
+  "\n"
+
+  "    </method>\n"
+{% endfor %}
+  "\n"
+{% for signal in service.signals %}
+  "\n"
+
+  "    <signal name=\"{{ signal.rpc_name }}\">\n"
+{% for field in signal.event_fields %}
+  "\n"
+
+  "      <arg type=\"{{ model.types[field.type_id].dbus_signature }}\" name=\"{{ field.proto_name }}\" />\n"
+{% endfor %}
+  "\n"
+
+  "    </signal>\n"
+{% endfor %}
+  "\n"
+
+  "  </interface>\n"
+
+;
+};
+
+{{ ident }} *{{ ident }}::instance(std::shared_ptr<::workrave::dbus::IDBus> dbus)
+{
+  {{ stub_name }} *iface = nullptr;
+  DBusBinding *binding = dbus->find_binding("{{ dbus.name }}");
+  if (binding != nullptr)
+    {
+      iface = dynamic_cast<{{ stub_name }} *>(binding);
+    }
+  return iface;
+}
+
+bool
+{{ stub_name }}::call(void *object, const QDBusMessage &message, const QDBusConnection &connection)
+{
+  std::string method_name = message.member().toStdString();
+  constexpr std::array<DBusMethod, {{ service.methods | length }}> table = method_table;
+  for (const auto &method : table)
+    {
+      if (method_name == method.name)
+        {
+          DBusMethodPointer ptr = method.fn;
+          if (ptr != nullptr)
+            {
+              (this->*ptr)(object, message, connection);
+            }
+          return true;
+        }
+    }
+  throw DBusRemoteException()
+    << message_info("Unknown method")
+    << error_code_info(DBUS_ERROR_UNKNOWN_METHOD)
+    << method_info(method_name)
+    << interface_info("{{ dbus.name }}");
+}
+
+{% for method in service.methods %}
+void
+{{ stub_name }}::{{ method.rpc_name }}(void *object, const QDBusMessage &message, const QDBusConnection &connection)
+{
+  try
+    {
+      auto *dbus_object = static_cast<{{ service.cxx_qualified_class }} *>(object);
+
+{% for param in method.params %}
+      {{ model.types[param.type_id].cxx.base_spelling }} p_{{ param.cxx_name }}{};
+{% endfor %}
+{% if method.return_value is not none %}
+      {{ model.types[method.return_value.type_id].cxx.base_spelling }} p_{{ method.return_value.proto_field }}{};
+{% endif %}
+
+      auto num_in_args = message.arguments().size();
+      if (num_in_args != {{ method.dbus_num_in }})
+        {
+          throw workrave::dbus::DBusRemoteException()
+            << workrave::dbus::message_info("Incorrect number of in-parameters")
+            << workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS)
+            << workrave::dbus::method_info("{{ method.rpc_name }}")
+            << workrave::dbus::interface_info("{{ dbus.name }}");
+        }
+
+{% for param in method.params %}
+{% if param.dbus_arg_index is not none %}
+      p_{{ param.cxx_name }} = DBusMarshall<{{ model.types[param.type_id].cxx.base_spelling }}>::convert(message.arguments().at({{ param.dbus_arg_index }}));
+{% endif %}
+{% endfor %}
+
+{% if method.return_value is not none %}
+      p_{{ method.return_value.proto_field }} = dbus_object->{{ method.cxx_symbol }}({% for param in method.params %}{% if not loop.first %}, {% endif %}{% if model.types[param.type_id].cxx.is_pointer %}&{% endif %}p_{{ param.cxx_name }}{% endfor %});
+{% else %}
+      dbus_object->{{ method.cxx_symbol }}({% for param in method.params %}{% if not loop.first %}, {% endif %}{% if model.types[param.type_id].cxx.is_pointer %}&{% endif %}p_{{ param.cxx_name }}{% endfor %});
+{% endif %}
+
+      QDBusMessage reply = message.createReply();
+{% if method.return_value is not none %}
+      reply << DBusMarshall<{{ model.types[method.return_value.type_id].cxx.base_spelling }}>::convert(p_{{ method.return_value.proto_field }});
+{% endif %}
+{% for param in method.params %}
+{% if param.direction == "out" %}
+      reply << DBusMarshall<{{ model.types[param.type_id].cxx.base_spelling }}>::convert(p_{{ param.cxx_name }});
+{% endif %}
+{% endfor %}
+
+      bool rc = connection.send(reply);
+      if (!rc)
+        {
+          throw workrave::dbus::DBusRemoteException()
+            << workrave::dbus::message_info("Failed to send reply")
+            << workrave::dbus::error_code_info(DBUS_ERROR_FAILED)
+            << workrave::dbus::method_info("{{ method.rpc_name }}")
+            << workrave::dbus::interface_info("{{ dbus.name }}");
+        }
+    }
+  catch (const DBusRemoteException &e)
+    {
+      e << method_info("{{ method.rpc_name }}") << interface_info("{{ dbus.name }}");
+      throw;
+    }
+}
+
+{% endfor %}
+{% for signal in service.signals %}
+void
+{{ stub_name }}::{{ signal.rpc_name }}(const std::string &path{% for field in signal.event_fields %}, {{ model.types[field.type_id].cxx.spelling }} {{ field.cxx_name }}{% endfor %})
+{
+  QDBusMessage sig = QDBusMessage::createSignal(QString::fromStdString(path), "{{ dbus.name }}", "{{ signal.rpc_name }}");
+{% for field in signal.event_fields %}
+  sig << DBusMarshall<{{ model.types[field.type_id].cxx.spelling }}>::convert({{ field.cxx_name }});
+{% endfor %}
+  IDBusPrivateQt::Ptr priv = std::dynamic_pointer_cast<IDBusPrivateQt>(dbus);
+  priv->get_connection().send(sig);
+}
+
+{% endfor %}
+void init_{{ ident }}(std::shared_ptr<IDBus> dbus)
+{
+  dbus->register_binding("{{ dbus.name }}", new {{ stub_name }}(dbus));
+
+{% for custom in dbus.custom_types -%}
+{%- if custom.kind == "enum" %}
+  qDBusRegisterMetaType<{{ model.types[custom.type_id].cxx.spelling }}>();
+{% endif -%}
+{%- endfor %}
+}{{- "" -}}

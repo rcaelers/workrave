@@ -1,0 +1,53 @@
+{%- macro decode(model, type_id, source, target, depth=0) -%}
+{%- set ty = model.types[type_id] -%}
+{%- if ty.kind == "struct" -%}
+{%- for field in ty.fields %}
+{{ decode(model, field.type_id, source ~ "." ~ field.proto_name ~ "()", target ~ "." ~ field.cxx_name, depth) }}
+{%- endfor -%}
+{%- elif ty.kind == "sequence" %}
+for (const auto &rpc_wire_{{ depth }} : {{ source }})
+  {
+    {{ model.types[ty.element_type].cxx_type }} rpc_item_{{ depth }}{};
+{{ decode(model, ty.element_type, "rpc_wire_" ~ depth, "rpc_item_" ~ depth, depth + 1) | indent(4, true) }}
+    {{ target }}.push_back(rpc_item_{{ depth }});
+  }
+{%- elif ty.kind == "map" %}
+for (const auto &rpc_kv_{{ depth }} : {{ source }})
+  {
+    {{ model.types[ty.value_type].cxx_type }} rpc_value_{{ depth }}{};
+{{ decode(model, ty.value_type, "rpc_kv_" ~ depth ~ ".second", "rpc_value_" ~ depth, depth + 1) | indent(4, true) }}
+    {{ target }}.emplace(rpc_kv_{{ depth }}.first, rpc_value_{{ depth }});
+  }
+{%- else %}
+{{ target }} = {{ source }};
+{%- endif -%}
+{%- endmacro %}
+
+{%- macro encode(model, type_id, source, target, field="", depth=0) -%}
+{%- set ty = model.types[type_id] -%}
+{%- if ty.kind == "struct" -%}
+{%- if field %}
+auto *rpc_msg_{{ depth }} = {{ target }}mutable_{{ field }}();
+{%- set child_target = "rpc_msg_" ~ depth ~ "->" -%}
+{%- else -%}
+{%- set child_target = target -%}
+{%- endif -%}
+{%- for field in ty.fields %}
+{{ encode(model, field.type_id, source ~ "." ~ field.cxx_name, child_target, field.proto_name, depth + 1) }}
+{%- endfor -%}
+{%- elif ty.kind == "sequence" %}
+for (const auto &rpc_item_{{ depth }} : {{ source }})
+  {
+    auto *rpc_wire_{{ depth }} = {{ target }}add_{{ field }}();
+{{ encode(model, ty.element_type, "rpc_item_" ~ depth, "rpc_wire_" ~ depth ~ "->", "", depth + 1) | indent(4, true) }}
+  }
+{%- elif ty.kind == "map" %}
+for (const auto &rpc_kv_{{ depth }} : {{ source }})
+  {
+    auto &rpc_wire_{{ depth }} = (*{{ target }}mutable_{{ field }}())[rpc_kv_{{ depth }}.first];
+{{ encode(model, ty.value_type, "rpc_kv_" ~ depth ~ ".second", "rpc_wire_" ~ depth ~ ".", "", depth + 1) | indent(4, true) }}
+  }
+{%- else %}
+{{ target }}set_{{ field }}({{ source }});
+{%- endif -%}
+{%- endmacro -%}

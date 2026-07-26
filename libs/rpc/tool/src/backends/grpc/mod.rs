@@ -11,13 +11,14 @@ use std::path::PathBuf;
 use anyhow::{Context, Result};
 
 use crate::backend::{Backend, GeneratedFile};
-use crate::ir::{Interface, Unit};
+use crate::template_model::GenerationModel;
 
 pub struct GrpcBackend {
     pub out_proto: PathBuf,
     pub out_adapter_hh: PathBuf,
     pub out_adapter_cc: PathBuf,
     pub proto_package: String,
+    pub adapter_namespace: Option<String>,
 }
 
 impl Backend for GrpcBackend {
@@ -25,7 +26,11 @@ impl Backend for GrpcBackend {
         "grpc"
     }
 
-    fn generate(&self, iface: &Interface, unit: &Unit, header_include: &str) -> Result<Vec<GeneratedFile>> {
+    fn generate(
+        &self,
+        model: &GenerationModel,
+        header_include: &str,
+    ) -> Result<Vec<GeneratedFile>> {
         let proto_basename = self
             .out_proto
             .file_stem()
@@ -39,11 +44,11 @@ impl Backend for GrpcBackend {
             .to_string_lossy()
             .to_string();
 
-        let proto_text = proto_gen::render_proto(unit, &self.proto_package)?;
+        let proto_text = proto_gen::render_proto(model, &self.proto_package)?;
         let adapter = cpp_gen::render_adapter(
-            iface,
-            unit,
+            model,
             &self.proto_package,
+            self.adapter_namespace.as_deref(),
             header_include,
             &proto_basename,
             &adapter_header_filename,

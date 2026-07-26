@@ -1,0 +1,98 @@
+{# Presentation helpers for the gRPC adapter source. All recursive traversal
+   of semantic types lives here; the Rust renderer invokes only the root file. #}
+
+{%- macro request_expr(model, param) -%}
+{%- set ty = model.types[param.type_id] -%}
+{%- if param.role.role == "absorbed_size" -%}
+static_cast<{{ ty.cxx.spelling }}>(request->{{ param.role.owner_field }}().size())
+{%- elif ty.shape.kind == "enum" -%}
+static_cast<{{ ty.cxx.base_spelling }}>(request->{{ param.proto_field }}())
+{%- elif ty.shape.kind == "c_string" -%}
+request->{{ param.proto_field }}().c_str()
+{%- elif ty.shape.kind == "bytes" -%}
+reinterpret_cast<{{ ty.cxx.spelling }}>(request->{{ param.proto_field }}().data())
+{%- elif ty.shape.kind == "duration" -%}
+std::chrono::duration_cast<{{ ty.cxx.spelling }}>(::rpc::parse_duration(request->{{ param.proto_field }}()))
+{%- else -%}
+request->{{ param.proto_field }}()
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro call_arg(model, param) -%}
+{%- set ty = model.types[param.type_id] -%}
+{%- if param.role.role == "absorbed_size" -%}
+{{ request_expr(model, param) }}
+{%- elif param.direction == "in" and ty.shape.kind in ["scalar", "enum", "c_string", "bytes", "duration"] -%}
+{{ request_expr(model, param) }}
+{%- else -%}
+{% if ty.cxx.is_pointer %}&{% endif %}local_{{ param.cxx_name }}
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro decode(model, type_id, source, target, depth=0) -%}
+{%- set ty = model.types[type_id] -%}
+{%- if ty.shape.kind == "struct" -%}
+{%- for field in ty.shape.fields -%}
+{{ decode(model, field.type_id, source ~ "." ~ field.proto_name ~ "()", target ~ "." ~ field.cxx_name, depth) }}{% if not loop.last %}
+{% endif %}
+{%- endfor -%}
+{%- elif ty.shape.kind == "sequence" -%}
+{%- set element = model.types[ty.shape.element_type] -%}
+for (const auto &rpc_wire_{{ depth }} : {{ source }}) { {{ element.cxx.spelling }} rpc_item_{{ depth }}{}; {{ decode(model, ty.shape.element_type, "rpc_wire_" ~ depth, "rpc_item_" ~ depth, depth + 1) | replace("\n", " ") }} {{ target }}.push_back(rpc_item_{{ depth }}); }
+{%- elif ty.shape.kind == "map" -%}
+{%- set value = model.types[ty.shape.value_type] -%}
+for (const auto &rpc_kv_{{ depth }} : {{ source }}) { {{ value.cxx.spelling }} rpc_val_{{ depth }}{}; {{ decode(model, ty.shape.value_type, "rpc_kv_" ~ depth ~ ".second", "rpc_val_" ~ depth, depth + 1) | replace("\n", " ") }} {{ target }}.emplace(rpc_kv_{{ depth }}.first, rpc_val_{{ depth }}); }
+{%- else -%}
+{{ target }} = {% if ty.shape.kind == "enum" %}static_cast<{{ ty.cxx.spelling }}>({{ source }}){% else %}{{ source }}{% endif %};
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro encode_fields(model, fields, source, target, proto_cpp_ns, depth) -%}
+{%- for field in fields -%}
+{{ encode(model, field.type_id, source ~ "." ~ field.cxx_name, target, field.proto_name, proto_cpp_ns, depth) | replace("\n", " ") }}{% if not loop.last %} {% endif %}
+{%- endfor -%}
+{%- endmacro -%}
+
+{%- macro encode(model, type_id, source, target, field, proto_cpp_ns, depth=0) -%}
+{%- set ty = model.types[type_id] -%}
+{%- if ty.shape.kind == "struct" -%}
+auto *rpc_msg_{{ depth }} = {{ target }}mutable_{{ field }}();
+{{ encode_fields(model, ty.shape.fields, source, "rpc_msg_" ~ depth ~ "->", proto_cpp_ns, depth + 1) }}
+{%- elif ty.shape.kind == "sequence" -%}
+{%- set element = model.types[ty.shape.element_type] -%}
+{%- if element.shape.kind == "struct" -%}
+for (const auto &rpc_item_{{ depth }} : {{ source }}) { auto *rpc_elem_{{ depth }} = {{ target }}add_{{ field }}(); {{ encode_fields(model, element.shape.fields, "rpc_item_" ~ depth, "rpc_elem_" ~ depth ~ "->", proto_cpp_ns, depth + 1) }} }
+{%- else -%}
+for (const auto &rpc_item_{{ depth }} : {{ source }}) { {{ target }}add_{{ field }}({% if element.shape.kind == "enum" %}static_cast<::{{ proto_cpp_ns }}::{{ element.shape.proto_name }}>(rpc_item_{{ depth }}){% else %}rpc_item_{{ depth }}{% endif %}); }
+{%- endif -%}
+{%- elif ty.shape.kind == "map" -%}
+{%- set value = model.types[ty.shape.value_type] -%}
+{%- if value.shape.kind == "struct" -%}
+for (const auto &rpc_kv_{{ depth }} : {{ source }}) { auto &rpc_map_val_{{ depth }} = (*{{ target }}mutable_{{ field }}())[rpc_kv_{{ depth }}.first]; {{ encode_fields(model, value.shape.fields, "rpc_kv_" ~ depth ~ ".second", "rpc_map_val_" ~ depth ~ ".", proto_cpp_ns, depth + 1) }} }
+{%- else -%}
+for (const auto &rpc_kv_{{ depth }} : {{ source }}) { (*{{ target }}mutable_{{ field }}())[rpc_kv_{{ depth }}.first] = {% if value.shape.kind == "enum" %}static_cast<::{{ proto_cpp_ns }}::{{ value.shape.proto_name }}>(rpc_kv_{{ depth }}.second){% else %}rpc_kv_{{ depth }}.second{% endif %}; }
+{%- endif -%}
+{%- else -%}
+{{ target }}set_{{ field }}({% if ty.shape.kind == "enum" %}static_cast<::{{ proto_cpp_ns }}::{{ ty.shape.proto_name }}>({{ source }}){% else %}{{ source }}{% endif %});
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro prepare_param(model, param) -%}
+{%- set ty = model.types[param.type_id] -%}
+{%- if param.role.role == "value" -%}
+{%- if param.direction == "in" -%}
+{%- if ty.shape.kind == "bitmask" -%}
+{{ ty.cxx.spelling }} local_{{ param.cxx_name }};
+for (int i = 0; i < request->{{ param.proto_field }}_size(); ++i) { local_{{ param.cxx_name }} |= static_cast<{{ ty.shape.enum_cxx_type }}>(request->{{ param.proto_field }}(i)); }
+{%- elif ty.shape.kind in ["struct", "sequence", "map"] -%}
+{{ ty.cxx.base_spelling }} local_{{ param.cxx_name }}{};
+{{ decode(model, param.type_id, "request->" ~ param.proto_field ~ "()", "local_" ~ param.cxx_name) }}
+{%- endif -%}
+{%- else -%}
+{{ ty.cxx.base_spelling }} local_{{ param.cxx_name }}{% if param.direction == "in_out" and ty.shape.kind in ["scalar", "enum"] %} = {{ request_expr(model, param) }}{% else %}{}{% endif %};
+{%- if param.direction == "in_out" and ty.shape.kind in ["struct", "sequence", "map"] -%}
+{{ decode(model, param.type_id, "request->" ~ param.proto_field ~ "()", "local_" ~ param.cxx_name) }}
+{%- endif -%}
+{%- endif -%}
+{%- endif -%}
+{%- endmacro -%}

@@ -1,1 +1,0 @@
-static_cast<{{ view.cxx_type }}>(request->{{ view.owner }}().size())

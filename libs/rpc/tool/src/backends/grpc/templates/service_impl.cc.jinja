@@ -1,0 +1,91 @@
+{%- from "grpc/service_impl_macros.jinja" import call_arg, encode, prepare_param -%}
+{%- set service = model.interfaces[0] -%}
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+#include "{{ adapter_header_filename }}"
+
+#include <exception>
+{% if has_duration %}
+#include "rpc/Duration.hh"
+{% endif %}
+
+{% if adapter_namespace %}
+namespace {{ adapter_namespace }}
+{
+{% endif -%}
+{% for method in service.methods %}
+::grpc::Status {{ impl_class_name }}::{{ method.rpc_name }}(::grpc::ServerContext * /*context*/,
+                                                            const ::{{ proto_cpp_ns }}::{{ method.rpc_name }}Request *request,
+                                                            ::{{ proto_cpp_ns }}::{{ method.rpc_name }}Response *response)
+{
+  try
+    {
+{% if service.keyed_by is not none %}
+      auto &impl_ = registry_.resolve(static_cast<{{ model.types[service.keyed_by.type_id].cxx.base_spelling }}>(request->id()));
+{% endif %}
+{% for param in method.params -%}
+{%- set preparation = prepare_param(model, param) -%}
+{%- if preparation %}
+{{ preparation | replace("\n", "\n\n") | indent(6, true) }}
+{% endif -%}
+{%- endfor %}
+{% if method.return_value is not none %}
+      auto rpc_result = impl_.{{ method.cxx_symbol }}({% for param in method.params %}{% if not loop.first %}, {% endif %}{{ call_arg(model, param) }}{% endfor %});
+
+{{ encode(model, method.return_value.type_id, "rpc_result", "response->", method.return_value.proto_field, proto_cpp_ns) | replace("\n", "\n\n") | indent(6, true) }}
+
+{% else %}
+      impl_.{{ method.cxx_symbol }}({% for param in method.params %}{% if not loop.first %}, {% endif %}{{ call_arg(model, param) }}{% endfor %});
+{% endif %}
+{% for param in method.params -%}
+{%- if param.role.role == "value" and param.direction in ["out", "in_out"] %}
+{{ encode(model, param.type_id, "local_" ~ param.cxx_name, "response->", param.proto_field, proto_cpp_ns) | replace("\n", "\n\n") | indent(6, true) }}
+{% endif -%}
+{%- endfor %}
+    }
+  catch (const std::exception &e)
+    {
+      return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, e.what());
+    }
+  return ::grpc::Status::OK;
+}
+
+{% endfor %}
+{% for signal in service.signals %}
+::grpc::Status {{ impl_class_name }}::{{ signal.rpc_name }}(::grpc::ServerContext *context,
+                                                            const ::{{ proto_cpp_ns }}::{{ signal.rpc_name }}Request *{% if service.keyed_by is not none %}request{% else %}/*request*/{% endif %},
+                                                            ::grpc::ServerWriter<::{{ proto_cpp_ns }}::{{ signal.rpc_name }}Event> *writer)
+{
+{% if service.keyed_by is not none %}
+  auto &impl_ = registry_.resolve(static_cast<{{ model.types[service.keyed_by.type_id].cxx.base_spelling }}>(request->id()));
+{% endif %}
+  ::rpc::EventQueue<::{{ proto_cpp_ns }}::{{ signal.rpc_name }}Event> queue;
+  auto connection = impl_.{{ signal.cxx_symbol }}().connect(
+    [&queue]({% for field in signal.event_fields %}{% if not loop.first %}, {% endif %}{{ model.types[field.type_id].cxx.spelling }} {{ field.cxx_name }}{% endfor %})
+    {
+      ::{{ proto_cpp_ns }}::{{ signal.rpc_name }}Event event;
+{% for field in signal.event_fields %}
+{{ encode(model, field.type_id, field.cxx_name, "event.", field.proto_name, proto_cpp_ns) | replace("\n", "\n\n") | indent(6, true) }}
+{% endfor %}
+      queue.push(event);
+    });
+
+  ::{{ proto_cpp_ns }}::{{ signal.rpc_name }}Event event;
+  while (queue.wait_and_pop(event, context))
+    {
+      if (!writer->Write(event))
+        {
+          break;
+        }
+    }
+
+  connection.disconnect();
+  return ::grpc::Status::OK;
+}
+
+{% endfor -%}
+{% if adapter_namespace %}
+
+} // namespace {{ adapter_namespace }}
+{% endif -%}

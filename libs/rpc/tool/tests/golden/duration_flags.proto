@@ -1,0 +1,58 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave.test;
+
+
+
+enum Perm {
+
+
+  PERM_READ = 0;
+
+
+  PERM_WRITE = 1;
+
+
+  PERM_EXECUTE = 2;
+
+}
+
+
+
+
+
+message SetTimeoutRequest {
+
+  string duration = 1;
+
+}
+
+message SetTimeoutResponse {
+
+}
+
+
+message SetPermissionsRequest {
+
+  repeated Perm perms = 1;
+
+}
+
+message SetPermissionsResponse {
+
+}
+
+
+
+service DurationFlagsService {
+
+  rpc SetTimeout(SetTimeoutRequest) returns (SetTimeoutResponse);
+
+  rpc SetPermissions(SetPermissionsRequest) returns (SetPermissionsResponse);
+
+
+}
+
