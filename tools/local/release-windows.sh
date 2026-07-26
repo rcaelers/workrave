@@ -148,13 +148,15 @@ catalog() {
 }
 
 appcast() {
-    node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${DEPLOY_ENVIRONMENT:+--environment $DEPLOY_ENVIRONMENT} --file
+    node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} $([ "${DEPLOY_ENVIRONMENT}" = "staging" ] && echo --environment $DEPLOY_ENVIRONMENT) --file
     if [ -n "$DOSIGN" ]; then
         ${SCRIPTS_DIR}/local/sign-cosign.sh appcast.xml
-        MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml.sigstore s3://snapshots/${S3_ARTIFACT_DIR}/
     fi
-    MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml s3://snapshots/${S3_ARTIFACT_DIR}/
 
+    # Not uploaded to S3 here: the appcast is only staged in git. Uploading it now
+    # would make clients start auto-updating before the (still draft) GitHub release
+    # and the AppImage build are ready. Run publish-appcast.sh once everything is in
+    # place to merge staging into main and upload it.
     appcast_git_push
 }
 
@@ -184,12 +186,16 @@ upload_symbols() {
 appcast_git_push() {
     local APPCAST_REPO_URL=git@github.com:rcaelers/workrave-appcast.git
     local APPCAST_REPO_DIR=${WORKSPACE}/workrave-appcast
+    local APPCAST_STAGING_BRANCH=staging
 
     if [ ! -d "${APPCAST_REPO_DIR}/.git" ]; then
         git clone "${APPCAST_REPO_URL}" "${APPCAST_REPO_DIR}"
-    else
-        git -C "${APPCAST_REPO_DIR}" pull --ff-only
     fi
+
+    git -C "${APPCAST_REPO_DIR}" fetch origin
+    # Staging is always rebuilt from the tip of main, so it only ever carries this
+    # release's pending appcast change (nothing accumulates across releases).
+    git -C "${APPCAST_REPO_DIR}" checkout -B "${APPCAST_STAGING_BRANCH}" origin/main
 
     mkdir -p "${APPCAST_REPO_DIR}/${S3_ARTIFACT_DIR}"
     cp appcast.xml "${APPCAST_REPO_DIR}/${S3_ARTIFACT_DIR}/appcast.xml"
@@ -199,7 +205,7 @@ appcast_git_push() {
 
     git -C "${APPCAST_REPO_DIR}" add -A
     git -C "${APPCAST_REPO_DIR}" commit -m "Update appcast for ${WORKRAVE_VERSION}" || true
-    git -C "${APPCAST_REPO_DIR}" push
+    git -C "${APPCAST_REPO_DIR}" push --force-with-lease origin "${APPCAST_STAGING_BRANCH}"
 }
 
 init_s3() {

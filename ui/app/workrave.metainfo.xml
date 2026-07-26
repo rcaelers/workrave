@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>org.workrave.workrave</id>
+  <id>org.workrave.Workrave</id>
   <name>Workrave</name>
   <summary>Workrave assists in the recovery and prevention of Repetitive Strain Injury (RSI)</summary>
   <metadata_license>CC-BY-3.0</metadata_license>
