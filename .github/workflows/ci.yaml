@@ -378,7 +378,7 @@ jobs:
       - name: Setup build env
         if: matrix.config.os == 'macos-latest'
         run: |
-          brew install gettext qt python3 boost ninja spdlog pkg-config || true
+          brew install gettext qt python3 boost ninja spdlog pkg-config protobuf grpc googletest || true
           brew link gettext --force
           brew outdated cmake || brew upgrade cmake
           pip3 install --break-system-packages --user Jinja2 # required for dbus support, system (distro) wide include paths are ignored
