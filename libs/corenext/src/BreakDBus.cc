@@ -21,6 +21,8 @@
 
 #include "debug.hh"
 
+#include <spdlog/spdlog.h>
+
 #include "Break.hh"
 #include "BreakDBus.hh"
 
@@ -51,16 +53,17 @@ BreakDBus::BreakDBus(BreakId break_id,
     on_break_event(std::forward<decltype(event)>(event));
   });
 
+  string path = string("/org/workrave/Workrave/Break/" + break_name);
   try
     {
-      string path = string("/org/workrave/Workrave/Break/" + break_name);
       // workrave-service.xml declares Break as this interface's csymbol, so
       // the generated dispatcher casts the registered object to Break*.
       dbus->connect(path, "org.workrave.BreakInterface", break_controller);
       dbus->register_object_path(path);
     }
-  catch (dbus::DBusException &)
+  catch (const dbus::DBusException &e)
     {
+      spdlog::warn("Failed to register legacy DBus Break object {}: {}", path, e.what());
     }
 }
 

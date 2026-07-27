@@ -102,6 +102,7 @@ public:
 #endif
 
 private:
+  void init_bus_bindings();
   void init_bus();
 #if defined(HAVE_RPC)
   void init_rpc();

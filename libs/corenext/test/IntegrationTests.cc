@@ -32,10 +32,12 @@
 #include <spdlog/pattern_formatter.h>
 #include <spdlog/cfg/env.h>
 
+#include <algorithm>
 #include <filesystem>
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <set>
 #include <chrono>
 #include <unistd.h>
 using namespace std::chrono_literals;
@@ -46,6 +48,10 @@ using namespace std::chrono_literals;
 #include "core/IApp.hh"
 #include "core/IBreak.hh"
 #include "input-monitor/InputMonitorFactoryStub.hh"
+
+#include "dbus/DBusBinding.hh"
+#include "dbus/DBusException.hh"
+#include "dbus/IDBus.hh"
 
 #include "config/Config.hh"
 #include "config/SettingCache.hh"
@@ -63,6 +69,111 @@ using namespace std::chrono_literals;
 #include "ActivityMonitorStub.hh"
 
 using namespace workrave::config;
+
+class RecordingDBus : public workrave::dbus::IDBus
+{
+public:
+  void init() override
+  {
+    events.emplace_back("init");
+  }
+
+  void register_service(const std::string &service, workrave::dbus::IDBusWatch *cb = nullptr) override
+  {
+    (void)cb;
+    services.insert(service);
+    events.emplace_back("service:" + service);
+  }
+
+  void register_object_path(const std::string &object_path) override
+  {
+    object_paths.insert(object_path);
+    events.emplace_back("object:" + object_path);
+  }
+
+  void connect(const std::string &object_path, const std::string &interface_name, void *object) override
+  {
+    events.emplace_back(connection_event(object_path, interface_name));
+    if (find_binding(interface_name) == nullptr)
+      {
+        throw workrave::dbus::DBusException("No such interface: " + interface_name);
+      }
+    connections[{object_path, interface_name}] = object;
+  }
+
+  void disconnect(const std::string &object_path, const std::string &interface_name) override
+  {
+    connections.erase({object_path, interface_name});
+  }
+
+  void register_binding(const std::string &interface_name, workrave::dbus::DBusBinding *binding) override
+  {
+    bindings[interface_name] = binding;
+    events.emplace_back(binding_event(interface_name));
+  }
+
+  workrave::dbus::DBusBinding *find_binding(const std::string &interface_name) const override
+  {
+    auto binding = bindings.find(interface_name);
+    return binding == bindings.end() ? nullptr : binding->second;
+  }
+
+  bool is_available() const override
+  {
+    return false;
+  }
+
+  bool is_running(const std::string &name) const override
+  {
+    (void)name;
+    return false;
+  }
+
+  void watch(const std::string &name, workrave::dbus::IDBusWatch *cb) override
+  {
+    (void)name;
+    (void)cb;
+  }
+
+  void unwatch(const std::string &name) override
+  {
+    (void)name;
+  }
+
+  [[nodiscard]] bool has_object_path(const std::string &object_path) const
+  {
+    return object_paths.contains(object_path);
+  }
+
+  [[nodiscard]] bool has_connection(const std::string &object_path, const std::string &interface_name) const
+  {
+    return connections.contains({object_path, interface_name});
+  }
+
+  [[nodiscard]] bool binding_precedes_connection(const std::string &object_path, const std::string &interface_name) const
+  {
+    const auto binding = std::find(events.begin(), events.end(), binding_event(interface_name));
+    const auto connection = std::find(events.begin(), events.end(), connection_event(object_path, interface_name));
+    return binding != events.end() && connection != events.end() && binding < connection;
+  }
+
+private:
+  static std::string binding_event(const std::string &interface_name)
+  {
+    return "binding:" + interface_name;
+  }
+
+  static std::string connection_event(const std::string &object_path, const std::string &interface_name)
+  {
+    return "connect:" + object_path + ":" + interface_name;
+  }
+
+  std::map<std::string, workrave::dbus::DBusBinding *> bindings;
+  std::map<std::pair<std::string, std::string>, void *> connections;
+  std::set<std::string> object_paths;
+  std::set<std::string> services;
+  std::vector<std::string> events;
+};
 
 namespace workrave
 {
@@ -279,6 +390,22 @@ public:
     test_time_formatter_flag::timer = timer;
     init_log_file();
     init_core();
+  }
+
+  void init_with_dbus(const std::shared_ptr<workrave::dbus::IDBus> &test_dbus)
+  {
+    sim = SimulatedTime::create();
+    sim->reset();
+
+    workrave::utils::TimeSource::sync();
+    workrave::config::SettingCache::reset();
+    core = workrave::CoreFactory::create(create_configurator());
+
+    ICoreTestHooks::Ptr test_hooks = std::dynamic_pointer_cast<ICoreTestHooks>(core->get_hooks());
+    test_hooks->hook_create_dbus() = [test_dbus]() { return test_dbus; };
+    test_hooks->hook_create_monitor() = std::bind(&Backend::on_create_monitor, this);
+
+    core->init(this, "");
   }
 
   void init_with_timer_state(const std::string &state, bool install_load_hook = false)
@@ -776,6 +903,30 @@ public:
 BOOST_TEST_GLOBAL_FIXTURE(GlobalFixture);
 
 BOOST_FIXTURE_TEST_SUITE(integration, Backend)
+
+#if defined(HAVE_DBUS)
+BOOST_AUTO_TEST_CASE(test_legacy_dbus_registers_all_break_objects_after_their_binding)
+{
+  auto test_dbus = std::make_shared<RecordingDBus>();
+  init_with_dbus(test_dbus);
+
+  const std::string core_path = "/org/workrave/Workrave/Core";
+  BOOST_CHECK(test_dbus->has_object_path(core_path));
+  BOOST_CHECK(test_dbus->has_connection(core_path, "org.workrave.CoreInterface"));
+  BOOST_CHECK(test_dbus->has_connection(core_path, "org.workrave.ConfigInterface"));
+
+  for (workrave::BreakId id = workrave::BREAK_ID_MICRO_BREAK; id < workrave::BREAK_ID_SIZEOF; id++)
+    {
+      const std::string path = "/org/workrave/Workrave/Break/" + CoreConfig::get_break_name(id);
+      BOOST_TEST_CONTEXT(path)
+      {
+        BOOST_CHECK(test_dbus->binding_precedes_connection(path, "org.workrave.BreakInterface"));
+        BOOST_CHECK(test_dbus->has_connection(path, "org.workrave.BreakInterface"));
+        BOOST_CHECK(test_dbus->has_object_path(path));
+      }
+    }
+}
+#endif
 
 BOOST_AUTO_TEST_CASE(test_operation_mode)
 {

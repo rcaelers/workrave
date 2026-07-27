@@ -28,9 +28,7 @@
 #include <cstdlib>
 #include <filesystem>
 
-#if defined(HAVE_RPC) || defined(HAVE_RPC_DBUS)
-#  include <spdlog/spdlog.h>
-#endif
+#include <spdlog/spdlog.h>
 
 #include "Core.hh"
 
@@ -96,8 +94,18 @@ Core::init(IApp *app, const char *display_name)
 
   CoreConfig::init(configurator);
 
-  dbus = DBusFactory::create();
+#if defined(HAVE_TESTS)
+  if (hooks->hook_create_dbus())
+    {
+      dbus = hooks->hook_create_dbus()();
+    }
+  else
+#endif
+    {
+      dbus = DBusFactory::create();
+    }
   dbus->init();
+  init_bus_bindings();
 
 #if defined(HAVE_TESTS)
   if (hooks->hook_create_monitor())
@@ -145,20 +153,35 @@ Core::init(IApp *app, const char *display_name)
 
 //! Initializes the communication bus.
 void
-Core::init_bus()
+Core::init_bus_bindings()
 {
 #if defined(HAVE_DBUS)
   try
     {
       extern void init_DBusWorkraveNext(std::shared_ptr<IDBus> dbus);
       init_DBusWorkraveNext(dbus);
+    }
+  catch (const DBusException &e)
+    {
+      spdlog::warn("Failed to initialize legacy DBus bindings: {}", e.what());
+    }
+#endif
+}
 
+//! Registers the Core objects after their dependencies have been initialized.
+void
+Core::init_bus()
+{
+#if defined(HAVE_DBUS)
+  try
+    {
       dbus->connect(DBUS_PATH_WORKRAVE "Core", "org.workrave.CoreInterface", this);
       dbus->connect(DBUS_PATH_WORKRAVE "Core", "org.workrave.ConfigInterface", configurator.get());
       dbus->register_object_path(DBUS_PATH_WORKRAVE "Core");
     }
-  catch (DBusException &)
+  catch (const DBusException &e)
     {
+      spdlog::warn("Failed to register legacy DBus Core object {}: {}", DBUS_PATH_WORKRAVE "Core", e.what());
     }
 #endif
 }
