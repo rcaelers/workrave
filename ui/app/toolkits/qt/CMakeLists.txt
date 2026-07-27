@@ -35,15 +35,23 @@ target_sources(workrave-toolkit-qt PRIVATE
 
 
 if (PLATFORM_OS_UNIX)
-  target_sources(workrave-toolkit-qt PRIVATE ToolkitUnix.cc platforms/unix/UnixLocker.cc platforms/unix/WaylandWindowManager.cc)
-    if (HAVE_WAYLAND)
-     	qt_generate_wayland_protocol_client_sources(workrave-toolkit-qt
-         FILES  ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml
-                ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/xdg-shell.xml)
+  target_sources(workrave-toolkit-qt PRIVATE
+    ToolkitUnix.cc
+    platforms/unix/UnixLocker.cc)
 
-      target_sources(workrave-toolkit-qt PRIVATE
-        platforms/unix/WaylandWindowManager.cc)
-    endif()
+  if (HAVE_WAYLAND)
+    qt_generate_wayland_protocol_client_sources(workrave-toolkit-qt
+      FILES
+        ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml
+        ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/xdg-shell.xml)
+
+    target_sources(workrave-toolkit-qt PRIVATE
+      platforms/unix/WaylandWindowManager.cc)
+    target_link_libraries(workrave-toolkit-qt PUBLIC
+      Qt::WaylandClient
+      Qt::WaylandClientPrivate
+      Wayland::Client)
+  endif()
 
     # if (HAVE_DBUSMENU)
     #   target_sources(workrave-toolkit-qt PRIVATE platforms/unix/DbusMenu.cc)
@@ -53,9 +61,10 @@ if (PLATFORM_OS_UNIX)
     #   target_sources(workrave-toolkit-qt PRIVATE platforms/unix/AppIndicatorMenu.cc)
     # endif()
 
-    target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols)
-    target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_BINARY_DIR}/ui/app/platforms/unix)
-    target_link_libraries(workrave-toolkit-qt PUBLIC Qt::WaylandClient Wayland::Client Qt::WaylandClientPrivate)
+  target_include_directories(workrave-toolkit-qt PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix
+    ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols
+    ${CMAKE_BINARY_DIR}/ui/app/platforms/unix)
 endif()
 
 if (PLATFORM_OS_WINDOWS)
@@ -83,11 +92,6 @@ if (PLATFORM_OS_MACOS)
       platforms/macos/MacDockTile.mm
       PROPERTIES SKIP_LINTING ON)
     target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
-endif()
-
-if (PLATFORM_OS_UNIX)
-  target_sources(workrave-toolkit-qt PRIVATE ToolkitUnix.cc)
-  target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix)
 endif()
 
 if (PLATFORM_OS_MACOS)

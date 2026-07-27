@@ -538,23 +538,45 @@ endif()
 # Qt
 
 if ("${WITH_UI}" STREQUAL "Qt")
-
-  set(EXTRA_QT_COMPONENTS "")
-  message(STATUS "Checking for Wayland ${WITH_WAYLAND}")
-  if (WITH_WAYLAND)
-    find_package(ECM 5.68.0 NO_MODULE)
-    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
-
-    list(APPEND EXTRA_QT_COMPONENTS WaylandClient)
-    message(STATUS "Checking for: Wayland Client")
-    find_package(Wayland COMPONENTS Client)
-    set(HAVE_WAYLAND ON)
-  endif()
-
   message(STATUS "Checking for: Qt")
   set(QT_NO_PRIVATE_MODULE_WARNING ON)
   find_package(QT NAMES Qt6 COMPONENTS Core REQUIRED)
-  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui GuiPrivate Svg LinguistTools Xml Quick QuickControls2 QuickWidgets ${EXTRA_QT_COMPONENTS} REQUIRED)
+  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui GuiPrivate Svg LinguistTools Xml Quick QuickControls2 QuickWidgets REQUIRED)
+
+  message(STATUS "Checking for Wayland ${WITH_WAYLAND}")
+  if (WITH_WAYLAND)
+    # Workrave's layer-shell integration accesses Qt Wayland private APIs, so
+    # the public WaylandClient module by itself is not sufficient. Keep this
+    # optional: distributions such as Ubuntu package the private development
+    # files separately.
+    find_package(ECM 5.68.0 NO_MODULE QUIET)
+    if (ECM_FOUND)
+      list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+      find_package(Wayland QUIET COMPONENTS Client)
+    endif()
+    find_package(Qt${QT_VERSION_MAJOR}WaylandClient QUIET)
+    find_package(Qt${QT_VERSION_MAJOR}WaylandClientPrivate QUIET)
+
+    set(_wayland_missing_targets "")
+    foreach(_wayland_target Qt::WaylandClient Qt::WaylandClientPrivate Wayland::Client)
+      if (NOT TARGET ${_wayland_target})
+        list(APPEND _wayland_missing_targets ${_wayland_target})
+      endif()
+    endforeach()
+
+    if (_wayland_missing_targets)
+      list(JOIN _wayland_missing_targets ", " _wayland_missing_targets_text)
+      message(WARNING
+        "Qt Wayland integration disabled because required development targets are missing: "
+        "${_wayland_missing_targets_text}. Install the Qt Wayland private development files "
+        "to enable it.")
+      set(WITH_WAYLAND OFF)
+      set(HAVE_WAYLAND OFF)
+    else()
+      set(HAVE_WAYLAND ON)
+    endif()
+  endif()
+
   qt6_standard_project_setup()
   set(CMAKE_AUTORCC ON)
 

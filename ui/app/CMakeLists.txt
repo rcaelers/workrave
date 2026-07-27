@@ -161,6 +161,18 @@ install(FILES workrave.metainfo.xml DESTINATION ${DATADIR}/metainfo RENAME org.w
 
 if (HAVE_APP_QT)
   qt_add_executable(workrave main.cc $<TARGET_OBJECTS:workrave-app>)
+
+  # Debian-derived distributions omit CMake targets for their dynamically
+  # loaded QML plugins. Older Qt finalizers nevertheless scan for those
+  # targets and emit a warning for every QML import. The scan is needed to
+  # link static QML plugins and by Qt's deployment helpers, neither of which
+  # applies to Workrave's Linux build when Qt itself is shared.
+  if (PLATFORM_OS_UNIX)
+    get_target_property(_qt_core_target_type Qt${QT_VERSION_MAJOR}::Core TYPE)
+    if (_qt_core_target_type STREQUAL "SHARED_LIBRARY")
+      set_target_properties(workrave PROPERTIES QT_QML_MODULE_NO_IMPORT_SCAN TRUE)
+    endif()
+  endif()
 else()
   add_executable(workrave main.cc $<TARGET_OBJECTS:workrave-app>)
 endif()
