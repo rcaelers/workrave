@@ -15,7 +15,7 @@ namespace workrave::core::rpc::dbus_compat
   // It supplies CONFIG_FLAG_NONE internally because ConfigFlags was never a
   // DBus argument, and uses explicit out parameters to preserve legacy reply
   // ordering (including GetString's historical found-before-value order).
-  // @rpc(service="LegacyConfigDBusService")
+  // @rpc(service="workrave.dbus.compat.LegacyConfigDBusService")
   // @rpc.dbus(interface="org.workrave.ConfigInterface")
   class ConfigCompat
   {

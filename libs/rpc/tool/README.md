@@ -20,7 +20,7 @@ never hand-edited.
 ## Tag vocabulary
 
 ```cpp
-// @rpc(service="TestService")
+// @rpc(service="workrave.TestService")
 class RpcTestServer
 {
 public:
@@ -52,9 +52,10 @@ the project uses. Use a real Doxygen comment alongside a tag when you also
 want to document the method — they can share one comment block or live in
 separate ones; the tool doesn't care either way, it just greps for `@rpc`.
 
-- `@rpc(service="Name"[, keyed_by="Type"])` on a class marks it as an
-  RPC-exposed interface. `keyed_by` is for interfaces with multiple live
-  instances (see below).
+- `@rpc(service="package.Name"[, keyed_by="Type"])` on a class marks it as
+  an RPC-exposed interface. This fully-qualified name is the public gRPC wire
+  name and produces `package Name` in the generated `.proto`; `keyed_by` is
+  for interfaces with multiple live instances (see below).
 - `@rpc(name="Name")` on a method (each overload individually) marks it as
   a unary RPC.
 - `@rpc.signal(name="Name"[, fields="a,b,..."])` on a
@@ -140,7 +141,7 @@ generated code, anything you'd rather not touch), pass `--annotations
 
 ```
 [Namespace::Class]
-@rpc(service="ServiceName")
+@rpc(service="example.ServiceName")
 
 [Namespace::Class::method_name(ParamType1,ParamType2)]
 @rpc(name="MethodName")
@@ -166,7 +167,6 @@ clang-rpc-gen \
   --out-proto build/Annotated.proto \
   --out-adapter-hh build/AnnotatedServiceImpl.hh \
   --out-adapter-cc build/AnnotatedServiceImpl.cc \
-  --proto-package your.proto.package \
   --out-types-proto build/AnnotatedTypes.proto \
   --proto-types-package your.proto.types.package \
   --grpc-services-namespace rpc \
@@ -179,9 +179,10 @@ clang-rpc-gen \
 The annotations, split protobuf type output, and DBus output flags are
 optional. `--out-types-proto` and `--proto-types-package` must be supplied
 together. They move generated enums and messages into an imported schema and
-package while leaving the service in `--proto-package`. This lets multiple
-services share one wire package without putting their C++ payload types in the
-same namespace. `--grpc-services-namespace` appends one unqualified namespace
+package while leaving the service in the package declared by its
+`@rpc(service="package.Service")` annotation. This lets multiple services
+share one wire package without putting their C++ payload types in the same
+namespace. `--grpc-services-namespace` appends one unqualified namespace
 to the protobuf package for generated gRPC service/stub classes without
 changing their wire names. `--adapter-namespace` wraps the generated
 `<Service>ServiceImpl` and DBus binding classes; it does not change the

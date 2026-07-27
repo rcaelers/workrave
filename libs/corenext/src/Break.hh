@@ -32,7 +32,7 @@
 #include "core/IBreak.hh"
 #include "dbus/IDBus.hh"
 
-// @rpc(service="BreakService", keyed_by="workrave::BreakId")
+// @rpc(service="workrave.BreakService", keyed_by="workrave::BreakId")
 // @rpc.dbus(interface="org.workrave.BreakInterface")
 class Break : public workrave::IBreak
 {

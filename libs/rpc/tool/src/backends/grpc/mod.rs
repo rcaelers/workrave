@@ -17,7 +17,6 @@ pub struct GrpcBackend {
     pub out_proto: PathBuf,
     pub out_adapter_hh: PathBuf,
     pub out_adapter_cc: PathBuf,
-    pub proto_package: String,
     pub out_types_proto: Option<PathBuf>,
     pub proto_types_package: Option<String>,
     pub grpc_services_namespace: Option<String>,
@@ -61,17 +60,22 @@ impl Backend for GrpcBackend {
                     .map(|name| name.to_string_lossy().to_string())
             })
             .transpose()?;
+        let interface = model
+            .interfaces
+            .first()
+            .context("gRPC generation requires one annotated interface")?;
+        let proto_package = &interface.proto_package;
 
         let proto_text = proto_gen::render_service_proto(
             model,
-            &self.proto_package,
+            proto_package,
             split_types.map(|(_, package)| package),
             types_proto_filename.as_deref(),
         )?;
         let adapter = cpp_gen::render_adapter(
             model,
             cpp_gen::RenderAdapterOptions {
-                package: &self.proto_package,
+                package: proto_package,
                 proto_types_package: split_types.map(|(_, package)| package),
                 grpc_services_namespace: self.grpc_services_namespace.as_deref(),
                 adapter_namespace: self.adapter_namespace.as_deref(),

@@ -14,7 +14,7 @@ enum class WidgetId
 // Proves the `keyed_by` mechanism (multiple live C++ instances of the same
 // interface, distinguished by an id — the gRPC analog of DBus's per-object-path
 // routing, needed for e.g. Workrave's three Break instances).
-// @rpc(service="WidgetService", keyed_by="WidgetId")
+// @rpc(service="workrave.test.WidgetService", keyed_by="WidgetId")
 class RpcKeyedFixture
 {
 public:

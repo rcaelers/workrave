@@ -15,7 +15,7 @@ namespace workrave::core::rpc::dbus_compat
   // Exact C++ facade for the legacy org.workrave.BreakInterface wire API.
   // In particular, the old DBus API exposed timer values as int32_t even
   // though the native and gRPC APIs use int64_t.
-  // @rpc(service="LegacyBreakDBusService")
+  // @rpc(service="workrave.dbus.compat.LegacyBreakDBusService")
   // @rpc.dbus(interface="org.workrave.BreakInterface")
   class BreakCompat
   {

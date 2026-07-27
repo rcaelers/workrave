@@ -14,7 +14,7 @@ namespace workrave::core::rpc::dbus_compat
   // Exact C++ facade for the legacy org.workrave.CoreInterface wire API.
   // Keeping this separate from Core's richer gRPC annotations prevents DBus
   // compatibility details from narrowing or hiding the modern RPC surface.
-  // @rpc(service="LegacyCoreDBusService")
+  // @rpc(service="workrave.dbus.compat.LegacyCoreDBusService")
   // @rpc.dbus(interface="org.workrave.CoreInterface")
   class CoreCompat
   {

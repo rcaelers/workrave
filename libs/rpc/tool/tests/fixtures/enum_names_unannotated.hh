@@ -10,7 +10,7 @@ enum class OperationMode
   Quiet,
 };
 
-// @rpc(service="EnumNamesService")
+// @rpc(service="workrave.test.EnumNamesService")
 class RpcEnumNamesFixture
 {
 public:

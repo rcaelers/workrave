@@ -11,7 +11,7 @@
 // appears from ITS OWN declaration's lexical scope (bare "TimerData"), which
 // doesn't resolve in generated code living outside the class. See
 // qualified_type_spelling() in clang_index.rs.
-// @rpc(service="NestedService")
+// @rpc(service="workrave.test.NestedService")
 class RpcNestedFixture
 {
 public:

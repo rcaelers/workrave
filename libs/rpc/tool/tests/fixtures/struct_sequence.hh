@@ -26,7 +26,7 @@ struct MenuItem
   uint8_t flags;
 };
 
-// @rpc(service="StructSeqService")
+// @rpc(service="workrave.test.StructSeqService")
 class RpcStructSeqFixture
 {
 public:

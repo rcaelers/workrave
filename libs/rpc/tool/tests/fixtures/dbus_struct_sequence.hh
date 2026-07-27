@@ -13,7 +13,7 @@ struct Point
   int32_t y;
 };
 
-// @rpc(service="DBusFixture2Service")
+// @rpc(service="workrave.test.DBusFixture2Service")
 // @rpc.dbus(interface="org.workrave.TestInterface2")
 class RpcDBusFixture2
 {

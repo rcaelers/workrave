@@ -56,6 +56,7 @@ pub(crate) struct StructFieldModel {
 
 #[derive(Debug, Serialize)]
 pub(crate) struct InterfaceModel {
+    pub proto_package: String,
     pub service_name: String,
     pub cxx_class: String,
     pub cxx_qualified_class: String,
@@ -537,6 +538,7 @@ impl<'a> ModelBuilder<'a> {
         };
 
         Ok(InterfaceModel {
+            proto_package: interface.proto_package.clone(),
             service_name: interface.service_name.clone(),
             cxx_class: interface.cxx_class.clone(),
             cxx_qualified_class: interface.cxx_qualified_class(),
@@ -935,6 +937,7 @@ mod tests {
     fn numbers_keyed_request_and_response_fields_deterministically() {
         let unit = Unit {
             interfaces: vec![Interface {
+                proto_package: "workrave.test".to_string(),
                 service_name: "Settings".to_string(),
                 cxx_class: "Settings".to_string(),
                 cxx_namespace: Vec::new(),
@@ -998,6 +1001,7 @@ mod tests {
         });
         let unit = Unit {
             interfaces: vec![Interface {
+                proto_package: "workrave.test".to_string(),
                 service_name: "Values".to_string(),
                 cxx_class: "Values".to_string(),
                 cxx_namespace: Vec::new(),
@@ -1039,6 +1043,7 @@ mod tests {
     fn builds_dbus_signatures_argument_positions_and_custom_dependencies() {
         let unit = Unit {
             interfaces: vec![Interface {
+                proto_package: "workrave.test".to_string(),
                 service_name: "Values".to_string(),
                 cxx_class: "Values".to_string(),
                 cxx_namespace: Vec::new(),
@@ -1086,6 +1091,7 @@ mod tests {
     fn rejects_dbus_inout_before_rendering() {
         let unit = Unit {
             interfaces: vec![Interface {
+                proto_package: "workrave.test".to_string(),
                 service_name: "Values".to_string(),
                 cxx_class: "Values".to_string(),
                 cxx_namespace: Vec::new(),

@@ -57,7 +57,7 @@ namespace workrave::config
     CONFIG_FLAG_IMMEDIATE = 2
   };
 
-  // @rpc(service="ConfigService")
+  // @rpc(service="workrave.ConfigService")
   // @rpc.dbus(interface="org.workrave.ConfigInterface")
   class IConfigurator
   {

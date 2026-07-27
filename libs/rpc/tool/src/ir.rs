@@ -226,6 +226,9 @@ pub struct Signal {
 
 #[derive(Debug, Clone)]
 pub struct Interface {
+    /// The protobuf package parsed from the fully-qualified `@rpc(service=)`
+    /// annotation. Together with `service_name`, this is the gRPC wire name.
+    pub proto_package: String,
     pub service_name: String,
     pub cxx_class: String,
     pub cxx_namespace: Vec<String>,

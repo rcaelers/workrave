@@ -135,7 +135,12 @@ fn visit_for_interfaces(
                     );
                     let comment =
                         effective_comment(child.get_comment(), external.lookup(&qualified));
-                    if let Some(tag) = comment.as_deref().and_then(parse_service_tag) {
+                    if let Some(tag) = comment
+                        .as_deref()
+                        .map(parse_service_tag)
+                        .transpose()?
+                        .flatten()
+                    {
                         let dbus_interface = comment.as_deref().and_then(parse_dbus_tag);
                         let interface =
                             build_interface(tu_root, &child, tag, dbus_interface, external, unit)?;
@@ -404,6 +409,7 @@ fn build_interface(
     external: &ExternalAnnotations,
     unit: &mut Unit,
 ) -> Result<Interface> {
+    let proto_package = tag.proto_package;
     let service_name = tag.name;
     let cxx_class = class_entity
         .get_name()
@@ -454,6 +460,7 @@ fn build_interface(
     }
 
     Ok(Interface {
+        proto_package,
         service_name,
         cxx_class,
         cxx_namespace,

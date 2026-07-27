@@ -14,7 +14,7 @@ struct MenuItem
   uint32_t command;
 };
 
-// @rpc(service="MapTypesService")
+// @rpc(service="workrave.test.MapTypesService")
 class RpcMapTypesFixture
 {
 public:

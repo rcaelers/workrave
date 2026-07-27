@@ -5,8 +5,9 @@
 //! `@rpc.dbus(interface=...)`).
 //!
 //! This crate is deliberately generic: it knows nothing about any specific
-//! consumer project. All project-specific input (which header, which proto
-//! package, where outputs go) comes in through [`GenerateOptions`].
+//! consumer project. All project-specific input (which header, where outputs
+//! go) comes in through [`GenerateOptions`]; the public protobuf package is
+//! parsed from the header's fully-qualified `@rpc(service=...)` annotation.
 //!
 //! [`generate`] itself is target-agnostic: it parses the header once, then
 //! asks each requested [`backend::Backend`] (`backends::grpc`, always;
@@ -41,7 +42,6 @@ pub struct GenerateOptions {
     pub out_proto: PathBuf,
     pub out_adapter_hh: PathBuf,
     pub out_adapter_cc: PathBuf,
-    pub proto_package: String,
     /// Optional separate schema/package for generated payload types. When
     /// present, the service schema imports this file, keeping the service's
     /// wire package independent from the payloads' generated C++ namespace.
@@ -121,7 +121,6 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
         out_proto: opts.out_proto.clone(),
         out_adapter_hh: opts.out_adapter_hh.clone(),
         out_adapter_cc: opts.out_adapter_cc.clone(),
-        proto_package: opts.proto_package.clone(),
         out_types_proto: opts.out_types_proto.clone(),
         proto_types_package: opts.proto_types_package.clone(),
         grpc_services_namespace: opts.grpc_services_namespace.clone(),

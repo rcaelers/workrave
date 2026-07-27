@@ -47,7 +47,7 @@ namespace testutil
   };
 } // namespace testutil
 
-// @rpc(service="DurationFlagsService")
+// @rpc(service="workrave.test.DurationFlagsService")
 class RpcDurationFlagsFixture
 {
 public:

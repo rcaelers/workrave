@@ -41,7 +41,6 @@ if (HAVE_RPC)
   rpc_generate_source(${CMAKE_SOURCE_DIR}/libs/config/include/config/IConfigurator.hh ${CMAKE_CURRENT_BINARY_DIR} RpcConfig
     TARGET workrave-libs-config
     HEADER_INCLUDE "config/IConfigurator.hh"
-    PROTO_PACKAGE workrave
     PROTO_TYPES_PACKAGE workrave.rpc.config
     GRPC_SERVICES_NAMESPACE rpc
     ADAPTER_NAMESPACE workrave::config::rpc)

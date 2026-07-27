@@ -28,7 +28,7 @@ enum class TestMode
   Active
 };
 
-// @rpc(service="TestService")
+// @rpc(service="workrave.test.TestService")
 class RpcTestServer
 {
 public:

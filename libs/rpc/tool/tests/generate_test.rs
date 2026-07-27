@@ -160,7 +160,6 @@ fn generate_fixture_full(
         out_proto: out_dir.join(format!("{name}.proto")),
         out_adapter_hh: out_dir.join(format!("{name}ServiceImpl.hh")),
         out_adapter_cc: out_dir.join(format!("{name}ServiceImpl.cc")),
-        proto_package: "workrave.test".to_string(),
         out_types_proto: proto_types_package.map(|_| out_dir.join(format!("{name}Types.proto"))),
         proto_types_package: proto_types_package.map(str::to_string),
         grpc_services_namespace: grpc_services_namespace.map(str::to_string),
@@ -557,7 +556,7 @@ fn generates_service_from_external_annotations_only() {
     let annotations = r#"
 # Class-level tag, keyed by fully-qualified name (no parens).
 [testutil::RpcUnannotatedFixture]
-@rpc(service="UnannotatedService")
+@rpc(service="workrave.test.UnannotatedService")
 
 # Method-level tag, keyed by Class::method(ParamType1,ParamType2) to
 # disambiguate overloads. Whitespace inside the key doesn't matter.
@@ -653,7 +652,7 @@ fn rejects_illegal_map_key_type() {
 #pragma once
 #include <map>
 
-// @rpc(service="BadKeyService")
+// @rpc(service="workrave.test.BadKeyService")
 class RpcBadKeyFixture
 {
 public:
@@ -674,7 +673,6 @@ public:
         out_proto: out_dir.join("BadKey.proto"),
         out_adapter_hh: out_dir.join("BadKeyServiceImpl.hh"),
         out_adapter_cc: out_dir.join("BadKeyServiceImpl.cc"),
-        proto_package: "workrave.test".to_string(),
         out_types_proto: None,
         proto_types_package: None,
         grpc_services_namespace: None,

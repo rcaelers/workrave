@@ -57,19 +57,19 @@ if (HAVE_RPC)
   # exists to avoid).
   target_include_directories(workrave-libs-core-next PRIVATE ${CMAKE_SOURCE_DIR}/libs/rpc/include)
 
-  # Keep all public services in the single wire package "workrave", producing
-  # workrave.CoreService and workrave.BreakService. Payload types live in
-  # separate imported packages so their generated C++ names are isolated in
+  # Public wire names are declared beside the interfaces as
+  # @rpc(service="workrave.<Service>"). Payload types live in separate
+  # imported packages so their generated C++ names are isolated in
   # workrave::rpc::core and workrave::rpc::breaks.
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Core.hh ${CMAKE_CURRENT_BINARY_DIR} RpcCore
     TARGET workrave-libs-core-next
-    PROTO_PACKAGE workrave
     PROTO_TYPES_PACKAGE workrave.rpc.core
     GRPC_SERVICES_NAMESPACE rpc
     ADAPTER_NAMESPACE workrave::core::rpc)
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Break.hh ${CMAKE_CURRENT_BINARY_DIR} RpcBreak
     TARGET workrave-libs-core-next
-    PROTO_PACKAGE workrave PROTO_TYPES_PACKAGE workrave.rpc.breaks GRPC_SERVICES_NAMESPACE rpc
+    PROTO_TYPES_PACKAGE workrave.rpc.breaks
+    GRPC_SERVICES_NAMESPACE rpc
     ADAPTER_NAMESPACE workrave::core::rpc)
 
   # Deliberately a SEPARATE, opt-in static library rather than sources added

@@ -6,7 +6,7 @@
 // `//!`/`///`/`/** */` are Doxygen's "this is documentation" markers, and
 // the tool must not require annotated declarations to look like public API
 // docs. This fixture uses only plain `//`, on purpose.
-// @rpc(service="PlainService")
+// @rpc(service="workrave.test.PlainService")
 class RpcPlainCommentFixture
 {
 public:

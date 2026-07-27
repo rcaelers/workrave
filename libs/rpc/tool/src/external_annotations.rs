@@ -13,7 +13,7 @@
 //! # Lines starting with # are comments.
 //!
 //! [Namespace::Class]
-//! @rpc(service="ServiceName")
+//! @rpc(service="example.ServiceName")
 //!
 //! [Namespace::Class::method_name(ParamType1,ParamType2)]
 //! @rpc(name="MethodName")
@@ -127,9 +127,12 @@ mod tests {
 
     #[test]
     fn parses_single_block() {
-        let text = "[Foo::Bar]\n@rpc(service=\"BarService\")\n";
+        let text = "[Foo::Bar]\n@rpc(service=\"example.BarService\")\n";
         let a = ExternalAnnotations::parse(text).unwrap();
-        assert_eq!(a.lookup("Foo::Bar"), Some("@rpc(service=\"BarService\")\n"));
+        assert_eq!(
+            a.lookup("Foo::Bar"),
+            Some("@rpc(service=\"example.BarService\")\n")
+        );
     }
 
     #[test]
@@ -145,17 +148,20 @@ mod tests {
     #[test]
     fn comments_and_blank_lines_are_ignored() {
         let text =
-            "# a header comment\n\n[Foo::Bar]\n# a body comment\n@rpc(service=\"BarService\")\n\n";
+            "# a header comment\n\n[Foo::Bar]\n# a body comment\n@rpc(service=\"example.BarService\")\n\n";
         let a = ExternalAnnotations::parse(text).unwrap();
-        assert_eq!(a.lookup("Foo::Bar"), Some("@rpc(service=\"BarService\")\n"));
+        assert_eq!(
+            a.lookup("Foo::Bar"),
+            Some("@rpc(service=\"example.BarService\")\n")
+        );
     }
 
     #[test]
     fn multiple_blocks_for_the_same_key_are_merged() {
-        let text = "[Foo::Bar]\n@rpc(service=\"BarService\")\n\n[Foo::Bar]\n@rpc.bitmask\n";
+        let text = "[Foo::Bar]\n@rpc(service=\"example.BarService\")\n\n[Foo::Bar]\n@rpc.bitmask\n";
         let a = ExternalAnnotations::parse(text).unwrap();
         let body = a.lookup("Foo::Bar").unwrap();
-        assert!(body.contains("@rpc(service=\"BarService\")"));
+        assert!(body.contains("@rpc(service=\"example.BarService\")"));
         assert!(body.contains("@rpc.bitmask"));
     }
 

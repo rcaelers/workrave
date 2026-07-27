@@ -18,7 +18,7 @@ enum class TestMode
   Active,
 };
 
-// @rpc(service="DBusFixtureService")
+// @rpc(service="workrave.test.DBusFixtureService")
 // @rpc.dbus(interface="org.workrave.TestInterface")
 class RpcDBusFixture
 {

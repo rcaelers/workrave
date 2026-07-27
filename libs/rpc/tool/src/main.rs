@@ -30,10 +30,6 @@ struct Cli {
     #[arg(long)]
     out_adapter_cc: PathBuf,
 
-    /// The proto package (dotted), e.g. "workrave".
-    #[arg(long)]
-    proto_package: String,
-
     /// Optional separate output schema for payload enums/messages. Must be
     /// supplied together with --proto-types-package.
     #[arg(long)]
@@ -87,7 +83,6 @@ fn main() -> Result<()> {
         out_proto: cli.out_proto,
         out_adapter_hh: cli.out_adapter_hh,
         out_adapter_cc: cli.out_adapter_cc,
-        proto_package: cli.proto_package,
         out_types_proto: cli.out_types_proto,
         proto_types_package: cli.proto_types_package,
         grpc_services_namespace: cli.grpc_services_namespace,

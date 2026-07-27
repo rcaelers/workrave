@@ -33,7 +33,7 @@ enum class WidgetId
 // end: several live instances of the same interface, distinguished by an id
 // instead of a fixed reference — the gRPC analog of DBus's per-object-path
 // routing (needed for e.g. Workrave's three Break instances).
-// @rpc(service="WidgetService", keyed_by="WidgetId")
+// @rpc(service="workrave.WidgetService", keyed_by="WidgetId")
 class RpcKeyedServer
 {
 public:

@@ -25,6 +25,9 @@ pub struct ParamTag {
 
 #[derive(Debug, Clone)]
 pub struct ServiceTag {
+    /// The protobuf package component of the public wire service name.
+    pub proto_package: String,
+    /// The unqualified protobuf service identifier.
     pub name: String,
     /// From `keyed_by="..."`: the class has multiple live C++ instances,
     /// distinguished by a key of this type (a recognized primitive name
@@ -37,10 +40,12 @@ pub struct ServiceTag {
     pub keyed_by: Option<String>,
 }
 
-/// `@rpc(service="Name"[, keyed_by="Type"])` on a class — marks it as an
-/// RPC-exposed interface, optionally with multiple live instances keyed by
-/// `Type`.
-pub fn parse_service_tag(comment: &str) -> Option<ServiceTag> {
+/// `@rpc(service="package.Name"[, keyed_by="Type"])` on a class — marks it
+/// as an RPC-exposed interface, optionally with multiple live instances keyed
+/// by `Type`. The fully-qualified service value is the source of truth for
+/// the gRPC wire name: `package.Name` becomes `package Name` in the generated
+/// `.proto` schema.
+pub fn parse_service_tag(comment: &str) -> Result<Option<ServiceTag>> {
     let outer = Regex::new(r#"@rpc\(([^)]*)\)"#).expect("valid regex");
     let attr = Regex::new(r#"([A-Za-z_]\w*)\s*=\s*"([^"]*)""#).expect("valid regex");
 
@@ -56,10 +61,36 @@ pub fn parse_service_tag(comment: &str) -> Option<ServiceTag> {
             }
         }
         if let Some(name) = name {
-            return Some(ServiceTag { name, keyed_by });
+            let (proto_package, name) = name.rsplit_once('.').ok_or_else(|| {
+                anyhow::anyhow!(
+                    "@rpc(service=\"...\") must be a fully-qualified protobuf service name, \
+                     e.g. @rpc(service=\"workrave.CoreService\")"
+                )
+            })?;
+            if proto_package.is_empty()
+                || name.is_empty()
+                || !proto_package.split('.').all(is_proto_identifier)
+                || !is_proto_identifier(name)
+            {
+                bail!(
+                    "invalid protobuf service name '{proto_package}.{name}'; expected \
+                     dot-separated protobuf identifiers, e.g. workrave.CoreService"
+                );
+            }
+            return Ok(Some(ServiceTag {
+                proto_package: proto_package.to_string(),
+                name: name.to_string(),
+                keyed_by,
+            }));
         }
     }
-    None
+    Ok(None)
+}
+
+fn is_proto_identifier(value: &str) -> bool {
+    let mut chars = value.chars();
+    matches!(chars.next(), Some(c) if c.is_ascii_alphabetic() || c == '_')
+        && chars.all(|c| c.is_ascii_alphanumeric() || c == '_')
 }
 
 /// `@rpc.dbus(interface="org.workrave.CoreInterface")` on a class — opts
@@ -188,8 +219,9 @@ mod tests {
 
     #[test]
     fn service_tag() {
-        let c = "//! Main backend implementation.\n//! @rpc(service=\"CoreService\")";
-        let tag = parse_service_tag(c).unwrap();
+        let c = "//! Main backend implementation.\n//! @rpc(service=\"workrave.CoreService\")";
+        let tag = parse_service_tag(c).unwrap().unwrap();
+        assert_eq!(tag.proto_package, "workrave");
         assert_eq!(tag.name, "CoreService");
         assert_eq!(tag.keyed_by, None);
         assert_eq!(parse_method_tag(c), None);
@@ -197,10 +229,16 @@ mod tests {
 
     #[test]
     fn service_tag_keyed_by() {
-        let c = "//! @rpc(service=\"BreakService\", keyed_by=\"workrave::BreakId\")";
-        let tag = parse_service_tag(c).unwrap();
+        let c = "//! @rpc(service=\"workrave.BreakService\", keyed_by=\"workrave::BreakId\")";
+        let tag = parse_service_tag(c).unwrap().unwrap();
         assert_eq!(tag.name, "BreakService");
         assert_eq!(tag.keyed_by.as_deref(), Some("workrave::BreakId"));
+    }
+
+    #[test]
+    fn service_tag_requires_a_fully_qualified_wire_name() {
+        let err = parse_service_tag("//! @rpc(service=\"CoreService\")").unwrap_err();
+        assert!(format!("{err:#}").contains("fully-qualified protobuf service name"));
     }
 
     #[test]

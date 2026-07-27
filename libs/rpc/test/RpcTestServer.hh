@@ -32,7 +32,7 @@ enum class TestMode
 // A plain, Workrave-agnostic fixture used to verify the clang-rpc-gen
 // pipeline end to end: annotate -> generate .proto + adapter -> protoc/grpc
 // codegen -> build -> a real gRPC call that reaches this unmodified class.
-// @rpc(service="TestService")
+// @rpc(service="workrave.TestService")
 class RpcTestServer
 {
 public:

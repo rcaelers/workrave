@@ -61,8 +61,8 @@ endfunction()
 
 # rpc_generate_source(HEADER DIRECTORY NAME
 #                      TARGET <cmake-target>
-#                      [PROTO_PACKAGE <pkg>] [HEADER_INCLUDE <literal>]
-#                      [PROTO_TYPES_PACKAGE <pkg>] [ADAPTER_NAMESPACE <cxx-ns>]
+#                      [HEADER_INCLUDE <literal>] [PROTO_TYPES_PACKAGE <pkg>]
+#                      [ADAPTER_NAMESPACE <cxx-ns>]
 #                      [GRPC_SERVICES_NAMESPACE <cxx-name>]
 #                      [ANNOTATIONS <path>] [DBUS])
 #
@@ -90,16 +90,18 @@ endfunction()
 # "workrave::core::rpc"). It deliberately does not affect protobuf packages,
 # DBus interface names, or other wire-visible names.
 #
-# PROTO_TYPES_PACKAGE moves all payload enums/messages into a second imported
-# ${NAME}Types.proto schema. The service remains in PROTO_PACKAGE (and keeps
-# that wire name), while the payload package controls their generated C++
+# The public service wire name (both protobuf package and service identifier)
+# comes from the header's fully-qualified `@rpc(service="package.Service")`
+# annotation. PROTO_TYPES_PACKAGE moves all payload enums/messages into a
+# second imported ${NAME}Types.proto schema. It controls their generated C++
 # namespace and prevents independently generated services from colliding.
 #
-# GRPC_SERVICES_NAMESPACE is an unqualified C++ namespace appended to
-# PROTO_PACKAGE for grpc_cpp_plugin's generated service/stub classes. It does
-# not change the protobuf package or wire service name. For example,
-# PROTO_PACKAGE workrave plus GRPC_SERVICES_NAMESPACE rpc produces the C++
-# class workrave::rpc::<Service> while retaining workrave.<Service> on wire.
+# GRPC_SERVICES_NAMESPACE is an unqualified C++ namespace appended to the
+# annotation's protobuf package for grpc_cpp_plugin's generated service/stub
+# classes. It does not change the protobuf package or wire service name. For
+# example, @rpc(service="workrave.CoreService") plus
+# GRPC_SERVICES_NAMESPACE rpc produces workrave::rpc::CoreService while
+# retaining workrave.CoreService on wire.
 #
 # ANNOTATIONS points at a file supplying `@rpc` tags by fully-qualified name
 # (see libs/rpc/tool/src/external_annotations.rs for the format) — for a
@@ -116,18 +118,12 @@ endfunction()
 # and links them. Use rpc_generate_dbus_source() when no gRPC output is needed.
 macro(rpc_generate_source HEADER DIRECTORY NAME)
   if (HAVE_RPC)
-    cmake_parse_arguments(_rpc "DBUS" "TARGET;PROTO_PACKAGE;PROTO_TYPES_PACKAGE;GRPC_SERVICES_NAMESPACE;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS" "" ${ARGN})
+    cmake_parse_arguments(_rpc "DBUS" "TARGET;PROTO_TYPES_PACKAGE;GRPC_SERVICES_NAMESPACE;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS" "" ${ARGN})
 
     if (NOT _rpc_TARGET)
       message(FATAL_ERROR "rpc_generate_source(${NAME}) requires TARGET <cmake-target>")
     endif()
     rpc_generate_parse_context(${_rpc_TARGET} ${DIRECTORY} ${NAME} _rpc_parse_context)
-
-    if (_rpc_PROTO_PACKAGE)
-      set(_rpc_proto_package ${_rpc_PROTO_PACKAGE})
-    else()
-      set(_rpc_proto_package "workrave")
-    endif()
 
     set(_rpc_proto_output ${DIRECTORY}/${NAME}.proto)
     set(_rpc_types_proto_output "")
@@ -183,7 +179,6 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
               --out-proto ${_rpc_proto_output}
               --out-adapter-hh ${_rpc_adapter_hh}
               --out-adapter-cc ${_rpc_adapter_cc}
-              --proto-package ${_rpc_proto_package}
               ${_rpc_types_proto_args}
               ${_rpc_grpc_services_namespace_args}
               ${_rpc_header_include_args}
@@ -292,7 +287,6 @@ macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
               --out-proto ${_rpc_dbus_proto}
               --out-adapter-hh ${_rpc_dbus_adapter_hh}
               --out-adapter-cc ${_rpc_dbus_adapter_cc}
-              --proto-package workrave.dbus.compat
               ${_rpc_dbus_header_include_args}
               ${_rpc_dbus_namespace_args}
               ${_rpc_dbus_annotations_args}
