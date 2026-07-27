@@ -1,0 +1,5 @@
+if (NOT DEFINED INPUT OR NOT DEFINED OUTPUT)
+  message(FATAL_ERROR "WriteFileHash.cmake requires INPUT and OUTPUT")
+endif()
+file(SHA256 "${INPUT}" FILE_HASH)
+file(WRITE "${OUTPUT}" "${FILE_HASH}\n")

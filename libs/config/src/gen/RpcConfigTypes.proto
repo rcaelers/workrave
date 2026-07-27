@@ -1,0 +1,294 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave.rpc.config;
+
+
+
+// canonical_name: "config_flags"
+
+enum ConfigFlags {
+
+
+  // canonical_name: "none"
+
+  CONFIG_FLAGS_CONFIG_FLAG_NONE = 0;
+
+
+  // canonical_name: "initial"
+
+  CONFIG_FLAGS_CONFIG_FLAG_INITIAL = 1;
+
+
+  // canonical_name: "immediate"
+
+  CONFIG_FLAGS_CONFIG_FLAG_IMMEDIATE = 2;
+
+}
+
+
+
+
+
+message RemoveKeyRequest {
+
+  string key = 1;
+
+}
+
+message RemoveKeyResponse {
+
+}
+
+
+message RenameKeyRequest {
+
+  string key = 1;
+
+  string new_key = 2;
+
+}
+
+message RenameKeyResponse {
+
+}
+
+
+message HasUserValueRequest {
+
+  string key = 1;
+
+}
+
+message HasUserValueResponse {
+
+  bool result = 1;
+
+}
+
+
+message GetStringRequest {
+
+  string key = 1;
+
+}
+
+message GetStringResponse {
+
+  string out = 1;
+
+  bool result = 2;
+
+}
+
+
+message GetBoolRequest {
+
+  string key = 1;
+
+}
+
+message GetBoolResponse {
+
+  bool out = 1;
+
+  bool result = 2;
+
+}
+
+
+message GetIntRequest {
+
+  string key = 1;
+
+}
+
+message GetIntResponse {
+
+  int32 out = 1;
+
+  bool result = 2;
+
+}
+
+
+message GetInt64Request {
+
+  string key = 1;
+
+}
+
+message GetInt64Response {
+
+  int64 out = 1;
+
+  bool result = 2;
+
+}
+
+
+message GetDoubleRequest {
+
+  string key = 1;
+
+}
+
+message GetDoubleResponse {
+
+  double out = 1;
+
+  bool result = 2;
+
+}
+
+
+message GetStringWithDefaultRequest {
+
+  string key = 1;
+
+  string s = 2;
+
+}
+
+message GetStringWithDefaultResponse {
+
+  string out = 1;
+
+}
+
+
+message GetBoolWithDefaultRequest {
+
+  string key = 1;
+
+  bool def = 2;
+
+}
+
+message GetBoolWithDefaultResponse {
+
+  bool out = 1;
+
+}
+
+
+message GetIntWithDefaultRequest {
+
+  string key = 1;
+
+  int32 def = 2;
+
+}
+
+message GetIntWithDefaultResponse {
+
+  int32 out = 1;
+
+}
+
+
+message GetInt64WithDefaultRequest {
+
+  string key = 1;
+
+  int64 def = 2;
+
+}
+
+message GetInt64WithDefaultResponse {
+
+  int64 out = 1;
+
+}
+
+
+message GetDoubleWithDefaultRequest {
+
+  string key = 1;
+
+  double def = 2;
+
+}
+
+message GetDoubleWithDefaultResponse {
+
+  double out = 1;
+
+}
+
+
+message SetStringRequest {
+
+  string key = 1;
+
+  string v = 2;
+
+  ConfigFlags flags = 3;
+
+}
+
+message SetStringResponse {
+
+}
+
+
+message SetIntRequest {
+
+  string key = 1;
+
+  int32 v = 2;
+
+  ConfigFlags flags = 3;
+
+}
+
+message SetIntResponse {
+
+}
+
+
+message SetInt64Request {
+
+  string key = 1;
+
+  int64 v = 2;
+
+  ConfigFlags flags = 3;
+
+}
+
+message SetInt64Response {
+
+}
+
+
+message SetBoolRequest {
+
+  string key = 1;
+
+  bool v = 2;
+
+  ConfigFlags flags = 3;
+
+}
+
+message SetBoolResponse {
+
+}
+
+
+message SetDoubleRequest {
+
+  string key = 1;
+
+  double v = 2;
+
+  ConfigFlags flags = 3;
+
+}
+
+message SetDoubleResponse {
+
+}

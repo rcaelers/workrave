@@ -74,4 +74,3 @@ service WidgetService {
   rpc ValueChanged(ValueChangedRequest) returns (stream ValueChangedEvent);
 
 }
-

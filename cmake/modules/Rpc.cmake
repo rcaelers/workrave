@@ -1,25 +1,65 @@
 set(RPC_TOOL_DIR ${CMAKE_SOURCE_DIR}/libs/rpc/tool)
 set(RPC_TOOL_BIN ${RPC_TOOL_DIR}/target/release/clang-rpc-gen${CMAKE_EXECUTABLE_SUFFIX})
 
+set(RPC_CODEGEN "AUTO" CACHE STRING "Build RPC bindings: AUTO, ON, or OFF (use checked-in gen/ files)")
+set_property(CACHE RPC_CODEGEN PROPERTY STRINGS AUTO ON OFF)
 find_program(CARGO "cargo")
-if (NOT CARGO)
-  message(FATAL_ERROR "Could not find cargo. Please install rust and cargo (see https://rustup.rs) to build clang-rpc-gen.")
+find_library(RPC_LIBCLANG_LIBRARY
+  NAMES clang libclang
+  HINTS "$ENV{LIBCLANG_PATH}" /opt/homebrew/opt/llvm/lib)
+if (RPC_CODEGEN STREQUAL "AUTO")
+  if (CARGO AND RPC_LIBCLANG_LIBRARY)
+    set(RPC_CODEGEN_ENABLED ON)
+  else()
+    set(RPC_CODEGEN_ENABLED OFF)
+  endif()
+elseif (RPC_CODEGEN STREQUAL "ON")
+  if (NOT CARGO)
+    message(FATAL_ERROR "RPC_CODEGEN=ON requires Rust/Cargo (https://rustup.rs); use RPC_CODEGEN=OFF for checked-in bindings")
+  endif()
+  if (NOT RPC_LIBCLANG_LIBRARY)
+    message(FATAL_ERROR "RPC_CODEGEN=ON requires libclang; set LIBCLANG_PATH or use RPC_CODEGEN=OFF")
+  endif()
+  set(RPC_CODEGEN_ENABLED ON)
+elseif (RPC_CODEGEN STREQUAL "OFF")
+  set(RPC_CODEGEN_ENABLED OFF)
+else()
+  message(FATAL_ERROR "RPC_CODEGEN must be AUTO, ON, or OFF")
 endif()
 
-file(GLOB_RECURSE RPC_TOOL_SOURCES CONFIGURE_DEPENDS
-  ${RPC_TOOL_DIR}/src/*.rs
-  ${RPC_TOOL_DIR}/src/*.jinja
-  )
+if (RPC_CODEGEN_ENABLED)
+  file(GLOB_RECURSE RPC_TOOL_SOURCES CONFIGURE_DEPENDS
+    ${RPC_TOOL_DIR}/src/*.rs
+    ${RPC_TOOL_DIR}/src/*.jinja)
 
-add_custom_command(
-  OUTPUT ${RPC_TOOL_BIN}
-  COMMAND ${CARGO} build --release --locked
-  WORKING_DIRECTORY ${RPC_TOOL_DIR}
-  DEPENDS ${RPC_TOOL_SOURCES} ${RPC_TOOL_DIR}/Cargo.toml
-  COMMENT "Building clang-rpc-gen (Rust)"
-  )
+  add_custom_command(
+    OUTPUT ${RPC_TOOL_BIN}
+    COMMAND ${CARGO} build --release --locked
+    WORKING_DIRECTORY ${RPC_TOOL_DIR}
+    DEPENDS ${RPC_TOOL_SOURCES} ${RPC_TOOL_DIR}/Cargo.toml
+    COMMENT "Building clang-rpc-gen (Rust)")
 
-add_custom_target(clang_rpc_gen_tool ALL DEPENDS ${RPC_TOOL_BIN})
+  add_custom_target(clang_rpc_gen_tool ALL DEPENDS ${RPC_TOOL_BIN})
+  add_custom_target(rpc_refresh_pregenerated)
+  message(STATUS "RPC bindings: generating with Rust/libclang (RPC_CODEGEN=${RPC_CODEGEN})")
+else()
+  message(STATUS "RPC bindings: using checked-in gen/ artifacts (RPC_CODEGEN=${RPC_CODEGEN})")
+endif()
+
+function(rpc_verify_pregenerated HEADER PREGENERATED_DIR NAME)
+  set(_hash_file "${PREGENERATED_DIR}/${NAME}.sha256")
+  if (NOT EXISTS "${_hash_file}")
+    message(FATAL_ERROR "Missing pre-generated RPC hash: ${_hash_file}")
+  endif()
+  file(READ "${_hash_file}" _expected_hash)
+  string(STRIP "${_expected_hash}" _expected_hash)
+  file(SHA256 "${HEADER}" _actual_hash)
+  if (NOT _actual_hash STREQUAL _expected_hash)
+    message(FATAL_ERROR
+      "Pre-generated RPC binding ${NAME} is stale for ${HEADER}. "
+      "Configure with RPC_CODEGEN=ON and build target rpc_refresh_pregenerated.")
+  endif()
+endfunction()
 
 function(rpc_generate_parse_context TARGET_NAME DIRECTORY NAME OUTPUT_VAR)
   if (NOT TARGET ${TARGET_NAME})
@@ -118,12 +158,16 @@ endfunction()
 # and links them. Use rpc_generate_dbus_source() when no gRPC output is needed.
 macro(rpc_generate_source HEADER DIRECTORY NAME)
   if (HAVE_RPC)
-    cmake_parse_arguments(_rpc "DBUS" "TARGET;PROTO_TYPES_PACKAGE;GRPC_SERVICES_NAMESPACE;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS" "" ${ARGN})
+    cmake_parse_arguments(_rpc "DBUS" "TARGET;PROTO_TYPES_PACKAGE;GRPC_SERVICES_NAMESPACE;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS;PREGENERATED_DIR" "" ${ARGN})
 
     if (NOT _rpc_TARGET)
       message(FATAL_ERROR "rpc_generate_source(${NAME}) requires TARGET <cmake-target>")
     endif()
-    rpc_generate_parse_context(${_rpc_TARGET} ${DIRECTORY} ${NAME} _rpc_parse_context)
+    if (RPC_CODEGEN_ENABLED)
+      rpc_generate_parse_context(${_rpc_TARGET} ${DIRECTORY} ${NAME} _rpc_parse_context)
+    elseif (NOT _rpc_PREGENERATED_DIR)
+      message(FATAL_ERROR "rpc_generate_source(${NAME}) requires PREGENERATED_DIR when RPC_CODEGEN=OFF")
+    endif()
 
     set(_rpc_proto_output ${DIRECTORY}/${NAME}.proto)
     set(_rpc_types_proto_output "")
@@ -171,9 +215,10 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
       set(_rpc_dbus_outputs ${_rpc_dbus_hh} ${_rpc_dbus_cc})
     endif()
 
-    add_custom_command(
-      OUTPUT ${_rpc_proto_output} ${_rpc_types_proto_output} ${_rpc_adapter_hh} ${_rpc_adapter_cc} ${_rpc_dbus_outputs}
-      COMMAND ${RPC_TOOL_BIN}
+    if (RPC_CODEGEN_ENABLED)
+      add_custom_command(
+        OUTPUT ${_rpc_proto_output} ${_rpc_types_proto_output} ${_rpc_adapter_hh} ${_rpc_adapter_cc} ${_rpc_dbus_outputs}
+        COMMAND ${RPC_TOOL_BIN}
               --header ${HEADER}
               --parse-context ${_rpc_parse_context}
               --out-proto ${_rpc_proto_output}
@@ -186,8 +231,54 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
               ${_rpc_annotations_args}
               ${_rpc_dbus_args}
       DEPENDS ${HEADER} ${_rpc_parse_context} ${RPC_TOOL_BIN} ${_rpc_annotations_depends}
-      COMMENT "Generating gRPC bindings for ${HEADER}"
-      )
+        COMMENT "Generating gRPC bindings for ${HEADER}")
+
+      if (_rpc_PREGENERATED_DIR)
+        set(_rpc_pregen_types_args "")
+        if (_rpc_PROTO_TYPES_PACKAGE)
+          set(_rpc_pregen_types_args
+            --out-types-proto ${_rpc_PREGENERATED_DIR}/${NAME}Types.proto
+            --proto-types-package ${_rpc_PROTO_TYPES_PACKAGE})
+        endif()
+        add_custom_target(${NAME}_rpc_refresh_pregenerated
+          COMMAND ${CMAKE_COMMAND} -E make_directory ${_rpc_PREGENERATED_DIR}
+          COMMAND ${RPC_TOOL_BIN}
+                  --header ${HEADER}
+                  --parse-context ${_rpc_parse_context}
+                  --out-proto ${_rpc_PREGENERATED_DIR}/${NAME}.proto
+                  --out-adapter-hh ${_rpc_PREGENERATED_DIR}/${NAME}ServiceImpl.hh
+                  --out-adapter-cc ${_rpc_PREGENERATED_DIR}/${NAME}ServiceImpl.cc
+                  ${_rpc_pregen_types_args}
+                  ${_rpc_grpc_services_namespace_args}
+                  ${_rpc_header_include_args}
+                  ${_rpc_adapter_namespace_args}
+                  ${_rpc_annotations_args}
+          COMMAND ${CMAKE_COMMAND} -DINPUT=${HEADER} -DOUTPUT=${_rpc_PREGENERATED_DIR}/${NAME}.sha256
+                  -P ${CMAKE_SOURCE_DIR}/cmake/modules/WriteFileHash.cmake
+          DEPENDS ${HEADER} ${_rpc_parse_context} ${RPC_TOOL_BIN} ${_rpc_annotations_depends}
+          COMMENT "Refreshing checked-in RPC bindings for ${HEADER}")
+        add_dependencies(rpc_refresh_pregenerated ${NAME}_rpc_refresh_pregenerated)
+      endif()
+    else()
+      rpc_verify_pregenerated(${HEADER} ${_rpc_PREGENERATED_DIR} ${NAME})
+      set(_rpc_pregen_files
+        ${_rpc_PREGENERATED_DIR}/${NAME}.proto
+        ${_rpc_PREGENERATED_DIR}/${NAME}ServiceImpl.hh
+        ${_rpc_PREGENERATED_DIR}/${NAME}ServiceImpl.cc)
+      if (_rpc_PROTO_TYPES_PACKAGE)
+        list(APPEND _rpc_pregen_files ${_rpc_PREGENERATED_DIR}/${NAME}Types.proto)
+      endif()
+      foreach(_rpc_pregen_file IN LISTS _rpc_pregen_files)
+        if (NOT EXISTS ${_rpc_pregen_file})
+          message(FATAL_ERROR "Missing pre-generated RPC artifact: ${_rpc_pregen_file}")
+        endif()
+      endforeach()
+      add_custom_command(
+        OUTPUT ${_rpc_proto_output} ${_rpc_types_proto_output} ${_rpc_adapter_hh} ${_rpc_adapter_cc}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${_rpc_pregen_files} ${DIRECTORY}
+        DEPENDS ${_rpc_pregen_files}
+        COMMENT "Using checked-in RPC bindings for ${HEADER}")
+    endif()
 
     set(_rpc_pb_hh ${DIRECTORY}/${NAME}.pb.h)
     set(_rpc_pb_cc ${DIRECTORY}/${NAME}.pb.cc)
@@ -244,12 +335,16 @@ endmacro()
 # unused implementation details.
 macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
   if (HAVE_RPC_DBUS)
-    cmake_parse_arguments(_rpc_dbus "" "TARGET;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS" "" ${ARGN})
+    cmake_parse_arguments(_rpc_dbus "" "TARGET;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS;PREGENERATED_DIR" "" ${ARGN})
 
     if (NOT _rpc_dbus_TARGET)
       message(FATAL_ERROR "rpc_generate_dbus_source(${NAME}) requires TARGET <cmake-target>")
     endif()
-    rpc_generate_parse_context(${_rpc_dbus_TARGET} ${DIRECTORY} ${NAME} _rpc_dbus_parse_context)
+    if (RPC_CODEGEN_ENABLED)
+      rpc_generate_parse_context(${_rpc_dbus_TARGET} ${DIRECTORY} ${NAME} _rpc_dbus_parse_context)
+    elseif (NOT _rpc_dbus_PREGENERATED_DIR)
+      message(FATAL_ERROR "rpc_generate_dbus_source(${NAME}) requires PREGENERATED_DIR when RPC_CODEGEN=OFF")
+    endif()
 
     set(_rpc_dbus_proto ${DIRECTORY}/${NAME}.unused.proto)
     set(_rpc_dbus_adapter_hh ${DIRECTORY}/${NAME}ServiceImpl.unused.hh)
@@ -274,14 +369,15 @@ macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
       set(_rpc_dbus_annotations_depends ${_rpc_dbus_ANNOTATIONS})
     endif()
 
-    add_custom_command(
-      OUTPUT
-        ${_rpc_dbus_proto}
-        ${_rpc_dbus_adapter_hh}
-        ${_rpc_dbus_adapter_cc}
-        ${_rpc_dbus_hh}
-        ${_rpc_dbus_cc}
-      COMMAND ${RPC_TOOL_BIN}
+    if (RPC_CODEGEN_ENABLED)
+      add_custom_command(
+        OUTPUT
+          ${_rpc_dbus_proto}
+          ${_rpc_dbus_adapter_hh}
+          ${_rpc_dbus_adapter_cc}
+          ${_rpc_dbus_hh}
+          ${_rpc_dbus_cc}
+        COMMAND ${RPC_TOOL_BIN}
               --header ${HEADER}
               --parse-context ${_rpc_dbus_parse_context}
               --out-proto ${_rpc_dbus_proto}
@@ -293,8 +389,41 @@ macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
               --out-dbus-hh ${_rpc_dbus_hh}
               --out-dbus-cc ${_rpc_dbus_cc}
       DEPENDS ${HEADER} ${_rpc_dbus_parse_context} ${RPC_TOOL_BIN} ${_rpc_dbus_annotations_depends}
-      COMMENT "Generating DBus binding for ${HEADER}"
-      )
+        COMMENT "Generating DBus binding for ${HEADER}")
+
+      if (_rpc_dbus_PREGENERATED_DIR)
+        add_custom_target(${NAME}_rpc_dbus_refresh_pregenerated
+          COMMAND ${CMAKE_COMMAND} -E make_directory ${_rpc_dbus_PREGENERATED_DIR}
+          COMMAND ${RPC_TOOL_BIN}
+                  --header ${HEADER}
+                  --parse-context ${_rpc_dbus_parse_context}
+                  --out-proto ${_rpc_dbus_proto}
+                  --out-adapter-hh ${_rpc_dbus_adapter_hh}
+                  --out-adapter-cc ${_rpc_dbus_adapter_cc}
+                  ${_rpc_dbus_header_include_args}
+                  ${_rpc_dbus_namespace_args}
+                  ${_rpc_dbus_annotations_args}
+                  --out-dbus-hh ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBus.hh
+                  --out-dbus-cc ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBus.cc
+          COMMAND ${CMAKE_COMMAND} -DINPUT=${HEADER} -DOUTPUT=${_rpc_dbus_PREGENERATED_DIR}/${NAME}.sha256
+                  -P ${CMAKE_SOURCE_DIR}/cmake/modules/WriteFileHash.cmake
+          DEPENDS ${HEADER} ${_rpc_dbus_parse_context} ${RPC_TOOL_BIN} ${_rpc_dbus_annotations_depends}
+          COMMENT "Refreshing checked-in DBus binding for ${HEADER}")
+        add_dependencies(rpc_refresh_pregenerated ${NAME}_rpc_dbus_refresh_pregenerated)
+      endif()
+    else()
+      rpc_verify_pregenerated(${HEADER} ${_rpc_dbus_PREGENERATED_DIR} ${NAME})
+      set(_rpc_dbus_pregen_hh ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBus.hh)
+      set(_rpc_dbus_pregen_cc ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBus.cc)
+      if (NOT EXISTS ${_rpc_dbus_pregen_hh} OR NOT EXISTS ${_rpc_dbus_pregen_cc})
+        message(FATAL_ERROR "Missing pre-generated DBus artifacts for ${NAME} in ${_rpc_dbus_PREGENERATED_DIR}")
+      endif()
+      add_custom_command(
+        OUTPUT ${_rpc_dbus_hh} ${_rpc_dbus_cc}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${_rpc_dbus_pregen_hh} ${_rpc_dbus_pregen_cc} ${DIRECTORY}
+        DEPENDS ${_rpc_dbus_pregen_hh} ${_rpc_dbus_pregen_cc}
+        COMMENT "Using checked-in DBus binding for ${HEADER}")
+    endif()
 
     add_custom_target(
       ${NAME}_rpc_dbus_source_target ALL

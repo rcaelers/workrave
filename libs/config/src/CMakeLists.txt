@@ -40,6 +40,7 @@ target_include_directories(workrave-libs-config
 if (HAVE_RPC)
   rpc_generate_source(${CMAKE_SOURCE_DIR}/libs/config/include/config/IConfigurator.hh ${CMAKE_CURRENT_BINARY_DIR} RpcConfig
     TARGET workrave-libs-config
+    PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
     HEADER_INCLUDE "config/IConfigurator.hh"
     PROTO_TYPES_PACKAGE workrave.rpc.config
     GRPC_SERVICES_NAMESPACE rpc

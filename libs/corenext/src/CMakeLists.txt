@@ -27,12 +27,15 @@ endif()
 if (HAVE_RPC_DBUS)
   rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/Core.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusCoreBinding
     TARGET workrave-libs-core-next
+    PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
     ADAPTER_NAMESPACE workrave::core::rpc)
   rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/Break.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusBreakBinding
     TARGET workrave-libs-core-next
+    PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
     ADAPTER_NAMESPACE workrave::core::rpc)
   rpc_generate_dbus_source(${CMAKE_SOURCE_DIR}/libs/config/include/config/IConfigurator.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusConfigBinding
     TARGET workrave-libs-core-next
+    PREGENERATED_DIR ${CMAKE_SOURCE_DIR}/libs/config/src/gen
     HEADER_INCLUDE "config/IConfigurator.hh"
     ADAPTER_NAMESPACE workrave::core::rpc)
 
@@ -66,11 +69,13 @@ if (HAVE_RPC)
   # workrave::rpc::core and workrave::rpc::breaks.
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Core.hh ${CMAKE_CURRENT_BINARY_DIR} RpcCore
     TARGET workrave-libs-core-next
+    PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
     PROTO_TYPES_PACKAGE workrave.rpc.core
     GRPC_SERVICES_NAMESPACE rpc
     ADAPTER_NAMESPACE workrave::core::rpc)
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Break.hh ${CMAKE_CURRENT_BINARY_DIR} RpcBreak
     TARGET workrave-libs-core-next
+    PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
     PROTO_TYPES_PACKAGE workrave.rpc.breaks
     GRPC_SERVICES_NAMESPACE rpc
     ADAPTER_NAMESPACE workrave::core::rpc)

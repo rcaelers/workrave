@@ -86,4 +86,3 @@ service DBusFixtureService {
   rpc ModeChanged(ModeChangedRequest) returns (stream ModeChangedEvent);
 
 }
-

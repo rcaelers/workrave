@@ -101,4 +101,3 @@ service StructSeqService {
   rpc TimerUpdated(TimerUpdatedRequest) returns (stream TimerUpdatedEvent);
 
 }
-

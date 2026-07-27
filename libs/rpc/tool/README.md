@@ -216,6 +216,17 @@ Run the generated schemas through `protoc` + `grpc_cpp_plugin` to get the real
 types the generated adapter (`--out-adapter-hh`/`--out-adapter-cc`) compiles
 against.
 
+## Checked-in fallback
+
+Workrave keeps the generator outputs used by its native interfaces in adjacent
+`gen/` directories. CMake's `RPC_CODEGEN=AUTO` mode uses live Rust/libclang
+generation when both Cargo and libclang are available and otherwise uses those
+checked-in files.
+Use `RPC_CODEGEN=OFF` to force the fallback or `RPC_CODEGEN=ON` to require live
+generation. After changing RPC annotations, configure with codegen enabled and
+build the `rpc_refresh_pregenerated` target; source-header hashes prevent stale
+fallback files from being used silently.
+
 ## A note on the `clang` crate's `clang_10_0` feature
 
 `Cargo.toml` enables `clang_10_0` on the `clang` crate together with `runtime`.

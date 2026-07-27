@@ -1,0 +1,49 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave;
+import "RpcConfigTypes.proto";
+
+
+service ConfigService {
+
+  rpc RemoveKey(.workrave.rpc.config.RemoveKeyRequest) returns (.workrave.rpc.config.RemoveKeyResponse);
+
+  rpc RenameKey(.workrave.rpc.config.RenameKeyRequest) returns (.workrave.rpc.config.RenameKeyResponse);
+
+  rpc HasUserValue(.workrave.rpc.config.HasUserValueRequest) returns (.workrave.rpc.config.HasUserValueResponse);
+
+  rpc GetString(.workrave.rpc.config.GetStringRequest) returns (.workrave.rpc.config.GetStringResponse);
+
+  rpc GetBool(.workrave.rpc.config.GetBoolRequest) returns (.workrave.rpc.config.GetBoolResponse);
+
+  rpc GetInt(.workrave.rpc.config.GetIntRequest) returns (.workrave.rpc.config.GetIntResponse);
+
+  rpc GetInt64(.workrave.rpc.config.GetInt64Request) returns (.workrave.rpc.config.GetInt64Response);
+
+  rpc GetDouble(.workrave.rpc.config.GetDoubleRequest) returns (.workrave.rpc.config.GetDoubleResponse);
+
+  rpc GetStringWithDefault(.workrave.rpc.config.GetStringWithDefaultRequest) returns (.workrave.rpc.config.GetStringWithDefaultResponse);
+
+  rpc GetBoolWithDefault(.workrave.rpc.config.GetBoolWithDefaultRequest) returns (.workrave.rpc.config.GetBoolWithDefaultResponse);
+
+  rpc GetIntWithDefault(.workrave.rpc.config.GetIntWithDefaultRequest) returns (.workrave.rpc.config.GetIntWithDefaultResponse);
+
+  rpc GetInt64WithDefault(.workrave.rpc.config.GetInt64WithDefaultRequest) returns (.workrave.rpc.config.GetInt64WithDefaultResponse);
+
+  rpc GetDoubleWithDefault(.workrave.rpc.config.GetDoubleWithDefaultRequest) returns (.workrave.rpc.config.GetDoubleWithDefaultResponse);
+
+  rpc SetString(.workrave.rpc.config.SetStringRequest) returns (.workrave.rpc.config.SetStringResponse);
+
+  rpc SetInt(.workrave.rpc.config.SetIntRequest) returns (.workrave.rpc.config.SetIntResponse);
+
+  rpc SetInt64(.workrave.rpc.config.SetInt64Request) returns (.workrave.rpc.config.SetInt64Response);
+
+  rpc SetBool(.workrave.rpc.config.SetBoolRequest) returns (.workrave.rpc.config.SetBoolResponse);
+
+  rpc SetDouble(.workrave.rpc.config.SetDoubleRequest) returns (.workrave.rpc.config.SetDoubleResponse);
+
+
+}

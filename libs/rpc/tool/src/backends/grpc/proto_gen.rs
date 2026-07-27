@@ -20,6 +20,10 @@ const TYPES_TEMPLATE: EmbeddedTemplate = EmbeddedTemplate {
     source: include_str!("templates/types.proto.jinja"),
 };
 
+fn normalize_proto_eof(rendered: String) -> String {
+    format!("{}\n", rendered.trim_end())
+}
+
 #[derive(Serialize)]
 struct ProtoContext<'a> {
     package: String,
@@ -40,7 +44,7 @@ pub fn render_service_proto(
         types_proto_filename,
         model,
     };
-    render_template(ROOT_TEMPLATE_NAME, &[ROOT_TEMPLATE], &context)
+    render_template(ROOT_TEMPLATE_NAME, &[ROOT_TEMPLATE], &context).map(normalize_proto_eof)
 }
 
 #[derive(Serialize)]
@@ -54,5 +58,5 @@ pub fn render_types_proto(model: &GenerationModel, package: &str) -> Result<Stri
         package: package.to_string(),
         model,
     };
-    render_template(TYPES_TEMPLATE_NAME, &[TYPES_TEMPLATE], &context)
+    render_template(TYPES_TEMPLATE_NAME, &[TYPES_TEMPLATE], &context).map(normalize_proto_eof)
 }

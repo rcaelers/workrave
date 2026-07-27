@@ -1,0 +1,51 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave;
+import "RpcBreakTypes.proto";
+
+
+service BreakService {
+
+  rpc GetName(.workrave.rpc.breaks.GetNameRequest) returns (.workrave.rpc.breaks.GetNameResponse);
+
+  rpc IsEnabled(.workrave.rpc.breaks.IsEnabledRequest) returns (.workrave.rpc.breaks.IsEnabledResponse);
+
+  rpc IsTimerRunning(.workrave.rpc.breaks.IsTimerRunningRequest) returns (.workrave.rpc.breaks.IsTimerRunningResponse);
+
+  rpc IsTaking(.workrave.rpc.breaks.IsTakingRequest) returns (.workrave.rpc.breaks.IsTakingResponse);
+
+  rpc IsMaxPreludesReached(.workrave.rpc.breaks.IsMaxPreludesReachedRequest) returns (.workrave.rpc.breaks.IsMaxPreludesReachedResponse);
+
+  rpc IsActive(.workrave.rpc.breaks.IsActiveRequest) returns (.workrave.rpc.breaks.IsActiveResponse);
+
+  rpc GetTimerElapsed(.workrave.rpc.breaks.GetTimerElapsedRequest) returns (.workrave.rpc.breaks.GetTimerElapsedResponse);
+
+  rpc GetTimerIdle(.workrave.rpc.breaks.GetTimerIdleRequest) returns (.workrave.rpc.breaks.GetTimerIdleResponse);
+
+  rpc GetAutoReset(.workrave.rpc.breaks.GetAutoResetRequest) returns (.workrave.rpc.breaks.GetAutoResetResponse);
+
+  rpc IsAutoResetEnabled(.workrave.rpc.breaks.IsAutoResetEnabledRequest) returns (.workrave.rpc.breaks.IsAutoResetEnabledResponse);
+
+  rpc GetLimit(.workrave.rpc.breaks.GetLimitRequest) returns (.workrave.rpc.breaks.GetLimitResponse);
+
+  rpc IsLimitEnabled(.workrave.rpc.breaks.IsLimitEnabledRequest) returns (.workrave.rpc.breaks.IsLimitEnabledResponse);
+
+  rpc GetTimerRemaining(.workrave.rpc.breaks.GetTimerRemainingRequest) returns (.workrave.rpc.breaks.GetTimerRemainingResponse);
+
+  rpc GetTimerOverdue(.workrave.rpc.breaks.GetTimerOverdueRequest) returns (.workrave.rpc.breaks.GetTimerOverdueResponse);
+
+  rpc PostponeBreak(.workrave.rpc.breaks.PostponeBreakRequest) returns (.workrave.rpc.breaks.PostponeBreakResponse);
+
+  rpc SkipBreak(.workrave.rpc.breaks.SkipBreakRequest) returns (.workrave.rpc.breaks.SkipBreakResponse);
+
+  rpc GetBreakState(.workrave.rpc.breaks.GetBreakStateRequest) returns (.workrave.rpc.breaks.GetBreakStateResponse);
+
+
+  rpc BreakEvent(.workrave.rpc.breaks.BreakEventRequest) returns (stream .workrave.rpc.breaks.BreakEventEvent);
+
+  rpc BreakStateChanged(.workrave.rpc.breaks.BreakStateChangedRequest) returns (stream .workrave.rpc.breaks.BreakStateChangedEvent);
+
+}
