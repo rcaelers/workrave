@@ -33,7 +33,7 @@ class ToolkitUnix
   , public IToolkitUnixPrivate
 {
 public:
-  ToolkitUnix(int argc, char **argv);
+  ToolkitUnix(int &argc, char **argv);
   ~ToolkitUnix() override = default;
 
   // IToolkit

@@ -71,7 +71,7 @@ class Toolkit
   , public IToolkitPrivate
 {
 public:
-  Toolkit(int argc, char **argv);
+  Toolkit(int &argc, char **argv);
   ~Toolkit() override;
 
   // IToolkit

@@ -25,7 +25,7 @@
 class ToolkitUnix : public Toolkit
 {
 public:
-  ToolkitUnix(int argc, char **argv);
+  ToolkitUnix(int &argc, char **argv);
   ~ToolkitUnix() override = default;
 
   // IToolkit

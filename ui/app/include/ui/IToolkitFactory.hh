@@ -26,7 +26,7 @@ class IToolkitFactory
 {
 public:
   virtual ~IToolkitFactory() = default;
-  virtual std::shared_ptr<IToolkit> create(int argc, char **argv) = 0;
+  virtual std::shared_ptr<IToolkit> create(int &argc, char **argv) = 0;
 };
 
 #endif // WORKRAVE_UI_OOLKIT_FACTORY_HH

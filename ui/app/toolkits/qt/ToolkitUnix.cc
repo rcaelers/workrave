@@ -39,7 +39,7 @@ using namespace workrave::utils;
 #include "config/IConfigurator.hh"
 #include "debug.hh"
 
-ToolkitUnix::ToolkitUnix(int argc, char **argv)
+ToolkitUnix::ToolkitUnix(int &argc, char **argv)
   : Toolkit(argc, argv)
 {
 }

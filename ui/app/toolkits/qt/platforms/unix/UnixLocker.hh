@@ -18,24 +18,55 @@
 #ifndef UNIXLOCKER_HH
 #define UNIXLOCKER_HH
 
+#include <vector>
+
+#include <QAbstractNativeEventFilter>
+#include <QObject>
+#include <QTimer>
+#include <qwindowdefs.h>
+
 #include "ui/Locker.hh"
 
-namespace Gtk
-{
-  class Window;
-}
-
-class UnixLocker : public Locker
+class UnixLocker
+  : public QObject
+  , public QAbstractNativeEventFilter
+  , public Locker
 {
 public:
-  UnixLocker() = default;
+  UnixLocker();
+
+  void set_window(WId window);
 
   bool can_lock() override;
   void prepare_lock() override;
   void lock() override;
   void unlock() override;
 
+  auto nativeEventFilter(const QByteArray &event_type, void *message, qintptr *result) -> bool override;
+
 private:
+  bool lock_internal();
+  void on_lock_retry_timer();
+
+  void handle_screen_lock_keystroke(unsigned int keycode, unsigned int modifier_state);
+  void query_desktop_lock_shortcuts();
+  void set_default_lock_shortcuts();
+  void add_keybinding_shortcut(const char *binding, const char *schema_name, const char *key_name);
+  bool parse_keybinding(const char *binding, unsigned long *keysym, unsigned int *modifiers);
+  auto x11_display() const -> void *;
+
+  struct Shortcut
+  {
+    unsigned long keysym{0};
+    unsigned int modifiers{0};
+    bool valid{false};
+  };
+
+  WId grab_window{0};
+  bool grab_wanted{false};
+  bool grabbed{false};
+  QTimer grab_retry_timer;
+  std::vector<Shortcut> lock_shortcuts;
 };
 
 #endif // UNIXLOCKER_HH

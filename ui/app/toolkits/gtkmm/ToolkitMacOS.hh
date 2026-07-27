@@ -24,7 +24,7 @@
 class ToolkitMacOS : public Toolkit
 {
 public:
-  ToolkitMacOS(int argc, char **argv);
+  ToolkitMacOS(int &argc, char **argv);
   ~ToolkitMacOS() override = default;
 
   // IToolkit

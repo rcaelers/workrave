@@ -68,7 +68,7 @@ reassert_native_window_opacity(HWND hwnd, bool translucent)
   RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_ALLCHILDREN | RDW_FRAME | RDW_UPDATENOW);
 }
 
-ToolkitWindows::ToolkitWindows(int argc, char **argv)
+ToolkitWindows::ToolkitWindows(int &argc, char **argv)
   : Toolkit(argc, argv)
 {
 #if defined(HAVE_HARPOON)

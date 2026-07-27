@@ -30,7 +30,7 @@
 #endif
 
 std::shared_ptr<IToolkit>
-ToolkitFactory::create(int argc, char **argv)
+ToolkitFactory::create(int &argc, char **argv)
 {
 #if defined(PLATFORM_OS_MACOS)
   return std::make_shared<ToolkitMacOS>(argc, argv);
