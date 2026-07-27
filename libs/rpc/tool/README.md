@@ -69,6 +69,12 @@ separate ones; the tool doesn't care either way, it just greps for `@rpc`.
   `boost::signals2::signal`) has nothing for this tag to attach to. Refactor
   the class to expose a real accessor for the event if you need to annotate
   one of these; there's no code-free way to do it.
+- `@rpc.dbus(return_type="int32")` narrows an `@rpc` method's D-Bus return.
+  `@rpc.param(value, dir=in, dbus_type="int32")` does the same for an input
+  or output parameter, and `@rpc.signal(name="Progress", dbus_types="int32")`
+  does it for signal fields. The native C++ and gRPC types remain unchanged;
+  generated code uses checked integer conversion and returns a D-Bus type
+  error when a value is out of range.
 - Direction is inferred for by-value/`const T&` parameters (`in`) and non-`void`
   returns (implicit response field). Any non-const pointer/reference parameter
   **must** carry `@rpc.param(name, dir=in|out|inout)`.

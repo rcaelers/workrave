@@ -10,6 +10,8 @@
 #include <map>
 #include <string>
 #include <string_view>
+#include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "dbus/DBusBindingQt.hh"
@@ -18,6 +20,19 @@
 #include "RpcDbusScalarDBus.hh"
 
 using namespace workrave::dbus;
+
+template<typename To, typename From>
+To dbus_checked_integer_cast(From value)
+{
+  static_assert(std::is_integral_v<To> && std::is_integral_v<From>);
+  if (!std::in_range<To>(value))
+    {
+      throw ::workrave::dbus::DBusRemoteException()
+        << ::workrave::dbus::message_info("DBus integer conversion is out of range")
+        << ::workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS);
+    }
+  return static_cast<To>(value);
+}
 
 
 namespace workrave::dbus

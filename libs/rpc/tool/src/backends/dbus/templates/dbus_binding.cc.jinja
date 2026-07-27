@@ -15,6 +15,8 @@
 #include <map>
 #include <string>
 #include <string_view>
+#include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "dbus/DBusBindingQt.hh"
@@ -25,6 +27,19 @@
 #include "{{ dbus_header_filename }}"
 
 using namespace workrave::dbus;
+
+template<typename To, typename From>
+To dbus_checked_integer_cast(From value)
+{
+  static_assert(std::is_integral_v<To> && std::is_integral_v<From>);
+  if (!std::in_range<To>(value))
+    {
+      throw ::workrave::dbus::DBusRemoteException()
+        << ::workrave::dbus::message_info("DBus integer conversion is out of range")
+        << ::workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS);
+    }
+  return static_cast<To>(value);
+}
 
 {% for custom in dbus.custom_types %}
 {{ marshall_type(custom, model) }}
@@ -81,12 +96,12 @@ private:
 {% for param in method.params %}
   "\n"
 
-  "      <arg type=\"{{ model.types[param.type_id].dbus_signature }}\" name=\"{{ param.proto_field }}\" direction=\"{{ param.direction | replace("_", "") }}\" />\n"
+  "      <arg type=\"{{ param.dbus_signature | default(model.types[param.type_id].dbus_signature, true) }}\" name=\"{{ param.proto_field }}\" direction=\"{{ param.direction | replace("_", "") }}\" />\n"
 {% endfor -%}
 {% if method.return_value is not none %}
   "\n"
 
-  "      <arg type=\"{{ model.types[method.return_value.type_id].dbus_signature }}\" name=\"{{ method.return_value.proto_field }}\" direction=\"out\" />\n"
+  "      <arg type=\"{{ method.return_value.dbus_signature | default(model.types[method.return_value.type_id].dbus_signature, true) }}\" name=\"{{ method.return_value.proto_field }}\" direction=\"out\" />\n"
 {% endif %}
   "\n"
 
@@ -100,7 +115,7 @@ private:
 {% for field in signal.event_fields %}
   "\n"
 
-  "      <arg type=\"{{ model.types[field.type_id].dbus_signature }}\" name=\"{{ field.proto_name }}\" />\n"
+  "      <arg type=\"{{ field.dbus_signature | default(model.types[field.type_id].dbus_signature, true) }}\" name=\"{{ field.proto_name }}\" />\n"
 {% endfor %}
   "\n"
 
@@ -175,7 +190,7 @@ void
 
 {% for param in method.params %}
 {% if param.dbus_arg_index is not none %}
-      p_{{ param.cxx_name }} = ::workrave::dbus::DBusMarshall<{{ model.types[param.type_id].cxx.base_spelling }}>::convert(message.arguments().at({{ param.dbus_arg_index }}));
+      p_{{ param.cxx_name }} = {% if param.dbus_cpp_type %}dbus_checked_integer_cast<{{ model.types[param.type_id].cxx.base_spelling }}>(::workrave::dbus::DBusMarshall<{{ param.dbus_cpp_type }}>::convert(message.arguments().at({{ param.dbus_arg_index }}))){% else %}::workrave::dbus::DBusMarshall<{{ model.types[param.type_id].cxx.base_spelling }}>::convert(message.arguments().at({{ param.dbus_arg_index }})){% endif %};
 {% endif %}
 {% endfor %}
 
@@ -187,11 +202,11 @@ void
 
       QDBusMessage reply = message.createReply();
 {% if method.return_value is not none %}
-      reply << ::workrave::dbus::DBusMarshall<{{ model.types[method.return_value.type_id].cxx.base_spelling }}>::convert(p_{{ method.return_value.proto_field }});
+      reply << ::workrave::dbus::DBusMarshall<{{ method.return_value.dbus_cpp_type | default(model.types[method.return_value.type_id].cxx.base_spelling, true) }}>::convert({% if method.return_value.dbus_cpp_type %}static_cast<{{ method.return_value.dbus_cpp_type }}>(p_{{ method.return_value.proto_field }}){% else %}p_{{ method.return_value.proto_field }}{% endif %});
 {% endif %}
 {% for param in method.params %}
 {% if param.direction == "out" %}
-      reply << ::workrave::dbus::DBusMarshall<{{ model.types[param.type_id].cxx.base_spelling }}>::convert(p_{{ param.cxx_name }});
+      reply << ::workrave::dbus::DBusMarshall<{{ param.dbus_cpp_type | default(model.types[param.type_id].cxx.base_spelling, true) }}>::convert({% if param.dbus_cpp_type %}dbus_checked_integer_cast<{{ param.dbus_cpp_type }}>(p_{{ param.cxx_name }}){% else %}p_{{ param.cxx_name }}{% endif %});
 {% endif %}
 {% endfor %}
 
@@ -219,7 +234,7 @@ void
 {
   QDBusMessage sig = QDBusMessage::createSignal(QString::fromStdString(path), "{{ dbus.name }}", "{{ signal.rpc_name }}");
 {% for field in signal.event_fields %}
-  sig << ::workrave::dbus::DBusMarshall<{{ model.types[field.type_id].cxx.spelling }}>::convert({{ field.cxx_name }});
+  sig << ::workrave::dbus::DBusMarshall<{{ field.dbus_cpp_type | default(model.types[field.type_id].cxx.spelling, true) }}>::convert({% if field.dbus_cpp_type %}dbus_checked_integer_cast<{{ field.dbus_cpp_type }}>( {{ field.cxx_name }} ){% else %}{{ field.cxx_name }}{% endif %});
 {% endfor %}
   ::workrave::dbus::IDBusPrivateQt::Ptr priv = std::dynamic_pointer_cast<::workrave::dbus::IDBusPrivateQt>(dbus);
   priv->get_connection().send(sig);

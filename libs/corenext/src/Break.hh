@@ -51,6 +51,7 @@ public:
   // IBreak
   // @rpc.signal(name="BreakEvent")
   boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event() override;
+  // @rpc.signal(name="BreakStateChanged")
   boost::signals2::signal<void(BreakStage)> &signal_break_stage_changed();
   // @rpc(name="GetName")
   [[nodiscard]] std::string get_name() const override;
@@ -65,8 +66,10 @@ public:
   // @rpc(name="IsActive")
   [[nodiscard]] bool is_active() const override;
   // @rpc(name="GetTimerElapsed")
+  // @rpc.dbus(return_type="int32")
   [[nodiscard]] int64_t get_elapsed_time() const override;
   // @rpc(name="GetTimerIdle")
+  // @rpc.dbus(return_type="int32")
   [[nodiscard]] int64_t get_elapsed_idle_time() const override;
   // @rpc(name="GetAutoReset")
   [[nodiscard]] int64_t get_auto_reset() const override;
@@ -77,8 +80,10 @@ public:
   // @rpc(name="IsLimitEnabled")
   [[nodiscard]] bool is_limit_enabled() const override;
   // @rpc(name="GetTimerRemaining")
+  // @rpc.dbus(return_type="int32")
   [[nodiscard]] int64_t get_timer_remaining() const;
   // @rpc(name="GetTimerOverdue")
+  // @rpc.dbus(return_type="int32")
   [[nodiscard]] int64_t get_total_overdue_time() const override;
   // @rpc(name="PostponeBreak")
   void postpone_break() override;

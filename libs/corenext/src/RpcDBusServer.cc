@@ -7,7 +7,6 @@
 
 #include "RpcDBusServer.hh"
 
-#include <array>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -17,15 +16,11 @@
 
 #include "Core.hh"
 #include "RpcDBusBreakBindingDBus.hh"
-#include "RpcDBusBreakCompat.hh"
 #include "RpcDBusConfigBindingDBus.hh"
-#include "RpcDBusConfigCompat.hh"
 #include "RpcDBusCoreBindingDBus.hh"
-#include "RpcDBusCoreCompat.hh"
 #include "core/CoreConfig.hh"
 
 namespace generated = workrave::core::rpc;
-namespace compat = workrave::core::rpc::dbus_compat;
 
 namespace
 {
@@ -36,8 +31,6 @@ struct RpcDBusServer::Impl
 {
   Impl(Core &core, workrave::config::IConfigurator &configurator, std::shared_ptr<workrave::dbus::IDBus> primary_bus)
     : bus(std::move(primary_bus))
-    , core_compat(core)
-    , config_compat(configurator)
   {
     if (!bus)
       {
@@ -48,8 +41,8 @@ struct RpcDBusServer::Impl
     generated::init_org_workrave_ConfigInterface(bus);
 
     const std::string core_path = std::string(dbus_root_path) + "/Core";
-    bus->connect(core_path, "org.workrave.CoreInterface", &core_compat);
-    bus->connect(core_path, "org.workrave.ConfigInterface", &config_compat);
+    bus->connect(core_path, "org.workrave.CoreInterface", &core);
+    bus->connect(core_path, "org.workrave.ConfigInterface", &configurator);
     bus->register_object_path(core_path);
 
     auto *core_interface = generated::org_workrave_CoreInterface::instance(bus);
@@ -57,9 +50,9 @@ struct RpcDBusServer::Impl
       {
         throw std::runtime_error("generated Core DBus binding was not registered");
       }
-    signal_connections.emplace_back(core_compat.signal_operation_mode_changed().connect(
+    signal_connections.emplace_back(core.signal_operation_mode_changed().connect(
       [core_interface, core_path](workrave::OperationMode mode) { core_interface->OperationModeChanged(core_path, mode); }));
-    signal_connections.emplace_back(core_compat.signal_usage_mode_changed().connect(
+    signal_connections.emplace_back(core.signal_usage_mode_changed().connect(
       [core_interface, core_path](workrave::UsageMode mode) { core_interface->UsageModeChanged(core_path, mode); }));
 
     auto *break_interface = generated::org_workrave_BreakInterface::instance(bus);
@@ -76,25 +69,20 @@ struct RpcDBusServer::Impl
             throw std::runtime_error("Core returned an incompatible Break implementation");
           }
 
-        auto facade = std::make_unique<compat::BreakCompat>(*break_controller);
         const std::string break_path = std::string(dbus_root_path) + "/Break/" + CoreConfig::get_break_name(id);
-        bus->connect(break_path, "org.workrave.BreakInterface", facade.get());
+        bus->connect(break_path, "org.workrave.BreakInterface", break_controller.get());
         bus->register_object_path(break_path);
 
         signal_connections.emplace_back(
-          facade->signal_break_state_changed().connect([break_interface, break_path](std::string state) {
-            break_interface->BreakStateChanged(break_path, std::move(state));
+          break_controller->signal_break_stage_changed().connect([break_interface, break_path](BreakStage state) {
+            break_interface->BreakStateChanged(break_path, state);
           }));
-        signal_connections.emplace_back(facade->signal_break_event().connect(
+        signal_connections.emplace_back(break_controller->signal_break_event().connect(
           [break_interface, break_path](workrave::BreakEvent event) { break_interface->BreakEvent(break_path, event); }));
-        break_facades[static_cast<size_t>(id)] = std::move(facade);
       }
   }
 
   std::shared_ptr<workrave::dbus::IDBus> bus;
-  compat::CoreCompat core_compat;
-  compat::ConfigCompat config_compat;
-  std::array<std::unique_ptr<compat::BreakCompat>, workrave::BREAK_ID_SIZEOF> break_facades;
   std::vector<boost::signals2::scoped_connection> signal_connections;
 };
 

@@ -10,7 +10,8 @@ use anyhow::{bail, Context, Result};
 use serde::Serialize;
 
 use crate::ir::{
-    CxxType, Direction, Interface, ParamKind, ProtoType, SequenceElement, Signal, StructDef, Unit,
+    CxxType, DbusScalarType, Direction, Interface, ParamKind, ProtoType, SequenceElement, Signal,
+    StructDef, Unit,
 };
 
 pub(crate) type TemplateTypeId = String;
@@ -93,6 +94,8 @@ pub(crate) struct ParamModel {
     pub proto_field: Option<String>,
     pub role: ParamRoleModel,
     pub dbus_arg_index: Option<usize>,
+    pub dbus_cpp_type: Option<String>,
+    pub dbus_signature: Option<String>,
 }
 
 #[derive(Debug, Serialize)]
@@ -124,6 +127,8 @@ pub(crate) enum ParamRoleModel {
 pub(crate) struct ReturnModel {
     pub proto_field: String,
     pub type_id: TemplateTypeId,
+    pub dbus_cpp_type: Option<String>,
+    pub dbus_signature: Option<String>,
 }
 
 #[derive(Debug, Serialize)]
@@ -147,6 +152,8 @@ pub(crate) struct SignalFieldModel {
     pub proto_name: String,
     pub number: usize,
     pub type_id: TemplateTypeId,
+    pub dbus_cpp_type: Option<String>,
+    pub dbus_signature: Option<String>,
 }
 
 #[derive(Debug, Serialize)]
@@ -427,6 +434,8 @@ impl<'a> ModelBuilder<'a> {
                     proto_field,
                     role,
                     dbus_arg_index,
+                    dbus_cpp_type: param.dbus_type.map(|_| "int32_t".to_string()),
+                    dbus_signature: param.dbus_type.map(|_| "i".to_string()),
                 });
             }
 
@@ -476,9 +485,19 @@ impl<'a> ModelBuilder<'a> {
                         );
                     }
                     self.register_type(&value.cxx_type, &value.proto_type, &value.kind)
-                        .map(|type_id| ReturnModel {
-                            proto_field: value.proto_field.clone(),
-                            type_id,
+                        .map(|type_id| {
+                            let (dbus_cpp_type, dbus_signature) = match value.dbus_type {
+                                Some(DbusScalarType::Int32) => {
+                                    (Some("int32_t".to_string()), Some("i".to_string()))
+                                }
+                                None => (None, None),
+                            };
+                            ReturnModel {
+                                proto_field: value.proto_field.clone(),
+                                type_id,
+                                dbus_cpp_type,
+                                dbus_signature,
+                            }
                         })
                 })
                 .transpose()?;
@@ -578,6 +597,8 @@ impl<'a> ModelBuilder<'a> {
                 proto_name: field.proto_field.clone(),
                 number: index + 1,
                 type_id: self.register_type(&field.cxx_type, &field.proto_type, &field.kind)?,
+                dbus_cpp_type: field.dbus_type.map(|_| "int32_t".to_string()),
+                dbus_signature: field.dbus_type.map(|_| "i".to_string()),
             });
         }
 
@@ -952,6 +973,7 @@ mod tests {
                             kind: ParamKind::Value,
                             proto_field: "input".to_string(),
                             proto_type: ProtoType::Int32,
+                            dbus_type: None,
                         },
                         Param {
                             cxx_name: "output".to_string(),
@@ -960,6 +982,7 @@ mod tests {
                             kind: ParamKind::Value,
                             proto_field: "output".to_string(),
                             proto_type: ProtoType::String,
+                            dbus_type: None,
                         },
                     ],
                     return_value: Some(ReturnValue {
@@ -967,6 +990,7 @@ mod tests {
                         proto_field: "result".to_string(),
                         proto_type: ProtoType::Bool,
                         kind: ParamKind::Value,
+                        dbus_type: None,
                     }),
                     is_const: false,
                 }],
@@ -1015,6 +1039,7 @@ mod tests {
                         kind: sequence,
                         proto_field: "values".to_string(),
                         proto_type: ProtoType::Repeated(Box::new(ProtoType::Int32)),
+                        dbus_type: None,
                     }],
                     return_value: None,
                     is_const: false,
@@ -1061,6 +1086,7 @@ mod tests {
                         }),
                         proto_field: "values".to_string(),
                         proto_type: ProtoType::Repeated(Box::new(ProtoType::Int32)),
+                        dbus_type: None,
                     }],
                     return_value: None,
                     is_const: false,
@@ -1105,6 +1131,7 @@ mod tests {
                         kind: ParamKind::Value,
                         proto_field: "value".to_string(),
                         proto_type: ProtoType::Int32,
+                        dbus_type: None,
                     }],
                     return_value: None,
                     is_const: false,

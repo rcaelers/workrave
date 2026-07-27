@@ -8,13 +8,15 @@ use anyhow::{bail, Context, Result};
 use clang::{Accessibility, Clang, Entity, EntityKind, Index, Type, TypeKind};
 
 use crate::annotations::{
-    has_bitmask_tag, parse_dbus_tag, parse_enum_tag, parse_enum_value_tag, parse_method_tag,
-    parse_param_tags, parse_service_tag, parse_signal_tag, ParamKindTag,
+    has_bitmask_tag, parse_dbus_return_type, parse_dbus_tag, parse_enum_tag, parse_enum_value_tag,
+    parse_method_tag, parse_param_tags, parse_service_tag, parse_signal_tag, DbusScalarTypeTag,
+    ParamKindTag,
 };
 use crate::external_annotations::{effective_comment, ExternalAnnotations};
 use crate::ir::{
-    CxxType, Direction, EnumDef, EnumValue, Interface, KeyType, MapKey, Method, Param, ParamKind,
-    ProtoType, ReturnValue, SequenceElement, Signal, SignalField, StructDef, StructField, Unit,
+    CxxType, DbusScalarType, Direction, EnumDef, EnumValue, Interface, KeyType, MapKey, Method,
+    Param, ParamKind, ProtoType, ReturnValue, SequenceElement, Signal, SignalField, StructDef,
+    StructField, Unit,
 };
 
 pub struct ParseInput<'a> {
@@ -438,7 +440,7 @@ fn build_interface(
             continue;
         };
 
-        if let Some(tag) = parse_signal_tag(&comment) {
+        if let Some(tag) = parse_signal_tag(&comment)? {
             let signal = build_signal(&child, tag, external, unit)
                 .with_context(|| format!("processing {cxx_class}::{method_cxx_name}"))?;
             signals.push(signal);
@@ -530,8 +532,16 @@ fn build_signal(
         },
     };
 
+    let dbus_types = tag.dbus_types.unwrap_or_default();
+    if !dbus_types.is_empty() && dbus_types.len() != arg_types.len() {
+        bail!(
+            "{rpc_name}: dbus_types=\"...\" names {} field(s) but the signal has {} argument(s)",
+            dbus_types.len(),
+            arg_types.len()
+        );
+    }
     let mut fields = Vec::new();
-    for (name, ty) in field_names.into_iter().zip(arg_types.iter()) {
+    for (index, (name, ty)) in field_names.into_iter().zip(arg_types.iter()).enumerate() {
         let cxx_type = cxx_type_of(ty);
         let (proto_type, kind) = resolve_value_type(ty, external, unit)
             .with_context(|| format!("{rpc_name}: field '{name}'"))?;
@@ -541,6 +551,9 @@ fn build_signal(
             proto_field: name,
             proto_type,
             kind,
+            dbus_type: dbus_types.get(index).copied().map(|value| match value {
+                DbusScalarTypeTag::Int32 => DbusScalarType::Int32,
+            }),
         });
     }
 
@@ -560,6 +573,7 @@ fn build_method(
 ) -> Result<Method> {
     let cxx_symbol = method_entity.get_name().context("method has no name")?;
     let param_tags = parse_param_tags(comment)?;
+    let dbus_return_type = parse_dbus_return_type(comment)?;
     let is_const = method_entity.is_const_method();
 
     let absorbed: HashSet<String> = param_tags.iter().filter_map(|t| t.size.clone()).collect();
@@ -583,6 +597,7 @@ fn build_method(
                 kind: ParamKind::Value,
                 proto_field: String::new(),
                 proto_type: ProtoType::Int64,
+                dbus_type: None,
             });
             continue;
         }
@@ -631,6 +646,9 @@ fn build_method(
             kind,
             proto_field: name,
             proto_type,
+            dbus_type: tag.and_then(|tag| tag.dbus_type).map(|value| match value {
+                DbusScalarTypeTag::Int32 => DbusScalarType::Int32,
+            }),
         });
     }
 
@@ -657,6 +675,9 @@ fn build_method(
             proto_field: "result".to_string(),
             proto_type,
             kind,
+            dbus_type: dbus_return_type.map(|value| match value {
+                DbusScalarTypeTag::Int32 => DbusScalarType::Int32,
+            }),
         })
     };
 

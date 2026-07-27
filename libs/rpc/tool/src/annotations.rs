@@ -21,6 +21,19 @@ pub struct ParamTag {
     pub direction: Direction,
     pub kind: Option<ParamKindTag>,
     pub size: Option<String>,
+    pub dbus_type: Option<DbusScalarTypeTag>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum DbusScalarTypeTag {
+    Int32,
+}
+
+fn parse_dbus_scalar_type(value: &str) -> Result<DbusScalarTypeTag> {
+    match value {
+        "int32" => Ok(DbusScalarTypeTag::Int32),
+        other => bail!("unsupported DBus type '{other}'; supported overrides: int32"),
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -105,6 +118,19 @@ pub fn parse_dbus_tag(comment: &str) -> Option<String> {
     re.captures(comment).map(|c| c[1].to_string())
 }
 
+/// `@rpc.dbus(return_type="int32")` narrows only a method's DBus return
+/// value; its native C++ and gRPC types stay unchanged.
+pub fn parse_dbus_return_type(comment: &str) -> Result<Option<DbusScalarTypeTag>> {
+    let re = Regex::new(r#"@rpc\.dbus\(\s*return_type\s*=\s*"([^"]+)"\s*\)"#).expect("valid regex");
+    let Some(caps) = re.captures(comment) else {
+        return Ok(None);
+    };
+    match &caps[1] {
+        "int32" => Ok(Some(DbusScalarTypeTag::Int32)),
+        other => bail!("unsupported DBus return_type '{other}'; supported overrides: int32"),
+    }
+}
+
 /// `@rpc(name="Name")` on a method (or a specific overload) — marks it as an RPC.
 pub fn parse_method_tag(comment: &str) -> Option<String> {
     let re = Regex::new(r#"@rpc\(\s*name\s*=\s*"([^"]+)"\s*\)"#).expect("valid regex");
@@ -153,18 +179,21 @@ pub struct SignalTag {
     /// parameter identifiers). Omitted for the common single-argument case,
     /// which defaults to a field named "value".
     pub fields: Option<Vec<String>>,
+    pub dbus_types: Option<Vec<DbusScalarTypeTag>>,
 }
 
 /// `@rpc.signal(name="Name"[, fields="a,b,..."])` on a
 /// `boost::signals2::signal<void(Args...)> &` accessor — marks it as a
 /// push event source (a server-streaming RPC), the gRPC analog of a DBus
 /// signal.
-pub fn parse_signal_tag(comment: &str) -> Option<SignalTag> {
+pub fn parse_signal_tag(comment: &str) -> Result<Option<SignalTag>> {
     let re = Regex::new(
-        r#"@rpc\.signal\(\s*name\s*=\s*"([^"]+)"\s*(?:,\s*fields\s*=\s*"([^"]*)"\s*)?\)"#,
+        r#"@rpc\.signal\(\s*name\s*=\s*"([^"]+)"\s*(?:,\s*fields\s*=\s*"([^"]*)"\s*)?(?:,\s*dbus_types\s*=\s*"([^"]*)"\s*)?\)"#,
     )
     .expect("valid regex");
-    let caps = re.captures(comment)?;
+    let Some(caps) = re.captures(comment) else {
+        return Ok(None);
+    };
     let name = caps[1].to_string();
     let fields = caps.get(2).map(|m| {
         m.as_str()
@@ -172,14 +201,27 @@ pub fn parse_signal_tag(comment: &str) -> Option<SignalTag> {
             .map(|s| s.trim().to_string())
             .collect()
     });
-    Some(SignalTag { name, fields })
+    let dbus_types = caps
+        .get(3)
+        .map(|m| {
+            m.as_str()
+                .split(',')
+                .map(|value| parse_dbus_scalar_type(value.trim()))
+                .collect::<Result<Vec<_>>>()
+        })
+        .transpose()?;
+    Ok(Some(SignalTag {
+        name,
+        fields,
+        dbus_types,
+    }))
 }
 
 /// `@rpc.param(name, dir=in|out|inout[, kind=cstring|bytes][, size=other])`,
 /// zero or more per method comment.
 pub fn parse_param_tags(comment: &str) -> Result<Vec<ParamTag>> {
     let re = Regex::new(
-        r#"@rpc\.param\(\s*([A-Za-z_]\w*)\s*,\s*dir\s*=\s*(in|out|inout)(?:\s*,\s*kind\s*=\s*(cstring|bytes))?(?:\s*,\s*size\s*=\s*([A-Za-z_]\w*))?\s*\)"#,
+        r#"@rpc\.param\(\s*([A-Za-z_]\w*)\s*,\s*dir\s*=\s*(in|out|inout)(?:\s*,\s*kind\s*=\s*(cstring|bytes))?(?:\s*,\s*size\s*=\s*([A-Za-z_]\w*))?(?:\s*,\s*dbus_type\s*=\s*"?([A-Za-z0-9_]+)"?)?\s*\)"#,
     )
     .expect("valid regex");
 
@@ -198,6 +240,10 @@ pub fn parse_param_tags(comment: &str) -> Result<Vec<ParamTag>> {
             other => unreachable!("regex only matches cstring|bytes, got {other}"),
         });
         let size = caps.get(4).map(|m| m.as_str().to_string());
+        let dbus_type = caps
+            .get(5)
+            .map(|m| parse_dbus_scalar_type(m.as_str()))
+            .transpose()?;
 
         if kind == Some(ParamKindTag::Bytes) && size.is_none() {
             bail!("@rpc.param({name}, kind=bytes, ...) requires a size=<param-name> entry");
@@ -208,6 +254,7 @@ pub fn parse_param_tags(comment: &str) -> Result<Vec<ParamTag>> {
             direction,
             kind,
             size,
+            dbus_type,
         });
     }
     Ok(tags)
@@ -283,6 +330,14 @@ mod tests {
     }
 
     #[test]
+    fn dbus_return_type_tag() {
+        assert_eq!(
+            parse_dbus_return_type("// @rpc.dbus(return_type=\"int32\")").unwrap(),
+            Some(DbusScalarTypeTag::Int32)
+        );
+    }
+
+    #[test]
     fn enum_tag() {
         let c = "// @rpc.enum(name=\"operation_mode\")";
         assert_eq!(parse_enum_tag(c), Some("operation_mode".to_string()));
@@ -311,7 +366,7 @@ mod tests {
     #[test]
     fn signal_tag_plain() {
         let c = "//! @rpc.signal(name=\"OperationModeChanged\")";
-        let tag = parse_signal_tag(c).unwrap();
+        let tag = parse_signal_tag(c).unwrap().unwrap();
         assert_eq!(tag.name, "OperationModeChanged");
         assert_eq!(tag.fields, None);
     }
@@ -319,7 +374,7 @@ mod tests {
     #[test]
     fn signal_tag_with_fields() {
         let c = "//! @rpc.signal(name=\"Progress\", fields=\"stage, percent\")";
-        let tag = parse_signal_tag(c).unwrap();
+        let tag = parse_signal_tag(c).unwrap().unwrap();
         assert_eq!(tag.name, "Progress");
         assert_eq!(
             tag.fields,

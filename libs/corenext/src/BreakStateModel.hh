@@ -36,12 +36,18 @@ namespace workrave
   class IApp;
 }
 
+// @rpc.enum(name="break_stage")
 enum class BreakStage
 {
+  // @rpc.enum.value(name="none")
   None,
+  // @rpc.enum.value(name="snoozed")
   Snoozed,
+  // @rpc.enum.value(name="prelude")
   Prelude,
+  // @rpc.enum.value(name="taking")
   Taking,
+  // @rpc.enum.value(name="delayed")
   Delayed
 };
 

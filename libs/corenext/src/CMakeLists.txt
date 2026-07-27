@@ -25,25 +25,28 @@ if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
 endif()
 
 if (HAVE_RPC_DBUS)
-  rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusCoreCompat.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusCoreBinding
+  rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/Core.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusCoreBinding
     TARGET workrave-libs-core-next
     ADAPTER_NAMESPACE workrave::core::rpc)
-  rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusBreakCompat.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusBreakBinding
+  rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/Break.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusBreakBinding
     TARGET workrave-libs-core-next
     ADAPTER_NAMESPACE workrave::core::rpc)
-  rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusConfigCompat.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusConfigBinding
+  rpc_generate_dbus_source(${CMAKE_SOURCE_DIR}/libs/config/include/config/IConfigurator.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusConfigBinding
     TARGET workrave-libs-core-next
+    HEADER_INCLUDE "config/IConfigurator.hh"
     ADAPTER_NAMESPACE workrave::core::rpc)
 
   target_sources(workrave-libs-core-next PRIVATE
-    RpcDBusCoreCompat.cc
-    RpcDBusBreakCompat.cc
-    RpcDBusConfigCompat.cc
     RpcDBusServer.cc
     ${CMAKE_CURRENT_BINARY_DIR}/RpcDBusCoreBindingDBus.cc
     ${CMAKE_CURRENT_BINARY_DIR}/RpcDBusBreakBindingDBus.cc
     ${CMAKE_CURRENT_BINARY_DIR}/RpcDBusConfigBindingDBus.cc)
   target_include_directories(workrave-libs-core-next PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+endif()
+
+if (HAVE_RPC_DBUS)
+  # The direct bindings include rpc/Duration.hh for annotated chrono methods.
+  target_include_directories(workrave-libs-core-next PRIVATE ${CMAKE_SOURCE_DIR}/libs/rpc/include)
 endif()
 
 if (HAVE_RPC)
