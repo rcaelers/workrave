@@ -30,11 +30,6 @@ set (WORKRAVE_CHANNEL "candidate" )
 set (CMAKE_BUILD_TYPE_INIT "Release")
 set (CMAKE_INCLUDE_CURRENT_DIR OFF)
 
-# Needed by clang-rpc-gen (libs/rpc/tool) to resolve real per-file compiler
-# flags via libclang's compilation-database support. Also improves the
-# clang-tidy workflow documented in CLAUDE.md.
-set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 include(GNUInstallDirs)
 include(CheckLibraryExists)
 include(CheckStructHasMember)
