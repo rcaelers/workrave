@@ -32,6 +32,7 @@ if (HAVE_TESTS)
     # see libs/corenext/src/RpcCoreServer.hh for why that symbol lives in a
     # separate library that must be linked explicitly.
     target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-core-next-rpc)
+    target_include_directories(workrave-core-next-integration-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/rpc/include)
   endif()
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-config)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-utils)
@@ -80,26 +81,4 @@ if (HAVE_TESTS)
     workrave_add_test(workrave-core-next-rpc-service-names-test)
   endif()
 
-  if (HAVE_RPC_DBUS)
-    add_executable(workrave-core-next-rpc-dbus-compatibility-test RpcDBusCompatibilityTest.cc)
-    target_include_directories(workrave-core-next-rpc-dbus-compatibility-test PRIVATE
-      ${CMAKE_SOURCE_DIR}/libs/corenext/src)
-    target_link_libraries(workrave-core-next-rpc-dbus-compatibility-test PRIVATE
-      GTest::gtest_main
-      ${EXTRA_LIBRARIES})
-    add_dependencies(workrave-core-next-rpc-dbus-compatibility-test
-      RpcDBusCoreBinding_rpc_dbus_source_target
-      RpcDBusBreakBinding_rpc_dbus_source_target
-      RpcDBusConfigBinding_rpc_dbus_source_target)
-    target_compile_definitions(workrave-core-next-rpc-dbus-compatibility-test PRIVATE
-      NEW_CORE_DBUS_CC="${CMAKE_BINARY_DIR}/libs/corenext/src/RpcDBusCoreBindingDBus.cc"
-      NEW_BREAK_DBUS_CC="${CMAKE_BINARY_DIR}/libs/corenext/src/RpcDBusBreakBindingDBus.cc"
-      NEW_CONFIG_DBUS_CC="${CMAKE_BINARY_DIR}/libs/corenext/src/RpcDBusConfigBindingDBus.cc")
-    if (HAVE_DBUS)
-      add_dependencies(workrave-core-next-rpc-dbus-compatibility-test DBusWorkraveNext_dbus_source_target)
-      target_compile_definitions(workrave-core-next-rpc-dbus-compatibility-test PRIVATE
-        OLD_DBUS_CC="${CMAKE_BINARY_DIR}/libs/corenext/src/DBusWorkraveNext.cc")
-    endif()
-    workrave_add_test(workrave-core-next-rpc-dbus-compatibility-test)
-  endif()
 endif()

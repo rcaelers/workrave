@@ -23,19 +23,19 @@
 #include "RpcDBusCoreBindingDBus.hh"
 #include "RpcDBusCoreCompat.hh"
 #include "core/CoreConfig.hh"
-#include "dbus/DBusFactory.hh"
 
 namespace generated = workrave::core::rpc;
 namespace compat = workrave::core::rpc::dbus_compat;
 
+namespace
+{
+  constexpr const char *dbus_root_path = "/org/workrave/Workrave";
+}
+
 struct RpcDBusServer::Impl
 {
-  Impl(Core &core,
-       workrave::config::IConfigurator &configurator,
-       std::shared_ptr<workrave::dbus::IDBus> primary_bus,
-       bool legacy_dbus_enabled)
-    : names(RpcDBusNames::select(legacy_dbus_enabled))
-    , bus(legacy_dbus_enabled ? workrave::dbus::DBusFactory::create() : std::move(primary_bus))
+  Impl(Core &core, workrave::config::IConfigurator &configurator, std::shared_ptr<workrave::dbus::IDBus> primary_bus)
+    : bus(std::move(primary_bus))
     , core_compat(core)
     , config_compat(configurator)
   {
@@ -43,16 +43,11 @@ struct RpcDBusServer::Impl
       {
         throw std::invalid_argument("RPC DBus requires a bus instance");
       }
-    if (legacy_dbus_enabled)
-      {
-        bus->init();
-      }
-
     generated::init_org_workrave_CoreInterface(bus);
     generated::init_org_workrave_BreakInterface(bus);
     generated::init_org_workrave_ConfigInterface(bus);
 
-    const std::string core_path = std::string(names.root_path) + "/Core";
+    const std::string core_path = std::string(dbus_root_path) + "/Core";
     bus->connect(core_path, "org.workrave.CoreInterface", &core_compat);
     bus->connect(core_path, "org.workrave.ConfigInterface", &config_compat);
     bus->register_object_path(core_path);
@@ -82,7 +77,7 @@ struct RpcDBusServer::Impl
           }
 
         auto facade = std::make_unique<compat::BreakCompat>(*break_controller);
-        const std::string break_path = std::string(names.root_path) + "/Break/" + CoreConfig::get_break_name(id);
+        const std::string break_path = std::string(dbus_root_path) + "/Break/" + CoreConfig::get_break_name(id);
         bus->connect(break_path, "org.workrave.BreakInterface", facade.get());
         bus->register_object_path(break_path);
 
@@ -94,11 +89,8 @@ struct RpcDBusServer::Impl
           [break_interface, break_path](workrave::BreakEvent event) { break_interface->BreakEvent(break_path, event); }));
         break_facades[static_cast<size_t>(id)] = std::move(facade);
       }
-
-    bus->register_service(std::string(names.service));
   }
 
-  RpcDBusNames names;
   std::shared_ptr<workrave::dbus::IDBus> bus;
   compat::CoreCompat core_compat;
   compat::ConfigCompat config_compat;
@@ -108,16 +100,9 @@ struct RpcDBusServer::Impl
 
 RpcDBusServer::RpcDBusServer(Core &core,
                              workrave::config::IConfigurator &configurator,
-                             std::shared_ptr<workrave::dbus::IDBus> primary_bus,
-                             bool legacy_dbus_enabled)
-  : impl_(std::make_unique<Impl>(core, configurator, std::move(primary_bus), legacy_dbus_enabled))
+                             std::shared_ptr<workrave::dbus::IDBus> bus)
+  : impl_(std::make_unique<Impl>(core, configurator, std::move(bus)))
 {
 }
 
 RpcDBusServer::~RpcDBusServer() = default;
-
-const RpcDBusNames &
-RpcDBusServer::names() const
-{
-  return impl_->names;
-}

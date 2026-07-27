@@ -40,7 +40,9 @@ Break::Break(BreakId break_id,
   break_state_model = std::make_shared<BreakStateModel>(break_id, app, timer, activity_monitor, hooks);
   break_statistics = std::make_shared<BreakStatistics>(break_id, break_state_model, timer, statistics);
   break_configuration = std::make_shared<BreakConfig>(break_id, break_state_model, timer);
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   break_dbus = std::make_shared<BreakDBus>(break_id, this, break_state_model, dbus);
+#endif
 }
 
 boost::signals2::signal<void(BreakEvent)> &

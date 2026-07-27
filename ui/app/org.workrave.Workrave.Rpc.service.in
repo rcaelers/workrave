@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=org.workrave.Workrave.Rpc
-Exec=@workravebindir@/workrave

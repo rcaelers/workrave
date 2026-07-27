@@ -7,27 +7,26 @@ that produces it — see [`tool/README.md`](tool/README.md) for that, and
 [`../corenext/src/RpcCoreServer.hh`](../corenext/src/RpcCoreServer.hh) for
 how the server itself is wired into the running app.
 
-## Generated DBus mode
+## DBus implementation selection
 
-`-DWITH_RPC_DBUS=ON` enables the QtDBus bindings produced by the same Rust
-generator without requiring `WITH_RPC` or any gRPC/protobuf libraries. It
-currently requires the Qt UI and CoreNext.
+`WITH_DBUS` still controls whether Workrave exposes DBus. When it is enabled,
+`WITH_RPC` selects which Core, Break, and Config implementation is built:
 
-The generated DBus surface deliberately matches the legacy Core, Break, and
-Config wire contract exactly. Small compatibility facades preserve historical
-details such as 32-bit Break timer replies, Config setter arguments/reply
-ordering, and the `BreakStateChanged` event without restricting the richer
-native/gRPC APIs.
+| Build options | DBus implementation |
+|---|---|
+| `WITH_DBUS=ON`, `WITH_RPC=OFF` | Legacy Python/Jinja generator |
+| `WITH_DBUS=ON`, `WITH_RPC=ON` | Clang/Rust RPC generator |
+| `WITH_DBUS=OFF` | No DBus API |
 
-| Build options | Generated service | Generated object root |
-|---|---|---|
-| `WITH_RPC_DBUS=ON`, `WITH_DBUS=OFF` | `org.workrave.Workrave` | `/org/workrave/Workrave` |
-| `WITH_RPC_DBUS=ON`, `WITH_DBUS=ON` | `org.workrave.Workrave.Rpc` | `/org/workrave/Workrave/Rpc` |
+Only one implementation is present in a build. Both implementations use the
+established `org.workrave.Workrave` service, `/org/workrave/Workrave` object
+root, and `org.workrave.CoreInterface`, `org.workrave.BreakInterface`, and
+`org.workrave.ConfigInterface` interface names.
 
-In dual mode the legacy implementation keeps its original service and object
-paths. Both implementations expose the same `org.workrave.CoreInterface`,
-`org.workrave.BreakInterface`, and `org.workrave.ConfigInterface` names under
-their respective paths.
+The Clang-generated implementation currently requires the Qt UI, QtDBus, and
+CoreNext. Small compatibility facades preserve historical details such as
+32-bit Break timer replies, Config setter arguments/reply ordering, and the
+`BreakStateChanged` event without restricting the richer native/gRPC APIs.
 
 ## Transport
 

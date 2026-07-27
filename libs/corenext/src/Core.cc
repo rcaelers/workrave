@@ -45,10 +45,9 @@
 #include "Statistics.hh"
 
 #include "dbus/DBusFactory.hh"
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
 #  include "DBusWorkraveNext.hh"
 #  define DBUS_PATH_WORKRAVE "/org/workrave/Workrave/"
-#  define DBUS_SERVICE_WORKRAVE "org.workrave.Workrave"
 #endif
 
 #if defined(HAVE_RPC)
@@ -126,7 +125,9 @@ Core::init(IApp *app, const char *display_name)
   statistics->init();
 
   core_modes = std::make_shared<CoreModes>(monitor);
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   core_dbus = std::make_shared<CoreDBus>(core_modes, dbus);
+#endif
 
   breaks_control = std::make_shared<BreaksControl>(application, monitor, core_modes, statistics, dbus, hooks);
   breaks_control->init();
@@ -155,7 +156,7 @@ Core::init(IApp *app, const char *display_name)
 void
 Core::init_bus_bindings()
 {
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   try
     {
       extern void init_DBusWorkraveNext(std::shared_ptr<IDBus> dbus);
@@ -172,7 +173,7 @@ Core::init_bus_bindings()
 void
 Core::init_bus()
 {
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   try
     {
       dbus->connect(DBUS_PATH_WORKRAVE "Core", "org.workrave.CoreInterface", this);
@@ -220,13 +221,8 @@ Core::init_rpc_dbus()
 {
   try
     {
-#  if defined(HAVE_DBUS)
-      constexpr bool legacy_dbus_enabled = true;
-#  else
-      constexpr bool legacy_dbus_enabled = false;
-#  endif
-      rpc_dbus_server = std::make_unique<RpcDBusServer>(*this, *configurator, dbus, legacy_dbus_enabled);
-      spdlog::info("RPC DBus server listening on {}", rpc_dbus_server->names().service);
+      rpc_dbus_server = std::make_unique<RpcDBusServer>(*this, *configurator, dbus);
+      spdlog::info("Clang-generated DBus bindings initialized");
     }
   catch (const std::exception &e)
     {

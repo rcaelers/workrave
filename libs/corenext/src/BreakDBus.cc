@@ -26,7 +26,7 @@
 #include "Break.hh"
 #include "BreakDBus.hh"
 
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
 #  include "DBusWorkraveNext.hh"
 #endif
 
@@ -44,6 +44,7 @@ BreakDBus::BreakDBus(BreakId break_id,
   , break_state_model(break_state_model)
   , dbus(dbus)
 {
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   string break_name = CoreConfig::get_break_name(break_id);
 
   connect(break_state_model->signal_break_stage_changed(), this, [this](auto &&stage) {
@@ -65,12 +66,15 @@ BreakDBus::BreakDBus(BreakId break_id,
     {
       spdlog::warn("Failed to register legacy DBus Break object {}: {}", path, e.what());
     }
+#else
+  (void)break_controller;
+#endif
 }
 
 void
 BreakDBus::on_break_event(BreakEvent event)
 {
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   org_workrave_BreakInterface *iface = org_workrave_BreakInterface::instance(dbus);
   if (iface != nullptr)
     {
@@ -86,7 +90,7 @@ BreakDBus::on_break_stage_changed(BreakStage stage)
   (void)stage;
   (void)break_id;
 
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   std::string progress = Break::get_stage_text(stage);
 
   if (!progress.empty())

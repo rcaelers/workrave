@@ -23,7 +23,7 @@
 
 #include "dbus/IDBus.hh"
 
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
 #  include "DBusWorkraveNext.hh"
 #endif
 #include "CoreModes.hh"
@@ -45,7 +45,7 @@ CoreDBus::CoreDBus(CoreModes::Ptr modes, std::shared_ptr<IDBus> dbus)
 void
 CoreDBus::on_operation_mode_changed(OperationMode operation_mode)
 {
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
   if (iface != nullptr)
     {
@@ -57,7 +57,7 @@ CoreDBus::on_operation_mode_changed(OperationMode operation_mode)
 void
 CoreDBus::on_usage_mode_changed(UsageMode usage_mode)
 {
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
   if (iface != nullptr)
     {

@@ -19,16 +19,15 @@ add_library(workrave-libs-core-next STATIC
 
 target_code_coverage(workrave-libs-core-next)
 
-if (HAVE_DBUS)
+if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
   dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-service.xml ${CMAKE_CURRENT_BINARY_DIR} DBusWorkraveNext)
   target_sources(workrave-libs-core-next PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkraveNext.cc)
 endif()
 
 if (HAVE_RPC_DBUS)
-  # Generate a wire-compatible replacement for the legacy Core/Break/Config
-  # DBus API from narrow facade classes. The facades deliberately preserve
-  # historical DBus signatures while the primary @rpc interfaces remain free
-  # to expose their richer native/gRPC contracts.
+  # WITH_RPC selects the clang-generated Core/Break/Config DBus bindings.
+  # Narrow facades preserve the established DBus API while the primary @rpc
+  # interfaces remain free to expose their richer native/gRPC contracts.
   rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusCoreCompat.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusCoreBinding
     TARGET workrave-libs-core-next
     ADAPTER_NAMESPACE workrave::core::rpc)
@@ -67,7 +66,9 @@ if (HAVE_RPC)
   # workrave::rpc::core and workrave::rpc::breaks.
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Core.hh ${CMAKE_CURRENT_BINARY_DIR} RpcCore
     TARGET workrave-libs-core-next
-    PROTO_PACKAGE workrave PROTO_TYPES_PACKAGE workrave.rpc.core GRPC_SERVICES_NAMESPACE rpc
+    PROTO_PACKAGE workrave
+    PROTO_TYPES_PACKAGE workrave.rpc.core
+    GRPC_SERVICES_NAMESPACE rpc
     ADAPTER_NAMESPACE workrave::core::rpc)
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Break.hh ${CMAKE_CURRENT_BINARY_DIR} RpcBreak
     TARGET workrave-libs-core-next

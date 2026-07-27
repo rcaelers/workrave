@@ -45,10 +45,7 @@ class Core;
 // deliberately no CMake target_link_libraries edge from
 // workrave-libs-core-next to workrave-libs-core-next-rpc (that would be
 // circular, since the -rpc library already depends on the plain one). Any
-// target that wants a working Core must therefore link both, same as the
-// generated DBus glue (init_DBusWorkraveNext(), called from init_bus()) is a
-// symbol Core.cc depends on without workrave-libs-core-next declaring a link
-// dependency on whatever produces it.
+// target that wants a working RPC-enabled Core must therefore link both.
 class RpcCoreServer
 {
 public:
