@@ -30,7 +30,7 @@
 
 using namespace workrave::utils;
 
-ToolkitMacOS::ToolkitMacOS(int argc, char **argv)
+ToolkitMacOS::ToolkitMacOS(int &argc, char **argv)
   : Toolkit(argc, argv)
 {
   locker = std::make_shared<MacOSLocker>();

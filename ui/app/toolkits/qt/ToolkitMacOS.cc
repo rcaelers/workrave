@@ -77,7 +77,7 @@ MacOSMenuStyle::pixelMetric(PixelMetric metric, const QStyleOption *opt, const Q
   return QProxyStyle::pixelMetric(metric, opt, w);
 }
 
-ToolkitMacOS::ToolkitMacOS(int argc, char **argv)
+ToolkitMacOS::ToolkitMacOS(int &argc, char **argv)
   : Toolkit(argc, argv)
 {
   QApplication::setStyle(new MacOSMenuStyle(QStringLiteral("macos")));

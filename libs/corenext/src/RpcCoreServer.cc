@@ -44,7 +44,17 @@ struct RpcCoreServer::Impl
     server.register_service(break_service);
     server.register_service(config_service);
     server.start();
-    spdlog::info("RPC server listening on {}", listen_address);
+
+    // For TCP addresses the configured port may be "0" (pick any free port),
+    // so report the actually bound port rather than echoing the request back.
+    std::string bound_address = listen_address;
+    if (!listen_address.starts_with("unix:"))
+      {
+        auto colon_pos = listen_address.rfind(':');
+        std::string host = colon_pos != std::string::npos ? listen_address.substr(0, colon_pos) : listen_address;
+        bound_address = host + ":" + std::to_string(server.bound_port());
+      }
+    spdlog::info("RPC server listening on {}", bound_address);
   }
 
   ~Impl()

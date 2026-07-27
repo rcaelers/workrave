@@ -50,7 +50,7 @@ class Toolkit
   Q_OBJECT
 
 public:
-  Toolkit(int argc, char **argv);
+  Toolkit(int &argc, char **argv);
   ~Toolkit() override = default;
 
   // IToolkit

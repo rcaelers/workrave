@@ -36,7 +36,7 @@ class ToolkitWindows
   , public IToolkitWindows
 {
 public:
-  ToolkitWindows(int argc, char **argv);
+  ToolkitWindows(int &argc, char **argv);
   ~ToolkitWindows() override;
 
   void init(std::shared_ptr<IApplicationContext> app) override;

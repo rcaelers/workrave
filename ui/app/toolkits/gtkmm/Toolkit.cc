@@ -39,7 +39,7 @@ using namespace workrave;
 using namespace workrave::config;
 using namespace workrave::utils;
 
-Toolkit::Toolkit(int argc, char **argv)
+Toolkit::Toolkit(int &argc, char **argv)
   : argc(argc)
   , argv(argv)
 {

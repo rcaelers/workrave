@@ -38,7 +38,7 @@
 using namespace workrave;
 using namespace workrave::config;
 
-ToolkitWindows::ToolkitWindows(int argc, char **argv)
+ToolkitWindows::ToolkitWindows(int &argc, char **argv)
   : Toolkit(argc, argv)
 {
   gdk_init(nullptr, nullptr);

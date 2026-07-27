@@ -25,7 +25,7 @@
 class ToolkitFactory : public IToolkitFactory
 {
 public:
-  auto create(int argc, char **argv) -> std::shared_ptr<IToolkit> override;
+  auto create(int &argc, char **argv) -> std::shared_ptr<IToolkit> override;
 };
 
 #endif // TOOLKIT_FACTORY_HH

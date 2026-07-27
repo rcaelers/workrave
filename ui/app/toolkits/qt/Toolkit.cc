@@ -43,7 +43,7 @@
 using namespace workrave;
 using namespace workrave::config;
 
-Toolkit::Toolkit(int argc, char **argv)
+Toolkit::Toolkit(int &argc, char **argv)
   : QApplication(argc, argv)
   , heartbeat_timer(new QTimer(this))
 {
