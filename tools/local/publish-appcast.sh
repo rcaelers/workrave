@@ -81,9 +81,9 @@ export WORKSPACE=$(pwd)/_workrave_build_workspace
 parse_arguments $*
 
 if [ "${DEPLOY_ENVIRONMENT}" = "staging" ]; then
-    export S3_ARTIFACT_DIR=staging/v1.11
+    export S3_ARTIFACT_DIR=staging/v1.12
 else
-    export S3_ARTIFACT_DIR=v1.11
+    export S3_ARTIFACT_DIR=v1.12
 fi
 
 mkdir -p "${WORKSPACE}"
