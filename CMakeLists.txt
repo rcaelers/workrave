@@ -845,6 +845,10 @@ if (HAVE_TESTS)
     set(Boost_USE_SHARED_LIBS OFF)
   endif()
   find_package(Boost ${BOOST_MIN_VERSION} REQUIRED COMPONENTS test_exec_monitor)
+
+  # New test suites use GoogleTest; existing Boost.Test suites are untouched
+  # for now (in-progress migration, not project-wide yet).
+  find_package(GTest CONFIG REQUIRED)
 endif()
 
 
