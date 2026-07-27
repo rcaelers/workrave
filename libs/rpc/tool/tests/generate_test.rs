@@ -44,6 +44,7 @@ fn assert_golden(name: &str, actual: &str) {
 }
 
 fn assert_generated_goldens(prefix: &str, generated: &GeneratedFiles) {
+    assert!(generated.types_proto.is_none());
     assert_golden(
         &format!("{prefix}.proto"),
         &fs::read_to_string(&generated.proto).unwrap(),
@@ -99,14 +100,14 @@ fn generate_fixture_with_annotations(
     name: &str,
     annotations: Option<&str>,
 ) -> (TempDir, GeneratedFiles) {
-    generate_fixture_full(fixture_name, name, annotations, false, None)
+    generate_fixture_full(fixture_name, name, annotations, false, None, None, None)
 }
 
 /// Like `generate_fixture`, but also requests DBus output
 /// (`--out-dbus-hh`/`--out-dbus-cc`) — the fixture must carry
 /// `@rpc.dbus(interface="...")`.
 fn generate_fixture_with_dbus(fixture_name: &str, name: &str) -> (TempDir, GeneratedFiles) {
-    generate_fixture_full(fixture_name, name, None, true, None)
+    generate_fixture_full(fixture_name, name, None, true, None, None, None)
 }
 
 fn generate_fixture_full(
@@ -115,6 +116,8 @@ fn generate_fixture_full(
     annotations: Option<&str>,
     with_dbus: bool,
     adapter_namespace: Option<&str>,
+    proto_types_package: Option<&str>,
+    grpc_services_namespace: Option<&str>,
 ) -> (TempDir, GeneratedFiles) {
     let _guard = clang_test_lock().lock().unwrap_or_else(|e| e.into_inner());
     let dir = tempfile::tempdir().unwrap();
@@ -177,6 +180,9 @@ fn generate_fixture_full(
         out_adapter_hh: out_dir.join(format!("{name}ServiceImpl.hh")),
         out_adapter_cc: out_dir.join(format!("{name}ServiceImpl.cc")),
         proto_package: "workrave.test".to_string(),
+        out_types_proto: proto_types_package.map(|_| out_dir.join(format!("{name}Types.proto"))),
+        proto_types_package: proto_types_package.map(str::to_string),
+        grpc_services_namespace: grpc_services_namespace.map(str::to_string),
         adapter_namespace: adapter_namespace.map(str::to_string),
         header_include: None,
         external_annotations,
@@ -327,6 +333,8 @@ fn adapter_namespace_is_independent_from_proto_package() {
         None,
         false,
         Some("workrave::core::rpc"),
+        None,
+        None,
     );
 
     let proto = fs::read_to_string(&generated.proto).unwrap();
@@ -356,6 +364,60 @@ fn adapter_namespace_is_independent_from_proto_package() {
     assert!(source.contains("TestServiceServiceImpl::Ping"), "{source}");
     assert!(
         source.contains("} // namespace workrave::core::rpc"),
+        "{source}"
+    );
+}
+
+#[test]
+fn separate_proto_types_package_keeps_the_service_wire_name() {
+    let (_dir, generated) = generate_fixture_full(
+        "simple.hh",
+        "RpcTest",
+        None,
+        false,
+        None,
+        Some("workrave.rpc.core"),
+        Some("rpc"),
+    );
+
+    let proto = fs::read_to_string(&generated.proto).unwrap();
+    assert!(proto.contains("package workrave.test;"), "{proto}");
+    assert!(proto.contains("import \"RpcTestTypes.proto\";"), "{proto}");
+    assert!(
+        proto.contains("rpc Greet(.workrave.rpc.core.GreetRequest) returns (.workrave.rpc.core.GreetResponse);"),
+        "{proto}"
+    );
+    assert!(proto.contains("service TestService"), "{proto}");
+    assert!(!proto.contains("message GreetRequest"), "{proto}");
+
+    let types_proto = fs::read_to_string(
+        generated
+            .types_proto
+            .as_ref()
+            .expect("split generation must produce a types schema"),
+    )
+    .unwrap();
+    assert!(types_proto.contains("package workrave.rpc.core;"), "{types_proto}");
+    assert!(types_proto.contains("enum TestMode"), "{types_proto}");
+    assert!(types_proto.contains("TEST_MODE_IDLE = 0;"), "{types_proto}");
+    assert!(types_proto.contains("message GreetRequest"), "{types_proto}");
+
+    let header = fs::read_to_string(&generated.adapter_hh).unwrap();
+    assert!(
+        header.contains("const ::workrave::rpc::core::GreetRequest *request"),
+        "{header}"
+    );
+    assert!(
+        header.contains("public ::workrave::test::rpc::TestService::Service"),
+        "{header}"
+    );
+    let source = fs::read_to_string(&generated.adapter_cc).unwrap();
+    assert!(
+        source.contains("service_descriptor_anchor_(&::descriptor_table_RpcTest_2eproto)"),
+        "{source}"
+    );
+    assert!(
+        source.contains("static_cast<::workrave::rpc::core::TestMode>(local_mode)"),
         "{source}"
     );
 }
@@ -627,6 +689,9 @@ public:
         out_adapter_hh: out_dir.join("BadKeyServiceImpl.hh"),
         out_adapter_cc: out_dir.join("BadKeyServiceImpl.cc"),
         proto_package: "workrave.test".to_string(),
+        out_types_proto: None,
+        proto_types_package: None,
+        grpc_services_namespace: None,
         adapter_namespace: None,
         header_include: None,
         external_annotations: None,
@@ -943,12 +1008,50 @@ fn generates_dbus_scalar_binding() {
     assert!(dbus_cc.contains("<signal name=\\\"ModeChanged\\\">"), "{dbus_cc}");
     // Dispatch: real method call, reply marshalling, and the registrar.
     assert!(dbus_cc.contains("dbus_object->ping(p_message)"), "{dbus_cc}");
-    assert!(dbus_cc.contains("void init_org_workrave_TestInterface(std::shared_ptr<IDBus> dbus)"), "{dbus_cc}");
+    assert!(
+        dbus_cc.contains(
+            "void init_org_workrave_TestInterface(std::shared_ptr<::workrave::dbus::IDBus> dbus)"
+        ),
+        "{dbus_cc}"
+    );
     assert!(
         dbus_cc.contains("dbus->register_binding(\"org.workrave.TestInterface\", new org_workrave_TestInterface_Stub(dbus));"),
         "{dbus_cc}"
     );
     assert!(dbus_cc.contains("qDBusRegisterMetaType<TestMode>();"), "{dbus_cc}");
+}
+
+#[test]
+fn dbus_adapter_namespace_does_not_change_the_wire_interface() {
+    let (_dir, generated) = generate_fixture_full(
+        "dbus_scalar.hh",
+        "RpcDbusNamespaced",
+        None,
+        true,
+        Some("workrave::core::rpc"),
+        None,
+        None,
+    );
+
+    let dbus_hh = fs::read_to_string(generated.dbus_hh.as_ref().expect("dbus_hh")).unwrap();
+    assert!(dbus_hh.contains("namespace workrave::core::rpc\n{"), "{dbus_hh}");
+    assert!(
+        dbus_hh.contains("class org_workrave_TestInterface"),
+        "{dbus_hh}"
+    );
+
+    let dbus_cc = fs::read_to_string(generated.dbus_cc.as_ref().expect("dbus_cc")).unwrap();
+    assert!(dbus_cc.contains("namespace workrave::core::rpc\n{"), "{dbus_cc}");
+    assert!(
+        dbus_cc.contains("<interface name=\\\"org.workrave.TestInterface\\\">"),
+        "{dbus_cc}"
+    );
+    assert!(
+        dbus_cc.contains(
+            "void init_org_workrave_TestInterface(std::shared_ptr<::workrave::dbus::IDBus> dbus)"
+        ),
+        "{dbus_cc}"
+    );
 }
 
 /// The struct/sequence analog of `generates_dbus_scalar_binding` — a struct

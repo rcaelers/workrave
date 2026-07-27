@@ -36,6 +36,7 @@
 #cmakedefine HAVE_PULSE
 #cmakedefine HAVE_QT
 #cmakedefine HAVE_RPC
+#cmakedefine HAVE_RPC_DBUS
 #cmakedefine HAVE_SBOM
 #cmakedefine HAVE_SCREENSAVER
 #cmakedefine HAVE_SETLOCALE

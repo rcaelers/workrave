@@ -18,6 +18,9 @@ pub struct GrpcBackend {
     pub out_adapter_hh: PathBuf,
     pub out_adapter_cc: PathBuf,
     pub proto_package: String,
+    pub out_types_proto: Option<PathBuf>,
+    pub proto_types_package: Option<String>,
+    pub grpc_services_namespace: Option<String>,
     pub adapter_namespace: Option<String>,
 }
 
@@ -44,17 +47,41 @@ impl Backend for GrpcBackend {
             .to_string_lossy()
             .to_string();
 
-        let proto_text = proto_gen::render_proto(model, &self.proto_package)?;
-        let adapter = cpp_gen::render_adapter(
+        let split_types = match (&self.out_types_proto, &self.proto_types_package) {
+            (Some(path), Some(package)) => Some((path, package.as_str())),
+            (None, None) => None,
+            _ => {
+                anyhow::bail!("--out-types-proto and --proto-types-package must be given together")
+            }
+        };
+        let types_proto_filename = split_types
+            .map(|(path, _)| {
+                path.file_name()
+                    .context("--out-types-proto has no file name")
+                    .map(|name| name.to_string_lossy().to_string())
+            })
+            .transpose()?;
+
+        let proto_text = proto_gen::render_service_proto(
             model,
             &self.proto_package,
-            self.adapter_namespace.as_deref(),
-            header_include,
-            &proto_basename,
-            &adapter_header_filename,
+            split_types.map(|(_, package)| package),
+            types_proto_filename.as_deref(),
+        )?;
+        let adapter = cpp_gen::render_adapter(
+            model,
+            cpp_gen::RenderAdapterOptions {
+                package: &self.proto_package,
+                proto_types_package: split_types.map(|(_, package)| package),
+                grpc_services_namespace: self.grpc_services_namespace.as_deref(),
+                adapter_namespace: self.adapter_namespace.as_deref(),
+                header_include,
+                proto_basename: &proto_basename,
+                adapter_header_filename: &adapter_header_filename,
+            },
         )?;
 
-        Ok(vec![
+        let mut files = vec![
             GeneratedFile {
                 path: self.out_proto.clone(),
                 contents: proto_text,
@@ -67,6 +94,13 @@ impl Backend for GrpcBackend {
                 path: self.out_adapter_cc.clone(),
                 contents: adapter.source,
             },
-        ])
+        ];
+        if let Some((path, package)) = split_types {
+            files.push(GeneratedFile {
+                path: path.clone(),
+                contents: proto_gen::render_types_proto(model, package)?,
+            });
+        }
+        Ok(files)
     }
 }

@@ -92,7 +92,8 @@ struct DBusMarshall<TestMode>
   return arg;
 }
 
-class org_workrave_TestInterface_Stub : public DBusBindingQt, public org_workrave_TestInterface
+
+class org_workrave_TestInterface_Stub : public ::workrave::dbus::DBusBindingQt, public org_workrave_TestInterface
 {
 private:
   using DBusMethodPointer = void (org_workrave_TestInterface_Stub::*)(void *object, const QDBusMessage &message, const QDBusConnection &connection);
@@ -111,7 +112,7 @@ private:
   }
 
 public:
-  explicit org_workrave_TestInterface_Stub(std::shared_ptr<IDBus> dbus) : DBusBindingQt(std::move(dbus)) {}
+  explicit org_workrave_TestInterface_Stub(std::shared_ptr<::workrave::dbus::IDBus> dbus) : ::workrave::dbus::DBusBindingQt(std::move(dbus)) {}
   ~org_workrave_TestInterface_Stub() override = default;
 
 
@@ -206,7 +207,7 @@ private:
 org_workrave_TestInterface *org_workrave_TestInterface::instance(std::shared_ptr<::workrave::dbus::IDBus> dbus)
 {
   org_workrave_TestInterface_Stub *iface = nullptr;
-  DBusBinding *binding = dbus->find_binding("org.workrave.TestInterface");
+  ::workrave::dbus::DBusBinding *binding = dbus->find_binding("org.workrave.TestInterface");
   if (binding != nullptr)
     {
       iface = dynamic_cast<org_workrave_TestInterface_Stub *>(binding);
@@ -231,11 +232,11 @@ org_workrave_TestInterface_Stub::call(void *object, const QDBusMessage &message,
           return true;
         }
     }
-  throw DBusRemoteException()
-    << message_info("Unknown method")
-    << error_code_info(DBUS_ERROR_UNKNOWN_METHOD)
-    << method_info(method_name)
-    << interface_info("org.workrave.TestInterface");
+  throw ::workrave::dbus::DBusRemoteException()
+    << ::workrave::dbus::message_info("Unknown method")
+    << ::workrave::dbus::error_code_info(DBUS_ERROR_UNKNOWN_METHOD)
+    << ::workrave::dbus::method_info(method_name)
+    << ::workrave::dbus::interface_info("org.workrave.TestInterface");
 }
 
 
@@ -265,7 +266,7 @@ org_workrave_TestInterface_Stub::Ping(void *object, const QDBusMessage &message,
 
 
 
-      p_message = DBusMarshall<std::string>::convert(message.arguments().at(0));
+      p_message = ::workrave::dbus::DBusMarshall<std::string>::convert(message.arguments().at(0));
 
 
 
@@ -275,7 +276,7 @@ org_workrave_TestInterface_Stub::Ping(void *object, const QDBusMessage &message,
 
       QDBusMessage reply = message.createReply();
 
-      reply << DBusMarshall<std::string>::convert(p_result);
+      reply << ::workrave::dbus::DBusMarshall<std::string>::convert(p_result);
 
 
 
@@ -329,7 +330,7 @@ org_workrave_TestInterface_Stub::GetMode(void *object, const QDBusMessage &messa
 
       QDBusMessage reply = message.createReply();
 
-      reply << DBusMarshall<TestMode>::convert(p_result);
+      reply << ::workrave::dbus::DBusMarshall<TestMode>::convert(p_result);
 
 
 
@@ -375,7 +376,7 @@ org_workrave_TestInterface_Stub::SetMode(void *object, const QDBusMessage &messa
 
 
 
-      p_mode = DBusMarshall<TestMode>::convert(message.arguments().at(0));
+      p_mode = ::workrave::dbus::DBusMarshall<TestMode>::convert(message.arguments().at(0));
 
 
 
@@ -413,14 +414,14 @@ org_workrave_TestInterface_Stub::ModeChanged(const std::string &path, TestMode v
 {
   QDBusMessage sig = QDBusMessage::createSignal(QString::fromStdString(path), "org.workrave.TestInterface", "ModeChanged");
 
-  sig << DBusMarshall<TestMode>::convert(value);
+  sig << ::workrave::dbus::DBusMarshall<TestMode>::convert(value);
 
-  IDBusPrivateQt::Ptr priv = std::dynamic_pointer_cast<IDBusPrivateQt>(dbus);
+  ::workrave::dbus::IDBusPrivateQt::Ptr priv = std::dynamic_pointer_cast<::workrave::dbus::IDBusPrivateQt>(dbus);
   priv->get_connection().send(sig);
 }
 
 
-void init_org_workrave_TestInterface(std::shared_ptr<IDBus> dbus)
+void init_org_workrave_TestInterface(std::shared_ptr<::workrave::dbus::IDBus> dbus)
 {
   dbus->register_binding("org.workrave.TestInterface", new org_workrave_TestInterface_Stub(dbus));
 

@@ -29,7 +29,11 @@ using namespace workrave::dbus;
 {% for custom in dbus.custom_types %}
 {{ marshall_type(custom, model) }}
 {% endfor %}
-class {{ stub_name }} : public DBusBindingQt, public {{ ident }}
+{% if adapter_namespace %}
+namespace {{ adapter_namespace }}
+{
+{% endif %}
+class {{ stub_name }} : public ::workrave::dbus::DBusBindingQt, public {{ ident }}
 {
 private:
   using DBusMethodPointer = void ({{ stub_name }}::*)(void *object, const QDBusMessage &message, const QDBusConnection &connection);
@@ -48,7 +52,7 @@ private:
   }
 
 public:
-  explicit {{ stub_name }}(std::shared_ptr<IDBus> dbus) : DBusBindingQt(std::move(dbus)) {}
+  explicit {{ stub_name }}(std::shared_ptr<::workrave::dbus::IDBus> dbus) : ::workrave::dbus::DBusBindingQt(std::move(dbus)) {}
   ~{{ stub_name }}() override = default;
 
 {% for signal in service.signals %}
@@ -112,7 +116,7 @@ private:
 {{ ident }} *{{ ident }}::instance(std::shared_ptr<::workrave::dbus::IDBus> dbus)
 {
   {{ stub_name }} *iface = nullptr;
-  DBusBinding *binding = dbus->find_binding("{{ dbus.name }}");
+  ::workrave::dbus::DBusBinding *binding = dbus->find_binding("{{ dbus.name }}");
   if (binding != nullptr)
     {
       iface = dynamic_cast<{{ stub_name }} *>(binding);
@@ -137,11 +141,11 @@ bool
           return true;
         }
     }
-  throw DBusRemoteException()
-    << message_info("Unknown method")
-    << error_code_info(DBUS_ERROR_UNKNOWN_METHOD)
-    << method_info(method_name)
-    << interface_info("{{ dbus.name }}");
+  throw ::workrave::dbus::DBusRemoteException()
+    << ::workrave::dbus::message_info("Unknown method")
+    << ::workrave::dbus::error_code_info(DBUS_ERROR_UNKNOWN_METHOD)
+    << ::workrave::dbus::method_info(method_name)
+    << ::workrave::dbus::interface_info("{{ dbus.name }}");
 }
 
 {% for method in service.methods %}
@@ -171,7 +175,7 @@ void
 
 {% for param in method.params %}
 {% if param.dbus_arg_index is not none %}
-      p_{{ param.cxx_name }} = DBusMarshall<{{ model.types[param.type_id].cxx.base_spelling }}>::convert(message.arguments().at({{ param.dbus_arg_index }}));
+      p_{{ param.cxx_name }} = ::workrave::dbus::DBusMarshall<{{ model.types[param.type_id].cxx.base_spelling }}>::convert(message.arguments().at({{ param.dbus_arg_index }}));
 {% endif %}
 {% endfor %}
 
@@ -183,11 +187,11 @@ void
 
       QDBusMessage reply = message.createReply();
 {% if method.return_value is not none %}
-      reply << DBusMarshall<{{ model.types[method.return_value.type_id].cxx.base_spelling }}>::convert(p_{{ method.return_value.proto_field }});
+      reply << ::workrave::dbus::DBusMarshall<{{ model.types[method.return_value.type_id].cxx.base_spelling }}>::convert(p_{{ method.return_value.proto_field }});
 {% endif %}
 {% for param in method.params %}
 {% if param.direction == "out" %}
-      reply << DBusMarshall<{{ model.types[param.type_id].cxx.base_spelling }}>::convert(p_{{ param.cxx_name }});
+      reply << ::workrave::dbus::DBusMarshall<{{ model.types[param.type_id].cxx.base_spelling }}>::convert(p_{{ param.cxx_name }});
 {% endif %}
 {% endfor %}
 
@@ -215,14 +219,14 @@ void
 {
   QDBusMessage sig = QDBusMessage::createSignal(QString::fromStdString(path), "{{ dbus.name }}", "{{ signal.rpc_name }}");
 {% for field in signal.event_fields %}
-  sig << DBusMarshall<{{ model.types[field.type_id].cxx.spelling }}>::convert({{ field.cxx_name }});
+  sig << ::workrave::dbus::DBusMarshall<{{ model.types[field.type_id].cxx.spelling }}>::convert({{ field.cxx_name }});
 {% endfor %}
-  IDBusPrivateQt::Ptr priv = std::dynamic_pointer_cast<IDBusPrivateQt>(dbus);
+  ::workrave::dbus::IDBusPrivateQt::Ptr priv = std::dynamic_pointer_cast<::workrave::dbus::IDBusPrivateQt>(dbus);
   priv->get_connection().send(sig);
 }
 
 {% endfor %}
-void init_{{ ident }}(std::shared_ptr<IDBus> dbus)
+void init_{{ ident }}(std::shared_ptr<::workrave::dbus::IDBus> dbus)
 {
   dbus->register_binding("{{ dbus.name }}", new {{ stub_name }}(dbus));
 
@@ -231,4 +235,7 @@ void init_{{ ident }}(std::shared_ptr<IDBus> dbus)
   qDBusRegisterMetaType<{{ model.types[custom.type_id].cxx.spelling }}>();
 {% endif -%}
 {%- endfor %}
-}{{- "" -}}
+}
+{% if adapter_namespace %}
+} // namespace {{ adapter_namespace }}
+{% endif %}{{- "" -}}

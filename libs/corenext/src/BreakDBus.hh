@@ -25,13 +25,18 @@
 
 #include "BreakStateModel.hh"
 
+class Break;
+
 class BreakDBus : public workrave::utils::Trackable
 {
 public:
   using Ptr = std::shared_ptr<BreakDBus>;
 
 public:
-  BreakDBus(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, std::shared_ptr<workrave::dbus::IDBus> dbus);
+  BreakDBus(workrave::BreakId break_id,
+            Break *break_controller,
+            BreakStateModel::Ptr break_state_model,
+            std::shared_ptr<workrave::dbus::IDBus> dbus);
   virtual ~BreakDBus() = default;
 
 private:

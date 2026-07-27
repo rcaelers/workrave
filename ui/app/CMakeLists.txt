@@ -94,7 +94,14 @@ endif()
 if (HAVE_DBUS)
   dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-gui.xml ${CMAKE_CURRENT_BINARY_DIR} DBusGUI)
   target_sources(workrave-app PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc GenericDBusApplet.cc)
+endif()
+
+if (HAVE_DBUS OR HAVE_RPC_DBUS)
   dbus_add_activation_service(${CMAKE_CURRENT_SOURCE_DIR}/org.workrave.Workrave.service.in ${BINDIR})
+endif()
+
+if (HAVE_DBUS AND HAVE_RPC_DBUS)
+  dbus_add_activation_service(${CMAKE_CURRENT_SOURCE_DIR}/org.workrave.Workrave.Rpc.service.in ${BINDIR})
 endif()
 
 if (HAVE_GSETTINGS)

@@ -40,9 +40,18 @@ pub struct GenerateOptions {
     pub out_adapter_hh: PathBuf,
     pub out_adapter_cc: PathBuf,
     pub proto_package: String,
-    /// Optional C++ namespace that wraps only the generated ServiceImpl
-    /// adapter. The protobuf package remains the source of truth for the
-    /// protoc-generated message and gRPC service namespaces.
+    /// Optional separate schema/package for generated payload types. When
+    /// present, the service schema imports this file, keeping the service's
+    /// wire package independent from the payloads' generated C++ namespace.
+    /// Both fields must be supplied together.
+    pub out_types_proto: Option<PathBuf>,
+    pub proto_types_package: Option<String>,
+    /// Optional namespace appended to the protobuf package for generated
+    /// gRPC service/stub classes. This is the `grpc_cpp_plugin`
+    /// `services_namespace` option and does not change the wire service name.
+    pub grpc_services_namespace: Option<String>,
+    /// Optional C++ namespace that wraps generated ServiceImpl and DBus
+    /// binding adapters. Wire package/interface names remain unchanged.
     pub adapter_namespace: Option<String>,
     /// Literal text for the generated `#include "..."` of the annotated
     /// header. Defaults to the header's file name.
@@ -63,6 +72,7 @@ pub struct GenerateOptions {
 #[derive(Debug)]
 pub struct GeneratedFiles {
     pub proto: PathBuf,
+    pub types_proto: Option<PathBuf>,
     pub adapter_hh: PathBuf,
     pub adapter_cc: PathBuf,
     pub dbus_hh: Option<PathBuf>,
@@ -111,6 +121,9 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
         out_adapter_hh: opts.out_adapter_hh.clone(),
         out_adapter_cc: opts.out_adapter_cc.clone(),
         proto_package: opts.proto_package.clone(),
+        out_types_proto: opts.out_types_proto.clone(),
+        proto_types_package: opts.proto_types_package.clone(),
+        grpc_services_namespace: opts.grpc_services_namespace.clone(),
         adapter_namespace: opts.adapter_namespace.clone(),
     })];
     match (&opts.out_dbus_hh, &opts.out_dbus_cc) {
@@ -118,6 +131,7 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
             active.push(Box::new(backends::dbus::DbusBackend {
                 out_hh: out_hh.clone(),
                 out_cc: out_cc.clone(),
+                adapter_namespace: opts.adapter_namespace.clone(),
             }));
         }
         (None, None) => {}
@@ -151,8 +165,15 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
         .find(|(name, _)| *name == "grpc")
         .map(|(_, files)| files)
         .expect("GrpcBackend is always active");
-    let [proto, adapter_hh, adapter_cc] = &grpc_files[..] else {
-        bail!("GrpcBackend produced {} file(s), expected exactly 3", grpc_files.len());
+    let (proto, adapter_hh, adapter_cc, types_proto) = match &grpc_files[..] {
+        [proto, adapter_hh, adapter_cc] => (proto, adapter_hh, adapter_cc, None),
+        [proto, adapter_hh, adapter_cc, types_proto] => {
+            (proto, adapter_hh, adapter_cc, Some(types_proto.path.clone()))
+        }
+        _ => bail!(
+            "GrpcBackend produced {} file(s), expected exactly 3 or 4",
+            grpc_files.len()
+        ),
     };
 
     let (dbus_hh, dbus_cc) = match by_backend.iter().find(|(name, _)| *name == "dbus") {
@@ -165,6 +186,7 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
 
     Ok(GeneratedFiles {
         proto: proto.path.clone(),
+        types_proto,
         adapter_hh: adapter_hh.path.clone(),
         adapter_cc: adapter_cc.path.clone(),
         dbus_hh,

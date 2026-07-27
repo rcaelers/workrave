@@ -29,7 +29,10 @@ const SOURCE_MACROS: EmbeddedTemplate = EmbeddedTemplate {
 
 #[derive(Serialize)]
 struct AdapterContext<'a> {
-    proto_cpp_ns: String,
+    service_cpp_ns: String,
+    types_cpp_ns: String,
+    split_proto_types: bool,
+    proto_descriptor_symbol: String,
     adapter_namespace: Option<&'a str>,
     impl_class_name: String,
     header_include: String,
@@ -44,22 +47,39 @@ pub struct RenderedAdapter {
     pub source: String,
 }
 
+pub struct RenderAdapterOptions<'a> {
+    pub package: &'a str,
+    pub proto_types_package: Option<&'a str>,
+    pub grpc_services_namespace: Option<&'a str>,
+    pub adapter_namespace: Option<&'a str>,
+    pub header_include: &'a str,
+    pub proto_basename: &'a str,
+    pub adapter_header_filename: &'a str,
+}
+
 pub fn render_adapter(
     model: &GenerationModel,
-    package: &str,
-    adapter_namespace: Option<&str>,
-    header_include: &str,
-    proto_basename: &str,
-    adapter_header_filename: &str,
+    options: RenderAdapterOptions<'_>,
 ) -> Result<RenderedAdapter> {
     let interface = &model.interfaces[0];
+    let package_cpp_ns = options.package.replace('.', "::");
+    let service_cpp_ns = options
+        .grpc_services_namespace
+        .map(|namespace| format!("{package_cpp_ns}::{namespace}"))
+        .unwrap_or_else(|| package_cpp_ns.clone());
     let context = AdapterContext {
-        proto_cpp_ns: package.replace('.', "::"),
-        adapter_namespace,
+        service_cpp_ns,
+        types_cpp_ns: options
+            .proto_types_package
+            .unwrap_or(options.package)
+            .replace('.', "::"),
+        split_proto_types: options.proto_types_package.is_some(),
+        proto_descriptor_symbol: format!("descriptor_table_{}_2eproto", options.proto_basename),
+        adapter_namespace: options.adapter_namespace,
         impl_class_name: format!("{}ServiceImpl", interface.service_name),
-        header_include: header_include.to_string(),
-        proto_basename: proto_basename.to_string(),
-        adapter_header_filename: adapter_header_filename.to_string(),
+        header_include: options.header_include.to_string(),
+        proto_basename: options.proto_basename.to_string(),
+        adapter_header_filename: options.adapter_header_filename.to_string(),
         has_duration: interface.has_duration,
         model,
     };

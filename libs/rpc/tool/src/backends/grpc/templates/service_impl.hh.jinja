@@ -17,7 +17,7 @@
 namespace {{ adapter_namespace }}
 {
 {% endif -%}
-class {{ impl_class_name }} final : public ::{{ proto_cpp_ns }}::{{ service.service_name }}::Service
+class {{ impl_class_name }} final : public ::{{ service_cpp_ns }}::{{ service.service_name }}::Service
 {
 public:
 {% if service.keyed_by is not none %}
@@ -25,27 +25,27 @@ public:
   // registry that instances register themselves into (see rpc::InstanceRegistry),
   // and each RPC resolves its target from the request's `id` field — the gRPC
   // analog of DBus's per-object-path routing.
-  explicit {{ impl_class_name }}(::rpc::InstanceRegistry<{{ model.types[service.keyed_by.type_id].cxx.base_spelling }}, {{ service.cxx_qualified_class }}> &registry)
+  explicit {{ impl_class_name }}(::rpc::InstanceRegistry<{{ model.types[service.keyed_by.type_id].cxx.base_spelling }}, {{ service.cxx_qualified_class }}> &registry){% if split_proto_types %};{% else %}
     : registry_(registry)
   {
-  }
+  }{% endif %}
 {% else %}
-  explicit {{ impl_class_name }}({{ service.cxx_qualified_class }} &impl)
+  explicit {{ impl_class_name }}({{ service.cxx_qualified_class }} &impl){% if split_proto_types %};{% else %}
     : impl_(impl)
   {
-  }
+  }{% endif %}
 {% endif %}
 
 {% for method in service.methods %}
   ::grpc::Status {{ method.rpc_name }}(::grpc::ServerContext *context,
-                                 const ::{{ proto_cpp_ns }}::{{ method.rpc_name }}Request *request,
-                                 ::{{ proto_cpp_ns }}::{{ method.rpc_name }}Response *response) override;
+                                 const ::{{ types_cpp_ns }}::{{ method.rpc_name }}Request *request,
+                                 ::{{ types_cpp_ns }}::{{ method.rpc_name }}Response *response) override;
 {% endfor %}
 
 {% for signal in service.signals %}
   ::grpc::Status {{ signal.rpc_name }}(::grpc::ServerContext *context,
-                                 const ::{{ proto_cpp_ns }}::{{ signal.rpc_name }}Request *request,
-                                 ::grpc::ServerWriter<::{{ proto_cpp_ns }}::{{ signal.rpc_name }}Event> *writer) override;
+                                 const ::{{ types_cpp_ns }}::{{ signal.rpc_name }}Request *request,
+                                 ::grpc::ServerWriter<::{{ types_cpp_ns }}::{{ signal.rpc_name }}Event> *writer) override;
 {% endfor %}
 
 private:
@@ -54,6 +54,9 @@ private:
 {% else %}
   {{ service.cxx_qualified_class }} &impl_;
 {% endif %}
+{% if split_proto_types %}
+  [[maybe_unused]] const void *const service_descriptor_anchor_;
+{% endif -%}
 };{{- "" -}}
 {% if adapter_namespace %}
 

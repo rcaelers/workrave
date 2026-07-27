@@ -1,0 +1,123 @@
+// Copyright (C) 2026 Rob Caelers <robc@krandor.nl>
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include "RpcDBusServer.hh"
+
+#include <array>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include <boost/signals2.hpp>
+
+#include "Core.hh"
+#include "RpcDBusBreakBindingDBus.hh"
+#include "RpcDBusBreakCompat.hh"
+#include "RpcDBusConfigBindingDBus.hh"
+#include "RpcDBusConfigCompat.hh"
+#include "RpcDBusCoreBindingDBus.hh"
+#include "RpcDBusCoreCompat.hh"
+#include "core/CoreConfig.hh"
+#include "dbus/DBusFactory.hh"
+
+namespace generated = workrave::core::rpc;
+namespace compat = workrave::core::rpc::dbus_compat;
+
+struct RpcDBusServer::Impl
+{
+  Impl(Core &core,
+       workrave::config::IConfigurator &configurator,
+       std::shared_ptr<workrave::dbus::IDBus> primary_bus,
+       bool legacy_dbus_enabled)
+    : names(RpcDBusNames::select(legacy_dbus_enabled))
+    , bus(legacy_dbus_enabled ? workrave::dbus::DBusFactory::create() : std::move(primary_bus))
+    , core_compat(core)
+    , config_compat(configurator)
+  {
+    if (!bus)
+      {
+        throw std::invalid_argument("RPC DBus requires a bus instance");
+      }
+    if (legacy_dbus_enabled)
+      {
+        bus->init();
+      }
+
+    generated::init_org_workrave_CoreInterface(bus);
+    generated::init_org_workrave_BreakInterface(bus);
+    generated::init_org_workrave_ConfigInterface(bus);
+
+    const std::string core_path = std::string(names.root_path) + "/Core";
+    bus->connect(core_path, "org.workrave.CoreInterface", &core_compat);
+    bus->connect(core_path, "org.workrave.ConfigInterface", &config_compat);
+    bus->register_object_path(core_path);
+
+    auto *core_interface = generated::org_workrave_CoreInterface::instance(bus);
+    if (core_interface == nullptr)
+      {
+        throw std::runtime_error("generated Core DBus binding was not registered");
+      }
+    signal_connections.emplace_back(core_compat.signal_operation_mode_changed().connect(
+      [core_interface, core_path](workrave::OperationMode mode) { core_interface->OperationModeChanged(core_path, mode); }));
+    signal_connections.emplace_back(core_compat.signal_usage_mode_changed().connect(
+      [core_interface, core_path](workrave::UsageMode mode) { core_interface->UsageModeChanged(core_path, mode); }));
+
+    auto *break_interface = generated::org_workrave_BreakInterface::instance(bus);
+    if (break_interface == nullptr)
+      {
+        throw std::runtime_error("generated Break DBus binding was not registered");
+      }
+
+    for (workrave::BreakId id = workrave::BREAK_ID_MICRO_BREAK; id < workrave::BREAK_ID_SIZEOF; id++)
+      {
+        auto break_controller = std::dynamic_pointer_cast<Break>(core.get_break(id));
+        if (!break_controller)
+          {
+            throw std::runtime_error("Core returned an incompatible Break implementation");
+          }
+
+        auto facade = std::make_unique<compat::BreakCompat>(*break_controller);
+        const std::string break_path = std::string(names.root_path) + "/Break/" + CoreConfig::get_break_name(id);
+        bus->connect(break_path, "org.workrave.BreakInterface", facade.get());
+        bus->register_object_path(break_path);
+
+        signal_connections.emplace_back(
+          facade->signal_break_state_changed().connect([break_interface, break_path](std::string state) {
+            break_interface->BreakStateChanged(break_path, std::move(state));
+          }));
+        signal_connections.emplace_back(facade->signal_break_event().connect(
+          [break_interface, break_path](workrave::BreakEvent event) { break_interface->BreakEvent(break_path, event); }));
+        break_facades[static_cast<size_t>(id)] = std::move(facade);
+      }
+
+    bus->register_service(std::string(names.service));
+  }
+
+  RpcDBusNames names;
+  std::shared_ptr<workrave::dbus::IDBus> bus;
+  compat::CoreCompat core_compat;
+  compat::ConfigCompat config_compat;
+  std::array<std::unique_ptr<compat::BreakCompat>, workrave::BREAK_ID_SIZEOF> break_facades;
+  std::vector<boost::signals2::scoped_connection> signal_connections;
+};
+
+RpcDBusServer::RpcDBusServer(Core &core,
+                             workrave::config::IConfigurator &configurator,
+                             std::shared_ptr<workrave::dbus::IDBus> primary_bus,
+                             bool legacy_dbus_enabled)
+  : impl_(std::make_unique<Impl>(core, configurator, std::move(primary_bus), legacy_dbus_enabled))
+{
+}
+
+RpcDBusServer::~RpcDBusServer() = default;
+
+const RpcDBusNames &
+RpcDBusServer::names() const
+{
+  return impl_->names;
+}

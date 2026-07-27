@@ -24,6 +24,32 @@ if (HAVE_DBUS)
   target_sources(workrave-libs-core-next PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkraveNext.cc)
 endif()
 
+if (HAVE_RPC_DBUS)
+  # Generate a wire-compatible replacement for the legacy Core/Break/Config
+  # DBus API from narrow facade classes. The facades deliberately preserve
+  # historical DBus signatures while the primary @rpc interfaces remain free
+  # to expose their richer native/gRPC contracts.
+  rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusCoreCompat.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusCoreBinding
+    ANCHOR_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusCoreCompat.cc
+    ADAPTER_NAMESPACE workrave::core::rpc)
+  rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusBreakCompat.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusBreakBinding
+    ANCHOR_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusBreakCompat.cc
+    ADAPTER_NAMESPACE workrave::core::rpc)
+  rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusConfigCompat.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusConfigBinding
+    ANCHOR_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusConfigCompat.cc
+    ADAPTER_NAMESPACE workrave::core::rpc)
+
+  target_sources(workrave-libs-core-next PRIVATE
+    RpcDBusCoreCompat.cc
+    RpcDBusBreakCompat.cc
+    RpcDBusConfigCompat.cc
+    RpcDBusServer.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcDBusCoreBindingDBus.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcDBusBreakBindingDBus.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcDBusConfigBindingDBus.cc)
+  target_include_directories(workrave-libs-core-next PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+endif()
+
 if (HAVE_RPC)
   # BreaksControl.hh uses rpc::InstanceRegistry<> (see get_break_registry())
   # to route BreakService calls to the right one of the three live Break
@@ -35,17 +61,16 @@ if (HAVE_RPC)
   # exists to avoid).
   target_include_directories(workrave-libs-core-next PRIVATE ${CMAKE_SOURCE_DIR}/libs/rpc/include)
 
-  # Distinct, explicit PROTO_PACKAGE per interface: Core and Break each have
-  # an "IsActive"/"IsTaking" RPC, and RpcCoreServer.cc (below) is the first
-  # place anything #includes both generated headers in one translation unit.
-  # Left on the shared "workrave" default, protoc would happily generate
-  # two same-named, same-namespace C++ message classes (one per .proto) and
-  # this file would fail with ODR redefinition errors the moment both are
-  # included together.
+  # Keep all public services in the single wire package "workrave", producing
+  # workrave.CoreService and workrave.BreakService. Payload types live in
+  # separate imported packages so their generated C++ names are isolated in
+  # workrave::rpc::core and workrave::rpc::breaks.
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Core.hh ${CMAKE_CURRENT_BINARY_DIR} RpcCore
-    PROTO_PACKAGE workrave.core ADAPTER_NAMESPACE workrave::core::rpc DBUS)
+    PROTO_PACKAGE workrave PROTO_TYPES_PACKAGE workrave.rpc.core GRPC_SERVICES_NAMESPACE rpc
+    ADAPTER_NAMESPACE workrave::core::rpc)
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Break.hh ${CMAKE_CURRENT_BINARY_DIR} RpcBreak
-    PROTO_PACKAGE workrave.breaks ADAPTER_NAMESPACE workrave::core::rpc DBUS)
+    PROTO_PACKAGE workrave PROTO_TYPES_PACKAGE workrave.rpc.breaks GRPC_SERVICES_NAMESPACE rpc
+    ADAPTER_NAMESPACE workrave::core::rpc)
 
   # Deliberately a SEPARATE, opt-in static library rather than sources added
   # to workrave-libs-core-next itself: for a static library, CMake can't hide
@@ -61,9 +86,11 @@ if (HAVE_RPC)
     ${CMAKE_CURRENT_BINARY_DIR}/RpcCoreServiceImpl.cc
     ${CMAKE_CURRENT_BINARY_DIR}/RpcCore.pb.cc
     ${CMAKE_CURRENT_BINARY_DIR}/RpcCore.grpc.pb.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcCoreTypes.pb.cc
     ${CMAKE_CURRENT_BINARY_DIR}/RpcBreakServiceImpl.cc
     ${CMAKE_CURRENT_BINARY_DIR}/RpcBreak.pb.cc
     ${CMAKE_CURRENT_BINARY_DIR}/RpcBreak.grpc.pb.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcBreakTypes.pb.cc
     # Wires the three generated ServiceImpls above (plus ConfigServiceImpl,
     # from workrave-libs-config-rpc) into a single running rpc::RpcServer for
     # the real Core/BreaksControl/Configurator. Core::init_rpc() constructs
@@ -82,26 +109,6 @@ if (HAVE_RPC)
     # workrave-libs-config-rpc.
     ${CMAKE_BINARY_DIR}/libs/config/src)
 
-  if (HAVE_DBUS)
-    # clang-rpc-gen's DBus backend, generated from the exact same
-    # @rpc-annotated Core.hh/Break.hh as the gRPC output above (see the DBUS
-    # keyword on the rpc_generate_source() calls) — deliberately a SEPARATE
-    # library, not linked into workrave-libs-core-next-rpc or the real app:
-    # this exists purely so libs/rpc/test/DBusComparisonTest.cc can compare
-    # its generated introspection XML against the existing hand-maintained
-    # workrave-service.xml/DBusWorkraveNext.cc pipeline (still the one and
-    # only thing the real app links — see RpcCoreServer.hh/Core::init_rpc()).
-    # Nothing here switches Workrave over to this new DBus code path.
-    add_library(workrave-libs-core-next-dbus-comparison STATIC
-      ${CMAKE_CURRENT_BINARY_DIR}/RpcCoreDBus.cc
-      ${CMAKE_CURRENT_BINARY_DIR}/RpcBreakDBus.cc)
-    target_link_libraries(workrave-libs-core-next-dbus-comparison
-      PUBLIC workrave-libs-core-next
-      PRIVATE workrave-libs-dbus workrave-libs-rpc)
-    target_include_directories(workrave-libs-core-next-dbus-comparison PRIVATE
-      ${CMAKE_CURRENT_BINARY_DIR}
-      ${CMAKE_CURRENT_SOURCE_DIR})
-  endif()
 endif()
 
 if (WITH_CORE_NEXT)

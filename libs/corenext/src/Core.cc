@@ -28,6 +28,10 @@
 #include <cstdlib>
 #include <filesystem>
 
+#if defined(HAVE_RPC) || defined(HAVE_RPC_DBUS)
+#  include <spdlog/spdlog.h>
+#endif
+
 #include "Core.hh"
 
 #include "config/ConfiguratorFactory.hh"
@@ -51,6 +55,9 @@
 
 #if defined(HAVE_RPC)
 #  include "RpcCoreServer.hh"
+#endif
+#if defined(HAVE_RPC_DBUS)
+#  include "RpcDBusServer.hh"
 #endif
 
 using namespace std;
@@ -127,7 +134,12 @@ Core::init(IApp *app, const char *display_name)
   if (!hooks->hook_create_monitor())
 #endif
     {
+#if defined(HAVE_RPC)
       init_rpc();
+#endif
+#if defined(HAVE_RPC_DBUS)
+      init_rpc_dbus();
+#endif
     }
 }
 
@@ -151,11 +163,11 @@ Core::init_bus()
 #endif
 }
 
+#if defined(HAVE_RPC)
 //! Starts the gRPC server exposing CoreService/BreakService/ConfigService.
 void
 Core::init_rpc()
 {
-#if defined(HAVE_RPC)
   try
     {
       // A unix domain socket in the per-user state directory, not TCP
@@ -176,8 +188,29 @@ Core::init_rpc()
     {
       spdlog::warn("RPC server failed to start: {}", e.what());
     }
-#endif
 }
+#endif
+
+#if defined(HAVE_RPC_DBUS)
+void
+Core::init_rpc_dbus()
+{
+  try
+    {
+#  if defined(HAVE_DBUS)
+      constexpr bool legacy_dbus_enabled = true;
+#  else
+      constexpr bool legacy_dbus_enabled = false;
+#  endif
+      rpc_dbus_server = std::make_unique<RpcDBusServer>(*this, *configurator, dbus, legacy_dbus_enabled);
+      spdlog::info("RPC DBus server listening on {}", rpc_dbus_server->names().service);
+    }
+  catch (const std::exception &e)
+    {
+      spdlog::warn("RPC DBus server failed to start: {}", e.what());
+    }
+}
+#endif
 
 #if defined(HAVE_RPC)
 rpc::InstanceRegistry<workrave::BreakId, Break> &

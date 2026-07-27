@@ -29,6 +29,7 @@ const MARSHALLING_TEMPLATE: EmbeddedTemplate = EmbeddedTemplate {
 
 #[derive(Serialize)]
 struct DbusArtifactContext<'a> {
+    adapter_namespace: Option<String>,
     header_include: String,
     dbus_header_filename: String,
     model: &'a GenerationModel,
@@ -41,10 +42,12 @@ pub struct RenderedDBusBinding {
 
 pub fn render_dbus_binding(
     model: &GenerationModel,
+    adapter_namespace: Option<&str>,
     header_include: &str,
     dbus_header_filename: &str,
 ) -> Result<RenderedDBusBinding> {
     let context = DbusArtifactContext {
+        adapter_namespace: adapter_namespace.map(str::to_string),
         header_include: header_include.to_string(),
         dbus_header_filename: dbus_header_filename.to_string(),
         model,

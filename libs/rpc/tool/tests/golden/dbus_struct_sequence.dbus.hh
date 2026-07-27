@@ -9,6 +9,7 @@
 
 #include "dbus_struct_sequence.hh"
 
+
 class org_workrave_TestInterface2
 {
 public:
@@ -16,3 +17,4 @@ public:
   static org_workrave_TestInterface2 *instance(std::shared_ptr<::workrave::dbus::IDBus> dbus);
 
 };
+void init_org_workrave_TestInterface2(std::shared_ptr<::workrave::dbus::IDBus> dbus);

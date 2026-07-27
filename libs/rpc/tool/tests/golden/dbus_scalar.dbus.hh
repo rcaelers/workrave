@@ -9,6 +9,7 @@
 
 #include "dbus_scalar.hh"
 
+
 class org_workrave_TestInterface
 {
 public:
@@ -18,3 +19,4 @@ public:
   virtual void ModeChanged(const std::string &path, TestMode value) = 0;
 
 };
+void init_org_workrave_TestInterface(std::shared_ptr<::workrave::dbus::IDBus> dbus);

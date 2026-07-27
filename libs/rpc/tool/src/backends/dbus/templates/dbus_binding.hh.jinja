@@ -11,6 +11,10 @@
 
 #include "{{ header_include }}"
 
+{% if adapter_namespace %}
+namespace {{ adapter_namespace }}
+{
+{% endif %}
 class {{ ident }}
 {
 public:
@@ -19,4 +23,8 @@ public:
 {% for signal in service.signals %}
   virtual void {{ signal.rpc_name }}(const std::string &path{% for field in signal.event_fields %}, {{ model.types[field.type_id].cxx.spelling }} {{ field.cxx_name }}{% endfor %}) = 0;
 {% endfor %}
-};{{- "" -}}
+};
+void init_{{ ident }}(std::shared_ptr<::workrave::dbus::IDBus> dbus);
+{% if adapter_namespace %}
+} // namespace {{ adapter_namespace }}
+{% endif %}{{- "" -}}

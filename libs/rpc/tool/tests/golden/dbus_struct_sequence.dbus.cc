@@ -142,7 +142,8 @@ struct DBusMarshall<std::vector<Point>>
 };
 } // namespace workrave::dbus
 
-class org_workrave_TestInterface2_Stub : public DBusBindingQt, public org_workrave_TestInterface2
+
+class org_workrave_TestInterface2_Stub : public ::workrave::dbus::DBusBindingQt, public org_workrave_TestInterface2
 {
 private:
   using DBusMethodPointer = void (org_workrave_TestInterface2_Stub::*)(void *object, const QDBusMessage &message, const QDBusConnection &connection);
@@ -161,7 +162,7 @@ private:
   }
 
 public:
-  explicit org_workrave_TestInterface2_Stub(std::shared_ptr<IDBus> dbus) : DBusBindingQt(std::move(dbus)) {}
+  explicit org_workrave_TestInterface2_Stub(std::shared_ptr<::workrave::dbus::IDBus> dbus) : ::workrave::dbus::DBusBindingQt(std::move(dbus)) {}
   ~org_workrave_TestInterface2_Stub() override = default;
 
 
@@ -254,7 +255,7 @@ private:
 org_workrave_TestInterface2 *org_workrave_TestInterface2::instance(std::shared_ptr<::workrave::dbus::IDBus> dbus)
 {
   org_workrave_TestInterface2_Stub *iface = nullptr;
-  DBusBinding *binding = dbus->find_binding("org.workrave.TestInterface2");
+  ::workrave::dbus::DBusBinding *binding = dbus->find_binding("org.workrave.TestInterface2");
   if (binding != nullptr)
     {
       iface = dynamic_cast<org_workrave_TestInterface2_Stub *>(binding);
@@ -279,11 +280,11 @@ org_workrave_TestInterface2_Stub::call(void *object, const QDBusMessage &message
           return true;
         }
     }
-  throw DBusRemoteException()
-    << message_info("Unknown method")
-    << error_code_info(DBUS_ERROR_UNKNOWN_METHOD)
-    << method_info(method_name)
-    << interface_info("org.workrave.TestInterface2");
+  throw ::workrave::dbus::DBusRemoteException()
+    << ::workrave::dbus::message_info("Unknown method")
+    << ::workrave::dbus::error_code_info(DBUS_ERROR_UNKNOWN_METHOD)
+    << ::workrave::dbus::method_info(method_name)
+    << ::workrave::dbus::interface_info("org.workrave.TestInterface2");
 }
 
 
@@ -311,7 +312,7 @@ org_workrave_TestInterface2_Stub::SetPoint(void *object, const QDBusMessage &mes
 
 
 
-      p_p = DBusMarshall<Point>::convert(message.arguments().at(0));
+      p_p = ::workrave::dbus::DBusMarshall<Point>::convert(message.arguments().at(0));
 
 
 
@@ -373,7 +374,7 @@ org_workrave_TestInterface2_Stub::GetPoint(void *object, const QDBusMessage &mes
 
       QDBusMessage reply = message.createReply();
 
-      reply << DBusMarshall<Point>::convert(p_result);
+      reply << ::workrave::dbus::DBusMarshall<Point>::convert(p_result);
 
 
 
@@ -419,7 +420,7 @@ org_workrave_TestInterface2_Stub::SetTags(void *object, const QDBusMessage &mess
 
 
 
-      p_tags = DBusMarshall<std::vector<int>>::convert(message.arguments().at(0));
+      p_tags = ::workrave::dbus::DBusMarshall<std::vector<int>>::convert(message.arguments().at(0));
 
 
 
@@ -481,7 +482,7 @@ org_workrave_TestInterface2_Stub::GetPoints(void *object, const QDBusMessage &me
 
       QDBusMessage reply = message.createReply();
 
-      reply << DBusMarshall<std::vector<Point>>::convert(p_result);
+      reply << ::workrave::dbus::DBusMarshall<std::vector<Point>>::convert(p_result);
 
 
 
@@ -504,7 +505,7 @@ org_workrave_TestInterface2_Stub::GetPoints(void *object, const QDBusMessage &me
 
 
 
-void init_org_workrave_TestInterface2(std::shared_ptr<IDBus> dbus)
+void init_org_workrave_TestInterface2(std::shared_ptr<::workrave::dbus::IDBus> dbus)
 {
   dbus->register_binding("org.workrave.TestInterface2", new org_workrave_TestInterface2_Stub(dbus));
 

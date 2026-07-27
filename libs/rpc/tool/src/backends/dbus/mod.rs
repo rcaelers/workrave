@@ -19,6 +19,9 @@ use crate::template_model::GenerationModel;
 pub struct DbusBackend {
     pub out_hh: PathBuf,
     pub out_cc: PathBuf,
+    /// Optional C++ namespace for the generated binding class and init
+    /// function. Marshalling helpers retain their ADL-sensitive namespaces.
+    pub adapter_namespace: Option<String>,
 }
 
 impl Backend for DbusBackend {
@@ -38,8 +41,12 @@ impl Backend for DbusBackend {
             .to_string_lossy()
             .to_string();
 
-        let binding =
-            dbus_gen::render_dbus_binding(model, header_include, &dbus_header_filename)?;
+        let binding = dbus_gen::render_dbus_binding(
+            model,
+            self.adapter_namespace.as_deref(),
+            header_include,
+            &dbus_header_filename,
+        )?;
 
         Ok(vec![
             GeneratedFile {

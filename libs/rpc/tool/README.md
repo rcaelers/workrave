@@ -1,7 +1,8 @@
 # clang-rpc-gen
 
-Generates a gRPC C++ service adapter directly from an annotated C++ header —
-no separate IDL file, no changes to the annotated class or methods.
+Generates gRPC C++ service adapters and optional QtDBus bindings directly from
+an annotated C++ header—no separate IDL file and no generated fragments stored
+in the Rust context model.
 
 Looking to *use* Workrave's gRPC interface (e.g. with `grpcurl`) rather than
 extend this tool? See [`../README.md`](../README.md) instead.
@@ -34,6 +35,11 @@ public:
   boost::signals2::signal<void(TestMode)> &signal_mode_changed();
 };
 ```
+
+Add `@rpc.dbus(interface="org.example.Interface")` to the class and pass
+`--out-dbus-hh` plus `--out-dbus-cc` to render a DBus binding from the same
+model. The DBus interface name is wire-visible and is not affected by
+`--adapter-namespace`.
 
 Tags are found by regex against the raw comment text — **any** comment
 style works (`//`, `///`, `//!`, `/* */`, `/** */`), including plain `//`.
@@ -162,22 +168,35 @@ clang-rpc-gen \
   --out-adapter-hh build/AnnotatedServiceImpl.hh \
   --out-adapter-cc build/AnnotatedServiceImpl.cc \
   --proto-package your.proto.package \
+  --out-types-proto build/AnnotatedTypes.proto \
+  --proto-types-package your.proto.types.package \
+  --grpc-services-namespace rpc \
   --adapter-namespace your::adapter::namespace \
-  --annotations path/to/annotations.rpc   # optional, see "Out-of-band annotations"
+  --annotations path/to/annotations.rpc \
+  --out-dbus-hh build/AnnotatedDBus.hh \
+  --out-dbus-cc build/AnnotatedDBus.cc
 ```
 
-`--adapter-namespace` is optional and wraps only the generated
-`<Service>ServiceImpl` class. It does not change the protobuf package, wire
-service name, or protoc-generated C++ namespace.
+The annotations, split protobuf type output, and DBus output flags are
+optional. `--out-types-proto` and `--proto-types-package` must be supplied
+together. They move generated enums and messages into an imported schema and
+package while leaving the service in `--proto-package`. This lets multiple
+services share one wire package without putting their C++ payload types in the
+same namespace. `--grpc-services-namespace` appends one unqualified namespace
+to the protobuf package for generated gRPC service/stub classes without
+changing their wire names. `--adapter-namespace` wraps the generated
+`<Service>ServiceImpl` and DBus binding classes; it does not change the
+protobuf packages, gRPC service name, DBus interface name, or protoc-generated
+C++ namespaces.
 
 `--anchor-source` is a `.cc`/`.cpp` that `#include`s `--header`, used to look
 up its real compiler flags in `--compile-commands` (headers themselves are
 never keys in a compile-commands database).
 
-Run the generated `--out-proto` through `protoc` + `grpc_cpp_plugin` to get
-the real `<Service>::Service` base class and `<Rpc>Request`/`<Rpc>Response`
-message types the generated adapter (`--out-adapter-hh`/`--out-adapter-cc`)
-compiles against.
+Run the generated schemas through `protoc` + `grpc_cpp_plugin` to get the real
+`<Service>::Service` base class and `<Rpc>Request`/`<Rpc>Response` message
+types the generated adapter (`--out-adapter-hh`/`--out-adapter-cc`) compiles
+against.
 
 ## A note on the `clang` crate's `clang_10_0` feature
 

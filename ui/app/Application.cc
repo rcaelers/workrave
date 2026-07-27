@@ -325,6 +325,7 @@ Application::init_dbus()
 
   if (dbus->is_available())
     {
+#if !defined(HAVE_RPC_DBUS) || defined(HAVE_DBUS)
       if (dbus->is_running("org.workrave.Workrave"))
         {
           // TODO:
@@ -336,9 +337,15 @@ Application::init_dbus()
           exit(1);
 #endif
         }
+#endif
 
       try
         {
+#if defined(HAVE_DBUS)
+          // RpcDBusServer owns the legacy service itself in RPC-DBus-only
+          // builds. In legacy or dual builds this primary bus owns it.
+          dbus->register_service("org.workrave.Workrave");
+#endif
           dbus->register_object_path("/org/workrave/Workrave/UI");
           dbus->connect("/org/workrave/Workrave/UI", "org.workrave.ControlInterface", menus.get());
         }

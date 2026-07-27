@@ -40,6 +40,9 @@ namespace workrave
 #if defined(HAVE_RPC)
 class RpcCoreServer;
 #endif
+#if defined(HAVE_RPC_DBUS)
+class RpcDBusServer;
+#endif
 
 // @rpc(service="CoreService")
 // @rpc.dbus(interface="org.workrave.CoreInterface")
@@ -103,6 +106,9 @@ private:
 #if defined(HAVE_RPC)
   void init_rpc();
 #endif
+#if defined(HAVE_RPC_DBUS)
+  void init_rpc_dbus();
+#endif
 
 private:
   //! List of breaks.
@@ -140,6 +146,11 @@ private:
   // breaks_control/configurator and must stop serving before those are torn
   // down.
   std::unique_ptr<RpcCoreServer> rpc_server;
+#endif
+#if defined(HAVE_RPC_DBUS)
+  // Declared last so signal forwarding and DBus object registrations stop
+  // before the Core/Break/Configurator instances they reference disappear.
+  std::unique_ptr<RpcDBusServer> rpc_dbus_server;
 #endif
 };
 

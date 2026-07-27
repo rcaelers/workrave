@@ -7,6 +7,28 @@ that produces it — see [`tool/README.md`](tool/README.md) for that, and
 [`../corenext/src/RpcCoreServer.hh`](../corenext/src/RpcCoreServer.hh) for
 how the server itself is wired into the running app.
 
+## Generated DBus mode
+
+`-DWITH_RPC_DBUS=ON` enables the QtDBus bindings produced by the same Rust
+generator without requiring `WITH_RPC` or any gRPC/protobuf libraries. It
+currently requires the Qt UI and CoreNext.
+
+The generated DBus surface deliberately matches the legacy Core, Break, and
+Config wire contract exactly. Small compatibility facades preserve historical
+details such as 32-bit Break timer replies, Config setter arguments/reply
+ordering, and the `BreakStateChanged` event without restricting the richer
+native/gRPC APIs.
+
+| Build options | Generated service | Generated object root |
+|---|---|---|
+| `WITH_RPC_DBUS=ON`, `WITH_DBUS=OFF` | `org.workrave.Workrave` | `/org/workrave/Workrave` |
+| `WITH_RPC_DBUS=ON`, `WITH_DBUS=ON` | `org.workrave.Workrave.Rpc` | `/org/workrave/Workrave/Rpc` |
+
+In dual mode the legacy implementation keeps its original service and object
+paths. Both implementations expose the same `org.workrave.CoreInterface`,
+`org.workrave.BreakInterface`, and `org.workrave.ConfigInterface` names under
+their respective paths.
+
 ## Transport
 
 The server listens on a Unix domain socket in the per-user state directory
@@ -46,17 +68,17 @@ enabled by default, so `grpcurl` can discover everything at runtime.
 grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock list
 
 # workrave.ConfigService
-# workrave.breaks.BreakService
-# workrave.core.CoreService
+# workrave.BreakService
+# workrave.CoreService
 # grpc.reflection.v1.ServerReflection
 # grpc.reflection.v1alpha.ServerReflection
 
 # List a service's methods
-grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock list workrave.core.CoreService
+grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock list workrave.CoreService
 
 # Describe a method's request/response shape, including enum values
-grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock describe workrave.core.CoreService.SetOperationMode
-grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock describe workrave.core.OperationMode
+grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock describe workrave.CoreService.SetOperationMode
+grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock describe workrave.rpc.core.OperationMode
 ```
 
 `describe` is the fastest way to find the exact field/enum-value names
@@ -82,7 +104,7 @@ see it explicitly:
 
 ```bash
 grpcurl -plaintext -emit-defaults -d '{}' \
-  unix:$SOCKET workrave.core.CoreService/GetActiveOperationMode
+  unix:$SOCKET workrave.CoreService/GetActiveOperationMode
 # {
 #   "result": "OPERATION_MODE_NORMAL"
 # }
@@ -101,21 +123,21 @@ SOCKET=$HOME/.workrave-qt/rpc.sock
 
 ```bash
 # Is the user currently active?
-grpcurl -plaintext -d '{}' unix:$SOCKET workrave.core.CoreService/IsActive
+grpcurl -plaintext -d '{}' unix:$SOCKET workrave.CoreService/IsActive
 
 # Current operation mode
-grpcurl -plaintext -d '{}' unix:$SOCKET workrave.core.CoreService/GetActiveOperationMode
+grpcurl -plaintext -d '{}' unix:$SOCKET workrave.CoreService/GetActiveOperationMode
 
 # Suspend Workrave (NORMAL / SUSPENDED / QUIET)
 grpcurl -plaintext -d '{"mode":"OPERATION_MODE_SUSPENDED"}' \
-  unix:$SOCKET workrave.core.CoreService/SetOperationMode
+  unix:$SOCKET workrave.CoreService/SetOperationMode
 
 # Suspend for a while, then automatically revert. `duration` accepts
 # human-friendly text — "1h30m", "1h 30m", "90m", "45s", or a bare number
 # (treated as minutes) — parsed server-side, not a raw integer whose unit
 # you'd have to guess.
 grpcurl -plaintext -d '{"mode":"OPERATION_MODE_SUSPENDED","duration":"1h30m"}' \
-  unix:$SOCKET workrave.core.CoreService/SetOperationModeFor
+  unix:$SOCKET workrave.CoreService/SetOperationModeFor
 
 # ForceBreak's request shape — `break_hint` is a repeated enum (a bitmask on
 # the C++ side, workrave::utils::Flags<BreakHint>) — pass zero or more
@@ -130,14 +152,19 @@ grpcurl -plaintext -d '{"mode":"OPERATION_MODE_SUSPENDED","duration":"1h30m"}' \
 # Tell Workrave about activity from an external source (e.g. a script
 # watching some other input device)
 grpcurl -plaintext -d '{"who":"my-script","act":true}' \
-  unix:$SOCKET workrave.core.CoreService/ReportActivity
+  unix:$SOCKET workrave.CoreService/ReportActivity
 ```
 
-Note `BreakId`'s enum values are double-prefixed
-(`BREAK_ID_BREAK_ID_REST_BREAK`, not `BREAK_ID_REST_BREAK`) — an artifact of
-the auto-naming (`<EnumName>_<CxxValueName>`, and the C++ enum's own values
-already start with `BREAK_ID_`). Run `describe workrave.core.BreakId` if
-in doubt; don't rely on this document staying byte-for-byte in sync.
+The three service descriptors share the `workrave` package, keeping their wire
+names short and consistent. Their generated payload types use separate
+packages to prevent C++ and descriptor-name collisions:
+`workrave.rpc.config`, `workrave.rpc.core`, and `workrave.rpc.breaks`.
+Consequently, a Config response such as `SetStringResponse` is
+`workrave::rpc::config::SetStringResponse` in C++, while the service/stub
+classes are `workrave::rpc::ConfigService`, `workrave::rpc::CoreService`, and
+`workrave::rpc::BreakService`. Run `describe
+workrave.rpc.core.BreakId` or `describe workrave.rpc.breaks.BreakId` if in
+doubt.
 
 ## BreakService — per-break state (micro-break / rest break / daily limit)
 
@@ -148,19 +175,19 @@ target — the gRPC analog of DBus's per-object-path routing.
 ```bash
 # Is the rest break currently enabled / running?
 grpcurl -plaintext -d '{"id":"BREAK_ID_BREAK_ID_REST_BREAK"}' \
-  unix:$SOCKET workrave.breaks.BreakService/IsEnabled
+  unix:$SOCKET workrave.BreakService/IsEnabled
 grpcurl -plaintext -d '{"id":"BREAK_ID_BREAK_ID_REST_BREAK"}' \
-  unix:$SOCKET workrave.breaks.BreakService/IsTimerRunning
+  unix:$SOCKET workrave.BreakService/IsTimerRunning
 
 # Seconds until the rest break is due
 grpcurl -plaintext -d '{"id":"BREAK_ID_BREAK_ID_REST_BREAK"}' \
-  unix:$SOCKET workrave.breaks.BreakService/GetTimerRemaining
+  unix:$SOCKET workrave.BreakService/GetTimerRemaining
 
 # Postpone / skip the currently showing break
 grpcurl -plaintext -d '{"id":"BREAK_ID_BREAK_ID_MICRO_BREAK"}' \
-  unix:$SOCKET workrave.breaks.BreakService/PostponeBreak
+  unix:$SOCKET workrave.BreakService/PostponeBreak
 grpcurl -plaintext -d '{"id":"BREAK_ID_BREAK_ID_MICRO_BREAK"}' \
-  unix:$SOCKET workrave.breaks.BreakService/SkipBreak
+  unix:$SOCKET workrave.BreakService/SkipBreak
 ```
 
 ## ConfigService — read/write Workrave's own settings
@@ -198,12 +225,12 @@ another:
 
 ```bash
 # Operation mode changes
-grpcurl -plaintext -d '{}' unix:$SOCKET workrave.core.CoreService/OperationModeChanged
+grpcurl -plaintext -d '{}' unix:$SOCKET workrave.CoreService/OperationModeChanged
 
 # Break lifecycle events for the rest break specifically (keyed, like the
 # unary BreakService calls above)
 grpcurl -plaintext -d '{"id":"BREAK_ID_BREAK_ID_REST_BREAK"}' \
-  unix:$SOCKET workrave.breaks.BreakService/BreakEvent
+  unix:$SOCKET workrave.BreakService/BreakEvent
 ```
 
 Ctrl-C to stop watching.
@@ -215,7 +242,7 @@ normal gRPC error status rather than crashing anything:
 
 ```bash
 grpcurl -plaintext -d '{"mode":"OPERATION_MODE_NORMAL","duration":"garbage"}' \
-  unix:$SOCKET workrave.core.CoreService/SetOperationModeFor
+  unix:$SOCKET workrave.CoreService/SetOperationModeFor
 # ERROR:
 #   Code: InvalidArgument
 #   Message: invalid duration 'garbage': expected a number

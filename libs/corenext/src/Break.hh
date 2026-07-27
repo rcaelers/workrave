@@ -51,6 +51,7 @@ public:
   // IBreak
   // @rpc.signal(name="BreakEvent")
   boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event() override;
+  boost::signals2::signal<void(BreakStage)> &signal_break_stage_changed();
   // @rpc(name="GetName")
   [[nodiscard]] std::string get_name() const override;
   // @rpc(name="IsEnabled")

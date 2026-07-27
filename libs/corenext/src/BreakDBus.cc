@@ -21,6 +21,7 @@
 
 #include "debug.hh"
 
+#include "Break.hh"
 #include "BreakDBus.hh"
 
 #if defined(HAVE_DBUS)
@@ -33,7 +34,10 @@ using namespace workrave;
 using namespace workrave::dbus;
 using namespace std;
 
-BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, std::shared_ptr<IDBus> dbus)
+BreakDBus::BreakDBus(BreakId break_id,
+                     Break *break_controller,
+                     BreakStateModel::Ptr break_state_model,
+                     std::shared_ptr<IDBus> dbus)
   : break_id(break_id)
   , break_state_model(break_state_model)
   , dbus(dbus)
@@ -50,7 +54,9 @@ BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, s
   try
     {
       string path = string("/org/workrave/Workrave/Break/" + break_name);
-      dbus->connect(path, "org.workrave.BreakInterface", this);
+      // workrave-service.xml declares Break as this interface's csymbol, so
+      // the generated dispatcher casts the registered object to Break*.
+      dbus->connect(path, "org.workrave.BreakInterface", break_controller);
       dbus->register_object_path(path);
     }
   catch (dbus::DBusException &)

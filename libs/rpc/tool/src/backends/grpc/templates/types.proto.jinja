@@ -3,13 +3,8 @@
 // instead of hand-editing this file; it will be overwritten on the next build.
 syntax = "proto3";
 
-package {{ package }};{% if types_package %}
-import "{{ types_proto_filename }}";
-{% endif -%}
-{%- macro rpc_type(name) -%}
-{%- if types_package -%}.{{ types_package }}.{{ name }}{%- else -%}{{ name }}{%- endif -%}
-{%- endmacro %}
-{% if not types_package %}
+package {{ package }};
+
 {% for e in model.enums %}
 {% if e.canonical_name is not none %}
 // canonical_name: "{{ e.canonical_name }}"
@@ -60,14 +55,5 @@ message {{ signal.rpc_name }}Event {
 {% endfor %}
 }
 
-{% endfor %}{% endfor %}{% endif %}{% for service in model.interfaces %}
-service {{ service.service_name }} {
-{% for method in service.methods %}
-  rpc {{ method.rpc_name }}({{ rpc_type(method.rpc_name ~ "Request") }}) returns ({{ rpc_type(method.rpc_name ~ "Response") }});
 {% endfor %}
-{% for signal in service.signals %}
-  rpc {{ signal.rpc_name }}({{ rpc_type(signal.rpc_name ~ "Request") }}) returns (stream {{ rpc_type(signal.rpc_name ~ "Event") }});
-{% endfor %}
-}
-
 {% endfor -%}

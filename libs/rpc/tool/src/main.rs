@@ -34,12 +34,28 @@ struct Cli {
     #[arg(long)]
     out_adapter_cc: PathBuf,
 
-    /// The proto package (dotted), e.g. "workrave.core".
+    /// The proto package (dotted), e.g. "workrave".
     #[arg(long)]
     proto_package: String,
 
-    /// Optional C++ namespace for the generated ServiceImpl adapter. This
-    /// does not affect the protobuf package or protoc-generated types.
+    /// Optional separate output schema for payload enums/messages. Must be
+    /// supplied together with --proto-types-package.
+    #[arg(long)]
+    out_types_proto: Option<PathBuf>,
+
+    /// Package for the separate payload-types schema. This controls those
+    /// types' generated C++ namespace without changing the service wire name.
+    /// Must be supplied together with --out-types-proto.
+    #[arg(long)]
+    proto_types_package: Option<String>,
+
+    /// Optional namespace appended to the protobuf package for generated
+    /// gRPC service/stub classes. Does not change the wire service name.
+    #[arg(long)]
+    grpc_services_namespace: Option<String>,
+
+    /// Optional C++ namespace for generated ServiceImpl and DBus binding
+    /// adapters. This does not affect their wire names.
     #[arg(long)]
     adapter_namespace: Option<String>,
 
@@ -77,6 +93,9 @@ fn main() -> Result<()> {
         out_adapter_hh: cli.out_adapter_hh,
         out_adapter_cc: cli.out_adapter_cc,
         proto_package: cli.proto_package,
+        out_types_proto: cli.out_types_proto,
+        proto_types_package: cli.proto_types_package,
+        grpc_services_namespace: cli.grpc_services_namespace,
         adapter_namespace: cli.adapter_namespace,
         header_include: cli.header_include,
         external_annotations: cli.annotations,
@@ -86,6 +105,9 @@ fn main() -> Result<()> {
 
     let generated = generate(&opts)?;
     println!("generated {}", generated.proto.display());
+    if let Some(p) = &generated.types_proto {
+        println!("generated {}", p.display());
+    }
     println!("generated {}", generated.adapter_hh.display());
     println!("generated {}", generated.adapter_cc.display());
     if let Some(p) = &generated.dbus_hh {
