@@ -31,7 +31,12 @@ pub fn data_format_filter(value: Value, format: Option<String>) -> Result<String
     let s = value
         .as_str()
         .ok_or_else(|| Error::new(ErrorKind::InvalidOperation, "data_format expects a string"))?;
-    let dt = parse_datetime(s)?.with_timezone(&Local);
+    // Moment, which Citool uses, renders an unparseable input as the literal
+    // string "Invalid date" rather than making template rendering fail.
+    let dt = match parse_datetime(s) {
+        Ok(dt) => dt.with_timezone(&Local),
+        Err(_) => return Ok("Invalid date".to_string()),
+    };
     let fmt = format.as_deref().unwrap_or(DEFAULT_STRFTIME_FORMAT);
     Ok(dt.format(fmt).to_string())
 }
@@ -40,23 +45,17 @@ pub fn data_format_from_unix_filter(value: Value, format: Option<String>) -> Res
     let secs: i64 = if let Some(n) = value.as_i64() {
         n
     } else if let Some(s) = value.as_str() {
-        s.parse().map_err(|e| {
-            Error::new(
-                ErrorKind::InvalidOperation,
-                format!("not a unix timestamp: {e}"),
-            )
-        })?
+        match s.parse() {
+            Ok(secs) => secs,
+            Err(_) => return Ok("Invalid date".to_string()),
+        }
     } else {
-        return Err(Error::new(
-            ErrorKind::InvalidOperation,
-            "data_format_from_unix expects a number",
-        ));
+        return Ok("Invalid date".to_string());
     };
-    let dt = Utc
-        .timestamp_opt(secs, 0)
-        .single()
-        .ok_or_else(|| Error::new(ErrorKind::InvalidOperation, "invalid unix timestamp"))?
-        .with_timezone(&Local);
+    let dt = match Utc.timestamp_opt(secs, 0).single() {
+        Some(dt) => dt.with_timezone(&Local),
+        None => return Ok("Invalid date".to_string()),
+    };
     let fmt = format.as_deref().unwrap_or(DEFAULT_STRFTIME_FORMAT);
     Ok(dt.format(fmt).to_string())
 }
@@ -121,4 +120,21 @@ pub fn register_common_filters(env: &mut Environment<'static>) {
     env.add_filter("github", github_filter);
     env.add_filter("wrap", wrap_filter);
     env.add_filter("text", text_filter);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn invalid_dates_match_moment_output() {
+        assert_eq!(
+            data_format_filter(Value::from("not-a-date"), None).unwrap(),
+            "Invalid date"
+        );
+        assert_eq!(
+            data_format_from_unix_filter(Value::from("not-a-timestamp"), None).unwrap(),
+            "Invalid date"
+        );
+    }
 }

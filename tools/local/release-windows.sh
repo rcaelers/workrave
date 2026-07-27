@@ -148,7 +148,11 @@ catalog() {
 }
 
 appcast() {
-    node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} $([ "${DEPLOY_ENVIRONMENT}" = "staging" ] && echo --environment $DEPLOY_ENVIRONMENT) --file
+    local appcast_args=(appcast --branch "${S3_ARTIFACT_DIR}" --file)
+    if [ "${DEPLOY_ENVIRONMENT}" = "staging" ]; then
+        appcast_args+=(--environment "${DEPLOY_ENVIRONMENT}")
+    fi
+    run_ship "${appcast_args[@]}"
     if [ -n "$DOSIGN" ]; then
         ${SCRIPTS_DIR}/local/sign-cosign.sh appcast.xml
     fi

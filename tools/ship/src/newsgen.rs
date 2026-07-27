@@ -190,6 +190,7 @@ mod tests {
         assert!(output.contains(
             "** Fix #123 and improve wrapping behavior with enough words for text output.\n** Second change\n"
         ));
+        assert!(output.ends_with("carry prominent notices stating who last changed them.\n\n"));
     }
 
     #[test]

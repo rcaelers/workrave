@@ -1,6 +1,7 @@
 use anyhow::{Context, Result};
 use aws_credential_types::Credentials;
 use aws_sdk_s3::config::{BehaviorVersion, Region};
+use aws_sdk_s3::primitives::ByteStream;
 use aws_sdk_s3::types::Object;
 use aws_sdk_s3::Client;
 use serde_json::Value;
@@ -105,6 +106,32 @@ impl S3Store {
         let bytes = resp.body.collect().await?.into_bytes();
         let v = serde_json::from_slice(&bytes).with_context(|| format!("parse JSON {key}"))?;
         Ok(v)
+    }
+
+    /// Download an object to a local file, matching Citool's `download` helper.
+    #[allow(dead_code)]
+    pub async fn download(&self, key: &str, destination: &std::path::Path) -> Result<()> {
+        let stream = self.download_stream(key).await?;
+        let bytes = stream.collect().await?.into_bytes();
+        tokio::fs::write(destination, bytes)
+            .await
+            .with_context(|| format!("writing {}", destination.display()))?;
+        Ok(())
+    }
+
+    /// Return the object body for callers that need to consume it as a stream,
+    /// matching Citool's `downloadStream` helper.
+    #[allow(dead_code)]
+    pub async fn download_stream(&self, key: &str) -> Result<ByteStream> {
+        let resp = self
+            .client
+            .get_object()
+            .bucket(&self.bucket)
+            .key(key)
+            .send()
+            .await
+            .with_context(|| format!("get_object {key}"))?;
+        Ok(resp.body)
     }
 
     pub async fn delete_object(&self, key: &str) -> Result<()> {
