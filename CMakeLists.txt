@@ -413,6 +413,10 @@ find_package(Python3 COMPONENTS Interpreter)
 option(WITH_DBUS "Enable dbus" ON)
 option(WITH_RPC_DBUS "Enable clang-generated DBus independently of legacy DBus and gRPC" OFF)
 
+if (WITH_DBUS AND WITH_RPC_DBUS)
+  message(FATAL_ERROR "WITH_DBUS and WITH_RPC_DBUS are mutually exclusive")
+endif()
+
 if (WITH_DBUS)
   set(HAVE_JINJA2 OFF)
   message(STATUS "Checking for: Jinja2")

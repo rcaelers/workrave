@@ -12,7 +12,8 @@ how the server itself is wired into the running app.
 `WITH_DBUS` enables the established DBus feature set. When it is enabled,
 `WITH_RPC_GRPC` selects which Core, Break, and Config implementation is built.
 `WITH_RPC_DBUS` can enable only the Clang-generated DBus surface, independently
-of gRPC and without enabling any legacy Python/Jinja bindings:
+of gRPC and without enabling any legacy Python/Jinja bindings. `WITH_DBUS` and
+`WITH_RPC_DBUS` are mutually exclusive:
 
 | Build options | DBus implementation |
 |---|---|
