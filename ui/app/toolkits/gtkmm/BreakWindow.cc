@@ -117,7 +117,10 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
     {
       if (Platform::running_on_wayland())
         {
-          set_modal(true);
+          if (app->get_toolkit()->get_head_count() <= 1)
+            {
+              set_modal(true);
+            }
         }
     }
 #endif
