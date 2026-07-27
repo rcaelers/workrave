@@ -434,7 +434,16 @@ endif()
 option(WITH_RPC "Enable gRPC-based remoting" OFF)
 
 if (WITH_RPC)
-  find_package(Protobuf CONFIG REQUIRED)
+  # Upstream Protobuf installations (including vcpkg) provide a package
+  # configuration, while Debian/Ubuntu commonly provide only the libraries,
+  # protoc, and CMake's built-in FindProtobuf module. Both discovery modes
+  # expose the protobuf::libprotobuf and protobuf::protoc targets used below.
+  find_package(Protobuf CONFIG QUIET)
+  if (NOT Protobuf_FOUND)
+    message(STATUS "Protobuf package configuration not found; using CMake's FindProtobuf module")
+    find_package(Protobuf MODULE REQUIRED)
+  endif()
+
   find_package(gRPC CONFIG REQUIRED)
   set(HAVE_RPC ON)
 endif()

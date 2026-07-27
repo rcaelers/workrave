@@ -54,7 +54,10 @@ pub enum ParamKind {
     /// describes V recursively the same way a sequence element does (V may
     /// be a struct, but not itself a sequence or another map — protobuf
     /// disallows both).
-    Map { key: MapKey, value: Box<SequenceElement> },
+    Map {
+        key: MapKey,
+        value: Box<SequenceElement>,
+    },
 }
 
 /// A `Map`'s key type. Always a protobuf-map-legal scalar (validated at

@@ -32,9 +32,6 @@ pub(crate) trait Backend {
     /// see `lib.rs::generate`). `header_include` is the already-resolved literal
     /// text for the generated `#include "..."` of the original annotated
     /// header, shared by every backend so they don't each re-derive it.
-    fn generate(
-        &self,
-        model: &GenerationModel,
-        header_include: &str,
-    ) -> Result<Vec<GeneratedFile>>;
+    fn generate(&self, model: &GenerationModel, header_include: &str)
+        -> Result<Vec<GeneratedFile>>;
 }

@@ -21,8 +21,47 @@ add_custom_command(
 
 add_custom_target(clang_rpc_gen_tool ALL DEPENDS ${RPC_TOOL_BIN})
 
+function(rpc_generate_parse_context TARGET_NAME DIRECTORY NAME OUTPUT_VAR)
+  if (NOT TARGET ${TARGET_NAME})
+    message(FATAL_ERROR "RPC generation target '${TARGET_NAME}' does not exist")
+  endif()
+
+  set(_rpc_context ${DIRECTORY}/${NAME}-$<CONFIG>.rpc-parse-context)
+  set(_rpc_standard
+    "$<IF:$<BOOL:$<TARGET_PROPERTY:${TARGET_NAME},CXX_STANDARD>>,$<TARGET_PROPERTY:${TARGET_NAME},CXX_STANDARD>,${CMAKE_CXX_STANDARD}>")
+  set(_rpc_dialect
+    "$<IF:$<STREQUAL:$<TARGET_PROPERTY:${TARGET_NAME},CXX_EXTENSIONS>,OFF>,c++,gnu++>")
+  set(_rpc_includes
+    "$<REMOVE_DUPLICATES:$<TARGET_PROPERTY:${TARGET_NAME},INCLUDE_DIRECTORIES>>")
+  set(_rpc_definitions
+    "$<REMOVE_DUPLICATES:$<TARGET_PROPERTY:${TARGET_NAME},COMPILE_DEFINITIONS>>")
+
+  string(CONCAT _rpc_context_content
+    "standard=${_rpc_dialect}${_rpc_standard}\n"
+    "$<$<BOOL:${_rpc_includes}>:include=$<JOIN:${_rpc_includes},\ninclude=>>\n"
+    "$<$<BOOL:${_rpc_definitions}>:define=$<JOIN:${_rpc_definitions},\ndefine=>>\n")
+
+  if (CMAKE_SYSROOT)
+    string(APPEND _rpc_context_content "sysroot=${CMAKE_SYSROOT}\n")
+  endif()
+  if (CMAKE_CXX_COMPILER_TARGET)
+    string(APPEND _rpc_context_content "target=${CMAKE_CXX_COMPILER_TARGET}\n")
+  endif()
+
+  # file(GENERATE) evaluates the target properties after all direct and
+  # transitive usage requirements have been collected. The generator thus
+  # receives semantic parse data, never an arbitrary compiler command.
+  file(GENERATE
+    OUTPUT ${_rpc_context}
+    CONTENT "${_rpc_context_content}"
+    TARGET ${TARGET_NAME})
+
+  set(${OUTPUT_VAR} ${_rpc_context} PARENT_SCOPE)
+endfunction()
+
 # rpc_generate_source(HEADER DIRECTORY NAME
-#                      [ANCHOR_SOURCE <path>] [PROTO_PACKAGE <pkg>] [HEADER_INCLUDE <literal>]
+#                      TARGET <cmake-target>
+#                      [PROTO_PACKAGE <pkg>] [HEADER_INCLUDE <literal>]
 #                      [PROTO_TYPES_PACKAGE <pkg>] [ADAPTER_NAMESPACE <cxx-ns>]
 #                      [GRPC_SERVICES_NAMESPACE <cxx-name>]
 #                      [ANNOTATIONS <path>] [DBUS])
@@ -33,13 +72,10 @@ add_custom_target(clang_rpc_gen_tool ALL DEPENDS ${RPC_TOOL_BIN})
 # message/service C++ classes (DIRECTORY/NAME.pb.h/.cc,
 # DIRECTORY/NAME.grpc.pb.h/.cc).
 #
-# ANCHOR_SOURCE is a .cc that #includes HEADER, used to resolve real compiler
-# flags via the top-level compile_commands.json (headers are never keys in a
-# compile-commands database themselves). Defaults to HEADER's own directory
-# with the same base name (Foo.hh -> Foo.cc); pass ANCHOR_SOURCE explicitly
-# for headers with no same-directory .cc of their own (e.g. a pure-virtual
-# interface header — point it at any .cc in the same library that includes
-# the header, transitively or directly).
+# TARGET is the CMake target whose semantic compilation context should be used
+# to parse HEADER. CMake writes the target's effective C++ standard, include
+# directories, compile definitions, target, and sysroot to a typed context
+# file. Build-only compiler flags are deliberately not passed to libclang.
 #
 # HEADER_INCLUDE is the literal text used in the generated adapter's
 # #include "..." of HEADER. Defaults to HEADER's bare file name, which only
@@ -80,20 +116,17 @@ add_custom_target(clang_rpc_gen_tool ALL DEPENDS ${RPC_TOOL_BIN})
 # and links them. Use rpc_generate_dbus_source() when no gRPC output is needed.
 macro(rpc_generate_source HEADER DIRECTORY NAME)
   if (HAVE_RPC)
-    cmake_parse_arguments(_rpc "DBUS" "ANCHOR_SOURCE;PROTO_PACKAGE;PROTO_TYPES_PACKAGE;GRPC_SERVICES_NAMESPACE;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS" "" ${ARGN})
+    cmake_parse_arguments(_rpc "DBUS" "TARGET;PROTO_PACKAGE;PROTO_TYPES_PACKAGE;GRPC_SERVICES_NAMESPACE;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS" "" ${ARGN})
+
+    if (NOT _rpc_TARGET)
+      message(FATAL_ERROR "rpc_generate_source(${NAME}) requires TARGET <cmake-target>")
+    endif()
+    rpc_generate_parse_context(${_rpc_TARGET} ${DIRECTORY} ${NAME} _rpc_parse_context)
 
     if (_rpc_PROTO_PACKAGE)
       set(_rpc_proto_package ${_rpc_PROTO_PACKAGE})
     else()
       set(_rpc_proto_package "workrave")
-    endif()
-
-    if (_rpc_ANCHOR_SOURCE)
-      set(_rpc_anchor_source ${_rpc_ANCHOR_SOURCE})
-    else()
-      get_filename_component(_rpc_header_dir ${HEADER} DIRECTORY)
-      get_filename_component(_rpc_header_name_we ${HEADER} NAME_WE)
-      set(_rpc_anchor_source ${_rpc_header_dir}/${_rpc_header_name_we}.cc)
     endif()
 
     set(_rpc_proto_output ${DIRECTORY}/${NAME}.proto)
@@ -146,8 +179,7 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
       OUTPUT ${_rpc_proto_output} ${_rpc_types_proto_output} ${_rpc_adapter_hh} ${_rpc_adapter_cc} ${_rpc_dbus_outputs}
       COMMAND ${RPC_TOOL_BIN}
               --header ${HEADER}
-              --anchor-source ${_rpc_anchor_source}
-              --compile-commands ${CMAKE_BINARY_DIR}/compile_commands.json
+              --parse-context ${_rpc_parse_context}
               --out-proto ${_rpc_proto_output}
               --out-adapter-hh ${_rpc_adapter_hh}
               --out-adapter-cc ${_rpc_adapter_cc}
@@ -158,7 +190,7 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
               ${_rpc_adapter_namespace_args}
               ${_rpc_annotations_args}
               ${_rpc_dbus_args}
-      DEPENDS ${HEADER} ${_rpc_anchor_source} ${RPC_TOOL_BIN} ${_rpc_annotations_depends}
+      DEPENDS ${HEADER} ${_rpc_parse_context} ${RPC_TOOL_BIN} ${_rpc_annotations_depends}
       COMMENT "Generating gRPC bindings for ${HEADER}"
       )
 
@@ -207,8 +239,8 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
   endif()
 endmacro()
 
-# rpc_generate_dbus_source(HEADER DIRECTORY NAME
-#                          [ANCHOR_SOURCE <path>] [HEADER_INCLUDE <literal>]
+# rpc_generate_dbus_source(HEADER DIRECTORY NAME TARGET <cmake-target>
+#                          [HEADER_INCLUDE <literal>]
 #                          [ADAPTER_NAMESPACE <cxx-ns>] [ANNOTATIONS <path>])
 #
 # DBus-only entry point for WITH_RPC_DBUS. clang-rpc-gen currently constructs
@@ -217,15 +249,12 @@ endmacro()
 # gRPC library, or protobuf package is required or linked by this macro.
 macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
   if (HAVE_RPC_DBUS)
-    cmake_parse_arguments(_rpc_dbus "" "ANCHOR_SOURCE;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS" "" ${ARGN})
+    cmake_parse_arguments(_rpc_dbus "" "TARGET;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS" "" ${ARGN})
 
-    if (_rpc_dbus_ANCHOR_SOURCE)
-      set(_rpc_dbus_anchor_source ${_rpc_dbus_ANCHOR_SOURCE})
-    else()
-      get_filename_component(_rpc_dbus_header_dir ${HEADER} DIRECTORY)
-      get_filename_component(_rpc_dbus_header_name_we ${HEADER} NAME_WE)
-      set(_rpc_dbus_anchor_source ${_rpc_dbus_header_dir}/${_rpc_dbus_header_name_we}.cc)
+    if (NOT _rpc_dbus_TARGET)
+      message(FATAL_ERROR "rpc_generate_dbus_source(${NAME}) requires TARGET <cmake-target>")
     endif()
+    rpc_generate_parse_context(${_rpc_dbus_TARGET} ${DIRECTORY} ${NAME} _rpc_dbus_parse_context)
 
     set(_rpc_dbus_proto ${DIRECTORY}/${NAME}.unused.proto)
     set(_rpc_dbus_adapter_hh ${DIRECTORY}/${NAME}ServiceImpl.unused.hh)
@@ -259,8 +288,7 @@ macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
         ${_rpc_dbus_cc}
       COMMAND ${RPC_TOOL_BIN}
               --header ${HEADER}
-              --anchor-source ${_rpc_dbus_anchor_source}
-              --compile-commands ${CMAKE_BINARY_DIR}/compile_commands.json
+              --parse-context ${_rpc_dbus_parse_context}
               --out-proto ${_rpc_dbus_proto}
               --out-adapter-hh ${_rpc_dbus_adapter_hh}
               --out-adapter-cc ${_rpc_dbus_adapter_cc}
@@ -270,7 +298,7 @@ macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
               ${_rpc_dbus_annotations_args}
               --out-dbus-hh ${_rpc_dbus_hh}
               --out-dbus-cc ${_rpc_dbus_cc}
-      DEPENDS ${HEADER} ${_rpc_dbus_anchor_source} ${RPC_TOOL_BIN} ${_rpc_dbus_annotations_depends}
+      DEPENDS ${HEADER} ${_rpc_dbus_parse_context} ${RPC_TOOL_BIN} ${_rpc_dbus_annotations_depends}
       COMMENT "Generating DBus binding for ${HEADER}"
       )
 

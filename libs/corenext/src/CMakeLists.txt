@@ -30,13 +30,13 @@ if (HAVE_RPC_DBUS)
   # historical DBus signatures while the primary @rpc interfaces remain free
   # to expose their richer native/gRPC contracts.
   rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusCoreCompat.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusCoreBinding
-    ANCHOR_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusCoreCompat.cc
+    TARGET workrave-libs-core-next
     ADAPTER_NAMESPACE workrave::core::rpc)
   rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusBreakCompat.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusBreakBinding
-    ANCHOR_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusBreakCompat.cc
+    TARGET workrave-libs-core-next
     ADAPTER_NAMESPACE workrave::core::rpc)
   rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusConfigCompat.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusConfigBinding
-    ANCHOR_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusConfigCompat.cc
+    TARGET workrave-libs-core-next
     ADAPTER_NAMESPACE workrave::core::rpc)
 
   target_sources(workrave-libs-core-next PRIVATE
@@ -66,9 +66,11 @@ if (HAVE_RPC)
   # separate imported packages so their generated C++ names are isolated in
   # workrave::rpc::core and workrave::rpc::breaks.
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Core.hh ${CMAKE_CURRENT_BINARY_DIR} RpcCore
+    TARGET workrave-libs-core-next
     PROTO_PACKAGE workrave PROTO_TYPES_PACKAGE workrave.rpc.core GRPC_SERVICES_NAMESPACE rpc
     ADAPTER_NAMESPACE workrave::core::rpc)
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Break.hh ${CMAKE_CURRENT_BINARY_DIR} RpcBreak
+    TARGET workrave-libs-core-next
     PROTO_PACKAGE workrave PROTO_TYPES_PACKAGE workrave.rpc.breaks GRPC_SERVICES_NAMESPACE rpc
     ADAPTER_NAMESPACE workrave::core::rpc)
 

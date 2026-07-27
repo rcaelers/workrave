@@ -78,11 +78,10 @@ pub fn parse_unit(input: &ParseInput) -> Result<Unit> {
     Ok(unit)
 }
 
-/// On macOS, `/usr/bin/c++` (the driver `compile_commands.json` records)
-/// auto-injects its SDK sysroot when invoked as a real process — libclang's
-/// direct in-process parsing does not get that same default, so
-/// `<cstdint>`/`<string>`/... fail to resolve unless `-isysroot` is already
-/// present in the recorded flags. Add it ourselves when it's missing.
+/// On macOS, `/usr/bin/c++` auto-injects its SDK sysroot when invoked as a
+/// real process. libclang's direct in-process parsing does not get that same
+/// default, so `<cstdint>`/`<string>`/... fail to resolve unless the CMake
+/// parse context contains a sysroot. Add the active SDK when it does not.
 fn ensure_macos_sysroot(args: &mut Vec<String>) {
     if !cfg!(target_os = "macos") || args.iter().any(|a| a == "-isysroot") {
         return;
@@ -130,8 +129,12 @@ fn visit_for_interfaces(
             }
             EntityKind::ClassDecl | EntityKind::StructDecl => {
                 if is_in_header(&child, header) && child.is_definition() {
-                    let qualified = qualified_name(&namespace_path(&child), &child.get_name().unwrap_or_default());
-                    let comment = effective_comment(child.get_comment(), external.lookup(&qualified));
+                    let qualified = qualified_name(
+                        &namespace_path(&child),
+                        &child.get_name().unwrap_or_default(),
+                    );
+                    let comment =
+                        effective_comment(child.get_comment(), external.lookup(&qualified));
                     if let Some(tag) = comment.as_deref().and_then(parse_service_tag) {
                         let dbus_interface = comment.as_deref().and_then(parse_dbus_tag);
                         let interface =
@@ -245,7 +248,10 @@ fn enclosing_scope_path(entity: &Entity) -> Vec<String> {
     while let Some(e) = current {
         if matches!(
             e.get_kind(),
-            EntityKind::Namespace | EntityKind::ClassDecl | EntityKind::StructDecl | EntityKind::ClassTemplate
+            EntityKind::Namespace
+                | EntityKind::ClassDecl
+                | EntityKind::StructDecl
+                | EntityKind::ClassTemplate
         ) {
             if let Some(name) = e.get_name() {
                 path.push(name);
@@ -339,7 +345,11 @@ fn qualified_method_signature(class_qualified: &str, method_entity: &Entity) -> 
         .get_arguments()
         .unwrap_or_default()
         .iter()
-        .map(|a| a.get_type().map(|t| t.get_display_name()).unwrap_or_default())
+        .map(|a| {
+            a.get_type()
+                .map(|t| t.get_display_name())
+                .unwrap_or_default()
+        })
         .collect::<Vec<_>>()
         .join(",");
     Some(format!("{class_qualified}::{name}({params})"))
@@ -594,10 +604,13 @@ fn build_method(
             );
         }
 
-        let (proto_type, kind) = resolve_param_type(&ty, &cxx_type, kind_tag, size_param, external, unit)
-            .with_context(|| format!("{rpc_name}: parameter '{name}'"))?;
+        let (proto_type, kind) =
+            resolve_param_type(&ty, &cxx_type, kind_tag, size_param, external, unit)
+                .with_context(|| format!("{rpc_name}: parameter '{name}'"))?;
 
-        if matches!(kind, ParamKind::Duration | ParamKind::Bitmask { .. }) && direction != Direction::In {
+        if matches!(kind, ParamKind::Duration | ParamKind::Bitmask { .. })
+            && direction != Direction::In
+        {
             bail!(
                 "{rpc_name}: parameter '{name}' is a chrono duration or Flags<> bitmask with \
                  dir={direction:?} — v1 only supports these as `in` parameters"
@@ -621,8 +634,9 @@ fn build_method(
         None
     } else {
         let cxx_type = cxx_type_of(&result_ty);
-        let (proto_type, kind) = resolve_param_type(&result_ty, &cxx_type, None, None, external, unit)
-            .with_context(|| format!("{rpc_name}: return type"))?;
+        let (proto_type, kind) =
+            resolve_param_type(&result_ty, &cxx_type, None, None, external, unit)
+                .with_context(|| format!("{rpc_name}: return type"))?;
         if matches!(kind, ParamKind::Duration | ParamKind::Bitmask { .. }) {
             bail!(
                 "{rpc_name}: returning a chrono duration or Flags<> bitmask isn't supported yet \
@@ -718,8 +732,8 @@ fn resolve_value_type(
     }
 
     if let Some(element_ty) = sequence_element_type(ty) {
-        let (element_proto_type, element_kind) = resolve_value_type(&element_ty, external, unit)
-            .context("sequence element type")?;
+        let (element_proto_type, element_kind) =
+            resolve_value_type(&element_ty, external, unit).context("sequence element type")?;
         if matches!(element_kind, ParamKind::Map { .. }) {
             bail!(
                 "sequence element type '{}' can't be a map — protobuf has no \"repeated map\" \
@@ -739,8 +753,8 @@ fn resolve_value_type(
     }
 
     if let Some((key_ty, value_ty)) = map_key_value_type(ty) {
-        let (key_proto_type, key_kind) = resolve_value_type(&key_ty, external, unit)
-            .context("map key type")?;
+        let (key_proto_type, key_kind) =
+            resolve_value_type(&key_ty, external, unit).context("map key type")?;
         if !matches!(key_kind, ParamKind::Value)
             || !matches!(
                 key_proto_type,
@@ -759,8 +773,8 @@ fn resolve_value_type(
             );
         }
 
-        let (value_proto_type, value_kind) = resolve_value_type(&value_ty, external, unit)
-            .context("map value type")?;
+        let (value_proto_type, value_kind) =
+            resolve_value_type(&value_ty, external, unit).context("map value type")?;
         if matches!(value_kind, ParamKind::Sequence(_) | ParamKind::Map { .. }) {
             bail!(
                 "map value type '{}' can't be a sequence or another map — protobuf doesn't \
@@ -803,14 +817,20 @@ fn resolve_value_type(
     let canonical = ty.get_canonical_type();
     match canonical.get_kind() {
         TypeKind::Bool => Ok((ProtoType::Bool, ParamKind::Value)),
-        TypeKind::SChar | TypeKind::Short | TypeKind::Int => Ok((ProtoType::Int32, ParamKind::Value)),
-        TypeKind::UChar | TypeKind::UShort | TypeKind::UInt => Ok((ProtoType::UInt32, ParamKind::Value)),
+        TypeKind::SChar | TypeKind::Short | TypeKind::Int => {
+            Ok((ProtoType::Int32, ParamKind::Value))
+        }
+        TypeKind::UChar | TypeKind::UShort | TypeKind::UInt => {
+            Ok((ProtoType::UInt32, ParamKind::Value))
+        }
         TypeKind::Long | TypeKind::LongLong => Ok((ProtoType::Int64, ParamKind::Value)),
         TypeKind::ULong | TypeKind::ULongLong => Ok((ProtoType::UInt64, ParamKind::Value)),
         TypeKind::Double => Ok((ProtoType::Double, ParamKind::Value)),
         TypeKind::Float => Ok((ProtoType::Float, ParamKind::Value)),
         TypeKind::Enum => {
-            let decl = canonical.get_declaration().context("enum type has no declaration")?;
+            let decl = canonical
+                .get_declaration()
+                .context("enum type has no declaration")?;
             let proto_name = register_enum(&decl, ty, external, unit)?;
             Ok((ProtoType::Enum(proto_name), ParamKind::Value))
         }
@@ -870,7 +890,9 @@ fn map_key_value_type<'tu>(ty: &Type<'tu>) -> Option<(Type<'tu>, Type<'tu>)> {
 /// contract); a struct with no public data members at all is a hard error,
 /// not a silently empty message.
 fn register_struct(ty: &Type, external: &ExternalAnnotations, unit: &mut Unit) -> Result<String> {
-    let decl = ty.get_declaration().context("struct/class type has no declaration")?;
+    let decl = ty
+        .get_declaration()
+        .context("struct/class type has no declaration")?;
     let cxx_symbol = fully_qualified(&decl).unwrap_or_else(|| ty.get_display_name());
     if let Some(existing) = unit.find_struct(&cxx_symbol) {
         return Ok(existing.proto_name.clone());
@@ -953,7 +975,8 @@ fn register_enum(
             continue;
         };
         let value_qualified = format!("{cxx_symbol}::{name}");
-        let value_comment = effective_comment(child.get_comment(), external.lookup(&value_qualified));
+        let value_comment =
+            effective_comment(child.get_comment(), external.lookup(&value_qualified));
         let value_canonical_name = value_comment.as_deref().and_then(parse_enum_value_tag);
 
         values.push(EnumValue {
@@ -1010,7 +1033,8 @@ fn cxx_type_of(ty: &Type) -> CxxType {
         None => ty.is_const_qualified(),
     };
     let base_ty = pointee.as_ref().unwrap_or(ty);
-    let base_spelling = qualified_type_spelling(base_ty).unwrap_or_else(|| base_ty.get_display_name());
+    let base_spelling =
+        qualified_type_spelling(base_ty).unwrap_or_else(|| base_ty.get_display_name());
     // `base_spelling` must stay cv-unqualified: it's used to declare plain
     // local variables (e.g. `{base_spelling} p_foo{{}};`) that generated code
     // then assigns into — a leading "const" there (which `get_display_name()`

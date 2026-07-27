@@ -18,9 +18,9 @@ pub mod annotations;
 pub mod backend;
 pub mod backends;
 pub mod clang_index;
-pub mod compile_db;
 pub mod external_annotations;
 pub mod ir;
+pub mod parse_context;
 mod template_engine;
 mod template_model;
 
@@ -34,8 +34,10 @@ use external_annotations::ExternalAnnotations;
 
 pub struct GenerateOptions {
     pub header: PathBuf,
-    pub anchor_source: PathBuf,
-    pub compile_commands: PathBuf,
+    /// Compiler-independent semantic context generated from the owning build
+    /// target: C++ standard, include directories, definitions, and optional
+    /// target/sysroot information.
+    pub parse_context: PathBuf,
     pub out_proto: PathBuf,
     pub out_adapter_hh: PathBuf,
     pub out_adapter_cc: PathBuf,
@@ -80,8 +82,7 @@ pub struct GeneratedFiles {
 }
 
 pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
-    let flags = compile_db::resolve_flags(&opts.compile_commands, &opts.anchor_source)
-        .context("resolving compiler flags via compile_commands.json")?;
+    let flags = parse_context::load(&opts.parse_context)?;
 
     let external = match &opts.external_annotations {
         Some(path) => ExternalAnnotations::load(path)?,
@@ -138,16 +139,18 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
         _ => bail!("--out-dbus-hh and --out-dbus-cc must be given together"),
     }
 
-    let model = template_model::GenerationModel::build_with_dbus(
-        &unit,
-        opts.out_dbus_hh.is_some(),
-    )?;
+    let model =
+        template_model::GenerationModel::build_with_dbus(&unit, opts.out_dbus_hh.is_some())?;
 
     let mut by_backend: Vec<(&'static str, Vec<backend::GeneratedFile>)> = Vec::new();
     for b in &active {
-        let files = b
-            .generate(&model, &header_include)
-            .with_context(|| format!("generating {} output for {}", b.name(), opts.header.display()))?;
+        let files = b.generate(&model, &header_include).with_context(|| {
+            format!(
+                "generating {} output for {}",
+                b.name(),
+                opts.header.display()
+            )
+        })?;
         for f in &files {
             write_if_changed(&f.path, &f.contents)?;
         }
@@ -167,9 +170,12 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
         .expect("GrpcBackend is always active");
     let (proto, adapter_hh, adapter_cc, types_proto) = match &grpc_files[..] {
         [proto, adapter_hh, adapter_cc] => (proto, adapter_hh, adapter_cc, None),
-        [proto, adapter_hh, adapter_cc, types_proto] => {
-            (proto, adapter_hh, adapter_cc, Some(types_proto.path.clone()))
-        }
+        [proto, adapter_hh, adapter_cc, types_proto] => (
+            proto,
+            adapter_hh,
+            adapter_cc,
+            Some(types_proto.path.clone()),
+        ),
         _ => bail!(
             "GrpcBackend produced {} file(s), expected exactly 3 or 4",
             grpc_files.len()
@@ -179,7 +185,10 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
     let (dbus_hh, dbus_cc) = match by_backend.iter().find(|(name, _)| *name == "dbus") {
         Some((_, files)) => match &files[..] {
             [hh, cc] => (Some(hh.path.clone()), Some(cc.path.clone())),
-            _ => bail!("DbusBackend produced {} file(s), expected exactly 2", files.len()),
+            _ => bail!(
+                "DbusBackend produced {} file(s), expected exactly 2",
+                files.len()
+            ),
         },
         None => (None, None),
     };

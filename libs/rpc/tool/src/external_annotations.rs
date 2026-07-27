@@ -136,12 +136,16 @@ mod tests {
     fn lookup_is_whitespace_insensitive() {
         let text = "[Foo::Bar::f( int , bool )]\n@rpc(name=\"F\")\n";
         let a = ExternalAnnotations::parse(text).unwrap();
-        assert_eq!(a.lookup("Foo::Bar::f(int,bool)"), Some("@rpc(name=\"F\")\n"));
+        assert_eq!(
+            a.lookup("Foo::Bar::f(int,bool)"),
+            Some("@rpc(name=\"F\")\n")
+        );
     }
 
     #[test]
     fn comments_and_blank_lines_are_ignored() {
-        let text = "# a header comment\n\n[Foo::Bar]\n# a body comment\n@rpc(service=\"BarService\")\n\n";
+        let text =
+            "# a header comment\n\n[Foo::Bar]\n# a body comment\n@rpc(service=\"BarService\")\n\n";
         let a = ExternalAnnotations::parse(text).unwrap();
         assert_eq!(a.lookup("Foo::Bar"), Some("@rpc(service=\"BarService\")\n"));
     }
@@ -168,7 +172,10 @@ mod tests {
 
     #[test]
     fn effective_comment_merges_both_sources() {
-        let merged = effective_comment(Some("// @rpc(name=\"A\")".to_string()), Some("@rpc.param(x, dir=out)"));
+        let merged = effective_comment(
+            Some("// @rpc(name=\"A\")".to_string()),
+            Some("@rpc.param(x, dir=out)"),
+        );
         let merged = merged.unwrap();
         assert!(merged.contains("@rpc(name=\"A\")"));
         assert!(merged.contains("@rpc.param(x, dir=out)"));

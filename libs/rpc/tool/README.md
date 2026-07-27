@@ -162,8 +162,7 @@ to a method that already has its `@rpc(name=...)` in-source. See
 ```
 clang-rpc-gen \
   --header path/to/Annotated.hh \
-  --anchor-source path/to/Annotated.cc \
-  --compile-commands build/compile_commands.json \
+  --parse-context build/Annotated.rpc-parse-context \
   --out-proto build/Annotated.proto \
   --out-adapter-hh build/AnnotatedServiceImpl.hh \
   --out-adapter-cc build/AnnotatedServiceImpl.cc \
@@ -189,9 +188,21 @@ changing their wire names. `--adapter-namespace` wraps the generated
 protobuf packages, gRPC service name, DBus interface name, or protoc-generated
 C++ namespaces.
 
-`--anchor-source` is a `.cc`/`.cpp` that `#include`s `--header`, used to look
-up its real compiler flags in `--compile-commands` (headers themselves are
-never keys in a compile-commands database).
+`--parse-context` is a compiler-independent file produced from the owning
+CMake target. It contains one typed `kind=value` record per line, for example:
+
+```
+standard=gnu++20
+include=/path/to/public/include
+define=HAVE_CONFIG_H=1
+sysroot=/path/to/sdk
+target=aarch64-linux-gnu
+```
+
+Only properties that can change preprocessing or the C++ AST are represented.
+Compiler build commands, dependency-scanner flags, warning flags, and output
+options are never passed to libclang. `cmake/modules/Rpc.cmake` generates this
+file from the effective usage requirements of the macro's `TARGET` argument.
 
 Run the generated schemas through `protoc` + `grpc_cpp_plugin` to get the real
 `<Service>::Service` base class and `<Rpc>Request`/`<Rpc>Response` message
@@ -206,8 +217,8 @@ bounds which libclang *API functions* get Rust bindings generated (the crate
 hasn't shipped bindings for APIs added after libclang 10.0). Parsing itself
 is done by whatever `libclang` shared library is found at runtime (via
 `clang-sys`'s `runtime`/dlopen feature) — e.g. a real clang 22 install — and
-it parses whatever `-std=` flag is passed through from `compile_commands.json`
-(C++23, C++26, whatever the project uses). All AST/type/comment traversal
+it parses whatever `standard=` value the build system writes to the parse
+context (C++23, C++26, whatever the project uses). All AST/type/comment traversal
 this tool needs has existed since long before libclang 10.0. See
 `tests/generate_test.rs`, which parses a fixture containing a C++23-only
 construct (`if consteval`) end to end as a regression check for this.

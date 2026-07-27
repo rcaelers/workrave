@@ -1,6 +1,6 @@
 //! End-to-end test of the generator against `tests/fixtures/simple.hh`,
 //! independent of any consumer project's build system: sets up its own
-//! tiny `compile_commands.json` + anchor `.cc` in a tempdir.
+//! tiny build-system parse context in a tempdir.
 
 use std::fs;
 use std::path::PathBuf;
@@ -83,11 +83,9 @@ fn clang_test_lock() -> &'static Mutex<()> {
     LOCK.get_or_init(|| Mutex::new(()))
 }
 
-/// Copies `fixture_name` into a fresh tempdir with a matching anchor `.cc`
-/// and a minimal `compile_commands.json`, then runs the generator against it.
-/// Deliberately no `-isysroot` in the recorded flags (real compile_commands.json
-/// entries from `/usr/bin/c++` don't carry one either — the driver injects it
-/// implicitly when run as a process); this exercises
+/// Copies `fixture_name` into a fresh tempdir with a minimal semantic parse
+/// context, then runs the generator against it. Deliberately no sysroot in
+/// the context; this exercises
 /// `clang_index::ensure_macos_sysroot`'s fallback rather than papering over it.
 fn generate_fixture(fixture_name: &str, name: &str) -> (TempDir, GeneratedFiles) {
     generate_fixture_with_annotations(fixture_name, name, None)
@@ -125,37 +123,21 @@ fn generate_fixture_full(
     let header = dir.path().join(fixture_name);
     fs::copy(&header_src, &header).unwrap();
 
-    let anchor_name = format!("{fixture_name}.anchor.cc");
-    let anchor = dir.path().join(&anchor_name);
-    fs::write(&anchor, format!("#include \"{fixture_name}\"\n")).unwrap();
-
-    let mut arguments = vec!["c++".to_string(), "-std=c++23".to_string()];
+    let mut context = "standard=c++23\n".to_string();
     // Boost isn't always on the default search path (e.g. Homebrew on
     // Apple Silicon doesn't symlink into /usr/local/include); add common
-    // locations if present. Real project builds pass their own -I via
-    // compile_commands.json — this is only for this crate's own fixtures.
+    // locations if present. Real project builds obtain these from the owning
+    // CMake target — this is only for this crate's own fixtures.
     for candidate in ["/opt/homebrew/include", "/usr/local/include"] {
         if std::path::Path::new(candidate)
             .join("boost/signals2/signal.hpp")
             .exists()
         {
-            arguments.push(format!("-I{candidate}"));
+            context.push_str(&format!("include={candidate}\n"));
         }
     }
-    arguments.extend([
-        "-c".to_string(),
-        "-o".to_string(),
-        format!("{anchor_name}.o"),
-        anchor_name.clone(),
-    ]);
-
-    let compile_commands = dir.path().join("compile_commands.json");
-    let db = serde_json::json!([{
-        "directory": dir.path().to_string_lossy(),
-        "file": anchor_name,
-        "arguments": arguments,
-    }]);
-    fs::write(&compile_commands, serde_json::to_string(&db).unwrap()).unwrap();
+    let parse_context = dir.path().join("parse-context.txt");
+    fs::write(&parse_context, context).unwrap();
 
     let external_annotations = annotations.map(|text| {
         let path = dir.path().join("annotations.rpc");
@@ -174,8 +156,7 @@ fn generate_fixture_full(
     };
     let opts = GenerateOptions {
         header,
-        anchor_source: anchor,
-        compile_commands,
+        parse_context,
         out_proto: out_dir.join(format!("{name}.proto")),
         out_adapter_hh: out_dir.join(format!("{name}ServiceImpl.hh")),
         out_adapter_cc: out_dir.join(format!("{name}ServiceImpl.cc")),
@@ -267,8 +248,9 @@ fn generates_proto_and_adapter_for_simple_fixture() {
         "{header_out}"
     );
     assert!(
-        header_out
-            .contains("::grpc::ServerWriter<::workrave::test::ModeChangedEvent> *writer) override;"),
+        header_out.contains(
+            "::grpc::ServerWriter<::workrave::test::ModeChangedEvent> *writer) override;"
+        ),
         "{header_out}"
     );
 
@@ -397,10 +379,16 @@ fn separate_proto_types_package_keeps_the_service_wire_name() {
             .expect("split generation must produce a types schema"),
     )
     .unwrap();
-    assert!(types_proto.contains("package workrave.rpc.core;"), "{types_proto}");
+    assert!(
+        types_proto.contains("package workrave.rpc.core;"),
+        "{types_proto}"
+    );
     assert!(types_proto.contains("enum TestMode"), "{types_proto}");
     assert!(types_proto.contains("TEST_MODE_IDLE = 0;"), "{types_proto}");
-    assert!(types_proto.contains("message GreetRequest"), "{types_proto}");
+    assert!(
+        types_proto.contains("message GreetRequest"),
+        "{types_proto}"
+    );
 
     let header = fs::read_to_string(&generated.adapter_hh).unwrap();
     assert!(
@@ -510,20 +498,23 @@ fn pins_canonical_enum_and_value_names() {
     let (_dir, generated) = generate_fixture("enum_names.hh", "RpcEnumNames");
 
     let proto = fs::read_to_string(&generated.proto).unwrap();
-    assert!(proto.contains("// canonical_name: \"operation_mode\""), "{proto}");
+    assert!(
+        proto.contains("// canonical_name: \"operation_mode\""),
+        "{proto}"
+    );
     assert!(proto.contains("enum OperationMode {"), "{proto}");
     assert!(proto.contains("// canonical_name: \"normal\""), "{proto}");
     assert!(
         proto.contains("// canonical_name: \"normal\"\n\n  OPERATION_MODE_NORMAL = 0;"),
         "{proto}"
     );
-    assert!(proto.contains("// canonical_name: \"suspended\""), "{proto}");
-    // Quiet has no tag — the auto-derived protobuf name still appears, but
-    // with no canonical_name comment attached to it.
     assert!(
-        !proto.contains("canonical_name: \"quiet\""),
+        proto.contains("// canonical_name: \"suspended\""),
         "{proto}"
     );
+    // Quiet has no tag — the auto-derived protobuf name still appears, but
+    // with no canonical_name comment attached to it.
+    assert!(!proto.contains("canonical_name: \"quiet\""), "{proto}");
     assert!(proto.contains("OPERATION_MODE_QUIET = 2;"), "{proto}");
 }
 
@@ -547,7 +538,10 @@ fn pins_canonical_enum_names_via_external_annotations() {
     );
 
     let proto = fs::read_to_string(&generated.proto).unwrap();
-    assert!(proto.contains("// canonical_name: \"operation_mode\""), "{proto}");
+    assert!(
+        proto.contains("// canonical_name: \"operation_mode\""),
+        "{proto}"
+    );
     assert!(
         proto.contains("// canonical_name: \"normal\"\n\n  OPERATION_MODE_NORMAL = 0;"),
         "{proto}"
@@ -669,22 +663,14 @@ public:
 "#,
     )
     .unwrap();
-    let anchor = dir.path().join("anchor.cc");
-    fs::write(&anchor, "#include \"bad_key.hh\"\n").unwrap();
-    let compile_commands = dir.path().join("compile_commands.json");
-    let db = serde_json::json!([{
-        "directory": dir.path().to_string_lossy(),
-        "file": "anchor.cc",
-        "arguments": ["c++", "-std=c++23", "-c", "-o", "anchor.cc.o", "anchor.cc"],
-    }]);
-    fs::write(&compile_commands, serde_json::to_string(&db).unwrap()).unwrap();
+    let parse_context = dir.path().join("parse-context.txt");
+    fs::write(&parse_context, "standard=c++23\n").unwrap();
 
     let _guard = clang_test_lock().lock().unwrap_or_else(|e| e.into_inner());
     let out_dir = dir.path().join("out");
     let opts = GenerateOptions {
         header,
-        anchor_source: anchor,
-        compile_commands,
+        parse_context,
         out_proto: out_dir.join("BadKey.proto"),
         out_adapter_hh: out_dir.join("BadKeyServiceImpl.hh"),
         out_adapter_cc: out_dir.join("BadKeyServiceImpl.cc"),
@@ -729,30 +715,66 @@ fn generates_struct_and_sequence_marshalling() {
         "{proto}"
     );
     // Struct as in-parameter / return value.
-    assert!(proto.contains("message SetTimerDataRequest {\n\n  TimerData data = 1;"), "{proto}");
-    assert!(proto.contains("message GetTimerDataResponse {\n\n  TimerData result = 1;"), "{proto}");
+    assert!(
+        proto.contains("message SetTimerDataRequest {\n\n  TimerData data = 1;"),
+        "{proto}"
+    );
+    assert!(
+        proto.contains("message GetTimerDataResponse {\n\n  TimerData result = 1;"),
+        "{proto}"
+    );
     // Sequence-of-struct out-parameter (the `MenuItems` alias resolves to
     // `repeated MenuItem`, same as if `std::list<MenuItem>` had been
     // spelled directly).
-    assert!(proto.contains("message GetMenuResponse {\n\n  repeated MenuItem out = 1;"), "{proto}");
+    assert!(
+        proto.contains("message GetMenuResponse {\n\n  repeated MenuItem out = 1;"),
+        "{proto}"
+    );
     // Sequence of scalar.
-    assert!(proto.contains("message SetTagsRequest {\n\n  repeated int32 tags = 1;"), "{proto}");
+    assert!(
+        proto.contains("message SetTagsRequest {\n\n  repeated int32 tags = 1;"),
+        "{proto}"
+    );
     // Signal field of struct type.
-    assert!(proto.contains("message TimerUpdatedEvent {\n\n  TimerData value = 1;"), "{proto}");
+    assert!(
+        proto.contains("message TimerUpdatedEvent {\n\n  TimerData value = 1;"),
+        "{proto}"
+    );
 
     let source_out = fs::read_to_string(&generated.adapter_cc).unwrap();
     // Struct in-parameter: field-by-field construction from the request.
-    assert!(source_out.contains("TimerData local_data{};"), "{source_out}");
-    assert!(source_out.contains("local_data.bar_text = request->data().bar_text();"), "{source_out}");
-    assert!(source_out.contains("impl_.set_timer_data(local_data);"), "{source_out}");
+    assert!(
+        source_out.contains("TimerData local_data{};"),
+        "{source_out}"
+    );
+    assert!(
+        source_out.contains("local_data.bar_text = request->data().bar_text();"),
+        "{source_out}"
+    );
+    assert!(
+        source_out.contains("impl_.set_timer_data(local_data);"),
+        "{source_out}"
+    );
     // Struct return value: field-by-field write via mutable_result().
-    assert!(source_out.contains("auto *rpc_msg_0 = response->mutable_result();"), "{source_out}");
-    assert!(source_out.contains("rpc_msg_0->set_bar_text(rpc_result.bar_text);"), "{source_out}");
+    assert!(
+        source_out.contains("auto *rpc_msg_0 = response->mutable_result();"),
+        "{source_out}"
+    );
+    assert!(
+        source_out.contains("rpc_msg_0->set_bar_text(rpc_result.bar_text);"),
+        "{source_out}"
+    );
     // Sequence-of-struct out-parameter: real C++ container declared and
     // passed by reference (not by pointer — `MenuItems &out` binds directly),
     // then a real `for` loop populates the repeated field element-by-element.
-    assert!(source_out.contains("std::list<MenuItem> local_out{};"), "{source_out}");
-    assert!(source_out.contains("impl_.get_menu(local_out);"), "{source_out}");
+    assert!(
+        source_out.contains("std::list<MenuItem> local_out{};"),
+        "{source_out}"
+    );
+    assert!(
+        source_out.contains("impl_.get_menu(local_out);"),
+        "{source_out}"
+    );
     assert!(
         source_out.contains(
             "for (const auto &rpc_item_0 : local_out) { auto *rpc_elem_0 = response->add_out(); rpc_elem_0->set_text(rpc_item_0.text);"
@@ -841,7 +863,10 @@ fn compiles_with_real_protoc_and_grpc_headers() {
         let status = Command::new(&protoc)
             .arg(format!("--cpp_out={}", out_dir.display()))
             .arg(format!("--grpc_out={}", out_dir.display()))
-            .arg(format!("--plugin=protoc-gen-grpc={}", grpc_plugin.display()))
+            .arg(format!(
+                "--plugin=protoc-gen-grpc={}",
+                grpc_plugin.display()
+            ))
             .arg("-I")
             .arg(out_dir)
             .arg(&generated.proto)
@@ -855,10 +880,18 @@ fn compiles_with_real_protoc_and_grpc_headers() {
             .expect("libs/rpc/include must exist");
         let boost_include = ["/opt/homebrew/include", "/usr/local/include"]
             .into_iter()
-            .find(|c| std::path::Path::new(c).join("boost/signals2/signal.hpp").exists());
-        let grpc_include = ["/opt/homebrew/include", "/usr/local/include", "/usr/include"]
-            .into_iter()
-            .find(|c| std::path::Path::new(c).join("grpcpp/grpcpp.h").exists());
+            .find(|c| {
+                std::path::Path::new(c)
+                    .join("boost/signals2/signal.hpp")
+                    .exists()
+            });
+        let grpc_include = [
+            "/opt/homebrew/include",
+            "/usr/local/include",
+            "/usr/include",
+        ]
+        .into_iter()
+        .find(|c| std::path::Path::new(c).join("grpcpp/grpcpp.h").exists());
 
         let mut cmd = Command::new("clang++");
         cmd.arg("-std=c++23")
@@ -966,7 +999,10 @@ fn recognizes_tags_in_plain_non_doc_comments() {
 
     let proto = fs::read_to_string(&generated.proto).unwrap();
     assert!(proto.contains("service PlainService"), "{proto}");
-    assert!(proto.contains("rpc GetValue(GetValueRequest) returns (GetValueResponse);"), "{proto}");
+    assert!(
+        proto.contains("rpc GetValue(GetValueRequest) returns (GetValueResponse);"),
+        "{proto}"
+    );
 
     let source_out = fs::read_to_string(&generated.adapter_cc).unwrap();
     assert!(source_out.contains("impl_.get_value()"), "{source_out}");
@@ -982,7 +1018,10 @@ fn generates_dbus_scalar_binding() {
     let (_dir, generated) = generate_fixture_with_dbus("dbus_scalar.hh", "RpcDbusScalar");
 
     let dbus_hh = fs::read_to_string(generated.dbus_hh.as_ref().expect("dbus_hh")).unwrap();
-    assert!(dbus_hh.contains("class org_workrave_TestInterface"), "{dbus_hh}");
+    assert!(
+        dbus_hh.contains("class org_workrave_TestInterface"),
+        "{dbus_hh}"
+    );
     assert!(
         dbus_hh.contains("virtual void ModeChanged(const std::string &path, TestMode value) = 0;"),
         "{dbus_hh}"
@@ -990,13 +1029,21 @@ fn generates_dbus_scalar_binding() {
 
     let dbus_cc = fs::read_to_string(generated.dbus_cc.as_ref().expect("dbus_cc")).unwrap();
     // Enum wire-encoded as a string, using the @rpc.enum.value canonical names.
-    assert!(dbus_cc.contains("if (\"idle\" == arg) { value = TestMode::Idle; }"), "{dbus_cc}");
-    assert!(dbus_cc.contains("case TestMode::Active: str = \"active\"; break;"), "{dbus_cc}");
+    assert!(
+        dbus_cc.contains("if (\"idle\" == arg) { value = TestMode::Idle; }"),
+        "{dbus_cc}"
+    );
+    assert!(
+        dbus_cc.contains("case TestMode::Active: str = \"active\"; break;"),
+        "{dbus_cc}"
+    );
     // The free operator<</>> must be at global scope (ADL), not nested in
     // workrave::dbus — see render_enum_marshall's doc comment for why.
     assert!(
         dbus_cc.contains("} // namespace workrave::dbus\n\n")
-            && dbus_cc.contains("static QDBusArgument &operator<<(QDBusArgument &arg, const TestMode &data)"),
+            && dbus_cc.contains(
+                "static QDBusArgument &operator<<(QDBusArgument &arg, const TestMode &data)"
+            ),
         "{dbus_cc}"
     );
     // Introspection XML: enum args are "s" (string), matching DBus's lack of
@@ -1005,9 +1052,15 @@ fn generates_dbus_scalar_binding() {
         dbus_cc.contains("<arg type=\\\"s\\\" name=\\\"mode\\\" direction=\\\"in\\\" />"),
         "{dbus_cc}"
     );
-    assert!(dbus_cc.contains("<signal name=\\\"ModeChanged\\\">"), "{dbus_cc}");
+    assert!(
+        dbus_cc.contains("<signal name=\\\"ModeChanged\\\">"),
+        "{dbus_cc}"
+    );
     // Dispatch: real method call, reply marshalling, and the registrar.
-    assert!(dbus_cc.contains("dbus_object->ping(p_message)"), "{dbus_cc}");
+    assert!(
+        dbus_cc.contains("dbus_object->ping(p_message)"),
+        "{dbus_cc}"
+    );
     assert!(
         dbus_cc.contains(
             "void init_org_workrave_TestInterface(std::shared_ptr<::workrave::dbus::IDBus> dbus)"
@@ -1018,7 +1071,10 @@ fn generates_dbus_scalar_binding() {
         dbus_cc.contains("dbus->register_binding(\"org.workrave.TestInterface\", new org_workrave_TestInterface_Stub(dbus));"),
         "{dbus_cc}"
     );
-    assert!(dbus_cc.contains("qDBusRegisterMetaType<TestMode>();"), "{dbus_cc}");
+    assert!(
+        dbus_cc.contains("qDBusRegisterMetaType<TestMode>();"),
+        "{dbus_cc}"
+    );
 }
 
 #[test]
@@ -1034,14 +1090,20 @@ fn dbus_adapter_namespace_does_not_change_the_wire_interface() {
     );
 
     let dbus_hh = fs::read_to_string(generated.dbus_hh.as_ref().expect("dbus_hh")).unwrap();
-    assert!(dbus_hh.contains("namespace workrave::core::rpc\n{"), "{dbus_hh}");
+    assert!(
+        dbus_hh.contains("namespace workrave::core::rpc\n{"),
+        "{dbus_hh}"
+    );
     assert!(
         dbus_hh.contains("class org_workrave_TestInterface"),
         "{dbus_hh}"
     );
 
     let dbus_cc = fs::read_to_string(generated.dbus_cc.as_ref().expect("dbus_cc")).unwrap();
-    assert!(dbus_cc.contains("namespace workrave::core::rpc\n{"), "{dbus_cc}");
+    assert!(
+        dbus_cc.contains("namespace workrave::core::rpc\n{"),
+        "{dbus_cc}"
+    );
     assert!(
         dbus_cc.contains("<interface name=\\\"org.workrave.TestInterface\\\">"),
         "{dbus_cc}"
@@ -1059,12 +1121,22 @@ fn dbus_adapter_namespace_does_not_change_the_wire_interface() {
 /// sequence of scalar (`ai`) and of struct (`a(ii)`).
 #[test]
 fn generates_dbus_struct_and_sequence_binding() {
-    let (_dir, generated) = generate_fixture_with_dbus("dbus_struct_sequence.hh", "RpcDbusStructSeq");
+    let (_dir, generated) =
+        generate_fixture_with_dbus("dbus_struct_sequence.hh", "RpcDbusStructSeq");
 
     let dbus_cc = fs::read_to_string(generated.dbus_cc.as_ref().expect("dbus_cc")).unwrap();
-    assert!(dbus_cc.contains("<arg type=\\\"(ii)\\\" name=\\\"p\\\" direction=\\\"in\\\" />"), "{dbus_cc}");
-    assert!(dbus_cc.contains("<arg type=\\\"ai\\\" name=\\\"tags\\\" direction=\\\"in\\\" />"), "{dbus_cc}");
-    assert!(dbus_cc.contains("<arg type=\\\"a(ii)\\\" name=\\\"result\\\" direction=\\\"out\\\" />"), "{dbus_cc}");
+    assert!(
+        dbus_cc.contains("<arg type=\\\"(ii)\\\" name=\\\"p\\\" direction=\\\"in\\\" />"),
+        "{dbus_cc}"
+    );
+    assert!(
+        dbus_cc.contains("<arg type=\\\"ai\\\" name=\\\"tags\\\" direction=\\\"in\\\" />"),
+        "{dbus_cc}"
+    );
+    assert!(
+        dbus_cc.contains("<arg type=\\\"a(ii)\\\" name=\\\"result\\\" direction=\\\"out\\\" />"),
+        "{dbus_cc}"
+    );
     assert!(dbus_cc.contains("struct DBusMarshall<Point>"), "{dbus_cc}");
     assert!(dbus_cc.contains("arg.beginStructure();"), "{dbus_cc}");
 }
@@ -1126,7 +1198,10 @@ fn dbus_bindings_compile_against_real_qtdbus() {
             .arg("-o")
             .arg(out_dir.join(format!("{name}.o")));
         for candidate in ["/opt/homebrew/include", "/usr/local/include"] {
-            if std::path::Path::new(candidate).join("boost/lexical_cast.hpp").exists() {
+            if std::path::Path::new(candidate)
+                .join("boost/lexical_cast.hpp")
+                .exists()
+            {
                 cmd.arg("-I").arg(candidate);
             }
         }
