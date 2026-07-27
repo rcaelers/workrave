@@ -1,7 +1,7 @@
 # Controlling Workrave over gRPC
 
 Workrave exposes its core state — operation mode, breaks, configuration —
-over gRPC whenever it's built with `-DWITH_RPC=ON`. This is a guide for
+over gRPC whenever it's built with `-DWITH_RPC_GRPC=ON`. This is a guide for
 *using* that interface (e.g. with `grpcurl`), not for the code generator
 that produces it — see [`tool/README.md`](tool/README.md) for that, and
 [`../corenext/src/RpcCoreServer.hh`](../corenext/src/RpcCoreServer.hh) for
@@ -9,19 +9,30 @@ how the server itself is wired into the running app.
 
 ## DBus implementation selection
 
-`WITH_DBUS` still controls whether Workrave exposes DBus. When it is enabled,
-`WITH_RPC` selects which Core, Break, and Config implementation is built:
+`WITH_DBUS` enables the established DBus feature set. When it is enabled,
+`WITH_RPC_GRPC` selects which Core, Break, and Config implementation is built.
+`WITH_RPC_DBUS` can enable only the Clang-generated DBus surface, independently
+of gRPC and without enabling any legacy Python/Jinja bindings:
 
 | Build options | DBus implementation |
 |---|---|
-| `WITH_DBUS=ON`, `WITH_RPC=OFF` | Legacy Python/Jinja generator |
-| `WITH_DBUS=ON`, `WITH_RPC=ON` | Clang/Rust RPC generator |
-| `WITH_DBUS=OFF` | No DBus API |
+| `WITH_DBUS=ON`, `WITH_RPC_GRPC=OFF` | Legacy Python/Jinja generator |
+| `WITH_DBUS=ON`, `WITH_RPC_GRPC=ON` | Clang/Rust RPC generator |
+| `WITH_DBUS=OFF`, `WITH_RPC_GRPC=ON`, `WITH_RPC_DBUS=ON` | Clang/Rust DBus plus gRPC |
+| `WITH_DBUS=OFF`, `WITH_RPC_GRPC=OFF`, `WITH_RPC_DBUS=ON` | Clang/Rust DBus only, without gRPC |
+| `WITH_DBUS=OFF`, `WITH_RPC_DBUS=OFF` | No DBus API |
 
-Only one implementation is present in a build. Both implementations use the
-established `org.workrave.Workrave` service, `/org/workrave/Workrave` object
-root, and `org.workrave.CoreInterface`, `org.workrave.BreakInterface`, and
-`org.workrave.ConfigInterface` interface names.
+Only one Core/Break/Config implementation is present in a build. Both
+implementations use the established `org.workrave.Workrave` service,
+`/org/workrave/Workrave` object root, and `org.workrave.CoreInterface`,
+`org.workrave.BreakInterface`, and `org.workrave.ConfigInterface` interface
+names.
+
+The generated-only configuration without gRPC is:
+
+```bash
+cmake -DWITH_RPC_GRPC=OFF -DWITH_RPC_DBUS=ON -DWITH_DBUS=OFF ...
+```
 
 The Clang-generated implementation currently requires the Qt UI, QtDBus, and
 CoreNext. Small compatibility facades preserve historical details such as

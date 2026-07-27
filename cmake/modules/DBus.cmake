@@ -1,30 +1,31 @@
 set(DBUSGEN ${CMAKE_SOURCE_DIR}/libs/dbus/bin/dbusgen.py)
 set(TEMPLATE_DIR ${CMAKE_SOURCE_DIR}/libs/dbus/data)
 
-if (NOT HAVE_JINJA2)
-  set(VENV_DIR ${CMAKE_BINARY_DIR}/venv-dbus)
-  set(REQUIREMENTS_FILE ${CMAKE_SOURCE_DIR}/libs/dbus/bin/requirements.txt)
-  if(WIN32 AND NOT MINGW)
+if (WITH_DBUS)
+  if (NOT HAVE_JINJA2)
+    set(VENV_DIR ${CMAKE_BINARY_DIR}/venv-dbus)
+    set(REQUIREMENTS_FILE ${CMAKE_SOURCE_DIR}/libs/dbus/bin/requirements.txt)
+    if (WIN32 AND NOT MINGW)
       set(PYTHON_EXECUTABLE "${VENV_DIR}/Scripts/python.exe")
       set(PIP_EXECUTABLE "${VENV_DIR}/Scripts/pip.exe")
-  else()
+    else()
       set(PYTHON_EXECUTABLE "${VENV_DIR}/bin/python")
       set(PIP_EXECUTABLE "${VENV_DIR}/bin/pip")
+    endif()
+
+    add_custom_command(
+      OUTPUT ${PYTHON_EXECUTABLE}
+      COMMAND ${CMAKE_COMMAND} -E remove_directory ${VENV_DIR}
+      COMMAND ${Python3_EXECUTABLE} -m venv ${VENV_DIR}
+      COMMAND ${PIP_EXECUTABLE} install -r ${REQUIREMENTS_FILE}
+      DEPENDS ${REQUIREMENTS_FILE}
+    )
+    add_custom_target(venv DEPENDS ${PYTHON_EXECUTABLE})
+  else()
+    add_custom_target(venv)
+    set(PYTHON_EXECUTABLE ${Python3_EXECUTABLE})
   endif()
-
-  add_custom_command(
-    OUTPUT ${PYTHON_EXECUTABLE}
-    COMMAND ${CMAKE_COMMAND} -E remove_directory ${VENV_DIR}
-    COMMAND ${Python3_EXECUTABLE} -m venv ${VENV_DIR}
-    COMMAND ${PIP_EXECUTABLE} install -r ${REQUIREMENTS_FILE}
-    DEPENDS ${REQUIREMENTS_FILE}
-  )
-  add_custom_target(venv DEPENDS ${PYTHON_EXECUTABLE})
-else()
-  add_custom_target(venv)
-  set(PYTHON_EXECUTABLE ${Python3_EXECUTABLE})
 endif()
-
 
 macro(dbus_generate_source XML DIRECTORY NAME)
   if (HAVE_DBUS)
@@ -86,7 +87,7 @@ macro(dbus_generate_xml XML DIRECTORY NAME)
 endmacro()
 
 macro(dbus_add_activation_service SOURCE BINDIR)
-  if (HAVE_DBUS)
+  if (HAVE_DBUS OR HAVE_RPC_DBUS)
     get_filename_component(_service_name ${SOURCE} NAME)
     string(REGEX REPLACE "\\.service.*$" ".service" _output_file ${_service_name})
     set(_target ${CMAKE_CURRENT_BINARY_DIR}/${_output_file})

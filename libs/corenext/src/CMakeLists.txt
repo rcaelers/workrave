@@ -25,9 +25,6 @@ if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
 endif()
 
 if (HAVE_RPC_DBUS)
-  # WITH_RPC selects the clang-generated Core/Break/Config DBus bindings.
-  # Narrow facades preserve the established DBus API while the primary @rpc
-  # interfaces remain free to expose their richer native/gRPC contracts.
   rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/RpcDBusCoreCompat.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusCoreBinding
     TARGET workrave-libs-core-next
     ADAPTER_NAMESPACE workrave::core::rpc)

@@ -411,6 +411,7 @@ find_package(Python3 COMPONENTS Interpreter)
 # DBus
 
 option(WITH_DBUS "Enable dbus" ON)
+option(WITH_RPC_DBUS "Enable clang-generated DBus independently of legacy DBus and gRPC" OFF)
 
 if (WITH_DBUS)
   set(HAVE_JINJA2 OFF)
@@ -423,16 +424,16 @@ if (WITH_DBUS)
   endif()
 endif()
 
-if (WITH_DBUS)
+if (WITH_DBUS OR WITH_RPC_DBUS)
   include(DBus)
 endif()
 
 #----------------------------------------------------------------------------------------------------
 # RPC (gRPC, via libs/rpc's annotation-driven codegen)
 
-option(WITH_RPC "Enable gRPC-based remoting" OFF)
+option(WITH_RPC_GRPC "Enable gRPC-based remoting" OFF)
 
-if (WITH_RPC)
+if (WITH_RPC_GRPC)
   # Upstream Protobuf installations (including vcpkg) provide a package
   # configuration, while Debian/Ubuntu commonly provide only the libraries,
   # protoc, and CMake's built-in FindProtobuf module. Both discovery modes
@@ -447,7 +448,7 @@ if (WITH_RPC)
   set(HAVE_RPC ON)
 endif()
 
-if (WITH_RPC AND WITH_DBUS)
+if (WITH_RPC_DBUS OR (WITH_RPC_GRPC AND WITH_DBUS))
   if (NOT WITH_UI_QT)
     message(FATAL_ERROR "The clang-generated DBus bindings currently require the Qt UI/QtDBus backend")
   endif()
@@ -457,7 +458,7 @@ if (WITH_RPC AND WITH_DBUS)
   set(HAVE_RPC_DBUS ON)
 endif()
 
-if (WITH_RPC)
+if (WITH_RPC_GRPC OR WITH_RPC_DBUS)
   include(Rpc)
 endif()
 
@@ -596,7 +597,7 @@ if ("${WITH_UI}" STREQUAL "Qt")
   execute_process(COMMAND ${QT_QTPATHS_EXECUTABLE} --plugin-dir OUTPUT_VARIABLE QT_PLUGINS_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
   message(STATUS "QT Plugin path: " ${QT_PLUGINS_DIR})
 
-  if (WITH_DBUS)
+  if (WITH_DBUS OR HAVE_RPC_DBUS)
     find_package(Qt6DBus QUIET)
   endif()
 
@@ -604,7 +605,7 @@ if ("${WITH_UI}" STREQUAL "Qt")
     if (WITH_DBUS)
       set (HAVE_DBUS ON)
     endif()
-    if (WITH_DBUS)
+    if (WITH_DBUS OR HAVE_RPC_DBUS)
       set (HAVE_DBUS_QT ON)
       set (DBUS_BACKEND "qt")
     endif()
@@ -1395,7 +1396,8 @@ feature_bool("Pulseaudio" HAVE_PULSE)
 feature_bool("Wayland" HAVE_WAYLAND)
 endif()
 feature_bool("DBUS" HAVE_DBUS)
-feature_bool("RPC" HAVE_RPC)
+feature_bool("gRPC" HAVE_RPC)
+feature_bool("Generated DBUS" HAVE_RPC_DBUS)
 if(PLATFORM_OS_WINDOWS)
 feature_bool("Crash reporting" HAVE_CRASHPAD)
 feature_bool("Auto update" HAVE_UNFOLD_AUTO_UPDATE)

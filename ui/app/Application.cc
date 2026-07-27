@@ -339,7 +339,7 @@ Application::init_dbus()
 
       try
         {
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) || defined(HAVE_RPC_DBUS)
           dbus->register_service("org.workrave.Workrave");
 #endif
           dbus->register_object_path("/org/workrave/Workrave/UI");

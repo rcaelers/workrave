@@ -168,7 +168,7 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
 
     set(_rpc_dbus_args "")
     set(_rpc_dbus_outputs "")
-    if (_rpc_DBUS AND HAVE_DBUS)
+    if (_rpc_DBUS AND (HAVE_DBUS OR HAVE_RPC_DBUS))
       set(_rpc_dbus_hh ${DIRECTORY}/${NAME}DBus.hh)
       set(_rpc_dbus_cc ${DIRECTORY}/${NAME}DBus.cc)
       set(_rpc_dbus_args --out-dbus-hh ${_rpc_dbus_hh} --out-dbus-cc ${_rpc_dbus_cc})
@@ -243,10 +243,10 @@ endmacro()
 #                          [HEADER_INCLUDE <literal>]
 #                          [ADAPTER_NAMESPACE <cxx-ns>] [ANNOTATIONS <path>])
 #
-# DBus-only entry point used when WITH_RPC and WITH_DBUS select the
-# clang-generated implementation. clang-rpc-gen currently constructs its
-# shared gRPC+DBus semantic model in one invocation, so the three gRPC text
-# artifacts are generated as unused implementation details.
+# DBus-only entry point used when the clang-generated implementation is
+# selected. clang-rpc-gen currently constructs its shared gRPC+DBus semantic
+# model in one invocation, so the three gRPC text artifacts are generated as
+# unused implementation details.
 macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
   if (HAVE_RPC_DBUS)
     cmake_parse_arguments(_rpc_dbus "" "TARGET;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS" "" ${ARGN})
