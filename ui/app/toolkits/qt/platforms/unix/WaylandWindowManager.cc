@@ -38,7 +38,6 @@
 
 #include <QtWaylandClient/private/qwaylandscreen_p.h>
 #include <QtWaylandClient/private/qwaylandsurface_p.h>
-#include <QtWaylandClient/private/qwaylandwindow_p.h>
 
 static const struct wl_registry_listener registry_listener = {
   .global = WaylandWindowManager::registry_global,
@@ -143,7 +142,7 @@ static void
 layer_surface_init(struct zwlr_layer_shell_v1 *layer_shell,
                    struct zwlr_layer_surface_v1 *&layer_surface,
                    struct wl_display *display,
-                   QtWaylandClient::QWaylandWindow *wayland_window,
+                   QNativeInterface::Private::QWaylandWindow *wayland_window,
                    QScreen *screen,
                    bool keyboard_focus,
                    const struct zwlr_layer_surface_v1_listener *listener,
