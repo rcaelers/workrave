@@ -430,7 +430,8 @@ if (WITH_GRPC)
     find_package(Protobuf MODULE REQUIRED)
   endif()
 
-  find_package(gRPC CONFIG REQUIRED)
+  include(Grpc)
+  workrave_configure_grpc()
   set(HAVE_GRPC ON)
 endif()
 

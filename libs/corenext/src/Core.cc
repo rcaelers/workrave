@@ -137,13 +137,6 @@ Core::init_rpc()
 {
   try
     {
-      // A unix domain socket in the per-user state directory, not TCP
-      // loopback: no port number to fix, guess, or clash with another
-      // instance/process, and access is naturally scoped by filesystem
-      // permissions on that directory instead of by whoever can reach
-      // 127.0.0.1. Override via WORKRAVE_RPC_ADDRESS for development/testing
-      // (e.g. "127.0.0.1:0" for an ephemeral TCP port, printed via the "RPC
-      // server listening on" log line) or to point at a different socket.
       std::string listen_address = "unix:" + (Paths::get_state_directory() / "rpc.sock").string();
       if (const char *override_address = std::getenv("WORKRAVE_RPC_ADDRESS"); override_address != nullptr)
         {

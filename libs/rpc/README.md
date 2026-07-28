@@ -40,8 +40,8 @@ outputs are checked in so `RPC_CODEGEN=AUTO` also works without Rust/libclang.
 
 ## Transport
 
-The server listens on a Unix domain socket in the per-user state directory
-— on macOS/Linux typically:
+The server listens on a named local domain socket in the per-user state
+directory on every platform, typically:
 
 ```
 ~/.workrave-qt/rpc.sock
@@ -54,6 +54,15 @@ guess and no separate discovery step. Override the address with the
 `WORKRAVE_RPC_ADDRESS` environment variable before starting Workrave — e.g.
 `WORKRAVE_RPC_ADDRESS=127.0.0.1:0` for an ephemeral TCP port during
 development (the actual bound port is then printed in the same log line).
+
+Current upstream gRPC Core supports AF_UNIX on native Windows builds. It still
+explicitly disables that support when gRPC itself is built with MinGW, however,
+so the stock MSYS2/clang64 gRPC package cannot serve this endpoint. On MinGW,
+`WITH_GRPC=ON` therefore builds a pinned, patched, static copy of gRPC while
+continuing to use MSYS2's Abseil, Protobuf, c-ares, RE2, OpenSSL, and zlib
+packages. Set `WORKRAVE_GRPC_SOURCE_DIR` to an existing gRPC 1.83.0 source tree
+for an offline build. Workrave does not silently fall back to TCP: an anonymous
+port would make the service undiscoverable without adding a separate registry.
 
 Only running under a real desktop session starts the server — the test
 harness (`HAVE_TESTS` + hook-based monitor) explicitly skips it, so you
@@ -259,10 +268,9 @@ grpcurl -plaintext -d '{"mode":"OPERATION_MODE_NORMAL","duration":"garbage"}' \
 
 ## Security
 
-The socket is a local Unix domain socket with no additional authentication
-— access is whatever the socket file's own permissions grant (the
-containing state directory is created `0700`, owner-only). There's no
-network exposure by default; if you override `WORKRAVE_RPC_ADDRESS` to bind
-a TCP address, you're opting into that yourself, and should bind to
-loopback (`127.0.0.1:...`) unless you have a specific reason and a plan for
-authentication — none is built in.
+The local domain socket has no additional authentication; access is whatever
+the socket and its containing per-user state directory permit. On Unix the
+state directory is created `0700`, owner-only. Windows AF_UNIX access control is
+provided by Windows and the per-user path. If you override `WORKRAVE_RPC_ADDRESS`
+with a TCP address, you are opting into network exposure and need an
+authentication plan—none is built in.
