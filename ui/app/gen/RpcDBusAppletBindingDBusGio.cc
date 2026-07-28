@@ -353,15 +353,19 @@ org_workrave_AppletInterface::dispatch_Embed(GVariant *parameters, GDBusMethodIn
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
 
 
 
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -386,13 +390,17 @@ org_workrave_AppletInterface::dispatch_Command(GVariant *parameters, GDBusMethod
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
 
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -417,13 +425,17 @@ org_workrave_AppletInterface::dispatch_MenuAction(GVariant *parameters, GDBusMet
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
 
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -448,13 +460,17 @@ org_workrave_AppletInterface::dispatch_ButtonClicked(GVariant *parameters, GDBus
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
 
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -477,15 +493,19 @@ org_workrave_AppletInterface::dispatch_GetMenu(GVariant *parameters, GDBusMethod
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
 
 
   reply_values.push_back(::workrave::rpc::dbus::GioCodec<std::list<GenericDBusApplet::MenuItem>>::encode(p_menuitems));
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -508,15 +528,19 @@ org_workrave_AppletInterface::dispatch_GetTrayIconEnabled(GVariant *parameters, 
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
 
 
   reply_values.push_back(::workrave::rpc::dbus::GioCodec<bool>::encode(p_enabled));
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -524,6 +548,7 @@ void
 org_workrave_AppletInterface::emit_TimersUpdated(GenericDBusApplet::TimerData micro, GenericDBusApplet::TimerData rest, GenericDBusApplet::TimerData daily)
 {
   std::vector<GVariant *> values;
+  ::workrave::rpc::dbus::GioUnixFdList fd_list;
 
   values.push_back(::workrave::rpc::dbus::GioCodec<GenericDBusApplet::TimerData>::encode(micro));
 
@@ -532,36 +557,43 @@ org_workrave_AppletInterface::emit_TimersUpdated(GenericDBusApplet::TimerData mi
   values.push_back(::workrave::rpc::dbus::GioCodec<GenericDBusApplet::TimerData>::encode(daily));
 
   server_.emit_signal(path_, "org.workrave.AppletInterface", "TimersUpdated",
-                      g_variant_new_tuple(values.empty() ? nullptr : values.data(), values.size()));
+                      g_variant_new_tuple(values.empty() ? nullptr : values.data(), values.size()),
+                      fd_list.get());
 }
 void
 org_workrave_AppletInterface::emit_MenuUpdated(std::list<GenericDBusApplet::MenuItem> menuitems)
 {
   std::vector<GVariant *> values;
+  ::workrave::rpc::dbus::GioUnixFdList fd_list;
 
   values.push_back(::workrave::rpc::dbus::GioCodec<std::list<GenericDBusApplet::MenuItem>>::encode(menuitems));
 
   server_.emit_signal(path_, "org.workrave.AppletInterface", "MenuUpdated",
-                      g_variant_new_tuple(values.empty() ? nullptr : values.data(), values.size()));
+                      g_variant_new_tuple(values.empty() ? nullptr : values.data(), values.size()),
+                      fd_list.get());
 }
 void
 org_workrave_AppletInterface::emit_MenuItemUpdated(GenericDBusApplet::MenuItem menuitem)
 {
   std::vector<GVariant *> values;
+  ::workrave::rpc::dbus::GioUnixFdList fd_list;
 
   values.push_back(::workrave::rpc::dbus::GioCodec<GenericDBusApplet::MenuItem>::encode(menuitem));
 
   server_.emit_signal(path_, "org.workrave.AppletInterface", "MenuItemUpdated",
-                      g_variant_new_tuple(values.empty() ? nullptr : values.data(), values.size()));
+                      g_variant_new_tuple(values.empty() ? nullptr : values.data(), values.size()),
+                      fd_list.get());
 }
 void
 org_workrave_AppletInterface::emit_TrayIconUpdated(bool enabled)
 {
   std::vector<GVariant *> values;
+  ::workrave::rpc::dbus::GioUnixFdList fd_list;
 
   values.push_back(::workrave::rpc::dbus::GioCodec<bool>::encode(enabled));
 
   server_.emit_signal(path_, "org.workrave.AppletInterface", "TrayIconUpdated",
-                      g_variant_new_tuple(values.empty() ? nullptr : values.data(), values.size()));
+                      g_variant_new_tuple(values.empty() ? nullptr : values.data(), values.size()),
+                      fd_list.get());
 }
 } // namespace workrave::ui::rpc

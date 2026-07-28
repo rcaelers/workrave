@@ -42,7 +42,7 @@
 #include "PreferencesRegistry.hh"
 #include "Context.hh"
 
-#if defined(HAVE_RPC_DBUS)
+#if defined(HAVE_DBUS)
 class RpcDBusApplicationServer;
 #endif
 
@@ -118,7 +118,7 @@ private:
   std::shared_ptr<PreferencesRegistry> preferences_registry;
   std::shared_ptr<Context> context;
   std::shared_ptr<workrave::config::IConfigurator> configurator;
-#if defined(HAVE_RPC_DBUS)
+#if defined(HAVE_DBUS)
   std::unique_ptr<RpcDBusApplicationServer> rpc_dbus_server;
 #endif
 

@@ -388,6 +388,23 @@ Break::get_total_overdue_time() const
   return timer->get_total_overdue_time();
 }
 
+int64_t
+Break::get_timer_remaining() const
+{
+  if (timer->is_limit_enabled())
+    {
+      int64_t remaining = timer->get_limit() - timer->get_elapsed_time();
+      return remaining >= 0 ? remaining : 0;
+    }
+  return -1;
+}
+
+std::string
+Break::get_break_stage() const
+{
+  return break_control->get_current_stage();
+}
+
 void
 Break::set_usage_mode(UsageMode mode)
 {
@@ -457,6 +474,12 @@ boost::signals2::signal<void(BreakEvent)> &
 Break::signal_break_event()
 {
   return break_control->signal_break_event();
+}
+
+boost::signals2::signal<void(BreakStage)> &
+Break::signal_break_stage_changed()
+{
+  return break_control->signal_break_stage_changed();
 }
 
 void

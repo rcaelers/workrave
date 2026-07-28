@@ -29,7 +29,6 @@
 #include "core/ICoreEventListener.hh"
 #include "core/ICoreHooks.hh"
 #include "core/IStatistics.hh"
-#include "dbus/IDBus.hh"
 
 namespace workrave
 {
@@ -119,8 +118,6 @@ namespace workrave
     //! Return the hooks
     [[nodiscard]] virtual ICoreHooks::Ptr get_hooks() const = 0;
 
-    //! Return DBUs remoting interface.
-    [[nodiscard]] virtual std::shared_ptr<workrave::dbus::IDBus> get_dbus() const = 0;
   };
 
   class CoreFactory

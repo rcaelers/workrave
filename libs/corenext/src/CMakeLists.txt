@@ -17,13 +17,7 @@ add_library(workrave-libs-core-next STATIC
 
 target_code_coverage(workrave-libs-core-next)
 
-if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
-  target_sources(workrave-libs-core-next PRIVATE BreakDBus.cc CoreDBus.cc)
-  dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-service.xml ${CMAKE_CURRENT_BINARY_DIR} DBusWorkraveNext)
-  target_sources(workrave-libs-core-next PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkraveNext.cc)
-endif()
-
-if (HAVE_RPC_DBUS)
+if (HAVE_CORE_NEXT_DBUS)
   rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/Core.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusCoreBinding
     TARGET workrave-libs-core-next
     PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
@@ -46,7 +40,7 @@ if (HAVE_RPC_DBUS)
   target_include_directories(workrave-libs-core-next PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
-if (HAVE_RPC_DBUS)
+if (HAVE_CORE_NEXT_DBUS)
   # The direct bindings include rpc/Duration.hh for annotated chrono methods.
   target_include_directories(workrave-libs-core-next PRIVATE ${CMAKE_SOURCE_DIR}/libs/rpc/include)
   if (RPC_DBUS_BACKEND STREQUAL "qt")
@@ -56,10 +50,10 @@ if (HAVE_RPC_DBUS)
   endif()
 endif()
 
-if (HAVE_RPC)
+if (HAVE_GRPC)
   # BreaksControl.hh uses rpc::InstanceRegistry<> (see get_break_registry())
   # to route BreakService calls to the right one of the three live Break
-  # instances — the gRPC analog of BreakDBus's per-object-path registration.
+  # instances.
   # InstanceRegistry.hh/RpcException.hh are header-only with no link
   # dependency of their own, so this only needs an include path, NOT linking
   # workrave-libs-rpc (which would pull gRPC::grpc++ back onto every
@@ -133,10 +127,6 @@ target_link_libraries(workrave-libs-core-next
   PUBLIC
   workrave-libs-utils
   workrave-libs-config)
-
-if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
-  target_link_libraries(workrave-libs-core-next PUBLIC workrave-libs-dbus)
-endif()
 
 target_link_libraries(workrave-libs-core-next PUBLIC
   $<$<NOT:$<BOOL:$<TARGET_PROPERTY:USE_STUBS>>>:workrave-libs-input-monitor>

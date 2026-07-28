@@ -38,25 +38,16 @@ static const int SAVESTATETIME = 60;
 using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-using namespace workrave::dbus;
-#endif
 
 BreaksControl::BreaksControl(IApp *app,
                              IActivityMonitor::Ptr activity_monitor,
                              CoreModes::Ptr modes,
                              Statistics::Ptr statistics,
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-                             std::shared_ptr<IDBus> dbus,
-#endif
                              CoreHooks::Ptr hooks)
   : application(app)
   , activity_monitor(activity_monitor)
   , modes(modes)
   , statistics(statistics)
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  , dbus(dbus)
-#endif
   , hooks(hooks)
   , insist_policy(InsistPolicy::Halt)
   , active_insist_policy(InsistPolicy::Invalid)
@@ -67,7 +58,7 @@ BreaksControl::~BreaksControl()
 {
   save_state();
 
-#if defined(HAVE_RPC)
+#if defined(HAVE_GRPC)
   for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
     {
       break_registry.unregister_instance(break_id);
@@ -94,11 +85,8 @@ BreaksControl::init()
                                                  timers[break_id],
                                                  activity_monitor,
                                                  statistics,
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-                                                 dbus,
-#endif
                                                  hooks);
-#if defined(HAVE_RPC)
+#if defined(HAVE_GRPC)
       break_registry.register_instance(break_id, *breaks[break_id]);
 #endif
       connect(breaks[break_id]->signal_break_event(), this, [this, break_id](auto &&event) {

@@ -1,15 +1,15 @@
 #cmakedefine ALL_LINGUAS "${ALL_LINGUAS}"
-#cmakedefine DBUS_BACKEND
 #cmakedefine GETTEXT_PACKAGE "${GETTEXT_PACKAGE}"
 #cmakedefine HAVE_APP_GTK
 #cmakedefine HAVE_APP_QT
 #cmakedefine HAVE_APPINDICATOR
 #cmakedefine HAVE_APPINDICATOR_AYATANA
 #cmakedefine HAVE_CORE_NEXT
+#cmakedefine HAVE_CORE_NEXT_DBUS
+#cmakedefine HAVE_CORE_DBUS
 #cmakedefine HAVE_CORE_SHADOW
 #cmakedefine HAVE_CRASH_REPORT
 #cmakedefine HAVE_CRASHPAD
-#cmakedefine HAVE_DBUS
 #cmakedefine HAVE_DBUS_GIO
 #cmakedefine HAVE_DBUS_QT
 #cmakedefine HAVE_DBUS_TEST_GIO
@@ -35,8 +35,8 @@
 #cmakedefine HAVE_NL_TIME_FIRST_WEEKDAY_AND_WEEK_1STDAY
 #cmakedefine HAVE_PULSE
 #cmakedefine HAVE_QT
-#cmakedefine HAVE_RPC
-#cmakedefine HAVE_RPC_DBUS
+#cmakedefine HAVE_GRPC
+#cmakedefine HAVE_DBUS
 #cmakedefine HAVE_SBOM
 #cmakedefine HAVE_SCREENSAVER
 #cmakedefine HAVE_SETLOCALE

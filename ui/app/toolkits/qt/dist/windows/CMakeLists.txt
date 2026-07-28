@@ -53,7 +53,6 @@ install(CODE "set(DEP_DIRS \"${CMAKE_INSTALL_PREFIX}/bin;${SYS_ROOT}/bin;${spdlo
 install(CODE "set(BINDIR \"${BINDIR}\")")
 install(CODE "set(BINDIR32 \"${BINDIR32}\")")
 install(CODE "set(HAVE_CRASHPAD \"${HAVE_CRASHPAD}\")")
-install(CODE "set(HAVE_DBUS \"${HAVE_DBUS}\")")
 install(CODE "set(HAVE_SBOM \"${HAVE_SBOM}\")")
 install(CODE "set(SOURCE_DIR \"${CMAKE_SOURCE_DIR}\")")
 

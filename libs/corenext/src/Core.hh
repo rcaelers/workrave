@@ -28,10 +28,6 @@
 #include "Statistics.hh"
 #include "CoreHooks.hh"
 #include "CoreModes.hh"
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-#  include "CoreDBus.hh"
-#  include "dbus/IDBus.hh"
-#endif
 
 // Forward declarion of external interface.
 namespace workrave
@@ -39,10 +35,10 @@ namespace workrave
   class IApp;
 }
 
-#if defined(HAVE_RPC)
+#if defined(HAVE_GRPC)
 class RpcCoreServer;
 #endif
-#if defined(HAVE_RPC_DBUS)
+#if defined(HAVE_CORE_NEXT_DBUS)
 class RpcDBusServer;
 #endif
 
@@ -66,9 +62,6 @@ public:
   workrave::IBreak::Ptr get_break(workrave::BreakId id) const override;
   workrave::IStatistics::Ptr get_statistics() const override;
   ICoreHooks::Ptr get_hooks() const override;
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  std::shared_ptr<workrave::dbus::IDBus> get_dbus() const override;
-#endif
   // @rpc(name="IsActive")
   bool is_user_active() const override;
   // @rpc(name="IsTaking")
@@ -97,23 +90,19 @@ public:
   // @rpc(name="ReportActivity")
   void report_external_activity(std::string who, bool act);
 
-#if defined(HAVE_RPC)
-  // The gRPC analog of BreakDBus's per-object-path registration; forwards to
-  // BreaksControl so whoever wires up the RpcServer (see init_rpc()) can
+#if defined(HAVE_GRPC)
+  // The per-object Break service registry; forwards to BreaksControl so
+  // whoever wires up the RpcServer (see init_rpc()) can
   // construct a workrave::core::rpc::BreakServiceServiceImpl without reaching
   // into BreaksControl directly.
   rpc::InstanceRegistry<workrave::BreakId, Break> &get_break_registry();
 #endif
 
 private:
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  void init_bus_bindings();
-  void init_bus();
-#endif
-#if defined(HAVE_RPC)
+#if defined(HAVE_GRPC)
   void init_rpc();
 #endif
-#if defined(HAVE_RPC_DBUS)
+#if defined(HAVE_CORE_NEXT_DBUS)
   void init_rpc_dbus();
 #endif
 
@@ -133,11 +122,6 @@ private:
   //!
   CoreModes::Ptr core_modes;
 
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  //! Legacy operation-mode DBus event bridge.
-  CoreDBus::Ptr core_dbus;
-#endif
-
   //! GUI Widget factory.
   workrave::IApp *application{nullptr};
 
@@ -147,18 +131,13 @@ private:
   //! Did the OS announce a powersave?
   bool powersave{false};
 
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  //! Legacy DBus bridge.
-  std::shared_ptr<workrave::dbus::IDBus> dbus;
-#endif
-
-#if defined(HAVE_RPC)
+#if defined(HAVE_GRPC)
   // Declared last so it is destroyed first: it holds references into
   // breaks_control/configurator and must stop serving before those are torn
   // down.
   std::unique_ptr<RpcCoreServer> rpc_server;
 #endif
-#if defined(HAVE_RPC_DBUS)
+#if defined(HAVE_CORE_NEXT_DBUS)
   // Declared last so signal forwarding and DBus object registrations stop
   // before the Core/Break/Configurator instances they reference disappear.
   std::unique_ptr<RpcDBusServer> rpc_dbus_server;

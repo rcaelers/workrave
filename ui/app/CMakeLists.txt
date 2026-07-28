@@ -91,12 +91,7 @@ if (PLATFORM_OS_MACOS)
   target_include_directories(workrave-app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
 
-if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
-  dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-gui.xml ${CMAKE_CURRENT_BINARY_DIR} DBusGUI)
-  target_sources(workrave-app PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc GenericDBusApplet.cc)
-endif()
-
-if (HAVE_RPC_DBUS)
+if (HAVE_DBUS)
   rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/Menus.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusControlBinding
     TARGET workrave-app
     PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
@@ -118,7 +113,7 @@ if (HAVE_RPC_DBUS)
   endif()
 endif()
 
-if (HAVE_DBUS OR HAVE_RPC_DBUS)
+if (HAVE_DBUS)
   dbus_add_activation_service(${CMAKE_CURRENT_SOURCE_DIR}/org.workrave.Workrave.service.in ${BINDIR})
 endif()
 
@@ -145,13 +140,9 @@ target_link_libraries(workrave-app
   workrave-libs-ui-prefwidgets
   workrave-libs-commonui)
 
-if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
-  target_link_libraries(workrave-app PRIVATE workrave-libs-dbus)
-endif()
-
 if (HAVE_CORE_NEXT)
   target_link_libraries(workrave-app PRIVATE workrave-libs-core-next)
-  if (HAVE_RPC)
+  if (HAVE_GRPC)
     # Core::init_rpc() (compiled into workrave-libs-core-next) references
     # RpcCoreServer's constructor, which is only defined here — see
     # libs/corenext/src/RpcCoreServer.hh for why that link edge can't be
@@ -219,7 +210,7 @@ endif()
 
 if (HAVE_CORE_NEXT)
   target_link_libraries(workrave PRIVATE workrave-libs-core-next)
-  if (HAVE_RPC)
+  if (HAVE_GRPC)
     target_link_libraries(workrave PRIVATE workrave-libs-core-next-rpc)
   endif()
 else()

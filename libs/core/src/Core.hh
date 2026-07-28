@@ -29,6 +29,7 @@
 #endif
 
 #include <iostream>
+#include <memory>
 #include <string>
 #include <map>
 
@@ -43,7 +44,6 @@
 #include "CoreHooks.hh"
 #include "LocalActivityMonitor.hh"
 
-#include "dbus/IDBus.hh"
 
 using namespace workrave;
 
@@ -51,7 +51,12 @@ class Statistics;
 class FakeActivityMonitor;
 class IdleLogManager;
 class BreakControl;
+#if defined(HAVE_CORE_DBUS)
+class LegacyRpcDBusServer;
+#endif
 
+// @rpc(service="workrave.CoreService")
+// @rpc.dbus(interface="org.workrave.CoreInterface")
 class Core
   : public ICore
   , public workrave::config::IConfiguratorListener
@@ -67,7 +72,9 @@ public:
 #endif
 
   // ICore
+  // @rpc.signal(name="OperationModeChanged")
   boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() override;
+  // @rpc.signal(name="UsageModeChanged")
   boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed() override;
 
   Timer *get_timer(std::string name) const;
@@ -75,12 +82,15 @@ public:
   Break *get_break(BreakId id) override;
   Break *get_break(std::string name) override;
   IActivityMonitor::Ptr get_activity_monitor() const;
+  // @rpc(name="IsActive")
   bool is_user_active() const override;
+  // @rpc(name="IsTaking")
   bool is_taking() const override;
   std::string get_break_stage(BreakId id);
 
   Statistics *get_statistics() const override;
   void set_core_events_listener(ICoreEventListener *l) override;
+  // @rpc(name="ForceBreak")
   void force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint) override;
   void time_changed() override;
   void set_powersave(bool down) override;
@@ -88,15 +98,22 @@ public:
   int64_t get_time() const override;
   void post_event(CoreEvent event) override;
 
+  // @rpc(name="GetActiveOperationMode")
   OperationMode get_active_operation_mode() override;
+  // @rpc(name="GetOperationMode")
   OperationMode get_regular_operation_mode() override;
+  // @rpc(name="IsOperationModeAnOverride")
   bool is_operation_mode_an_override() override;
+  // @rpc(name="SetOperationMode")
   void set_operation_mode(OperationMode mode) override;
+  // @rpc(name="SetOperationModeFor")
   void set_operation_mode_for(OperationMode mode, std::chrono::minutes duration) override;
   void set_operation_mode_override(OperationMode mode, const std::string &id) override;
   void remove_operation_mode_override(const std::string &id) override;
 
+  // @rpc(name="GetUsageMode")
   UsageMode get_usage_mode() override;
+  // @rpc(name="SetUsageMode")
   void set_usage_mode(UsageMode mode) override;
 
   void set_freeze_all_breaks(bool freeze);
@@ -114,7 +131,7 @@ public:
   ActivityState get_current_monitor_state() const;
   bool is_master() const;
 
-  // DBus functions.
+  // @rpc(name="ReportActivity")
   void report_external_activity(std::string who, bool act);
   void is_timer_running(BreakId id, bool &value);
   void get_timer_elapsed(BreakId id, int *value);
@@ -125,7 +142,6 @@ public:
   void postpone_break(BreakId break_id);
   void skip_break(BreakId break_id);
 
-  std::shared_ptr<workrave::dbus::IDBus> get_dbus() const override;
   ICoreHooks::Ptr get_hooks() const override;
 
 private:
@@ -140,8 +156,10 @@ private:
   void init_breaks();
   void init_monitor(const char *display_name);
   void init_distribution_manager();
-  void init_bus();
   void init_statistics();
+#if defined(HAVE_CORE_DBUS)
+  void init_rpc_dbus();
+#endif
 
   void load_monitor_config();
   void config_changed_notify(const std::string &key) override;
@@ -239,9 +257,6 @@ private:
   //! Current overall monitor state.
   TracedField<ActivityState> monitor_state{"core.monitor_state", ACTIVITY_UNKNOWN};
 
-  //! DBUS bridge
-  std::shared_ptr<workrave::dbus::IDBus> dbus;
-
   //! Hooks to alter the backend behaviour.
   CoreHooks::Ptr hooks;
 
@@ -256,6 +271,12 @@ private:
 
 #if defined(HAVE_TESTS)
   friend class Test;
+#endif
+
+#if defined(HAVE_CORE_DBUS)
+  // Declared last so registrations stop before the Core and Break instances
+  // they reference are destroyed.
+  std::unique_ptr<LegacyRpcDBusServer> rpc_dbus_server;
 #endif
 };
 

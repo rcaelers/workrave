@@ -29,10 +29,6 @@
 
 #include "config/IConfigurator.hh"
 #include "core/IBreak.hh"
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-#  include "BreakDBus.hh"
-#  include "dbus/IDBus.hh"
-#endif
 
 // @rpc(service="workrave.BreakService", keyed_by="workrave::BreakId")
 // @rpc.dbus(interface="org.workrave.BreakInterface")
@@ -47,9 +43,6 @@ public:
         Timer::Ptr timer,
         IActivityMonitor::Ptr activity_monitor,
         Statistics::Ptr statistics,
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-        std::shared_ptr<workrave::dbus::IDBus> dbus,
-#endif
         CoreHooks::Ptr hooks);
 
   // IBreak
@@ -112,9 +105,6 @@ private:
   BreakStateModel::Ptr break_state_model;
   BreakStatistics::Ptr break_statistics;
   BreakConfig::Ptr break_configuration;
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  BreakDBus::Ptr break_dbus;
-#endif
 };
 
 #endif // BREAK_HH

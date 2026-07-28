@@ -55,17 +55,11 @@
 #include "utils/AssetPath.hh"
 #include "utils/Paths.hh"
 
-#include "dbus/DBusFactory.hh"
-#if defined(PLATFORM_OS_WINDOWS_NATIVE)
-#  undef interface
-#endif
-#include "dbus/IDBus.hh"
-#include "dbus/DBusException.hh"
-#if defined(HAVE_DBUS) && !defined(HAVE_CORE_SHADOW)
-#  include "DBusWorkrave.hh"
-#endif
 #if defined(HAVE_TESTS)
 #  include "Test.hh"
+#endif
+#if defined(HAVE_CORE_DBUS)
+#  include "LegacyRpcDBusServer.hh"
 #endif
 
 Core *Core::instance = nullptr;
@@ -109,6 +103,9 @@ Core::Core()
 Core::~Core()
 {
   TRACE_ENTRY();
+#if defined(HAVE_CORE_DBUS)
+  rpc_dbus_server.reset();
+#endif
   save_state();
 
   if (monitor != nullptr)
@@ -137,41 +134,36 @@ Core::init(int argc, char **argv, IApp *app, const char *display_name)
 
   init_breaks();
   init_statistics();
-  init_bus();
-
   load_state();
   load_misc();
+
+#if defined(HAVE_CORE_DBUS)
+#  if defined(HAVE_TESTS)
+  // Unit tests install a monitor hook and must not acquire the real session
+  // bus name for each fresh Core instance.
+  if (!hooks->hook_create_monitor())
+#  endif
+    {
+      init_rpc_dbus();
+    }
+#endif
 }
 
-//! Initializes the communication bus.
+#if defined(HAVE_CORE_DBUS)
 void
-Core::init_bus()
+Core::init_rpc_dbus()
 {
-  TRACE_ENTRY();
   try
     {
-      dbus = workrave::dbus::DBusFactory::create();
-      dbus->init();
-
-#if defined(HAVE_DBUS) && !defined(HAVE_CORE_SHADOW)
-      extern void init_DBusWorkrave(std::shared_ptr<workrave::dbus::IDBus> dbus);
-      init_DBusWorkrave(dbus);
-#endif
-
-      dbus->register_object_path(DBUS_PATH_WORKRAVE);
-      dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.CoreInterface", this);
-      dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.ConfigInterface", configurator.get());
-
-#if defined(HAVE_TESTS)
-      dbus->connect("/org/workrave/Workrave/Debug", "org.workrave.DebugInterface", Test::get_instance());
-      dbus->register_object_path("/org/workrave/Workrave/Debug");
-#endif
+      rpc_dbus_server = std::make_unique<LegacyRpcDBusServer>(*this, *configurator);
+      spdlog::info("Generated DBus bindings initialized for the legacy core");
     }
-  catch (workrave::dbus::DBusException &)
+  catch (const std::exception &error)
     {
-      TRACE_MSG("Ex!");
+      spdlog::warn("Legacy-core RPC DBus server failed to start: {}", error.what());
     }
 }
+#endif
 
 //! Initializes the activity monitor.
 void
@@ -369,12 +361,6 @@ Core::get_hooks() const
   return hooks;
 }
 
-std::shared_ptr<workrave::dbus::IDBus>
-Core::get_dbus() const
-{
-  return dbus;
-}
-
 //! Returns the activity monitor.
 IActivityMonitor::Ptr
 Core::get_activity_monitor() const
@@ -509,13 +495,6 @@ Core::set_operation_mode_internal(OperationMode mode)
       CoreConfig::operation_mode().set(mode);
       operation_mode_changed_signal(operation_mode_regular);
 
-#if defined(HAVE_DBUS) && !defined(HAVE_CORE_SHADOW)
-      org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-      if (iface != nullptr)
-        {
-          iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode_regular);
-        }
-#endif
     }
 }
 
@@ -628,13 +607,6 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
 
       usage_mode_changed_signal(mode);
 
-#if defined(HAVE_DBUS) && !defined(HAVE_CORE_SHADOW)
-      org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-      if (iface != nullptr)
-        {
-          iface->UsageModeChanged("/org/workrave/Workrave/Core", mode);
-        }
-#endif
     }
 }
 

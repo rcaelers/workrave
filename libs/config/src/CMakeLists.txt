@@ -37,7 +37,7 @@ target_include_directories(workrave-libs-config
   ${CMAKE_SOURCE_DIR}/libs/config/include
   ${Boost_INCLUDE_DIR})
 
-if (HAVE_RPC)
+if (HAVE_GRPC)
   rpc_generate_source(${CMAKE_SOURCE_DIR}/libs/config/include/config/IConfigurator.hh ${CMAKE_CURRENT_BINARY_DIR} RpcConfig
     TARGET workrave-libs-config
     PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen

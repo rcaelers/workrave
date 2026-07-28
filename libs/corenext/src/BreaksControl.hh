@@ -30,11 +30,8 @@
 #include "ReadingActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
 
-#if defined(HAVE_RPC)
+#if defined(HAVE_GRPC)
 #  include "rpc/InstanceRegistry.hh"
-#endif
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-#  include "dbus/IDBus.hh"
 #endif
 
 class BreaksControl
@@ -48,9 +45,6 @@ public:
                 IActivityMonitor::Ptr activity_monitor,
                 CoreModes::Ptr modes,
                 Statistics::Ptr statistics,
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-                std::shared_ptr<workrave::dbus::IDBus> dbus,
-#endif
                 CoreHooks::Ptr hooks);
   virtual ~BreaksControl();
 
@@ -64,9 +58,9 @@ public:
 
   void set_insist_policy(workrave::InsistPolicy p);
 
-#if defined(HAVE_RPC)
-  // The gRPC analog of BreakDBus's per-object-path registration: whoever
-  // wires up the actual RpcServer resolves BreakService calls against this
+#if defined(HAVE_GRPC)
+  // The per-object Break service registry: whoever wires up the actual
+  // RpcServer resolves BreakService calls against this
   // registry, keyed by BreakId, exactly like DBus routes a call to one of
   // the three /org/workrave/Workrave/Break/<name> objects.
   rpc::InstanceRegistry<workrave::BreakId, Break> &get_break_registry()
@@ -97,15 +91,12 @@ private:
 
   CoreModes::Ptr modes;
   Statistics::Ptr statistics;
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  std::shared_ptr<workrave::dbus::IDBus> dbus;
-#endif
   CoreHooks::Ptr hooks;
 
   Break::Ptr breaks[workrave::BREAK_ID_SIZEOF];
   Timer::Ptr timers[workrave::BREAK_ID_SIZEOF];
 
-#if defined(HAVE_RPC)
+#if defined(HAVE_GRPC)
   rpc::InstanceRegistry<workrave::BreakId, Break> break_registry;
 #endif
 

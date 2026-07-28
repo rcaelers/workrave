@@ -1,8 +1,7 @@
-# Shared D-Bus activation-file support. This module deliberately has no
-# dependency on the legacy libs/dbus runtime or Python generator.
+# D-Bus activation-file support for the generated RPC bindings.
 
 macro(dbus_add_activation_service SOURCE BINDIR)
-  if (HAVE_DBUS OR HAVE_RPC_DBUS)
+  if (HAVE_DBUS)
     get_filename_component(_service_name ${SOURCE} NAME)
     string(REGEX REPLACE "\\.service.*$" ".service" _output_file ${_service_name})
     set(_target ${CMAKE_CURRENT_BINARY_DIR}/${_output_file})

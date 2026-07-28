@@ -26,7 +26,7 @@ if (HAVE_TESTS)
   endif()
 
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-core-next)
-  if (HAVE_RPC)
+  if (HAVE_GRPC)
     # This test constructs a real Core (see IntegrationTests.cc), which pulls
     # in Core.o and therefore Core::init_rpc()'s reference to RpcCoreServer —
     # see libs/corenext/src/RpcCoreServer.hh for why that symbol lives in a
@@ -36,9 +36,6 @@ if (HAVE_TESTS)
   endif()
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-config)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-utils)
-  if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
-    target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-dbus-stub)
-  endif()
   target_link_libraries(workrave-core-next-integration-test PRIVATE Boost::unit_test_framework)
   target_link_libraries(workrave-core-next-integration-test PRIVATE ${EXTRA_LIBRARIES})
 
@@ -64,7 +61,7 @@ if (HAVE_TESTS)
   workrave_add_test(workrave-core-next-integration-test)
   workrave_add_test(workrave-core-next-timer-test)
 
-  if (HAVE_RPC)
+  if (HAVE_GRPC)
     # Including all three production-generated headers in one translation
     # unit also proves their service-prefixed protobuf types do not collide.
     add_executable(workrave-core-next-rpc-service-names-test RpcServiceNamesTest.cc)

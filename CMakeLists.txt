@@ -405,46 +405,21 @@ find_package(Python3 COMPONENTS Interpreter)
 #----------------------------------------------------------------------------------------------------
 # DBus
 
-option(WITH_DBUS "Enable D-Bus (generated bindings for CoreNext; legacy bindings for the legacy core)" ON)
-option(WITH_RPC_DBUS "Enable clang-generated D-Bus independently of WITH_DBUS and gRPC" OFF)
+option(WITH_DBUS "Enable D-Bus using the generated libs/rpc backend" ON)
 
-# WITH_DBUS is the long-standing user-facing switch. CoreNext now always uses
-# the standalone libs/rpc implementation; only the old core retains the
-# Python-generated libs/dbus compatibility path.
-set(WITH_LEGACY_DBUS OFF)
+# D-Bus is implemented exclusively by libs/rpc. Bindings are generated for
+# whichever core the selected UI uses.
 if (WITH_DBUS)
-  if (HAVE_CORE_NEXT)
-    set(WITH_RPC_DBUS ON)
-    message(STATUS "D-Bus: using clang-generated libs/rpc bindings for CoreNext")
-  else()
-    set(WITH_LEGACY_DBUS ON)
-    message(STATUS "D-Bus: using legacy libs/dbus bindings for the legacy core")
-  endif()
-endif()
-
-if (WITH_LEGACY_DBUS)
-  set(HAVE_JINJA2 OFF)
-  message(STATUS "Checking for: Jinja2")
-  if (Python3_FOUND)
-    find_python_module(jinja2)
-  endif()
-  if (PY_JINJA2)
-     set(HAVE_JINJA2 ON)
-  endif()
-endif()
-
-if (WITH_LEGACY_DBUS)
-  include(DBus)
-elseif (WITH_RPC_DBUS)
+  message(STATUS "D-Bus: using annotation-generated libs/rpc bindings")
   include(DBusActivation)
 endif()
 
 #----------------------------------------------------------------------------------------------------
 # RPC (gRPC, via libs/rpc's annotation-driven codegen)
 
-option(WITH_RPC_GRPC "Enable gRPC-based remoting" OFF)
+option(WITH_GRPC "Enable gRPC-based remoting" OFF)
 
-if (WITH_RPC_GRPC)
+if (WITH_GRPC)
   # Upstream Protobuf installations (including vcpkg) provide a package
   # configuration, while Debian/Ubuntu commonly provide only the libraries,
   # protoc, and CMake's built-in FindProtobuf module. Both discovery modes
@@ -456,13 +431,10 @@ if (WITH_RPC_GRPC)
   endif()
 
   find_package(gRPC CONFIG REQUIRED)
-  set(HAVE_RPC ON)
+  set(HAVE_GRPC ON)
 endif()
 
-if (WITH_RPC_DBUS)
-  if (NOT HAVE_CORE_NEXT)
-    message(FATAL_ERROR "The clang-generated DBus bindings require CoreNext")
-  endif()
+if (WITH_DBUS)
   if (WITH_UI_QT)
     set(RPC_DBUS_BACKEND "qt")
   elseif (WITH_UI_GTK)
@@ -470,10 +442,15 @@ if (WITH_RPC_DBUS)
   else()
     message(FATAL_ERROR "Unable to select the generated DBus backend for WITH_UI=${WITH_UI}")
   endif()
-  set(HAVE_RPC_DBUS ON)
+  set(HAVE_DBUS ON)
+  if (HAVE_CORE_NEXT)
+    set(HAVE_CORE_NEXT_DBUS ON)
+  else()
+    set(HAVE_CORE_DBUS ON)
+  endif()
 endif()
 
-if (WITH_RPC_GRPC OR WITH_RPC_DBUS)
+if (WITH_GRPC OR WITH_DBUS)
   include(Rpc)
 endif()
 
@@ -539,12 +516,8 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   set (HAVE_GTK ON)
   set (HAVE_APP_GTK ON)
 
-  if (WITH_DBUS OR HAVE_RPC_DBUS)
-    if (WITH_LEGACY_DBUS)
-      set (HAVE_DBUS ON)
-    endif()
+  if (HAVE_DBUS)
     set (HAVE_DBUS_GIO ON)
-    set (DBUS_BACKEND "gio")
   endif()
 
   find_package(GSettings)
@@ -614,19 +587,15 @@ if ("${WITH_UI}" STREQUAL "Qt")
   execute_process(COMMAND ${QT_QTPATHS_EXECUTABLE} --plugin-dir OUTPUT_VARIABLE QT_PLUGINS_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
   message(STATUS "QT Plugin path: " ${QT_PLUGINS_DIR})
 
-  if (WITH_DBUS OR HAVE_RPC_DBUS)
+  if (HAVE_DBUS)
     find_package(Qt6DBus QUIET)
   endif()
 
   if (Qt6DBus_FOUND)
-    if (WITH_LEGACY_DBUS)
-      set (HAVE_DBUS ON)
-    endif()
-    if (WITH_DBUS OR HAVE_RPC_DBUS)
+    if (HAVE_DBUS)
       set (HAVE_DBUS_QT ON)
-      set (DBUS_BACKEND "qt")
     endif()
-  elseif (HAVE_RPC_DBUS)
+  elseif (HAVE_DBUS)
     message(FATAL_ERROR "The clang-generated DBus bindings require Qt6DBus")
   endif()
 
@@ -1412,12 +1381,8 @@ feature_bool("GStreamer" HAVE_GSTREAMER)
 feature_bool("Pulseaudio" HAVE_PULSE)
 feature_bool("Wayland" HAVE_WAYLAND)
 endif()
-set(HAVE_ANY_DBUS OFF)
-if (HAVE_DBUS OR HAVE_RPC_DBUS)
-  set(HAVE_ANY_DBUS ON)
-endif()
-feature_bool("DBUS" HAVE_ANY_DBUS)
-feature_bool("gRPC" HAVE_RPC)
+feature_bool("DBUS" HAVE_DBUS)
+feature_bool("gRPC" HAVE_GRPC)
 if(PLATFORM_OS_WINDOWS)
 feature_bool("Crash reporting" HAVE_CRASHPAD)
 feature_bool("Auto update" HAVE_UNFOLD_AUTO_UPDATE)

@@ -9,7 +9,7 @@ class Menus;
 class GenericDBusApplet;
 
 // Owns the generated application-level DBus endpoints. Core, Break, and
-// Config endpoints are owned separately by RpcDBusServer in CoreNext.
+// Config endpoints are owned by the selected core's generated server.
 class RpcDBusApplicationServer
 {
 public:

@@ -139,9 +139,6 @@ namespace workrave::core_shadow
     void set_insist_policy(InsistPolicy p) override;
     void force_idle() override;
     [[nodiscard]] ICoreHooks::Ptr get_hooks() const override;
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-    [[nodiscard]] std::shared_ptr<workrave::dbus::IDBus> get_dbus() const override;
-#endif
     [[nodiscard]] std::string get_shadow_debug_state_html() const override;
 
     void mirror_break_command(const std::string &command, workrave::BreakId id);

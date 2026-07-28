@@ -29,13 +29,6 @@
 #include "core/ICoreHooks.hh"
 #include "core/IStatistics.hh"
 
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-namespace workrave::dbus
-{
-  class IDBus;
-}
-#endif
-
 namespace workrave
 {
   class IApp;
@@ -110,10 +103,6 @@ namespace workrave
     //! Return the hooks
     [[nodiscard]] virtual ICoreHooks::Ptr get_hooks() const = 0;
 
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-    //! Return the legacy DBus remoting interface.
-    [[nodiscard]] virtual std::shared_ptr<workrave::dbus::IDBus> get_dbus() const = 0;
-#endif
   };
 
   class CoreFactory

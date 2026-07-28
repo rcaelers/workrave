@@ -1571,7 +1571,6 @@ BOOST_AUTO_TEST_CASE(test_core_services_and_force_idle)
   init();
 
   BOOST_CHECK(core->get_statistics() != nullptr);
-  BOOST_CHECK(core->get_dbus() != nullptr);
   BOOST_CHECK(!core->is_user_active());
 
   tick(true, 1);

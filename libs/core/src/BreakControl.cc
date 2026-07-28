@@ -35,11 +35,6 @@
 #include "Timer.hh"
 #include "Statistics.hh"
 
-#if defined(HAVE_DBUS) && !defined(HAVE_CORE_SHADOW)
-#  include "dbus/IDBus.hh"
-#  include "DBusWorkrave.hh"
-#endif
-
 using namespace std;
 
 //! Construct a new Break Controller.
@@ -191,7 +186,6 @@ BreakControl::goto_stage(BreakStage stage)
 {
   TRACE_ENTRY_PAR(break_id, stage);
 
-  send_signal(stage);
 
   switch (stage)
     {
@@ -569,7 +563,6 @@ BreakControl::postpone_break()
       // and stop the break.
       stop_break();
 
-      send_postponed();
     }
 }
 
@@ -605,7 +598,6 @@ BreakControl::skip_break()
       // and stop the break.
       stop_break();
 
-      send_skipped();
     }
 }
 
@@ -711,34 +703,6 @@ BreakControl::post_event(CoreEvent event)
     }
 }
 
-void
-BreakControl::send_postponed()
-{
-#if defined(HAVE_DBUS) && !defined(HAVE_CORE_SHADOW)
-  std::shared_ptr<workrave::dbus::IDBus> dbus = core->get_dbus();
-  org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-
-  if (iface != nullptr)
-    {
-      iface->BreakPostponed("/org/workrave/Workrave/Core", break_id);
-    }
-#endif
-}
-
-void
-BreakControl::send_skipped()
-{
-#if defined(HAVE_DBUS) && !defined(HAVE_CORE_SHADOW)
-  std::shared_ptr<workrave::dbus::IDBus> dbus = core->get_dbus();
-  org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-
-  if (iface != nullptr)
-    {
-      iface->BreakSkipped("/org/workrave/Workrave/Core", break_id);
-    }
-#endif
-}
-
 std::string
 BreakControl::get_current_stage()
 {
@@ -772,44 +736,6 @@ BreakControl::get_stage_text(BreakStage stage)
       break;
     }
   return progress;
-}
-
-//! Send DBus signal when break stage changes.
-void
-BreakControl::send_signal(BreakStage stage)
-{
-  (void)stage;
-
-#if defined(HAVE_DBUS) && !defined(HAVE_CORE_SHADOW)
-  std::string progress = get_stage_text(stage);
-
-  if (progress != "")
-    {
-      std::shared_ptr<workrave::dbus::IDBus> dbus = core->get_dbus();
-      org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-
-      if (iface != nullptr)
-        {
-          switch (break_id)
-            {
-            case BREAK_ID_MICRO_BREAK:
-              iface->MicrobreakChanged("/org/workrave/Workrave/Core", progress);
-              break;
-
-            case BREAK_ID_REST_BREAK:
-              iface->RestbreakChanged("/org/workrave/Workrave/Core", progress);
-              break;
-
-            case BREAK_ID_DAILY_LIMIT:
-              iface->DailylimitChanged("/org/workrave/Workrave/Core", progress);
-              break;
-
-            default:
-              break;
-            }
-        }
-    }
-#endif
 }
 
 boost::signals2::signal<void(BreakEvent)> &

@@ -4,8 +4,6 @@
 /org.workrave.Workrave.service
 /DBusGnomeApplet.cc
 /DBusGnomeApplet.hh
-/DBusGUI.cc
-/DBusGUI.hh
 /resource.rc
 /workrave.sym
 /org.workrave.gui.gschema.xml.in

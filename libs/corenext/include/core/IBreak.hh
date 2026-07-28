@@ -28,7 +28,7 @@ namespace workrave
 {
   // @rpc.enum(name="break_event")
   // Canonical names below are snake_case, matching
-  // libs/corenext/src/workrave-service.xml's <enum name="break_event">
+  // Keep numeric values stable: they are part of the public RPC/D-Bus API.
   // wire values — deliberately not the same as enum_traits<BreakEvent>::names
   // below, which is PascalCase and serves debug/logging output, not the
   // DBus wire format.

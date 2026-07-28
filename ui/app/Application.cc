@@ -27,7 +27,7 @@
 
 #include "Application.hh"
 
-#if defined(HAVE_RPC_DBUS)
+#if defined(HAVE_DBUS)
 #  include "GenericDBusApplet.hh"
 #  include "RpcDBusApplicationServer.hh"
 #endif
@@ -35,9 +35,6 @@
 #include "commonui/nls.h"
 #include "core/IBreak.hh"
 #include "core/ICore.hh"
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-#  include "dbus/IDBus.hh"
-#endif
 #include "debug.hh"
 #include "Menus.hh"
 #include "session/System.hh"
@@ -56,10 +53,6 @@
 #if defined(HAVE_CORE_SHADOW)
 #  include "core-shadow/CoreShadow.hh"
 #endif
-
-// #if defined(HAVE_DBUS)
-// #  include "GenericDBusApplet.hh"
-// #endif
 
 using namespace workrave;
 
@@ -179,17 +172,23 @@ Application::main()
 
   PluginRegistry::instance().build(context);
 
-#if defined(HAVE_RPC_DBUS)
-  if (auto applet = PluginRegistry::instance().create<GenericDBusApplet>(context); applet)
+#if defined(HAVE_DBUS)
+  if (rpc_dbus_server != nullptr)
     {
-      rpc_dbus_server->register_applet(*applet);
+      if (auto applet = PluginRegistry::instance().create<GenericDBusApplet>(context); applet)
+        {
+          rpc_dbus_server->register_applet(*applet);
+        }
     }
 #endif
 
   toolkit->run();
 
-#if defined(HAVE_RPC_DBUS)
-  rpc_dbus_server->unregister_applet();
+#if defined(HAVE_DBUS)
+  if (rpc_dbus_server != nullptr)
+    {
+      rpc_dbus_server->unregister_applet();
+    }
 #endif
   PluginRegistry::instance().deinit();
 
@@ -339,7 +338,7 @@ Application::init_core()
 void
 Application::init_dbus()
 {
-#if defined(HAVE_RPC_DBUS)
+#if defined(HAVE_DBUS)
   try
     {
       rpc_dbus_server = std::make_unique<RpcDBusApplicationServer>(*menus);
@@ -348,44 +347,6 @@ Application::init_dbus()
   catch (const std::exception &error)
     {
       spdlog::warn("Unable to register RPC DBus application interfaces: {}", error.what());
-    }
-#elif defined(HAVE_DBUS)
-  auto dbus = get_core()->get_dbus();
-
-  if (dbus->is_available())
-    {
-      if (dbus->is_running("org.workrave.Workrave"))
-        {
-          // TODO:
-          // Gtk::MessageDialog dialog(_("Workrave failed to start"), false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
-          // dialog.set_secondary_text(_("Is Workrave already running?"));
-          // dialog.show();
-          // dialog.run();
-#if !defined(HAVE_APP_QT)
-          exit(1);
-#endif
-        }
-
-      try
-        {
-#if defined(HAVE_DBUS) || defined(HAVE_RPC_DBUS)
-          dbus->register_service("org.workrave.Workrave");
-#endif
-          dbus->register_object_path("/org/workrave/Workrave/UI");
-          dbus->connect("/org/workrave/Workrave/UI", "org.workrave.ControlInterface", menus.get());
-        }
-      catch (workrave::dbus::DBusException &)
-        {
-        }
-    }
-
-  try
-    {
-      extern void init_DBusGUI(std::shared_ptr<workrave::dbus::IDBus> dbus);
-      init_DBusGUI(dbus);
-    }
-  catch (workrave::dbus::DBusException &)
-    {
     }
 #endif
 }

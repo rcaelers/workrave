@@ -22,6 +22,7 @@
 #include "config/IConfigurator.hh"
 #include "config/IConfiguratorListener.hh"
 #include "core/IBreak.hh"
+#include "BreakControl.hh"
 #include "Timer.hh"
 
 using namespace workrave;
@@ -33,8 +34,8 @@ namespace workrave
   class IBreak;
 } // namespace workrave
 
-class BreakControl;
-
+// @rpc(service="workrave.BreakService", keyed_by="workrave::BreakId")
+// @rpc.dbus(interface="org.workrave.BreakInterface")
 class Break
   : public IBreak
   , public workrave::config::IConfiguratorListener
@@ -77,6 +78,11 @@ public:
   static std::string get_name(BreakId id);
 
   std::string expand(const std::string &str);
+  // @rpc.signal(name="BreakEvent")
+  boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event() override;
+  // @rpc.signal(name="BreakStateChanged")
+  boost::signals2::signal<void(BreakStage)> &signal_break_stage_changed();
+  // @rpc(name="GetName")
   std::string get_name() const override;
   BreakId get_id() const override;
 
@@ -84,17 +90,31 @@ public:
   BreakControl *get_break_control();
 
   // IBreak
+  // @rpc(name="IsEnabled")
   bool is_enabled() const override;
+  // @rpc(name="IsTimerRunning")
   bool is_running() const override;
+  // @rpc(name="GetTimerElapsed")
+  // @rpc.dbus(return_type="int32")
   int64_t get_elapsed_time() const override;
+  // @rpc(name="GetTimerIdle")
+  // @rpc.dbus(return_type="int32")
   int64_t get_elapsed_idle_time() const override;
+  // @rpc(name="GetAutoReset")
   int64_t get_auto_reset() const override;
+  // @rpc(name="IsAutoResetEnabled")
   bool is_auto_reset_enabled() const override;
+  // @rpc(name="GetLimit")
   int64_t get_limit() const override;
+  // @rpc(name="IsLimitEnabled")
   bool is_limit_enabled() const override;
+  // @rpc(name="IsTaking")
   bool is_taking() const override;
+  // @rpc(name="IsMaxPreludesReached")
   bool is_max_preludes_reached() const override;
+  // @rpc(name="PostponeBreak")
   void postpone_break() override;
+  // @rpc(name="SkipBreak")
   void skip_break() override;
 
   void set_usage_mode(UsageMode mode);
@@ -103,9 +123,16 @@ public:
 
   void override(BreakId id);
 
-  boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event() override;
+  // @rpc(name="IsActive")
   bool is_active() const override;
+  // @rpc(name="GetTimerRemaining")
+  // @rpc.dbus(return_type="int32")
+  int64_t get_timer_remaining() const;
+  // @rpc(name="GetTimerOverdue")
+  // @rpc.dbus(return_type="int32")
   int64_t get_total_overdue_time() const override;
+  // @rpc(name="GetBreakState")
+  std::string get_break_stage() const;
 
 private:
   void config_changed_notify(const std::string &key) override;

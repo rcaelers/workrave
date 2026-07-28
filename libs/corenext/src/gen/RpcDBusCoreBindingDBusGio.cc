@@ -444,15 +444,19 @@ org_workrave_CoreInterface::dispatch_ForceBreak(GVariant *parameters, GDBusMetho
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
 
 
 
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -473,13 +477,17 @@ org_workrave_CoreInterface::dispatch_IsActive(GVariant *parameters, GDBusMethodI
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
   reply_values.push_back(::workrave::rpc::dbus::GioCodec<bool>::encode(p_result));
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -500,13 +508,17 @@ org_workrave_CoreInterface::dispatch_IsTaking(GVariant *parameters, GDBusMethodI
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
   reply_values.push_back(::workrave::rpc::dbus::GioCodec<bool>::encode(p_result));
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -527,13 +539,17 @@ org_workrave_CoreInterface::dispatch_GetActiveOperationMode(GVariant *parameters
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
   reply_values.push_back(::workrave::rpc::dbus::GioCodec<workrave::OperationMode>::encode(p_result));
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -554,13 +570,17 @@ org_workrave_CoreInterface::dispatch_GetOperationMode(GVariant *parameters, GDBu
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
   reply_values.push_back(::workrave::rpc::dbus::GioCodec<workrave::OperationMode>::encode(p_result));
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -581,13 +601,17 @@ org_workrave_CoreInterface::dispatch_IsOperationModeAnOverride(GVariant *paramet
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
   reply_values.push_back(::workrave::rpc::dbus::GioCodec<bool>::encode(p_result));
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -612,13 +636,17 @@ org_workrave_CoreInterface::dispatch_SetOperationMode(GVariant *parameters, GDBu
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
 
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -648,15 +676,19 @@ org_workrave_CoreInterface::dispatch_SetOperationModeFor(GVariant *parameters, G
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
 
 
 
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -677,13 +709,17 @@ org_workrave_CoreInterface::dispatch_GetUsageMode(GVariant *parameters, GDBusMet
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
   reply_values.push_back(::workrave::rpc::dbus::GioCodec<workrave::UsageMode>::encode(p_result));
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -708,13 +744,17 @@ org_workrave_CoreInterface::dispatch_SetUsageMode(GVariant *parameters, GDBusMet
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
 
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -744,15 +784,19 @@ org_workrave_CoreInterface::dispatch_ReportActivity(GVariant *parameters, GDBusM
 
 
   std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
 
 
 
 
 
 
-  g_dbus_method_invocation_return_value(
-    invocation,
-    g_variant_new_tuple(reply_values.empty() ? nullptr : reply_values.data(), reply_values.size()));
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
 }
 
 
@@ -760,20 +804,24 @@ void
 org_workrave_CoreInterface::emit_OperationModeChanged(workrave::OperationMode value)
 {
   std::vector<GVariant *> values;
+  ::workrave::rpc::dbus::GioUnixFdList fd_list;
 
   values.push_back(::workrave::rpc::dbus::GioCodec<workrave::OperationMode>::encode(value));
 
   server_.emit_signal(path_, "org.workrave.CoreInterface", "OperationModeChanged",
-                      g_variant_new_tuple(values.empty() ? nullptr : values.data(), values.size()));
+                      g_variant_new_tuple(values.empty() ? nullptr : values.data(), values.size()),
+                      fd_list.get());
 }
 void
 org_workrave_CoreInterface::emit_UsageModeChanged(workrave::UsageMode value)
 {
   std::vector<GVariant *> values;
+  ::workrave::rpc::dbus::GioUnixFdList fd_list;
 
   values.push_back(::workrave::rpc::dbus::GioCodec<workrave::UsageMode>::encode(value));
 
   server_.emit_signal(path_, "org.workrave.CoreInterface", "UsageModeChanged",
-                      g_variant_new_tuple(values.empty() ? nullptr : values.data(), values.size()));
+                      g_variant_new_tuple(values.empty() ? nullptr : values.data(), values.size()),
+                      fd_list.get());
 }
 } // namespace workrave::core::rpc

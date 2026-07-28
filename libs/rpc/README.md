@@ -1,7 +1,7 @@
 # Controlling Workrave over gRPC
 
 Workrave exposes its core state — operation mode, breaks, configuration —
-over gRPC whenever it's built with `-DWITH_RPC_GRPC=ON`. This is a guide for
+over gRPC whenever it's built with `-DWITH_GRPC=ON`. This is a guide for
 *using* that interface (e.g. with `grpcurl`), not for the code generator
 that produces it — see [`tool/README.md`](tool/README.md) for that, and
 [`../corenext/src/RpcCoreServer.hh`](../corenext/src/RpcCoreServer.hh) for
@@ -9,18 +9,15 @@ how the server itself is wired into the running app.
 
 ## DBus implementation selection
 
-`WITH_DBUS` enables the established DBus feature set. CoreNext builds use the
-Clang-generated implementation automatically; `WITH_RPC_GRPC` no longer
-affects that choice. `WITH_RPC_DBUS` remains an explicit way to enable the
-same generated D-Bus surface independently of the compatibility option and
-gRPC. The Python/Jinja implementation is selected only with the legacy core.
+`WITH_DBUS` enables the generated D-Bus feature set for the selected core.
+It does not change the core selection, and `WITH_GRPC` does not affect that
+choice.
 
 | Build options | DBus implementation |
 |---|---|
-| `WITH_DBUS=ON`, CoreNext | Clang/Rust generator, with checked-in fallback |
-| `WITH_DBUS=ON`, legacy core | Isolated legacy Python/Jinja compatibility implementation |
-| `WITH_DBUS=OFF`, `WITH_RPC_DBUS=ON`, CoreNext | Clang/Rust D-Bus, independently of gRPC |
-| `WITH_DBUS=OFF`, `WITH_RPC_DBUS=OFF` | No DBus API |
+| `WITH_DBUS=ON`, GTK default core | Direct `libs/core` bindings over GIO, with checked-in fallback |
+| `WITH_DBUS=ON`, CoreNext | Direct CoreNext bindings over QtDBus or GIO, with checked-in fallback |
+| `WITH_DBUS=OFF` | No DBus API |
 
 Only one Core/Break/Config implementation and one application Control/Applet
 implementation are present in a build. They use the established
@@ -32,16 +29,14 @@ existing C++ APIs directly.
 The normal generated configuration without gRPC is simply:
 
 ```bash
-cmake -DWITH_RPC_GRPC=OFF -DWITH_DBUS=ON ...
+cmake -DWITH_GRPC=OFF -DWITH_DBUS=ON ...
 ```
 
-The Clang-generated implementation currently requires CoreNext. Its standalone
-QtDBus/GDBus runtime and remaining migration plan are described in
-[`DBUS_DESIGN.md`](DBUS_DESIGN.md). Generated bindings do not use `libs/dbus`:
+The standalone QtDBus/GDBus runtime and architecture are described in
+[`DBUS_DESIGN.md`](DBUS_DESIGN.md). The former `libs/dbus` library and its
+Python/Jinja generator have been removed:
 Qt builds select QtDBus and GTK builds select GDBus automatically. Both native
 outputs are checked in so `RPC_CODEGEN=AUTO` also works without Rust/libclang.
-A normal generated CoreNext application does not add or link the legacy
-`workrave-libs-dbus` target; legacy builds continue to use it unchanged.
 
 ## Transport
 

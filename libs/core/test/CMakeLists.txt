@@ -27,7 +27,6 @@ if (HAVE_TESTS)
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-core)
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-config)
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-utils)
-  target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-dbus-stub)
   target_link_libraries(workrave-core-integration-test PRIVATE Boost::unit_test_framework)
   target_link_libraries(workrave-core-integration-test PRIVATE ${EXTRA_LIBRARIES})
 

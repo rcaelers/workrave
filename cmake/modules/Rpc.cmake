@@ -153,11 +153,11 @@ endfunction()
 # libs/rpc/tool/src/dbus_gen.rs) alongside the gRPC output — HEADER's
 # interface must carry @rpc.dbus(interface="..."). No-op unless either DBus
 # implementation is enabled. The UI toolkit selects the standalone QtDBus or
-# GDBus runtime in libs/rpc; generated code never includes libs/dbus.
+# GDBus runtime in libs/rpc.
 # Deliberately just generates the files: the caller decides which target owns
 # and links them. Use rpc_generate_dbus_source() when no gRPC output is needed.
 macro(rpc_generate_source HEADER DIRECTORY NAME)
-  if (HAVE_RPC)
+  if (HAVE_GRPC)
     cmake_parse_arguments(_rpc "DBUS" "TARGET;PROTO_TYPES_PACKAGE;GRPC_SERVICES_NAMESPACE;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS;PREGENERATED_DIR" "" ${ARGN})
 
     if (NOT _rpc_TARGET)
@@ -208,7 +208,7 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
 
     set(_rpc_dbus_args "")
     set(_rpc_dbus_outputs "")
-    if (_rpc_DBUS AND (HAVE_DBUS OR HAVE_RPC_DBUS))
+    if (_rpc_DBUS AND HAVE_DBUS)
       set(_rpc_dbus_hh ${DIRECTORY}/${NAME}DBus.hh)
       set(_rpc_dbus_cc ${DIRECTORY}/${NAME}DBus.cc)
       set(_rpc_dbus_args
@@ -337,7 +337,7 @@ endmacro()
 # model in one invocation, so the three gRPC text artifacts are generated as
 # unused implementation details.
 macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
-  if (HAVE_RPC_DBUS)
+  if (HAVE_DBUS)
     cmake_parse_arguments(_rpc_dbus "" "TARGET;HEADER_INCLUDE;ADAPTER_NAMESPACE;ANNOTATIONS;PREGENERATED_DIR" "" ${ARGN})
 
     if (NOT _rpc_dbus_TARGET)

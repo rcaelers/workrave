@@ -189,10 +189,6 @@ target_link_libraries(workrave-toolkit-qt PRIVATE
   ${X11_Xss_LIB}
   fmt::fmt)
 
-if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
-  target_link_libraries(workrave-toolkit-qt PRIVATE workrave-libs-dbus)
-endif()
-
 if (HAVE_UNFOLD_AUTO_UPDATE)
   target_link_libraries(workrave-toolkit-qt PRIVATE workrave-libs-updater)
 endif()

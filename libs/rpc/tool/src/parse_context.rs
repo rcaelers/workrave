@@ -114,7 +114,7 @@ mod tests {
         let path = dir.path().join("parse-context.txt");
         std::fs::write(
             &path,
-            "standard=gnu++20\ninclude=/project/include\ndefine=HAVE_RPC=1\n\
+            "standard=gnu++20\ninclude=/project/include\ndefine=HAVE_GRPC=1\n\
              forced-include=config.h\nsysroot=/sdk\ntarget=aarch64-linux-gnu\n",
         )
         .unwrap();
@@ -124,7 +124,7 @@ mod tests {
             vec![
                 "-std=gnu++20",
                 "-I/project/include",
-                "-DHAVE_RPC=1",
+                "-DHAVE_GRPC=1",
                 "-include",
                 "config.h",
                 "-isysroot",

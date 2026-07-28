@@ -27,21 +27,7 @@
 #include "ui/GUIConfig.hh"
 #include "commonui/Text.hh"
 
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-#  include "dbus/IDBus.hh"
-#  include "dbus/DBusException.hh"
-#  include "DBusGUI.hh"
-#endif
-
 using namespace workrave;
-
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-namespace
-{
-  constexpr const char *WORKRAVE_APPLET_SERVICE_IFACE = "org.workrave.AppletInterface";
-  constexpr const char *WORKRAVE_APPLET_SERVICE_OBJ = "/org/workrave/Workrave/UI";
-} // namespace
-#endif
 
 GenericDBusApplet::GenericDBusApplet(std::shared_ptr<IPluginContext> context)
   : context(context)
@@ -98,7 +84,7 @@ GenericDBusApplet::signal_tray_icon_updated()
   return tray_icon_updated_signal;
 }
 
-#if defined(HAVE_RPC_DBUS)
+#if defined(HAVE_DBUS)
 void
 GenericDBusApplet::set_name_watcher(NameWatcher watcher)
 {
@@ -152,48 +138,16 @@ void
 GenericDBusApplet::update_view()
 {
   TRACE_ENTRY();
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-  assert(iface != nullptr);
-  iface->TimersUpdated(WORKRAVE_APPLET_SERVICE_OBJ,
-                       data[BREAK_ID_MICRO_BREAK],
-                       data[BREAK_ID_REST_BREAK],
-                       data[BREAK_ID_DAILY_LIMIT]);
-#else
   timers_updated_signal(data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
-#endif
 }
 
 void
 GenericDBusApplet::init()
 {
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  try
-    {
-      dbus = context->get_core()->get_dbus();
-      if (dbus->is_available())
-        {
-          dbus->connect(WORKRAVE_APPLET_SERVICE_OBJ, WORKRAVE_APPLET_SERVICE_IFACE, this);
-
-          workrave::utils::connect(menu_model->signal_update(), this, [this]() { send_menu_updated_event(); });
-
-          workrave::utils::connect(menu_helper.signal_update(), this, [this](auto node) { update_menu_item(node); });
-
-          menu_helper.setup_event();
-          send_menu_updated_event();
-
-          workrave::utils::connect(context->get_toolkit()->signal_timer(), control, [this]() { control->update(); });
-        }
-    }
-  catch (workrave::dbus::DBusException &)
-    {
-    }
-#else
   workrave::utils::connect(menu_model->signal_update(), this, [this]() { send_menu_updated_event(); });
   workrave::utils::connect(menu_helper.signal_update(), this, [this](auto node) { update_menu_item(node); });
   menu_helper.setup_event();
   workrave::utils::connect(context->get_toolkit()->signal_timer(), control, [this]() { control->update(); });
-#endif
 }
 
 void
@@ -202,28 +156,17 @@ GenericDBusApplet::applet_embed(bool enabled, const std::string &sender)
   TRACE_ENTRY_PAR(enabled, sender);
   embedded = enabled;
 
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  for (const auto &bus_name: active_bus_names)
-    {
-      dbus->unwatch(bus_name);
-    }
-#else
   name_watches.clear();
-#endif
   active_bus_names.clear();
 
   if (!sender.empty())
     {
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-      dbus->watch(sender, this);
-#else
       if (name_watcher)
         {
           name_watches.emplace(sender,
                                name_watcher(sender, [this, sender](bool present) { bus_name_presence(sender, present); }));
           bus_name_presence(sender, true);
         }
-#endif
     }
 
   if (!enabled)
@@ -309,13 +252,7 @@ GenericDBusApplet::send_tray_icon_enabled()
   TRACE_ENTRY();
   bool on = GUIConfig::applet_icon_enabled()();
 
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-  assert(iface != nullptr);
-  iface->TrayIconUpdated(WORKRAVE_APPLET_SERVICE_OBJ, on);
-#else
   tray_icon_updated_signal(on);
-#endif
 }
 
 void
@@ -324,12 +261,7 @@ GenericDBusApplet::send_menu_updated_event()
   std::list<MenuItem> items;
   init_menu_list(items, menu_model->get_root());
 
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-  iface->MenuUpdated(WORKRAVE_APPLET_SERVICE_OBJ, items);
-#else
   menu_updated_signal(items);
-#endif
 }
 
 void
@@ -457,10 +389,5 @@ GenericDBusApplet::update_menu_item(menus::Node::Ptr node)
     }
 
   MenuItem item(node->get_text(), node->get_dynamic_text(), node->get_id(), command, type, flags);
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-  iface->MenuItemUpdated(WORKRAVE_APPLET_SERVICE_OBJ, item);
-#else
   menu_item_updated_signal(item);
-#endif
 }

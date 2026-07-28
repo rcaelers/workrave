@@ -36,12 +36,18 @@ class Core;
 class PreludeWindow;
 class Timer;
 
+// @rpc.enum(name="break_stage")
 enum class BreakStage
 {
+  // @rpc.enum.value(name="none")
   None,
+  // @rpc.enum.value(name="snoozed")
   Snoozed,
+  // @rpc.enum.value(name="prelude")
   Prelude,
+  // @rpc.enum.value(name="taking")
   Taking,
+  // @rpc.enum.value(name="delayed")
   Delayed
 };
 
@@ -119,9 +125,6 @@ private:
   void goto_stage(BreakStage stage);
   void suspend_break();
   std::string get_stage_text(BreakStage stage);
-  void send_signal(BreakStage stage);
-  void send_skipped();
-  void send_postponed();
 
 private:
   //! ID of the break controlled by this BreakControl.

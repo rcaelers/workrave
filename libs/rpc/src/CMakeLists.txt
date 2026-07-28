@@ -1,14 +1,14 @@
 add_library(workrave-libs-rpc-common STATIC Duration.cc)
 target_include_directories(workrave-libs-rpc-common PUBLIC ${CMAKE_SOURCE_DIR}/libs/rpc/include)
 
-if (HAVE_RPC)
+if (HAVE_GRPC)
   add_library(workrave-libs-rpc STATIC RpcServer.cc)
   target_link_libraries(workrave-libs-rpc
     PUBLIC workrave-libs-rpc-common gRPC::grpc++ gRPC::grpc++_reflection)
   target_include_directories(workrave-libs-rpc PUBLIC ${CMAKE_SOURCE_DIR}/libs/rpc/include)
 endif()
 
-if (HAVE_RPC_DBUS)
+if (HAVE_DBUS)
   add_library(workrave-libs-rpc-dbus-common INTERFACE)
   target_include_directories(workrave-libs-rpc-dbus-common
     INTERFACE ${CMAKE_SOURCE_DIR}/libs/rpc/include)

@@ -36,7 +36,7 @@ if (HAVE_TESTS)
 
   workrave_add_test(workrave-config-test)
 
-  if (HAVE_RPC)
+  if (HAVE_GRPC)
     add_executable(workrave-config-rpc-test RpcConfigTest.cc)
     # workrave-libs-config is built with code-coverage instrumentation
     # (target_code_coverage below); any executable linking it needs the same

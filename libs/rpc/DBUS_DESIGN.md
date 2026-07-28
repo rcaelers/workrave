@@ -4,16 +4,15 @@
 
 This document records the architecture and migration plan for the
 annotation-driven DBus support in `libs/rpc`. The standalone runtime,
-QtDBus/GDBus renderers, direct CoreNext bindings, generated event forwarding,
+QtDBus/GDBus renderers, direct `libs/core` and CoreNext bindings, generated event forwarding,
 the application Control and Applet endpoints, name watching, and dual-backend
-checked-in artifacts are implemented. A normal generated CoreNext build no
-longer adds, includes, links, constructs, or exposes the legacy `libs/dbus`
-API. The old library remains available only to configurations that select the
-legacy DBus implementation (and to CoreShadow's legacy helper build).
+checked-in artifacts are implemented. The legacy `libs/dbus` runtime,
+Python/Jinja generator, XML inputs, compatibility bridges, public `IDBus`
+API, and tests have been removed.
 
 ## Goals
 
-- `libs/rpc` must not include or link `libs/dbus`.
+- `libs/rpc` is the sole Workrave D-Bus runtime.
 - Generated bindings call the annotated C++ API directly. No handwritten
   facade or compatibility adapter sits between the transport and the API.
 - Qt builds use QtDBus and GTK builds use GDBus automatically. There is no
@@ -24,8 +23,6 @@ legacy DBus implementation (and to CoreShadow's legacy helper build).
   semantic model and differ only in their final transport rendering.
 - Builds without Rust or libclang use checked-in output for both backends.
 - Runtime registration and signal subscriptions have explicit RAII ownership.
-- The legacy `libs/dbus` implementation remains available during migration,
-  but it is not a dependency of the new implementation.
 
 ## Non-goals
 
@@ -36,7 +33,7 @@ legacy DBus implementation (and to CoreShadow's legacy helper build).
 - Do not select Qt or GIO at runtime in a production Workrave build. The UI
   toolkit already determines the native event loop and DBus implementation.
 
-## Legacy coupling being retired
+## Retired legacy coupling
 
 The old DBus generator emits Qt-specific code which uses these parts of
 `libs/dbus`:
@@ -76,8 +73,8 @@ rpc-common: transport-independent RPC helpers such as Duration
 rpc-grpc: gRPC server runtime
 ```
 
-`libs/dbus` is not present in this graph. During migration, legacy application
-components may continue linking it alongside the new targets.
+The former `libs/dbus` library is not present in this graph or in the source
+tree.
 
 ## CMake target model
 
@@ -249,7 +246,7 @@ than by `RpcDBusServer`.
 
 ### Phase 4: application composition
 
-Implemented. The CoreNext server owns the service name. The generated
+Implemented. The selected core's generated server owns the service name. The generated
 application server registers the UI Control and Applet interfaces at the same
 object path on one native session-bus connection. Their endpoints call
 `Menus` and `GenericDBusApplet` directly, including compound Applet method
@@ -263,44 +260,42 @@ directly instead of obtaining an `IDBus` from Core.
 2. Generate/migrate the UI Control interface. Implemented.
 3. Migrate the legacy Applet interface and its emitted events. Implemented,
    with wire-compatible method, signal, argument, and compound-field types.
-4. Stop exposing the legacy `IDBus` through Core APIs in the new path.
-   Implemented; the accessor and test hook exist only in legacy builds.
-5. Make a `WITH_RPC_DBUS` build omit `workrave-libs-dbus` entirely.
-   Implemented for normal CoreNext builds; CoreShadow still builds its legacy
-   helper and therefore retains the old library for that helper only.
+4. Stop exposing the legacy `IDBus` through Core APIs. Implemented.
+5. Remove every `workrave-libs-dbus` dependency. Implemented.
 
 ### Phase 5: legacy retirement
 
-In progress. `WITH_DBUS=ON` now selects the generated `libs/rpc` runtime
-automatically whenever CoreNext is active, including checked-in fallback
-bindings when Rust or libclang is unavailable. Consequently a normal
-CoreNext build no longer configures Jinja, adds `libs/dbus`, exposes its build
-targets, or runs the Python generator. `WITH_RPC_DBUS` remains as a compatible
-explicit opt-in, but is no longer required for the normal CoreNext build.
-
-The audit found one intentional compatibility boundary: the separately
-selectable legacy core still exposes `IDBus` in its public `ICore` API and its
-break controller emits through the old generated binding. CoreShadow can also
-build that old core as a helper. Therefore the old runtime and Python
-generator cannot yet be deleted without either migrating the legacy core's
-public API and events or retiring that core.
+Implemented. `WITH_DBUS=ON` selects the generated `libs/rpc` runtime without
+changing the selected core, including checked-in fallback bindings when Rust
+or libclang is unavailable. The established `WITH_DBUS` option controls the
+generated implementation, so existing build scripts continue to work.
 
 1. Make generated `libs/rpc` D-Bus the default for every CoreNext build.
    Implemented.
-2. Keep `libs/dbus` and `dbusgen.py` isolated to the legacy-core compatibility
-   build; do not add either to a normal CoreNext target graph. Implemented.
-3. Migrate or retire the legacy core's `IDBus` API and direct signal emission.
-4. Delete the isolated runtime, templates, Python generator, and its
-   self-tests after the last legacy-core consumer is gone.
+2. Remove the legacy core's `IDBus` API and direct signal emission.
+   Implemented.
+3. Remove the legacy application/CoreNext compatibility bridges and XML
+   generator inputs. Implemented.
+4. Delete `libs/dbus`, `dbusgen.py`, its templates, and self-tests.
+   Implemented.
+
+### Phase 6: direct `libs/core` support
+
+Implemented. GTK may continue using `libs/core`; enabling D-Bus no longer
+forces CoreNext. `Core`, `Break`, their existing Boost signals, and the shared
+configurator are annotated directly. The generated server registers the same
+Core, Break, and Config wire interfaces and object paths as the CoreNext
+server. No facade or compatibility runtime sits between dispatch and these
+objects. Separate core-selection macros ensure a CoreShadow build starts only
+the live core's server.
 
 ## Acceptance criteria
 
 - Qt and GTK DBus-only builds compile without gRPC, Rust, or libclang by using
   checked-in generated files.
-- Neither new DBus runtime target nor a normal generated application build
-  contains a `libs/dbus` include or link edge.
-- Generated method calls and events work against the real CoreNext API on both
-  QtDBus and GDBus.
+- No build contains a `libs/dbus` include or link edge.
+- Generated method calls and events work directly against both `libs/core`
+  and CoreNext APIs.
 - Introspection XML and observable wire behavior are equivalent across both
   backends and compatible with the existing Workrave interface.
 - Registration teardown leaves no raw binding or implementation pointers in a

@@ -42,11 +42,8 @@
 #include "ui/AppHold.hh"
 #include "ui/Plugin.hh"
 
-#if defined(HAVE_RPC_DBUS)
+#if defined(HAVE_DBUS)
 #  include "rpc/dbus/Registration.hh"
-#elif defined(HAVE_DBUS)
-#  include "dbus/IDBus.hh"
-#  include "dbus/IDBusWatch.hh"
 #endif
 
 class AppletControl;
@@ -56,9 +53,6 @@ class AppletControl;
 class GenericDBusApplet
   : public Plugin<GenericDBusApplet>
   , public ITimerBoxView
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  , public workrave::dbus::IDBusWatch
-#endif
   , public workrave::utils::Trackable
 {
 public:
@@ -144,7 +138,7 @@ public:
   // @rpc.signal(name="TrayIconUpdated", fields="enabled")
   boost::signals2::signal<void(bool)> &signal_tray_icon_updated();
 
-#if defined(HAVE_RPC_DBUS)
+#if defined(HAVE_DBUS)
   using NameWatcher =
     std::function<workrave::rpc::dbus::Registration(std::string, std::function<void(bool)>)>;
   void set_name_watcher(NameWatcher watcher);
@@ -165,11 +159,7 @@ private:
   void set_icon(OperationModeIcon icon) override;
   void update_view() override;
 
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  void bus_name_presence(const std::string &name, bool present) override;
-#else
   void bus_name_presence(const std::string &name, bool present);
-#endif
 
   void send_menu_updated_event();
   void init_menu_list(std::list<MenuItem> &items, menus::Node::Ptr node);
@@ -185,9 +175,7 @@ private:
   bool embedded{false};
   std::array<TimerData, workrave::BREAK_ID_SIZEOF> data;
   std::set<std::string> active_bus_names;
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  std::shared_ptr<workrave::dbus::IDBus> dbus;
-#elif defined(HAVE_RPC_DBUS)
+#if defined(HAVE_DBUS)
   NameWatcher name_watcher;
   std::map<std::string, workrave::rpc::dbus::Registration> name_watches;
 #endif

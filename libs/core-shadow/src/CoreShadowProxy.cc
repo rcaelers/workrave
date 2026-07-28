@@ -617,9 +617,6 @@ namespace workrave::core_shadow
   }
 
   ICoreHooks::Ptr CoreShadowProxy::get_hooks() const { return live_core->get_hooks(); }
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
-  std::shared_ptr<workrave::dbus::IDBus> CoreShadowProxy::get_dbus() const { return live_core->get_dbus(); }
-#endif
 
   std::string CoreShadowProxy::get_shadow_debug_state_html() const
   {

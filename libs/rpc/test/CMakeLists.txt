@@ -1,4 +1,4 @@
-if (HAVE_RPC AND HAVE_TESTS)
+if (HAVE_GRPC AND HAVE_TESTS)
   add_executable(workrave-libs-rpc-test
     RpcTestServer.cc
     RpcKeyedServer.cc
@@ -34,7 +34,7 @@ if (HAVE_RPC AND HAVE_TESTS)
 
 endif()
 
-if (HAVE_RPC_DBUS AND HAVE_TESTS)
+if (HAVE_DBUS AND HAVE_TESTS)
   add_executable(workrave-libs-rpc-dbus-common-test DBusCommonTest.cc)
   target_link_libraries(workrave-libs-rpc-dbus-common-test PRIVATE
     workrave-libs-rpc-dbus-common

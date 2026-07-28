@@ -19,10 +19,6 @@
 #  include "config.h"
 #endif
 
-#if defined(HAVE_DBUS)
-#  include "dbus/IDBus.hh"
-#endif
-
 #if defined(HAVE_TESTS)
 
 #  include "Test.hh"
