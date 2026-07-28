@@ -1,5 +1,5 @@
 // GENERATED FILE - DO NOT EDIT.
-// Produced by clang-rpc-gen's DBus backend from an annotated C++ header.
+// Produced by clang-rpc-gen's QtDBus backend from an annotated C++ header.
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -14,44 +14,28 @@
 #include <utility>
 #include <vector>
 
-#include "dbus/DBusBindingQt.hh"
-#include "dbus/DBusException.hh"
+#include "rpc/dbus/Error.hh"
+#include "rpc/dbus/QtCodec.hh"
 
 #include "RpcDbusScalarDBus.hh"
 
-using namespace workrave::dbus;
 
-template<typename To, typename From>
-To dbus_checked_integer_cast(From value)
-{
-  static_assert(std::is_integral_v<To> && std::is_integral_v<From>);
-  if (!std::in_range<To>(value))
-    {
-      throw ::workrave::dbus::DBusRemoteException()
-        << ::workrave::dbus::message_info("DBus integer conversion is out of range")
-        << ::workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS);
-    }
-  return static_cast<To>(value);
-}
-
-
-namespace workrave::dbus
+namespace workrave::rpc::dbus
 {
 template<>
-struct DBusMarshall<TestMode>
+struct QtCodec<TestMode>
 {
-  static TestMode convert(const QVariant &variant)
+  static TestMode decode(const QVariant &variant)
   {
-    QString arg = variant.value<QString>();
-    TestMode value{};
+    const std::string value = QtCodec<std::string>::decode(variant);
 
-    if ("idle" == arg) { value = TestMode::Idle; }
+    if (value == "idle") return TestMode::Idle;
 
-    if ("active" == arg) { value = TestMode::Active; }
+    if (value == "active") return TestMode::Active;
 
-    return value;
+    throw Error(std::string(error_names::invalid_args), "Unknown DBus enum value: " + value);
   }
-  static void marshall(QDBusArgument &arg, const TestMode &value)
+  static void append(QDBusArgument &arg, const TestMode &value)
   {
     std::string str;
     switch (value)
@@ -62,13 +46,11 @@ struct DBusMarshall<TestMode>
       case TestMode::Active: str = "active"; break;
 
       default:
-        throw workrave::dbus::DBusRemoteException()
-          << workrave::dbus::message_info("Type error in enum")
-          << workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS);
+        throw Error(std::string(error_names::invalid_args), "Type error in enum");
       }
     arg << QString::fromStdString(str);
   }
-  static QVariant convert(const TestMode &value)
+  static QVariant encode(const TestMode &value)
   {
     std::string str;
     switch (value)
@@ -79,23 +61,21 @@ struct DBusMarshall<TestMode>
       case TestMode::Active: str = "active"; break;
 
       default:
-        throw workrave::dbus::DBusRemoteException()
-          << workrave::dbus::message_info("Type error in enum")
-          << workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS);
+        throw Error(std::string(error_names::invalid_args), "Type error in enum");
       }
     return QVariant::fromValue(QString::fromStdString(str));
   }
 };
-} // namespace workrave::dbus
+} // namespace workrave::rpc::dbus
 
 // ADL requires these at global scope (or a namespace associated with one of
 // the parameter types) to be found from Qt's own template code — nesting
-// them inside workrave::dbus, where they'd only be found via TestMode's
-// own namespace (which may not be workrave::dbus at all), silently breaks
+// them inside workrave::rpc::dbus, where they'd only be found via TestMode's
+// own namespace (which may not be workrave::rpc::dbus at all), silently breaks
 // qDBusRegisterMetaType<TestMode>() and any use as a sequence/map element.
 [[maybe_unused]] static QDBusArgument &operator<<(QDBusArgument &arg, const TestMode &data)
 {
-  workrave::dbus::DBusMarshall<TestMode>::marshall(arg, data);
+  workrave::rpc::dbus::QtCodec<TestMode>::append(arg, data);
   return arg;
 }
 
@@ -103,58 +83,41 @@ struct DBusMarshall<TestMode>
 {
   QString value;
   arg >> value;
-  data = workrave::dbus::DBusMarshall<TestMode>::convert(QVariant::fromValue(value));
+  data = workrave::rpc::dbus::QtCodec<TestMode>::decode(QVariant::fromValue(value));
   return arg;
 }
 
 
-class org_workrave_TestInterface_Stub : public ::workrave::dbus::DBusBindingQt, public org_workrave_TestInterface
+org_workrave_TestInterface::org_workrave_TestInterface(::workrave::rpc::dbus::QtServer &server,
+                         std::string path,
+                         RpcDBusFixture &implementation)
+
+  : server_(server)
+  , path_(std::move(path))
+
+  , implementation_(implementation)
 {
-private:
-  using DBusMethodPointer = void (org_workrave_TestInterface_Stub::*)(void *object, const QDBusMessage &message, const QDBusConnection &connection);
-
-  struct DBusMethod
-  {
-    std::string_view name;
-    DBusMethodPointer fn;
-  };
-
-  bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) override;
-
-  std::string_view get_interface_introspect() override
-  {
-    return interface_introspect;
-  }
-
-public:
-  explicit org_workrave_TestInterface_Stub(std::shared_ptr<::workrave::dbus::IDBus> dbus) : ::workrave::dbus::DBusBindingQt(std::move(dbus)) {}
-  ~org_workrave_TestInterface_Stub() override = default;
 
 
-  void ModeChanged(const std::string &path, TestMode value) override;
+  qDBusRegisterMetaType<TestMode>();
 
+  signal_connections_.emplace_back(implementation_.signal_mode_changed().connect(
+    [this](TestMode value) {
+      emit_ModeChanged(value);
+    }));
 
-private:
+}
 
-  void Ping(void *object, const QDBusMessage &message, const QDBusConnection &connection);
+std::string_view
+org_workrave_TestInterface::name() const noexcept
+{
+  return "org.workrave.TestInterface";
+}
 
-  void GetMode(void *object, const QDBusMessage &message, const QDBusConnection &connection);
-
-  void SetMode(void *object, const QDBusMessage &message, const QDBusConnection &connection);
-
-
-  static constexpr std::array<DBusMethod, 3> method_table =
-  { {
-
-      {.name = "Ping", .fn = &org_workrave_TestInterface_Stub::Ping},
-
-      {.name = "GetMode", .fn = &org_workrave_TestInterface_Stub::GetMode},
-
-      {.name = "SetMode", .fn = &org_workrave_TestInterface_Stub::SetMode},
-
-  } };
-
-  static constexpr std::string_view interface_introspect =
+std::string_view
+org_workrave_TestInterface::introspection() const noexcept
+{
+  static constexpr std::string_view xml =
 
   "  <interface name=\"org.workrave.TestInterface\">\n"
 
@@ -214,233 +177,172 @@ private:
 
   "\n"
 
-  "  </interface>\n"
-
-;
-};
-
-org_workrave_TestInterface *org_workrave_TestInterface::instance(std::shared_ptr<::workrave::dbus::IDBus> dbus)
-{
-  org_workrave_TestInterface_Stub *iface = nullptr;
-  ::workrave::dbus::DBusBinding *binding = dbus->find_binding("org.workrave.TestInterface");
-  if (binding != nullptr)
-    {
-      iface = dynamic_cast<org_workrave_TestInterface_Stub *>(binding);
-    }
-  return iface;
+  "  </interface>\n";
+  return xml;
 }
 
 bool
-org_workrave_TestInterface_Stub::call(void *object, const QDBusMessage &message, const QDBusConnection &connection)
+org_workrave_TestInterface::dispatch(const QDBusMessage &message, const QDBusConnection &connection)
 {
-  std::string method_name = message.member().toStdString();
-  constexpr std::array<DBusMethod, 3> table = method_table;
-  for (const auto &method : table)
+  using Method = void (org_workrave_TestInterface::*)(const QDBusMessage &, const QDBusConnection &);
+  struct Entry
+  {
+    std::string_view name;
+    Method method;
+  };
+  static constexpr std::array<Entry, 3> methods =
+  { {
+
+      {.name = "Ping", .method = &org_workrave_TestInterface::dispatch_Ping},
+
+      {.name = "GetMode", .method = &org_workrave_TestInterface::dispatch_GetMode},
+
+      {.name = "SetMode", .method = &org_workrave_TestInterface::dispatch_SetMode},
+
+  } };
+
+  const std::string method_name = message.member().toStdString();
+  for (const auto &entry: methods)
     {
-      if (method_name == method.name)
+      if (entry.name == method_name)
         {
-          DBusMethodPointer ptr = method.fn;
-          if (ptr != nullptr)
-            {
-              (this->*ptr)(object, message, connection);
-            }
+          (this->*entry.method)(message, connection);
           return true;
         }
     }
-  throw ::workrave::dbus::DBusRemoteException()
-    << ::workrave::dbus::message_info("Unknown method")
-    << ::workrave::dbus::error_code_info(DBUS_ERROR_UNKNOWN_METHOD)
-    << ::workrave::dbus::method_info(method_name)
-    << ::workrave::dbus::interface_info("org.workrave.TestInterface");
+  return false;
 }
 
 
 void
-org_workrave_TestInterface_Stub::Ping(void *object, const QDBusMessage &message, const QDBusConnection &connection)
+org_workrave_TestInterface::dispatch_Ping(const QDBusMessage &message, const QDBusConnection &connection)
 {
-  try
+
+  std::string p_message{};
+
+
+  std::string p_result{};
+
+
+  const auto num_in_args = message.arguments().size();
+  if (num_in_args != 1)
     {
-      auto *dbus_object = static_cast<RpcDBusFixture *>(object);
-
-
-      std::string p_message{};
-
-
-      std::string p_result{};
-
-
-      auto num_in_args = message.arguments().size();
-      if (num_in_args != 1)
-        {
-          throw workrave::dbus::DBusRemoteException()
-            << workrave::dbus::message_info("Incorrect number of in-parameters")
-            << workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS)
-            << workrave::dbus::method_info("Ping")
-            << workrave::dbus::interface_info("org.workrave.TestInterface");
-        }
-
-
-
-      p_message = ::workrave::dbus::DBusMarshall<std::string>::convert(message.arguments().at(0));
-
-
-
-
-      p_result = dbus_object->ping(p_message);
-
-
-      QDBusMessage reply = message.createReply();
-
-      reply << ::workrave::dbus::DBusMarshall<std::string>::convert(p_result);
-
-
-
-
-
-      bool rc = connection.send(reply);
-      if (!rc)
-        {
-          throw workrave::dbus::DBusRemoteException()
-            << workrave::dbus::message_info("Failed to send reply")
-            << workrave::dbus::error_code_info(DBUS_ERROR_FAILED)
-            << workrave::dbus::method_info("Ping")
-            << workrave::dbus::interface_info("org.workrave.TestInterface");
-        }
+      throw ::workrave::rpc::dbus::Error(
+        std::string(::workrave::rpc::dbus::error_names::invalid_args),
+        "Incorrect number of input parameters for org.workrave.TestInterface.Ping");
     }
-  catch (const DBusRemoteException &e)
+
+
+
+  p_message = ::workrave::rpc::dbus::QtCodec<std::string>::decode(message.arguments().at(0));
+
+
+
+
+  p_result = implementation_.ping(p_message);
+
+
+  QDBusMessage reply = message.createReply();
+
+  reply << ::workrave::rpc::dbus::QtCodec<std::string>::encode(p_result);
+
+
+
+
+
+  if (!connection.send(reply))
     {
-      e << method_info("Ping") << interface_info("org.workrave.TestInterface");
-      throw;
+      throw ::workrave::rpc::dbus::Error(
+        std::string(::workrave::rpc::dbus::error_names::failed),
+        "Failed to send reply for org.workrave.TestInterface.Ping");
     }
 }
 
 
 void
-org_workrave_TestInterface_Stub::GetMode(void *object, const QDBusMessage &message, const QDBusConnection &connection)
+org_workrave_TestInterface::dispatch_GetMode(const QDBusMessage &message, const QDBusConnection &connection)
 {
-  try
+
+
+  TestMode p_result{};
+
+
+  const auto num_in_args = message.arguments().size();
+  if (num_in_args != 0)
     {
-      auto *dbus_object = static_cast<RpcDBusFixture *>(object);
-
-
-
-      TestMode p_result{};
-
-
-      auto num_in_args = message.arguments().size();
-      if (num_in_args != 0)
-        {
-          throw workrave::dbus::DBusRemoteException()
-            << workrave::dbus::message_info("Incorrect number of in-parameters")
-            << workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS)
-            << workrave::dbus::method_info("GetMode")
-            << workrave::dbus::interface_info("org.workrave.TestInterface");
-        }
-
-
-
-
-      p_result = dbus_object->get_mode();
-
-
-      QDBusMessage reply = message.createReply();
-
-      reply << ::workrave::dbus::DBusMarshall<TestMode>::convert(p_result);
-
-
-
-      bool rc = connection.send(reply);
-      if (!rc)
-        {
-          throw workrave::dbus::DBusRemoteException()
-            << workrave::dbus::message_info("Failed to send reply")
-            << workrave::dbus::error_code_info(DBUS_ERROR_FAILED)
-            << workrave::dbus::method_info("GetMode")
-            << workrave::dbus::interface_info("org.workrave.TestInterface");
-        }
+      throw ::workrave::rpc::dbus::Error(
+        std::string(::workrave::rpc::dbus::error_names::invalid_args),
+        "Incorrect number of input parameters for org.workrave.TestInterface.GetMode");
     }
-  catch (const DBusRemoteException &e)
+
+
+
+
+  p_result = implementation_.get_mode();
+
+
+  QDBusMessage reply = message.createReply();
+
+  reply << ::workrave::rpc::dbus::QtCodec<TestMode>::encode(p_result);
+
+
+
+  if (!connection.send(reply))
     {
-      e << method_info("GetMode") << interface_info("org.workrave.TestInterface");
-      throw;
+      throw ::workrave::rpc::dbus::Error(
+        std::string(::workrave::rpc::dbus::error_names::failed),
+        "Failed to send reply for org.workrave.TestInterface.GetMode");
     }
 }
 
 
 void
-org_workrave_TestInterface_Stub::SetMode(void *object, const QDBusMessage &message, const QDBusConnection &connection)
+org_workrave_TestInterface::dispatch_SetMode(const QDBusMessage &message, const QDBusConnection &connection)
 {
-  try
+
+  TestMode p_mode{};
+
+
+
+  const auto num_in_args = message.arguments().size();
+  if (num_in_args != 1)
     {
-      auto *dbus_object = static_cast<RpcDBusFixture *>(object);
-
-
-      TestMode p_mode{};
-
-
-
-      auto num_in_args = message.arguments().size();
-      if (num_in_args != 1)
-        {
-          throw workrave::dbus::DBusRemoteException()
-            << workrave::dbus::message_info("Incorrect number of in-parameters")
-            << workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS)
-            << workrave::dbus::method_info("SetMode")
-            << workrave::dbus::interface_info("org.workrave.TestInterface");
-        }
-
-
-
-      p_mode = ::workrave::dbus::DBusMarshall<TestMode>::convert(message.arguments().at(0));
-
-
-
-
-      dbus_object->set_mode(p_mode);
-
-
-      QDBusMessage reply = message.createReply();
-
-
-
-
-
-      bool rc = connection.send(reply);
-      if (!rc)
-        {
-          throw workrave::dbus::DBusRemoteException()
-            << workrave::dbus::message_info("Failed to send reply")
-            << workrave::dbus::error_code_info(DBUS_ERROR_FAILED)
-            << workrave::dbus::method_info("SetMode")
-            << workrave::dbus::interface_info("org.workrave.TestInterface");
-        }
+      throw ::workrave::rpc::dbus::Error(
+        std::string(::workrave::rpc::dbus::error_names::invalid_args),
+        "Incorrect number of input parameters for org.workrave.TestInterface.SetMode");
     }
-  catch (const DBusRemoteException &e)
+
+
+
+  p_mode = ::workrave::rpc::dbus::QtCodec<TestMode>::decode(message.arguments().at(0));
+
+
+
+
+  implementation_.set_mode(p_mode);
+
+
+  QDBusMessage reply = message.createReply();
+
+
+
+
+
+  if (!connection.send(reply))
     {
-      e << method_info("SetMode") << interface_info("org.workrave.TestInterface");
-      throw;
+      throw ::workrave::rpc::dbus::Error(
+        std::string(::workrave::rpc::dbus::error_names::failed),
+        "Failed to send reply for org.workrave.TestInterface.SetMode");
     }
 }
-
 
 
 void
-org_workrave_TestInterface_Stub::ModeChanged(const std::string &path, TestMode value)
+org_workrave_TestInterface::emit_ModeChanged(TestMode value)
 {
-  QDBusMessage sig = QDBusMessage::createSignal(QString::fromStdString(path), "org.workrave.TestInterface", "ModeChanged");
+  QVariantList arguments;
 
-  sig << ::workrave::dbus::DBusMarshall<TestMode>::convert(value);
+  arguments << ::workrave::rpc::dbus::QtCodec<TestMode>::encode(value);
 
-  ::workrave::dbus::IDBusPrivateQt::Ptr priv = std::dynamic_pointer_cast<::workrave::dbus::IDBusPrivateQt>(dbus);
-  priv->get_connection().send(sig);
-}
-
-
-void init_org_workrave_TestInterface(std::shared_ptr<::workrave::dbus::IDBus> dbus)
-{
-  dbus->register_binding("org.workrave.TestInterface", new org_workrave_TestInterface_Stub(dbus));
-
-
-  qDBusRegisterMetaType<TestMode>();
-
+  server_.emit_signal(path_, "org.workrave.TestInterface", "ModeChanged", arguments);
 }

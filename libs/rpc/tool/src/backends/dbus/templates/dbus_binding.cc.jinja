@@ -2,9 +2,8 @@
 {%- set service = model.interfaces[0] -%}
 {%- set dbus = service.dbus -%}
 {%- set ident = dbus.name | replace(".", "_") -%}
-{%- set stub_name = ident ~ "_Stub" -%}
 // GENERATED FILE - DO NOT EDIT.
-// Produced by clang-rpc-gen's DBus backend from an annotated C++ header.
+// Produced by clang-rpc-gen's QtDBus backend from an annotated C++ header.
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -19,27 +18,12 @@
 #include <utility>
 #include <vector>
 
-#include "dbus/DBusBindingQt.hh"
-#include "dbus/DBusException.hh"
+#include "rpc/dbus/Error.hh"
+#include "rpc/dbus/QtCodec.hh"
 {% if dbus.has_duration %}
 #include "rpc/Duration.hh"
 {% endif %}
 #include "{{ dbus_header_filename }}"
-
-using namespace workrave::dbus;
-
-template<typename To, typename From>
-To dbus_checked_integer_cast(From value)
-{
-  static_assert(std::is_integral_v<To> && std::is_integral_v<From>);
-  if (!std::in_range<To>(value))
-    {
-      throw ::workrave::dbus::DBusRemoteException()
-        << ::workrave::dbus::message_info("DBus integer conversion is out of range")
-        << ::workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS);
-    }
-  return static_cast<To>(value);
-}
 
 {% for custom in dbus.custom_types %}
 {{ marshall_type(custom, model) }}
@@ -48,45 +32,43 @@ To dbus_checked_integer_cast(From value)
 namespace {{ adapter_namespace }}
 {
 {% endif %}
-class {{ stub_name }} : public ::workrave::dbus::DBusBindingQt, public {{ ident }}
+{{ ident }}::{{ ident }}(::workrave::rpc::dbus::QtServer &server,
+                         std::string path,
+                         {{ service.cxx_qualified_class }} &implementation)
+{% if service.signals %}
+  : server_(server)
+  , path_(std::move(path))
+{% else %}
+  : path_(std::move(path))
+{% endif %}
+  , implementation_(implementation)
 {
-private:
-  using DBusMethodPointer = void ({{ stub_name }}::*)(void *object, const QDBusMessage &message, const QDBusConnection &connection);
-
-  struct DBusMethod
-  {
-    std::string_view name;
-    DBusMethodPointer fn;
-  };
-
-  bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) override;
-
-  std::string_view get_interface_introspect() override
-  {
-    return interface_introspect;
-  }
-
-public:
-  explicit {{ stub_name }}(std::shared_ptr<::workrave::dbus::IDBus> dbus) : ::workrave::dbus::DBusBindingQt(std::move(dbus)) {}
-  ~{{ stub_name }}() override = default;
-
-{% for signal in service.signals %}
-  void {{ signal.rpc_name }}(const std::string &path{% for field in signal.event_fields %}, {{ model.types[field.type_id].cxx.spelling }} {{ field.cxx_name }}{% endfor %}) override;
+{% if not service.signals %}
+  (void)server;
+{% endif %}
+{% for custom in dbus.custom_types -%}
+{%- if custom.kind == "enum" %}
+  qDBusRegisterMetaType<{{ model.types[custom.type_id].cxx.spelling }}>();
+{% endif -%}
+{%- endfor %}
+{%- for signal in service.signals %}
+  signal_connections_.emplace_back(implementation_.{{ signal.cxx_symbol }}().connect(
+    [this]({% for field in signal.event_fields %}{% if not loop.first %}, {% endif %}{{ model.types[field.type_id].cxx.spelling }} {{ field.cxx_name }}{% endfor %}) {
+      emit_{{ signal.rpc_name }}({% for field in signal.event_fields %}{% if not loop.first %}, {% endif %}{{ field.cxx_name }}{% endfor %});
+    }));
 {% endfor %}
+}
 
-private:
-{% for method in service.methods %}
-  void {{ method.rpc_name }}(void *object, const QDBusMessage &message, const QDBusConnection &connection);
-{% endfor %}
+std::string_view
+{{ ident }}::name() const noexcept
+{
+  return "{{ dbus.name }}";
+}
 
-  static constexpr std::array<DBusMethod, {{ service.methods | length }}> method_table =
-  { {
-{% for method in service.methods %}
-      {.name = "{{ method.rpc_name }}", .fn = &{{ stub_name }}::{{ method.rpc_name }}},
-{% endfor %}
-  } };
-
-  static constexpr std::string_view interface_introspect =
+std::string_view
+{{ ident }}::introspection() const noexcept
+{
+  static constexpr std::string_view xml =
 
   "  <interface name=\"{{ dbus.name }}\">\n"
 {% for method in service.methods %}
@@ -123,134 +105,100 @@ private:
 {% endfor %}
   "\n"
 
-  "  </interface>\n"
-
-;
-};
-
-{{ ident }} *{{ ident }}::instance(std::shared_ptr<::workrave::dbus::IDBus> dbus)
-{
-  {{ stub_name }} *iface = nullptr;
-  ::workrave::dbus::DBusBinding *binding = dbus->find_binding("{{ dbus.name }}");
-  if (binding != nullptr)
-    {
-      iface = dynamic_cast<{{ stub_name }} *>(binding);
-    }
-  return iface;
+  "  </interface>\n";
+  return xml;
 }
 
 bool
-{{ stub_name }}::call(void *object, const QDBusMessage &message, const QDBusConnection &connection)
+{{ ident }}::dispatch(const QDBusMessage &message, const QDBusConnection &connection)
 {
-  std::string method_name = message.member().toStdString();
-  constexpr std::array<DBusMethod, {{ service.methods | length }}> table = method_table;
-  for (const auto &method : table)
+  using Method = void ({{ ident }}::*)(const QDBusMessage &, const QDBusConnection &);
+  struct Entry
+  {
+    std::string_view name;
+    Method method;
+  };
+  static constexpr std::array<Entry, {{ service.methods | length }}> methods =
+  { {
+{% for method in service.methods %}
+      {.name = "{{ method.rpc_name }}", .method = &{{ ident }}::dispatch_{{ method.rpc_name }}},
+{% endfor %}
+  } };
+
+  const std::string method_name = message.member().toStdString();
+  for (const auto &entry: methods)
     {
-      if (method_name == method.name)
+      if (entry.name == method_name)
         {
-          DBusMethodPointer ptr = method.fn;
-          if (ptr != nullptr)
-            {
-              (this->*ptr)(object, message, connection);
-            }
+          (this->*entry.method)(message, connection);
           return true;
         }
     }
-  throw ::workrave::dbus::DBusRemoteException()
-    << ::workrave::dbus::message_info("Unknown method")
-    << ::workrave::dbus::error_code_info(DBUS_ERROR_UNKNOWN_METHOD)
-    << ::workrave::dbus::method_info(method_name)
-    << ::workrave::dbus::interface_info("{{ dbus.name }}");
+  return false;
 }
 
 {% for method in service.methods %}
 void
-{{ stub_name }}::{{ method.rpc_name }}(void *object, const QDBusMessage &message, const QDBusConnection &connection)
+{{ ident }}::dispatch_{{ method.rpc_name }}(const QDBusMessage &message, const QDBusConnection &connection)
 {
-  try
-    {
-      auto *dbus_object = static_cast<{{ service.cxx_qualified_class }} *>(object);
-
 {% for param in method.params %}
-      {{ model.types[param.type_id].cxx.base_spelling }} p_{{ param.cxx_name }}{};
+  {{ model.types[param.type_id].cxx.base_spelling }} p_{{ param.cxx_name }}{};
 {% endfor %}
 {% if method.return_value is not none %}
-      {{ model.types[method.return_value.type_id].cxx.base_spelling }} p_{{ method.return_value.proto_field }}{};
+  {{ model.types[method.return_value.type_id].cxx.base_spelling }} p_{{ method.return_value.proto_field }}{};
 {% endif %}
 
-      auto num_in_args = message.arguments().size();
-      if (num_in_args != {{ method.dbus_num_in }})
-        {
-          throw workrave::dbus::DBusRemoteException()
-            << workrave::dbus::message_info("Incorrect number of in-parameters")
-            << workrave::dbus::error_code_info(DBUS_ERROR_INVALID_ARGS)
-            << workrave::dbus::method_info("{{ method.rpc_name }}")
-            << workrave::dbus::interface_info("{{ dbus.name }}");
-        }
+  const auto num_in_args = message.arguments().size();
+  if (num_in_args != {{ method.dbus_num_in }})
+    {
+      throw ::workrave::rpc::dbus::Error(
+        std::string(::workrave::rpc::dbus::error_names::invalid_args),
+        "Incorrect number of input parameters for {{ dbus.name }}.{{ method.rpc_name }}");
+    }
 
 {% for param in method.params %}
 {% if param.dbus_arg_index is not none %}
-      p_{{ param.cxx_name }} = {% if param.dbus_cpp_type %}dbus_checked_integer_cast<{{ model.types[param.type_id].cxx.base_spelling }}>(::workrave::dbus::DBusMarshall<{{ param.dbus_cpp_type }}>::convert(message.arguments().at({{ param.dbus_arg_index }}))){% else %}::workrave::dbus::DBusMarshall<{{ model.types[param.type_id].cxx.base_spelling }}>::convert(message.arguments().at({{ param.dbus_arg_index }})){% endif %};
+  p_{{ param.cxx_name }} = {% if param.dbus_cpp_type %}::workrave::rpc::dbus::checked_dbus_wire_cast<{{ model.types[param.type_id].cxx.base_spelling }}>(::workrave::rpc::dbus::QtCodec<{{ param.dbus_cpp_type }}>::decode(message.arguments().at({{ param.dbus_arg_index }}))){% else %}::workrave::rpc::dbus::QtCodec<{{ model.types[param.type_id].cxx.base_spelling }}>::decode(message.arguments().at({{ param.dbus_arg_index }})){% endif %};
 {% endif %}
 {% endfor %}
 
 {% if method.return_value is not none %}
-      p_{{ method.return_value.proto_field }} = dbus_object->{{ method.cxx_symbol }}({% for param in method.params %}{% if not loop.first %}, {% endif %}{% if model.types[param.type_id].cxx.is_pointer %}&{% endif %}p_{{ param.cxx_name }}{% endfor %});
+  p_{{ method.return_value.proto_field }} = implementation_.{{ method.cxx_symbol }}({% for param in method.params %}{% if not loop.first %}, {% endif %}{% if model.types[param.type_id].cxx.is_pointer %}&{% endif %}p_{{ param.cxx_name }}{% endfor %});
 {% else %}
-      dbus_object->{{ method.cxx_symbol }}({% for param in method.params %}{% if not loop.first %}, {% endif %}{% if model.types[param.type_id].cxx.is_pointer %}&{% endif %}p_{{ param.cxx_name }}{% endfor %});
+  implementation_.{{ method.cxx_symbol }}({% for param in method.params %}{% if not loop.first %}, {% endif %}{% if model.types[param.type_id].cxx.is_pointer %}&{% endif %}p_{{ param.cxx_name }}{% endfor %});
 {% endif %}
 
-      QDBusMessage reply = message.createReply();
+  QDBusMessage reply = message.createReply();
 {% if method.return_value is not none %}
-      reply << ::workrave::dbus::DBusMarshall<{{ method.return_value.dbus_cpp_type | default(model.types[method.return_value.type_id].cxx.base_spelling, true) }}>::convert({% if method.return_value.dbus_cpp_type %}static_cast<{{ method.return_value.dbus_cpp_type }}>(p_{{ method.return_value.proto_field }}){% else %}p_{{ method.return_value.proto_field }}{% endif %});
+  reply << ::workrave::rpc::dbus::QtCodec<{{ method.return_value.dbus_cpp_type | default(model.types[method.return_value.type_id].cxx.base_spelling, true) }}>::encode({% if method.return_value.dbus_cpp_type %}::workrave::rpc::dbus::checked_dbus_wire_cast<{{ method.return_value.dbus_cpp_type }}>(p_{{ method.return_value.proto_field }}){% else %}p_{{ method.return_value.proto_field }}{% endif %});
 {% endif %}
 {% for param in method.params %}
 {% if param.direction == "out" %}
-      reply << ::workrave::dbus::DBusMarshall<{{ param.dbus_cpp_type | default(model.types[param.type_id].cxx.base_spelling, true) }}>::convert({% if param.dbus_cpp_type %}dbus_checked_integer_cast<{{ param.dbus_cpp_type }}>(p_{{ param.cxx_name }}){% else %}p_{{ param.cxx_name }}{% endif %});
+  reply << ::workrave::rpc::dbus::QtCodec<{{ param.dbus_cpp_type | default(model.types[param.type_id].cxx.base_spelling, true) }}>::encode({% if param.dbus_cpp_type %}::workrave::rpc::dbus::checked_dbus_wire_cast<{{ param.dbus_cpp_type }}>(p_{{ param.cxx_name }}){% else %}p_{{ param.cxx_name }}{% endif %});
 {% endif %}
 {% endfor %}
 
-      bool rc = connection.send(reply);
-      if (!rc)
-        {
-          throw workrave::dbus::DBusRemoteException()
-            << workrave::dbus::message_info("Failed to send reply")
-            << workrave::dbus::error_code_info(DBUS_ERROR_FAILED)
-            << workrave::dbus::method_info("{{ method.rpc_name }}")
-            << workrave::dbus::interface_info("{{ dbus.name }}");
-        }
-    }
-  catch (const DBusRemoteException &e)
+  if (!connection.send(reply))
     {
-      e << method_info("{{ method.rpc_name }}") << interface_info("{{ dbus.name }}");
-      throw;
+      throw ::workrave::rpc::dbus::Error(
+        std::string(::workrave::rpc::dbus::error_names::failed),
+        "Failed to send reply for {{ dbus.name }}.{{ method.rpc_name }}");
     }
 }
 
 {% endfor %}
-{% for signal in service.signals %}
+{%- for signal in service.signals %}
 void
-{{ stub_name }}::{{ signal.rpc_name }}(const std::string &path{% for field in signal.event_fields %}, {{ model.types[field.type_id].cxx.spelling }} {{ field.cxx_name }}{% endfor %})
+{{ ident }}::emit_{{ signal.rpc_name }}({% for field in signal.event_fields %}{% if not loop.first %}, {% endif %}{{ model.types[field.type_id].cxx.spelling }} {{ field.cxx_name }}{% endfor %})
 {
-  QDBusMessage sig = QDBusMessage::createSignal(QString::fromStdString(path), "{{ dbus.name }}", "{{ signal.rpc_name }}");
+  QVariantList arguments;
 {% for field in signal.event_fields %}
-  sig << ::workrave::dbus::DBusMarshall<{{ field.dbus_cpp_type | default(model.types[field.type_id].cxx.spelling, true) }}>::convert({% if field.dbus_cpp_type %}dbus_checked_integer_cast<{{ field.dbus_cpp_type }}>( {{ field.cxx_name }} ){% else %}{{ field.cxx_name }}{% endif %});
+  arguments << ::workrave::rpc::dbus::QtCodec<{{ field.dbus_cpp_type | default(model.types[field.type_id].cxx.spelling, true) }}>::encode({% if field.dbus_cpp_type %}::workrave::rpc::dbus::checked_dbus_wire_cast<{{ field.dbus_cpp_type }}>({{ field.cxx_name }}){% else %}{{ field.cxx_name }}{% endif %});
 {% endfor %}
-  ::workrave::dbus::IDBusPrivateQt::Ptr priv = std::dynamic_pointer_cast<::workrave::dbus::IDBusPrivateQt>(dbus);
-  priv->get_connection().send(sig);
+  server_.emit_signal(path_, "{{ dbus.name }}", "{{ signal.rpc_name }}", arguments);
 }
 
-{% endfor %}
-void init_{{ ident }}(std::shared_ptr<::workrave::dbus::IDBus> dbus)
-{
-  dbus->register_binding("{{ dbus.name }}", new {{ stub_name }}(dbus));
-
-{% for custom in dbus.custom_types -%}
-{%- if custom.kind == "enum" %}
-  qDBusRegisterMetaType<{{ model.types[custom.type_id].cxx.spelling }}>();
-{% endif -%}
 {%- endfor %}
-}
-{% if adapter_namespace %}
+{%- if adapter_namespace %}
 } // namespace {{ adapter_namespace }}
-{% endif %}{{- "" -}}
+{%- endif %}

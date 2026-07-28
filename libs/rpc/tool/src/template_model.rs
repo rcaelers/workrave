@@ -10,7 +10,7 @@ use anyhow::{bail, Context, Result};
 use serde::Serialize;
 
 use crate::ir::{
-    CxxType, DbusScalarType, Direction, Interface, ParamKind, ProtoType, SequenceElement, Signal,
+    CxxType, DbusType, Direction, Interface, ParamKind, ProtoType, SequenceElement, Signal,
     StructDef, Unit,
 };
 
@@ -324,6 +324,73 @@ struct ModelBuilder<'a> {
 }
 
 impl<'a> ModelBuilder<'a> {
+    fn dbus_type_override(
+        dbus_type: DbusType,
+        native_type: &ProtoType,
+        native_cxx_type: &str,
+    ) -> Result<(Option<String>, String)> {
+        let numeric = matches!(
+            native_type,
+            ProtoType::Bool
+                | ProtoType::Int32
+                | ProtoType::Int64
+                | ProtoType::UInt32
+                | ProtoType::UInt64
+                | ProtoType::Float
+                | ProtoType::Double
+                | ProtoType::Enum(_)
+        );
+        let integer = matches!(
+            native_type,
+            ProtoType::Int32
+                | ProtoType::Int64
+                | ProtoType::UInt32
+                | ProtoType::UInt64
+                | ProtoType::Enum(_)
+        );
+
+        let (cxx, signature, compatible) = match dbus_type {
+            DbusType::Byte => (Some("uint8_t".to_string()), "y", numeric),
+            DbusType::Boolean => (Some("bool".to_string()), "b", numeric),
+            DbusType::Int16 => (Some("int16_t".to_string()), "n", numeric),
+            DbusType::UInt16 => (Some("uint16_t".to_string()), "q", numeric),
+            DbusType::Int32 => (Some("int32_t".to_string()), "i", numeric),
+            DbusType::UInt32 => (Some("uint32_t".to_string()), "u", numeric),
+            DbusType::Int64 => (Some("int64_t".to_string()), "x", numeric),
+            DbusType::UInt64 => (Some("uint64_t".to_string()), "t", numeric),
+            DbusType::Double => (Some("double".to_string()), "d", numeric),
+            DbusType::String => (
+                None,
+                "s",
+                matches!(native_type, ProtoType::String | ProtoType::Enum(_)),
+            ),
+            DbusType::ObjectPath => (
+                Some("::workrave::rpc::dbus::ObjectPath".to_string()),
+                "o",
+                matches!(native_type, ProtoType::String),
+            ),
+            DbusType::Signature => (
+                Some("::workrave::rpc::dbus::Signature".to_string()),
+                "g",
+                matches!(native_type, ProtoType::String),
+            ),
+            DbusType::UnixFd => (
+                Some("::workrave::rpc::dbus::UnixFd".to_string()),
+                "h",
+                integer,
+            ),
+            DbusType::Variant => (
+                Some(format!("::workrave::rpc::dbus::Variant<{native_cxx_type}>")),
+                "v",
+                true,
+            ),
+        };
+        if !compatible {
+            bail!("DBus type '{signature}' is incompatible with native wire type '{native_type}'");
+        }
+        Ok((cxx, signature.to_string()))
+    }
+
     fn new(unit: &'a Unit, include_dbus: bool) -> Self {
         Self {
             unit,
@@ -427,6 +494,17 @@ impl<'a> ModelBuilder<'a> {
                 } else {
                     None
                 };
+                let (dbus_cpp_type, dbus_signature) = param
+                    .dbus_type
+                    .map(|value| {
+                        Self::dbus_type_override(
+                            value,
+                            &param.proto_type,
+                            &param.cxx_type.base_spelling,
+                        )
+                    })
+                    .transpose()?
+                    .map_or((None, None), |(cxx, signature)| (cxx, Some(signature)));
                 params.push(ParamModel {
                     cxx_name: param.cxx_name.clone(),
                     type_id: self.register_type(&param.cxx_type, &param.proto_type, &param.kind)?,
@@ -434,8 +512,8 @@ impl<'a> ModelBuilder<'a> {
                     proto_field,
                     role,
                     dbus_arg_index,
-                    dbus_cpp_type: param.dbus_type.map(|_| "int32_t".to_string()),
-                    dbus_signature: param.dbus_type.map(|_| "i".to_string()),
+                    dbus_cpp_type,
+                    dbus_signature,
                 });
             }
 
@@ -485,19 +563,24 @@ impl<'a> ModelBuilder<'a> {
                         );
                     }
                     self.register_type(&value.cxx_type, &value.proto_type, &value.kind)
-                        .map(|type_id| {
-                            let (dbus_cpp_type, dbus_signature) = match value.dbus_type {
-                                Some(DbusScalarType::Int32) => {
-                                    (Some("int32_t".to_string()), Some("i".to_string()))
-                                }
-                                None => (None, None),
-                            };
-                            ReturnModel {
+                        .and_then(|type_id| {
+                            let (dbus_cpp_type, dbus_signature) = value
+                                .dbus_type
+                                .map(|dbus_type| {
+                                    Self::dbus_type_override(
+                                        dbus_type,
+                                        &value.proto_type,
+                                        &value.cxx_type.base_spelling,
+                                    )
+                                })
+                                .transpose()?
+                                .map_or((None, None), |(cxx, signature)| (cxx, Some(signature)));
+                            Ok(ReturnModel {
                                 proto_field: value.proto_field.clone(),
                                 type_id,
                                 dbus_cpp_type,
                                 dbus_signature,
-                            }
+                            })
                         })
                 })
                 .transpose()?;
@@ -592,13 +675,24 @@ impl<'a> ModelBuilder<'a> {
 
         let mut event_fields = Vec::new();
         for (index, field) in signal.fields.iter().enumerate() {
+            let (dbus_cpp_type, dbus_signature) = field
+                .dbus_type
+                .map(|value| {
+                    Self::dbus_type_override(
+                        value,
+                        &field.proto_type,
+                        &field.cxx_type.base_spelling,
+                    )
+                })
+                .transpose()?
+                .map_or((None, None), |(cxx, signature)| (cxx, Some(signature)));
             event_fields.push(SignalFieldModel {
                 cxx_name: field.cxx_name.clone(),
                 proto_name: field.proto_field.clone(),
                 number: index + 1,
                 type_id: self.register_type(&field.cxx_type, &field.proto_type, &field.kind)?,
-                dbus_cpp_type: field.dbus_type.map(|_| "int32_t".to_string()),
-                dbus_signature: field.dbus_type.map(|_| "i".to_string()),
+                dbus_cpp_type,
+                dbus_signature,
             });
         }
 
@@ -775,7 +869,19 @@ impl<'a> ModelBuilder<'a> {
             .collect()
     }
 
-    fn dbus_signature(&self, proto_type: &ProtoType) -> Result<String> {
+    fn dbus_signature(
+        &self,
+        cxx_type: &CxxType,
+        proto_type: &ProtoType,
+        kind: &ParamKind,
+    ) -> Result<String> {
+        if matches!(
+            cxx_type.base_spelling.as_str(),
+            "uint8_t" | "std::uint8_t" | "unsigned char"
+        ) {
+            return Ok("y".to_string());
+        }
+
         Ok(match proto_type {
             ProtoType::Bool => "b".to_string(),
             ProtoType::Int32 => "i".to_string(),
@@ -792,17 +898,44 @@ impl<'a> ModelBuilder<'a> {
                     .with_context(|| format!("struct '{name}' not registered"))?;
                 let mut signature = String::from("(");
                 for field in &definition.fields {
-                    signature.push_str(&self.dbus_signature(&field.proto_type)?);
+                    signature.push_str(&self.dbus_signature(
+                        &field.cxx_type,
+                        &field.proto_type,
+                        &field.kind,
+                    )?);
                 }
                 signature.push(')');
                 signature
             }
-            ProtoType::Repeated(inner) => format!("a{}", self.dbus_signature(inner)?),
-            ProtoType::Map(key, value) => format!(
-                "a{{{}{}}}",
-                self.dbus_signature(key)?,
-                self.dbus_signature(value)?
-            ),
+            ProtoType::Repeated(inner) => match kind {
+                ParamKind::Sequence(element) => format!(
+                    "a{}",
+                    self.dbus_signature(&plain_cxx_type(&element.cxx_type), inner, &element.kind,)?
+                ),
+                _ => format!(
+                    "a{}",
+                    self.dbus_signature(cxx_type, inner, &ParamKind::Value)?
+                ),
+            },
+            ProtoType::Map(key, value) => match kind {
+                ParamKind::Map {
+                    key: key_kind,
+                    value: value_kind,
+                } => format!(
+                    "a{{{}{}}}",
+                    self.dbus_signature(
+                        &plain_cxx_type(&key_kind.cxx_type),
+                        key,
+                        &ParamKind::Value,
+                    )?,
+                    self.dbus_signature(
+                        &plain_cxx_type(&value_kind.cxx_type),
+                        value,
+                        &value_kind.kind,
+                    )?
+                ),
+                _ => bail!("map wire type has no map shape metadata"),
+            },
         })
     }
 
@@ -844,7 +977,7 @@ impl<'a> ModelBuilder<'a> {
             grpc: GrpcTypeModel {
                 spelling: proto_type.to_string(),
             },
-            dbus_signature: self.dbus_signature(proto_type)?,
+            dbus_signature: self.dbus_signature(cxx_type, proto_type, kind)?,
             shape,
         };
         self.types.insert(type_id.clone(), model);
@@ -938,8 +1071,8 @@ fn plain_cxx_type(spelling: &str) -> CxxType {
 #[cfg(test)]
 mod tests {
     use crate::ir::{
-        CxxType, Direction, Interface, KeyType, Method, Param, ParamKind, ProtoType, ReturnValue,
-        Unit,
+        CxxType, DbusType, Direction, Interface, KeyType, Method, Param, ParamKind, ProtoType,
+        ReturnValue, Unit,
     };
 
     use super::{DbusCustomTypeModel, GenerationModel, TypeShapeModel};
@@ -1075,19 +1208,43 @@ mod tests {
                 methods: vec![Method {
                     rpc_name: "Set".to_string(),
                     cxx_symbol: "set".to_string(),
-                    params: vec![Param {
-                        cxx_name: "values".to_string(),
-                        cxx_type: cxx("std::vector<int>"),
-                        direction: Direction::In,
-                        kind: ParamKind::Sequence(crate::ir::SequenceElement {
-                            cxx_type: "int".to_string(),
-                            proto_type: ProtoType::Int32,
-                            kind: Box::new(ParamKind::Value),
-                        }),
-                        proto_field: "values".to_string(),
-                        proto_type: ProtoType::Repeated(Box::new(ProtoType::Int32)),
-                        dbus_type: None,
-                    }],
+                    params: vec![
+                        Param {
+                            cxx_name: "values".to_string(),
+                            cxx_type: cxx("std::vector<int>"),
+                            direction: Direction::In,
+                            kind: ParamKind::Sequence(crate::ir::SequenceElement {
+                                cxx_type: "int".to_string(),
+                                proto_type: ProtoType::Int32,
+                                kind: Box::new(ParamKind::Value),
+                            }),
+                            proto_field: "values".to_string(),
+                            proto_type: ProtoType::Repeated(Box::new(ProtoType::Int32)),
+                            dbus_type: None,
+                        },
+                        Param {
+                            cxx_name: "bytes".to_string(),
+                            cxx_type: cxx("std::vector<uint8_t>"),
+                            direction: Direction::In,
+                            kind: ParamKind::Sequence(crate::ir::SequenceElement {
+                                cxx_type: "uint8_t".to_string(),
+                                proto_type: ProtoType::UInt32,
+                                kind: Box::new(ParamKind::Value),
+                            }),
+                            proto_field: "bytes".to_string(),
+                            proto_type: ProtoType::Repeated(Box::new(ProtoType::UInt32)),
+                            dbus_type: None,
+                        },
+                        Param {
+                            cxx_name: "narrow".to_string(),
+                            cxx_type: cxx("int64_t"),
+                            direction: Direction::In,
+                            kind: ParamKind::Value,
+                            proto_field: "narrow".to_string(),
+                            proto_type: ProtoType::Int64,
+                            dbus_type: Some(DbusType::Byte),
+                        },
+                    ],
                     return_value: None,
                     is_const: false,
                 }],
@@ -1101,15 +1258,21 @@ mod tests {
         let model = GenerationModel::build(&unit).unwrap();
         let interface = &model.interfaces[0];
         let method = &interface.methods[0];
-        assert_eq!(method.dbus_num_in, 1);
+        assert_eq!(method.dbus_num_in, 3);
         assert_eq!(method.params[0].dbus_arg_index, Some(0));
         assert_eq!(model.types[&method.params[0].type_id].dbus_signature, "ai");
+        assert_eq!(model.types[&method.params[1].type_id].dbus_signature, "ay");
+        assert_eq!(method.params[2].dbus_cpp_type.as_deref(), Some("uint8_t"));
+        assert_eq!(method.params[2].dbus_signature.as_deref(), Some("y"));
 
         let dbus = interface.dbus.as_ref().unwrap();
         assert_eq!(dbus.name, "org.example.Values");
         assert!(matches!(
             dbus.custom_types.as_slice(),
-            [DbusCustomTypeModel::Vector { .. }]
+            [
+                DbusCustomTypeModel::Vector { .. },
+                DbusCustomTypeModel::Vector { .. }
+            ]
         ));
     }
 

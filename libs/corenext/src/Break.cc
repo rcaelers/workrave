@@ -25,14 +25,18 @@
 using namespace std;
 using namespace workrave;
 using namespace workrave::config;
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
 using namespace workrave::dbus;
+#endif
 
 Break::Break(BreakId break_id,
              IApp *app,
              Timer::Ptr timer,
              IActivityMonitor::Ptr activity_monitor,
              Statistics::Ptr statistics,
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
              std::shared_ptr<IDBus> dbus,
+#endif
              CoreHooks::Ptr hooks)
   : break_id(break_id)
   , timer(timer)

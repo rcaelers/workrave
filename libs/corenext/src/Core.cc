@@ -44,8 +44,8 @@
 #include "core/CoreConfig.hh"
 #include "Statistics.hh"
 
-#include "dbus/DBusFactory.hh"
 #if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
+#  include "dbus/DBusFactory.hh"
 #  include "DBusWorkraveNext.hh"
 #  define DBUS_PATH_WORKRAVE "/org/workrave/Workrave/"
 #endif
@@ -60,8 +60,10 @@
 using namespace std;
 using namespace workrave;
 using namespace workrave::config;
-using namespace workrave::dbus;
 using namespace workrave::utils;
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
+using namespace workrave::dbus;
+#endif
 
 ICore::Ptr
 CoreFactory::create(workrave::config::IConfigurator::Ptr configurator)
@@ -93,7 +95,8 @@ Core::init(IApp *app, const char *display_name)
 
   CoreConfig::init(configurator);
 
-#if defined(HAVE_TESTS)
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
+#  if defined(HAVE_TESTS)
   if (hooks->hook_create_dbus())
     {
       dbus = hooks->hook_create_dbus()();
@@ -105,6 +108,7 @@ Core::init(IApp *app, const char *display_name)
     }
   dbus->init();
   init_bus_bindings();
+#endif
 
 #if defined(HAVE_TESTS)
   if (hooks->hook_create_monitor())
@@ -129,10 +133,19 @@ Core::init(IApp *app, const char *display_name)
   core_dbus = std::make_shared<CoreDBus>(core_modes, dbus);
 #endif
 
-  breaks_control = std::make_shared<BreaksControl>(application, monitor, core_modes, statistics, dbus, hooks);
+  breaks_control = std::make_shared<BreaksControl>(application,
+                                                  monitor,
+                                                  core_modes,
+                                                  statistics,
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
+                                                  dbus,
+#endif
+                                                  hooks);
   breaks_control->init();
 
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   init_bus();
+#endif
 
 #if defined(HAVE_TESTS)
   // Tests install hook_create_monitor() (see above) and construct a fresh
@@ -153,10 +166,10 @@ Core::init(IApp *app, const char *display_name)
 }
 
 //! Initializes the communication bus.
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
 void
 Core::init_bus_bindings()
 {
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   try
     {
       extern void init_DBusWorkraveNext(std::shared_ptr<IDBus> dbus);
@@ -166,14 +179,12 @@ Core::init_bus_bindings()
     {
       spdlog::warn("Failed to initialize legacy DBus bindings: {}", e.what());
     }
-#endif
 }
 
 //! Registers the Core objects after their dependencies have been initialized.
 void
 Core::init_bus()
 {
-#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   try
     {
       dbus->connect(DBUS_PATH_WORKRAVE "Core", "org.workrave.CoreInterface", this);
@@ -184,8 +195,8 @@ Core::init_bus()
     {
       spdlog::warn("Failed to register legacy DBus Core object {}: {}", DBUS_PATH_WORKRAVE "Core", e.what());
     }
-#endif
 }
+#endif
 
 #if defined(HAVE_RPC)
 //! Starts the gRPC server exposing CoreService/BreakService/ConfigService.
@@ -221,7 +232,7 @@ Core::init_rpc_dbus()
 {
   try
     {
-      rpc_dbus_server = std::make_unique<RpcDBusServer>(*this, *configurator, dbus);
+      rpc_dbus_server = std::make_unique<RpcDBusServer>(*this, *configurator);
       spdlog::info("Clang-generated DBus bindings initialized");
     }
   catch (const std::exception &e)
@@ -311,11 +322,13 @@ Core::get_hooks() const
   return hooks;
 }
 
-std::shared_ptr<workrave::dbus::IDBus>
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
+std::shared_ptr<IDBus>
 Core::get_dbus() const
 {
   return dbus;
 }
+#endif
 
 //! Is the user currently active?
 bool

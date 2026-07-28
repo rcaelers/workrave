@@ -225,20 +225,40 @@ DBusPreludeWindow::set_progress_text(workrave::IApp::PreludeProgressText text)
 }
 
 bool
-DBusPreludeWindow::is_gnome_shell_applet_available(std::shared_ptr<workrave::dbus::IDBus> dbus)
+DBusPreludeWindow::is_gnome_shell_applet_available()
 {
-  try
+  GError *error = nullptr;
+  GDBusConnection *connection = g_bus_get_sync(G_BUS_TYPE_SESSION, nullptr, &error);
+  if (connection == nullptr)
     {
-      if (!dbus || !dbus->is_available())
-        {
-          return false;
-        }
-
-      return dbus->is_running("org.workrave.GnomeShellApplet");
-    }
-  catch (const workrave::dbus::DBusException &)
-    {
+      spdlog::debug("Unable to connect to the session bus: {}", error != nullptr ? error->message : "unknown error");
+      g_clear_error(&error);
       return false;
     }
-  return false;
+
+  GVariant *reply = g_dbus_connection_call_sync(connection,
+                                                "org.freedesktop.DBus",
+                                                "/org/freedesktop/DBus",
+                                                "org.freedesktop.DBus",
+                                                "NameHasOwner",
+                                                g_variant_new("(s)", "org.workrave.GnomeShellApplet"),
+                                                G_VARIANT_TYPE("(b)"),
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                -1,
+                                                nullptr,
+                                                &error);
+  g_object_unref(connection);
+
+  if (reply == nullptr)
+    {
+      spdlog::debug("Unable to query the GNOME Shell applet bus name: {}",
+                    error != nullptr ? error->message : "unknown error");
+      g_clear_error(&error);
+      return false;
+    }
+
+  gboolean has_owner = false;
+  g_variant_get(reply, "(b)", &has_owner);
+  g_variant_unref(reply);
+  return has_owner;
 }

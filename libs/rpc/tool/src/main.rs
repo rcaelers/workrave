@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use anyhow::Result;
 use clap::Parser;
 
-use clang_rpc_gen::{generate, GenerateOptions};
+use clang_rpc_gen::{generate, DbusBackend, GenerateOptions};
 
 /// Generates a gRPC C++ service adapter from an annotated C++ header.
 #[derive(Parser)]
@@ -72,6 +72,14 @@ struct Cli {
     /// together with --out-dbus-hh.
     #[arg(long)]
     out_dbus_cc: Option<PathBuf>,
+
+    /// Literal header included by the generated DBus source.
+    #[arg(long)]
+    dbus_header_include: Option<String>,
+
+    /// Native implementation used for generated DBus bindings.
+    #[arg(long, value_enum, default_value_t = DbusBackend::Qt)]
+    dbus_backend: DbusBackend,
 }
 
 fn main() -> Result<()> {
@@ -91,6 +99,8 @@ fn main() -> Result<()> {
         external_annotations: cli.annotations,
         out_dbus_hh: cli.out_dbus_hh,
         out_dbus_cc: cli.out_dbus_cc,
+        dbus_header_include: cli.dbus_header_include,
+        dbus_backend: cli.dbus_backend,
     };
 
     let generated = generate(&opts)?;

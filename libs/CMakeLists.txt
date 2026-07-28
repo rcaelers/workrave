@@ -5,8 +5,13 @@ if (HAVE_HARPOON)
 endif()
 add_subdirectory(input-monitor)
 add_subdirectory(audio)
-add_subdirectory(dbus)
-if (HAVE_RPC)
+# Generated DBus uses only libs/rpc's native Qt/GIO runtime. Keep the legacy
+# library for legacy Core or CoreShadow builds, but omit it from a normal
+# generated CoreNext build altogether.
+if (NOT HAVE_RPC_DBUS OR HAVE_CORE_SHADOW)
+  add_subdirectory(dbus)
+endif()
+if (HAVE_RPC OR HAVE_RPC_DBUS)
   add_subdirectory(rpc)
 endif()
 add_subdirectory(updater)

@@ -144,7 +144,7 @@ pub struct Param {
     pub kind: ParamKind,
     pub proto_field: String,
     pub proto_type: ProtoType,
-    pub dbus_type: Option<DbusScalarType>,
+    pub dbus_type: Option<DbusType>,
 }
 
 /// The method's non-parameter return value, if any (`void` -> None).
@@ -154,12 +154,25 @@ pub struct ReturnValue {
     pub proto_field: String,
     pub proto_type: ProtoType,
     pub kind: ParamKind,
-    pub dbus_type: Option<DbusScalarType>,
+    pub dbus_type: Option<DbusType>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum DbusScalarType {
+pub enum DbusType {
+    Byte,
+    Boolean,
+    Int16,
+    UInt16,
     Int32,
+    UInt32,
+    Int64,
+    UInt64,
+    Double,
+    String,
+    ObjectPath,
+    Signature,
+    UnixFd,
+    Variant,
 }
 
 #[derive(Debug, Clone)]
@@ -216,7 +229,7 @@ pub struct SignalField {
     pub proto_field: String,
     pub proto_type: ProtoType,
     pub kind: ParamKind,
-    pub dbus_type: Option<DbusScalarType>,
+    pub dbus_type: Option<DbusType>,
 }
 
 /// An `@rpc.signal(...)`-annotated `boost::signals2::signal<...> &` accessor

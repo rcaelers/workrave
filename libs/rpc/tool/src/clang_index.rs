@@ -9,15 +9,34 @@ use clang::{Accessibility, Clang, Entity, EntityKind, Index, Type, TypeKind};
 
 use crate::annotations::{
     has_bitmask_tag, parse_dbus_return_type, parse_dbus_tag, parse_enum_tag, parse_enum_value_tag,
-    parse_method_tag, parse_param_tags, parse_service_tag, parse_signal_tag, DbusScalarTypeTag,
+    parse_method_tag, parse_param_tags, parse_service_tag, parse_signal_tag, DbusTypeTag,
     ParamKindTag,
 };
 use crate::external_annotations::{effective_comment, ExternalAnnotations};
 use crate::ir::{
-    CxxType, DbusScalarType, Direction, EnumDef, EnumValue, Interface, KeyType, MapKey, Method,
-    Param, ParamKind, ProtoType, ReturnValue, SequenceElement, Signal, SignalField, StructDef,
+    CxxType, DbusType, Direction, EnumDef, EnumValue, Interface, KeyType, MapKey, Method, Param,
+    ParamKind, ProtoType, ReturnValue, SequenceElement, Signal, SignalField, StructDef,
     StructField, Unit,
 };
+
+fn dbus_type(value: DbusTypeTag) -> DbusType {
+    match value {
+        DbusTypeTag::Byte => DbusType::Byte,
+        DbusTypeTag::Boolean => DbusType::Boolean,
+        DbusTypeTag::Int16 => DbusType::Int16,
+        DbusTypeTag::UInt16 => DbusType::UInt16,
+        DbusTypeTag::Int32 => DbusType::Int32,
+        DbusTypeTag::UInt32 => DbusType::UInt32,
+        DbusTypeTag::Int64 => DbusType::Int64,
+        DbusTypeTag::UInt64 => DbusType::UInt64,
+        DbusTypeTag::Double => DbusType::Double,
+        DbusTypeTag::String => DbusType::String,
+        DbusTypeTag::ObjectPath => DbusType::ObjectPath,
+        DbusTypeTag::Signature => DbusType::Signature,
+        DbusTypeTag::UnixFd => DbusType::UnixFd,
+        DbusTypeTag::Variant => DbusType::Variant,
+    }
+}
 
 pub struct ParseInput<'a> {
     pub header: &'a Path,
@@ -551,9 +570,7 @@ fn build_signal(
             proto_field: name,
             proto_type,
             kind,
-            dbus_type: dbus_types.get(index).copied().map(|value| match value {
-                DbusScalarTypeTag::Int32 => DbusScalarType::Int32,
-            }),
+            dbus_type: dbus_types.get(index).copied().map(dbus_type),
         });
     }
 
@@ -646,9 +663,7 @@ fn build_method(
             kind,
             proto_field: name,
             proto_type,
-            dbus_type: tag.and_then(|tag| tag.dbus_type).map(|value| match value {
-                DbusScalarTypeTag::Int32 => DbusScalarType::Int32,
-            }),
+            dbus_type: tag.and_then(|tag| tag.dbus_type).map(dbus_type),
         });
     }
 
@@ -675,9 +690,7 @@ fn build_method(
             proto_field: "result".to_string(),
             proto_type,
             kind,
-            dbus_type: dbus_return_type.map(|value| match value {
-                DbusScalarTypeTag::Int32 => DbusScalarType::Int32,
-            }),
+            dbus_type: dbus_return_type.map(dbus_type),
         })
     };
 

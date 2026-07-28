@@ -9,36 +9,39 @@ how the server itself is wired into the running app.
 
 ## DBus implementation selection
 
-`WITH_DBUS` enables the established DBus feature set. When it is enabled,
-`WITH_RPC_GRPC` selects which Core, Break, and Config implementation is built.
-`WITH_RPC_DBUS` can enable only the Clang-generated DBus surface, independently
-of gRPC and without enabling any legacy Python/Jinja bindings. `WITH_DBUS` and
-`WITH_RPC_DBUS` are mutually exclusive:
+`WITH_DBUS` enables the established DBus feature set. CoreNext builds use the
+Clang-generated implementation automatically; `WITH_RPC_GRPC` no longer
+affects that choice. `WITH_RPC_DBUS` remains an explicit way to enable the
+same generated D-Bus surface independently of the compatibility option and
+gRPC. The Python/Jinja implementation is selected only with the legacy core.
 
 | Build options | DBus implementation |
 |---|---|
-| `WITH_DBUS=ON`, `WITH_RPC_GRPC=OFF` | Legacy Python/Jinja generator |
-| `WITH_DBUS=ON`, `WITH_RPC_GRPC=ON` | Clang/Rust RPC generator |
-| `WITH_DBUS=OFF`, `WITH_RPC_GRPC=ON`, `WITH_RPC_DBUS=ON` | Clang/Rust DBus plus gRPC |
-| `WITH_DBUS=OFF`, `WITH_RPC_GRPC=OFF`, `WITH_RPC_DBUS=ON` | Clang/Rust DBus only, without gRPC |
+| `WITH_DBUS=ON`, CoreNext | Clang/Rust generator, with checked-in fallback |
+| `WITH_DBUS=ON`, legacy core | Isolated legacy Python/Jinja compatibility implementation |
+| `WITH_DBUS=OFF`, `WITH_RPC_DBUS=ON`, CoreNext | Clang/Rust D-Bus, independently of gRPC |
 | `WITH_DBUS=OFF`, `WITH_RPC_DBUS=OFF` | No DBus API |
 
-Only one Core/Break/Config implementation is present in a build. Both
-implementations use the established `org.workrave.Workrave` service,
-`/org/workrave/Workrave` object root, and `org.workrave.CoreInterface`,
-`org.workrave.BreakInterface`, and `org.workrave.ConfigInterface` interface
-names.
+Only one Core/Break/Config implementation and one application Control/Applet
+implementation are present in a build. They use the established
+`org.workrave.Workrave` service and wire-compatible object paths, interface
+names, methods, signals, and signatures. In the generated implementation,
+Control and Applet share the native application DBus server and call the
+existing C++ APIs directly.
 
-The generated-only configuration without gRPC is:
+The normal generated configuration without gRPC is simply:
 
 ```bash
-cmake -DWITH_RPC_GRPC=OFF -DWITH_RPC_DBUS=ON -DWITH_DBUS=OFF ...
+cmake -DWITH_RPC_GRPC=OFF -DWITH_DBUS=ON ...
 ```
 
-The Clang-generated implementation currently requires the Qt UI, QtDBus, and
-CoreNext. Small compatibility facades preserve historical details such as
-32-bit Break timer replies, Config setter arguments/reply ordering, and the
-`BreakStateChanged` event without restricting the richer native/gRPC APIs.
+The Clang-generated implementation currently requires CoreNext. Its standalone
+QtDBus/GDBus runtime and remaining migration plan are described in
+[`DBUS_DESIGN.md`](DBUS_DESIGN.md). Generated bindings do not use `libs/dbus`:
+Qt builds select QtDBus and GTK builds select GDBus automatically. Both native
+outputs are checked in so `RPC_CODEGEN=AUTO` also works without Rust/libclang.
+A normal generated CoreNext application does not add or link the legacy
+`workrave-libs-dbus` target; legacy builds continue to use it unchanged.
 
 ## Transport
 

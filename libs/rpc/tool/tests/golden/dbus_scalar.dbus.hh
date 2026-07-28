@@ -1,22 +1,51 @@
 // GENERATED FILE - DO NOT EDIT.
-// Produced by clang-rpc-gen's DBus backend from an annotated C++ header.
+// Produced by clang-rpc-gen's QtDBus backend from an annotated C++ header.
 #pragma once
 
-#include <memory>
 #include <string>
+#include <string_view>
 
-#include "dbus/IDBus.hh"
+#include <vector>
+
+#include <boost/signals2/connection.hpp>
+
+
+#include "rpc/dbus/QtInterface.hh"
+#include "rpc/dbus/QtServer.hh"
 
 #include "dbus_scalar.hh"
 
 
-class org_workrave_TestInterface
+class org_workrave_TestInterface final : public ::workrave::rpc::dbus::QtInterface
 {
 public:
-  virtual ~org_workrave_TestInterface() = default;
-  static org_workrave_TestInterface *instance(std::shared_ptr<::workrave::dbus::IDBus> dbus);
+  org_workrave_TestInterface(::workrave::rpc::dbus::QtServer &server,
+              std::string path,
+              RpcDBusFixture &implementation);
+  ~org_workrave_TestInterface() override = default;
 
-  virtual void ModeChanged(const std::string &path, TestMode value) = 0;
+  [[nodiscard]] std::string_view name() const noexcept override;
+  [[nodiscard]] std::string_view introspection() const noexcept override;
+  bool dispatch(const QDBusMessage &message, const QDBusConnection &connection) override;
+
+private:
+
+  void dispatch_Ping(const QDBusMessage &message, const QDBusConnection &connection);
+
+  void dispatch_GetMode(const QDBusMessage &message, const QDBusConnection &connection);
+
+  void dispatch_SetMode(const QDBusMessage &message, const QDBusConnection &connection);
+
+
+  void emit_ModeChanged(TestMode value);
+
+
+
+  ::workrave::rpc::dbus::QtServer &server_;
+
+  std::string path_;
+  RpcDBusFixture &implementation_;
+
+  std::vector<boost::signals2::scoped_connection> signal_connections_;
 
 };
-void init_org_workrave_TestInterface(std::shared_ptr<::workrave::dbus::IDBus> dbus);

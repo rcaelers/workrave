@@ -19,7 +19,6 @@
 #define BREAKSCONTROL_HH
 
 #include "config/Config.hh"
-#include "dbus/IDBus.hh"
 
 #include "Break.hh"
 #include "Timer.hh"
@@ -34,6 +33,9 @@
 #if defined(HAVE_RPC)
 #  include "rpc/InstanceRegistry.hh"
 #endif
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
+#  include "dbus/IDBus.hh"
+#endif
 
 class BreaksControl
   : public std::enable_shared_from_this<BreaksControl>
@@ -46,7 +48,9 @@ public:
                 IActivityMonitor::Ptr activity_monitor,
                 CoreModes::Ptr modes,
                 Statistics::Ptr statistics,
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
                 std::shared_ptr<workrave::dbus::IDBus> dbus,
+#endif
                 CoreHooks::Ptr hooks);
   virtual ~BreaksControl();
 
@@ -93,7 +97,9 @@ private:
 
   CoreModes::Ptr modes;
   Statistics::Ptr statistics;
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   std::shared_ptr<workrave::dbus::IDBus> dbus;
+#endif
   CoreHooks::Ptr hooks;
 
   Break::Ptr breaks[workrave::BREAK_ID_SIZEOF];

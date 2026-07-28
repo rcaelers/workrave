@@ -33,3 +33,11 @@ if (HAVE_RPC AND HAVE_TESTS)
   workrave_add_test(workrave-libs-rpc-test)
 
 endif()
+
+if (HAVE_RPC_DBUS AND HAVE_TESTS)
+  add_executable(workrave-libs-rpc-dbus-common-test DBusCommonTest.cc)
+  target_link_libraries(workrave-libs-rpc-dbus-common-test PRIVATE
+    workrave-libs-rpc-dbus-common
+    GTest::gtest_main)
+  workrave_add_test(workrave-libs-rpc-dbus-common-test)
+endif()

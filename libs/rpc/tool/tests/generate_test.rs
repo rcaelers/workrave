@@ -8,7 +8,7 @@ use std::sync::{Mutex, OnceLock};
 
 use tempfile::TempDir;
 
-use clang_rpc_gen::{generate, GenerateOptions, GeneratedFiles};
+use clang_rpc_gen::{generate, DbusBackend, GenerateOptions, GeneratedFiles};
 
 fn fixtures_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures")
@@ -117,6 +117,28 @@ fn generate_fixture_full(
     proto_types_package: Option<&str>,
     grpc_services_namespace: Option<&str>,
 ) -> (TempDir, GeneratedFiles) {
+    generate_fixture_full_backend(
+        fixture_name,
+        name,
+        annotations,
+        with_dbus,
+        adapter_namespace,
+        proto_types_package,
+        grpc_services_namespace,
+        DbusBackend::Qt,
+    )
+}
+
+fn generate_fixture_full_backend(
+    fixture_name: &str,
+    name: &str,
+    annotations: Option<&str>,
+    with_dbus: bool,
+    adapter_namespace: Option<&str>,
+    proto_types_package: Option<&str>,
+    grpc_services_namespace: Option<&str>,
+    dbus_backend: DbusBackend,
+) -> (TempDir, GeneratedFiles) {
     let _guard = clang_test_lock().lock().unwrap_or_else(|e| e.into_inner());
     let dir = tempfile::tempdir().unwrap();
     let header_src = fixtures_dir().join(fixture_name);
@@ -168,6 +190,8 @@ fn generate_fixture_full(
         external_annotations,
         out_dbus_hh,
         out_dbus_cc,
+        dbus_header_include: None,
+        dbus_backend,
     };
 
     let generated = generate(&opts).expect("generate should succeed");
@@ -681,6 +705,8 @@ public:
         external_annotations: None,
         out_dbus_hh: None,
         out_dbus_cc: None,
+        dbus_header_include: None,
+        dbus_backend: DbusBackend::Qt,
     };
 
     let err = generate(&opts).expect_err("a double map key must be rejected");
@@ -1008,9 +1034,8 @@ fn recognizes_tags_in_plain_non_doc_comments() {
 
 /// `@rpc.dbus(interface="...")` opts an interface into DBus generation
 /// alongside gRPC — introspection XML shape (enums as strings, a `<signal>`
-/// entry) and the generated `DBusMarshall<TestMode>` specialization/dispatch
-/// stub, mirroring what `libs/dbus/bin/dbusgen.py`'s `qt-cc.jinja` produces
-/// for the hand-maintained IDL.
+/// entry) and the generated standalone `QtCodec<TestMode>`
+/// specialization/typed dispatch endpoint.
 #[test]
 fn generates_dbus_scalar_binding() {
     let (_dir, generated) = generate_fixture_with_dbus("dbus_scalar.hh", "RpcDbusScalar");
@@ -1021,14 +1046,16 @@ fn generates_dbus_scalar_binding() {
         "{dbus_hh}"
     );
     assert!(
-        dbus_hh.contains("virtual void ModeChanged(const std::string &path, TestMode value) = 0;"),
+        dbus_hh.contains("void emit_ModeChanged(TestMode value);")
+            && dbus_hh
+                .contains("std::vector<boost::signals2::scoped_connection> signal_connections_"),
         "{dbus_hh}"
     );
 
     let dbus_cc = fs::read_to_string(generated.dbus_cc.as_ref().expect("dbus_cc")).unwrap();
     // Enum wire-encoded as a string, using the @rpc.enum.value canonical names.
     assert!(
-        dbus_cc.contains("if (\"idle\" == arg) { value = TestMode::Idle; }"),
+        dbus_cc.contains("if (value == \"idle\") return TestMode::Idle;"),
         "{dbus_cc}"
     );
     assert!(
@@ -1036,9 +1063,9 @@ fn generates_dbus_scalar_binding() {
         "{dbus_cc}"
     );
     // The free operator<</>> must be at global scope (ADL), not nested in
-    // workrave::dbus — see render_enum_marshall's doc comment for why.
+    // workrave::rpc::dbus — Qt's templates must find it through ADL.
     assert!(
-        dbus_cc.contains("} // namespace workrave::dbus\n\n")
+        dbus_cc.contains("} // namespace workrave::rpc::dbus\n\n")
             && dbus_cc.contains(
                 "static QDBusArgument &operator<<(QDBusArgument &arg, const TestMode &data)"
             ),
@@ -1054,23 +1081,63 @@ fn generates_dbus_scalar_binding() {
         dbus_cc.contains("<signal name=\\\"ModeChanged\\\">"),
         "{dbus_cc}"
     );
-    // Dispatch: real method call, reply marshalling, and the registrar.
+    // Dispatch holds a typed implementation reference and calls it directly.
     assert!(
-        dbus_cc.contains("dbus_object->ping(p_message)"),
+        dbus_cc.contains("implementation_.ping(p_message)"),
         "{dbus_cc}"
     );
     assert!(
-        dbus_cc.contains(
-            "void init_org_workrave_TestInterface(std::shared_ptr<::workrave::dbus::IDBus> dbus)"
-        ),
+        dbus_hh.contains("public ::workrave::rpc::dbus::QtInterface"),
         "{dbus_cc}"
     );
     assert!(
-        dbus_cc.contains("dbus->register_binding(\"org.workrave.TestInterface\", new org_workrave_TestInterface_Stub(dbus));"),
+        dbus_hh.contains("RpcDBusFixture &implementation_"),
         "{dbus_cc}"
     );
     assert!(
         dbus_cc.contains("qDBusRegisterMetaType<TestMode>();"),
+        "{dbus_cc}"
+    );
+}
+
+#[test]
+fn generates_every_dbus_wire_type() {
+    let (_dir, generated) = generate_fixture_with_dbus("dbus_all_scalars.hh", "RpcDbusAllScalars");
+    let dbus_cc = fs::read_to_string(generated.dbus_cc.as_ref().expect("dbus_cc")).unwrap();
+
+    for (name, signature) in [
+        ("byte_value", "y"),
+        ("boolean_value", "b"),
+        ("int16_value", "n"),
+        ("uint16_value", "q"),
+        ("int32_value", "i"),
+        ("uint32_value", "u"),
+        ("int64_value", "x"),
+        ("uint64_value", "t"),
+        ("double_value", "d"),
+        ("string_value", "s"),
+        ("object_path_value", "o"),
+        ("signature_value", "g"),
+        ("unix_fd_value", "h"),
+        ("variant_value", "v"),
+    ] {
+        assert!(
+            dbus_cc.contains(&format!(
+                "<arg type=\\\"{signature}\\\" name=\\\"{name}\\\""
+            )),
+            "missing {name}:{signature} in generated introspection:\n{dbus_cc}"
+        );
+    }
+    assert!(
+        dbus_cc.contains("QtCodec<::workrave::rpc::dbus::ObjectPath>::decode")
+            && dbus_cc.contains("QtCodec<::workrave::rpc::dbus::Signature>::decode")
+            && dbus_cc.contains("QtCodec<::workrave::rpc::dbus::UnixFd>::decode")
+            && dbus_cc.contains("QtCodec<::workrave::rpc::dbus::Variant<int64_t>>::decode"),
+        "{dbus_cc}"
+    );
+    assert!(
+        dbus_cc.contains("checked_dbus_wire_cast<std::string>")
+            && dbus_cc.contains("checked_dbus_wire_cast<::workrave::rpc::dbus::ObjectPath>"),
         "{dbus_cc}"
     );
 }
@@ -1107,9 +1174,7 @@ fn dbus_adapter_namespace_does_not_change_the_wire_interface() {
         "{dbus_cc}"
     );
     assert!(
-        dbus_cc.contains(
-            "void init_org_workrave_TestInterface(std::shared_ptr<::workrave::dbus::IDBus> dbus)"
-        ),
+        dbus_cc.contains("implementation_.ping(p_message)"),
         "{dbus_cc}"
     );
 }
@@ -1135,12 +1200,12 @@ fn generates_dbus_struct_and_sequence_binding() {
         dbus_cc.contains("<arg type=\\\"a(ii)\\\" name=\\\"result\\\" direction=\\\"out\\\" />"),
         "{dbus_cc}"
     );
-    assert!(dbus_cc.contains("struct DBusMarshall<Point>"), "{dbus_cc}");
+    assert!(dbus_cc.contains("struct QtCodec<Point>"), "{dbus_cc}");
     assert!(dbus_cc.contains("arg.beginStructure();"), "{dbus_cc}");
 }
 
 /// Runs both DBus fixtures' generated output through a real `clang++ -c`
-/// against the actual (unmodified) `libs/dbus` runtime + QtDBus headers —
+/// against the standalone `libs/rpc` runtime + QtDBus headers —
 /// text-pattern assertions alone can't catch a marshalling/ADL bug (this
 /// backend had a real one during development: free `operator<<`/`operator>>`
 /// nested inside `namespace workrave::dbus` are invisible to ADL from Qt's
@@ -1159,12 +1224,12 @@ fn dbus_bindings_compile_against_real_qtdbus() {
         .join("../../..")
         .canonicalize()
         .expect("repo root must exist");
-    let dbus_include = repo_root.join("libs/dbus/include");
-    let utils_include = repo_root.join("libs/utils/include");
+    let rpc_include = repo_root.join("libs/rpc/include");
 
     for (fixture, name) in [
         ("dbus_scalar.hh", "RpcDbusScalarCompile"),
         ("dbus_struct_sequence.hh", "RpcDbusStructSeqCompile"),
+        ("dbus_all_scalars.hh", "RpcDbusAllScalarsCompile"),
     ] {
         let (dir, generated) = generate_fixture_with_dbus(fixture, name);
         let dbus_cc = generated.dbus_cc.expect("dbus_cc requested");
@@ -1178,9 +1243,7 @@ fn dbus_bindings_compile_against_real_qtdbus() {
             .arg("-I")
             .arg(dir.path())
             .arg("-I")
-            .arg(&dbus_include)
-            .arg("-I")
-            .arg(&utils_include)
+            .arg(&rpc_include)
             .arg("-I")
             .arg(qt_dir.join("QtDBus.framework/Headers"))
             .arg("-I")
@@ -1208,6 +1271,83 @@ fn dbus_bindings_compile_against_real_qtdbus() {
         assert!(
             output.status.success(),
             "clang++ failed to compile the DBus binding for {fixture}:\n{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+}
+
+#[test]
+fn gio_dbus_bindings_compile_against_real_gio() {
+    let cflags = std::process::Command::new("pkg-config")
+        .args(["--cflags", "gio-2.0"])
+        .output();
+    let Ok(cflags) = cflags else {
+        eprintln!("skipping: pkg-config is unavailable");
+        return;
+    };
+    if !cflags.status.success() {
+        eprintln!("skipping: gio-2.0 development files are unavailable");
+        return;
+    }
+
+    let repo_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../../..")
+        .canonicalize()
+        .expect("repo root must exist");
+    let rpc_include = repo_root.join("libs/rpc/include");
+
+    for (fixture, name) in [
+        ("dbus_scalar.hh", "RpcGioScalarCompile"),
+        ("dbus_struct_sequence.hh", "RpcGioStructSeqCompile"),
+        ("dbus_all_scalars.hh", "RpcGioAllScalarsCompile"),
+    ] {
+        let (dir, generated) = generate_fixture_full_backend(
+            fixture,
+            name,
+            None,
+            true,
+            None,
+            None,
+            None,
+            DbusBackend::Gio,
+        );
+        let dbus_hh = fs::read_to_string(generated.dbus_hh.as_ref().unwrap()).unwrap();
+        let dbus_cc = generated.dbus_cc.expect("dbus_cc requested");
+        assert!(
+            dbus_hh.contains("public ::workrave::rpc::dbus::GioInterface"),
+            "{dbus_hh}"
+        );
+
+        let out_dir = dbus_cc.parent().unwrap();
+        let mut cmd = std::process::Command::new("clang++");
+        cmd.arg("-std=c++23")
+            .arg("-fPIC")
+            .arg("-I")
+            .arg(out_dir)
+            .arg("-I")
+            .arg(dir.path())
+            .arg("-I")
+            .arg(&rpc_include);
+        for flag in String::from_utf8_lossy(&cflags.stdout).split_whitespace() {
+            cmd.arg(flag);
+        }
+        for candidate in ["/opt/homebrew/include", "/usr/local/include"] {
+            if std::path::Path::new(candidate)
+                .join("boost/signals2/signal.hpp")
+                .exists()
+            {
+                cmd.arg("-I").arg(candidate);
+            }
+        }
+        cmd.arg("-c")
+            .arg(&dbus_cc)
+            .arg("-o")
+            .arg(out_dir.join(format!("{name}.o")));
+
+        let output = cmd.output().expect("failed to run clang++");
+        assert!(
+            output.status.success(),
+            "clang++ failed to compile the GIO DBus binding for {fixture}:\n{}",
             String::from_utf8_lossy(&output.stderr)
         );
     }

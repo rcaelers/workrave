@@ -22,6 +22,10 @@
 #include "Menus.hh"
 
 #include <chrono>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include <spdlog/spdlog.h>

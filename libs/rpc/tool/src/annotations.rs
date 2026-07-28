@@ -21,18 +21,47 @@ pub struct ParamTag {
     pub direction: Direction,
     pub kind: Option<ParamKindTag>,
     pub size: Option<String>,
-    pub dbus_type: Option<DbusScalarTypeTag>,
+    pub dbus_type: Option<DbusTypeTag>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum DbusScalarTypeTag {
+pub enum DbusTypeTag {
+    Byte,
+    Boolean,
+    Int16,
+    UInt16,
     Int32,
+    UInt32,
+    Int64,
+    UInt64,
+    Double,
+    String,
+    ObjectPath,
+    Signature,
+    UnixFd,
+    Variant,
 }
 
-fn parse_dbus_scalar_type(value: &str) -> Result<DbusScalarTypeTag> {
+fn parse_dbus_type(value: &str) -> Result<DbusTypeTag> {
     match value {
-        "int32" => Ok(DbusScalarTypeTag::Int32),
-        other => bail!("unsupported DBus type '{other}'; supported overrides: int32"),
+        "byte" => Ok(DbusTypeTag::Byte),
+        "boolean" | "bool" => Ok(DbusTypeTag::Boolean),
+        "int16" => Ok(DbusTypeTag::Int16),
+        "uint16" => Ok(DbusTypeTag::UInt16),
+        "int32" => Ok(DbusTypeTag::Int32),
+        "uint32" => Ok(DbusTypeTag::UInt32),
+        "int64" => Ok(DbusTypeTag::Int64),
+        "uint64" => Ok(DbusTypeTag::UInt64),
+        "double" => Ok(DbusTypeTag::Double),
+        "string" => Ok(DbusTypeTag::String),
+        "object_path" => Ok(DbusTypeTag::ObjectPath),
+        "signature" => Ok(DbusTypeTag::Signature),
+        "unix_fd" => Ok(DbusTypeTag::UnixFd),
+        "variant" => Ok(DbusTypeTag::Variant),
+        other => bail!(
+            "unsupported DBus type '{other}'; supported types: byte, boolean, int16, uint16, \
+             int32, uint32, int64, uint64, double, string, object_path, signature, unix_fd, variant"
+        ),
     }
 }
 
@@ -118,17 +147,14 @@ pub fn parse_dbus_tag(comment: &str) -> Option<String> {
     re.captures(comment).map(|c| c[1].to_string())
 }
 
-/// `@rpc.dbus(return_type="int32")` narrows only a method's DBus return
-/// value; its native C++ and gRPC types stay unchanged.
-pub fn parse_dbus_return_type(comment: &str) -> Result<Option<DbusScalarTypeTag>> {
+/// `@rpc.dbus(return_type="...")` changes only a method's DBus scalar wire
+/// type; its native C++ and gRPC types stay unchanged.
+pub fn parse_dbus_return_type(comment: &str) -> Result<Option<DbusTypeTag>> {
     let re = Regex::new(r#"@rpc\.dbus\(\s*return_type\s*=\s*"([^"]+)"\s*\)"#).expect("valid regex");
     let Some(caps) = re.captures(comment) else {
         return Ok(None);
     };
-    match &caps[1] {
-        "int32" => Ok(Some(DbusScalarTypeTag::Int32)),
-        other => bail!("unsupported DBus return_type '{other}'; supported overrides: int32"),
-    }
+    parse_dbus_type(&caps[1]).map(Some)
 }
 
 /// `@rpc(name="Name")` on a method (or a specific overload) — marks it as an RPC.
@@ -179,7 +205,7 @@ pub struct SignalTag {
     /// parameter identifiers). Omitted for the common single-argument case,
     /// which defaults to a field named "value".
     pub fields: Option<Vec<String>>,
-    pub dbus_types: Option<Vec<DbusScalarTypeTag>>,
+    pub dbus_types: Option<Vec<DbusTypeTag>>,
 }
 
 /// `@rpc.signal(name="Name"[, fields="a,b,..."])` on a
@@ -206,7 +232,7 @@ pub fn parse_signal_tag(comment: &str) -> Result<Option<SignalTag>> {
         .map(|m| {
             m.as_str()
                 .split(',')
-                .map(|value| parse_dbus_scalar_type(value.trim()))
+                .map(|value| parse_dbus_type(value.trim()))
                 .collect::<Result<Vec<_>>>()
         })
         .transpose()?;
@@ -242,7 +268,7 @@ pub fn parse_param_tags(comment: &str) -> Result<Vec<ParamTag>> {
         let size = caps.get(4).map(|m| m.as_str().to_string());
         let dbus_type = caps
             .get(5)
-            .map(|m| parse_dbus_scalar_type(m.as_str()))
+            .map(|m| parse_dbus_type(m.as_str()))
             .transpose()?;
 
         if kind == Some(ParamKindTag::Bytes) && size.is_none() {
@@ -333,7 +359,11 @@ mod tests {
     fn dbus_return_type_tag() {
         assert_eq!(
             parse_dbus_return_type("// @rpc.dbus(return_type=\"int32\")").unwrap(),
-            Some(DbusScalarTypeTag::Int32)
+            Some(DbusTypeTag::Int32)
+        );
+        assert_eq!(
+            parse_dbus_return_type("// @rpc.dbus(return_type=\"byte\")").unwrap(),
+            Some(DbusTypeTag::Byte)
         );
     }
 
@@ -379,6 +409,52 @@ mod tests {
         assert_eq!(
             tag.fields,
             Some(vec!["stage".to_string(), "percent".to_string()])
+        );
+    }
+
+    #[test]
+    fn all_dbus_type_overrides() {
+        let cases = [
+            ("byte", DbusTypeTag::Byte),
+            ("boolean", DbusTypeTag::Boolean),
+            ("bool", DbusTypeTag::Boolean),
+            ("int16", DbusTypeTag::Int16),
+            ("uint16", DbusTypeTag::UInt16),
+            ("int32", DbusTypeTag::Int32),
+            ("uint32", DbusTypeTag::UInt32),
+            ("int64", DbusTypeTag::Int64),
+            ("uint64", DbusTypeTag::UInt64),
+            ("double", DbusTypeTag::Double),
+            ("string", DbusTypeTag::String),
+            ("object_path", DbusTypeTag::ObjectPath),
+            ("signature", DbusTypeTag::Signature),
+            ("unix_fd", DbusTypeTag::UnixFd),
+            ("variant", DbusTypeTag::Variant),
+        ];
+        for (name, expected) in cases {
+            let params = parse_param_tags(&format!(
+                "// @rpc.param(value, dir=in, dbus_type=\"{name}\")"
+            ))
+            .unwrap();
+            assert_eq!(params[0].dbus_type, Some(expected));
+            assert_eq!(
+                parse_dbus_return_type(&format!("// @rpc.dbus(return_type=\"{name}\")")).unwrap(),
+                Some(expected)
+            );
+        }
+
+        let signal = parse_signal_tag(
+            "// @rpc.signal(name=\"Changed\", fields=\"a,b,c\", dbus_types=\"byte,object_path,unix_fd\")",
+        )
+        .unwrap()
+        .unwrap();
+        assert_eq!(
+            signal.dbus_types,
+            Some(vec![
+                DbusTypeTag::Byte,
+                DbusTypeTag::ObjectPath,
+                DbusTypeTag::UnixFd
+            ])
         );
     }
 }

@@ -29,6 +29,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use anyhow::{bail, Context, Result};
+use clap::ValueEnum;
 
 use backend::Backend;
 use external_annotations::ExternalAnnotations;
@@ -69,6 +70,15 @@ pub struct GenerateOptions {
     /// gRPC output above.
     pub out_dbus_hh: Option<PathBuf>,
     pub out_dbus_cc: Option<PathBuf>,
+    pub dbus_header_include: Option<String>,
+    pub dbus_backend: DbusBackend,
+}
+
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, ValueEnum)]
+pub enum DbusBackend {
+    #[default]
+    Qt,
+    Gio,
 }
 
 #[derive(Debug)]
@@ -127,13 +137,20 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
         adapter_namespace: opts.adapter_namespace.clone(),
     })];
     match (&opts.out_dbus_hh, &opts.out_dbus_cc) {
-        (Some(out_hh), Some(out_cc)) => {
-            active.push(Box::new(backends::dbus::DbusBackend {
+        (Some(out_hh), Some(out_cc)) => match opts.dbus_backend {
+            DbusBackend::Qt => active.push(Box::new(backends::dbus::QtDbusBackend {
                 out_hh: out_hh.clone(),
                 out_cc: out_cc.clone(),
+                header_filename: opts.dbus_header_include.clone(),
                 adapter_namespace: opts.adapter_namespace.clone(),
-            }));
-        }
+            })),
+            DbusBackend::Gio => active.push(Box::new(backends::dbus::GioDbusBackend {
+                out_hh: out_hh.clone(),
+                out_cc: out_cc.clone(),
+                header_filename: opts.dbus_header_include.clone(),
+                adapter_namespace: opts.adapter_namespace.clone(),
+            })),
+        },
         (None, None) => {}
         _ => bail!("--out-dbus-hh and --out-dbus-cc must be given together"),
     }
@@ -158,7 +175,7 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
 
     // Translate the generic (backend name -> files) results back into the
     // named fields callers (this crate's CLI and tests) already expect.
-    // GrpcBackend/DbusBackend each document their own fixed output order
+    // GrpcBackend and both DBus backends document their fixed output order
     // (see their `generate()` bodies) — this is the one place that relies
     // on it, so a backend can't reorder its own outputs without updating
     // its match arm here too.
@@ -181,11 +198,14 @@ pub fn generate(opts: &GenerateOptions) -> Result<GeneratedFiles> {
         ),
     };
 
-    let (dbus_hh, dbus_cc) = match by_backend.iter().find(|(name, _)| *name == "dbus") {
+    let (dbus_hh, dbus_cc) = match by_backend
+        .iter()
+        .find(|(name, _)| matches!(*name, "dbus-qt" | "dbus-gio"))
+    {
         Some((_, files)) => match &files[..] {
             [hh, cc] => (Some(hh.path.clone()), Some(cc.path.clone())),
             _ => bail!(
-                "DbusBackend produced {} file(s), expected exactly 2",
+                "DBus backend produced {} file(s), expected exactly 2",
                 files.len()
             ),
         },

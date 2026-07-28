@@ -1,0 +1,172 @@
+{%- from "dbus/gio_marshalling.jinja" import marshall_type -%}
+{%- set service = model.interfaces[0] -%}
+{%- set dbus = service.dbus -%}
+{%- set ident = dbus.name | replace(".", "_") -%}
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen's GDBus backend from an annotated C++ header.
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include <array>
+#include <chrono>
+#include <list>
+#include <map>
+#include <string>
+#include <string_view>
+#include <type_traits>
+#include <utility>
+#include <vector>
+
+#include "rpc/dbus/Error.hh"
+#include "rpc/dbus/GioCodec.hh"
+{% if dbus.has_duration %}
+#include "rpc/Duration.hh"
+{% endif %}
+#include "{{ dbus_header_filename }}"
+
+{% for custom in dbus.custom_types %}
+{{ marshall_type(custom, model) }}
+{% endfor %}
+{% if adapter_namespace %}
+namespace {{ adapter_namespace }}
+{
+{% endif %}
+{{ ident }}::{{ ident }}(::workrave::rpc::dbus::GioServer &server,
+                         std::string path,
+                         {{ service.cxx_qualified_class }} &implementation)
+{% if service.signals %}
+  : server_(server)
+  , path_(std::move(path))
+{% else %}
+  : path_(std::move(path))
+{% endif %}
+  , implementation_(implementation)
+{
+{% if not service.signals %}
+  (void)server;
+{% endif %}
+{%- for signal in service.signals %}
+  signal_connections_.emplace_back(implementation_.{{ signal.cxx_symbol }}().connect(
+    [this]({% for field in signal.event_fields %}{% if not loop.first %}, {% endif %}{{ model.types[field.type_id].cxx.spelling }} {{ field.cxx_name }}{% endfor %}) {
+      emit_{{ signal.rpc_name }}({% for field in signal.event_fields %}{% if not loop.first %}, {% endif %}{{ field.cxx_name }}{% endfor %});
+    }));
+{% endfor %}
+}
+
+std::string_view
+{{ ident }}::name() const noexcept
+{
+  return "{{ dbus.name }}";
+}
+
+std::string_view
+{{ ident }}::introspection() const noexcept
+{
+  static constexpr std::string_view xml =
+  "  <interface name=\"{{ dbus.name }}\">\n"
+{% for method in service.methods %}
+  "    <method name=\"{{ method.rpc_name }}\">\n"
+{% for param in method.params %}
+  "      <arg type=\"{{ param.dbus_signature | default(model.types[param.type_id].dbus_signature, true) }}\" name=\"{{ param.proto_field }}\" direction=\"{{ param.direction | replace("_", "") }}\" />\n"
+{% endfor -%}
+{% if method.return_value is not none %}
+  "      <arg type=\"{{ method.return_value.dbus_signature | default(model.types[method.return_value.type_id].dbus_signature, true) }}\" name=\"{{ method.return_value.proto_field }}\" direction=\"out\" />\n"
+{% endif %}
+  "    </method>\n"
+{% endfor %}
+{% for signal in service.signals %}
+  "    <signal name=\"{{ signal.rpc_name }}\">\n"
+{% for field in signal.event_fields %}
+  "      <arg type=\"{{ field.dbus_signature | default(model.types[field.type_id].dbus_signature, true) }}\" name=\"{{ field.proto_name }}\" />\n"
+{% endfor %}
+  "    </signal>\n"
+{% endfor %}
+  "  </interface>\n";
+  return xml;
+}
+
+void
+{{ ident }}::dispatch(std::string_view method, GVariant *parameters, GDBusMethodInvocation *invocation)
+{
+  using Method = void ({{ ident }}::*)(GVariant *, GDBusMethodInvocation *);
+  struct Entry { std::string_view name; Method method; };
+  static constexpr std::array<Entry, {{ service.methods | length }}> methods = { {
+{% for method in service.methods %}
+    {.name = "{{ method.rpc_name }}", .method = &{{ ident }}::dispatch_{{ method.rpc_name }}},
+{% endfor %}
+  } };
+  for (const auto &entry: methods)
+    {
+      if (entry.name == method)
+        {
+          (this->*entry.method)(parameters, invocation);
+          return;
+        }
+    }
+  throw ::workrave::rpc::dbus::Error(
+    std::string(::workrave::rpc::dbus::error_names::unknown_method),
+    "Unknown DBus method: " + std::string(method));
+}
+
+{% for method in service.methods %}
+void
+{{ ident }}::dispatch_{{ method.rpc_name }}(GVariant *parameters, GDBusMethodInvocation *invocation)
+{
+  if (parameters == nullptr || !g_variant_is_of_type(parameters, G_VARIANT_TYPE_TUPLE)
+      || g_variant_n_children(parameters) != {{ method.dbus_num_in }})
+    {
+      throw ::workrave::rpc::dbus::Error(
+        std::string(::workrave::rpc::dbus::error_names::invalid_args),
+        "Incorrect number of input parameters for {{ dbus.name }}.{{ method.rpc_name }}");
+    }
+{% for param in method.params %}
+  {{ model.types[param.type_id].cxx.base_spelling }} p_{{ param.cxx_name }}{};
+{% if param.dbus_arg_index is not none %}
+  p_{{ param.cxx_name }} = {% if param.dbus_signature == "h" %}::workrave::rpc::dbus::checked_dbus_wire_cast<{{ model.types[param.type_id].cxx.base_spelling }}>(::workrave::rpc::dbus::gio_decode_unix_fd_child(parameters, {{ param.dbus_arg_index }}, invocation)){% elif param.dbus_cpp_type %}::workrave::rpc::dbus::checked_dbus_wire_cast<{{ model.types[param.type_id].cxx.base_spelling }}>(::workrave::rpc::dbus::gio_decode_child<{{ param.dbus_cpp_type }}>(parameters, {{ param.dbus_arg_index }})){% else %}::workrave::rpc::dbus::gio_decode_child<{{ model.types[param.type_id].cxx.base_spelling }}>(parameters, {{ param.dbus_arg_index }}){% endif %};
+{% endif %}
+{% endfor %}
+{% if method.return_value is not none %}
+  {{ model.types[method.return_value.type_id].cxx.base_spelling }} p_{{ method.return_value.proto_field }}{};
+  p_{{ method.return_value.proto_field }} = implementation_.{{ method.cxx_symbol }}({% for param in method.params %}{% if not loop.first %}, {% endif %}{% if model.types[param.type_id].cxx.is_pointer %}&{% endif %}p_{{ param.cxx_name }}{% endfor %});
+{% else %}
+  implementation_.{{ method.cxx_symbol }}({% for param in method.params %}{% if not loop.first %}, {% endif %}{% if model.types[param.type_id].cxx.is_pointer %}&{% endif %}p_{{ param.cxx_name }}{% endfor %});
+{% endif %}
+
+  std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
+{% if method.return_value is not none %}
+  reply_values.push_back({% if method.return_value.dbus_signature == "h" %}::workrave::rpc::dbus::gio_encode_unix_fd(::workrave::rpc::dbus::checked_dbus_wire_cast<::workrave::rpc::dbus::UnixFd>(p_{{ method.return_value.proto_field }}), reply_fd_list){% else %}::workrave::rpc::dbus::GioCodec<{{ method.return_value.dbus_cpp_type | default(model.types[method.return_value.type_id].cxx.base_spelling, true) }}>::encode({% if method.return_value.dbus_cpp_type %}::workrave::rpc::dbus::checked_dbus_wire_cast<{{ method.return_value.dbus_cpp_type }}>(p_{{ method.return_value.proto_field }}){% else %}p_{{ method.return_value.proto_field }}{% endif %}){% endif %});
+{% endif %}
+{% for param in method.params %}
+{% if param.direction == "out" %}
+  reply_values.push_back({% if param.dbus_signature == "h" %}::workrave::rpc::dbus::gio_encode_unix_fd(::workrave::rpc::dbus::checked_dbus_wire_cast<::workrave::rpc::dbus::UnixFd>(p_{{ param.cxx_name }}), reply_fd_list){% else %}::workrave::rpc::dbus::GioCodec<{{ param.dbus_cpp_type | default(model.types[param.type_id].cxx.base_spelling, true) }}>::encode({% if param.dbus_cpp_type %}::workrave::rpc::dbus::checked_dbus_wire_cast<{{ param.dbus_cpp_type }}>(p_{{ param.cxx_name }}){% else %}p_{{ param.cxx_name }}{% endif %}){% endif %});
+{% endif %}
+{% endfor %}
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  if (reply_fd_list.get() != nullptr)
+    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
+  else
+    g_dbus_method_invocation_return_value(invocation, reply);
+}
+
+{% endfor %}
+{%- for signal in service.signals %}
+void
+{{ ident }}::emit_{{ signal.rpc_name }}({% for field in signal.event_fields %}{% if not loop.first %}, {% endif %}{{ model.types[field.type_id].cxx.spelling }} {{ field.cxx_name }}{% endfor %})
+{
+  std::vector<GVariant *> values;
+  ::workrave::rpc::dbus::GioUnixFdList fd_list;
+{% for field in signal.event_fields %}
+  values.push_back({% if field.dbus_signature == "h" %}::workrave::rpc::dbus::gio_encode_unix_fd(::workrave::rpc::dbus::checked_dbus_wire_cast<::workrave::rpc::dbus::UnixFd>({{ field.cxx_name }}), fd_list){% else %}::workrave::rpc::dbus::GioCodec<{{ field.dbus_cpp_type | default(model.types[field.type_id].cxx.spelling, true) }}>::encode({% if field.dbus_cpp_type %}::workrave::rpc::dbus::checked_dbus_wire_cast<{{ field.dbus_cpp_type }}>({{ field.cxx_name }}){% else %}{{ field.cxx_name }}{% endif %}){% endif %});
+{% endfor %}
+  server_.emit_signal(path_, "{{ dbus.name }}", "{{ signal.rpc_name }}",
+                      g_variant_new_tuple(values.empty() ? nullptr : values.data(), values.size()),
+                      fd_list.get());
+}
+
+{%- endfor %}
+{%- if adapter_namespace %}
+} // namespace {{ adapter_namespace }}
+{%- endif %}

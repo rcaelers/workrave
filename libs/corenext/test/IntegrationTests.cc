@@ -49,9 +49,11 @@ using namespace std::chrono_literals;
 #include "core/IBreak.hh"
 #include "input-monitor/InputMonitorFactoryStub.hh"
 
-#include "dbus/DBusBinding.hh"
-#include "dbus/DBusException.hh"
-#include "dbus/IDBus.hh"
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
+#  include "dbus/DBusBinding.hh"
+#  include "dbus/DBusException.hh"
+#  include "dbus/IDBus.hh"
+#endif
 
 #include "config/Config.hh"
 #include "config/SettingCache.hh"
@@ -64,16 +66,12 @@ using namespace std::chrono_literals;
 #include "Timer.hh"
 #include "ICoreTestHooks.hh"
 #include "Statistics.hh"
-#if defined(HAVE_RPC_DBUS)
-#  include "Core.hh"
-#  include "RpcDBusServer.hh"
-#endif
-
 #include "SimulatedTime.hh"
 #include "ActivityMonitorStub.hh"
 
 using namespace workrave::config;
 
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
 class RecordingDBus : public workrave::dbus::IDBus
 {
 public:
@@ -178,6 +176,7 @@ private:
   std::set<std::string> services;
   std::vector<std::string> events;
 };
+#endif
 
 namespace workrave
 {
@@ -396,6 +395,7 @@ public:
     init_core();
   }
 
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   void init_with_dbus(const std::shared_ptr<workrave::dbus::IDBus> &test_dbus)
   {
     sim = SimulatedTime::create();
@@ -411,6 +411,7 @@ public:
 
     core->init(this, "");
   }
+#endif
 
   void init_with_timer_state(const std::string &state, bool install_load_hook = false)
   {
@@ -918,35 +919,6 @@ BOOST_AUTO_TEST_CASE(test_legacy_dbus_registers_all_break_objects_after_their_bi
   BOOST_CHECK(test_dbus->has_object_path(core_path));
   BOOST_CHECK(test_dbus->has_connection(core_path, "org.workrave.CoreInterface"));
   BOOST_CHECK(test_dbus->has_connection(core_path, "org.workrave.ConfigInterface"));
-
-  for (workrave::BreakId id = workrave::BREAK_ID_MICRO_BREAK; id < workrave::BREAK_ID_SIZEOF; id++)
-    {
-      const std::string path = "/org/workrave/Workrave/Break/" + CoreConfig::get_break_name(id);
-      BOOST_TEST_CONTEXT(path)
-      {
-        BOOST_CHECK(test_dbus->binding_precedes_connection(path, "org.workrave.BreakInterface"));
-        BOOST_CHECK(test_dbus->has_connection(path, "org.workrave.BreakInterface"));
-        BOOST_CHECK(test_dbus->has_object_path(path));
-      }
-    }
-}
-#endif
-
-#if defined(HAVE_RPC_DBUS)
-BOOST_AUTO_TEST_CASE(test_clang_dbus_registers_the_original_object_paths)
-{
-  auto test_dbus = std::make_shared<RecordingDBus>();
-  init_with_dbus(test_dbus);
-
-  auto core_impl = std::dynamic_pointer_cast<Core>(core);
-  BOOST_REQUIRE(core_impl != nullptr);
-  RpcDBusServer rpc_dbus(*core_impl, *config, test_dbus);
-
-  const std::string core_path = "/org/workrave/Workrave/Core";
-  BOOST_CHECK(test_dbus->has_object_path(core_path));
-  BOOST_CHECK(test_dbus->has_connection(core_path, "org.workrave.CoreInterface"));
-  BOOST_CHECK(test_dbus->has_connection(core_path, "org.workrave.ConfigInterface"));
-  BOOST_CHECK(!test_dbus->has_object_path("/org/workrave/Workrave/Rpc/Core"));
 
   for (workrave::BreakId id = workrave::BREAK_ID_MICRO_BREAK; id < workrave::BREAK_ID_SIZEOF; id++)
     {
@@ -1737,7 +1709,9 @@ BOOST_AUTO_TEST_CASE(test_core_services_and_force_idle)
   init();
 
   BOOST_CHECK(core->get_statistics() != nullptr);
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   BOOST_CHECK(core->get_dbus() != nullptr);
+#endif
   BOOST_CHECK(!core->is_user_active());
 
   tick(true, 1);

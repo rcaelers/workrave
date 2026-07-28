@@ -24,11 +24,13 @@
 #include "CoreHooks.hh"
 
 #if defined(HAVE_TESTS)
+#  if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
 std::function<std::shared_ptr<workrave::dbus::IDBus>()> &
 CoreHooks::hook_create_dbus()
 {
   return create_dbus_hook;
 }
+#  endif
 
 std::function<IActivityMonitor::Ptr()> &
 CoreHooks::hook_create_monitor()

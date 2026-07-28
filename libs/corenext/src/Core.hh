@@ -20,7 +20,6 @@
 
 #include <string>
 
-#include "dbus/IDBus.hh"
 #include "config/IConfigurator.hh"
 
 #include "core/ICore.hh"
@@ -29,7 +28,10 @@
 #include "Statistics.hh"
 #include "CoreHooks.hh"
 #include "CoreModes.hh"
-#include "CoreDBus.hh"
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
+#  include "CoreDBus.hh"
+#  include "dbus/IDBus.hh"
+#endif
 
 // Forward declarion of external interface.
 namespace workrave
@@ -64,7 +66,9 @@ public:
   workrave::IBreak::Ptr get_break(workrave::BreakId id) const override;
   workrave::IStatistics::Ptr get_statistics() const override;
   ICoreHooks::Ptr get_hooks() const override;
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   std::shared_ptr<workrave::dbus::IDBus> get_dbus() const override;
+#endif
   // @rpc(name="IsActive")
   bool is_user_active() const override;
   // @rpc(name="IsTaking")
@@ -102,8 +106,10 @@ public:
 #endif
 
 private:
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   void init_bus_bindings();
   void init_bus();
+#endif
 #if defined(HAVE_RPC)
   void init_rpc();
 #endif
@@ -127,8 +133,10 @@ private:
   //!
   CoreModes::Ptr core_modes;
 
-  //!
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
+  //! Legacy operation-mode DBus event bridge.
   CoreDBus::Ptr core_dbus;
+#endif
 
   //! GUI Widget factory.
   workrave::IApp *application{nullptr};
@@ -139,8 +147,10 @@ private:
   //! Did the OS announce a powersave?
   bool powersave{false};
 
-  //! DBUS bridge
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
+  //! Legacy DBus bridge.
   std::shared_ptr<workrave::dbus::IDBus> dbus;
+#endif
 
 #if defined(HAVE_RPC)
   // Declared last so it is destroyed first: it holds references into

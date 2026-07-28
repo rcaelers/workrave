@@ -27,7 +27,6 @@
 
 #include "utils/Paths.hh"
 #include "utils/TimeSource.hh"
-#include "dbus/IDBus.hh"
 
 #include "BreaksControl.hh"
 #include "core/CoreConfig.hh"
@@ -39,19 +38,25 @@ static const int SAVESTATETIME = 60;
 using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
 using namespace workrave::dbus;
+#endif
 
 BreaksControl::BreaksControl(IApp *app,
                              IActivityMonitor::Ptr activity_monitor,
                              CoreModes::Ptr modes,
                              Statistics::Ptr statistics,
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
                              std::shared_ptr<IDBus> dbus,
+#endif
                              CoreHooks::Ptr hooks)
   : application(app)
   , activity_monitor(activity_monitor)
   , modes(modes)
   , statistics(statistics)
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   , dbus(dbus)
+#endif
   , hooks(hooks)
   , insist_policy(InsistPolicy::Halt)
   , active_insist_policy(InsistPolicy::Invalid)
@@ -89,7 +94,9 @@ BreaksControl::init()
                                                  timers[break_id],
                                                  activity_monitor,
                                                  statistics,
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
                                                  dbus,
+#endif
                                                  hooks);
 #if defined(HAVE_RPC)
       break_registry.register_instance(break_id, *breaks[break_id]);

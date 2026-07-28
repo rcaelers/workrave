@@ -1,6 +1,6 @@
 # clang-rpc-gen
 
-Generates gRPC C++ service adapters and optional QtDBus bindings directly from
+Generates gRPC C++ service adapters and optional QtDBus/GDBus bindings directly from
 an annotated C++ header—no separate IDL file and no generated fragments stored
 in the Rust context model.
 
@@ -39,7 +39,8 @@ public:
 Add `@rpc.dbus(interface="org.example.Interface")` to the class and pass
 `--out-dbus-hh` plus `--out-dbus-cc` to render a DBus binding from the same
 model. The DBus interface name is wire-visible and is not affected by
-`--adapter-namespace`.
+`--adapter-namespace`. `--dbus-backend qt|gio` selects the native renderer;
+Workrave's CMake integration derives it from the UI toolkit.
 
 Tags are found by regex against the raw comment text — **any** comment
 style works (`//`, `///`, `//!`, `/* */`, `/** */`), including plain `//`.
@@ -69,12 +70,27 @@ separate ones; the tool doesn't care either way, it just greps for `@rpc`.
   `boost::signals2::signal`) has nothing for this tag to attach to. Refactor
   the class to expose a real accessor for the event if you need to annotate
   one of these; there's no code-free way to do it.
-- `@rpc.dbus(return_type="int32")` narrows an `@rpc` method's D-Bus return.
-  `@rpc.param(value, dir=in, dbus_type="int32")` does the same for an input
-  or output parameter, and `@rpc.signal(name="Progress", dbus_types="int32")`
-  does it for signal fields. The native C++ and gRPC types remain unchanged;
-  generated code uses checked integer conversion and returns a D-Bus type
-  error when a value is out of range.
+- `@rpc.dbus(return_type="int32")` changes an `@rpc` method's D-Bus scalar
+  representation. `@rpc.param(value, dir=in, dbus_type="int32")` does the
+  same for an input or output parameter, and
+  `@rpc.signal(name="Progress", dbus_types="int32")` does it for signal
+  fields. All D-Bus basic types are available, plus typed variants: `byte` (`y`), `boolean`/`bool`
+  (`b`), `int16` (`n`), `uint16` (`q`), `int32` (`i`), `uint32` (`u`),
+  `int64` (`x`), `uint64` (`t`), `double` (`d`), `string` (`s`),
+  `object_path` (`o`), `signature` (`g`), `unix_fd` (`h`), and a typed
+  `variant` (`v`). The native C++
+  and gRPC types remain unchanged. Generated code performs checked numeric
+  conversions, preserves object-path/signature/file-descriptor semantics in
+  backend-neutral wrapper types, and reports invalid values as D-Bus argument
+  errors. Native C++ types already map to their natural D-Bus basic type;
+  for example, `uint8_t` is a D-Bus byte without an override.
+- D-Bus containers are inferred from the existing C++ API rather than named
+  by `dbus_type`: `std::vector<T>` and `std::list<T>` become arrays (`aT`),
+  `std::map<K, V>` becomes a dictionary (`a{KV}`), and value structs become
+  D-Bus structs (`(...)`). These shapes nest recursively. A `variant`
+  override wraps the API's static C++ type in a D-Bus variant while keeping
+  that underlying type checked on decode; it does not expose Qt or GIO
+  dynamic-value classes to the API.
 - Direction is inferred for by-value/`const T&` parameters (`in`) and non-`void`
   returns (implicit response field). Any non-const pointer/reference parameter
   **must** carry `@rpc.param(name, dir=in|out|inout)`.
@@ -99,7 +115,7 @@ separate ones; the tool doesn't care either way, it just greps for `@rpc`.
   wire-repeated on its own).
 - `std::map<K, V>` (detected structurally) is wire-encoded as a native proto
   `map<K, V>` field (the analog of dbusgen.py's `<dictionary>`, DBus
-  signature `e{KV}`) — not `repeated`. K must be a protobuf-legal map key
+  signature `a{KV}`) — not `repeated`. K must be a protobuf-legal map key
   (bool, an integer type, or `std::string`; anything else — a float, an
   enum, a struct, a container — is rejected at generation time with a clear
   error, since protobuf itself doesn't allow it). V may be a scalar, an
@@ -124,11 +140,8 @@ separate ones; the tool doesn't care either way, it just greps for `@rpc`.
 - `@rpc.enum(name="...")` on an enum type / `@rpc.enum.value(name="...")` on
   one of its enumerators pins an explicit, backend-agnostic canonical name,
   independent of the auto-derived protobuf enum name the gRPC backend keeps
-  using regardless of these tags. Not consumed by anything yet — carried
-  through the IR (and surfaced as a `// canonical_name: "..."` comment in
-  the generated `.proto`) for a future wire backend that needs to reproduce
-  an exact existing name it doesn't get to choose, e.g. a DBus backend
-  matching this tree's `workrave-service.xml`, whose `<enum name="operation_mode">`/
+  using regardless of these tags. The DBus renderers use these names to match
+  this tree's established `workrave-service.xml`, whose `<enum name="operation_mode">`/
   `<value name="normal">` become the literal string sent on the wire (DBus
   has no native enum type).
 - A `Flags<Enum>`-shaped bitmask parameter (any class template literally
@@ -178,6 +191,7 @@ clang-rpc-gen \
   --grpc-services-namespace rpc \
   --adapter-namespace your::adapter::namespace \
   --annotations path/to/annotations.rpc \
+  --dbus-backend gio \
   --out-dbus-hh build/AnnotatedDBus.hh \
   --out-dbus-cc build/AnnotatedDBus.cc
 ```
@@ -218,10 +232,11 @@ against.
 
 ## Checked-in fallback
 
-Workrave keeps the generator outputs used by its native interfaces in adjacent
-`gen/` directories. CMake's `RPC_CODEGEN=AUTO` mode uses live Rust/libclang
-generation when both Cargo and libclang are available and otherwise uses those
-checked-in files.
+Workrave keeps both `*DBusQt.hh/.cc` and `*DBusGio.hh/.cc` outputs used by its
+native interfaces in adjacent `gen/` directories. CMake's `RPC_CODEGEN=AUTO`
+mode uses live Rust/libclang generation when both Cargo and libclang are
+available and otherwise copies the UI toolkit's checked-in pair to the normal
+backend-neutral build names.
 Use `RPC_CODEGEN=OFF` to force the fallback or `RPC_CODEGEN=ON` to require live
 generation. After changing RPC annotations, configure with codegen enabled and
 build the `rpc_refresh_pregenerated` target; source-header hashes prevent stale

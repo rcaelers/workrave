@@ -1,13 +1,20 @@
 {%- set service = model.interfaces[0] -%}
-{%- set ident = service.dbus.name | replace(".", "_") -%}
+{%- set dbus = service.dbus -%}
+{%- set ident = dbus.name | replace(".", "_") -%}
 // GENERATED FILE - DO NOT EDIT.
-// Produced by clang-rpc-gen's DBus backend from an annotated C++ header.
+// Produced by clang-rpc-gen's QtDBus backend from an annotated C++ header.
 #pragma once
 
-#include <memory>
 #include <string>
+#include <string_view>
+{% if service.signals %}
+#include <vector>
 
-#include "dbus/IDBus.hh"
+#include <boost/signals2/connection.hpp>
+{% endif %}
+
+#include "rpc/dbus/QtInterface.hh"
+#include "rpc/dbus/QtServer.hh"
 
 #include "{{ header_include }}"
 
@@ -15,16 +22,35 @@
 namespace {{ adapter_namespace }}
 {
 {% endif %}
-class {{ ident }}
+class {{ ident }} final : public ::workrave::rpc::dbus::QtInterface
 {
 public:
-  virtual ~{{ ident }}() = default;
-  static {{ ident }} *instance(std::shared_ptr<::workrave::dbus::IDBus> dbus);
-{% for signal in service.signals %}
-  virtual void {{ signal.rpc_name }}(const std::string &path{% for field in signal.event_fields %}, {{ model.types[field.type_id].cxx.spelling }} {{ field.cxx_name }}{% endfor %}) = 0;
+  {{ ident }}(::workrave::rpc::dbus::QtServer &server,
+              std::string path,
+              {{ service.cxx_qualified_class }} &implementation);
+  ~{{ ident }}() override = default;
+
+  [[nodiscard]] std::string_view name() const noexcept override;
+  [[nodiscard]] std::string_view introspection() const noexcept override;
+  bool dispatch(const QDBusMessage &message, const QDBusConnection &connection) override;
+
+private:
+{% for method in service.methods %}
+  void dispatch_{{ method.rpc_name }}(const QDBusMessage &message, const QDBusConnection &connection);
 {% endfor %}
+{% for signal in service.signals %}
+  void emit_{{ signal.rpc_name }}({% for field in signal.event_fields %}{% if not loop.first %}, {% endif %}{{ model.types[field.type_id].cxx.spelling }} {{ field.cxx_name }}{% endfor %});
+{% endfor %}
+
+{% if service.signals %}
+  ::workrave::rpc::dbus::QtServer &server_;
+{% endif %}
+  std::string path_;
+  {{ service.cxx_qualified_class }} &implementation_;
+{% if service.signals %}
+  std::vector<boost::signals2::scoped_connection> signal_connections_;
+{% endif %}
 };
-void init_{{ ident }}(std::shared_ptr<::workrave::dbus::IDBus> dbus);
 {% if adapter_namespace %}
 } // namespace {{ adapter_namespace }}
 {% endif %}{{- "" -}}

@@ -1,20 +1,43 @@
 // GENERATED FILE - DO NOT EDIT.
-// Produced by clang-rpc-gen's DBus backend from an annotated C++ header.
+// Produced by clang-rpc-gen's QtDBus backend from an annotated C++ header.
 #pragma once
 
-#include <memory>
 #include <string>
+#include <string_view>
 
-#include "dbus/IDBus.hh"
+
+#include "rpc/dbus/QtInterface.hh"
+#include "rpc/dbus/QtServer.hh"
 
 #include "dbus_struct_sequence.hh"
 
 
-class org_workrave_TestInterface2
+class org_workrave_TestInterface2 final : public ::workrave::rpc::dbus::QtInterface
 {
 public:
-  virtual ~org_workrave_TestInterface2() = default;
-  static org_workrave_TestInterface2 *instance(std::shared_ptr<::workrave::dbus::IDBus> dbus);
+  org_workrave_TestInterface2(::workrave::rpc::dbus::QtServer &server,
+              std::string path,
+              RpcDBusFixture2 &implementation);
+  ~org_workrave_TestInterface2() override = default;
+
+  [[nodiscard]] std::string_view name() const noexcept override;
+  [[nodiscard]] std::string_view introspection() const noexcept override;
+  bool dispatch(const QDBusMessage &message, const QDBusConnection &connection) override;
+
+private:
+
+  void dispatch_SetPoint(const QDBusMessage &message, const QDBusConnection &connection);
+
+  void dispatch_GetPoint(const QDBusMessage &message, const QDBusConnection &connection);
+
+  void dispatch_SetTags(const QDBusMessage &message, const QDBusConnection &connection);
+
+  void dispatch_GetPoints(const QDBusMessage &message, const QDBusConnection &connection);
+
+
+
+
+  std::string path_;
+  RpcDBusFixture2 &implementation_;
 
 };
-void init_org_workrave_TestInterface2(std::shared_ptr<::workrave::dbus::IDBus> dbus);

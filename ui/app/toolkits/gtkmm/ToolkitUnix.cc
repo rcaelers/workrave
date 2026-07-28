@@ -109,9 +109,7 @@ ToolkitUnix::create_prelude_window(int screen_index, workrave::BreakId break_id)
 #if defined(PLATFORM_OS_UNIX)
   if (workrave::utils::Platform::running_on_wayland() && GUIConfig::use_gnome_shell_preludes()())
     {
-      auto core = app->get_core();
-      auto dbus = core->get_dbus();
-      if (DBusPreludeWindow::is_gnome_shell_applet_available(dbus))
+      if (DBusPreludeWindow::is_gnome_shell_applet_available())
         {
           if (screen_index == 0)
             {

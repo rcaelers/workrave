@@ -27,6 +27,8 @@
 #include "ui/IApplicationContext.hh"
 #include "commonui/MenuModel.hh"
 
+// @rpc(service="workrave.ControlService")
+// @rpc.dbus(interface="org.workrave.ControlInterface")
 class Menus : public workrave::utils::Trackable
 {
 public:
@@ -34,6 +36,23 @@ public:
 
   explicit Menus(std::shared_ptr<IApplicationContext> app);
   ~Menus();
+
+  // @rpc(name="OpenMain")
+  void on_menu_open_main_window();
+  // @rpc(name="Preferences")
+  void on_menu_preferences();
+  // @rpc(name="ReadingMode")
+  void on_menu_reading(bool on);
+  // @rpc(name="Statistics")
+  void on_menu_statistics();
+  // @rpc(name="Exercises")
+  void on_menu_exercises();
+  // @rpc(name="RestBreak")
+  void on_menu_restbreak_now();
+  // @rpc(name="Quit")
+  void on_menu_quit();
+  // @rpc(name="About")
+  void on_menu_about();
 
   using sv = std::string_view;
   static constexpr std::string_view PREFERENCES = sv("workrave.preferences");
@@ -66,19 +85,11 @@ private:
   void set_operation_mode(workrave::OperationMode m);
   void set_usage_mode(workrave::UsageMode m);
 
-  void on_menu_open_main_window();
-  void on_menu_restbreak_now();
-  void on_menu_about();
-  void on_menu_quit();
-  void on_menu_preferences();
-  void on_menu_exercises();
-  void on_menu_statistics();
   void on_menu_normal();
   void on_menu_suspend();
   void on_menu_quiet();
   void on_menu_mode_for(workrave::OperationMode m, std::chrono::minutes duration);
   void on_menu_reading();
-  void on_menu_reading(bool on);
   void on_operation_mode_changed(workrave::OperationMode m);
   void on_usage_mode_changed(workrave::UsageMode m);
 

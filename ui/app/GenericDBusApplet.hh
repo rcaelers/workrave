@@ -18,8 +18,20 @@
 #ifndef GENERICDBUSAPPLET_HH
 #define GENERICDBUSAPPLET_HH
 
-#include <string>
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include <array>
+#include <cstdint>
+#include <functional>
+#include <list>
+#include <map>
 #include <set>
+#include <string>
+#include <utility>
+
+#include <boost/signals2/signal.hpp>
 
 #include "commonui/MenuDefs.hh"
 #include "commonui/MenuModel.hh"
@@ -27,17 +39,26 @@
 #include "ui/ITimerBoxView.hh"
 #include "ui/TimerBoxControl.hh"
 #include "utils/Signals.hh"
-#include "dbus/IDBus.hh"
-#include "dbus/IDBusWatch.hh"
 #include "ui/AppHold.hh"
 #include "ui/Plugin.hh"
 
+#if defined(HAVE_RPC_DBUS)
+#  include "rpc/dbus/Registration.hh"
+#elif defined(HAVE_DBUS)
+#  include "dbus/IDBus.hh"
+#  include "dbus/IDBusWatch.hh"
+#endif
+
 class AppletControl;
 
+// @rpc(service="workrave.AppletService")
+// @rpc.dbus(interface="org.workrave.AppletInterface")
 class GenericDBusApplet
   : public Plugin<GenericDBusApplet>
   , public ITimerBoxView
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   , public workrave::dbus::IDBusWatch
+#endif
   , public workrave::utils::Trackable
 {
 public:
@@ -92,20 +113,43 @@ public:
     uint8_t flags{};
   };
 
+  using MenuItems = std::list<MenuItem>;
+
   explicit GenericDBusApplet(std::shared_ptr<IPluginContext> context);
   ~GenericDBusApplet() override;
 
   void init();
 
-  // DBus
-  virtual void get_menu(std::list<MenuItem> &out);
-  virtual void get_tray_icon_enabled(bool &enabled) const;
-  virtual void applet_menu_action(const std::string &action);
+  // @rpc(name="Embed")
+  virtual void applet_embed(bool enabled, const std::string &sender);
+  // @rpc(name="Command")
   virtual void applet_command(int command);
-  virtual void applet_embed(bool enable, const std::string &sender);
-  virtual void button_clicked(int button);
+  // @rpc(name="MenuAction")
+  virtual void applet_menu_action(const std::string &action);
+  // @rpc(name="ButtonClicked")
+  virtual void button_clicked(uint32_t button);
+  // @rpc(name="GetMenu")
+  // @rpc.param(menuitems, dir=out)
+  virtual void get_menu(std::list<MenuItem> &menuitems);
+  // @rpc(name="GetTrayIconEnabled")
+  // @rpc.param(enabled, dir=out)
+  virtual void get_tray_icon_enabled(bool &enabled) const;
 
-  using MenuItems = std::list<MenuItem>;
+  // @rpc.signal(name="TimersUpdated", fields="micro,rest,daily")
+  boost::signals2::signal<void(TimerData, TimerData, TimerData)> &signal_timers_updated();
+  // @rpc.signal(name="MenuUpdated", fields="menuitems")
+  boost::signals2::signal<void(MenuItems)> &signal_menu_updated();
+  // @rpc.signal(name="MenuItemUpdated", fields="menuitem")
+  boost::signals2::signal<void(MenuItem)> &signal_menu_item_updated();
+  // @rpc.signal(name="TrayIconUpdated", fields="enabled")
+  boost::signals2::signal<void(bool)> &signal_tray_icon_updated();
+
+#if defined(HAVE_RPC_DBUS)
+  using NameWatcher =
+    std::function<workrave::rpc::dbus::Registration(std::string, std::function<void(bool)>)>;
+  void set_name_watcher(NameWatcher watcher);
+  void publish_state();
+#endif
 
 private:
   // ITimerBoxView
@@ -121,8 +165,11 @@ private:
   void set_icon(OperationModeIcon icon) override;
   void update_view() override;
 
-  // IDBusWatch
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   void bus_name_presence(const std::string &name, bool present) override;
+#else
+  void bus_name_presence(const std::string &name, bool present);
+#endif
 
   void send_menu_updated_event();
   void init_menu_list(std::list<MenuItem> &items, menus::Node::Ptr node);
@@ -138,8 +185,17 @@ private:
   bool embedded{false};
   std::array<TimerData, workrave::BREAK_ID_SIZEOF> data;
   std::set<std::string> active_bus_names;
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   std::shared_ptr<workrave::dbus::IDBus> dbus;
+#elif defined(HAVE_RPC_DBUS)
+  NameWatcher name_watcher;
+  std::map<std::string, workrave::rpc::dbus::Registration> name_watches;
+#endif
   std::shared_ptr<TimerBoxControl> control;
+  boost::signals2::signal<void(TimerData, TimerData, TimerData)> timers_updated_signal;
+  boost::signals2::signal<void(MenuItems)> menu_updated_signal;
+  boost::signals2::signal<void(MenuItem)> menu_item_updated_signal;
+  boost::signals2::signal<void(bool)> tray_icon_updated_signal;
 };
 
 #endif // GENERICDBUSAPPLET_HH

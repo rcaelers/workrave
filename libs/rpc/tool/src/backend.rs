@@ -2,7 +2,7 @@
 //! `generate()` in `lib.rs` is a plain, target-agnostic driver: it parses
 //! the annotated header once into a [`crate::ir::Unit`], builds whichever
 //! [`Backend`]s were requested (`backends::grpc::GrpcBackend` always,
-//! `backends::dbus::DbusBackend` when `--out-dbus-hh`/`--out-dbus-cc` are
+//! a selected native DBus backend when `--out-dbus-hh`/`--out-dbus-cc` are
 //! given), and asks each one for its output files — it has no
 //! target-specific knowledge of its own. Adding a third target later means
 //! adding a `backends/<name>/` directory implementing this trait, not
@@ -24,7 +24,7 @@ pub(crate) struct GeneratedFile {
 
 pub(crate) trait Backend {
     /// Short, stable identifier for logging and error messages, e.g.
-    /// "grpc", "dbus" — not used for any file naming.
+    /// "grpc", "dbus-qt" — not used for any file naming.
     fn name(&self) -> &'static str;
 
     /// Renders this backend's output from the single immutable semantic model

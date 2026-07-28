@@ -91,9 +91,31 @@ if (PLATFORM_OS_MACOS)
   target_include_directories(workrave-app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
 
-if (HAVE_DBUS)
+if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
   dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-gui.xml ${CMAKE_CURRENT_BINARY_DIR} DBusGUI)
   target_sources(workrave-app PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc GenericDBusApplet.cc)
+endif()
+
+if (HAVE_RPC_DBUS)
+  rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/Menus.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusControlBinding
+    TARGET workrave-app
+    PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
+    ADAPTER_NAMESPACE workrave::ui::rpc)
+  rpc_generate_dbus_source(${CMAKE_CURRENT_SOURCE_DIR}/GenericDBusApplet.hh ${CMAKE_CURRENT_BINARY_DIR} RpcDBusAppletBinding
+    TARGET workrave-app
+    PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
+    ADAPTER_NAMESPACE workrave::ui::rpc)
+  target_sources(workrave-app PRIVATE
+    GenericDBusApplet.cc
+    RpcDBusApplicationServer.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcDBusAppletBindingDBus.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcDBusControlBindingDBus.cc)
+
+  if (RPC_DBUS_BACKEND STREQUAL "qt")
+    target_link_libraries(workrave-app PRIVATE workrave-libs-rpc-dbus-qt)
+  elseif (RPC_DBUS_BACKEND STREQUAL "gio")
+    target_link_libraries(workrave-app PRIVATE workrave-libs-rpc-dbus-gio)
+  endif()
 endif()
 
 if (HAVE_DBUS OR HAVE_RPC_DBUS)
@@ -117,12 +139,15 @@ target_link_libraries(workrave-app
   Boost::serialization
   workrave-libs-audio
   workrave-libs-config
-  workrave-libs-dbus
   workrave-libs-input-monitor
   workrave-libs-session
   workrave-libs-utils
   workrave-libs-ui-prefwidgets
   workrave-libs-commonui)
+
+if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
+  target_link_libraries(workrave-app PRIVATE workrave-libs-dbus)
+endif()
 
 if (HAVE_CORE_NEXT)
   target_link_libraries(workrave-app PRIVATE workrave-libs-core-next)

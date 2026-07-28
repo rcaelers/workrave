@@ -1,0 +1,137 @@
+{%- macro marshall_type(custom, model) -%}
+{%- set ty = model.types[custom.type_id] -%}
+{%- if custom.kind == "enum" -%}
+namespace workrave::rpc::dbus
+{
+template<>
+struct GioSignature<{{ ty.cxx.spelling }}>
+{
+  static std::string value() { return "s"; }
+};
+
+template<>
+struct GioCodec<{{ ty.cxx.spelling }}>
+{
+  static {{ ty.cxx.spelling }} decode(GVariant *variant)
+  {
+    const std::string value = GioCodec<std::string>::decode(variant);
+{% for value in custom.values %}
+    if (value == "{{ value.canonical_name }}") return {{ value.cxx_symbol }};
+{% endfor %}
+    throw Error(std::string(error_names::invalid_args), "Unknown DBus enum value: " + value);
+  }
+
+  static GVariant *encode(const {{ ty.cxx.spelling }} &value)
+  {
+    switch (value)
+      {
+{% for value in custom.values %}
+      case {{ value.cxx_symbol }}: return g_variant_new_string("{{ value.canonical_name }}");
+{% endfor %}
+      default:
+        throw Error(std::string(error_names::invalid_args), "Type error in enum");
+      }
+  }
+};
+} // namespace workrave::rpc::dbus
+{%- elif custom.kind == "struct" -%}
+namespace workrave::rpc::dbus
+{
+template<>
+struct GioSignature<{{ ty.cxx.spelling }}>
+{
+  static std::string value()
+  {
+    std::string result = "(";
+{% for field in ty.shape.fields %}
+    result += GioSignature<{{ model.types[field.type_id].cxx.spelling }}>::value();
+{% endfor %}
+    result += ")";
+    return result;
+  }
+};
+
+template<>
+struct GioCodec<{{ ty.cxx.spelling }}>
+{
+  static {{ ty.cxx.spelling }} decode(GVariant *variant)
+  {
+    gio_require_type(variant, GioSignature<{{ ty.cxx.spelling }}>::value());
+    {{ ty.cxx.spelling }} result{};
+{% for field in ty.shape.fields %}
+    result.{{ field.cxx_name }} = gio_decode_child<{{ model.types[field.type_id].cxx.spelling }}>(variant, {{ loop.index0 }});
+{% endfor %}
+    return result;
+  }
+
+  static GVariant *encode(const {{ ty.cxx.spelling }} &value)
+  {
+    GVariant *fields[] = {
+{% for field in ty.shape.fields %}
+      GioCodec<{{ model.types[field.type_id].cxx.spelling }}>::encode(value.{{ field.cxx_name }}),
+{% endfor %}
+    };
+    return g_variant_new_tuple(fields, {{ ty.shape.fields | length }});
+  }
+};
+} // namespace workrave::rpc::dbus
+{%- elif custom.kind == "duration" -%}
+namespace workrave::rpc::dbus
+{
+template<>
+struct GioSignature<{{ ty.cxx.spelling }}>
+{
+  static std::string value() { return "s"; }
+};
+
+template<>
+struct GioCodec<{{ ty.cxx.spelling }}>
+{
+  static {{ ty.cxx.spelling }} decode(GVariant *variant)
+  {
+    const std::string text = GioCodec<std::string>::decode(variant);
+    return std::chrono::duration_cast<{{ ty.cxx.spelling }}>(::rpc::parse_duration(text));
+  }
+
+  static GVariant *encode(const {{ ty.cxx.spelling }} &value)
+  {
+    const auto seconds = std::chrono::duration_cast<std::chrono::seconds>(value).count();
+    return GioCodec<std::string>::encode(std::to_string(seconds) + "s");
+  }
+};
+} // namespace workrave::rpc::dbus
+{%- elif custom.kind == "bitmask" -%}
+{%- set enum_ty = model.types[custom.enum_type] -%}
+namespace workrave::rpc::dbus
+{
+template<>
+struct GioSignature<{{ ty.cxx.spelling }}>
+{
+  static std::string value() { return GioSignature<std::list<{{ enum_ty.cxx.spelling }}>>::value(); }
+};
+
+template<>
+struct GioCodec<{{ ty.cxx.spelling }}>
+{
+  static {{ ty.cxx.spelling }} decode(GVariant *variant)
+  {
+    const auto items = GioCodec<std::list<{{ enum_ty.cxx.spelling }}>>::decode(variant);
+    {{ ty.cxx.spelling }} result;
+    for (const auto &item: items) result |= item;
+    return result;
+  }
+
+  static GVariant *encode(const {{ ty.cxx.spelling }} &value)
+  {
+    std::list<{{ enum_ty.cxx.spelling }}> items;
+    for (unsigned int bit = 0; bit < workrave::utils::enum_traits<{{ enum_ty.cxx.spelling }}>::bits; ++bit)
+      {
+        const auto item = static_cast<{{ enum_ty.cxx.spelling }}>(1U << bit);
+        if (value.is_set(item)) items.push_back(item);
+      }
+    return GioCodec<std::list<{{ enum_ty.cxx.spelling }}>>::encode(items);
+  }
+};
+} // namespace workrave::rpc::dbus
+{%- endif -%}
+{%- endmacro -%}

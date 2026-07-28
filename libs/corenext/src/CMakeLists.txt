@@ -1,12 +1,10 @@
 add_library(workrave-libs-core-next STATIC
   Break.cc
-  BreakDBus.cc
   BreakStateModel.cc
   BreakStatistics.cc
   BreakConfig.cc
   BreaksControl.cc
   Core.cc
-  CoreDBus.cc
   CoreModes.cc
   CoreConfig.cc
   CoreHooks.cc
@@ -20,6 +18,7 @@ add_library(workrave-libs-core-next STATIC
 target_code_coverage(workrave-libs-core-next)
 
 if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
+  target_sources(workrave-libs-core-next PRIVATE BreakDBus.cc CoreDBus.cc)
   dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-service.xml ${CMAKE_CURRENT_BINARY_DIR} DBusWorkraveNext)
   target_sources(workrave-libs-core-next PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkraveNext.cc)
 endif()
@@ -50,6 +49,11 @@ endif()
 if (HAVE_RPC_DBUS)
   # The direct bindings include rpc/Duration.hh for annotated chrono methods.
   target_include_directories(workrave-libs-core-next PRIVATE ${CMAKE_SOURCE_DIR}/libs/rpc/include)
+  if (RPC_DBUS_BACKEND STREQUAL "qt")
+    target_link_libraries(workrave-libs-core-next PUBLIC workrave-libs-rpc-dbus-qt)
+  elseif (RPC_DBUS_BACKEND STREQUAL "gio")
+    target_link_libraries(workrave-libs-core-next PUBLIC workrave-libs-rpc-dbus-gio)
+  endif()
 endif()
 
 if (HAVE_RPC)
@@ -128,8 +132,11 @@ endif()
 target_link_libraries(workrave-libs-core-next
   PUBLIC
   workrave-libs-utils
-  workrave-libs-config
-  workrave-libs-dbus)
+  workrave-libs-config)
+
+if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
+  target_link_libraries(workrave-libs-core-next PUBLIC workrave-libs-dbus)
+endif()
 
 target_link_libraries(workrave-libs-core-next PUBLIC
   $<$<NOT:$<BOOL:$<TARGET_PROPERTY:USE_STUBS>>>:workrave-libs-input-monitor>

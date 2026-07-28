@@ -191,13 +191,16 @@ target_link_libraries(workrave-toolkit-gtkmm
   workrave-app
   workrave-libs-audio
   workrave-libs-config
-  workrave-libs-dbus
   workrave-libs-input-monitor
   workrave-libs-session
   workrave-libs-utils
   workrave-libs-ui-prefwidgets
   workrave-libs-ui-prefwidgets-gtkmm
   fmt::fmt)
+
+if (HAVE_DBUS AND NOT HAVE_RPC_DBUS)
+  target_link_libraries(workrave-toolkit-gtkmm PRIVATE workrave-libs-dbus)
+endif()
 
 if (HAVE_UNFOLD_AUTO_UPDATE)
   target_link_libraries(workrave-toolkit-gtkmm PRIVATE workrave-libs-updater)

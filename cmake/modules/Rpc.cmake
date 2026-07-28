@@ -152,8 +152,8 @@ endfunction()
 # DBUS additionally requests a DBus binding (DIRECTORY/NAME DBus.hh/.cc, see
 # libs/rpc/tool/src/dbus_gen.rs) alongside the gRPC output — HEADER's
 # interface must carry @rpc.dbus(interface="..."). No-op unless either DBus
-# implementation is enabled, since the generated code includes libs/dbus's
-# runtime headers.
+# implementation is enabled. The UI toolkit selects the standalone QtDBus or
+# GDBus runtime in libs/rpc; generated code never includes libs/dbus.
 # Deliberately just generates the files: the caller decides which target owns
 # and links them. Use rpc_generate_dbus_source() when no gRPC output is needed.
 macro(rpc_generate_source HEADER DIRECTORY NAME)
@@ -211,7 +211,10 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
     if (_rpc_DBUS AND (HAVE_DBUS OR HAVE_RPC_DBUS))
       set(_rpc_dbus_hh ${DIRECTORY}/${NAME}DBus.hh)
       set(_rpc_dbus_cc ${DIRECTORY}/${NAME}DBus.cc)
-      set(_rpc_dbus_args --out-dbus-hh ${_rpc_dbus_hh} --out-dbus-cc ${_rpc_dbus_cc})
+      set(_rpc_dbus_args
+        --dbus-backend ${RPC_DBUS_BACKEND}
+        --out-dbus-hh ${_rpc_dbus_hh}
+        --out-dbus-cc ${_rpc_dbus_cc})
       set(_rpc_dbus_outputs ${_rpc_dbus_hh} ${_rpc_dbus_cc})
     endif()
 
@@ -386,6 +389,7 @@ macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
               ${_rpc_dbus_header_include_args}
               ${_rpc_dbus_namespace_args}
               ${_rpc_dbus_annotations_args}
+              --dbus-backend ${RPC_DBUS_BACKEND}
               --out-dbus-hh ${_rpc_dbus_hh}
               --out-dbus-cc ${_rpc_dbus_cc}
       DEPENDS ${HEADER} ${_rpc_dbus_parse_context} ${RPC_TOOL_BIN} ${_rpc_dbus_annotations_depends}
@@ -403,8 +407,23 @@ macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
                   ${_rpc_dbus_header_include_args}
                   ${_rpc_dbus_namespace_args}
                   ${_rpc_dbus_annotations_args}
-                  --out-dbus-hh ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBus.hh
-                  --out-dbus-cc ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBus.cc
+                  --dbus-backend qt
+                  --dbus-header-include ${NAME}DBus.hh
+                  --out-dbus-hh ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBusQt.hh
+                  --out-dbus-cc ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBusQt.cc
+          COMMAND ${RPC_TOOL_BIN}
+                  --header ${HEADER}
+                  --parse-context ${_rpc_dbus_parse_context}
+                  --out-proto ${_rpc_dbus_proto}
+                  --out-adapter-hh ${_rpc_dbus_adapter_hh}
+                  --out-adapter-cc ${_rpc_dbus_adapter_cc}
+                  ${_rpc_dbus_header_include_args}
+                  ${_rpc_dbus_namespace_args}
+                  ${_rpc_dbus_annotations_args}
+                  --dbus-backend gio
+                  --dbus-header-include ${NAME}DBus.hh
+                  --out-dbus-hh ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBusGio.hh
+                  --out-dbus-cc ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBusGio.cc
           COMMAND ${CMAKE_COMMAND} -DINPUT=${HEADER} -DOUTPUT=${_rpc_dbus_PREGENERATED_DIR}/${NAME}.sha256
                   -P ${CMAKE_SOURCE_DIR}/cmake/modules/WriteFileHash.cmake
           DEPENDS ${HEADER} ${_rpc_dbus_parse_context} ${RPC_TOOL_BIN} ${_rpc_dbus_annotations_depends}
@@ -413,14 +432,22 @@ macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
       endif()
     else()
       rpc_verify_pregenerated(${HEADER} ${_rpc_dbus_PREGENERATED_DIR} ${NAME})
-      set(_rpc_dbus_pregen_hh ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBus.hh)
-      set(_rpc_dbus_pregen_cc ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBus.cc)
+      if (RPC_DBUS_BACKEND STREQUAL "qt")
+        set(_rpc_dbus_pregen_suffix Qt)
+      elseif (RPC_DBUS_BACKEND STREQUAL "gio")
+        set(_rpc_dbus_pregen_suffix Gio)
+      else()
+        message(FATAL_ERROR "Unknown internal RPC DBus backend: ${RPC_DBUS_BACKEND}")
+      endif()
+      set(_rpc_dbus_pregen_hh ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBus${_rpc_dbus_pregen_suffix}.hh)
+      set(_rpc_dbus_pregen_cc ${_rpc_dbus_PREGENERATED_DIR}/${NAME}DBus${_rpc_dbus_pregen_suffix}.cc)
       if (NOT EXISTS ${_rpc_dbus_pregen_hh} OR NOT EXISTS ${_rpc_dbus_pregen_cc})
         message(FATAL_ERROR "Missing pre-generated DBus artifacts for ${NAME} in ${_rpc_dbus_PREGENERATED_DIR}")
       endif()
       add_custom_command(
         OUTPUT ${_rpc_dbus_hh} ${_rpc_dbus_cc}
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${_rpc_dbus_pregen_hh} ${_rpc_dbus_pregen_cc} ${DIRECTORY}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${_rpc_dbus_pregen_hh} ${_rpc_dbus_hh}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${_rpc_dbus_pregen_cc} ${_rpc_dbus_cc}
         DEPENDS ${_rpc_dbus_pregen_hh} ${_rpc_dbus_pregen_cc}
         COMMENT "Using checked-in DBus binding for ${HEADER}")
     endif()

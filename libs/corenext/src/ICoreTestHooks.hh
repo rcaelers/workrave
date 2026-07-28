@@ -25,10 +25,12 @@
 #include <boost/signals2.hpp>
 
 #include "config/IConfigurator.hh"
-#include "dbus/IDBus.hh"
 #include "IActivityMonitor.hh"
 #include "core/CoreTypes.hh"
 #include "Timer.hh"
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
+#  include "dbus/IDBus.hh"
+#endif
 
 class ICoreTestHooks
 {
@@ -37,7 +39,9 @@ public:
 
   using Ptr = std::shared_ptr<ICoreTestHooks>;
 
+#if defined(HAVE_DBUS) && !defined(HAVE_RPC_DBUS)
   virtual std::function<std::shared_ptr<workrave::dbus::IDBus>()> &hook_create_dbus() = 0;
+#endif
   virtual std::function<IActivityMonitor::Ptr()> &hook_create_monitor() = 0;
   virtual std::function<bool(Timer::Ptr timers[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state() = 0;
 };
