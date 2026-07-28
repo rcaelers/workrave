@@ -187,10 +187,12 @@ override path and backend codecs.
   and typed variants (`v`). Arrays, dictionaries, and structs are inferred
   recursively from the C++ API; `variant` is an explicit override because
   the variant boundary is not present in the native C++ type.
-- UNIX file descriptors use native descriptor transfer on both backends.
-  QtDBus uses `QDBusUnixFileDescriptor`; GDBus resolves incoming handles from
-  the message's `GUnixFDList` and attaches outgoing descriptors to method
-  replies and signals.
+- UNIX file descriptors use native descriptor transfer on Unix. QtDBus uses
+  `QDBusUnixFileDescriptor`; GDBus resolves incoming handles from the message's
+  `GUnixFDList` and attaches outgoing descriptors to method replies and
+  signals. On platforms without GIO's UNIX-FD APIs (notably Windows), the same
+  generated bindings compile normally and report a D-Bus failure only if an
+  `h` value is actually used.
 - Numeric representation overrides are range-checked in both directions.
   Object paths and signatures retain distinct wrapper types until the native
   API boundary, so backend validation is not weakened into plain strings.

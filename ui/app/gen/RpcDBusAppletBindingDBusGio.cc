@@ -362,10 +362,7 @@ org_workrave_AppletInterface::dispatch_Embed(GVariant *parameters, GDBusMethodIn
 
   GVariant *reply = g_variant_new_tuple(
     reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
-  if (reply_fd_list.get() != nullptr)
-    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
-  else
-    g_dbus_method_invocation_return_value(invocation, reply);
+  ::workrave::rpc::dbus::gio_return_method_value(invocation, reply, reply_fd_list.get());
 }
 
 
@@ -397,10 +394,7 @@ org_workrave_AppletInterface::dispatch_Command(GVariant *parameters, GDBusMethod
 
   GVariant *reply = g_variant_new_tuple(
     reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
-  if (reply_fd_list.get() != nullptr)
-    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
-  else
-    g_dbus_method_invocation_return_value(invocation, reply);
+  ::workrave::rpc::dbus::gio_return_method_value(invocation, reply, reply_fd_list.get());
 }
 
 
@@ -432,10 +426,7 @@ org_workrave_AppletInterface::dispatch_MenuAction(GVariant *parameters, GDBusMet
 
   GVariant *reply = g_variant_new_tuple(
     reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
-  if (reply_fd_list.get() != nullptr)
-    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
-  else
-    g_dbus_method_invocation_return_value(invocation, reply);
+  ::workrave::rpc::dbus::gio_return_method_value(invocation, reply, reply_fd_list.get());
 }
 
 
@@ -467,10 +458,7 @@ org_workrave_AppletInterface::dispatch_ButtonClicked(GVariant *parameters, GDBus
 
   GVariant *reply = g_variant_new_tuple(
     reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
-  if (reply_fd_list.get() != nullptr)
-    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
-  else
-    g_dbus_method_invocation_return_value(invocation, reply);
+  ::workrave::rpc::dbus::gio_return_method_value(invocation, reply, reply_fd_list.get());
 }
 
 
@@ -502,10 +490,7 @@ org_workrave_AppletInterface::dispatch_GetMenu(GVariant *parameters, GDBusMethod
 
   GVariant *reply = g_variant_new_tuple(
     reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
-  if (reply_fd_list.get() != nullptr)
-    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
-  else
-    g_dbus_method_invocation_return_value(invocation, reply);
+  ::workrave::rpc::dbus::gio_return_method_value(invocation, reply, reply_fd_list.get());
 }
 
 
@@ -537,10 +522,7 @@ org_workrave_AppletInterface::dispatch_GetTrayIconEnabled(GVariant *parameters, 
 
   GVariant *reply = g_variant_new_tuple(
     reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
-  if (reply_fd_list.get() != nullptr)
-    g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, reply, reply_fd_list.get());
-  else
-    g_dbus_method_invocation_return_value(invocation, reply);
+  ::workrave::rpc::dbus::gio_return_method_value(invocation, reply, reply_fd_list.get());
 }
 
 

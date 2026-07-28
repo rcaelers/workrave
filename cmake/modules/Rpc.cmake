@@ -41,6 +41,7 @@ if (RPC_CODEGEN_ENABLED)
 
   add_custom_target(clang_rpc_gen_tool ALL DEPENDS ${RPC_TOOL_BIN})
   add_custom_target(rpc_refresh_pregenerated)
+  add_dependencies(rpc_refresh_pregenerated clang_rpc_gen_tool)
   message(STATUS "RPC bindings: generating with Rust/libclang (RPC_CODEGEN=${RPC_CODEGEN})")
 else()
   message(STATUS "RPC bindings: using checked-in gen/ artifacts (RPC_CODEGEN=${RPC_CODEGEN})")
@@ -81,6 +82,15 @@ function(rpc_generate_parse_context TARGET_NAME DIRECTORY NAME OUTPUT_VAR)
     "$<$<BOOL:${_rpc_includes}>:include=$<JOIN:${_rpc_includes},\ninclude=>>\n"
     "$<$<BOOL:${_rpc_definitions}>:define=$<JOIN:${_rpc_definitions},\ndefine=>>\n")
 
+  # Target include properties do not contain the compiler's implicit search
+  # directories. libclang does not necessarily use the same resource directory
+  # as CMAKE_CXX_COMPILER (notably with MSYS2 Clang), so reproduce CMake's
+  # detected implicit directories explicitly. This includes Clang's builtin
+  # headers such as mm_malloc.h.
+  foreach(_rpc_system_include IN LISTS CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES)
+    string(APPEND _rpc_context_content "system-include=${_rpc_system_include}\n")
+  endforeach()
+
   if (CMAKE_SYSROOT)
     string(APPEND _rpc_context_content "sysroot=${CMAKE_SYSROOT}\n")
   endif()
@@ -115,7 +125,8 @@ endfunction()
 # TARGET is the CMake target whose semantic compilation context should be used
 # to parse HEADER. CMake writes the target's effective C++ standard, include
 # directories, compile definitions, target, and sysroot to a typed context
-# file. Build-only compiler flags are deliberately not passed to libclang.
+# file, together with CMake's detected implicit compiler include directories.
+# Build-only compiler flags are deliberately not passed to libclang.
 #
 # HEADER_INCLUDE is the literal text used in the generated adapter's
 # #include "..." of HEADER. Defaults to HEADER's bare file name, which only
@@ -164,6 +175,7 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
       message(FATAL_ERROR "rpc_generate_source(${NAME}) requires TARGET <cmake-target>")
     endif()
     if (RPC_CODEGEN_ENABLED)
+      add_dependencies(${_rpc_TARGET} clang_rpc_gen_tool)
       rpc_generate_parse_context(${_rpc_TARGET} ${DIRECTORY} ${NAME} _rpc_parse_context)
     elseif (NOT _rpc_PREGENERATED_DIR)
       message(FATAL_ERROR "rpc_generate_source(${NAME}) requires PREGENERATED_DIR when RPC_CODEGEN=OFF")
@@ -344,6 +356,7 @@ macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
       message(FATAL_ERROR "rpc_generate_dbus_source(${NAME}) requires TARGET <cmake-target>")
     endif()
     if (RPC_CODEGEN_ENABLED)
+      add_dependencies(${_rpc_dbus_TARGET} clang_rpc_gen_tool)
       rpc_generate_parse_context(${_rpc_dbus_TARGET} ${DIRECTORY} ${NAME} _rpc_dbus_parse_context)
     elseif (NOT _rpc_dbus_PREGENERATED_DIR)
       message(FATAL_ERROR "rpc_generate_dbus_source(${NAME}) requires PREGENERATED_DIR when RPC_CODEGEN=OFF")

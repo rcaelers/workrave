@@ -284,6 +284,7 @@ namespace workrave::rpc::dbus
                                              parameters,
                                              &error);
       }
+#if defined(G_OS_UNIX)
     else
       {
         GDBusMessage *message = g_dbus_message_new_signal(object_path.c_str(),
@@ -298,6 +299,13 @@ namespace workrave::rpc::dbus
                                                &error);
         g_object_unref(message);
       }
+#else
+    else
+      {
+        throw Error(std::string(error_names::failed),
+                    "D-Bus UNIX_FD arguments are not supported on this platform");
+      }
+#endif
     if (!sent)
       {
         throw Error(std::string(error_names::failed),

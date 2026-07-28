@@ -1313,9 +1313,18 @@ fn gio_dbus_bindings_compile_against_real_gio() {
         );
         let dbus_hh = fs::read_to_string(generated.dbus_hh.as_ref().unwrap()).unwrap();
         let dbus_cc = generated.dbus_cc.expect("dbus_cc requested");
+        let dbus_cc_text = fs::read_to_string(&dbus_cc).unwrap();
         assert!(
             dbus_hh.contains("public ::workrave::rpc::dbus::GioInterface"),
             "{dbus_hh}"
+        );
+        assert!(
+            dbus_cc_text.contains("gio_return_method_value(invocation, reply, reply_fd_list.get())"),
+            "{dbus_cc_text}"
+        );
+        assert!(
+            !dbus_cc_text.contains("g_dbus_method_invocation_return_value_with_unix_fd_list"),
+            "generated GIO bindings must not call Unix-only reply APIs directly:\n{dbus_cc_text}"
         );
 
         let out_dir = dbus_cc.parent().unwrap();

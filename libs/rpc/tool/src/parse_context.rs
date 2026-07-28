@@ -39,6 +39,7 @@ pub fn load(path: &Path) -> Result<Vec<String>> {
                     }
                 }
             }
+            "system-include" => push_pair(&mut args, "-isystem", value, path, index)?,
             "framework" => push_joined(&mut args, "-F", value, path, index)?,
             "define" => push_joined(&mut args, "-D", value, path, index)?,
             "undefine" => push_joined(&mut args, "-U", value, path, index)?,
@@ -114,7 +115,7 @@ mod tests {
         let path = dir.path().join("parse-context.txt");
         std::fs::write(
             &path,
-            "standard=gnu++20\ninclude=/project/include\ndefine=HAVE_GRPC=1\n\
+            "standard=gnu++20\ninclude=/project/include\nsystem-include=/toolchain/clang/include\ndefine=HAVE_GRPC=1\n\
              forced-include=config.h\nsysroot=/sdk\ntarget=aarch64-linux-gnu\n",
         )
         .unwrap();
@@ -124,6 +125,8 @@ mod tests {
             vec![
                 "-std=gnu++20",
                 "-I/project/include",
+                "-isystem",
+                "/toolchain/clang/include",
                 "-DHAVE_GRPC=1",
                 "-include",
                 "config.h",

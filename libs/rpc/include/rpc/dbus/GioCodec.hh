@@ -436,6 +436,7 @@ namespace workrave::rpc::dbus
                                          gsize index,
                                          GDBusMethodInvocation *invocation)
   {
+#if defined(G_OS_UNIX)
     const UnixFd handle = gio_decode_child<UnixFd>(tuple, index);
     GDBusMessage *message = g_dbus_method_invocation_get_message(invocation);
     GUnixFDList *fd_list = message != nullptr ? g_dbus_message_get_unix_fd_list(message) : nullptr;
@@ -452,6 +453,13 @@ namespace workrave::rpc::dbus
         throw Error(std::string(error_names::invalid_args), "Invalid D-Bus UNIX_FD handle");
       }
     return UnixFd{fds[handle.value]};
+#else
+    (void)tuple;
+    (void)index;
+    (void)invocation;
+    throw Error(std::string(error_names::failed),
+                "D-Bus UNIX_FD arguments are not supported on this platform");
+#endif
   }
 
   class GioUnixFdList
@@ -474,9 +482,14 @@ namespace workrave::rpc::dbus
 
     GUnixFDList *ensure()
     {
+#if defined(G_OS_UNIX)
       if (value_ == nullptr)
         value_ = g_unix_fd_list_new();
       return value_;
+#else
+      throw Error(std::string(error_names::failed),
+                  "D-Bus UNIX_FD arguments are not supported on this platform");
+#endif
     }
 
   private:
@@ -485,6 +498,7 @@ namespace workrave::rpc::dbus
 
   inline GVariant *gio_encode_unix_fd(UnixFd fd, GioUnixFdList &fd_list)
   {
+#if defined(G_OS_UNIX)
     if (fd.value < 0)
       {
         throw Error(std::string(error_names::invalid_args),
@@ -500,5 +514,31 @@ namespace workrave::rpc::dbus
         throw Error(std::string(error_names::failed), diagnostic);
       }
     return GioCodec<UnixFd>::encode(UnixFd{handle});
+#else
+    (void)fd;
+    (void)fd_list;
+    throw Error(std::string(error_names::failed),
+                "D-Bus UNIX_FD arguments are not supported on this platform");
+#endif
+  }
+
+  inline void gio_return_method_value(GDBusMethodInvocation *invocation,
+                                      GVariant *parameters,
+                                      GUnixFDList *fd_list)
+  {
+#if defined(G_OS_UNIX)
+    if (fd_list != nullptr)
+      {
+        g_dbus_method_invocation_return_value_with_unix_fd_list(invocation, parameters, fd_list);
+        return;
+      }
+#else
+    if (fd_list != nullptr)
+      {
+        throw Error(std::string(error_names::failed),
+                    "D-Bus UNIX_FD arguments are not supported on this platform");
+      }
+#endif
+    g_dbus_method_invocation_return_value(invocation, parameters);
   }
 }

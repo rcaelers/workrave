@@ -215,15 +215,18 @@ CMake target. It contains one typed `kind=value` record per line, for example:
 ```
 standard=gnu++20
 include=/path/to/public/include
+system-include=/path/to/compiler/resource/include
 define=HAVE_CONFIG_H=1
 sysroot=/path/to/sdk
 target=aarch64-linux-gnu
 ```
 
 Only properties that can change preprocessing or the C++ AST are represented.
-Compiler build commands, dependency-scanner flags, warning flags, and output
-options are never passed to libclang. `cmake/modules/Rpc.cmake` generates this
-file from the effective usage requirements of the macro's `TARGET` argument.
+This includes CMake's detected implicit compiler directories so libclang can
+find toolchain headers such as Clang's `mm_malloc.h`. Compiler build commands,
+dependency-scanner flags, warning flags, and output options are never passed to
+libclang. `cmake/modules/Rpc.cmake` generates this file from the effective usage
+requirements of the macro's `TARGET` argument and the selected C++ toolchain.
 
 Run the generated schemas through `protoc` + `grpc_cpp_plugin` to get the real
 `<Service>::Service` base class and `<Rpc>Request`/`<Rpc>Response` message
