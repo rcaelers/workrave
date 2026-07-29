@@ -63,7 +63,7 @@ namespace
   constexpr std::string_view app_name = "workrave-qt"sv;
   constexpr std::string_view dot_app_name = ".workrave-qt"sv;
 #  else
-  constexpr std::string_view app_name = "workrave-qt"sv;
+  constexpr std::string_view app_name = "workrave"sv;
   constexpr std::string_view dot_app_name = ".Workrave"sv;
 #  endif
 #endif
