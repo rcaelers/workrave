@@ -43,6 +43,15 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
 {
   setWindowTitle("Workrave");
   setWindowIcon(QIcon(Ui::get_status_icon_filename(OperationModeIcon::Normal)));
+#if defined(PLATFORM_OS_MACOS)
+  // Qt::Tool on macOS creates an NSPanel that auto-hides whenever another app
+  // gains focus, causing the timer window to vanish unexpectedly. A regular
+  // Qt::Window stays visible across app switches.
+  setWindowFlags(Qt::Window);
+#else
+  setWindowFlags(Qt::Tool);
+#endif
+
 
   auto *layout = new QVBoxLayout();
   layout->setContentsMargins(0, 0, 0, 0);

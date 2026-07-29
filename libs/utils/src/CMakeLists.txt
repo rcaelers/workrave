@@ -43,7 +43,7 @@ if (HAVE_QT)
 	target_link_libraries(workrave-libs-utils PRIVATE Qt::GuiPrivate)
 endif()
 
-target_link_libraries(workrave-libs-utils PUBLIC fmt::fmt spdlog::spdlog PRIVATE Boost::boost)
+target_link_libraries(workrave-libs-utils PUBLIC fmt::fmt spdlog::spdlog Boost::boost)
 
 target_include_directories(
   workrave-libs-utils

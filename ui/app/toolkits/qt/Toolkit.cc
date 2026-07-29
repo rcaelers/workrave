@@ -237,8 +237,17 @@ Toolkit::show_exercises()
 void
 Toolkit::show_main_window()
 {
-  TRACE_ENTRY();
-  main_window->open_window();
+  if (main_window->isMinimized())
+    {
+      main_window->showNormal();
+    }
+  else
+    {
+      main_window->show();
+    }
+  main_window->raise();
+  main_window->activateWindow();
+  // TODO: move above code to open_window, WAS: main_window->open_window();
 }
 
 void
