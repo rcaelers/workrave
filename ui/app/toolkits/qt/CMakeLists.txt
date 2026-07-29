@@ -80,6 +80,7 @@ if (PLATFORM_OS_MACOS)
   target_sources(workrave-toolkit-qt PRIVATE
     ToolkitMacOS.cc
     platforms/macos/MacOSBlockingOverlay.cc
+    platforms/macos/MacOSPreludeWindow.mm
     platforms/macos/MouseMonitor.cc
     platforms/macos/MacOSDesktopWindow.cc
     platforms/macos/MacDockTile.mm)
@@ -92,6 +93,7 @@ if (PLATFORM_OS_MACOS)
       platforms/macos/MacOSDesktopWindow.cc
       platforms/macos/MacDockTile.mm
       platforms/macos/MacOSBlockingOverlay.cc
+      platforms/macos/MacOSPreludeWindow.mm
       PROPERTIES SKIP_LINTING ON)
     target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()

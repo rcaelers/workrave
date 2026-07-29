@@ -20,6 +20,7 @@
 
 #include "QmlPreludeWindow.hh"
 
+#include <QCursor>
 #include <QQmlContext>
 #include <QGuiApplication>
 #include <QTimer>
@@ -29,6 +30,9 @@
 
 #if defined(HAVE_WAYLAND)
 #  include "IToolkitUnixPrivate.hh"
+#endif
+#if defined(PLATFORM_OS_MACOS)
+#  include "MacOSPreludeWindow.hh"
 #endif
 
 using namespace workrave;
@@ -168,7 +172,10 @@ QmlPreludeWindow::QmlPreludeWindow(std::shared_ptr<IApplicationContext> app, QSc
   view->setResizeMode(QQuickView::SizeRootObjectToView);
   // Qt::SplashScreen maps to a high NSWindowLevel on macOS so the card appears
   // above other applications' windows even when Workrave is not the active app.
-  view->setFlags(Qt::SplashScreen | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus);
+  // The prelude is display-only: keyboard, pointer, and touch input must keep
+  // going to the window that was active before the prelude appeared.
+  view->setFlags(Qt::SplashScreen | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus
+                 | Qt::WindowTransparentForInput);
   view->setColor(Qt::transparent);
   view->rootContext()->setContextProperty("bridge", bridge);
   view->setSource(QUrl("qrc:/sanctuary/PreludeShell.qml"));
@@ -180,10 +187,16 @@ QmlPreludeWindow::QmlPreludeWindow(std::shared_ptr<IApplicationContext> app, QSc
   // NSEvent.mouseLocation gives bottom-left-origin screen coordinates.
   mouse_monitor = std::make_shared<MouseMonitor>([this](auto x, auto y) { avoid_pointer(x, y); });
 #else
-  // Linux/Windows: install a QEvent::Enter filter so we're notified when the
-  // mouse cursor enters the window and can move it out of the way.
-  auto *filter = new ViewEventFilter([this]() { avoid_pointer(0, 0); }, bridge);
-  view->installEventFilter(filter);
+  // An input-transparent window receives no Enter events. Polling the cursor
+  // preserves pointer avoidance without intercepting clicks or mouse motion.
+  mouse_monitor = new QTimer(bridge);
+  mouse_monitor->setInterval(100);
+  QObject::connect(mouse_monitor, &QTimer::timeout, view, [this]() {
+    const QPoint pointer = QCursor::pos();
+    const QRect card = at_bottom ? bottom_rect() : top_rect();
+    if (card.contains(pointer))
+      avoid_pointer(pointer.x(), pointer.y());
+  });
 #endif
 }
 
@@ -235,13 +248,16 @@ QmlPreludeWindow::start()
       bridge->setCardAtBottom(false);
     }
 
+#if defined(PLATFORM_OS_MACOS)
+  show_macos_prelude_without_activation(view);
+#else
+  // WindowStaysOnTopHint supplies the stacking behavior. Calling raise() here
+  // can activate the application on some window systems.
   view->show();
-  view->raise();
+#endif
   update_input_region();
 
-#if defined(PLATFORM_OS_MACOS)
   mouse_monitor->start();
-#endif
 }
 
 void
@@ -254,9 +270,7 @@ QmlPreludeWindow::stop()
     window_manager->clear_surfaces();
 #endif
 
-#if defined(PLATFORM_OS_MACOS)
   mouse_monitor->stop();
-#endif
 }
 
 void

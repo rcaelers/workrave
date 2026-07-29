@@ -18,7 +18,6 @@
 #define QMLPRELUDEWINDOW_HH
 
 #include <memory>
-#include <QEvent>
 #include <QObject>
 #include <QScreen>
 #include <QQuickView>
@@ -39,25 +38,7 @@
 #  include "MouseMonitor.hh"
 #endif
 
-// Fires a callback on QEvent::Enter so QmlPreludeWindow can avoid the mouse pointer
-// without needing to be a QObject itself.
-class ViewEventFilter : public QObject
-{
-  Q_OBJECT
-public:
-  using Callback = std::function<void()>;
-  explicit ViewEventFilter(Callback cb, QObject *parent = nullptr) : QObject(parent), cb_(std::move(cb)) {}
-
-  bool eventFilter(QObject * /*watched*/, QEvent *event) override
-  {
-    if (event->type() == QEvent::Enter)
-      cb_();
-    return false;
-  }
-
-private:
-  Callback cb_;
-};
+class QTimer;
 
 // Data bridge exposed to PreludeShell.qml / PreludeOverlay.qml / PreludeClassic.qml.
 class PreludeBridge
@@ -158,6 +139,8 @@ private:
 
 #if defined(PLATFORM_OS_MACOS)
   MouseMonitor::Ptr mouse_monitor;
+#else
+  QTimer *mouse_monitor{nullptr};
 #endif
 #if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;
