@@ -1127,6 +1127,8 @@ SoundsPrefBridge::SoundsPrefBridge(std::shared_ptr<IApplicationContext> app, QOb
   : QObject(parent)
   , app(std::move(app))
 {
+  device_list_changed_connection = this->app->get_sound_theme()->signal_device_list_changed().connect(
+    [this]() { QMetaObject::invokeMethod(this, [this]() { Q_EMIT devicesChanged(); }, Qt::QueuedConnection); });
 }
 
 bool

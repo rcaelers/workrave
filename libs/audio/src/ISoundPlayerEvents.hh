@@ -24,6 +24,7 @@ public:
   virtual ~ISoundPlayerEvents() = default;
 
   virtual void eos_event() = 0;
+  virtual void device_list_changed() = 0;
 };
 
 #endif // ISOUNDPLAYEREVENTS_HH

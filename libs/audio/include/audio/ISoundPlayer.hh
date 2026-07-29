@@ -23,6 +23,8 @@
 
 #include <memory>
 
+#include <boost/signals2/signal.hpp>
+
 namespace workrave::audio
 {
 
@@ -56,6 +58,7 @@ namespace workrave::audio
     virtual std::vector<SoundDevice> get_devices() = 0;
     virtual void set_device(const std::string &device_id) = 0;
     virtual std::string get_device() const = 0;
+    virtual boost::signals2::signal<void()> &signal_device_list_changed() = 0;
   };
 
   class SoundPlayerFactory

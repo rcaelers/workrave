@@ -185,6 +185,7 @@ void
 SoundTheme::init()
 {
   player->init();
+  set_device(sound_device()());
   load_themes();
   register_sound_events();
 }
@@ -394,6 +395,12 @@ SoundTheme::set_device(const std::string &device_id)
     {
       player->set_device(device_id);
     }
+}
+
+auto
+SoundTheme::signal_device_list_changed() -> boost::signals2::signal<void()> &
+{
+  return player->signal_device_list_changed();
 }
 
 #if defined(PLATFORM_OS_WINDOWS)

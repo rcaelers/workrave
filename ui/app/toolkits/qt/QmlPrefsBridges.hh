@@ -391,7 +391,7 @@ class SoundsPrefBridge : public QObject
   Q_PROPERTY(bool         hasMute        READ hasMute        CONSTANT)
   Q_PROPERTY(bool         mute           READ mute           NOTIFY soundsChanged)
   Q_PROPERTY(bool         hasDevice      READ hasDevice      CONSTANT)
-  Q_PROPERTY(QVariantList devices        READ devices        CONSTANT)
+  Q_PROPERTY(QVariantList devices        READ devices        NOTIFY devicesChanged)
   Q_PROPERTY(QString      currentDeviceId READ currentDeviceId NOTIFY soundsChanged)
   Q_PROPERTY(QVariantList themes         READ themes         NOTIFY soundsChanged)
   Q_PROPERTY(QString      currentThemeId READ currentThemeId NOTIFY soundsChanged)
@@ -424,9 +424,11 @@ public:
 
 Q_SIGNALS:
   void soundsChanged();
+  void devicesChanged();
 
 private:
   std::shared_ptr<IApplicationContext> app;
+  boost::signals2::scoped_connection device_list_changed_connection;
 };
 
 // ── GeneralPrefBridge ──────────────────────────────────────────────────────────

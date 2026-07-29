@@ -24,6 +24,7 @@ class MacOSSoundPlayer : public ISoundDriver
 {
 public:
   MacOSSoundPlayer();
+  ~MacOSSoundPlayer() override;
 
   void init(ISoundPlayerEvents *) override;
   bool capability(workrave::audio::SoundCapability cap) override;
@@ -37,6 +38,7 @@ public:
 
 private:
   ISoundPlayerEvents *events;
+  std::string current_device;
 
 private:
   class Private;
