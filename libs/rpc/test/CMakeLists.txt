@@ -5,9 +5,11 @@ if (HAVE_GRPC AND HAVE_TESTS)
     Test.cc)
 
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/RpcTestServer.hh ${CMAKE_CURRENT_BINARY_DIR} RpcTest
-    TARGET workrave-libs-rpc-test)
+    TARGET workrave-libs-rpc-test
+    PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen)
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/RpcKeyedServer.hh ${CMAKE_CURRENT_BINARY_DIR} RpcKeyed
-    TARGET workrave-libs-rpc-test)
+    TARGET workrave-libs-rpc-test
+    PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen)
 
   target_sources(workrave-libs-rpc-test PRIVATE
     ${CMAKE_CURRENT_BINARY_DIR}/RpcTestServiceImpl.cc
