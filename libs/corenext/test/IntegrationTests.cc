@@ -782,9 +782,19 @@ BOOST_AUTO_TEST_CASE(test_grpc_preferences)
 {
   init();
 
+#if defined(HAVE_GRPC) && !defined(HAVE_GRPC_UNIX_SOCKETS)
+  BOOST_CHECK(!CoreConfig::grpc_enabled()());
+#else
   BOOST_CHECK(CoreConfig::grpc_enabled()());
+#endif
   BOOST_CHECK_EQUAL(CoreConfig::grpc_transport()(), "unix");
   BOOST_CHECK_EQUAL(CoreConfig::grpc_port()(), 50051);
+
+  CoreConfig::grpc_enabled().set(true);
+  BOOST_CHECK(!CoreConfig::disable_grpc_if_unix_sockets_unsupported(true));
+  BOOST_CHECK(CoreConfig::grpc_enabled()());
+  BOOST_CHECK(CoreConfig::disable_grpc_if_unix_sockets_unsupported(false));
+  BOOST_CHECK(!CoreConfig::grpc_enabled()());
 
   CoreConfig::grpc_enabled().set(false);
   CoreConfig::grpc_transport().set("tcp");

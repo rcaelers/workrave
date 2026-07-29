@@ -51,6 +51,7 @@ public:
   static workrave::config::Setting<bool> &grpc_enabled();
   static workrave::config::Setting<std::string> &grpc_transport();
   static workrave::config::Setting<int> &grpc_port();
+  static bool disable_grpc_if_unix_sockets_unsupported(bool unix_sockets_supported);
   static workrave::config::Setting<int, workrave::OperationMode> &operation_mode();
   static workrave::config::Setting<int, workrave::UsageMode> &usage_mode();
   static workrave::config::Setting<int, std::chrono::minutes> &operation_mode_auto_reset_duration();

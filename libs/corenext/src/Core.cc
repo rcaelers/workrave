@@ -86,6 +86,13 @@ Core::init(IApp *app, const char *display_name)
 
   CoreConfig::init(configurator);
 
+#if defined(HAVE_GRPC) && !defined(HAVE_GRPC_UNIX_SOCKETS)
+  if (CoreConfig::disable_grpc_if_unix_sockets_unsupported(false))
+    {
+      spdlog::warn("gRPC disabled because this build does not support Unix domain sockets");
+    }
+#endif
+
 #if defined(HAVE_TESTS)
   if (hooks->hook_create_monitor())
     {

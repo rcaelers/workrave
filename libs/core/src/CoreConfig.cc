@@ -283,6 +283,18 @@ CoreConfig::grpc_port()
   return SettingCache::get<int>(config, CFG_KEY_GRPC_PORT, 50051);
 }
 
+bool
+CoreConfig::disable_grpc_if_unix_sockets_unsupported(bool unix_sockets_supported)
+{
+  if (unix_sockets_supported || !grpc_enabled()() || grpc_transport()() != "unix")
+    {
+      return false;
+    }
+
+  grpc_enabled().set(false);
+  return true;
+}
+
 Setting<int, workrave::OperationMode> &
 CoreConfig::operation_mode()
 {

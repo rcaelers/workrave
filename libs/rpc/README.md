@@ -73,11 +73,14 @@ development (the actual bound port is then printed in the same log line).
 Current upstream gRPC Core supports AF_UNIX on native Windows builds. It still
 explicitly disables that support when gRPC itself is built with MinGW, however,
 so the stock MSYS2/clang64 gRPC package cannot serve this endpoint. On MinGW,
-`WITH_GRPC=ON` therefore builds a pinned, patched, static copy of gRPC while
-continuing to use MSYS2's Abseil, Protobuf, c-ares, RE2, OpenSSL, and zlib
-packages. Set `WORKRAVE_GRPC_SOURCE_DIR` to an existing gRPC 1.83.0 source tree
-for an offline build. Workrave does not silently fall back to TCP: an anonymous
-port would make the service undiscoverable without adding a separate registry.
+install the patched CLANG64 package published by `workrave-dependencies` before
+configuring Workrave. CMake verifies the installed gRPC library by starting a
+temporary Unix-domain-socket server; cross-builds use the capability marker
+from that package. If support cannot be verified, the build retains TCP/IP gRPC
+but reports Unix-domain sockets as unavailable. At startup, an enabled gRPC
+preference selecting the unavailable Unix transport is changed to disabled;
+Workrave does not silently select a TCP port because that would make the service
+undiscoverable without adding a separate registry.
 
 Only running under a real desktop session starts the server — the test
 harness (`HAVE_TESTS` + hook-based monitor) explicitly skips it, so you

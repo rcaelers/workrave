@@ -8,86 +8,95 @@
 
 include_guard(GLOBAL)
 
-set(WORKRAVE_GRPC_VERSION "1.83.0")
-set(WORKRAVE_GRPC_SOURCE_DIR "" CACHE PATH "Use an existing gRPC source tree instead of downloading it")
-mark_as_advanced(WORKRAVE_GRPC_SOURCE_DIR)
-
 function(workrave_configure_grpc)
-  if(NOT WIN32 OR NOT MINGW)
+  # The Workrave MinGW package imports the normal upstream gRPC targets and
+  # advertises its AF_UNIX patch. Other platforms use their regular gRPC
+  # package directly.
+  if(WIN32 AND MINGW)
+    find_package(WorkraveGrpc CONFIG QUIET)
+  endif()
+  if(NOT TARGET gRPC::grpc++)
     find_package(gRPC CONFIG REQUIRED)
+  endif()
+
+  if(NOT WIN32 OR NOT MINGW)
+    set(WORKRAVE_GRPC_SUPPORTS_UNIX_SOCKETS ON PARENT_SCOPE)
     return()
   endif()
 
-  include(FetchContent)
+  # GRPC_HAVE_UNIX_SOCKET is private to gRPC and is not installed as part of
+  # its public API. During a native build, verify the linked library itself by
+  # starting a temporary Unix-domain-socket server. This catches both missing
+  # Windows AF_UNIX support and an unpatched gRPC binary.
+  if(NOT CMAKE_CROSSCOMPILING)
+    include(CheckCXXSourceRuns)
+    set(_workrave_saved_required_libraries "${CMAKE_REQUIRED_LIBRARIES}")
+    set(CMAKE_REQUIRED_LIBRARIES gRPC::grpc++)
+    unset(WORKRAVE_GRPC_SUPPORTS_UNIX_SOCKETS CACHE)
+    check_cxx_source_runs([=[
+      #include <chrono>
+      #include <filesystem>
+      #include <string>
 
-  set(_grpc_patch_command
-    ${CMAKE_COMMAND}
-    -DGRPC_SOURCE_DIR=<SOURCE_DIR>
-    -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../patches/GrpcMinGWUnixSocket.cmake)
+      #include <grpcpp/generic/async_generic_service.h>
+      #include <grpcpp/grpcpp.h>
 
-  if(WORKRAVE_GRPC_SOURCE_DIR)
-    FetchContent_Declare(workrave_grpc
-      SOURCE_DIR "${WORKRAVE_GRPC_SOURCE_DIR}"
-      PATCH_COMMAND ${_grpc_patch_command})
+      int main()
+      {
+        const auto unique_suffix = std::chrono::steady_clock::now().time_since_epoch().count();
+        const auto socket_path = std::filesystem::temp_directory_path()
+                                 / ("workrave-grpc-probe-" + std::to_string(unique_suffix) + ".sock");
+        std::error_code ignored;
+        std::filesystem::remove(socket_path, ignored);
+
+        grpc::AsyncGenericService service;
+        grpc::ServerBuilder builder;
+        builder.RegisterAsyncGenericService(&service);
+        auto completion_queue = builder.AddCompletionQueue();
+        builder.AddListeningPort("unix:" + socket_path.string(), grpc::InsecureServerCredentials());
+        auto server = builder.BuildAndStart();
+        if (!server)
+          {
+            std::filesystem::remove(socket_path, ignored);
+            return 1;
+          }
+
+        server->Shutdown();
+        completion_queue->Shutdown();
+        void *tag = nullptr;
+        bool ok = false;
+        while (completion_queue->Next(&tag, &ok))
+          {
+          }
+        server.reset();
+        std::filesystem::remove(socket_path, ignored);
+        return 0;
+      }
+    ]=] WORKRAVE_GRPC_SUPPORTS_UNIX_SOCKETS)
+    set(CMAKE_REQUIRED_LIBRARIES "${_workrave_saved_required_libraries}")
+    unset(_workrave_saved_required_libraries)
+
+    if(NOT WORKRAVE_GRPC_SUPPORTS_UNIX_SOCKETS)
+      message(WARNING
+        "The installed gRPC library cannot listen on Windows Unix domain sockets; "
+        "Workrave will support TCP/IP gRPC only")
+      set(WORKRAVE_GRPC_SUPPORTS_UNIX_SOCKETS OFF PARENT_SCOPE)
+    else()
+      message(STATUS "gRPC: verified Windows Unix domain socket support")
+      set(WORKRAVE_GRPC_SUPPORTS_UNIX_SOCKETS ON PARENT_SCOPE)
+    endif()
+    return()
+  endif()
+
+  # A cross-compiled executable cannot be run during configuration. Trust the
+  # capability marker when available, otherwise retain TCP/IP support only.
+  if(NOT WorkraveGrpc_FOUND OR NOT WORKRAVE_GRPC_MINGW_AF_UNIX)
+    message(WARNING
+      "Cannot verify Windows Unix domain socket support while cross-compiling; "
+      "Workrave will support TCP/IP gRPC only")
+    set(WORKRAVE_GRPC_SUPPORTS_UNIX_SOCKETS OFF PARENT_SCOPE)
   else()
-    # Pin the official upstream release digest so configuration is
-    # reproducible and fails closed if the downloaded source changes.
-    FetchContent_Declare(workrave_grpc
-      URL "https://github.com/grpc/grpc/archive/refs/tags/v1.83.0.tar.gz"
-      URL_HASH "SHA256=90d453393a9d41215df546103b10b33b9566df79cdf6f49dc67f6c4d044d090d"
-      DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-      PATCH_COMMAND ${_grpc_patch_command})
-  endif()
-
-  # Build only gRPC itself. Its dependencies continue to come from MSYS2, so
-  # there is one Abseil/Protobuf ABI in the process and no duplicated bundled
-  # dependency stack. Static gRPC also avoids MinGW's cross-DLL TLS and export
-  # issues, which are the reason the MSYS2 shared package carries extra patches.
-  set(BUILD_SHARED_LIBS OFF)
-  set(gRPC_INSTALL OFF)
-  set(gRPC_BUILD_TESTS OFF)
-  set(gRPC_BUILD_CODEGEN ON)
-  set(gRPC_DOWNLOAD_ARCHIVES OFF)
-  set(gRPC_BUILD_GRPCPP_OTEL_PLUGIN OFF)
-  set(gRPC_BUILD_GRPC_CPP_PLUGIN ON)
-  set(gRPC_BUILD_GRPC_CSHARP_PLUGIN OFF)
-  set(gRPC_BUILD_GRPC_NODE_PLUGIN OFF)
-  set(gRPC_BUILD_GRPC_OBJECTIVE_C_PLUGIN OFF)
-  set(gRPC_BUILD_GRPC_PHP_PLUGIN OFF)
-  set(gRPC_BUILD_GRPC_PYTHON_PLUGIN OFF)
-  set(gRPC_BUILD_GRPC_RUBY_PLUGIN OFF)
-
-  # gRPC declares its providers as cache variables. Set them in the cache as
-  # well: its older CMake policy scope otherwise removes function-local normal
-  # variables while creating the entries and silently restores the "module"
-  # defaults. Release archives do not contain those dependency submodules.
-  set(gRPC_ABSL_PROVIDER package CACHE STRING "Provider of Abseil" FORCE)
-  set(gRPC_CARES_PROVIDER package CACHE STRING "Provider of c-ares" FORCE)
-  set(gRPC_PROTOBUF_PROVIDER package CACHE STRING "Provider of Protobuf" FORCE)
-  set(gRPC_RE2_PROVIDER package CACHE STRING "Provider of RE2" FORCE)
-  set(gRPC_SSL_PROVIDER package CACHE STRING "Provider of TLS support" FORCE)
-  set(gRPC_ZLIB_PROVIDER package CACHE STRING "Provider of zlib" FORCE)
-
-  # Keep the MSYS2 compatibility definition and upstream deprecation noise
-  # scoped to the private dependency subtree; Workrave keeps its normal warning
-  # policy.
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSTRSAFE_NO_DEPRECATE -Wno-deprecated-declarations")
-
-  message(STATUS
-    "gRPC: building private static ${WORKRAVE_GRPC_VERSION} with MinGW AF_UNIX support; "
-    "using MSYS2 package dependencies")
-  FetchContent_MakeAvailable(workrave_grpc)
-
-  # gRPC's build-tree targets are intentionally unnamespaced. Workrave also
-  # supports installed gRPC packages, whose exported targets are namespaced, so
-  # provide the same interface in the private-build case.
-  if(NOT TARGET gRPC::grpc++)
-    add_library(gRPC::grpc++ ALIAS grpc++)
-  endif()
-  if(NOT TARGET gRPC::grpc++_reflection)
-    add_library(gRPC::grpc++_reflection ALIAS grpc++_reflection)
-  endif()
-  if(NOT TARGET gRPC::grpc_cpp_plugin)
-    add_executable(gRPC::grpc_cpp_plugin ALIAS grpc_cpp_plugin)
+    message(STATUS "gRPC: package declares Windows Unix domain socket support")
+    set(WORKRAVE_GRPC_SUPPORTS_UNIX_SOCKETS ON PARENT_SCOPE)
   endif()
 endfunction()
