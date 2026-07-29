@@ -126,6 +126,7 @@ private:
 
   QRect top_rect()    const;
   QRect bottom_rect() const;
+  void  hide();
   void  avoid_pointer(int x, int y);
   void  update_input_region();
 
@@ -136,6 +137,7 @@ private:
   bool at_bottom{false};
   bool did_avoid{false};
   bool position_windows{true};
+  bool started{false};
 
 #if defined(PLATFORM_OS_MACOS)
   MouseMonitor::Ptr mouse_monitor;

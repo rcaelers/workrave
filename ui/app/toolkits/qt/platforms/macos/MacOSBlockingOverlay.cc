@@ -20,6 +20,8 @@
 
 #include "MacOSBlockingOverlay.hh"
 
+#include "MacOSOverlayWindow.hh"
+
 MacOSBlockingOverlay::MacOSBlockingOverlay(QScreen *screen)
   : screen(screen)
 {
@@ -27,6 +29,7 @@ MacOSBlockingOverlay::MacOSBlockingOverlay(QScreen *screen)
 
 MacOSBlockingOverlay::~MacOSBlockingOverlay()
 {
+  stop();
   delete overlay;
 }
 
@@ -36,14 +39,16 @@ MacOSBlockingOverlay::start()
   if (overlay == nullptr)
     {
       overlay = new QWidget(nullptr,
-                            Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::SplashScreen);
+                            Qt::Tool | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus);
       overlay->setAutoFillBackground(true);
       overlay->setPalette(QPalette(Qt::black));
       overlay->setWindowOpacity(0.8);
     }
   overlay->setGeometry(screen->geometry());
+  overlay->winId();
+  begin_macos_overlay(overlay->windowHandle());
   overlay->show();
-  overlay->raise();
+  order_macos_overlay_front(overlay->windowHandle());
 }
 
 void
@@ -52,5 +57,6 @@ MacOSBlockingOverlay::stop()
   if (overlay != nullptr)
     {
       overlay->hide();
+      end_macos_overlay(overlay->windowHandle());
     }
 }

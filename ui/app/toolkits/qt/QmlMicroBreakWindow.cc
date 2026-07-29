@@ -45,6 +45,10 @@
 #  include "ui/windows/WindowsCompat.hh"
 #endif
 
+#if defined(PLATFORM_OS_MACOS)
+#  include "MacOSOverlayWindow.hh"
+#endif
+
 using namespace workrave;
 
 // ── MicroBreakBridge ──────────────────────────────────────────────────────────
@@ -269,6 +273,12 @@ QmlMicroBreakWindow::~QmlMicroBreakWindow()
 {
   *alive_ = false;
   delete topmost_timer_;
+#if defined(PLATFORM_OS_MACOS)
+  if (view != nullptr)
+    {
+      end_macos_overlay(view);
+    }
+#endif
   delete view;
 }
 
@@ -310,18 +320,23 @@ QmlMicroBreakWindow::init()
 void
 QmlMicroBreakWindow::configure_view_for_block_mode()
 {
-  // Qt::SplashScreen maps to a high NSWindowLevel on macOS, matching what the
-  // classic BreakWindow uses, so the window appears above the input blocker.
+  Qt::WindowFlags window_flags = Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint;
+#if defined(PLATFORM_OS_MACOS)
+  window_flags |= Qt::Tool;
+#else
+  window_flags |= Qt::SplashScreen;
+#endif
+
   if (block_mode == BlockMode::All)
     {
-      view->setFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::SplashScreen);
+      view->setFlags(window_flags);
       view->setColor(QColor("#1B1D1A"));
     }
   else
     {
       // Input and Off both use a full-screen transparent overlay; QML positions
       // the card (centered for Input, top-right corner for Off).
-      view->setFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::SplashScreen | Qt::WindowDoesNotAcceptFocus);
+      view->setFlags(window_flags | Qt::WindowDoesNotAcceptFocus);
       view->setColor(Qt::transparent);
     }
 }
@@ -343,6 +358,13 @@ QmlMicroBreakWindow::start()
 
   bridge->updateRestBreakInfo();
 
+#if defined(PLATFORM_OS_MACOS)
+  begin_macos_overlay(view);
+  QRect geo = (screen != nullptr) ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
+  view->setGeometry(geo);
+  view->show();
+  order_macos_overlay_front(view);
+#else
   if (block_mode == BlockMode::All)
     {
       view->showFullScreen();
@@ -357,6 +379,7 @@ QmlMicroBreakWindow::start()
     }
 
   view->raise();
+#endif
   refresh_topmost_state();
   if (topmost_timer_ != nullptr)
     {
@@ -373,6 +396,9 @@ QmlMicroBreakWindow::stop()
       topmost_timer_->stop();
     }
   view->hide();
+#if defined(PLATFORM_OS_MACOS)
+  end_macos_overlay(view);
+#endif
 
 #if defined(HAVE_WAYLAND)
   if (window_manager)

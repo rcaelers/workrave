@@ -14,28 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#include "MacOSPreludeWindow.hh"
+#ifndef MACOSOVERLAYWINDOW_HH
+#define MACOSOVERLAYWINDOW_HH
 
-#include <QWindow>
+class QWindow;
 
-#import <AppKit/NSView.h>
-#import <AppKit/NSWindow.h>
+void begin_macos_overlay(QWindow *window);
+void order_macos_overlay_front(QWindow *window);
+void end_macos_overlay(QWindow *window);
 
-void
-show_macos_prelude_without_activation(QWindow *window)
-{
-  // Create the native window while it is still hidden, so it can be made
-  // click-through before AppKit places it on screen.
-  window->create();
-
-  auto *view             = (__bridge NSView *)(reinterpret_cast<void *>(window->winId()));
-  NSWindow *native_window = view.window;
-  native_window.ignoresMouseEvents = YES;
-  native_window.hidesOnDeactivate  = NO;
-
-  window->show();
-
-  // Unlike QWindow::raise(), this explicitly leaves the key window, main
-  // window, and active application unchanged.
-  [native_window orderFrontRegardless];
-}
+#endif // MACOSOVERLAYWINDOW_HH

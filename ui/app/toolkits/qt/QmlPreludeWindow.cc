@@ -32,7 +32,7 @@
 #  include "IToolkitUnixPrivate.hh"
 #endif
 #if defined(PLATFORM_OS_MACOS)
-#  include "MacOSPreludeWindow.hh"
+#  include "MacOSOverlayWindow.hh"
 #endif
 
 using namespace workrave;
@@ -170,17 +170,23 @@ QmlPreludeWindow::QmlPreludeWindow(std::shared_ptr<IApplicationContext> app, QSc
 
   view = new QQuickView();
   view->setResizeMode(QQuickView::SizeRootObjectToView);
-  // Qt::SplashScreen maps to a high NSWindowLevel on macOS so the card appears
-  // above other applications' windows even when Workrave is not the active app.
   // The prelude is display-only: keyboard, pointer, and touch input must keep
   // going to the window that was active before the prelude appeared.
-  view->setFlags(Qt::SplashScreen | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus
-                 | Qt::WindowTransparentForInput);
+  Qt::WindowFlags window_flags = Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus
+                                 | Qt::WindowTransparentForInput;
+#if defined(PLATFORM_OS_MACOS)
+  // Qt::Tool creates the NSPanel required for overlays in another
+  // application's full-screen Space. The Cocoa helper makes it non-activating.
+  window_flags |= Qt::Tool;
+#else
+  window_flags |= Qt::SplashScreen;
+#endif
+  view->setFlags(window_flags);
   view->setColor(Qt::transparent);
   view->rootContext()->setContextProperty("bridge", bridge);
   view->setSource(QUrl("qrc:/sanctuary/PreludeShell.qml"));
 
-  QObject::connect(bridge, &PreludeBridge::skipRequested, view, [this]() { view->hide(); });
+  QObject::connect(bridge, &PreludeBridge::skipRequested, view, [this]() { hide(); });
 
 #if defined(PLATFORM_OS_MACOS)
   // macOS: use a Cocoa global event monitor for continuous mouse tracking.
@@ -202,6 +208,7 @@ QmlPreludeWindow::QmlPreludeWindow(std::shared_ptr<IApplicationContext> app, QSc
 
 QmlPreludeWindow::~QmlPreludeWindow()
 {
+  hide();
   delete view;
   delete bridge;
 }
@@ -227,6 +234,11 @@ QmlPreludeWindow::bottom_rect() const
 void
 QmlPreludeWindow::start()
 {
+  if (started)
+    {
+      return;
+    }
+
   at_bottom = false;
   did_avoid = false;
 
@@ -249,12 +261,15 @@ QmlPreludeWindow::start()
     }
 
 #if defined(PLATFORM_OS_MACOS)
-  show_macos_prelude_without_activation(view);
+  begin_macos_overlay(view);
+  view->show();
+  order_macos_overlay_front(view);
 #else
   // WindowStaysOnTopHint supplies the stacking behavior. Calling raise() here
   // can activate the application on some window systems.
   view->show();
 #endif
+  started = true;
   update_input_region();
 
   mouse_monitor->start();
@@ -263,7 +278,7 @@ QmlPreludeWindow::start()
 void
 QmlPreludeWindow::stop()
 {
-  view->hide();
+  hide();
 
 #if defined(HAVE_WAYLAND)
   if (window_manager)
@@ -271,6 +286,23 @@ QmlPreludeWindow::stop()
 #endif
 
   mouse_monitor->stop();
+}
+
+void
+QmlPreludeWindow::hide()
+{
+  if (!started)
+    {
+      return;
+    }
+
+#if defined(PLATFORM_OS_MACOS)
+  view->hide();
+  end_macos_overlay(view);
+#else
+  view->hide();
+#endif
+  started = false;
 }
 
 void

@@ -41,6 +41,10 @@
 #  include "ui/windows/WindowsCompat.hh"
 #endif
 
+#if defined(PLATFORM_OS_MACOS)
+#  include "MacOSOverlayWindow.hh"
+#endif
+
 using namespace workrave;
 using namespace workrave::utils;
 
@@ -217,6 +221,12 @@ QmlDailyLimitWindow::~QmlDailyLimitWindow()
 {
   *alive_ = false;
   delete topmost_timer_;
+#if defined(PLATFORM_OS_MACOS)
+  if (view != nullptr)
+    {
+      end_macos_overlay(view);
+    }
+#endif
   delete view;
 }
 
@@ -257,7 +267,13 @@ QmlDailyLimitWindow::init()
 void
 QmlDailyLimitWindow::configure_view_for_block_mode()
 {
-  view->setFlags(Qt::SplashScreen | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus);
+  Qt::WindowFlags window_flags = Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus;
+#if defined(PLATFORM_OS_MACOS)
+  window_flags |= Qt::Tool;
+#else
+  window_flags |= Qt::SplashScreen;
+#endif
+  view->setFlags(window_flags);
   view->setColor(Qt::transparent);
 }
 
@@ -276,6 +292,24 @@ QmlDailyLimitWindow::start()
     window_manager->init_surface(view, screen, true);
 #endif
 
+#if defined(PLATFORM_OS_MACOS)
+  begin_macos_overlay(view);
+  QRect geo = (screen != nullptr) ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
+  if (block_mode == BlockMode::All)
+    {
+      view->setGeometry(geo);
+    }
+  else
+    {
+      const int window_width = 560;
+      const int window_height = 480;
+      int x = geo.x() + (geo.width() - window_width) / 2;
+      int y = geo.y() + (geo.height() - window_height) / 2;
+      view->setGeometry(x, y, window_width, window_height);
+    }
+  view->show();
+  order_macos_overlay_front(view);
+#else
   if (block_mode == BlockMode::All)
     {
       view->showFullScreen();
@@ -292,6 +326,7 @@ QmlDailyLimitWindow::start()
     }
 
   view->raise();
+#endif
   refresh_topmost_state();
   if (topmost_timer_ != nullptr)
     {
@@ -308,6 +343,9 @@ QmlDailyLimitWindow::stop()
       topmost_timer_->stop();
     }
   view->hide();
+#if defined(PLATFORM_OS_MACOS)
+  end_macos_overlay(view);
+#endif
 
 #if defined(HAVE_WAYLAND)
   if (window_manager)

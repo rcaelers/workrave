@@ -47,6 +47,10 @@
 #  include "ui/windows/WindowsCompat.hh"
 #endif
 
+#if defined(PLATFORM_OS_MACOS)
+#  include "MacOSOverlayWindow.hh"
+#endif
+
 using namespace workrave;
 using namespace workrave::utils;
 
@@ -561,6 +565,12 @@ QmlRestBreakWindow::~QmlRestBreakWindow()
 {
   *alive_ = false;
   delete topmost_timer_;
+#if defined(PLATFORM_OS_MACOS)
+  if (view != nullptr)
+    {
+      end_macos_overlay(view);
+    }
+#endif
   delete view;
 }
 
@@ -602,10 +612,13 @@ QmlRestBreakWindow::init()
 void
 QmlRestBreakWindow::configure_view_for_block_mode()
 {
-  // Qt::SplashScreen maps to an elevated NSWindowLevel on macOS — stays visible
-  // even when another application has focus.  Qt::Tool disappears when backgrounded.
-  // Use the same flags for all block modes; QML handles the dim layer for mode 2.
-  view->setFlags(Qt::SplashScreen | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus);
+  Qt::WindowFlags window_flags = Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus;
+#if defined(PLATFORM_OS_MACOS)
+  window_flags |= Qt::Tool;
+#else
+  window_flags |= Qt::SplashScreen;
+#endif
+  view->setFlags(window_flags);
   view->setColor(Qt::transparent);
 }
 
@@ -624,6 +637,13 @@ QmlRestBreakWindow::start()
     window_manager->init_surface(view, screen, true);
 #endif
 
+#if defined(PLATFORM_OS_MACOS)
+  begin_macos_overlay(view);
+  QRect geo = (screen != nullptr) ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
+  view->setGeometry(geo);
+  view->show();
+  order_macos_overlay_front(view);
+#else
   if (block_mode == BlockMode::All)
     {
       view->showFullScreen();
@@ -637,6 +657,7 @@ QmlRestBreakWindow::start()
     }
 
   view->raise();
+#endif
   refresh_topmost_state();
   if (topmost_timer_ != nullptr)
     {
@@ -653,6 +674,9 @@ QmlRestBreakWindow::stop()
       topmost_timer_->stop();
     }
   view->hide();
+#if defined(PLATFORM_OS_MACOS)
+  end_macos_overlay(view);
+#endif
 
 #if defined(HAVE_WAYLAND)
   if (window_manager)
