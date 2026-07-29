@@ -37,7 +37,7 @@ ReadingActivityMonitor::ReadingActivityMonitor(IActivityMonitor::Ptr monitor, Co
 void
 ReadingActivityMonitor::init()
 {
-  monitor->set_listener(shared_from_this());
+  listen_for_activity();
   connect(modes->signal_usage_mode_changed(), this, [this](auto &&mode) {
     on_usage_mode_changed(std::forward<decltype(mode)>(mode));
   });
@@ -53,6 +53,10 @@ void
 ReadingActivityMonitor::resume()
 {
   suspended = false;
+  if (state == Idle)
+    {
+      listen_for_activity();
+    }
 }
 
 bool
@@ -110,11 +114,18 @@ ReadingActivityMonitor::force_idle()
 }
 
 void
+ReadingActivityMonitor::listen_for_activity()
+{
+  monitor->set_listener(shared_from_this());
+}
+
+void
 ReadingActivityMonitor::on_usage_mode_changed(workrave::UsageMode mode)
 {
   if (mode == workrave::UsageMode::Reading)
     {
       state = Idle;
+      listen_for_activity();
     }
 }
 
@@ -167,7 +178,7 @@ ReadingActivityMonitor::handle_break_event(workrave::BreakId break_id, workrave:
             {
               TRACE_MSG("Taking -> Idle");
               state = Idle;
-              monitor->set_listener(shared_from_this());
+              listen_for_activity();
             }
         }
     }
