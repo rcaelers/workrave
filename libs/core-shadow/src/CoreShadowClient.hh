@@ -3,6 +3,7 @@
 
 #include <filesystem>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <string>
 
@@ -38,6 +39,7 @@ namespace workrave::core_shadow
 
   private:
     std::unique_ptr<CoreShadowProcess> process;
+    std::mutex mutex;
     bool started{false};
   };
 } // namespace workrave::core_shadow

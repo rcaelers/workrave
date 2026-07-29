@@ -44,7 +44,7 @@
 #include "core/CoreConfig.hh"
 #include "Statistics.hh"
 
-#if defined(HAVE_GRPC)
+#if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
 #  include "RpcCoreServer.hh"
 #endif
 #if defined(HAVE_CORE_NEXT_DBUS)
@@ -105,11 +105,7 @@ Core::init(IApp *app, const char *display_name)
   statistics->init();
 
   core_modes = std::make_shared<CoreModes>(monitor);
-  breaks_control = std::make_shared<BreaksControl>(application,
-                                                  monitor,
-                                                  core_modes,
-                                                  statistics,
-                                                  hooks);
+  breaks_control = std::make_shared<BreaksControl>(application, monitor, core_modes, statistics, hooks);
   breaks_control->init();
 
 #if defined(HAVE_TESTS)
@@ -121,7 +117,7 @@ Core::init(IApp *app, const char *display_name)
   if (!hooks->hook_create_monitor())
 #endif
     {
-#if defined(HAVE_GRPC)
+#if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
       init_rpc();
 #endif
 #if defined(HAVE_CORE_NEXT_DBUS)
@@ -130,22 +126,77 @@ Core::init(IApp *app, const char *display_name)
     }
 }
 
-#if defined(HAVE_GRPC)
+#if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
 //! Starts the gRPC server exposing CoreService/BreakService/ConfigService.
 void
 Core::init_rpc()
 {
+  CoreConfig::grpc_enabled().connect(rpc_settings_tracker, [this](bool) { update_rpc(); });
+  CoreConfig::grpc_transport().connect(rpc_settings_tracker, [this](const std::string &) { update_rpc(); });
+  CoreConfig::grpc_port().connect(rpc_settings_tracker, [this](int) { update_rpc(); });
+
+  update_rpc();
+}
+
+void
+Core::update_rpc()
+{
   try
     {
-      std::string listen_address = "unix:" + (Paths::get_state_directory() / "rpc.sock").string();
+      if (!CoreConfig::grpc_enabled()())
+        {
+          const bool was_running = rpc_server != nullptr;
+          rpc_server.reset();
+          rpc_listen_address.clear();
+          spdlog::info(was_running ? "gRPC server stopped by preference" : "gRPC server disabled by preference");
+          return;
+        }
+
+      std::string listen_address;
+      if (CoreConfig::grpc_transport()() == "tcp")
+        {
+          int port = CoreConfig::grpc_port()();
+          if (port < 1 || port > 65535)
+            {
+              spdlog::warn("Invalid gRPC TCP port {}; using 50051", port);
+              port = 50051;
+            }
+          // Keep the unauthenticated service local to this machine.
+          listen_address = "127.0.0.1:" + std::to_string(port);
+        }
+      else
+        {
+          // Filesystem permissions on the per-user state directory scope
+          // access to the local Unix-domain socket.
+          listen_address = "unix:" + (Paths::get_state_directory() / "rpc.sock").string();
+        }
+
+      // An explicit address remains useful for development and automated
+      // testing. The enabled preference is still authoritative.
       if (const char *override_address = std::getenv("WORKRAVE_RPC_ADDRESS"); override_address != nullptr)
         {
           listen_address = override_address;
         }
+
+      if (rpc_server != nullptr && listen_address == rpc_listen_address)
+        {
+          return;
+        }
+
+      if (rpc_server != nullptr)
+        {
+          spdlog::info("Restarting gRPC server on {}", listen_address);
+          rpc_server.reset();
+          rpc_listen_address.clear();
+        }
+
       rpc_server = std::make_unique<RpcCoreServer>(*this, *configurator, listen_address);
+      rpc_listen_address = std::move(listen_address);
     }
   catch (std::exception &e)
     {
+      rpc_server.reset();
+      rpc_listen_address.clear();
       spdlog::warn("RPC server failed to start: {}", e.what());
     }
 }
@@ -167,7 +218,7 @@ Core::init_rpc_dbus()
 }
 #endif
 
-#if defined(HAVE_GRPC)
+#if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
 rpc::InstanceRegistry<workrave::BreakId, Break> &
 Core::get_break_registry()
 {

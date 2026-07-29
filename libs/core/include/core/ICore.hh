@@ -113,6 +113,9 @@ namespace workrave
     //! Forces all breaks timers to become idle.
     virtual void force_idle() = 0;
 
+    //! Reports activity observed by an external client.
+    virtual void report_external_activity(std::string who, bool active) = 0;
+
     virtual void post_event(CoreEvent event) = 0;
 
     //! Return the hooks

@@ -5,6 +5,8 @@
 
 #include <exception>
 
+#include "rpc/RequestInterceptor.hh"
+
 
 
 ::grpc::Status DBusFixtureServiceServiceImpl::Ping(::grpc::ServerContext * /*context*/,
@@ -22,6 +24,7 @@
 
 
 
+      ::rpc::intercept_request({"workrave.test.DBusFixtureService", "Ping", *request});
     }
   catch (const std::exception &e)
     {
@@ -46,6 +49,7 @@
 
 
 
+      ::rpc::intercept_request({"workrave.test.DBusFixtureService", "GetMode", *request});
     }
   catch (const std::exception &e)
     {
@@ -67,6 +71,7 @@
       impl_.set_mode(static_cast<TestMode>(request->mode()));
 
 
+      ::rpc::intercept_request({"workrave.test.DBusFixtureService", "SetMode", *request});
     }
   catch (const std::exception &e)
     {

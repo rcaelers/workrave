@@ -11,6 +11,8 @@ Item {
     property string hint:        ""
     property string value:       ""
     property string placeholder: ""
+    property int inputMethodHints: Qt.ImhNone
+    property alias validator: field.validator
 
     signal committed(string text)
 
@@ -59,6 +61,7 @@ Item {
             width: 260
             text: root.value
             placeholderText: root.placeholder
+            inputMethodHints: root.inputMethodHints
             font.pixelSize: 13
             leftPadding: 10
             rightPadding: 10
@@ -70,7 +73,10 @@ Item {
                 border.width: field.activeFocus ? 1.5 : 1
             }
 
-            onEditingFinished: root.committed(text)
+            onEditingFinished: {
+                if (acceptableInput)
+                    root.committed(text)
+            }
         }
     }
 }

@@ -1,10 +1,16 @@
 #ifndef WORKRAVE_CORE_SHADOW_PROXY_HH
 #define WORKRAVE_CORE_SHADOW_PROXY_HH
 
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include <atomic>
 #include <array>
 #include <chrono>
 #include <map>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <vector>
 
@@ -18,6 +24,9 @@
 #include "core/IBreak.hh"
 #include "core/ICore.hh"
 #include "utils/Signals.hh"
+#if defined(HAVE_GRPC)
+#  include "rpc/RequestInterceptor.hh"
+#endif
 
 namespace workrave::core_shadow
 {
@@ -45,6 +54,7 @@ namespace workrave::core_shadow
 
     std::vector<EventObservation> live_events;
     std::map<std::string, EventHistory> event_history;
+    mutable std::mutex mutex;
     int64_t max_timer_delta{0};
     int64_t last_activity_warning_tick{-1};
   };
@@ -138,6 +148,7 @@ namespace workrave::core_shadow
     void set_powersave(bool down) override;
     void set_insist_policy(InsistPolicy p) override;
     void force_idle() override;
+    void report_external_activity(std::string who, bool active) override;
     [[nodiscard]] ICoreHooks::Ptr get_hooks() const override;
     [[nodiscard]] std::string get_shadow_debug_state_html() const override;
 
@@ -146,6 +157,9 @@ namespace workrave::core_shadow
 
   private:
     void shadow_command(const std::string &command);
+#if defined(HAVE_GRPC)
+    void intercept_rpc_request(const rpc::RequestInfo &request);
+#endif
     [[nodiscard]] auto live_snapshots() const -> std::vector<TimerSnapshot>;
 
   private:
@@ -154,9 +168,12 @@ namespace workrave::core_shadow
     std::unique_ptr<RecordingApp> recording_app;
     std::array<IBreak::Ptr, BREAK_ID_SIZEOF> breaks;
     CoreShadowClient shadow_client;
+#if defined(HAVE_GRPC)
+    rpc::RequestInterceptorRegistration rpc_interceptor;
+#endif
     CoreShadowComparator comparator;
     int64_t tick{0};
-    bool shadow_available{false};
+    std::atomic_bool shadow_available{false};
     std::vector<TimerSnapshot> last_live_snapshots;
     std::vector<TimerSnapshot> last_shadow_snapshots;
     int64_t last_shadow_tick{0};

@@ -102,87 +102,6 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::IsTaking(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::IsTakingRequest *request,
-                                                            ::workrave::rpc::breaks::IsTakingResponse *response)
-{
-  try
-    {
-
-      auto &impl_ = registry_.resolve(static_cast<workrave::BreakId>(request->id()));
-
-
-
-      auto rpc_result = impl_.is_taking();
-
-      response->set_result(rpc_result);
-
-
-
-      ::rpc::intercept_request({"workrave.BreakService", "IsTaking", *request});
-    }
-  catch (const std::exception &e)
-    {
-      return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, e.what());
-    }
-  return ::grpc::Status::OK;
-}
-
-
-::grpc::Status BreakServiceServiceImpl::IsMaxPreludesReached(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::IsMaxPreludesReachedRequest *request,
-                                                            ::workrave::rpc::breaks::IsMaxPreludesReachedResponse *response)
-{
-  try
-    {
-
-      auto &impl_ = registry_.resolve(static_cast<workrave::BreakId>(request->id()));
-
-
-
-      auto rpc_result = impl_.is_max_preludes_reached();
-
-      response->set_result(rpc_result);
-
-
-
-      ::rpc::intercept_request({"workrave.BreakService", "IsMaxPreludesReached", *request});
-    }
-  catch (const std::exception &e)
-    {
-      return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, e.what());
-    }
-  return ::grpc::Status::OK;
-}
-
-
-::grpc::Status BreakServiceServiceImpl::IsActive(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::IsActiveRequest *request,
-                                                            ::workrave::rpc::breaks::IsActiveResponse *response)
-{
-  try
-    {
-
-      auto &impl_ = registry_.resolve(static_cast<workrave::BreakId>(request->id()));
-
-
-
-      auto rpc_result = impl_.is_active();
-
-      response->set_result(rpc_result);
-
-
-
-      ::rpc::intercept_request({"workrave.BreakService", "IsActive", *request});
-    }
-  catch (const std::exception &e)
-    {
-      return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, e.what());
-    }
-  return ::grpc::Status::OK;
-}
-
-
 ::grpc::Status BreakServiceServiceImpl::GetTimerElapsed(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::rpc::breaks::GetTimerElapsedRequest *request,
                                                             ::workrave::rpc::breaks::GetTimerElapsedResponse *response)
@@ -345,9 +264,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::GetTimerRemaining(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::GetTimerRemainingRequest *request,
-                                                            ::workrave::rpc::breaks::GetTimerRemainingResponse *response)
+::grpc::Status BreakServiceServiceImpl::IsTaking(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::rpc::breaks::IsTakingRequest *request,
+                                                            ::workrave::rpc::breaks::IsTakingResponse *response)
 {
   try
     {
@@ -356,13 +275,13 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 
 
 
-      auto rpc_result = impl_.get_timer_remaining();
+      auto rpc_result = impl_.is_taking();
 
       response->set_result(rpc_result);
 
 
 
-      ::rpc::intercept_request({"workrave.BreakService", "GetTimerRemaining", *request});
+      ::rpc::intercept_request({"workrave.BreakService", "IsTaking", *request});
     }
   catch (const std::exception &e)
     {
@@ -372,9 +291,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::GetTimerOverdue(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::GetTimerOverdueRequest *request,
-                                                            ::workrave::rpc::breaks::GetTimerOverdueResponse *response)
+::grpc::Status BreakServiceServiceImpl::IsMaxPreludesReached(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::rpc::breaks::IsMaxPreludesReachedRequest *request,
+                                                            ::workrave::rpc::breaks::IsMaxPreludesReachedResponse *response)
 {
   try
     {
@@ -383,13 +302,13 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 
 
 
-      auto rpc_result = impl_.get_total_overdue_time();
+      auto rpc_result = impl_.is_max_preludes_reached();
 
       response->set_result(rpc_result);
 
 
 
-      ::rpc::intercept_request({"workrave.BreakService", "GetTimerOverdue", *request});
+      ::rpc::intercept_request({"workrave.BreakService", "IsMaxPreludesReached", *request});
     }
   catch (const std::exception &e)
     {
@@ -438,6 +357,87 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 
 
       ::rpc::intercept_request({"workrave.BreakService", "SkipBreak", *request});
+    }
+  catch (const std::exception &e)
+    {
+      return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, e.what());
+    }
+  return ::grpc::Status::OK;
+}
+
+
+::grpc::Status BreakServiceServiceImpl::IsActive(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::rpc::breaks::IsActiveRequest *request,
+                                                            ::workrave::rpc::breaks::IsActiveResponse *response)
+{
+  try
+    {
+
+      auto &impl_ = registry_.resolve(static_cast<workrave::BreakId>(request->id()));
+
+
+
+      auto rpc_result = impl_.is_active();
+
+      response->set_result(rpc_result);
+
+
+
+      ::rpc::intercept_request({"workrave.BreakService", "IsActive", *request});
+    }
+  catch (const std::exception &e)
+    {
+      return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, e.what());
+    }
+  return ::grpc::Status::OK;
+}
+
+
+::grpc::Status BreakServiceServiceImpl::GetTimerRemaining(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::rpc::breaks::GetTimerRemainingRequest *request,
+                                                            ::workrave::rpc::breaks::GetTimerRemainingResponse *response)
+{
+  try
+    {
+
+      auto &impl_ = registry_.resolve(static_cast<workrave::BreakId>(request->id()));
+
+
+
+      auto rpc_result = impl_.get_timer_remaining();
+
+      response->set_result(rpc_result);
+
+
+
+      ::rpc::intercept_request({"workrave.BreakService", "GetTimerRemaining", *request});
+    }
+  catch (const std::exception &e)
+    {
+      return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, e.what());
+    }
+  return ::grpc::Status::OK;
+}
+
+
+::grpc::Status BreakServiceServiceImpl::GetTimerOverdue(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::rpc::breaks::GetTimerOverdueRequest *request,
+                                                            ::workrave::rpc::breaks::GetTimerOverdueResponse *response)
+{
+  try
+    {
+
+      auto &impl_ = registry_.resolve(static_cast<workrave::BreakId>(request->id()));
+
+
+
+      auto rpc_result = impl_.get_total_overdue_time();
+
+      response->set_result(rpc_result);
+
+
+
+      ::rpc::intercept_request({"workrave.BreakService", "GetTimerOverdue", *request});
     }
   catch (const std::exception &e)
     {

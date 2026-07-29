@@ -58,6 +58,7 @@ private:
   void create_ui_page();
   void create_monitoring_page();
   void create_sounds_page();
+  void create_remote_control_page();
 
   void create_plugin_pages();
   void create_plugin_panels();

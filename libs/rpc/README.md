@@ -3,9 +3,24 @@
 Workrave exposes its core state — operation mode, breaks, configuration —
 over gRPC whenever it's built with `-DWITH_GRPC=ON`. This is a guide for
 *using* that interface (e.g. with `grpcurl`), not for the code generator
-that produces it — see [`tool/README.md`](tool/README.md) for that, and
-[`../corenext/src/RpcCoreServer.hh`](../corenext/src/RpcCoreServer.hh) for
-how the server itself is wired into the running app.
+that produces it — see [`tool/README.md`](tool/README.md) for that, and the
+[`CoreNext`](../corenext/src/RpcCoreServer.hh) and
+[`Core`](../core/src/RpcCoreServer.hh) server owners for how it is wired into
+the running app.
+
+## Core selection and shadowing
+
+The selected core owns the gRPC server. A Core build exposes Core directly; a
+CoreNext build exposes CoreNext directly. When `WITH_CORE_SHADOW=ON`, CoreNext
+is the live core and owns the only gRPC server. The Core helper never builds or
+starts another gRPC server.
+
+Generated gRPC adapters notify the process-local `libs/rpc` request
+interceptor only after a direct C++ call succeeds. Core-shadow uses that hook
+to mirror mutating Core, Break, and Config requests into the Core helper. Read
+requests are not forwarded. This keeps the two cores synchronized without a
+facade in CoreNext and without putting core-specific forwarding logic in the
+generated adapter.
 
 ## DBus implementation selection
 

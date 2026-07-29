@@ -1,0 +1,372 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave.rpc.breaks;
+
+
+
+// canonical_name: "break_id"
+
+enum BreakId {
+
+
+  // canonical_name: "none"
+
+  BREAK_ID_BREAK_ID_NONE = 0;
+
+
+  // canonical_name: "microbreak"
+
+  BREAK_ID_BREAK_ID_MICRO_BREAK = 1;
+
+
+  // canonical_name: "restbreak"
+
+  BREAK_ID_BREAK_ID_REST_BREAK = 2;
+
+
+  // canonical_name: "dailylimit"
+
+  BREAK_ID_BREAK_ID_DAILY_LIMIT = 3;
+
+}
+
+
+
+// canonical_name: "break_event"
+
+enum BreakEvent {
+
+
+  // canonical_name: "show_prelude"
+
+  BREAK_EVENT_SHOW_PRELUDE = 0;
+
+
+  // canonical_name: "show_break"
+
+  BREAK_EVENT_SHOW_BREAK = 1;
+
+
+  // canonical_name: "show_break_forced"
+
+  BREAK_EVENT_SHOW_BREAK_FORCED = 2;
+
+
+  // canonical_name: "break_start"
+
+  BREAK_EVENT_BREAK_START = 3;
+
+
+  // canonical_name: "break_idle"
+
+  BREAK_EVENT_BREAK_IDLE = 4;
+
+
+  // canonical_name: "break_stop"
+
+  BREAK_EVENT_BREAK_STOP = 5;
+
+
+  // canonical_name: "break_ignored"
+
+  BREAK_EVENT_BREAK_IGNORED = 6;
+
+
+  // canonical_name: "break_postponed"
+
+  BREAK_EVENT_BREAK_POSTPONED = 7;
+
+
+  // canonical_name: "break_skipped"
+
+  BREAK_EVENT_BREAK_SKIPPED = 8;
+
+
+  // canonical_name: "break_taken"
+
+  BREAK_EVENT_BREAK_TAKEN = 9;
+
+}
+
+
+
+// canonical_name: "break_stage"
+
+enum BreakStage {
+
+
+  // canonical_name: "none"
+
+  BREAK_STAGE_NONE = 0;
+
+
+  // canonical_name: "snoozed"
+
+  BREAK_STAGE_SNOOZED = 1;
+
+
+  // canonical_name: "prelude"
+
+  BREAK_STAGE_PRELUDE = 2;
+
+
+  // canonical_name: "taking"
+
+  BREAK_STAGE_TAKING = 3;
+
+
+  // canonical_name: "delayed"
+
+  BREAK_STAGE_DELAYED = 4;
+
+}
+
+
+
+
+
+message GetNameRequest {
+
+  BreakId id = 1;
+
+}
+
+message GetNameResponse {
+
+  string result = 1;
+
+}
+
+
+message IsEnabledRequest {
+
+  BreakId id = 1;
+
+}
+
+message IsEnabledResponse {
+
+  bool result = 1;
+
+}
+
+
+message IsTimerRunningRequest {
+
+  BreakId id = 1;
+
+}
+
+message IsTimerRunningResponse {
+
+  bool result = 1;
+
+}
+
+
+message GetTimerElapsedRequest {
+
+  BreakId id = 1;
+
+}
+
+message GetTimerElapsedResponse {
+
+  int64 result = 1;
+
+}
+
+
+message GetTimerIdleRequest {
+
+  BreakId id = 1;
+
+}
+
+message GetTimerIdleResponse {
+
+  int64 result = 1;
+
+}
+
+
+message GetAutoResetRequest {
+
+  BreakId id = 1;
+
+}
+
+message GetAutoResetResponse {
+
+  int64 result = 1;
+
+}
+
+
+message IsAutoResetEnabledRequest {
+
+  BreakId id = 1;
+
+}
+
+message IsAutoResetEnabledResponse {
+
+  bool result = 1;
+
+}
+
+
+message GetLimitRequest {
+
+  BreakId id = 1;
+
+}
+
+message GetLimitResponse {
+
+  int64 result = 1;
+
+}
+
+
+message IsLimitEnabledRequest {
+
+  BreakId id = 1;
+
+}
+
+message IsLimitEnabledResponse {
+
+  bool result = 1;
+
+}
+
+
+message IsTakingRequest {
+
+  BreakId id = 1;
+
+}
+
+message IsTakingResponse {
+
+  bool result = 1;
+
+}
+
+
+message IsMaxPreludesReachedRequest {
+
+  BreakId id = 1;
+
+}
+
+message IsMaxPreludesReachedResponse {
+
+  bool result = 1;
+
+}
+
+
+message PostponeBreakRequest {
+
+  BreakId id = 1;
+
+}
+
+message PostponeBreakResponse {
+
+}
+
+
+message SkipBreakRequest {
+
+  BreakId id = 1;
+
+}
+
+message SkipBreakResponse {
+
+}
+
+
+message IsActiveRequest {
+
+  BreakId id = 1;
+
+}
+
+message IsActiveResponse {
+
+  bool result = 1;
+
+}
+
+
+message GetTimerRemainingRequest {
+
+  BreakId id = 1;
+
+}
+
+message GetTimerRemainingResponse {
+
+  int64 result = 1;
+
+}
+
+
+message GetTimerOverdueRequest {
+
+  BreakId id = 1;
+
+}
+
+message GetTimerOverdueResponse {
+
+  int64 result = 1;
+
+}
+
+
+message GetBreakStateRequest {
+
+  BreakId id = 1;
+
+}
+
+message GetBreakStateResponse {
+
+  string result = 1;
+
+}
+
+
+
+message BreakEventRequest {
+
+  BreakId id = 1;
+
+}
+
+message BreakEventEvent {
+
+  BreakEvent value = 1;
+
+}
+
+
+message BreakStateChangedRequest {
+
+  BreakId id = 1;
+
+}
+
+message BreakStateChangedEvent {
+
+  BreakStage value = 1;
+
+}

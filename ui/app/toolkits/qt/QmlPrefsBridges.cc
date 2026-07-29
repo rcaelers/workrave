@@ -1633,6 +1633,89 @@ GeneralPrefBridge::setSleepOperationIndex(int idx)
     }
 }
 
+// ── RemoteControlPrefBridge ───────────────────────────────────────────────────
+
+RemoteControlPrefBridge::RemoteControlPrefBridge(QObject *parent)
+  : QObject(parent)
+{
+}
+
+bool
+RemoteControlPrefBridge::hasGrpc() const
+{
+#if defined(HAVE_GRPC)
+  return true;
+#else
+  return false;
+#endif
+}
+
+bool
+RemoteControlPrefBridge::grpcEnabled() const
+{
+#if defined(HAVE_GRPC)
+  return CoreConfig::grpc_enabled()();
+#else
+  return false;
+#endif
+}
+
+int
+RemoteControlPrefBridge::grpcTransport() const
+{
+#if defined(HAVE_GRPC)
+  return CoreConfig::grpc_transport()() == "tcp" ? 1 : 0;
+#else
+  return 0;
+#endif
+}
+
+int
+RemoteControlPrefBridge::grpcPort() const
+{
+#if defined(HAVE_GRPC)
+  return CoreConfig::grpc_port()();
+#else
+  return 50051;
+#endif
+}
+
+void
+RemoteControlPrefBridge::setGrpcEnabled(bool enabled)
+{
+#if defined(HAVE_GRPC)
+  CoreConfig::grpc_enabled().set(enabled);
+  Q_EMIT grpcChanged();
+#else
+  (void)enabled;
+#endif
+}
+
+void
+RemoteControlPrefBridge::setGrpcTransport(int transport)
+{
+#if defined(HAVE_GRPC)
+  CoreConfig::grpc_transport().set(transport == 1 ? "tcp" : "unix");
+  Q_EMIT grpcChanged();
+#else
+  (void)transport;
+#endif
+}
+
+void
+RemoteControlPrefBridge::setGrpcPort(int port)
+{
+#if defined(HAVE_GRPC)
+  if (port >= 1 && port <= 65535)
+    {
+      CoreConfig::grpc_port().set(port);
+      Q_EMIT grpcChanged();
+    }
+#else
+  (void)port;
+#endif
+}
+
 // ── AppletPrefBridge ──────────────────────────────────────────────────────────
 
 AppletPrefBridge::AppletPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent)

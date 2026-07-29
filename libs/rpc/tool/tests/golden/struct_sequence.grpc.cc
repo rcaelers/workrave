@@ -5,6 +5,8 @@
 
 #include <exception>
 
+#include "rpc/RequestInterceptor.hh"
+
 
 
 ::grpc::Status StructSeqServiceServiceImpl::SetTimerData(::grpc::ServerContext * /*context*/,
@@ -27,6 +29,7 @@
       impl_.set_timer_data(local_data);
 
 
+      ::rpc::intercept_request({"workrave.test.StructSeqService", "SetTimerData", *request});
     }
   catch (const std::exception &e)
     {
@@ -53,6 +56,7 @@
 
 
 
+      ::rpc::intercept_request({"workrave.test.StructSeqService", "GetTimerData", *request});
     }
   catch (const std::exception &e)
     {
@@ -78,6 +82,7 @@
 
       for (const auto &rpc_item_0 : local_out) { auto *rpc_elem_0 = response->add_out(); rpc_elem_0->set_text(rpc_item_0.text); rpc_elem_0->set_command(rpc_item_0.command); rpc_elem_0->set_flags(rpc_item_0.flags); }
 
+      ::rpc::intercept_request({"workrave.test.StructSeqService", "GetMenu", *request});
     }
   catch (const std::exception &e)
     {
@@ -103,6 +108,7 @@
       impl_.set_tags(local_tags);
 
 
+      ::rpc::intercept_request({"workrave.test.StructSeqService", "SetTags", *request});
     }
   catch (const std::exception &e)
     {

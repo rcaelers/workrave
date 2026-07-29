@@ -5,6 +5,8 @@
 
 #include <exception>
 
+#include "rpc/RequestInterceptor.hh"
+
 
 
 namespace workrave::config::rpc
@@ -31,6 +33,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
       impl_.remove_key(request->key());
 
 
+      ::rpc::intercept_request({"workrave.ConfigService", "RemoveKey", *request});
     }
   catch (const std::exception &e)
     {
@@ -52,6 +55,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
       impl_.rename_key(request->key(), request->new_key());
 
 
+      ::rpc::intercept_request({"workrave.ConfigService", "RenameKey", *request});
     }
   catch (const std::exception &e)
     {
@@ -76,6 +80,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 
 
 
+      ::rpc::intercept_request({"workrave.ConfigService", "HasUserValue", *request});
     }
   catch (const std::exception &e)
     {
@@ -104,6 +109,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 
       response->set_out(local_out);
 
+      ::rpc::intercept_request({"workrave.ConfigService", "GetString", *request});
     }
   catch (const std::exception &e)
     {
@@ -132,6 +138,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 
       response->set_out(local_out);
 
+      ::rpc::intercept_request({"workrave.ConfigService", "GetBool", *request});
     }
   catch (const std::exception &e)
     {
@@ -160,6 +167,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 
       response->set_out(local_out);
 
+      ::rpc::intercept_request({"workrave.ConfigService", "GetInt", *request});
     }
   catch (const std::exception &e)
     {
@@ -188,6 +196,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 
       response->set_out(local_out);
 
+      ::rpc::intercept_request({"workrave.ConfigService", "GetInt64", *request});
     }
   catch (const std::exception &e)
     {
@@ -216,6 +225,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 
       response->set_out(local_out);
 
+      ::rpc::intercept_request({"workrave.ConfigService", "GetDouble", *request});
     }
   catch (const std::exception &e)
     {
@@ -241,6 +251,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 
       response->set_out(local_out);
 
+      ::rpc::intercept_request({"workrave.ConfigService", "GetStringWithDefault", *request});
     }
   catch (const std::exception &e)
     {
@@ -266,6 +277,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 
       response->set_out(local_out);
 
+      ::rpc::intercept_request({"workrave.ConfigService", "GetBoolWithDefault", *request});
     }
   catch (const std::exception &e)
     {
@@ -291,6 +303,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 
       response->set_out(local_out);
 
+      ::rpc::intercept_request({"workrave.ConfigService", "GetIntWithDefault", *request});
     }
   catch (const std::exception &e)
     {
@@ -316,6 +329,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 
       response->set_out(local_out);
 
+      ::rpc::intercept_request({"workrave.ConfigService", "GetInt64WithDefault", *request});
     }
   catch (const std::exception &e)
     {
@@ -341,6 +355,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 
       response->set_out(local_out);
 
+      ::rpc::intercept_request({"workrave.ConfigService", "GetDoubleWithDefault", *request});
     }
   catch (const std::exception &e)
     {
@@ -362,6 +377,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
       impl_.set_value(request->key(), request->v(), static_cast<workrave::config::ConfigFlags>(request->flags()));
 
 
+      ::rpc::intercept_request({"workrave.ConfigService", "SetString", *request});
     }
   catch (const std::exception &e)
     {
@@ -383,6 +399,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
       impl_.set_value(request->key(), request->v(), static_cast<workrave::config::ConfigFlags>(request->flags()));
 
 
+      ::rpc::intercept_request({"workrave.ConfigService", "SetInt", *request});
     }
   catch (const std::exception &e)
     {
@@ -404,6 +421,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
       impl_.set_value(request->key(), request->v(), static_cast<workrave::config::ConfigFlags>(request->flags()));
 
 
+      ::rpc::intercept_request({"workrave.ConfigService", "SetInt64", *request});
     }
   catch (const std::exception &e)
     {
@@ -425,6 +443,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
       impl_.set_value(request->key(), request->v(), static_cast<workrave::config::ConfigFlags>(request->flags()));
 
 
+      ::rpc::intercept_request({"workrave.ConfigService", "SetBool", *request});
     }
   catch (const std::exception &e)
     {
@@ -446,6 +465,7 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
       impl_.set_value(request->key(), request->v(), static_cast<workrave::config::ConfigFlags>(request->flags()));
 
 
+      ::rpc::intercept_request({"workrave.ConfigService", "SetDouble", *request});
     }
   catch (const std::exception &e)
     {

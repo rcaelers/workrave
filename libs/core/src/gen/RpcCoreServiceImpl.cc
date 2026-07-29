@@ -23,32 +23,6 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 
 
 
-::grpc::Status CoreServiceServiceImpl::ForceBreak(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::core::ForceBreakRequest *request,
-                                                            ::workrave::rpc::core::ForceBreakResponse *response)
-{
-  try
-    {
-
-
-      workrave::utils::Flags<workrave::BreakHint> local_break_hint;
-
-      for (int i = 0; i < request->break_hint_size(); ++i) { local_break_hint |= static_cast<workrave::BreakHint>(request->break_hint(i)); }
-
-
-      impl_.force_break(static_cast<workrave::BreakId>(request->id()), local_break_hint);
-
-
-      ::rpc::intercept_request({"workrave.CoreService", "ForceBreak", *request});
-    }
-  catch (const std::exception &e)
-    {
-      return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, e.what());
-    }
-  return ::grpc::Status::OK;
-}
-
-
 ::grpc::Status CoreServiceServiceImpl::IsActive(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::rpc::core::IsActiveRequest *request,
                                                             ::workrave::rpc::core::IsActiveResponse *response)
@@ -90,6 +64,32 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 
 
       ::rpc::intercept_request({"workrave.CoreService", "IsTaking", *request});
+    }
+  catch (const std::exception &e)
+    {
+      return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, e.what());
+    }
+  return ::grpc::Status::OK;
+}
+
+
+::grpc::Status CoreServiceServiceImpl::ForceBreak(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::rpc::core::ForceBreakRequest *request,
+                                                            ::workrave::rpc::core::ForceBreakResponse *response)
+{
+  try
+    {
+
+
+      workrave::utils::Flags<BreakHint> local_break_hint;
+
+      for (int i = 0; i < request->break_hint_size(); ++i) { local_break_hint |= static_cast<workrave::BreakHint>(request->break_hint(i)); }
+
+
+      impl_.force_break(static_cast<workrave::BreakId>(request->id()), local_break_hint);
+
+
+      ::rpc::intercept_request({"workrave.CoreService", "ForceBreak", *request});
     }
   catch (const std::exception &e)
     {

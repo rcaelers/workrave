@@ -5,6 +5,8 @@
 
 #include <exception>
 
+#include "rpc/RequestInterceptor.hh"
+
 
 
 ::grpc::Status TestServiceServiceImpl::Ping(::grpc::ServerContext * /*context*/,
@@ -22,6 +24,7 @@
 
 
 
+      ::rpc::intercept_request({"workrave.test.TestService", "Ping", *request});
     }
   catch (const std::exception &e)
     {
@@ -46,6 +49,7 @@
 
 
 
+      ::rpc::intercept_request({"workrave.test.TestService", "Add", *request});
     }
   catch (const std::exception &e)
     {
@@ -67,6 +71,7 @@
       impl_.set_flag(request->value());
 
 
+      ::rpc::intercept_request({"workrave.test.TestService", "SetFlag", *request});
     }
   catch (const std::exception &e)
     {
@@ -95,6 +100,7 @@
 
       response->set_mode(static_cast<::workrave::test::TestMode>(local_mode));
 
+      ::rpc::intercept_request({"workrave.test.TestService", "GetMode", *request});
     }
   catch (const std::exception &e)
     {
@@ -119,6 +125,7 @@
 
 
 
+      ::rpc::intercept_request({"workrave.test.TestService", "Greet", *request});
     }
   catch (const std::exception &e)
     {

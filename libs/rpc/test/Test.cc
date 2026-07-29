@@ -23,12 +23,14 @@
 
 #include <chrono>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <thread>
 
 #include <grpcpp/grpcpp.h>
 
 #include "rpc/InstanceRegistry.hh"
+#include "rpc/RequestInterceptor.hh"
 #include "rpc/RpcServer.hh"
 
 #include "RpcKeyed.grpc.pb.h"
@@ -81,6 +83,69 @@ TEST_F(RpcTest, ping_calls_real_method)
   grpc::Status status = stub->Ping(&ctx, request, &response);
   ASSERT_TRUE(status.ok());
   EXPECT_EQ(response.result(), "hello pong");
+}
+
+TEST_F(RpcTest, interceptor_observes_successful_generated_calls)
+{
+  std::string observed_service;
+  std::string observed_method;
+  std::string observed_message;
+  int call_count = 0;
+  auto registration = rpc::register_request_interceptor([&](const rpc::RequestInfo &info) {
+    observed_service = info.service;
+    observed_method = info.method;
+    const auto *request = dynamic_cast<const workrave::PingRequest *>(&info.request);
+    ASSERT_NE(request, nullptr);
+    observed_message = request->message();
+    ++call_count;
+  });
+
+  grpc::ClientContext first_context;
+  workrave::PingRequest request;
+  request.set_message("intercept me");
+  workrave::PingResponse response;
+
+  ASSERT_TRUE(stub->Ping(&first_context, request, &response).ok());
+  EXPECT_EQ(observed_service, "workrave.TestService");
+  EXPECT_EQ(observed_method, "Ping");
+  EXPECT_EQ(observed_message, "intercept me");
+  EXPECT_EQ(call_count, 1);
+
+  registration.reset();
+  grpc::ClientContext second_context;
+  ASSERT_TRUE(stub->Ping(&second_context, request, &response).ok());
+  EXPECT_EQ(call_count, 1);
+}
+
+TEST_F(RpcTest, interceptor_failure_does_not_change_the_rpc_result)
+{
+  auto registration = rpc::register_request_interceptor(
+    [](const rpc::RequestInfo &) { throw std::runtime_error("observer failed"); });
+
+  grpc::ClientContext context;
+  workrave::PingRequest request;
+  request.set_message("still succeeds");
+  workrave::PingResponse response;
+
+  ASSERT_TRUE(stub->Ping(&context, request, &response).ok());
+  EXPECT_EQ(response.result(), "still succeeds pong");
+}
+
+TEST_F(RpcTest, shutdown_rejects_subsequent_calls)
+{
+  grpc::ClientContext first_context;
+  workrave::PingRequest request;
+  request.set_message("before shutdown");
+  workrave::PingResponse first_response;
+
+  ASSERT_TRUE(stub->Ping(&first_context, request, &first_response).ok());
+
+  rpc_server->shutdown();
+
+  grpc::ClientContext second_context;
+  second_context.set_deadline(std::chrono::system_clock::now() + std::chrono::seconds(1));
+  workrave::PingResponse second_response;
+  EXPECT_FALSE(stub->Ping(&second_context, request, &second_response).ok());
 }
 
 TEST_F(RpcTest, add_calls_real_method)

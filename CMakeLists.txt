@@ -366,14 +366,14 @@ if (WITH_UI_QT)
   set (HAVE_CORE_NEXT ON)
 endif()
 
-option (WITH_CORE_SHADOW "Build legacy core helper for shadow behavior comparison" OFF)
+option (WITH_CORE_SHADOW "Build the Core helper for shadow behavior comparison" OFF)
 
 if (WITH_CORE_SHADOW)
   if (NOT HAVE_CORE_NEXT)
     message(FATAL_ERROR "WITH_CORE_SHADOW requires corenext as the live backend (enable WITH_UI_QT or WITH_CORE_NEXT)")
   endif()
   set(HAVE_CORE_SHADOW ON)
-  message(STATUS "Building legacy core shadow comparator helper")
+  message(STATUS "Building Core shadow comparator helper")
 endif()
 
 #----------------------------------------------------------------------------------------------------

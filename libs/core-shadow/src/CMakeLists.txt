@@ -18,6 +18,10 @@ target_link_libraries(workrave-libs-core-shadow
   workrave-libs-utils
   fmt::fmt)
 
+if (HAVE_GRPC)
+  target_link_libraries(workrave-libs-core-shadow PRIVATE workrave-libs-rpc protobuf::libprotobuf)
+endif()
+
 if (PLATFORM_OS_UNIX OR PLATFORM_OS_MACOS)
   target_sources(workrave-libs-core-shadow PRIVATE CoreShadowProcess-posix.cc)
 endif()

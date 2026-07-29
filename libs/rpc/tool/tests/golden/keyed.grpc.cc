@@ -5,6 +5,8 @@
 
 #include <exception>
 
+#include "rpc/RequestInterceptor.hh"
+
 
 
 ::grpc::Status WidgetServiceServiceImpl::GetValue(::grpc::ServerContext * /*context*/,
@@ -24,6 +26,7 @@
 
 
 
+      ::rpc::intercept_request({"workrave.test.WidgetService", "GetValue", *request});
     }
   catch (const std::exception &e)
     {
@@ -47,6 +50,7 @@
       impl_.set_value(request->v());
 
 
+      ::rpc::intercept_request({"workrave.test.WidgetService", "SetValue", *request});
     }
   catch (const std::exception &e)
     {

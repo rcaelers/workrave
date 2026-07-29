@@ -1,0 +1,39 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave;
+import "RpcCoreTypes.proto";
+
+
+service CoreService {
+
+  rpc IsActive(.workrave.rpc.core.IsActiveRequest) returns (.workrave.rpc.core.IsActiveResponse);
+
+  rpc IsTaking(.workrave.rpc.core.IsTakingRequest) returns (.workrave.rpc.core.IsTakingResponse);
+
+  rpc ForceBreak(.workrave.rpc.core.ForceBreakRequest) returns (.workrave.rpc.core.ForceBreakResponse);
+
+  rpc GetActiveOperationMode(.workrave.rpc.core.GetActiveOperationModeRequest) returns (.workrave.rpc.core.GetActiveOperationModeResponse);
+
+  rpc GetOperationMode(.workrave.rpc.core.GetOperationModeRequest) returns (.workrave.rpc.core.GetOperationModeResponse);
+
+  rpc IsOperationModeAnOverride(.workrave.rpc.core.IsOperationModeAnOverrideRequest) returns (.workrave.rpc.core.IsOperationModeAnOverrideResponse);
+
+  rpc SetOperationMode(.workrave.rpc.core.SetOperationModeRequest) returns (.workrave.rpc.core.SetOperationModeResponse);
+
+  rpc SetOperationModeFor(.workrave.rpc.core.SetOperationModeForRequest) returns (.workrave.rpc.core.SetOperationModeForResponse);
+
+  rpc GetUsageMode(.workrave.rpc.core.GetUsageModeRequest) returns (.workrave.rpc.core.GetUsageModeResponse);
+
+  rpc SetUsageMode(.workrave.rpc.core.SetUsageModeRequest) returns (.workrave.rpc.core.SetUsageModeResponse);
+
+  rpc ReportActivity(.workrave.rpc.core.ReportActivityRequest) returns (.workrave.rpc.core.ReportActivityResponse);
+
+
+  rpc OperationModeChanged(.workrave.rpc.core.OperationModeChangedRequest) returns (stream .workrave.rpc.core.OperationModeChangedEvent);
+
+  rpc UsageModeChanged(.workrave.rpc.core.UsageModeChangedRequest) returns (stream .workrave.rpc.core.UsageModeChangedEvent);
+
+}

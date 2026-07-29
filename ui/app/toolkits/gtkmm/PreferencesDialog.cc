@@ -33,6 +33,7 @@
 #include "debug.hh"
 #include "GeneralPreferencePanel.hh"
 #include "MonitoringPreferencePanel.hh"
+#include "RemoteControlPreferencePanel.hh"
 #include "SoundPreferencePanel.hh"
 #include "TimerBoxPreferencePanel.hh"
 #include "TimerPreferencePanel.hh"
@@ -53,6 +54,9 @@ PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplicationContext> app)
   create_ui_page();
   create_monitoring_page();
   create_sounds_page();
+#if defined(HAVE_GRPC)
+  create_remote_control_page();
+#endif
 
   create_plugin_pages();
   create_plugin_panels();
@@ -144,6 +148,16 @@ PreferencesDialog::create_sounds_page()
   Gtk::Widget *gui_sounds_page = Gtk::manage(new SoundPreferencePanel(app));
   page->add_panel("sounds", gui_sounds_page, _("Sounds"));
 }
+
+#if defined(HAVE_GRPC)
+void
+PreferencesDialog::create_remote_control_page()
+{
+  auto page = add_page("remote-control", _("Remote control"), "network-server-symbolic");
+  auto *remote_control_panel = Gtk::manage(new RemoteControlPreferencePanel());
+  page->add_panel("grpc", remote_control_panel, _("gRPC"));
+}
+#endif
 
 void
 PreferencesDialog::create_plugin_pages()

@@ -55,6 +55,9 @@ const string CoreConfig::CFG_KEY_MONITOR_ACTIVITY = "monitor/activity";
 const string CoreConfig::CFG_KEY_MONITOR_IDLE = "monitor/idle";
 const string CoreConfig::CFG_KEY_MONITOR_SENSITIVITY = "monitor/sensitivity";
 const string CoreConfig::CFG_KEY_GENERAL_DATADIR = "general/datadir";
+const string CoreConfig::CFG_KEY_GRPC_ENABLED = "general/grpc/enabled";
+const string CoreConfig::CFG_KEY_GRPC_TRANSPORT = "general/grpc/transport";
+const string CoreConfig::CFG_KEY_GRPC_PORT = "general/grpc/port";
 const string CoreConfig::CFG_KEY_OPERATION_MODE = "general/operation-mode";
 const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_DURATION = "general/operation_mode_auto_reset_duration";
 const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_OPTIONS = "general/operation_mode_auto_reset_options";
@@ -260,6 +263,24 @@ Setting<std::string> &
 CoreConfig::general_datadir()
 {
   return SettingCache::get<std::string>(config, CFG_KEY_GENERAL_DATADIR);
+}
+
+Setting<bool> &
+CoreConfig::grpc_enabled()
+{
+  return SettingCache::get<bool>(config, CFG_KEY_GRPC_ENABLED, true);
+}
+
+Setting<std::string> &
+CoreConfig::grpc_transport()
+{
+  return SettingCache::get<std::string>(config, CFG_KEY_GRPC_TRANSPORT, std::string{"unix"});
+}
+
+Setting<int> &
+CoreConfig::grpc_port()
+{
+  return SettingCache::get<int>(config, CFG_KEY_GRPC_PORT, 50051);
 }
 
 Setting<int, workrave::OperationMode> &

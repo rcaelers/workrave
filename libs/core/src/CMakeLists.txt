@@ -52,6 +52,40 @@ if (HAVE_CORE_DBUS)
   endif()
 endif()
 
+if (HAVE_GRPC AND NOT HAVE_CORE_SHADOW)
+  rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Core.hh ${CMAKE_CURRENT_BINARY_DIR} RpcCore
+    TARGET workrave-libs-core
+    PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
+    PROTO_TYPES_PACKAGE workrave.rpc.core
+    GRPC_SERVICES_NAMESPACE rpc
+    ADAPTER_NAMESPACE workrave::core::rpc)
+  rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Break.hh ${CMAKE_CURRENT_BINARY_DIR} RpcBreak
+    TARGET workrave-libs-core
+    PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
+    PROTO_TYPES_PACKAGE workrave.rpc.breaks
+    GRPC_SERVICES_NAMESPACE rpc
+    ADAPTER_NAMESPACE workrave::core::rpc)
+
+  add_library(workrave-libs-core-rpc STATIC
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcCoreServiceImpl.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcCore.pb.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcCore.grpc.pb.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcCoreTypes.pb.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcBreakServiceImpl.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcBreak.pb.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcBreak.grpc.pb.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/RpcBreakTypes.pb.cc
+    RpcCoreServer.cc)
+  target_link_libraries(workrave-libs-core-rpc
+    PUBLIC workrave-libs-core
+    PRIVATE workrave-libs-rpc workrave-libs-config-rpc gRPC::grpc++ protobuf::libprotobuf)
+  target_include_directories(workrave-libs-core-rpc PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}/libs/config/src
+    ${CMAKE_SOURCE_DIR}/libs/rpc/include)
+endif()
+
 if (HAVE_GSETTINGS AND NOT HAVE_CORE_SHADOW)
   gsettings_add_schemas(${CMAKE_CURRENT_SOURCE_DIR})
 endif()

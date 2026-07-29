@@ -6,6 +6,8 @@
 #include "{{ adapter_header_filename }}"
 
 #include <exception>
+
+#include "rpc/RequestInterceptor.hh"
 {% if has_duration %}
 #include "rpc/Duration.hh"
 {% endif %}
@@ -59,6 +61,7 @@ namespace {{ adapter_namespace }}
 {{ encode(model, param.type_id, "local_" ~ param.cxx_name, "response->", param.proto_field, types_cpp_ns) | replace("\n", "\n\n") | indent(6, true) }}
 {% endif -%}
 {%- endfor %}
+      ::rpc::intercept_request({"{{ service.proto_package }}.{{ service.service_name }}", "{{ method.rpc_name }}", *request});
     }
   catch (const std::exception &e)
     {

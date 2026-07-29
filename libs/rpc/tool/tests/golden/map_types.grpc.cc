@@ -5,6 +5,8 @@
 
 #include <exception>
 
+#include "rpc/RequestInterceptor.hh"
+
 
 
 ::grpc::Status MapTypesServiceServiceImpl::SetCounters(::grpc::ServerContext * /*context*/,
@@ -23,6 +25,7 @@
       impl_.set_counters(local_counters);
 
 
+      ::rpc::intercept_request({"workrave.test.MapTypesService", "SetCounters", *request});
     }
   catch (const std::exception &e)
     {
@@ -48,6 +51,7 @@
 
       for (const auto &rpc_kv_0 : local_out) { auto &rpc_map_val_0 = (*response->mutable_out())[rpc_kv_0.first]; rpc_map_val_0.set_text(rpc_kv_0.second.text); rpc_map_val_0.set_command(rpc_kv_0.second.command); }
 
+      ::rpc::intercept_request({"workrave.test.MapTypesService", "GetMenuByAction", *request});
     }
   catch (const std::exception &e)
     {

@@ -5,6 +5,8 @@
 
 #include <exception>
 
+#include "rpc/RequestInterceptor.hh"
+
 
 
 ::grpc::Status DBusFixture2ServiceServiceImpl::SetPoint(::grpc::ServerContext * /*context*/,
@@ -25,6 +27,7 @@
       impl_.set_point(local_p);
 
 
+      ::rpc::intercept_request({"workrave.test.DBusFixture2Service", "SetPoint", *request});
     }
   catch (const std::exception &e)
     {
@@ -51,6 +54,7 @@
 
 
 
+      ::rpc::intercept_request({"workrave.test.DBusFixture2Service", "GetPoint", *request});
     }
   catch (const std::exception &e)
     {
@@ -76,6 +80,7 @@
       impl_.set_tags(local_tags);
 
 
+      ::rpc::intercept_request({"workrave.test.DBusFixture2Service", "SetTags", *request});
     }
   catch (const std::exception &e)
     {
@@ -100,6 +105,7 @@
 
 
 
+      ::rpc::intercept_request({"workrave.test.DBusFixture2Service", "GetPoints", *request});
     }
   catch (const std::exception &e)
     {

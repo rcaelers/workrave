@@ -5,6 +5,8 @@
 
 #include <exception>
 
+#include "rpc/RequestInterceptor.hh"
+
 #include "rpc/Duration.hh"
 
 
@@ -21,6 +23,7 @@
       impl_.set_timeout(std::chrono::duration_cast<std::chrono::minutes>(::rpc::parse_duration(request->duration())));
 
 
+      ::rpc::intercept_request({"workrave.test.DurationFlagsService", "SetTimeout", *request});
     }
   catch (const std::exception &e)
     {
@@ -46,6 +49,7 @@
       impl_.set_permissions(local_perms);
 
 
+      ::rpc::intercept_request({"workrave.test.DurationFlagsService", "SetPermissions", *request});
     }
   catch (const std::exception &e)
     {

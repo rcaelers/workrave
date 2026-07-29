@@ -31,6 +31,7 @@ class DailyLimitPrefBridge;
 class StatusWindowPrefBridge;
 class AppletPrefBridge;
 class GeneralPrefBridge;
+class RemoteControlPrefBridge;
 class MonitoringPrefBridge;
 class SoundsPrefBridge;
 class ActivePluginPageBridge;
@@ -66,6 +67,7 @@ private:
   StatusWindowPrefBridge *statusWindowBridge{nullptr};
   AppletPrefBridge       *appletBridge{nullptr};
   GeneralPrefBridge      *generalBridge{nullptr};
+  RemoteControlPrefBridge *remoteControlBridge{nullptr};
   MonitoringPrefBridge   *monitoringBridge{nullptr};
   SoundsPrefBridge       *soundsBridge{nullptr};
 

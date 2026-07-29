@@ -50,7 +50,7 @@ if (HAVE_CORE_NEXT_DBUS)
   endif()
 endif()
 
-if (HAVE_GRPC)
+if (HAVE_GRPC AND HAVE_CORE_NEXT)
   # BreaksControl.hh uses rpc::InstanceRegistry<> (see get_break_registry())
   # to route BreakService calls to the right one of the three live Break
   # instances.

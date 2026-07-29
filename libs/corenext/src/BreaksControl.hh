@@ -30,7 +30,7 @@
 #include "ReadingActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
 
-#if defined(HAVE_GRPC)
+#if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
 #  include "rpc/InstanceRegistry.hh"
 #endif
 
@@ -58,7 +58,7 @@ public:
 
   void set_insist_policy(workrave::InsistPolicy p);
 
-#if defined(HAVE_GRPC)
+#if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
   // The per-object Break service registry: whoever wires up the actual
   // RpcServer resolves BreakService calls against this
   // registry, keyed by BreakId, exactly like DBus routes a call to one of
@@ -96,7 +96,7 @@ private:
   Break::Ptr breaks[workrave::BREAK_ID_SIZEOF];
   Timer::Ptr timers[workrave::BREAK_ID_SIZEOF];
 
-#if defined(HAVE_GRPC)
+#if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
   rpc::InstanceRegistry<workrave::BreakId, Break> break_registry;
 #endif
 

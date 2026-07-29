@@ -37,6 +37,10 @@ target_sources(workrave-toolkit-gtkmm PRIVATE
   widgets/TimerBoxGtkView.cc
   )
 
+if (HAVE_GRPC)
+  target_sources(workrave-toolkit-gtkmm PRIVATE preferences/RemoteControlPreferencePanel.cc)
+endif()
+
 if (HAVE_STATUSICON)
   target_sources(workrave-toolkit-gtkmm PRIVATE widgets/StatusIcon.cc)
 endif()

@@ -229,6 +229,29 @@
     </key>
   </schema>
 
+  <schema path="/org/workrave/general/grpc/" id="org.workrave.general.grpc" gettext-domain="workrave">
+    <key type="b" name="enabled">
+      <default>true</default>
+      <summary>Enable the gRPC server</summary>
+      <description>Allow local applications to control Workrave through gRPC.</description>
+    </key>
+    <key type="s" name="transport">
+      <choices>
+        <choice value="unix"/>
+        <choice value="tcp"/>
+      </choices>
+      <default>'unix'</default>
+      <summary>gRPC transport</summary>
+      <description>Use a Unix-domain socket or a loopback TCP/IP socket.</description>
+    </key>
+    <key type="i" name="port">
+      <range min="1" max="65535"/>
+      <default>50051</default>
+      <summary>gRPC TCP port</summary>
+      <description>TCP port used when the gRPC transport is set to TCP/IP.</description>
+    </key>
+  </schema>
+
   <schema path="/org/workrave/distribution/" id="org.workrave.distribution" gettext-domain="workrave">
     <key type="b" name="enabled">
       <default>false</default>

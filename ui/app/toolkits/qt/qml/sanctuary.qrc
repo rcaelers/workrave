@@ -43,6 +43,7 @@
         <file>RestBreakPrefPage.qml</file>
         <file>DailyLimitPrefPage.qml</file>
         <file>GeneralPrefPage.qml</file>
+        <file>RemoteControlPrefPage.qml</file>
         <file>TimerStylePreview.qml</file>
         <file>TimerStyleCard.qml</file>
         <file>TimerPlacementCard.qml</file>

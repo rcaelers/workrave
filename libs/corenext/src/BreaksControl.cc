@@ -58,7 +58,7 @@ BreaksControl::~BreaksControl()
 {
   save_state();
 
-#if defined(HAVE_GRPC)
+#if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
   for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
     {
       break_registry.unregister_instance(break_id);
@@ -86,7 +86,7 @@ BreaksControl::init()
                                                  activity_monitor,
                                                  statistics,
                                                  hooks);
-#if defined(HAVE_GRPC)
+#if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
       break_registry.register_instance(break_id, *breaks[break_id]);
 #endif
       connect(breaks[break_id]->signal_break_event(), this, [this, break_id](auto &&event) {

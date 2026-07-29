@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
 #include "CoreShadowTypes.hh"
@@ -24,22 +25,19 @@ using namespace workrave::core_shadow;
 
 namespace
 {
-  auto
-  to_bool(const std::string &value) -> bool
+  auto to_bool(const std::string &value) -> bool
   {
     return value == "1" || value == "true";
   }
 
-  auto
-  to_break_hint(const std::string &value) -> workrave::utils::Flags<BreakHint>
+  auto to_break_hint(const std::string &value) -> workrave::utils::Flags<BreakHint>
   {
     workrave::utils::Flags<BreakHint> flags;
     flags.set(static_cast<std::underlying_type_t<BreakHint>>(std::stoi(value)));
     return flags;
   }
 
-  void
-  emit_event(int64_t tick, const std::string &source, int break_id, const std::string &name, const std::string &detail = {})
+  void emit_event(int64_t tick, const std::string &source, int break_id, const std::string &name, const std::string &detail = {})
   {
     std::cout << serialize_event(EventObservation{.backend = Backend::Core,
                                                   .tick = tick,
@@ -87,7 +85,11 @@ namespace
 
     void set_break_progress(int value, int max_value) override
     {
-      emit_event(tick, "app-callback", BREAK_ID_NONE, "set_break_progress", std::to_string(value) + "/" + std::to_string(max_value));
+      emit_event(tick,
+                 "app-callback",
+                 BREAK_ID_NONE,
+                 "set_break_progress",
+                 std::to_string(value) + "/" + std::to_string(max_value));
     }
 
     void set_prelude_stage(PreludeStage stage) override
@@ -97,7 +99,11 @@ namespace
 
     void set_prelude_progress_text(PreludeProgressText text) override
     {
-      emit_event(tick, "app-callback", BREAK_ID_NONE, "set_prelude_progress_text", std::string{workrave::utils::enum_to_string(text)});
+      emit_event(tick,
+                 "app-callback",
+                 BREAK_ID_NONE,
+                 "set_prelude_progress_text",
+                 std::string{workrave::utils::enum_to_string(text)});
     }
 
     void core_event_notify(const CoreEvent event) override
@@ -174,7 +180,8 @@ namespace
             }
           else if (command == "set_operation_mode_for" && fields.size() >= 3)
             {
-              core->set_operation_mode_for(static_cast<OperationMode>(std::stoi(fields[1])), std::chrono::minutes(std::stoi(fields[2])));
+              core->set_operation_mode_for(static_cast<OperationMode>(std::stoi(fields[1])),
+                                           std::chrono::minutes(std::stoi(fields[2])));
             }
           else if (command == "set_operation_mode_override" && fields.size() >= 3)
             {
@@ -200,6 +207,10 @@ namespace
             {
               core->force_idle();
             }
+          else if (command == "report_activity" && fields.size() >= 3)
+            {
+              core->report_external_activity(fields[1], to_bool(fields[2]));
+            }
           else if (command == "postpone" && fields.size() >= 2)
             {
               core->get_break(static_cast<BreakId>(std::stoi(fields[1])))->postpone_break();
@@ -207,6 +218,42 @@ namespace
           else if (command == "skip" && fields.size() >= 2)
             {
               core->get_break(static_cast<BreakId>(std::stoi(fields[1])))->skip_break();
+            }
+          else if (command == "config_remove" && fields.size() >= 2)
+            {
+              configurator->remove_key(fields[1]);
+            }
+          else if (command == "config_rename" && fields.size() >= 3)
+            {
+              configurator->rename_key(fields[1], fields[2]);
+            }
+          else if (command == "config_set" && fields.size() >= 5)
+            {
+              const auto flags = static_cast<ConfigFlags>(std::stoi(fields[4]));
+              if (fields[1] == "string")
+                {
+                  configurator->set_value(fields[2], fields[3], flags);
+                }
+              else if (fields[1] == "int32")
+                {
+                  configurator->set_value(fields[2], static_cast<int32_t>(std::stoi(fields[3])), flags);
+                }
+              else if (fields[1] == "int64")
+                {
+                  configurator->set_value(fields[2], std::stoll(fields[3]), flags);
+                }
+              else if (fields[1] == "bool")
+                {
+                  configurator->set_value(fields[2], to_bool(fields[3]), flags);
+                }
+              else if (fields[1] == "double")
+                {
+                  configurator->set_value(fields[2], std::stod(fields[3]), flags);
+                }
+              else
+                {
+                  throw std::runtime_error("unknown configuration value type");
+                }
             }
           else if (command == "snapshot")
             {

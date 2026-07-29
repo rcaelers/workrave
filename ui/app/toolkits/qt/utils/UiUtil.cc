@@ -42,6 +42,20 @@ UiUtil::create_icon(const QString &filename) -> QIcon
 }
 
 auto
+UiUtil::create_pixmap(const QString &filename, int height) -> QPixmap
+{
+  std::string svg_filename = AssetPath::complete_directory(filename.toStdString(), SearchPathId::Images);
+
+  QSvgRenderer svg(QString::fromStdString(svg_filename));
+  QPixmap pixmap(height, height);
+
+  pixmap.fill(Qt::transparent);
+  QPainter painter(&pixmap);
+  svg.render(&painter, QRectF(0, 0, height, height));
+  return pixmap;
+}
+
+auto
 UiUtil::time_to_string(time_t time, bool display_units) -> QString
 {
   QString ret;

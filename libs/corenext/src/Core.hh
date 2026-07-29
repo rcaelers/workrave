@@ -21,6 +21,7 @@
 #include <string>
 
 #include "config/IConfigurator.hh"
+#include "utils/Signals.hh"
 
 #include "core/ICore.hh"
 #include "LocalActivityMonitor.hh"
@@ -35,7 +36,7 @@ namespace workrave
   class IApp;
 }
 
-#if defined(HAVE_GRPC)
+#if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
 class RpcCoreServer;
 #endif
 #if defined(HAVE_CORE_NEXT_DBUS)
@@ -88,9 +89,9 @@ public:
 
   // DBus/RPC functions.
   // @rpc(name="ReportActivity")
-  void report_external_activity(std::string who, bool act);
+  void report_external_activity(std::string who, bool act) override;
 
-#if defined(HAVE_GRPC)
+#if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
   // The per-object Break service registry; forwards to BreaksControl so
   // whoever wires up the RpcServer (see init_rpc()) can
   // construct a workrave::core::rpc::BreakServiceServiceImpl without reaching
@@ -99,8 +100,9 @@ public:
 #endif
 
 private:
-#if defined(HAVE_GRPC)
+#if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
   void init_rpc();
+  void update_rpc();
 #endif
 #if defined(HAVE_CORE_NEXT_DBUS)
   void init_rpc_dbus();
@@ -131,11 +133,16 @@ private:
   //! Did the OS announce a powersave?
   bool powersave{false};
 
-#if defined(HAVE_GRPC)
-  // Declared last so it is destroyed first: it holds references into
-  // breaks_control/configurator and must stop serving before those are torn
-  // down.
+#if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
+  std::string rpc_listen_address;
+
+  // Holds references into breaks_control/configurator and must stop serving
+  // before those are torn down.
   std::unique_ptr<RpcCoreServer> rpc_server;
+
+  // Declared after rpc_server so setting callbacks are disconnected before
+  // the server and the objects referenced by those callbacks are destroyed.
+  workrave::utils::Trackable rpc_settings_tracker;
 #endif
 #if defined(HAVE_CORE_NEXT_DBUS)
   // Declared last so signal forwarding and DBus object registrations stop

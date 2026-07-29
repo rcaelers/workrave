@@ -44,6 +44,7 @@ QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject
   statusWindowBridge = new StatusWindowPrefBridge(this->app, this);
   appletBridge       = new AppletPrefBridge(this->app, this);
   generalBridge      = new GeneralPrefBridge(this->app, this);
+  remoteControlBridge = new RemoteControlPrefBridge(this);
   monitoringBridge   = new MonitoringPrefBridge(this->app, this);
   soundsBridge       = new SoundsPrefBridge(this->app, this);
   activeBridge    = new ActivePluginPageBridge(this);
@@ -80,6 +81,7 @@ QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject
   ctx->setContextProperty("statusWindowPrefBridge", statusWindowBridge);
   ctx->setContextProperty("appletPrefBridge",       appletBridge);
   ctx->setContextProperty("generalPrefBridge",      generalBridge);
+  ctx->setContextProperty("remoteControlPrefBridge", remoteControlBridge);
   ctx->setContextProperty("monitoringPrefBridge",   monitoringBridge);
   ctx->setContextProperty("soundsPrefBridge",       soundsBridge);
   ctx->setContextProperty("activePluginBridge",  activeBridge);

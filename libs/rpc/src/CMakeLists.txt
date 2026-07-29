@@ -2,7 +2,9 @@ add_library(workrave-libs-rpc-common STATIC Duration.cc)
 target_include_directories(workrave-libs-rpc-common PUBLIC ${CMAKE_SOURCE_DIR}/libs/rpc/include)
 
 if (HAVE_GRPC)
-  add_library(workrave-libs-rpc STATIC RpcServer.cc)
+  add_library(workrave-libs-rpc STATIC
+    RequestInterceptor.cc
+    RpcServer.cc)
   target_link_libraries(workrave-libs-rpc
     PUBLIC workrave-libs-rpc-common gRPC::grpc++ gRPC::grpc++_reflection)
   target_include_directories(workrave-libs-rpc PUBLIC ${CMAKE_SOURCE_DIR}/libs/rpc/include)

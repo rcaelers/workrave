@@ -522,6 +522,32 @@ private:
   std::shared_ptr<IApplicationContext> app;
 };
 
+// ── RemoteControlPrefBridge ───────────────────────────────────────────────────
+
+class RemoteControlPrefBridge : public QObject
+{
+  Q_OBJECT
+
+  Q_PROPERTY(bool hasGrpc       READ hasGrpc       CONSTANT)
+  Q_PROPERTY(bool grpcEnabled   READ grpcEnabled   NOTIFY grpcChanged)
+  Q_PROPERTY(int  grpcTransport READ grpcTransport NOTIFY grpcChanged)
+  Q_PROPERTY(int  grpcPort      READ grpcPort      NOTIFY grpcChanged)
+
+public:
+  explicit RemoteControlPrefBridge(QObject *parent = nullptr);
+
+  bool hasGrpc() const;
+  bool grpcEnabled() const;
+  int  grpcTransport() const;
+  int  grpcPort() const;
+  Q_INVOKABLE void setGrpcEnabled(bool enabled);
+  Q_INVOKABLE void setGrpcTransport(int transport);
+  Q_INVOKABLE void setGrpcPort(int port);
+
+Q_SIGNALS:
+  void grpcChanged();
+};
+
 // ── AppletPrefBridge ──────────────────────────────────────────────────────────
 // Mirrors StatusWindowPrefBridge for the "applet" timerbox; no alwaysOnTop.
 

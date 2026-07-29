@@ -254,7 +254,7 @@ object path on one native session-bus connection. Their endpoints call
 `Menus` and `GenericDBusApplet` directly, including compound Applet method
 values and emitted events, and have checked-in Qt and GIO output. Native RAII
 name watchers track applet clients without using `IDBus`. Both standalone
-generated DBus builds and mixed legacy-feature-plus-gRPC builds use these new
+generated DBus builds and mixed existing-feature-plus-gRPC builds use these new
 application endpoints. The GNOME Shell prelude availability check uses GIO
 directly instead of obtaining an `IDBus` from Core.
 

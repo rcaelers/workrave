@@ -48,6 +48,9 @@ public:
   static workrave::config::Setting<int> &monitor_idle();
   static workrave::config::Setting<int> &monitor_sensitivity();
   static workrave::config::Setting<std::string> &general_datadir();
+  static workrave::config::Setting<bool> &grpc_enabled();
+  static workrave::config::Setting<std::string> &grpc_transport();
+  static workrave::config::Setting<int> &grpc_port();
   static workrave::config::Setting<int, workrave::OperationMode> &operation_mode();
   static workrave::config::Setting<int, workrave::UsageMode> &usage_mode();
   static workrave::config::Setting<int, std::chrono::minutes> &operation_mode_auto_reset_duration();
@@ -82,6 +85,9 @@ public:
   static const std::string CFG_KEY_MONITOR_IDLE;
   static const std::string CFG_KEY_MONITOR_SENSITIVITY;
   static const std::string CFG_KEY_GENERAL_DATADIR;
+  static const std::string CFG_KEY_GRPC_ENABLED;
+  static const std::string CFG_KEY_GRPC_TRANSPORT;
+  static const std::string CFG_KEY_GRPC_PORT;
   static const std::string CFG_KEY_OPERATION_MODE;
   static const std::string CFG_KEY_OPERATION_MODE_RESET_DURATION;
   static const std::string CFG_KEY_OPERATION_MODE_RESET_OPTIONS;

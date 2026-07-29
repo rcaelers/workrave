@@ -5,6 +5,8 @@
 
 #include <exception>
 
+#include "rpc/RequestInterceptor.hh"
+
 
 
 ::grpc::Status EnumNamesServiceServiceImpl::SetOperationMode(::grpc::ServerContext * /*context*/,
@@ -19,6 +21,7 @@
       impl_.set_operation_mode(static_cast<OperationMode>(request->mode()));
 
 
+      ::rpc::intercept_request({"workrave.test.EnumNamesService", "SetOperationMode", *request});
     }
   catch (const std::exception &e)
     {

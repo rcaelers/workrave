@@ -28,6 +28,7 @@ public:
 public:
   static auto create_icon(const QString &filename) -> QIcon;
   static auto time_to_string(time_t t, bool display_units = false) -> QString;
+  static auto create_pixmap(const QString &filename, int height) -> QPixmap;
 };
 
 #endif // UIUTIL_HH

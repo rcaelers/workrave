@@ -18,9 +18,9 @@ namespace workrave::core_shadow
     stop();
   }
 
-  auto
-  CoreShadowClient::start() -> bool
+  auto CoreShadowClient::start() -> bool
   {
+    std::scoped_lock lock(mutex);
     if (started)
       {
         return true;
@@ -46,9 +46,9 @@ namespace workrave::core_shadow
     return started;
   }
 
-  void
-  CoreShadowClient::stop()
+  void CoreShadowClient::stop()
   {
+    std::scoped_lock lock(mutex);
     if (started && process)
       {
         ObservationBatch batch;
@@ -58,9 +58,9 @@ namespace workrave::core_shadow
       }
   }
 
-  auto
-  CoreShadowClient::command(const std::string &command, ObservationBatch &batch) -> bool
+  auto CoreShadowClient::command(const std::string &command, ObservationBatch &batch) -> bool
   {
+    std::scoped_lock lock(mutex);
     if (!started)
       {
         return false;
@@ -68,8 +68,7 @@ namespace workrave::core_shadow
     return process->exchange(command, batch);
   }
 
-  auto
-  CoreShadowClient::find_helper() const -> std::optional<std::filesystem::path>
+  auto CoreShadowClient::find_helper() const -> std::optional<std::filesystem::path>
   {
     if (auto *helper = std::getenv("WORKRAVE_CORE_SHADOW_HELPER"); helper != nullptr && *helper != '\0')
       {

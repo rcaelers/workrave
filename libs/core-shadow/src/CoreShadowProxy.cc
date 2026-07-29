@@ -2,12 +2,21 @@
 
 #include <algorithm>
 #include <cmath>
+#include <iomanip>
+#include <limits>
 #include <sstream>
+#include <stdexcept>
 #include <string_view>
 
 #include <spdlog/spdlog.h>
 
 #include "utils/Enum.hh"
+#if defined(HAVE_GRPC)
+#  include <google/protobuf/descriptor.h>
+#  include <google/protobuf/message.h>
+
+#  include "rpc/Duration.hh"
+#endif
 
 namespace workrave::core_shadow
 {
@@ -15,8 +24,7 @@ namespace workrave::core_shadow
   {
     constexpr int64_t timer_warning_threshold = 2;
 
-    auto
-    command_line(const std::vector<std::string> &fields) -> std::string
+    auto command_line(const std::vector<std::string> &fields) -> std::string
     {
       std::ostringstream out;
       bool first = true;
@@ -32,14 +40,163 @@ namespace workrave::core_shadow
       return out.str();
     }
 
-    auto
-    event_key(const EventObservation &event) -> std::string
+#if defined(HAVE_GRPC)
+    auto rpc_field(const google::protobuf::Message &message, std::string_view name) -> const google::protobuf::FieldDescriptor &
+    {
+      const auto *field = message.GetDescriptor()->FindFieldByName(std::string{name});
+      if (field == nullptr)
+        {
+          throw std::runtime_error("gRPC request has no field named " + std::string{name});
+        }
+      return *field;
+    }
+
+    auto rpc_enum(const google::protobuf::Message &message, std::string_view name) -> int
+    {
+      const auto &field = rpc_field(message, name);
+      return message.GetReflection()->GetEnumValue(message, &field);
+    }
+
+    auto rpc_repeated_enum_flags(const google::protobuf::Message &message, std::string_view name) -> int
+    {
+      const auto &field = rpc_field(message, name);
+      const auto *reflection = message.GetReflection();
+      int flags = 0;
+      for (int index = 0; index < reflection->FieldSize(message, &field); ++index)
+        {
+          flags |= reflection->GetRepeatedEnumValue(message, &field, index);
+        }
+      return flags;
+    }
+
+    auto rpc_string(const google::protobuf::Message &message, std::string_view name) -> std::string
+    {
+      const auto &field = rpc_field(message, name);
+      return message.GetReflection()->GetString(message, &field);
+    }
+
+    auto rpc_bool(const google::protobuf::Message &message, std::string_view name) -> bool
+    {
+      const auto &field = rpc_field(message, name);
+      return message.GetReflection()->GetBool(message, &field);
+    }
+
+    auto rpc_int32(const google::protobuf::Message &message, std::string_view name) -> int32_t
+    {
+      const auto &field = rpc_field(message, name);
+      return message.GetReflection()->GetInt32(message, &field);
+    }
+
+    auto rpc_int64(const google::protobuf::Message &message, std::string_view name) -> int64_t
+    {
+      const auto &field = rpc_field(message, name);
+      return message.GetReflection()->GetInt64(message, &field);
+    }
+
+    auto rpc_double(const google::protobuf::Message &message, std::string_view name) -> double
+    {
+      const auto &field = rpc_field(message, name);
+      return message.GetReflection()->GetDouble(message, &field);
+    }
+
+    auto double_text(double value) -> std::string
+    {
+      std::ostringstream out;
+      out << std::setprecision(std::numeric_limits<double>::max_digits10) << value;
+      return out.str();
+    }
+
+    auto rpc_shadow_command(const rpc::RequestInfo &request) -> std::optional<std::string>
+    {
+      const auto &message = request.request;
+      if (request.service == "workrave.CoreService")
+        {
+          if (request.method == "ForceBreak")
+            {
+              return command_line({"force_break",
+                                   std::to_string(rpc_enum(message, "id")),
+                                   std::to_string(rpc_repeated_enum_flags(message, "break_hint"))});
+            }
+          if (request.method == "SetOperationMode")
+            {
+              return command_line({"set_operation_mode", std::to_string(rpc_enum(message, "mode"))});
+            }
+          if (request.method == "SetOperationModeFor")
+            {
+              const auto duration = std::chrono::duration_cast<std::chrono::minutes>(
+                rpc::parse_duration(rpc_string(message, "duration")));
+              return command_line(
+                {"set_operation_mode_for", std::to_string(rpc_enum(message, "mode")), std::to_string(duration.count())});
+            }
+          if (request.method == "SetUsageMode")
+            {
+              return command_line({"set_usage_mode", std::to_string(rpc_enum(message, "mode"))});
+            }
+          if (request.method == "ReportActivity")
+            {
+              return command_line({"report_activity", rpc_string(message, "who"), rpc_bool(message, "act") ? "1" : "0"});
+            }
+        }
+      else if (request.service == "workrave.BreakService")
+        {
+          if (request.method == "PostponeBreak")
+            {
+              return command_line({"postpone", std::to_string(rpc_enum(message, "id"))});
+            }
+          if (request.method == "SkipBreak")
+            {
+              return command_line({"skip", std::to_string(rpc_enum(message, "id"))});
+            }
+        }
+      else if (request.service == "workrave.ConfigService")
+        {
+          if (request.method == "RemoveKey")
+            {
+              return command_line({"config_remove", rpc_string(message, "key")});
+            }
+          if (request.method == "RenameKey")
+            {
+              return command_line({"config_rename", rpc_string(message, "key"), rpc_string(message, "new_key")});
+            }
+
+          const auto config_set = [&](std::string type, std::string value) {
+            return command_line({"config_set",
+                                 std::move(type),
+                                 rpc_string(message, "key"),
+                                 std::move(value),
+                                 std::to_string(rpc_enum(message, "flags"))});
+          };
+          if (request.method == "SetString")
+            {
+              return config_set("string", rpc_string(message, "v"));
+            }
+          if (request.method == "SetInt")
+            {
+              return config_set("int32", std::to_string(rpc_int32(message, "v")));
+            }
+          if (request.method == "SetInt64")
+            {
+              return config_set("int64", std::to_string(rpc_int64(message, "v")));
+            }
+          if (request.method == "SetBool")
+            {
+              return config_set("bool", rpc_bool(message, "v") ? "1" : "0");
+            }
+          if (request.method == "SetDouble")
+            {
+              return config_set("double", double_text(rpc_double(message, "v")));
+            }
+        }
+      return std::nullopt;
+    }
+#endif
+
+    auto event_key(const EventObservation &event) -> std::string
     {
       return event.source + "\t" + std::to_string(event.break_id) + "\t" + event.name + "\t" + event.detail;
     }
 
-    auto
-    event_history_key(const EventObservation &event) -> std::string
+    auto event_history_key(const EventObservation &event) -> std::string
     {
       return event.source + "\t" + std::to_string(event.break_id) + "\t" + event.name;
     }
@@ -112,8 +269,7 @@ namespace workrave::core_shadow
     {
       if (differs)
         {
-          out << "<td align=\"right\" bgcolor=\"#ffe6e6\"><font color=\"#c62828\"><b>" << value
-              << "</b></font></td>";
+          out << "<td align=\"right\" bgcolor=\"#ffe6e6\"><font color=\"#c62828\"><b>" << value << "</b></font></td>";
         }
       else
         {
@@ -147,10 +303,7 @@ namespace workrave::core_shadow
           << " snapshot unavailable</b></font></td></tr>";
     }
 
-    void append_break_comparison(std::ostringstream &out,
-                                 int break_id,
-                                 const TimerSnapshot *core,
-                                 const TimerSnapshot *corenext)
+    void append_break_comparison(std::ostringstream &out, int break_id, const TimerSnapshot *core, const TimerSnapshot *corenext)
     {
       out << "<h4>" << break_name(break_id) << "</h4>";
       out << "<table cellspacing=\"0\" cellpadding=\"4\" border=\"1\">"
@@ -181,15 +334,14 @@ namespace workrave::core_shadow
     }
   } // namespace
 
-  void
-  CoreShadowComparator::record_live_event(EventObservation event)
+  void CoreShadowComparator::record_live_event(EventObservation event)
   {
+    std::scoped_lock lock(mutex);
     record_event_history(event);
     live_events.push_back(std::move(event));
   }
 
-  void
-  CoreShadowComparator::record_event_history(const EventObservation &event)
+  void CoreShadowComparator::record_event_history(const EventObservation &event)
   {
     auto &history = event_history[event_history_key(event)];
     history.source = event.source;
@@ -207,18 +359,18 @@ namespace workrave::core_shadow
       }
   }
 
-  void
-  CoreShadowComparator::record_shadow_events(const ObservationBatch &shadow_batch)
+  void CoreShadowComparator::record_shadow_events(const ObservationBatch &shadow_batch)
   {
+    std::scoped_lock lock(mutex);
     for (const auto &event: shadow_batch.events)
       {
         record_event_history(event);
       }
   }
 
-  std::string
-  CoreShadowComparator::get_event_debug_state_html() const
+  std::string CoreShadowComparator::get_event_debug_state_html() const
   {
+    std::scoped_lock lock(mutex);
     std::ostringstream out;
     out << "<h4>Events</h4>";
     if (event_history.empty())
@@ -261,9 +413,11 @@ namespace workrave::core_shadow
     return out.str();
   }
 
-  void
-  CoreShadowComparator::compare(int64_t tick, const std::vector<TimerSnapshot> &live_snapshots, const ObservationBatch &shadow_batch)
+  void CoreShadowComparator::compare(int64_t tick,
+                                     const std::vector<TimerSnapshot> &live_snapshots,
+                                     const ObservationBatch &shadow_batch)
   {
+    std::scoped_lock lock(mutex);
     std::vector<EventObservation> current_live;
     auto live_it = std::remove_if(live_events.begin(), live_events.end(), [&](const auto &event) {
       if (event.tick == tick)
@@ -275,7 +429,10 @@ namespace workrave::core_shadow
     });
     live_events.erase(live_it, live_events.end());
 
-    record_shadow_events(shadow_batch);
+    for (const auto &event: shadow_batch.events)
+      {
+        record_event_history(event);
+      }
 
     for (const auto &live_event: current_live)
       {
@@ -334,34 +491,36 @@ namespace workrave::core_shadow
 
         if (std::llabs(elapsed_delta) >= timer_warning_threshold || std::llabs(idle_delta) >= timer_warning_threshold)
           {
-            spdlog::warn("Core shadow: break {} corenext timer skew from core at tick {}: elapsed={}s idle={}s "
-                         "(core elapsed={} idle={}, corenext elapsed={} idle={})",
-                         core_snapshot.break_id,
-                         tick,
-                         elapsed_delta,
-                         idle_delta,
-                         core_snapshot.elapsed,
-                         core_snapshot.idle,
-                         live_snapshot->elapsed,
-                         live_snapshot->idle);
+            spdlog::warn(
+              "Core shadow: break {} corenext timer skew from core at tick {}: elapsed={}s idle={}s "
+              "(core elapsed={} idle={}, corenext elapsed={} idle={})",
+              core_snapshot.break_id,
+              tick,
+              elapsed_delta,
+              idle_delta,
+              core_snapshot.elapsed,
+              core_snapshot.idle,
+              live_snapshot->elapsed,
+              live_snapshot->idle);
           }
 
         if (live_snapshot->enabled != core_snapshot.enabled || live_snapshot->running != core_snapshot.running
             || live_snapshot->taking != core_snapshot.taking || live_snapshot->active != core_snapshot.active)
           {
-            spdlog::warn("Core shadow: break {} state differs at tick {}: "
-                         "core enabled={} running={} taking={} active={}, "
-                         "corenext enabled={} running={} taking={} active={}",
-                         core_snapshot.break_id,
-                         tick,
-                         core_snapshot.enabled,
-                         core_snapshot.running,
-                         core_snapshot.taking,
-                         core_snapshot.active,
-                         live_snapshot->enabled,
-                         live_snapshot->running,
-                         live_snapshot->taking,
-                         live_snapshot->active);
+            spdlog::warn(
+              "Core shadow: break {} state differs at tick {}: "
+              "core enabled={} running={} taking={} active={}, "
+              "corenext enabled={} running={} taking={} active={}",
+              core_snapshot.break_id,
+              tick,
+              core_snapshot.enabled,
+              core_snapshot.running,
+              core_snapshot.taking,
+              core_snapshot.active,
+              live_snapshot->enabled,
+              live_snapshot->running,
+              live_snapshot->taking,
+              live_snapshot->active);
           }
       }
     spdlog::debug("Core shadow: max timer delta observed={}s", max_timer_delta);
@@ -448,19 +607,58 @@ namespace workrave::core_shadow
     return break_event_signal;
   }
 
-  std::string BreakShadowProxy::get_name() const { return live_break->get_name(); }
-  bool BreakShadowProxy::is_enabled() const { return live_break->is_enabled(); }
-  bool BreakShadowProxy::is_running() const { return live_break->is_running(); }
-  bool BreakShadowProxy::is_taking() const { return live_break->is_taking(); }
-  bool BreakShadowProxy::is_max_preludes_reached() const { return live_break->is_max_preludes_reached(); }
-  bool BreakShadowProxy::is_active() const { return live_break->is_active(); }
-  int64_t BreakShadowProxy::get_elapsed_time() const { return live_break->get_elapsed_time(); }
-  int64_t BreakShadowProxy::get_elapsed_idle_time() const { return live_break->get_elapsed_idle_time(); }
-  int64_t BreakShadowProxy::get_auto_reset() const { return live_break->get_auto_reset(); }
-  bool BreakShadowProxy::is_auto_reset_enabled() const { return live_break->is_auto_reset_enabled(); }
-  int64_t BreakShadowProxy::get_limit() const { return live_break->get_limit(); }
-  bool BreakShadowProxy::is_limit_enabled() const { return live_break->is_limit_enabled(); }
-  int64_t BreakShadowProxy::get_total_overdue_time() const { return live_break->get_total_overdue_time(); }
+  std::string BreakShadowProxy::get_name() const
+  {
+    return live_break->get_name();
+  }
+  bool BreakShadowProxy::is_enabled() const
+  {
+    return live_break->is_enabled();
+  }
+  bool BreakShadowProxy::is_running() const
+  {
+    return live_break->is_running();
+  }
+  bool BreakShadowProxy::is_taking() const
+  {
+    return live_break->is_taking();
+  }
+  bool BreakShadowProxy::is_max_preludes_reached() const
+  {
+    return live_break->is_max_preludes_reached();
+  }
+  bool BreakShadowProxy::is_active() const
+  {
+    return live_break->is_active();
+  }
+  int64_t BreakShadowProxy::get_elapsed_time() const
+  {
+    return live_break->get_elapsed_time();
+  }
+  int64_t BreakShadowProxy::get_elapsed_idle_time() const
+  {
+    return live_break->get_elapsed_idle_time();
+  }
+  int64_t BreakShadowProxy::get_auto_reset() const
+  {
+    return live_break->get_auto_reset();
+  }
+  bool BreakShadowProxy::is_auto_reset_enabled() const
+  {
+    return live_break->is_auto_reset_enabled();
+  }
+  int64_t BreakShadowProxy::get_limit() const
+  {
+    return live_break->get_limit();
+  }
+  bool BreakShadowProxy::is_limit_enabled() const
+  {
+    return live_break->is_limit_enabled();
+  }
+  int64_t BreakShadowProxy::get_total_overdue_time() const
+  {
+    return live_break->get_total_overdue_time();
+  }
 
   void BreakShadowProxy::postpone_break()
   {
@@ -498,6 +696,9 @@ namespace workrave::core_shadow
 
   CoreShadowProxy::~CoreShadowProxy()
   {
+#if defined(HAVE_GRPC)
+    rpc_interceptor.reset();
+#endif
     shadow_client.stop();
   }
 
@@ -514,6 +715,10 @@ namespace workrave::core_shadow
   void CoreShadowProxy::init(workrave::IApp *app, const char *display)
   {
     shadow_available = shadow_client.start();
+#if defined(HAVE_GRPC)
+    rpc_interceptor = rpc::register_request_interceptor(
+      [this](const rpc::RequestInfo &request) { intercept_rpc_request(request); });
+#endif
     recording_app = std::make_unique<RecordingApp>(app, comparator, tick);
     live_core->init(recording_app.get(), display);
 
@@ -559,11 +764,26 @@ namespace workrave::core_shadow
     return breaks[id];
   }
 
-  IStatistics::Ptr CoreShadowProxy::get_statistics() const { return live_core->get_statistics(); }
-  bool CoreShadowProxy::is_user_active() const { return live_core->is_user_active(); }
-  bool CoreShadowProxy::is_taking() const { return live_core->is_taking(); }
-  OperationMode CoreShadowProxy::get_active_operation_mode() { return live_core->get_active_operation_mode(); }
-  OperationMode CoreShadowProxy::get_regular_operation_mode() { return live_core->get_regular_operation_mode(); }
+  IStatistics::Ptr CoreShadowProxy::get_statistics() const
+  {
+    return live_core->get_statistics();
+  }
+  bool CoreShadowProxy::is_user_active() const
+  {
+    return live_core->is_user_active();
+  }
+  bool CoreShadowProxy::is_taking() const
+  {
+    return live_core->is_taking();
+  }
+  OperationMode CoreShadowProxy::get_active_operation_mode()
+  {
+    return live_core->get_active_operation_mode();
+  }
+  OperationMode CoreShadowProxy::get_regular_operation_mode()
+  {
+    return live_core->get_regular_operation_mode();
+  }
 
   void CoreShadowProxy::set_operation_mode(OperationMode mode)
   {
@@ -589,8 +809,14 @@ namespace workrave::core_shadow
     shadow_command(command_line({"remove_operation_mode_override", id}));
   }
 
-  bool CoreShadowProxy::is_operation_mode_an_override() { return live_core->is_operation_mode_an_override(); }
-  UsageMode CoreShadowProxy::get_usage_mode() { return live_core->get_usage_mode(); }
+  bool CoreShadowProxy::is_operation_mode_an_override()
+  {
+    return live_core->is_operation_mode_an_override();
+  }
+  UsageMode CoreShadowProxy::get_usage_mode()
+  {
+    return live_core->get_usage_mode();
+  }
 
   void CoreShadowProxy::set_usage_mode(UsageMode mode)
   {
@@ -616,7 +842,16 @@ namespace workrave::core_shadow
     shadow_command(command_line({"force_idle"}));
   }
 
-  ICoreHooks::Ptr CoreShadowProxy::get_hooks() const { return live_core->get_hooks(); }
+  void CoreShadowProxy::report_external_activity(std::string who, bool active)
+  {
+    live_core->report_external_activity(who, active);
+    shadow_command(command_line({"report_activity", std::move(who), active ? "1" : "0"}));
+  }
+
+  ICoreHooks::Ptr CoreShadowProxy::get_hooks() const
+  {
+    return live_core->get_hooks();
+  }
 
   std::string CoreShadowProxy::get_shadow_debug_state_html() const
   {
@@ -693,6 +928,23 @@ namespace workrave::core_shadow
         comparator.record_shadow_events(batch);
       }
   }
+
+#if defined(HAVE_GRPC)
+  void CoreShadowProxy::intercept_rpc_request(const rpc::RequestInfo &request)
+  {
+    try
+      {
+        if (auto command = rpc_shadow_command(request))
+          {
+            shadow_command(*command);
+          }
+      }
+    catch (const std::exception &error)
+      {
+        spdlog::warn("Core shadow could not mirror gRPC call {}/{}: {}", request.service, request.method, error.what());
+      }
+  }
+#endif
 
   auto CoreShadowProxy::live_snapshots() const -> std::vector<TimerSnapshot>
   {

@@ -13,8 +13,11 @@ Item {
     signal navigateTo(string section, string page)
     signal closeRequested()
 
-    readonly property var staticNavModel: [
-        { id: "timers", title: qsTr("Timers"), children: [
+    readonly property bool hasGrpc: typeof remoteControlPrefBridge !== "undefined" && remoteControlPrefBridge.hasGrpc
+
+    readonly property var staticNavModel: {
+        var sections = [
+          { id: "timers", title: qsTr("Timers"), children: [
             { id: "microbreak",  title: qsTr("Microbreak")    },
             { id: "restbreak",   title: qsTr("Rest break")    },
             { id: "daily",       title: qsTr("Daily limit")   },
@@ -25,8 +28,15 @@ Item {
             { id: "sounds",      title: qsTr("Sounds")          },
             { id: "status",      title: qsTr("Status window")   },
             { id: "applet",      title: qsTr("Status applet")   },
-        ]},
-    ]
+          ]},
+        ]
+        if (root.hasGrpc) {
+            sections.push({ id: "remote-control", title: qsTr("Remote control"), children: [
+                { id: "grpc", title: qsTr("gRPC") },
+            ]})
+        }
+        return sections
+    }
 
     // Plugin pages injected by C++ via prefPluginNavEntries context property.
     // Each entry: { id: string, title: string }
@@ -88,6 +98,11 @@ Item {
                 lede:  qsTr("The system-tray or panel applet showing your three timers."),
                 url:   "AppletPrefPage.qml"
             }
+        }
+        if (sec === "remote-control" && pg === "grpc") return {
+            title: qsTr("gRPC"),
+            lede: qsTr("Allow local applications to inspect and control Workrave."),
+            url: "RemoteControlPrefPage.qml"
         }
         if (sec === "plugin") {
             var lbl = "";

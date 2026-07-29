@@ -61,6 +61,9 @@
 #if defined(HAVE_CORE_DBUS)
 #  include "LegacyRpcDBusServer.hh"
 #endif
+#if defined(HAVE_GRPC) && !defined(HAVE_CORE_SHADOW)
+#  include "RpcCoreServer.hh"
+#endif
 
 Core *Core::instance = nullptr;
 workrave::config::IConfigurator::Ptr Core::configurator = nullptr;
@@ -103,6 +106,9 @@ Core::Core()
 Core::~Core()
 {
   TRACE_ENTRY();
+#if defined(HAVE_GRPC) && !defined(HAVE_CORE_SHADOW)
+  rpc_server.reset();
+#endif
 #if defined(HAVE_CORE_DBUS)
   rpc_dbus_server.reset();
 #endif
@@ -137,6 +143,17 @@ Core::init(int argc, char **argv, IApp *app, const char *display_name)
   load_state();
   load_misc();
 
+#if defined(HAVE_GRPC) && !defined(HAVE_CORE_SHADOW)
+#  if defined(HAVE_TESTS)
+  // Unit tests install a monitor hook and must not bind a real endpoint for
+  // every fresh Core singleton.
+  if (!hooks->hook_create_monitor())
+#  endif
+    {
+      init_rpc();
+    }
+#endif
+
 #if defined(HAVE_CORE_DBUS)
 #  if defined(HAVE_TESTS)
   // Unit tests install a monitor hook and must not acquire the real session
@@ -148,6 +165,76 @@ Core::init(int argc, char **argv, IApp *app, const char *display_name)
     }
 #endif
 }
+
+#if defined(HAVE_GRPC) && !defined(HAVE_CORE_SHADOW)
+void
+Core::init_rpc()
+{
+  CoreConfig::grpc_enabled().connect(rpc_settings_tracker, [this](bool) { update_rpc(); });
+  CoreConfig::grpc_transport().connect(rpc_settings_tracker, [this](const std::string &) { update_rpc(); });
+  CoreConfig::grpc_port().connect(rpc_settings_tracker, [this](int) { update_rpc(); });
+
+  update_rpc();
+}
+
+void
+Core::update_rpc()
+{
+  try
+    {
+      if (!CoreConfig::grpc_enabled()())
+        {
+          const bool was_running = rpc_server != nullptr;
+          rpc_server.reset();
+          rpc_listen_address.clear();
+          spdlog::info(was_running ? "gRPC server stopped by preference" : "gRPC server disabled by preference");
+          return;
+        }
+
+      std::string listen_address;
+      if (CoreConfig::grpc_transport()() == "tcp")
+        {
+          int port = CoreConfig::grpc_port()();
+          if (port < 1 || port > 65535)
+            {
+              spdlog::warn("Invalid gRPC TCP port {}; using 50051", port);
+              port = 50051;
+            }
+          listen_address = "127.0.0.1:" + std::to_string(port);
+        }
+      else
+        {
+          listen_address = "unix:" + (Paths::get_state_directory() / "rpc.sock").string();
+        }
+
+      if (const char *override_address = std::getenv("WORKRAVE_RPC_ADDRESS"); override_address != nullptr)
+        {
+          listen_address = override_address;
+        }
+
+      if (rpc_server != nullptr && listen_address == rpc_listen_address)
+        {
+          return;
+        }
+
+      if (rpc_server != nullptr)
+        {
+          spdlog::info("Restarting gRPC server on {}", listen_address);
+          rpc_server.reset();
+          rpc_listen_address.clear();
+        }
+
+      rpc_server = std::make_unique<RpcCoreServer>(*this, *configurator, listen_address);
+      rpc_listen_address = std::move(listen_address);
+    }
+  catch (const std::exception &error)
+    {
+      rpc_server.reset();
+      rpc_listen_address.clear();
+      spdlog::warn("Core gRPC server failed to start: {}", error.what());
+    }
+}
+#endif
 
 #if defined(HAVE_CORE_DBUS)
 void

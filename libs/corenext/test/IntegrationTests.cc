@@ -778,6 +778,25 @@ BOOST_TEST_GLOBAL_FIXTURE(GlobalFixture);
 
 BOOST_FIXTURE_TEST_SUITE(integration, Backend)
 
+BOOST_AUTO_TEST_CASE(test_grpc_preferences)
+{
+  init();
+
+  BOOST_CHECK(CoreConfig::grpc_enabled()());
+  BOOST_CHECK_EQUAL(CoreConfig::grpc_transport()(), "unix");
+  BOOST_CHECK_EQUAL(CoreConfig::grpc_port()(), 50051);
+
+  CoreConfig::grpc_enabled().set(false);
+  CoreConfig::grpc_transport().set("tcp");
+  CoreConfig::grpc_port().set(54321);
+
+  BOOST_CHECK(!CoreConfig::grpc_enabled()());
+  BOOST_CHECK_EQUAL(CoreConfig::grpc_transport()(), "tcp");
+  BOOST_CHECK_EQUAL(CoreConfig::grpc_port()(), 54321);
+
+  verify();
+}
+
 BOOST_AUTO_TEST_CASE(test_operation_mode)
 {
   init();

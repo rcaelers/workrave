@@ -1,0 +1,251 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave.rpc.core;
+
+
+
+// canonical_name: "operation_mode"
+
+enum OperationMode {
+
+
+  // canonical_name: "normal"
+
+  OPERATION_MODE_NORMAL = 0;
+
+
+  // canonical_name: "suspended"
+
+  OPERATION_MODE_SUSPENDED = 1;
+
+
+  // canonical_name: "quiet"
+
+  OPERATION_MODE_QUIET = 2;
+
+}
+
+
+
+// canonical_name: "usage_mode"
+
+enum UsageMode {
+
+
+  // canonical_name: "normal"
+
+  USAGE_MODE_NORMAL = 0;
+
+
+  // canonical_name: "reading"
+
+  USAGE_MODE_READING = 1;
+
+}
+
+
+
+// canonical_name: "break_id"
+
+enum BreakId {
+
+
+  // canonical_name: "none"
+
+  BREAK_ID_BREAK_ID_NONE = 0;
+
+
+  // canonical_name: "microbreak"
+
+  BREAK_ID_BREAK_ID_MICRO_BREAK = 1;
+
+
+  // canonical_name: "restbreak"
+
+  BREAK_ID_BREAK_ID_REST_BREAK = 2;
+
+
+  // canonical_name: "dailylimit"
+
+  BREAK_ID_BREAK_ID_DAILY_LIMIT = 3;
+
+}
+
+
+
+// canonical_name: "break_hint"
+
+enum BreakHint {
+
+
+  // canonical_name: "normal"
+
+  BREAK_HINT_NORMAL = 0;
+
+
+  // canonical_name: "userinitiated"
+
+  BREAK_HINT_USER_INITIATED = 1;
+
+
+  // canonical_name: "naturalbreak"
+
+  BREAK_HINT_NATURAL_BREAK = 2;
+
+}
+
+
+
+
+
+message IsActiveRequest {
+
+}
+
+message IsActiveResponse {
+
+  bool result = 1;
+
+}
+
+
+message IsTakingRequest {
+
+}
+
+message IsTakingResponse {
+
+  bool result = 1;
+
+}
+
+
+message ForceBreakRequest {
+
+  BreakId id = 1;
+
+  repeated BreakHint break_hint = 2;
+
+}
+
+message ForceBreakResponse {
+
+}
+
+
+message GetActiveOperationModeRequest {
+
+}
+
+message GetActiveOperationModeResponse {
+
+  OperationMode result = 1;
+
+}
+
+
+message GetOperationModeRequest {
+
+}
+
+message GetOperationModeResponse {
+
+  OperationMode result = 1;
+
+}
+
+
+message IsOperationModeAnOverrideRequest {
+
+}
+
+message IsOperationModeAnOverrideResponse {
+
+  bool result = 1;
+
+}
+
+
+message SetOperationModeRequest {
+
+  OperationMode mode = 1;
+
+}
+
+message SetOperationModeResponse {
+
+}
+
+
+message SetOperationModeForRequest {
+
+  OperationMode mode = 1;
+
+  string duration = 2;
+
+}
+
+message SetOperationModeForResponse {
+
+}
+
+
+message GetUsageModeRequest {
+
+}
+
+message GetUsageModeResponse {
+
+  UsageMode result = 1;
+
+}
+
+
+message SetUsageModeRequest {
+
+  UsageMode mode = 1;
+
+}
+
+message SetUsageModeResponse {
+
+}
+
+
+message ReportActivityRequest {
+
+  string who = 1;
+
+  bool act = 2;
+
+}
+
+message ReportActivityResponse {
+
+}
+
+
+
+message OperationModeChangedRequest {
+
+}
+
+message OperationModeChangedEvent {
+
+  OperationMode value = 1;
+
+}
+
+
+message UsageModeChangedRequest {
+
+}
+
+message UsageModeChangedEvent {
+
+  UsageMode value = 1;
+
+}

@@ -41,6 +41,7 @@
 #include "Timer.hh"
 #include "Statistics.hh"
 #include "utils/Diagnostics.hh"
+#include "utils/Signals.hh"
 #include "CoreHooks.hh"
 #include "LocalActivityMonitor.hh"
 
@@ -53,6 +54,9 @@ class IdleLogManager;
 class BreakControl;
 #if defined(HAVE_CORE_DBUS)
 class LegacyRpcDBusServer;
+#endif
+#if defined(HAVE_GRPC) && !defined(HAVE_CORE_SHADOW)
+class RpcCoreServer;
 #endif
 
 // @rpc(service="workrave.CoreService")
@@ -132,7 +136,7 @@ public:
   bool is_master() const;
 
   // @rpc(name="ReportActivity")
-  void report_external_activity(std::string who, bool act);
+  void report_external_activity(std::string who, bool act) override;
   void is_timer_running(BreakId id, bool &value);
   void get_timer_elapsed(BreakId id, int *value);
   void get_timer_remaining(BreakId id, int *value);
@@ -159,6 +163,10 @@ private:
   void init_statistics();
 #if defined(HAVE_CORE_DBUS)
   void init_rpc_dbus();
+#endif
+#if defined(HAVE_GRPC) && !defined(HAVE_CORE_SHADOW)
+  void init_rpc();
+  void update_rpc();
 #endif
 
   void load_monitor_config();
@@ -277,6 +285,11 @@ private:
   // Declared last so registrations stop before the Core and Break instances
   // they reference are destroyed.
   std::unique_ptr<LegacyRpcDBusServer> rpc_dbus_server;
+#endif
+#if defined(HAVE_GRPC) && !defined(HAVE_CORE_SHADOW)
+  std::string rpc_listen_address;
+  std::unique_ptr<RpcCoreServer> rpc_server;
+  workrave::utils::Trackable rpc_settings_tracker;
 #endif
 };
 
