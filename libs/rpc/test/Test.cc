@@ -67,7 +67,7 @@ namespace
     }
 
     RpcTestServer server_object;
-    TestServiceServiceImpl impl;
+    TestService impl;
     std::unique_ptr<rpc::RpcServer> rpc_server;
     std::unique_ptr<workrave::TestService::Stub> stub;
   };
@@ -236,7 +236,7 @@ namespace
 {
   // Proves the `keyed_by` mechanism: three live RpcKeyedServer instances
   // registered under distinct WidgetIds, all served by a single
-  // WidgetServiceServiceImpl — the gRPC analog of DBus routing a call to one
+  // WidgetService — the gRPC analog of DBus routing a call to one
   // of several objects sharing an interface via its object path. Real usage:
   // Workrave's three Break instances (see libs/corenext/src/Break.hh).
   class RpcKeyedTest : public ::testing::Test
@@ -275,7 +275,7 @@ namespace
     RpcKeyedServer second;
     RpcKeyedServer third;
     rpc::InstanceRegistry<WidgetId, RpcKeyedServer> registry;
-    WidgetServiceServiceImpl impl;
+    WidgetService impl;
     std::unique_ptr<rpc::RpcServer> rpc_server;
     std::unique_ptr<workrave::WidgetService::Stub> stub;
   };

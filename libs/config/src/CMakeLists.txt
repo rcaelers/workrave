@@ -42,7 +42,7 @@ if (HAVE_GRPC)
     TARGET workrave-libs-config
     PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
     HEADER_INCLUDE "config/IConfigurator.hh"
-    PROTO_TYPES_PACKAGE workrave.rpc.config
+    PROTO_TYPES_PACKAGE workrave.config
     GRPC_SERVICES_NAMESPACE rpc
     ADAPTER_NAMESPACE workrave::config::rpc)
 

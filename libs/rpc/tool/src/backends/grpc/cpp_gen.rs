@@ -76,7 +76,7 @@ pub fn render_adapter(
         split_proto_types: options.proto_types_package.is_some(),
         proto_descriptor_symbol: format!("descriptor_table_{}_2eproto", options.proto_basename),
         adapter_namespace: options.adapter_namespace,
-        impl_class_name: format!("{}ServiceImpl", interface.service_name),
+        impl_class_name: interface.service_name.clone(),
         header_include: options.header_include.to_string(),
         proto_basename: options.proto_basename.to_string(),
         adapter_header_filename: options.adapter_header_filename.to_string(),

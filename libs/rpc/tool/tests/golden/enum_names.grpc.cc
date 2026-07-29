@@ -9,7 +9,7 @@
 
 
 
-::grpc::Status EnumNamesServiceServiceImpl::SetOperationMode(::grpc::ServerContext * /*context*/,
+::grpc::Status EnumNamesService::SetOperationMode(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::SetOperationModeRequest *request,
                                                             ::workrave::test::SetOperationModeResponse *response)
 {

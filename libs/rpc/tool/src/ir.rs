@@ -289,8 +289,9 @@ pub struct EnumValue {
 
 #[derive(Debug, Clone)]
 pub struct EnumDef {
-    /// Name used for the proto enum type. Derived from the C++ type, e.g.
-    /// "workrave::OperationMode" -> "OperationMode".
+    /// Name used for the proto enum type. Derived from the C++ type by default,
+    /// or explicitly set with `@rpc.enum(proto_name="...")` when the generated
+    /// and native types must coexist in the same C++ namespace.
     pub proto_name: String,
     /// Fully-qualified C++ enum type, as it must be spelled to `static_cast` to/from.
     pub cxx_symbol: String,

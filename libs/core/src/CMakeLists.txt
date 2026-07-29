@@ -56,13 +56,13 @@ if (HAVE_GRPC AND NOT HAVE_CORE_SHADOW)
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Core.hh ${CMAKE_CURRENT_BINARY_DIR} RpcCore
     TARGET workrave-libs-core
     PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
-    PROTO_TYPES_PACKAGE workrave.rpc.core
+    PROTO_TYPES_PACKAGE workrave.core
     GRPC_SERVICES_NAMESPACE rpc
     ADAPTER_NAMESPACE workrave::core::rpc)
   rpc_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/Break.hh ${CMAKE_CURRENT_BINARY_DIR} RpcBreak
     TARGET workrave-libs-core
     PREGENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen
-    PROTO_TYPES_PACKAGE workrave.rpc.breaks
+    PROTO_TYPES_PACKAGE workrave.breaks
     GRPC_SERVICES_NAMESPACE rpc
     ADAPTER_NAMESPACE workrave::core::rpc)
 

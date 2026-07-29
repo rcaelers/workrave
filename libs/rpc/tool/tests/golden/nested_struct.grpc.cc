@@ -9,7 +9,7 @@
 
 
 
-::grpc::Status NestedServiceServiceImpl::SetTimerData(::grpc::ServerContext * /*context*/,
+::grpc::Status NestedService::SetTimerData(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::SetTimerDataRequest *request,
                                                             ::workrave::test::SetTimerDataResponse *response)
 {
@@ -39,7 +39,7 @@
 }
 
 
-::grpc::Status NestedServiceServiceImpl::GetMenu(::grpc::ServerContext * /*context*/,
+::grpc::Status NestedService::GetMenu(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::GetMenuRequest *request,
                                                             ::workrave::test::GetMenuResponse *response)
 {

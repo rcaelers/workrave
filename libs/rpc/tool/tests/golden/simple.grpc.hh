@@ -10,11 +10,11 @@
 #include "rpc/EventQueue.hh"
 
 
-class TestServiceServiceImpl final : public ::workrave::test::TestService::Service
+class TestService final : public ::workrave::test::TestService::Service
 {
 public:
 
-  explicit TestServiceServiceImpl(RpcTestServer &impl)
+  explicit TestService(RpcTestServer &impl)
     : impl_(impl)
   {
   }

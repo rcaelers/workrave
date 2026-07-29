@@ -8,11 +8,11 @@
 
 
 
-class DurationFlagsServiceServiceImpl final : public ::workrave::test::DurationFlagsService::Service
+class DurationFlagsService final : public ::workrave::test::DurationFlagsService::Service
 {
 public:
 
-  explicit DurationFlagsServiceServiceImpl(RpcDurationFlagsFixture &impl)
+  explicit DurationFlagsService(RpcDurationFlagsFixture &impl)
     : impl_(impl)
   {
   }

@@ -15,7 +15,7 @@
 
 namespace workrave::core::rpc
 {
-class BreakServiceServiceImpl final : public ::workrave::rpc::BreakService::Service
+class BreakService final : public ::workrave::rpc::BreakService::Service
 {
 public:
 
@@ -23,87 +23,87 @@ public:
   // registry that instances register themselves into (see rpc::InstanceRegistry),
   // and each RPC resolves its target from the request's `id` field — the gRPC
   // analog of DBus's per-object-path routing.
-  explicit BreakServiceServiceImpl(::rpc::InstanceRegistry<workrave::BreakId, Break> &registry);
+  explicit BreakService(::rpc::InstanceRegistry<workrave::BreakId, Break> &registry);
 
 
 
   ::grpc::Status GetName(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::GetNameRequest *request,
-                                 ::workrave::rpc::breaks::GetNameResponse *response) override;
+                                 const ::workrave::breaks::GetNameRequest *request,
+                                 ::workrave::breaks::GetNameResponse *response) override;
 
   ::grpc::Status IsEnabled(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::IsEnabledRequest *request,
-                                 ::workrave::rpc::breaks::IsEnabledResponse *response) override;
+                                 const ::workrave::breaks::IsEnabledRequest *request,
+                                 ::workrave::breaks::IsEnabledResponse *response) override;
 
   ::grpc::Status IsTimerRunning(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::IsTimerRunningRequest *request,
-                                 ::workrave::rpc::breaks::IsTimerRunningResponse *response) override;
+                                 const ::workrave::breaks::IsTimerRunningRequest *request,
+                                 ::workrave::breaks::IsTimerRunningResponse *response) override;
 
   ::grpc::Status IsTaking(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::IsTakingRequest *request,
-                                 ::workrave::rpc::breaks::IsTakingResponse *response) override;
+                                 const ::workrave::breaks::IsTakingRequest *request,
+                                 ::workrave::breaks::IsTakingResponse *response) override;
 
   ::grpc::Status IsMaxPreludesReached(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::IsMaxPreludesReachedRequest *request,
-                                 ::workrave::rpc::breaks::IsMaxPreludesReachedResponse *response) override;
+                                 const ::workrave::breaks::IsMaxPreludesReachedRequest *request,
+                                 ::workrave::breaks::IsMaxPreludesReachedResponse *response) override;
 
   ::grpc::Status IsActive(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::IsActiveRequest *request,
-                                 ::workrave::rpc::breaks::IsActiveResponse *response) override;
+                                 const ::workrave::breaks::IsActiveRequest *request,
+                                 ::workrave::breaks::IsActiveResponse *response) override;
 
   ::grpc::Status GetTimerElapsed(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::GetTimerElapsedRequest *request,
-                                 ::workrave::rpc::breaks::GetTimerElapsedResponse *response) override;
+                                 const ::workrave::breaks::GetTimerElapsedRequest *request,
+                                 ::workrave::breaks::GetTimerElapsedResponse *response) override;
 
   ::grpc::Status GetTimerIdle(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::GetTimerIdleRequest *request,
-                                 ::workrave::rpc::breaks::GetTimerIdleResponse *response) override;
+                                 const ::workrave::breaks::GetTimerIdleRequest *request,
+                                 ::workrave::breaks::GetTimerIdleResponse *response) override;
 
   ::grpc::Status GetAutoReset(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::GetAutoResetRequest *request,
-                                 ::workrave::rpc::breaks::GetAutoResetResponse *response) override;
+                                 const ::workrave::breaks::GetAutoResetRequest *request,
+                                 ::workrave::breaks::GetAutoResetResponse *response) override;
 
   ::grpc::Status IsAutoResetEnabled(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::IsAutoResetEnabledRequest *request,
-                                 ::workrave::rpc::breaks::IsAutoResetEnabledResponse *response) override;
+                                 const ::workrave::breaks::IsAutoResetEnabledRequest *request,
+                                 ::workrave::breaks::IsAutoResetEnabledResponse *response) override;
 
   ::grpc::Status GetLimit(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::GetLimitRequest *request,
-                                 ::workrave::rpc::breaks::GetLimitResponse *response) override;
+                                 const ::workrave::breaks::GetLimitRequest *request,
+                                 ::workrave::breaks::GetLimitResponse *response) override;
 
   ::grpc::Status IsLimitEnabled(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::IsLimitEnabledRequest *request,
-                                 ::workrave::rpc::breaks::IsLimitEnabledResponse *response) override;
+                                 const ::workrave::breaks::IsLimitEnabledRequest *request,
+                                 ::workrave::breaks::IsLimitEnabledResponse *response) override;
 
   ::grpc::Status GetTimerRemaining(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::GetTimerRemainingRequest *request,
-                                 ::workrave::rpc::breaks::GetTimerRemainingResponse *response) override;
+                                 const ::workrave::breaks::GetTimerRemainingRequest *request,
+                                 ::workrave::breaks::GetTimerRemainingResponse *response) override;
 
   ::grpc::Status GetTimerOverdue(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::GetTimerOverdueRequest *request,
-                                 ::workrave::rpc::breaks::GetTimerOverdueResponse *response) override;
+                                 const ::workrave::breaks::GetTimerOverdueRequest *request,
+                                 ::workrave::breaks::GetTimerOverdueResponse *response) override;
 
   ::grpc::Status PostponeBreak(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::PostponeBreakRequest *request,
-                                 ::workrave::rpc::breaks::PostponeBreakResponse *response) override;
+                                 const ::workrave::breaks::PostponeBreakRequest *request,
+                                 ::workrave::breaks::PostponeBreakResponse *response) override;
 
   ::grpc::Status SkipBreak(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::SkipBreakRequest *request,
-                                 ::workrave::rpc::breaks::SkipBreakResponse *response) override;
+                                 const ::workrave::breaks::SkipBreakRequest *request,
+                                 ::workrave::breaks::SkipBreakResponse *response) override;
 
   ::grpc::Status GetBreakState(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::GetBreakStateRequest *request,
-                                 ::workrave::rpc::breaks::GetBreakStateResponse *response) override;
+                                 const ::workrave::breaks::GetBreakStateRequest *request,
+                                 ::workrave::breaks::GetBreakStateResponse *response) override;
 
 
 
   ::grpc::Status BreakEvent(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::BreakEventRequest *request,
-                                 ::grpc::ServerWriter<::workrave::rpc::breaks::BreakEventEvent> *writer) override;
+                                 const ::workrave::breaks::BreakEventRequest *request,
+                                 ::grpc::ServerWriter<::workrave::breaks::BreakEventEvent> *writer) override;
 
   ::grpc::Status BreakStateChanged(::grpc::ServerContext *context,
-                                 const ::workrave::rpc::breaks::BreakStateChangedRequest *request,
-                                 ::grpc::ServerWriter<::workrave::rpc::breaks::BreakStateChangedEvent> *writer) override;
+                                 const ::workrave::breaks::BreakStateChangedRequest *request,
+                                 ::grpc::ServerWriter<::workrave::breaks::BreakStateChangedEvent> *writer) override;
 
 
 private:

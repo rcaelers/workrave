@@ -8,11 +8,11 @@
 
 
 
-class DBusFixture2ServiceServiceImpl final : public ::workrave::test::DBusFixture2Service::Service
+class DBusFixture2Service final : public ::workrave::test::DBusFixture2Service::Service
 {
 public:
 
-  explicit DBusFixture2ServiceServiceImpl(RpcDBusFixture2 &impl)
+  explicit DBusFixture2Service(RpcDBusFixture2 &impl)
     : impl_(impl)
   {
   }

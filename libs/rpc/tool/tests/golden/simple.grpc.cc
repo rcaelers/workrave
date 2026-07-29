@@ -9,7 +9,7 @@
 
 
 
-::grpc::Status TestServiceServiceImpl::Ping(::grpc::ServerContext * /*context*/,
+::grpc::Status TestService::Ping(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::PingRequest *request,
                                                             ::workrave::test::PingResponse *response)
 {
@@ -34,7 +34,7 @@
 }
 
 
-::grpc::Status TestServiceServiceImpl::Add(::grpc::ServerContext * /*context*/,
+::grpc::Status TestService::Add(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::AddRequest *request,
                                                             ::workrave::test::AddResponse *response)
 {
@@ -59,7 +59,7 @@
 }
 
 
-::grpc::Status TestServiceServiceImpl::SetFlag(::grpc::ServerContext * /*context*/,
+::grpc::Status TestService::SetFlag(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::SetFlagRequest *request,
                                                             ::workrave::test::SetFlagResponse *response)
 {
@@ -81,7 +81,7 @@
 }
 
 
-::grpc::Status TestServiceServiceImpl::GetMode(::grpc::ServerContext * /*context*/,
+::grpc::Status TestService::GetMode(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::GetModeRequest *request,
                                                             ::workrave::test::GetModeResponse *response)
 {
@@ -110,7 +110,7 @@
 }
 
 
-::grpc::Status TestServiceServiceImpl::Greet(::grpc::ServerContext * /*context*/,
+::grpc::Status TestService::Greet(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::GreetRequest *request,
                                                             ::workrave::test::GreetResponse *response)
 {
@@ -136,7 +136,7 @@
 
 
 
-::grpc::Status TestServiceServiceImpl::ModeChanged(::grpc::ServerContext *context,
+::grpc::Status TestService::ModeChanged(::grpc::ServerContext *context,
                                                             const ::workrave::test::ModeChangedRequest */*request*/,
                                                             ::grpc::ServerWriter<::workrave::test::ModeChangedEvent> *writer)
 {

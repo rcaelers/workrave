@@ -3,7 +3,7 @@
 // instead of hand-editing this file; it will be overwritten on the next build.
 syntax = "proto3";
 
-package workrave.rpc.breaks;
+package workrave.breaks;
 
 
 

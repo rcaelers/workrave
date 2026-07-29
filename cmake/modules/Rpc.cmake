@@ -144,8 +144,8 @@ endfunction()
 # The public service wire name (both protobuf package and service identifier)
 # comes from the header's fully-qualified `@rpc(service="package.Service")`
 # annotation. PROTO_TYPES_PACKAGE moves all payload enums/messages into a
-# second imported ${NAME}Types.proto schema. It controls their generated C++
-# namespace and prevents independently generated services from colliding.
+# second imported ${NAME}Types.proto schema. It controls both their wire
+# package and generated C++ namespace.
 #
 # GRPC_SERVICES_NAMESPACE is an unqualified C++ namespace appended to the
 # annotation's protobuf package for grpc_cpp_plugin's generated service/stub

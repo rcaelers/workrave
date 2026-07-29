@@ -10,11 +10,11 @@
 #include "rpc/EventQueue.hh"
 
 
-class StructSeqServiceServiceImpl final : public ::workrave::test::StructSeqService::Service
+class StructSeqService final : public ::workrave::test::StructSeqService::Service
 {
 public:
 
-  explicit StructSeqServiceServiceImpl(RpcStructSeqFixture &impl)
+  explicit StructSeqService(RpcStructSeqFixture &impl)
     : impl_(impl)
   {
   }

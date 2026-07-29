@@ -9,7 +9,7 @@
 
 
 
-::grpc::Status StructSeqServiceServiceImpl::SetTimerData(::grpc::ServerContext * /*context*/,
+::grpc::Status StructSeqService::SetTimerData(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::SetTimerDataRequest *request,
                                                             ::workrave::test::SetTimerDataResponse *response)
 {
@@ -39,7 +39,7 @@
 }
 
 
-::grpc::Status StructSeqServiceServiceImpl::GetTimerData(::grpc::ServerContext * /*context*/,
+::grpc::Status StructSeqService::GetTimerData(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::GetTimerDataRequest *request,
                                                             ::workrave::test::GetTimerDataResponse *response)
 {
@@ -66,7 +66,7 @@
 }
 
 
-::grpc::Status StructSeqServiceServiceImpl::GetMenu(::grpc::ServerContext * /*context*/,
+::grpc::Status StructSeqService::GetMenu(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::GetMenuRequest *request,
                                                             ::workrave::test::GetMenuResponse *response)
 {
@@ -92,7 +92,7 @@
 }
 
 
-::grpc::Status StructSeqServiceServiceImpl::SetTags(::grpc::ServerContext * /*context*/,
+::grpc::Status StructSeqService::SetTags(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::SetTagsRequest *request,
                                                             ::workrave::test::SetTagsResponse *response)
 {
@@ -119,7 +119,7 @@
 
 
 
-::grpc::Status StructSeqServiceServiceImpl::TimerUpdated(::grpc::ServerContext *context,
+::grpc::Status StructSeqService::TimerUpdated(::grpc::ServerContext *context,
                                                             const ::workrave::test::TimerUpdatedRequest */*request*/,
                                                             ::grpc::ServerWriter<::workrave::test::TimerUpdatedEvent> *writer)
 {

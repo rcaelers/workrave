@@ -8,11 +8,11 @@
 
 
 
-class EnumNamesServiceServiceImpl final : public ::workrave::test::EnumNamesService::Service
+class EnumNamesService final : public ::workrave::test::EnumNamesService::Service
 {
 public:
 
-  explicit EnumNamesServiceServiceImpl(RpcEnumNamesFixture &impl)
+  explicit EnumNamesService(RpcEnumNamesFixture &impl)
     : impl_(impl)
   {
   }

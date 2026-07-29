@@ -8,9 +8,9 @@ use anyhow::{bail, Context, Result};
 use clang::{Accessibility, Clang, Entity, EntityKind, Index, Type, TypeKind};
 
 use crate::annotations::{
-    has_bitmask_tag, parse_dbus_return_type, parse_dbus_tag, parse_enum_tag, parse_enum_value_tag,
-    parse_method_tag, parse_param_tags, parse_service_tag, parse_signal_tag, DbusTypeTag,
-    ParamKindTag,
+    has_bitmask_tag, parse_dbus_return_type, parse_dbus_tag, parse_enum_proto_name, parse_enum_tag,
+    parse_enum_value_tag, parse_method_tag, parse_param_tags, parse_service_tag, parse_signal_tag,
+    DbusTypeTag, ParamKindTag,
 };
 use crate::external_annotations::{effective_comment, ExternalAnnotations};
 use crate::ir::{
@@ -1002,10 +1002,13 @@ fn register_enum(
     }
 
     let short_name = decl.get_name().unwrap_or_else(|| cxx_symbol.clone());
-    let prefix = to_screaming_snake(&short_name);
-
     let enum_comment = effective_comment(decl.get_comment(), external.lookup(&cxx_symbol));
     let canonical_name = enum_comment.as_deref().and_then(parse_enum_tag);
+    let proto_name = enum_comment
+        .as_deref()
+        .and_then(parse_enum_proto_name)
+        .unwrap_or(short_name);
+    let prefix = to_screaming_snake(&proto_name);
 
     let mut values = Vec::new();
     for child in decl.get_children() {
@@ -1032,12 +1035,12 @@ fn register_enum(
     }
 
     unit.enums.push(EnumDef {
-        proto_name: short_name.clone(),
+        proto_name: proto_name.clone(),
         cxx_symbol,
         values,
         canonical_name,
     });
-    Ok(short_name)
+    Ok(proto_name)
 }
 
 fn to_screaming_snake(s: &str) -> String {

@@ -9,7 +9,7 @@
 
 
 
-::grpc::Status WidgetServiceServiceImpl::GetValue(::grpc::ServerContext * /*context*/,
+::grpc::Status WidgetService::GetValue(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::GetValueRequest *request,
                                                             ::workrave::test::GetValueResponse *response)
 {
@@ -36,7 +36,7 @@
 }
 
 
-::grpc::Status WidgetServiceServiceImpl::SetValue(::grpc::ServerContext * /*context*/,
+::grpc::Status WidgetService::SetValue(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::SetValueRequest *request,
                                                             ::workrave::test::SetValueResponse *response)
 {
@@ -61,7 +61,7 @@
 
 
 
-::grpc::Status WidgetServiceServiceImpl::ValueChanged(::grpc::ServerContext *context,
+::grpc::Status WidgetService::ValueChanged(::grpc::ServerContext *context,
                                                             const ::workrave::test::ValueChangedRequest *request,
                                                             ::grpc::ServerWriter<::workrave::test::ValueChangedEvent> *writer)
 {

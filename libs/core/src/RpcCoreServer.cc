@@ -61,9 +61,9 @@ struct RpcCoreServer::Impl
   }
 
   ::rpc::InstanceRegistry<workrave::BreakId, Break> break_registry;
-  generated::CoreServiceServiceImpl core_service;
-  generated::BreakServiceServiceImpl break_service;
-  workrave::config::rpc::ConfigServiceServiceImpl config_service;
+  generated::CoreService core_service;
+  generated::BreakService break_service;
+  workrave::config::rpc::ConfigService config_service;
   ::rpc::RpcServer server;
 };
 

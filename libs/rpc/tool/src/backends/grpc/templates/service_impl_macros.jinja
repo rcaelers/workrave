@@ -82,7 +82,7 @@ for (const auto &rpc_kv_{{ depth }} : {{ source }}) { (*{{ target }}mutable_{{ f
 {%- if param.role.role == "value" -%}
 {%- if param.direction == "in" -%}
 {%- if ty.shape.kind == "bitmask" -%}
-{{ ty.cxx.spelling }} local_{{ param.cxx_name }};
+{{ ty.shape.cxx_type }} local_{{ param.cxx_name }};
 for (int i = 0; i < request->{{ param.proto_field }}_size(); ++i) { local_{{ param.cxx_name }} |= static_cast<{{ ty.shape.enum_cxx_type }}>(request->{{ param.proto_field }}(i)); }
 {%- elif ty.shape.kind in ["struct", "sequence", "map"] -%}
 {{ ty.cxx.base_spelling }} local_{{ param.cxx_name }}{};

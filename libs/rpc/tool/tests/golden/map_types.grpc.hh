@@ -8,11 +8,11 @@
 
 
 
-class MapTypesServiceServiceImpl final : public ::workrave::test::MapTypesService::Service
+class MapTypesService final : public ::workrave::test::MapTypesService::Service
 {
 public:
 
-  explicit MapTypesServiceServiceImpl(RpcMapTypesFixture &impl)
+  explicit MapTypesService(RpcMapTypesFixture &impl)
     : impl_(impl)
   {
   }

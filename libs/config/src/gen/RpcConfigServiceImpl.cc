@@ -13,7 +13,7 @@ namespace workrave::config::rpc
 {
 
 
-ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurator &impl)
+ConfigService::ConfigService(workrave::config::IConfigurator &impl)
   : impl_(impl)
   , service_descriptor_anchor_(&::descriptor_table_RpcConfig_2eproto)
 {
@@ -21,9 +21,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 
 
 
-::grpc::Status ConfigServiceServiceImpl::RemoveKey(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::RemoveKeyRequest *request,
-                                                            ::workrave::rpc::config::RemoveKeyResponse *response)
+::grpc::Status ConfigService::RemoveKey(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::RemoveKeyRequest *request,
+                                                            ::workrave::config::RemoveKeyResponse *response)
 {
   try
     {
@@ -43,9 +43,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::RenameKey(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::RenameKeyRequest *request,
-                                                            ::workrave::rpc::config::RenameKeyResponse *response)
+::grpc::Status ConfigService::RenameKey(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::RenameKeyRequest *request,
+                                                            ::workrave::config::RenameKeyResponse *response)
 {
   try
     {
@@ -65,9 +65,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::HasUserValue(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::HasUserValueRequest *request,
-                                                            ::workrave::rpc::config::HasUserValueResponse *response)
+::grpc::Status ConfigService::HasUserValue(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::HasUserValueRequest *request,
+                                                            ::workrave::config::HasUserValueResponse *response)
 {
   try
     {
@@ -90,9 +90,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::GetString(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::GetStringRequest *request,
-                                                            ::workrave::rpc::config::GetStringResponse *response)
+::grpc::Status ConfigService::GetString(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::GetStringRequest *request,
+                                                            ::workrave::config::GetStringResponse *response)
 {
   try
     {
@@ -119,9 +119,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::GetBool(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::GetBoolRequest *request,
-                                                            ::workrave::rpc::config::GetBoolResponse *response)
+::grpc::Status ConfigService::GetBool(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::GetBoolRequest *request,
+                                                            ::workrave::config::GetBoolResponse *response)
 {
   try
     {
@@ -148,9 +148,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::GetInt(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::GetIntRequest *request,
-                                                            ::workrave::rpc::config::GetIntResponse *response)
+::grpc::Status ConfigService::GetInt(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::GetIntRequest *request,
+                                                            ::workrave::config::GetIntResponse *response)
 {
   try
     {
@@ -177,9 +177,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::GetInt64(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::GetInt64Request *request,
-                                                            ::workrave::rpc::config::GetInt64Response *response)
+::grpc::Status ConfigService::GetInt64(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::GetInt64Request *request,
+                                                            ::workrave::config::GetInt64Response *response)
 {
   try
     {
@@ -206,9 +206,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::GetDouble(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::GetDoubleRequest *request,
-                                                            ::workrave::rpc::config::GetDoubleResponse *response)
+::grpc::Status ConfigService::GetDouble(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::GetDoubleRequest *request,
+                                                            ::workrave::config::GetDoubleResponse *response)
 {
   try
     {
@@ -235,9 +235,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::GetStringWithDefault(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::GetStringWithDefaultRequest *request,
-                                                            ::workrave::rpc::config::GetStringWithDefaultResponse *response)
+::grpc::Status ConfigService::GetStringWithDefault(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::GetStringWithDefaultRequest *request,
+                                                            ::workrave::config::GetStringWithDefaultResponse *response)
 {
   try
     {
@@ -261,9 +261,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::GetBoolWithDefault(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::GetBoolWithDefaultRequest *request,
-                                                            ::workrave::rpc::config::GetBoolWithDefaultResponse *response)
+::grpc::Status ConfigService::GetBoolWithDefault(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::GetBoolWithDefaultRequest *request,
+                                                            ::workrave::config::GetBoolWithDefaultResponse *response)
 {
   try
     {
@@ -287,9 +287,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::GetIntWithDefault(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::GetIntWithDefaultRequest *request,
-                                                            ::workrave::rpc::config::GetIntWithDefaultResponse *response)
+::grpc::Status ConfigService::GetIntWithDefault(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::GetIntWithDefaultRequest *request,
+                                                            ::workrave::config::GetIntWithDefaultResponse *response)
 {
   try
     {
@@ -313,9 +313,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::GetInt64WithDefault(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::GetInt64WithDefaultRequest *request,
-                                                            ::workrave::rpc::config::GetInt64WithDefaultResponse *response)
+::grpc::Status ConfigService::GetInt64WithDefault(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::GetInt64WithDefaultRequest *request,
+                                                            ::workrave::config::GetInt64WithDefaultResponse *response)
 {
   try
     {
@@ -339,9 +339,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::GetDoubleWithDefault(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::GetDoubleWithDefaultRequest *request,
-                                                            ::workrave::rpc::config::GetDoubleWithDefaultResponse *response)
+::grpc::Status ConfigService::GetDoubleWithDefault(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::GetDoubleWithDefaultRequest *request,
+                                                            ::workrave::config::GetDoubleWithDefaultResponse *response)
 {
   try
     {
@@ -365,9 +365,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::SetString(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::SetStringRequest *request,
-                                                            ::workrave::rpc::config::SetStringResponse *response)
+::grpc::Status ConfigService::SetString(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::SetStringRequest *request,
+                                                            ::workrave::config::SetStringResponse *response)
 {
   try
     {
@@ -387,9 +387,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::SetInt(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::SetIntRequest *request,
-                                                            ::workrave::rpc::config::SetIntResponse *response)
+::grpc::Status ConfigService::SetInt(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::SetIntRequest *request,
+                                                            ::workrave::config::SetIntResponse *response)
 {
   try
     {
@@ -409,9 +409,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::SetInt64(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::SetInt64Request *request,
-                                                            ::workrave::rpc::config::SetInt64Response *response)
+::grpc::Status ConfigService::SetInt64(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::SetInt64Request *request,
+                                                            ::workrave::config::SetInt64Response *response)
 {
   try
     {
@@ -431,9 +431,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::SetBool(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::SetBoolRequest *request,
-                                                            ::workrave::rpc::config::SetBoolResponse *response)
+::grpc::Status ConfigService::SetBool(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::SetBoolRequest *request,
+                                                            ::workrave::config::SetBoolResponse *response)
 {
   try
     {
@@ -453,9 +453,9 @@ ConfigServiceServiceImpl::ConfigServiceServiceImpl(workrave::config::IConfigurat
 }
 
 
-::grpc::Status ConfigServiceServiceImpl::SetDouble(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::config::SetDoubleRequest *request,
-                                                            ::workrave::rpc::config::SetDoubleResponse *response)
+::grpc::Status ConfigService::SetDouble(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::config::SetDoubleRequest *request,
+                                                            ::workrave::config::SetDoubleResponse *response)
 {
   try
     {

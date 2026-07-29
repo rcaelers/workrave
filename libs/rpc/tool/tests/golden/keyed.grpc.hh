@@ -12,7 +12,7 @@
 #include "rpc/EventQueue.hh"
 
 
-class WidgetServiceServiceImpl final : public ::workrave::test::WidgetService::Service
+class WidgetService final : public ::workrave::test::WidgetService::Service
 {
 public:
 
@@ -20,7 +20,7 @@ public:
   // registry that instances register themselves into (see rpc::InstanceRegistry),
   // and each RPC resolves its target from the request's `id` field — the gRPC
   // analog of DBus's per-object-path routing.
-  explicit WidgetServiceServiceImpl(::rpc::InstanceRegistry<WidgetId, RpcKeyedFixture> &registry)
+  explicit WidgetService(::rpc::InstanceRegistry<WidgetId, RpcKeyedFixture> &registry)
     : registry_(registry)
   {
   }

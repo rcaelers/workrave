@@ -9,7 +9,7 @@
 
 
 
-::grpc::Status DBusFixture2ServiceServiceImpl::SetPoint(::grpc::ServerContext * /*context*/,
+::grpc::Status DBusFixture2Service::SetPoint(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::SetPointRequest *request,
                                                             ::workrave::test::SetPointResponse *response)
 {
@@ -37,7 +37,7 @@
 }
 
 
-::grpc::Status DBusFixture2ServiceServiceImpl::GetPoint(::grpc::ServerContext * /*context*/,
+::grpc::Status DBusFixture2Service::GetPoint(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::GetPointRequest *request,
                                                             ::workrave::test::GetPointResponse *response)
 {
@@ -64,7 +64,7 @@
 }
 
 
-::grpc::Status DBusFixture2ServiceServiceImpl::SetTags(::grpc::ServerContext * /*context*/,
+::grpc::Status DBusFixture2Service::SetTags(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::SetTagsRequest *request,
                                                             ::workrave::test::SetTagsResponse *response)
 {
@@ -90,7 +90,7 @@
 }
 
 
-::grpc::Status DBusFixture2ServiceServiceImpl::GetPoints(::grpc::ServerContext * /*context*/,
+::grpc::Status DBusFixture2Service::GetPoints(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::GetPointsRequest *request,
                                                             ::workrave::test::GetPointsResponse *response)
 {

@@ -10,11 +10,11 @@
 #include "rpc/EventQueue.hh"
 
 
-class DBusFixtureServiceServiceImpl final : public ::workrave::test::DBusFixtureService::Service
+class DBusFixtureService final : public ::workrave::test::DBusFixtureService::Service
 {
 public:
 
-  explicit DBusFixtureServiceServiceImpl(RpcDBusFixture &impl)
+  explicit DBusFixtureService(RpcDBusFixture &impl)
     : impl_(impl)
   {
   }

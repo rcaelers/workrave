@@ -70,6 +70,8 @@ if (HAVE_TESTS)
       ${CMAKE_BINARY_DIR}/libs/config/src)
     target_link_libraries(workrave-core-next-rpc-service-names-test PRIVATE
       GTest::gtest_main
+      workrave-libs-config-rpc
+      workrave-libs-core-next-rpc
       gRPC::grpc++
       protobuf::libprotobuf
       ${EXTRA_LIBRARIES})

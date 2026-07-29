@@ -111,7 +111,7 @@ grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock list workrave.CoreService
 
 # Describe a method's request/response shape, including enum values
 grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock describe workrave.CoreService.SetOperationMode
-grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock describe workrave.rpc.core.OperationMode
+grpcurl -plaintext unix:$HOME/.workrave-qt/rpc.sock describe workrave.core.OperationMode
 ```
 
 `describe` is the fastest way to find the exact field/enum-value names
@@ -190,13 +190,15 @@ grpcurl -plaintext -d '{"who":"my-script","act":true}' \
 
 The three service descriptors share the `workrave` package, keeping their wire
 names short and consistent. Their generated payload types use separate
-packages to prevent C++ and descriptor-name collisions:
-`workrave.rpc.config`, `workrave.rpc.core`, and `workrave.rpc.breaks`.
+packages to prevent C++ and descriptor-name collisions. Core payloads use
+`workrave.core`; Config and Break payloads use `workrave.config` and
+`workrave.breaks`. Payloads are therefore generated in the corresponding
+`workrave::core`, `workrave::config`, and `workrave::breaks` C++ namespaces.
 Consequently, a Config response such as `SetStringResponse` is
-`workrave::rpc::config::SetStringResponse` in C++, while the service/stub
+`workrave::config::SetStringResponse` in C++, while the service/stub
 classes are `workrave::rpc::ConfigService`, `workrave::rpc::CoreService`, and
 `workrave::rpc::BreakService`. Run `describe
-workrave.rpc.core.BreakId` or `describe workrave.rpc.breaks.BreakId` if in
+workrave.core.BreakId` or `describe workrave.breaks.BreakId` if in
 doubt.
 
 ## BreakService — per-break state (micro-break / rest break / daily limit)

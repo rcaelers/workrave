@@ -11,7 +11,7 @@
 
 
 
-::grpc::Status DurationFlagsServiceServiceImpl::SetTimeout(::grpc::ServerContext * /*context*/,
+::grpc::Status DurationFlagsService::SetTimeout(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::SetTimeoutRequest *request,
                                                             ::workrave::test::SetTimeoutResponse *response)
 {
@@ -33,7 +33,7 @@
 }
 
 
-::grpc::Status DurationFlagsServiceServiceImpl::SetPermissions(::grpc::ServerContext * /*context*/,
+::grpc::Status DurationFlagsService::SetPermissions(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::SetPermissionsRequest *request,
                                                             ::workrave::test::SetPermissionsResponse *response)
 {
@@ -41,7 +41,7 @@
     {
 
 
-      testutil::Flags<testutil::Perm> local_perms;
+      ::testutil::Flags<::testutil::Perm> local_perms;
 
       for (int i = 0; i < request->perms_size(); ++i) { local_perms |= static_cast<testutil::Perm>(request->perms(i)); }
 

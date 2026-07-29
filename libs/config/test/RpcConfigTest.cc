@@ -42,7 +42,7 @@
 
 namespace
 {
-  namespace config_rpc = workrave::rpc::config;
+  namespace config_rpc = workrave::config;
 
   class RpcConfigTest : public ::testing::Test
   {
@@ -68,7 +68,7 @@ namespace
     }
 
     Configurator configurator;
-    workrave::config::rpc::ConfigServiceServiceImpl impl;
+    workrave::config::rpc::ConfigService impl;
     std::unique_ptr<rpc::RpcServer> rpc_server;
     std::unique_ptr<workrave::rpc::ConfigService::Stub> stub;
   };

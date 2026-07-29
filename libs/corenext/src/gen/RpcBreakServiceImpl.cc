@@ -13,7 +13,7 @@ namespace workrave::core::rpc
 {
 
 
-BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrave::BreakId, Break> &registry)
+BreakService::BreakService(::rpc::InstanceRegistry<workrave::BreakId, Break> &registry)
   : registry_(registry)
   , service_descriptor_anchor_(&::descriptor_table_RpcBreak_2eproto)
 {
@@ -21,9 +21,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 
 
 
-::grpc::Status BreakServiceServiceImpl::GetName(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::GetNameRequest *request,
-                                                            ::workrave::rpc::breaks::GetNameResponse *response)
+::grpc::Status BreakService::GetName(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::GetNameRequest *request,
+                                                            ::workrave::breaks::GetNameResponse *response)
 {
   try
     {
@@ -48,9 +48,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::IsEnabled(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::IsEnabledRequest *request,
-                                                            ::workrave::rpc::breaks::IsEnabledResponse *response)
+::grpc::Status BreakService::IsEnabled(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::IsEnabledRequest *request,
+                                                            ::workrave::breaks::IsEnabledResponse *response)
 {
   try
     {
@@ -75,9 +75,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::IsTimerRunning(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::IsTimerRunningRequest *request,
-                                                            ::workrave::rpc::breaks::IsTimerRunningResponse *response)
+::grpc::Status BreakService::IsTimerRunning(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::IsTimerRunningRequest *request,
+                                                            ::workrave::breaks::IsTimerRunningResponse *response)
 {
   try
     {
@@ -102,9 +102,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::IsTaking(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::IsTakingRequest *request,
-                                                            ::workrave::rpc::breaks::IsTakingResponse *response)
+::grpc::Status BreakService::IsTaking(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::IsTakingRequest *request,
+                                                            ::workrave::breaks::IsTakingResponse *response)
 {
   try
     {
@@ -129,9 +129,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::IsMaxPreludesReached(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::IsMaxPreludesReachedRequest *request,
-                                                            ::workrave::rpc::breaks::IsMaxPreludesReachedResponse *response)
+::grpc::Status BreakService::IsMaxPreludesReached(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::IsMaxPreludesReachedRequest *request,
+                                                            ::workrave::breaks::IsMaxPreludesReachedResponse *response)
 {
   try
     {
@@ -156,9 +156,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::IsActive(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::IsActiveRequest *request,
-                                                            ::workrave::rpc::breaks::IsActiveResponse *response)
+::grpc::Status BreakService::IsActive(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::IsActiveRequest *request,
+                                                            ::workrave::breaks::IsActiveResponse *response)
 {
   try
     {
@@ -183,9 +183,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::GetTimerElapsed(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::GetTimerElapsedRequest *request,
-                                                            ::workrave::rpc::breaks::GetTimerElapsedResponse *response)
+::grpc::Status BreakService::GetTimerElapsed(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::GetTimerElapsedRequest *request,
+                                                            ::workrave::breaks::GetTimerElapsedResponse *response)
 {
   try
     {
@@ -210,9 +210,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::GetTimerIdle(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::GetTimerIdleRequest *request,
-                                                            ::workrave::rpc::breaks::GetTimerIdleResponse *response)
+::grpc::Status BreakService::GetTimerIdle(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::GetTimerIdleRequest *request,
+                                                            ::workrave::breaks::GetTimerIdleResponse *response)
 {
   try
     {
@@ -237,9 +237,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::GetAutoReset(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::GetAutoResetRequest *request,
-                                                            ::workrave::rpc::breaks::GetAutoResetResponse *response)
+::grpc::Status BreakService::GetAutoReset(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::GetAutoResetRequest *request,
+                                                            ::workrave::breaks::GetAutoResetResponse *response)
 {
   try
     {
@@ -264,9 +264,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::IsAutoResetEnabled(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::IsAutoResetEnabledRequest *request,
-                                                            ::workrave::rpc::breaks::IsAutoResetEnabledResponse *response)
+::grpc::Status BreakService::IsAutoResetEnabled(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::IsAutoResetEnabledRequest *request,
+                                                            ::workrave::breaks::IsAutoResetEnabledResponse *response)
 {
   try
     {
@@ -291,9 +291,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::GetLimit(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::GetLimitRequest *request,
-                                                            ::workrave::rpc::breaks::GetLimitResponse *response)
+::grpc::Status BreakService::GetLimit(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::GetLimitRequest *request,
+                                                            ::workrave::breaks::GetLimitResponse *response)
 {
   try
     {
@@ -318,9 +318,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::IsLimitEnabled(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::IsLimitEnabledRequest *request,
-                                                            ::workrave::rpc::breaks::IsLimitEnabledResponse *response)
+::grpc::Status BreakService::IsLimitEnabled(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::IsLimitEnabledRequest *request,
+                                                            ::workrave::breaks::IsLimitEnabledResponse *response)
 {
   try
     {
@@ -345,9 +345,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::GetTimerRemaining(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::GetTimerRemainingRequest *request,
-                                                            ::workrave::rpc::breaks::GetTimerRemainingResponse *response)
+::grpc::Status BreakService::GetTimerRemaining(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::GetTimerRemainingRequest *request,
+                                                            ::workrave::breaks::GetTimerRemainingResponse *response)
 {
   try
     {
@@ -372,9 +372,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::GetTimerOverdue(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::GetTimerOverdueRequest *request,
-                                                            ::workrave::rpc::breaks::GetTimerOverdueResponse *response)
+::grpc::Status BreakService::GetTimerOverdue(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::GetTimerOverdueRequest *request,
+                                                            ::workrave::breaks::GetTimerOverdueResponse *response)
 {
   try
     {
@@ -399,9 +399,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::PostponeBreak(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::PostponeBreakRequest *request,
-                                                            ::workrave::rpc::breaks::PostponeBreakResponse *response)
+::grpc::Status BreakService::PostponeBreak(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::PostponeBreakRequest *request,
+                                                            ::workrave::breaks::PostponeBreakResponse *response)
 {
   try
     {
@@ -423,9 +423,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::SkipBreak(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::SkipBreakRequest *request,
-                                                            ::workrave::rpc::breaks::SkipBreakResponse *response)
+::grpc::Status BreakService::SkipBreak(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::SkipBreakRequest *request,
+                                                            ::workrave::breaks::SkipBreakResponse *response)
 {
   try
     {
@@ -447,9 +447,9 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::GetBreakState(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::breaks::GetBreakStateRequest *request,
-                                                            ::workrave::rpc::breaks::GetBreakStateResponse *response)
+::grpc::Status BreakService::GetBreakState(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::GetBreakStateRequest *request,
+                                                            ::workrave::breaks::GetBreakStateResponse *response)
 {
   try
     {
@@ -475,25 +475,25 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 
 
 
-::grpc::Status BreakServiceServiceImpl::BreakEvent(::grpc::ServerContext *context,
-                                                            const ::workrave::rpc::breaks::BreakEventRequest *request,
-                                                            ::grpc::ServerWriter<::workrave::rpc::breaks::BreakEventEvent> *writer)
+::grpc::Status BreakService::BreakEvent(::grpc::ServerContext *context,
+                                                            const ::workrave::breaks::BreakEventRequest *request,
+                                                            ::grpc::ServerWriter<::workrave::breaks::BreakEventEvent> *writer)
 {
 
   auto &impl_ = registry_.resolve(static_cast<workrave::BreakId>(request->id()));
 
-  ::rpc::EventQueue<::workrave::rpc::breaks::BreakEventEvent> queue;
+  ::rpc::EventQueue<::workrave::breaks::BreakEventEvent> queue;
   auto connection = impl_.signal_break_event().connect(
     [&queue](workrave::BreakEvent value)
     {
-      ::workrave::rpc::breaks::BreakEventEvent event;
+      ::workrave::breaks::BreakEventEvent event;
 
-      event.set_value(static_cast<::workrave::rpc::breaks::BreakEvent>(value));
+      event.set_value(static_cast<::workrave::breaks::BreakEvent>(value));
 
       queue.push(event);
     });
 
-  ::workrave::rpc::breaks::BreakEventEvent event;
+  ::workrave::breaks::BreakEventEvent event;
   while (queue.wait_and_pop(event, context))
     {
       if (!writer->Write(event))
@@ -507,25 +507,25 @@ BreakServiceServiceImpl::BreakServiceServiceImpl(::rpc::InstanceRegistry<workrav
 }
 
 
-::grpc::Status BreakServiceServiceImpl::BreakStateChanged(::grpc::ServerContext *context,
-                                                            const ::workrave::rpc::breaks::BreakStateChangedRequest *request,
-                                                            ::grpc::ServerWriter<::workrave::rpc::breaks::BreakStateChangedEvent> *writer)
+::grpc::Status BreakService::BreakStateChanged(::grpc::ServerContext *context,
+                                                            const ::workrave::breaks::BreakStateChangedRequest *request,
+                                                            ::grpc::ServerWriter<::workrave::breaks::BreakStateChangedEvent> *writer)
 {
 
   auto &impl_ = registry_.resolve(static_cast<workrave::BreakId>(request->id()));
 
-  ::rpc::EventQueue<::workrave::rpc::breaks::BreakStateChangedEvent> queue;
+  ::rpc::EventQueue<::workrave::breaks::BreakStateChangedEvent> queue;
   auto connection = impl_.signal_break_stage_changed().connect(
     [&queue](BreakStage value)
     {
-      ::workrave::rpc::breaks::BreakStateChangedEvent event;
+      ::workrave::breaks::BreakStateChangedEvent event;
 
-      event.set_value(static_cast<::workrave::rpc::breaks::BreakStage>(value));
+      event.set_value(static_cast<::workrave::breaks::BreakStage>(value));
 
       queue.push(event);
     });
 
-  ::workrave::rpc::breaks::BreakStateChangedEvent event;
+  ::workrave::breaks::BreakStateChangedEvent event;
   while (queue.wait_and_pop(event, context))
     {
       if (!writer->Write(event))

@@ -15,7 +15,7 @@ namespace workrave::core::rpc
 {
 
 
-CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
+CoreService::CoreService(Core &impl)
   : impl_(impl)
   , service_descriptor_anchor_(&::descriptor_table_RpcCore_2eproto)
 {
@@ -23,9 +23,9 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 
 
 
-::grpc::Status CoreServiceServiceImpl::IsActive(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::core::IsActiveRequest *request,
-                                                            ::workrave::rpc::core::IsActiveResponse *response)
+::grpc::Status CoreService::IsActive(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::core::IsActiveRequest *request,
+                                                            ::workrave::core::IsActiveResponse *response)
 {
   try
     {
@@ -48,9 +48,9 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 }
 
 
-::grpc::Status CoreServiceServiceImpl::IsTaking(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::core::IsTakingRequest *request,
-                                                            ::workrave::rpc::core::IsTakingResponse *response)
+::grpc::Status CoreService::IsTaking(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::core::IsTakingRequest *request,
+                                                            ::workrave::core::IsTakingResponse *response)
 {
   try
     {
@@ -73,15 +73,15 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 }
 
 
-::grpc::Status CoreServiceServiceImpl::ForceBreak(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::core::ForceBreakRequest *request,
-                                                            ::workrave::rpc::core::ForceBreakResponse *response)
+::grpc::Status CoreService::ForceBreak(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::core::ForceBreakRequest *request,
+                                                            ::workrave::core::ForceBreakResponse *response)
 {
   try
     {
 
 
-      workrave::utils::Flags<BreakHint> local_break_hint;
+      ::workrave::utils::Flags<::workrave::BreakHint> local_break_hint;
 
       for (int i = 0; i < request->break_hint_size(); ++i) { local_break_hint |= static_cast<workrave::BreakHint>(request->break_hint(i)); }
 
@@ -99,9 +99,9 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 }
 
 
-::grpc::Status CoreServiceServiceImpl::GetActiveOperationMode(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::core::GetActiveOperationModeRequest *request,
-                                                            ::workrave::rpc::core::GetActiveOperationModeResponse *response)
+::grpc::Status CoreService::GetActiveOperationMode(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::core::GetActiveOperationModeRequest *request,
+                                                            ::workrave::core::GetActiveOperationModeResponse *response)
 {
   try
     {
@@ -110,7 +110,7 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 
       auto rpc_result = impl_.get_active_operation_mode();
 
-      response->set_result(static_cast<::workrave::rpc::core::OperationMode>(rpc_result));
+      response->set_result(static_cast<::workrave::core::OperationMode>(rpc_result));
 
 
 
@@ -124,9 +124,9 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 }
 
 
-::grpc::Status CoreServiceServiceImpl::GetOperationMode(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::core::GetOperationModeRequest *request,
-                                                            ::workrave::rpc::core::GetOperationModeResponse *response)
+::grpc::Status CoreService::GetOperationMode(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::core::GetOperationModeRequest *request,
+                                                            ::workrave::core::GetOperationModeResponse *response)
 {
   try
     {
@@ -135,7 +135,7 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 
       auto rpc_result = impl_.get_regular_operation_mode();
 
-      response->set_result(static_cast<::workrave::rpc::core::OperationMode>(rpc_result));
+      response->set_result(static_cast<::workrave::core::OperationMode>(rpc_result));
 
 
 
@@ -149,9 +149,9 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 }
 
 
-::grpc::Status CoreServiceServiceImpl::IsOperationModeAnOverride(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::core::IsOperationModeAnOverrideRequest *request,
-                                                            ::workrave::rpc::core::IsOperationModeAnOverrideResponse *response)
+::grpc::Status CoreService::IsOperationModeAnOverride(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::core::IsOperationModeAnOverrideRequest *request,
+                                                            ::workrave::core::IsOperationModeAnOverrideResponse *response)
 {
   try
     {
@@ -174,9 +174,9 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 }
 
 
-::grpc::Status CoreServiceServiceImpl::SetOperationMode(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::core::SetOperationModeRequest *request,
-                                                            ::workrave::rpc::core::SetOperationModeResponse *response)
+::grpc::Status CoreService::SetOperationMode(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::core::SetOperationModeRequest *request,
+                                                            ::workrave::core::SetOperationModeResponse *response)
 {
   try
     {
@@ -196,9 +196,9 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 }
 
 
-::grpc::Status CoreServiceServiceImpl::SetOperationModeFor(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::core::SetOperationModeForRequest *request,
-                                                            ::workrave::rpc::core::SetOperationModeForResponse *response)
+::grpc::Status CoreService::SetOperationModeFor(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::core::SetOperationModeForRequest *request,
+                                                            ::workrave::core::SetOperationModeForResponse *response)
 {
   try
     {
@@ -218,9 +218,9 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 }
 
 
-::grpc::Status CoreServiceServiceImpl::GetUsageMode(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::core::GetUsageModeRequest *request,
-                                                            ::workrave::rpc::core::GetUsageModeResponse *response)
+::grpc::Status CoreService::GetUsageMode(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::core::GetUsageModeRequest *request,
+                                                            ::workrave::core::GetUsageModeResponse *response)
 {
   try
     {
@@ -229,7 +229,7 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 
       auto rpc_result = impl_.get_usage_mode();
 
-      response->set_result(static_cast<::workrave::rpc::core::UsageMode>(rpc_result));
+      response->set_result(static_cast<::workrave::core::UsageMode>(rpc_result));
 
 
 
@@ -243,9 +243,9 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 }
 
 
-::grpc::Status CoreServiceServiceImpl::SetUsageMode(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::core::SetUsageModeRequest *request,
-                                                            ::workrave::rpc::core::SetUsageModeResponse *response)
+::grpc::Status CoreService::SetUsageMode(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::core::SetUsageModeRequest *request,
+                                                            ::workrave::core::SetUsageModeResponse *response)
 {
   try
     {
@@ -265,9 +265,9 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 }
 
 
-::grpc::Status CoreServiceServiceImpl::ReportActivity(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::rpc::core::ReportActivityRequest *request,
-                                                            ::workrave::rpc::core::ReportActivityResponse *response)
+::grpc::Status CoreService::ReportActivity(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::core::ReportActivityRequest *request,
+                                                            ::workrave::core::ReportActivityResponse *response)
 {
   try
     {
@@ -288,23 +288,23 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 
 
 
-::grpc::Status CoreServiceServiceImpl::OperationModeChanged(::grpc::ServerContext *context,
-                                                            const ::workrave::rpc::core::OperationModeChangedRequest */*request*/,
-                                                            ::grpc::ServerWriter<::workrave::rpc::core::OperationModeChangedEvent> *writer)
+::grpc::Status CoreService::OperationModeChanged(::grpc::ServerContext *context,
+                                                            const ::workrave::core::OperationModeChangedRequest */*request*/,
+                                                            ::grpc::ServerWriter<::workrave::core::OperationModeChangedEvent> *writer)
 {
 
-  ::rpc::EventQueue<::workrave::rpc::core::OperationModeChangedEvent> queue;
+  ::rpc::EventQueue<::workrave::core::OperationModeChangedEvent> queue;
   auto connection = impl_.signal_operation_mode_changed().connect(
     [&queue](workrave::OperationMode value)
     {
-      ::workrave::rpc::core::OperationModeChangedEvent event;
+      ::workrave::core::OperationModeChangedEvent event;
 
-      event.set_value(static_cast<::workrave::rpc::core::OperationMode>(value));
+      event.set_value(static_cast<::workrave::core::OperationMode>(value));
 
       queue.push(event);
     });
 
-  ::workrave::rpc::core::OperationModeChangedEvent event;
+  ::workrave::core::OperationModeChangedEvent event;
   while (queue.wait_and_pop(event, context))
     {
       if (!writer->Write(event))
@@ -318,23 +318,23 @@ CoreServiceServiceImpl::CoreServiceServiceImpl(Core &impl)
 }
 
 
-::grpc::Status CoreServiceServiceImpl::UsageModeChanged(::grpc::ServerContext *context,
-                                                            const ::workrave::rpc::core::UsageModeChangedRequest */*request*/,
-                                                            ::grpc::ServerWriter<::workrave::rpc::core::UsageModeChangedEvent> *writer)
+::grpc::Status CoreService::UsageModeChanged(::grpc::ServerContext *context,
+                                                            const ::workrave::core::UsageModeChangedRequest */*request*/,
+                                                            ::grpc::ServerWriter<::workrave::core::UsageModeChangedEvent> *writer)
 {
 
-  ::rpc::EventQueue<::workrave::rpc::core::UsageModeChangedEvent> queue;
+  ::rpc::EventQueue<::workrave::core::UsageModeChangedEvent> queue;
   auto connection = impl_.signal_usage_mode_changed().connect(
     [&queue](workrave::UsageMode value)
     {
-      ::workrave::rpc::core::UsageModeChangedEvent event;
+      ::workrave::core::UsageModeChangedEvent event;
 
-      event.set_value(static_cast<::workrave::rpc::core::UsageMode>(value));
+      event.set_value(static_cast<::workrave::core::UsageMode>(value));
 
       queue.push(event);
     });
 
-  ::workrave::rpc::core::UsageModeChangedEvent event;
+  ::workrave::core::UsageModeChangedEvent event;
   while (queue.wait_and_pop(event, context))
     {
       if (!writer->Write(event))

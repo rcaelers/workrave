@@ -260,9 +260,8 @@ fn generates_proto_and_adapter_for_simple_fixture() {
 
     let header_out = fs::read_to_string(&generated.adapter_hh).unwrap();
     assert!(
-        header_out.contains(
-            "class TestServiceServiceImpl final : public ::workrave::test::TestService::Service"
-        ),
+        header_out
+            .contains("class TestService final : public ::workrave::test::TestService::Service"),
         "{header_out}"
     );
     assert!(header_out.contains("RpcTestServer &impl"), "{header_out}");
@@ -280,7 +279,7 @@ fn generates_proto_and_adapter_for_simple_fixture() {
     let source_out = fs::read_to_string(&generated.adapter_cc).unwrap();
     // The .cc must #include the adapter header's real output name
     // (RpcTestServiceImpl.hh, from --out-adapter-hh), not a name derived
-    // from the service ("TestService" -> "TestServiceServiceImpl.hh") — the
+    // from the service ("TestService" -> "TestService.hh") — the
     // CMake NAME parameter and the C++ service name are independent.
     assert!(
         source_out.contains("#include \"RpcTestServiceImpl.hh\""),
@@ -351,9 +350,7 @@ fn adapter_namespace_is_independent_from_proto_package() {
         "{header}"
     );
     assert!(
-        header.contains(
-            "class TestServiceServiceImpl final : public ::workrave::test::TestService::Service"
-        ),
+        header.contains("class TestService final : public ::workrave::test::TestService::Service"),
         "{header}"
     );
     assert!(
@@ -366,7 +363,7 @@ fn adapter_namespace_is_independent_from_proto_package() {
         source.contains("namespace workrave::core::rpc\n{"),
         "{source}"
     );
-    assert!(source.contains("TestServiceServiceImpl::Ping"), "{source}");
+    assert!(source.contains("TestService::Ping"), "{source}");
     assert!(
         source.contains("} // namespace workrave::core::rpc"),
         "{source}"
@@ -374,14 +371,14 @@ fn adapter_namespace_is_independent_from_proto_package() {
 }
 
 #[test]
-fn separate_proto_types_package_keeps_the_service_wire_name() {
+fn separate_proto_types_package_sets_the_cpp_namespace() {
     let (_dir, generated) = generate_fixture_full(
         "simple.hh",
         "RpcTest",
         None,
         false,
         None,
-        Some("workrave.rpc.core"),
+        Some("workrave.core"),
         Some("rpc"),
     );
 
@@ -389,7 +386,9 @@ fn separate_proto_types_package_keeps_the_service_wire_name() {
     assert!(proto.contains("package workrave.test;"), "{proto}");
     assert!(proto.contains("import \"RpcTestTypes.proto\";"), "{proto}");
     assert!(
-        proto.contains("rpc Greet(.workrave.rpc.core.GreetRequest) returns (.workrave.rpc.core.GreetResponse);"),
+        proto.contains(
+            "rpc Greet(.workrave.core.GreetRequest) returns (.workrave.core.GreetResponse);"
+        ),
         "{proto}"
     );
     assert!(proto.contains("service TestService"), "{proto}");
@@ -403,7 +402,7 @@ fn separate_proto_types_package_keeps_the_service_wire_name() {
     )
     .unwrap();
     assert!(
-        types_proto.contains("package workrave.rpc.core;"),
+        types_proto.contains("package workrave.core;"),
         "{types_proto}"
     );
     assert!(types_proto.contains("enum TestMode"), "{types_proto}");
@@ -415,7 +414,7 @@ fn separate_proto_types_package_keeps_the_service_wire_name() {
 
     let header = fs::read_to_string(&generated.adapter_hh).unwrap();
     assert!(
-        header.contains("const ::workrave::rpc::core::GreetRequest *request"),
+        header.contains("const ::workrave::core::GreetRequest *request"),
         "{header}"
     );
     assert!(
@@ -428,7 +427,7 @@ fn separate_proto_types_package_keeps_the_service_wire_name() {
         "{source}"
     );
     assert!(
-        source.contains("static_cast<::workrave::rpc::core::TestMode>(local_mode)"),
+        source.contains("static_cast<::workrave::core::TestMode>(local_mode)"),
         "{source}"
     );
 }
@@ -462,7 +461,9 @@ fn generates_keyed_service_with_instance_registry() {
         "{header_out}"
     );
     assert!(
-        header_out.contains("explicit WidgetServiceServiceImpl(::rpc::InstanceRegistry<WidgetId, RpcKeyedFixture> &registry)"),
+        header_out.contains(
+            "explicit WidgetService(::rpc::InstanceRegistry<WidgetId, RpcKeyedFixture> &registry)"
+        ),
         "{header_out}"
     );
 
@@ -991,7 +992,7 @@ fn generates_duration_and_bitmask_parameters() {
         "{source_out}"
     );
     assert!(
-        source_out.contains("testutil::Flags<testutil::Perm> local_perms;"),
+        source_out.contains("::testutil::Flags<::testutil::Perm> local_perms;"),
         "{source_out}"
     );
     assert!(
@@ -1319,7 +1320,8 @@ fn gio_dbus_bindings_compile_against_real_gio() {
             "{dbus_hh}"
         );
         assert!(
-            dbus_cc_text.contains("gio_return_method_value(invocation, reply, reply_fd_list.get())"),
+            dbus_cc_text
+                .contains("gio_return_method_value(invocation, reply, reply_fd_list.get())"),
             "{dbus_cc_text}"
         );
         assert!(

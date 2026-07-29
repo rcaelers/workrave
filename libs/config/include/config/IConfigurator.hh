@@ -41,7 +41,7 @@ namespace workrave::config
   using ConfigValue = std::variant<bool, int32_t, int64_t, double, std::string>;
 
   //! Hints on how to set a configuration value.
-  // @rpc.enum(name="config_flags")
+  // @rpc.enum(name="config_flags", proto_name="ConfigFlagSet")
   enum ConfigFlags
   {
     //! No special hints.

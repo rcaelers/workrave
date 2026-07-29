@@ -251,6 +251,7 @@ pub(crate) enum TypeShapeModel {
     Bitmask {
         enum_type: TemplateTypeId,
         enum_cxx_type: String,
+        cxx_type: String,
     },
     CString,
     Bytes {
@@ -966,7 +967,7 @@ impl<'a> ModelBuilder<'a> {
         }
 
         self.active_type_keys.insert(key.clone());
-        let shape = self.build_type_shape(proto_type, kind)?;
+        let shape = self.build_type_shape(cxx_type, proto_type, kind)?;
         self.active_type_keys.remove(&key);
 
         let type_id = format!("type_{}", self.next_type_id);
@@ -987,6 +988,7 @@ impl<'a> ModelBuilder<'a> {
 
     fn build_type_shape(
         &mut self,
+        cxx_type: &CxxType,
         proto_type: &ProtoType,
         kind: &ParamKind,
     ) -> Result<TypeShapeModel> {
@@ -1011,6 +1013,7 @@ impl<'a> ModelBuilder<'a> {
                 TypeShapeModel::Bitmask {
                     enum_type,
                     enum_cxx_type: enum_cxx_type.clone(),
+                    cxx_type: qualify_bitmask_type(&cxx_type.base_spelling, enum_cxx_type),
                 }
             }
             ParamKind::Sequence(element) => TypeShapeModel::Sequence {
@@ -1066,6 +1069,18 @@ fn plain_cxx_type(spelling: &str) -> CxxType {
         is_ref: false,
         is_const: false,
     }
+}
+
+fn qualify_bitmask_type(spelling: &str, enum_cxx_type: &str) -> String {
+    let Some(open) = spelling.find('<') else {
+        return spelling.to_string();
+    };
+    let Some(close) = spelling.rfind('>') else {
+        return spelling.to_string();
+    };
+    let container = spelling[..open].trim_start_matches("::");
+    let enum_type = enum_cxx_type.trim_start_matches("::");
+    format!("::{container}<::{enum_type}>{}", &spelling[close + 1..])
 }
 
 #[cfg(test)]

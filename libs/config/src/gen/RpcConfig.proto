@@ -9,41 +9,41 @@ import "RpcConfigTypes.proto";
 
 service ConfigService {
 
-  rpc RemoveKey(.workrave.rpc.config.RemoveKeyRequest) returns (.workrave.rpc.config.RemoveKeyResponse);
+  rpc RemoveKey(.workrave.config.RemoveKeyRequest) returns (.workrave.config.RemoveKeyResponse);
 
-  rpc RenameKey(.workrave.rpc.config.RenameKeyRequest) returns (.workrave.rpc.config.RenameKeyResponse);
+  rpc RenameKey(.workrave.config.RenameKeyRequest) returns (.workrave.config.RenameKeyResponse);
 
-  rpc HasUserValue(.workrave.rpc.config.HasUserValueRequest) returns (.workrave.rpc.config.HasUserValueResponse);
+  rpc HasUserValue(.workrave.config.HasUserValueRequest) returns (.workrave.config.HasUserValueResponse);
 
-  rpc GetString(.workrave.rpc.config.GetStringRequest) returns (.workrave.rpc.config.GetStringResponse);
+  rpc GetString(.workrave.config.GetStringRequest) returns (.workrave.config.GetStringResponse);
 
-  rpc GetBool(.workrave.rpc.config.GetBoolRequest) returns (.workrave.rpc.config.GetBoolResponse);
+  rpc GetBool(.workrave.config.GetBoolRequest) returns (.workrave.config.GetBoolResponse);
 
-  rpc GetInt(.workrave.rpc.config.GetIntRequest) returns (.workrave.rpc.config.GetIntResponse);
+  rpc GetInt(.workrave.config.GetIntRequest) returns (.workrave.config.GetIntResponse);
 
-  rpc GetInt64(.workrave.rpc.config.GetInt64Request) returns (.workrave.rpc.config.GetInt64Response);
+  rpc GetInt64(.workrave.config.GetInt64Request) returns (.workrave.config.GetInt64Response);
 
-  rpc GetDouble(.workrave.rpc.config.GetDoubleRequest) returns (.workrave.rpc.config.GetDoubleResponse);
+  rpc GetDouble(.workrave.config.GetDoubleRequest) returns (.workrave.config.GetDoubleResponse);
 
-  rpc GetStringWithDefault(.workrave.rpc.config.GetStringWithDefaultRequest) returns (.workrave.rpc.config.GetStringWithDefaultResponse);
+  rpc GetStringWithDefault(.workrave.config.GetStringWithDefaultRequest) returns (.workrave.config.GetStringWithDefaultResponse);
 
-  rpc GetBoolWithDefault(.workrave.rpc.config.GetBoolWithDefaultRequest) returns (.workrave.rpc.config.GetBoolWithDefaultResponse);
+  rpc GetBoolWithDefault(.workrave.config.GetBoolWithDefaultRequest) returns (.workrave.config.GetBoolWithDefaultResponse);
 
-  rpc GetIntWithDefault(.workrave.rpc.config.GetIntWithDefaultRequest) returns (.workrave.rpc.config.GetIntWithDefaultResponse);
+  rpc GetIntWithDefault(.workrave.config.GetIntWithDefaultRequest) returns (.workrave.config.GetIntWithDefaultResponse);
 
-  rpc GetInt64WithDefault(.workrave.rpc.config.GetInt64WithDefaultRequest) returns (.workrave.rpc.config.GetInt64WithDefaultResponse);
+  rpc GetInt64WithDefault(.workrave.config.GetInt64WithDefaultRequest) returns (.workrave.config.GetInt64WithDefaultResponse);
 
-  rpc GetDoubleWithDefault(.workrave.rpc.config.GetDoubleWithDefaultRequest) returns (.workrave.rpc.config.GetDoubleWithDefaultResponse);
+  rpc GetDoubleWithDefault(.workrave.config.GetDoubleWithDefaultRequest) returns (.workrave.config.GetDoubleWithDefaultResponse);
 
-  rpc SetString(.workrave.rpc.config.SetStringRequest) returns (.workrave.rpc.config.SetStringResponse);
+  rpc SetString(.workrave.config.SetStringRequest) returns (.workrave.config.SetStringResponse);
 
-  rpc SetInt(.workrave.rpc.config.SetIntRequest) returns (.workrave.rpc.config.SetIntResponse);
+  rpc SetInt(.workrave.config.SetIntRequest) returns (.workrave.config.SetIntResponse);
 
-  rpc SetInt64(.workrave.rpc.config.SetInt64Request) returns (.workrave.rpc.config.SetInt64Response);
+  rpc SetInt64(.workrave.config.SetInt64Request) returns (.workrave.config.SetInt64Response);
 
-  rpc SetBool(.workrave.rpc.config.SetBoolRequest) returns (.workrave.rpc.config.SetBoolResponse);
+  rpc SetBool(.workrave.config.SetBoolRequest) returns (.workrave.config.SetBoolResponse);
 
-  rpc SetDouble(.workrave.rpc.config.SetDoubleRequest) returns (.workrave.rpc.config.SetDoubleResponse);
+  rpc SetDouble(.workrave.config.SetDoubleRequest) returns (.workrave.config.SetDoubleResponse);
 
 
 }

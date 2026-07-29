@@ -9,7 +9,7 @@
 
 
 
-::grpc::Status DBusFixtureServiceServiceImpl::Ping(::grpc::ServerContext * /*context*/,
+::grpc::Status DBusFixtureService::Ping(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::PingRequest *request,
                                                             ::workrave::test::PingResponse *response)
 {
@@ -34,7 +34,7 @@
 }
 
 
-::grpc::Status DBusFixtureServiceServiceImpl::GetMode(::grpc::ServerContext * /*context*/,
+::grpc::Status DBusFixtureService::GetMode(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::GetModeRequest *request,
                                                             ::workrave::test::GetModeResponse *response)
 {
@@ -59,7 +59,7 @@
 }
 
 
-::grpc::Status DBusFixtureServiceServiceImpl::SetMode(::grpc::ServerContext * /*context*/,
+::grpc::Status DBusFixtureService::SetMode(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::SetModeRequest *request,
                                                             ::workrave::test::SetModeResponse *response)
 {
@@ -82,7 +82,7 @@
 
 
 
-::grpc::Status DBusFixtureServiceServiceImpl::ModeChanged(::grpc::ServerContext *context,
+::grpc::Status DBusFixtureService::ModeChanged(::grpc::ServerContext *context,
                                                             const ::workrave::test::ModeChangedRequest */*request*/,
                                                             ::grpc::ServerWriter<::workrave::test::ModeChangedEvent> *writer)
 {

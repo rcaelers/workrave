@@ -8,11 +8,11 @@
 
 
 
-class NestedServiceServiceImpl final : public ::workrave::test::NestedService::Service
+class NestedService final : public ::workrave::test::NestedService::Service
 {
 public:
 
-  explicit NestedServiceServiceImpl(RpcNestedFixture &impl)
+  explicit NestedService(RpcNestedFixture &impl)
     : impl_(impl)
   {
   }

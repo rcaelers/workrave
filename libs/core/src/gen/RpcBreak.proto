@@ -9,43 +9,43 @@ import "RpcBreakTypes.proto";
 
 service BreakService {
 
-  rpc GetName(.workrave.rpc.breaks.GetNameRequest) returns (.workrave.rpc.breaks.GetNameResponse);
+  rpc GetName(.workrave.breaks.GetNameRequest) returns (.workrave.breaks.GetNameResponse);
 
-  rpc IsEnabled(.workrave.rpc.breaks.IsEnabledRequest) returns (.workrave.rpc.breaks.IsEnabledResponse);
+  rpc IsEnabled(.workrave.breaks.IsEnabledRequest) returns (.workrave.breaks.IsEnabledResponse);
 
-  rpc IsTimerRunning(.workrave.rpc.breaks.IsTimerRunningRequest) returns (.workrave.rpc.breaks.IsTimerRunningResponse);
+  rpc IsTimerRunning(.workrave.breaks.IsTimerRunningRequest) returns (.workrave.breaks.IsTimerRunningResponse);
 
-  rpc GetTimerElapsed(.workrave.rpc.breaks.GetTimerElapsedRequest) returns (.workrave.rpc.breaks.GetTimerElapsedResponse);
+  rpc GetTimerElapsed(.workrave.breaks.GetTimerElapsedRequest) returns (.workrave.breaks.GetTimerElapsedResponse);
 
-  rpc GetTimerIdle(.workrave.rpc.breaks.GetTimerIdleRequest) returns (.workrave.rpc.breaks.GetTimerIdleResponse);
+  rpc GetTimerIdle(.workrave.breaks.GetTimerIdleRequest) returns (.workrave.breaks.GetTimerIdleResponse);
 
-  rpc GetAutoReset(.workrave.rpc.breaks.GetAutoResetRequest) returns (.workrave.rpc.breaks.GetAutoResetResponse);
+  rpc GetAutoReset(.workrave.breaks.GetAutoResetRequest) returns (.workrave.breaks.GetAutoResetResponse);
 
-  rpc IsAutoResetEnabled(.workrave.rpc.breaks.IsAutoResetEnabledRequest) returns (.workrave.rpc.breaks.IsAutoResetEnabledResponse);
+  rpc IsAutoResetEnabled(.workrave.breaks.IsAutoResetEnabledRequest) returns (.workrave.breaks.IsAutoResetEnabledResponse);
 
-  rpc GetLimit(.workrave.rpc.breaks.GetLimitRequest) returns (.workrave.rpc.breaks.GetLimitResponse);
+  rpc GetLimit(.workrave.breaks.GetLimitRequest) returns (.workrave.breaks.GetLimitResponse);
 
-  rpc IsLimitEnabled(.workrave.rpc.breaks.IsLimitEnabledRequest) returns (.workrave.rpc.breaks.IsLimitEnabledResponse);
+  rpc IsLimitEnabled(.workrave.breaks.IsLimitEnabledRequest) returns (.workrave.breaks.IsLimitEnabledResponse);
 
-  rpc IsTaking(.workrave.rpc.breaks.IsTakingRequest) returns (.workrave.rpc.breaks.IsTakingResponse);
+  rpc IsTaking(.workrave.breaks.IsTakingRequest) returns (.workrave.breaks.IsTakingResponse);
 
-  rpc IsMaxPreludesReached(.workrave.rpc.breaks.IsMaxPreludesReachedRequest) returns (.workrave.rpc.breaks.IsMaxPreludesReachedResponse);
+  rpc IsMaxPreludesReached(.workrave.breaks.IsMaxPreludesReachedRequest) returns (.workrave.breaks.IsMaxPreludesReachedResponse);
 
-  rpc PostponeBreak(.workrave.rpc.breaks.PostponeBreakRequest) returns (.workrave.rpc.breaks.PostponeBreakResponse);
+  rpc PostponeBreak(.workrave.breaks.PostponeBreakRequest) returns (.workrave.breaks.PostponeBreakResponse);
 
-  rpc SkipBreak(.workrave.rpc.breaks.SkipBreakRequest) returns (.workrave.rpc.breaks.SkipBreakResponse);
+  rpc SkipBreak(.workrave.breaks.SkipBreakRequest) returns (.workrave.breaks.SkipBreakResponse);
 
-  rpc IsActive(.workrave.rpc.breaks.IsActiveRequest) returns (.workrave.rpc.breaks.IsActiveResponse);
+  rpc IsActive(.workrave.breaks.IsActiveRequest) returns (.workrave.breaks.IsActiveResponse);
 
-  rpc GetTimerRemaining(.workrave.rpc.breaks.GetTimerRemainingRequest) returns (.workrave.rpc.breaks.GetTimerRemainingResponse);
+  rpc GetTimerRemaining(.workrave.breaks.GetTimerRemainingRequest) returns (.workrave.breaks.GetTimerRemainingResponse);
 
-  rpc GetTimerOverdue(.workrave.rpc.breaks.GetTimerOverdueRequest) returns (.workrave.rpc.breaks.GetTimerOverdueResponse);
+  rpc GetTimerOverdue(.workrave.breaks.GetTimerOverdueRequest) returns (.workrave.breaks.GetTimerOverdueResponse);
 
-  rpc GetBreakState(.workrave.rpc.breaks.GetBreakStateRequest) returns (.workrave.rpc.breaks.GetBreakStateResponse);
+  rpc GetBreakState(.workrave.breaks.GetBreakStateRequest) returns (.workrave.breaks.GetBreakStateResponse);
 
 
-  rpc BreakEvent(.workrave.rpc.breaks.BreakEventRequest) returns (stream .workrave.rpc.breaks.BreakEventEvent);
+  rpc BreakEvent(.workrave.breaks.BreakEventRequest) returns (stream .workrave.breaks.BreakEventEvent);
 
-  rpc BreakStateChanged(.workrave.rpc.breaks.BreakStateChangedRequest) returns (stream .workrave.rpc.breaks.BreakStateChangedEvent);
+  rpc BreakStateChanged(.workrave.breaks.BreakStateChangedRequest) returns (stream .workrave.breaks.BreakStateChangedEvent);
 
 }

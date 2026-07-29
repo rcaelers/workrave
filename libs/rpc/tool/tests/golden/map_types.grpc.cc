@@ -9,7 +9,7 @@
 
 
 
-::grpc::Status MapTypesServiceServiceImpl::SetCounters(::grpc::ServerContext * /*context*/,
+::grpc::Status MapTypesService::SetCounters(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::SetCountersRequest *request,
                                                             ::workrave::test::SetCountersResponse *response)
 {
@@ -35,7 +35,7 @@
 }
 
 
-::grpc::Status MapTypesServiceServiceImpl::GetMenuByAction(::grpc::ServerContext * /*context*/,
+::grpc::Status MapTypesService::GetMenuByAction(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::test::GetMenuByActionRequest *request,
                                                             ::workrave::test::GetMenuByActionResponse *response)
 {

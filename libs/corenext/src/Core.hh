@@ -94,7 +94,7 @@ public:
 #if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
   // The per-object Break service registry; forwards to BreaksControl so
   // whoever wires up the RpcServer (see init_rpc()) can
-  // construct a workrave::core::rpc::BreakServiceServiceImpl without reaching
+  // construct a workrave::core::rpc::BreakService without reaching
   // into BreaksControl directly.
   rpc::InstanceRegistry<workrave::BreakId, Break> &get_break_registry();
 #endif

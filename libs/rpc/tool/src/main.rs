@@ -35,9 +35,9 @@ struct Cli {
     #[arg(long)]
     out_types_proto: Option<PathBuf>,
 
-    /// Package for the separate payload-types schema. This controls those
-    /// types' generated C++ namespace without changing the service wire name.
-    /// Must be supplied together with --out-types-proto.
+    /// Package for the separate payload-types schema. This controls their
+    /// wire names and generated C++ namespace without changing the service
+    /// wire name. Must be supplied together with --out-types-proto.
     #[arg(long)]
     proto_types_package: Option<String>,
 

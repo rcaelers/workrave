@@ -163,6 +163,17 @@ pub fn parse_method_tag(comment: &str) -> Option<String> {
     re.captures(comment).map(|c| c[1].to_string())
 }
 
+fn parse_enum_attribute(comment: &str, key: &str) -> Option<String> {
+    let outer = Regex::new(r#"@rpc\.enum\(([^)]*)\)"#).expect("valid regex");
+    let attr = Regex::new(r#"([A-Za-z_]\w*)\s*=\s*"([^"]*)""#).expect("valid regex");
+    let value = outer.captures_iter(comment).find_map(|caps| {
+        attr.captures_iter(&caps[1])
+            .find(|attribute| &attribute[1] == key)
+            .map(|attribute| attribute[2].to_string())
+    });
+    value
+}
+
 /// `@rpc.enum(name="dbus_style_name")` on an enum type declaration — pins an
 /// explicit, backend-agnostic canonical name for the enum itself, e.g.
 /// matching `workrave-service.xml`'s `<enum name="operation_mode">` for
@@ -171,8 +182,14 @@ pub fn parse_method_tag(comment: &str) -> Option<String> {
 /// a future backend (e.g. DBus) that needs to reproduce an exact existing
 /// wire name.
 pub fn parse_enum_tag(comment: &str) -> Option<String> {
-    let re = Regex::new(r#"@rpc\.enum\(\s*name\s*=\s*"([^"]+)"\s*\)"#).expect("valid regex");
-    re.captures(comment).map(|c| c[1].to_string())
+    parse_enum_attribute(comment, "name")
+}
+
+/// `proto_name="..."` optionally gives the generated protobuf enum a name
+/// distinct from its native C++ enum. This is useful when both types must
+/// share a C++ namespace and would otherwise collide.
+pub fn parse_enum_proto_name(comment: &str) -> Option<String> {
+    parse_enum_attribute(comment, "proto_name")
 }
 
 /// `@rpc.enum.value(name="dbus_style_name")` on one enumerator — the
@@ -371,7 +388,14 @@ mod tests {
     fn enum_tag() {
         let c = "// @rpc.enum(name=\"operation_mode\")";
         assert_eq!(parse_enum_tag(c), Some("operation_mode".to_string()));
+        let c = "// @rpc.enum(proto_name=\"OperationModeWire\", name=\"operation_mode\")";
+        assert_eq!(parse_enum_tag(c), Some("operation_mode".to_string()));
+        assert_eq!(
+            parse_enum_proto_name(c),
+            Some("OperationModeWire".to_string())
+        );
         assert_eq!(parse_enum_tag("// no tag here"), None);
+        assert_eq!(parse_enum_proto_name("// no tag here"), None);
     }
 
     #[test]
