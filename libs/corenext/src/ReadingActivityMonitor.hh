@@ -49,6 +49,7 @@ public:
 
 private:
   bool action_notify() override;
+  void listen_for_activity();
   void on_usage_mode_changed(workrave::UsageMode mode);
 
 private:
