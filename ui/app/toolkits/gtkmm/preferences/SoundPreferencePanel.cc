@@ -401,7 +401,7 @@ SoundPreferencePanel::on_device_changed()
       std::string device_id = device_combo->get_active_id();
       if (!device_id.empty())
         {
-          sound_theme->sound_device().set(device_id);
+          sound_theme->sound_output_device().set(device_id);
           sound_theme->set_device(device_id);
         }
     }
@@ -418,7 +418,7 @@ SoundPreferencePanel::update_device_selection()
   device_combo->remove_all();
 
   auto devices = sound_theme->get_devices();
-  std::string current_device = sound_theme->sound_device()();
+  std::string current_device = sound_theme->sound_output_device()();
 
   for (const auto &dev: devices)
     {

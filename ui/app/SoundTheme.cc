@@ -86,7 +86,7 @@ const std::array<SoundTheme::SoundRegistry, 10> SoundTheme::sound_registry = {{
 }};
 
 const std::string SoundTheme::CFG_KEY_SOUND_ENABLED = "sound/enabled";
-const std::string SoundTheme::CFG_KEY_SOUND_DEVICE = "sound/device";
+const std::string SoundTheme::CFG_KEY_SOUND_OUTPUT_DEVICE = "sound/output_device";
 const std::string SoundTheme::CFG_KEY_SOUND_VOLUME = "sound/volume";
 const std::string SoundTheme::CFG_KEY_SOUND_MUTE = "sound/mute";
 const std::string SoundTheme::CFG_KEY_SOUND_EVENT = "sound/events/";
@@ -99,9 +99,9 @@ SoundTheme::sound_enabled()
 }
 
 workrave::config::Setting<std::string> &
-SoundTheme::sound_device()
+SoundTheme::sound_output_device()
 {
-  return SettingCache::get<std::string>(config, CFG_KEY_SOUND_DEVICE, std::string());
+  return SettingCache::get<std::string>(config, CFG_KEY_SOUND_OUTPUT_DEVICE, std::string());
 }
 
 workrave::config::Setting<int> &
@@ -185,7 +185,7 @@ void
 SoundTheme::init()
 {
   player->init();
-  set_device(sound_device()());
+  set_device(sound_output_device()());
   load_themes();
   register_sound_events();
 }

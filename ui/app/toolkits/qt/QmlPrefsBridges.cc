@@ -1186,7 +1186,7 @@ SoundsPrefBridge::devices() const
 QString
 SoundsPrefBridge::currentDeviceId() const
 {
-  return QString::fromStdString(app->get_sound_theme()->sound_device()());
+  return QString::fromStdString(app->get_sound_theme()->sound_output_device()());
 }
 
 QVariantList
@@ -1257,7 +1257,7 @@ SoundsPrefBridge::setDevice(const QString &id)
     }
 
   const auto device_id = id.toStdString();
-  app->get_sound_theme()->sound_device().set(device_id);
+  app->get_sound_theme()->sound_output_device().set(device_id);
   app->get_sound_theme()->set_device(device_id);
   Q_EMIT soundsChanged();
 }

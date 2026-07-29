@@ -61,7 +61,7 @@ class SoundTheme
 {
 public:
   auto sound_enabled() -> workrave::config::Setting<bool> &;
-  auto sound_device() -> workrave::config::Setting<std::string> &;
+  auto sound_output_device() -> workrave::config::Setting<std::string> &;
   auto sound_volume() -> workrave::config::Setting<int> &;
   auto sound_mute() -> workrave::config::Setting<bool> &;
   auto sound_event(SoundEvent event) -> workrave::config::Setting<std::string> &;
@@ -149,7 +149,7 @@ private:
   static const std::array<SoundRegistry, 10> sound_registry;
 
   static const std::string CFG_KEY_SOUND_ENABLED;
-  static const std::string CFG_KEY_SOUND_DEVICE;
+  static const std::string CFG_KEY_SOUND_OUTPUT_DEVICE;
   static const std::string CFG_KEY_SOUND_VOLUME;
   static const std::string CFG_KEY_SOUND_EVENT;
   static const std::string CFG_KEY_SOUND_EVENT_ENABLED;

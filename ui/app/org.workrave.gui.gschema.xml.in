@@ -371,6 +371,11 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="s" name="output-device">
+      <default>""</default>
+      <summary>Audio output device</summary>
+      <description>Stable identifier of the audio output device. An empty value follows the system default device.</description>
+    </key>
     <key type="b" name="enabled">
       <default>true</default>
       <summary></summary>
