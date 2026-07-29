@@ -339,10 +339,15 @@
   <schema path="/org/workrave/sound/" id="org.workrave.sound" gettext-domain="workrave">
     <child schema="org.workrave.sound.events" name="events"/>
 
-    <key type="s" name="device">
-      <default>""</default>
+    <key type="i" name="device">
+      <default>1</default>
       <summary></summary>
       <description></description>
+    </key>
+    <key type="s" name="output-device">
+      <default>""</default>
+      <summary>Audio output device</summary>
+      <description>Stable identifier of the audio output device. An empty value follows the system default device.</description>
     </key>
     <key type="b" name="enabled">
       <default>true</default>
