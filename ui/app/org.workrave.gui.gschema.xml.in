@@ -5,6 +5,21 @@
     <child schema="org.workrave.gui.main-window" name="main-window"/>
     <child schema="org.workrave.gui.breaks" name="breaks"/>
 
+    <key type="s" name="preferred-lock-method">
+      <default>""</default>
+      <summary>Preferred screen lock method</summary>
+      <description>Identifier of the screen lock method used by break windows. An empty value selects the first available method.</description>
+    </key>
+    <key type="s" name="preferred-sleep-operation">
+      <default>"suspend"</default>
+      <summary>Preferred sleep operation</summary>
+      <description>System sleep operation used by break windows.</description>
+    </key>
+    <key type="s" name="custom-lock-command">
+      <default>""</default>
+      <summary>Custom screen lock command</summary>
+      <description>Command to execute when the custom screen lock method is selected.</description>
+    </key>
     <key type="b" name="closewarn-enabled">
       <default>true</default>
       <summary></summary>
@@ -30,6 +45,12 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="i" name="light-dark-mode">
+      <range min="0" max="2"/>
+      <default>2</default>
+      <summary>Interface color scheme</summary>
+      <description>Select a light, dark, or automatically detected interface color scheme.</description>
+    </key>
     <key type="b" name="theme-dark">
       <default>false</default>
       <summary></summary>
@@ -44,6 +65,17 @@
       <default>false</default>
       <summary></summary>
       <description></description>
+    </key>
+    <key type="b" name="sanctuary-ui-enabled">
+      <default>false</default>
+      <summary>Use the Sanctuary interface</summary>
+      <description>Use the Sanctuary design for break windows and the status window.</description>
+    </key>
+    <key type="i" name="display-style">
+      <range min="0" max="3"/>
+      <default>0</default>
+      <summary>Timer display style</summary>
+      <description>Select the visual style used to display timers.</description>
     </key>
   </schema>
 

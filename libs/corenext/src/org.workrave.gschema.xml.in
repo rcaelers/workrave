@@ -181,6 +181,8 @@
   </schema>
 
   <schema path="/org/workrave/general/" id="org.workrave.general" gettext-domain="workrave">
+    <child schema="org.workrave.general.grpc" name="grpc"/>
+
     <key type="s" name="datadir">
       <default>""</default>
       <summary></summary>
