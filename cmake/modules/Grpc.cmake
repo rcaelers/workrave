@@ -56,12 +56,17 @@ function(workrave_configure_grpc)
   set(gRPC_BUILD_GRPC_PHP_PLUGIN OFF)
   set(gRPC_BUILD_GRPC_PYTHON_PLUGIN OFF)
   set(gRPC_BUILD_GRPC_RUBY_PLUGIN OFF)
-  set(gRPC_ABSL_PROVIDER package)
-  set(gRPC_CARES_PROVIDER package)
-  set(gRPC_PROTOBUF_PROVIDER package)
-  set(gRPC_RE2_PROVIDER package)
-  set(gRPC_SSL_PROVIDER package)
-  set(gRPC_ZLIB_PROVIDER package)
+
+  # gRPC declares its providers as cache variables. Set them in the cache as
+  # well: its older CMake policy scope otherwise removes function-local normal
+  # variables while creating the entries and silently restores the "module"
+  # defaults. Release archives do not contain those dependency submodules.
+  set(gRPC_ABSL_PROVIDER package CACHE STRING "Provider of Abseil" FORCE)
+  set(gRPC_CARES_PROVIDER package CACHE STRING "Provider of c-ares" FORCE)
+  set(gRPC_PROTOBUF_PROVIDER package CACHE STRING "Provider of Protobuf" FORCE)
+  set(gRPC_RE2_PROVIDER package CACHE STRING "Provider of RE2" FORCE)
+  set(gRPC_SSL_PROVIDER package CACHE STRING "Provider of TLS support" FORCE)
+  set(gRPC_ZLIB_PROVIDER package CACHE STRING "Provider of zlib" FORCE)
 
   # MSYS2 applies this definition while compiling gRPC because declarations in
   # strsafe.h otherwise conflict with libc++ headers. Keep it scoped to the
