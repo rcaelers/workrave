@@ -68,10 +68,10 @@ function(workrave_configure_grpc)
   set(gRPC_SSL_PROVIDER package CACHE STRING "Provider of TLS support" FORCE)
   set(gRPC_ZLIB_PROVIDER package CACHE STRING "Provider of zlib" FORCE)
 
-  # MSYS2 applies this definition while compiling gRPC because declarations in
-  # strsafe.h otherwise conflict with libc++ headers. Keep it scoped to the
-  # private dependency subtree.
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSTRSAFE_NO_DEPRECATE")
+  # Keep the MSYS2 compatibility definition and upstream deprecation noise
+  # scoped to the private dependency subtree; Workrave keeps its normal warning
+  # policy.
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSTRSAFE_NO_DEPRECATE -Wno-deprecated-declarations")
 
   message(STATUS
     "gRPC: building private static ${WORKRAVE_GRPC_VERSION} with MinGW AF_UNIX support; "
