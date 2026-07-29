@@ -175,7 +175,7 @@ Core::update_rpc()
         {
           // Filesystem permissions on the per-user state directory scope
           // access to the local Unix-domain socket.
-          listen_address = "unix:" + (Paths::get_state_directory() / "rpc.sock").string();
+          listen_address = "unix:" + Paths::get_rpc_socket_path().string();
         }
 
       // An explicit address remains useful for development and automated

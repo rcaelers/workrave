@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls.Basic
 
 // PrefTextRow — label/hint on left, text field on right.
-// Properties: label, hint, value, placeholder
+// Properties: label, hint, value, placeholder, readOnly
 // Signals: committed(string text)
 Item {
     id: root
@@ -11,6 +11,7 @@ Item {
     property string hint:        ""
     property string value:       ""
     property string placeholder: ""
+    property bool readOnly:      false
     property int inputMethodHints: Qt.ImhNone
     property alias validator: field.validator
 
@@ -61,6 +62,7 @@ Item {
             width: 260
             text: root.value
             placeholderText: root.placeholder
+            readOnly: root.readOnly
             inputMethodHints: root.inputMethodHints
             font.pixelSize: 13
             leftPadding: 10
@@ -74,7 +76,7 @@ Item {
             }
 
             onEditingFinished: {
-                if (acceptableInput)
+                if (!readOnly && acceptableInput)
                     root.committed(text)
             }
         }

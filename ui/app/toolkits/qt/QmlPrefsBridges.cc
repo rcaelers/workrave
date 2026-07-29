@@ -28,6 +28,7 @@
 #include <QLocale>
 
 #include "core/CoreConfig.hh"
+#include "utils/Paths.hh"
 #include "core/CoreTypes.hh"
 #include "session/System.hh"
 #include "ui/GUIConfig.hh"
@@ -1720,6 +1721,16 @@ RemoteControlPrefBridge::grpcPort() const
   return CoreConfig::grpc_port()();
 #else
   return 50051;
+#endif
+}
+
+QString
+RemoteControlPrefBridge::grpcSocket() const
+{
+#if defined(HAVE_GRPC)
+  return QString::fromStdString(workrave::utils::Paths::get_rpc_socket_path().string());
+#else
+  return {};
 #endif
 }
 

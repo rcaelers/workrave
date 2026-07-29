@@ -435,6 +435,12 @@ Paths::get_state_directory()
   return ret;
 }
 
+std::filesystem::path
+Paths::get_rpc_socket_path()
+{
+  return get_state_directory() / "rpc.sock";
+}
+
 std::list<std::filesystem::path>
 Paths::canonicalize(std::list<std::filesystem::path> paths)
 {

@@ -62,10 +62,12 @@ directory on every platform, typically:
 ~/.workrave-qt/rpc.sock
 ```
 
-(the exact path comes from `workrave::utils::Paths::get_state_directory()`
+(the exact path comes from `workrave::utils::Paths::get_rpc_socket_path()`
 — check the app's startup log for a line like `RPC server listening on
-unix:/home/you/.workrave/rpc.sock` if you're not sure). There's no port to
-guess and no separate discovery step. Override the address with the
+unix:/home/you/.workrave/rpc.sock` if you're not sure). The resolved filename
+is also shown in Preferences under gRPC. There's no port to guess and no
+separate discovery step.
+Override the complete address with the
 `WORKRAVE_RPC_ADDRESS` environment variable before starting Workrave — e.g.
 `WORKRAVE_RPC_ADDRESS=127.0.0.1:0` for an ephemeral TCP port during
 development (the actual bound port is then printed in the same log line).

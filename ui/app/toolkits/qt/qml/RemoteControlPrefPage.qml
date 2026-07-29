@@ -39,6 +39,15 @@ Item {
 
             PrefTextRow {
                 width: parent.width
+                visible: root.bridge ? (root.bridge.grpcEnabled && root.bridge.grpcTransport === 0) : false
+                label: qsTr("Socket filename")
+                hint: qsTr("Filesystem path of the Unix-domain socket used by Workrave.")
+                value: root.bridge ? root.bridge.grpcSocket : ""
+                readOnly: true
+            }
+
+            PrefTextRow {
+                width: parent.width
                 visible: root.bridge ? (root.bridge.grpcEnabled && root.bridge.grpcTransport === 1) : false
                 label: qsTr("TCP port")
                 hint: qsTr("Port on the loopback interface (127.0.0.1).")

@@ -540,6 +540,7 @@ class RemoteControlPrefBridge : public QObject
   Q_PROPERTY(bool hasGrpc       READ hasGrpc       CONSTANT)
   Q_PROPERTY(bool grpcEnabled   READ grpcEnabled   NOTIFY grpcChanged)
   Q_PROPERTY(int  grpcTransport READ grpcTransport NOTIFY grpcChanged)
+  Q_PROPERTY(QString grpcSocket READ grpcSocket    CONSTANT)
   Q_PROPERTY(int  grpcPort      READ grpcPort      NOTIFY grpcChanged)
 
 public:
@@ -548,6 +549,7 @@ public:
   bool hasGrpc() const;
   bool grpcEnabled() const;
   int  grpcTransport() const;
+  QString grpcSocket() const;
   int  grpcPort() const;
   Q_INVOKABLE void setGrpcEnabled(bool enabled);
   Q_INVOKABLE void setGrpcTransport(int transport);

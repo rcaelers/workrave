@@ -34,6 +34,7 @@ namespace workrave::utils
     static std::list<std::filesystem::path> get_state_directories();
     static std::filesystem::path get_config_directory();
     static std::filesystem::path get_state_directory();
+    static std::filesystem::path get_rpc_socket_path();
     static void set_portable_directory(const std::string &new_config_directory);
     static std::filesystem::path get_log_directory();
 

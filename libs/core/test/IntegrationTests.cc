@@ -806,6 +806,7 @@ BOOST_AUTO_TEST_CASE(test_grpc_preferences)
   BOOST_CHECK(CoreConfig::grpc_enabled()());
 #endif
   BOOST_CHECK_EQUAL(CoreConfig::grpc_transport()(), "unix");
+  BOOST_CHECK_EQUAL(workrave::utils::Paths::get_rpc_socket_path(), workrave::utils::Paths::get_state_directory() / "rpc.sock");
   BOOST_CHECK_EQUAL(CoreConfig::grpc_port()(), 50051);
 
   CoreConfig::grpc_enabled().set(true);

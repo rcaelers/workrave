@@ -211,7 +211,7 @@ Core::update_rpc()
         }
       else
         {
-          listen_address = "unix:" + (Paths::get_state_directory() / "rpc.sock").string();
+          listen_address = "unix:" + Paths::get_rpc_socket_path().string();
         }
 
       if (const char *override_address = std::getenv("WORKRAVE_RPC_ADDRESS"); override_address != nullptr)
