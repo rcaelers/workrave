@@ -91,6 +91,14 @@ SoundPreferencePanel::create_panel()
       update_device_selection();
     }
 
+  if (sound_theme->capability(workrave::audio::SoundCapability::DEVICE))
+    {
+      device_combo = Gtk::manage(new Gtk::ComboBoxText());
+      device_combo->signal_changed().connect(sigc::mem_fun(*this, &SoundPreferencePanel::on_device_changed));
+      hig->add_label(_("Output device:"), *device_combo);
+      update_device_selection();
+    }
+
   hig->add_label(_("Sound:"), *sound_button);
 
   if (sound_theme->capability(workrave::audio::SoundCapability::MUTE))
