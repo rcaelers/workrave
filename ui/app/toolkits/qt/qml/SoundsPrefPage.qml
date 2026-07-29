@@ -100,6 +100,72 @@ Item {
                 }
             }
 
+            // Output-device row — only shown when the audio backend supports it
+            Item {
+                visible: root.bridge ? root.bridge.hasDevice : false
+                width: parent.width
+                height: visible ? deviceContent.implicitHeight + 28 : 0
+                clip: true
+
+                Rectangle {
+                    anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
+                    height: 1; color: tok.edge2
+                }
+
+                Item {
+                    id: deviceContent
+                    anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
+                    implicitHeight: Math.max(deviceLabel.implicitHeight, deviceCombo.implicitHeight)
+
+                    Text {
+                        id: deviceLabel
+                        anchors { left: parent.left; verticalCenter: parent.verticalCenter }
+                        text: qsTr("Output device")
+                        font.pixelSize: 14; font.weight: Font.Medium
+                        color: root.bridge && root.bridge.enabled ? tok.ink : tok.mute
+                    }
+
+                    ComboBox {
+                        id: deviceCombo
+                        anchors { right: parent.right; verticalCenter: parent.verticalCenter }
+                        width: 240
+                        enabled: root.bridge ? root.bridge.enabled : false
+                        model: root.bridge ? root.bridge.devices : []
+                        textRole: "name"
+                        valueRole: "id"
+                        currentIndex: {
+                            if (!root.bridge) return -1;
+                            var currentId = root.bridge.currentDeviceId;
+                            var availableDevices = root.bridge.devices;
+                            var defaultIndex = availableDevices.length > 0 ? 0 : -1;
+                            for (var i = 0; i < availableDevices.length; i++) {
+                                if (availableDevices[i].id === currentId) return i;
+                                if (availableDevices[i].isDefault) defaultIndex = i;
+                            }
+                            return defaultIndex;
+                        }
+                        onActivated: {
+                            if (root.bridge) root.bridge.setDevice(currentValue)
+                        }
+
+                        contentItem: Text {
+                            leftPadding: 8
+                            text: deviceCombo.displayText
+                            font.pixelSize: 13
+                            color: deviceCombo.enabled ? tok.ink : tok.mute
+                            elide: Text.ElideRight
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                        background: Rectangle {
+                            radius: 6
+                            color: tok.panel2
+                            border.color: tok.edge; border.width: 1
+                        }
+                    }
+                }
+            }
+
             PrefToggleRow {
                 width: parent.width
                 label:   qsTr("Mute sounds during rest break and daily limit")

@@ -1159,6 +1159,33 @@ SoundsPrefBridge::mute() const
   return app->get_sound_theme()->sound_mute()();
 }
 
+bool
+SoundsPrefBridge::hasDevice() const
+{
+  return app->get_sound_theme()->capability(workrave::audio::SoundCapability::DEVICE);
+}
+
+QVariantList
+SoundsPrefBridge::devices() const
+{
+  QVariantList result;
+  for (const auto &device : app->get_sound_theme()->get_devices())
+    {
+      QVariantMap item;
+      item["id"]        = QString::fromStdString(device.id);
+      item["name"]      = QString::fromStdString(device.name);
+      item["isDefault"] = device.is_default;
+      result.append(item);
+    }
+  return result;
+}
+
+QString
+SoundsPrefBridge::currentDeviceId() const
+{
+  return QString::fromStdString(app->get_sound_theme()->sound_device()());
+}
+
 QVariantList
 SoundsPrefBridge::themes() const
 {
@@ -1215,6 +1242,20 @@ void
 SoundsPrefBridge::setMute(bool v)
 {
   app->get_sound_theme()->sound_mute().set(v);
+  Q_EMIT soundsChanged();
+}
+
+void
+SoundsPrefBridge::setDevice(const QString &id)
+{
+  if (id.isEmpty() || !hasDevice())
+    {
+      return;
+    }
+
+  const auto device_id = id.toStdString();
+  app->get_sound_theme()->sound_device().set(device_id);
+  app->get_sound_theme()->set_device(device_id);
   Q_EMIT soundsChanged();
 }
 

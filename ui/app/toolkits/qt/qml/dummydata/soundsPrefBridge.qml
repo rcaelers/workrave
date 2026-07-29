@@ -6,7 +6,14 @@ QtObject {
     property int  volume: 80
     property bool hasMute: true
     property bool mute: false
+    property bool hasDevice: true
+    property string currentDeviceId: "default"
     property string currentThemeId: "default"
+
+    property var devices: [
+        { id: "default", name: "System Default", isDefault: true },
+        { id: "speakers", name: "Built-in Speakers", isDefault: false },
+    ]
 
     property var themes: [
         { id: "default",  name: "Default" },
@@ -29,6 +36,7 @@ QtObject {
     function setEnabled(v)                      { console.log("setEnabled", v) }
     function setVolume(v)                       { console.log("setVolume", v) }
     function setMute(v)                         { console.log("setMute", v) }
+    function setDevice(id)                      { console.log("setDevice", id) }
     function setTheme(id)                       { console.log("setTheme", id) }
     function setEventEnabled(id, v)             { console.log("setEventEnabled", id, v) }
     function pickEventFile(id)                  { console.log("pickEventFile", id) }

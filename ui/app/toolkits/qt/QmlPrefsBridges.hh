@@ -390,6 +390,9 @@ class SoundsPrefBridge : public QObject
   Q_PROPERTY(int          volume         READ volume         NOTIFY soundsChanged)
   Q_PROPERTY(bool         hasMute        READ hasMute        CONSTANT)
   Q_PROPERTY(bool         mute           READ mute           NOTIFY soundsChanged)
+  Q_PROPERTY(bool         hasDevice      READ hasDevice      CONSTANT)
+  Q_PROPERTY(QVariantList devices        READ devices        CONSTANT)
+  Q_PROPERTY(QString      currentDeviceId READ currentDeviceId NOTIFY soundsChanged)
   Q_PROPERTY(QVariantList themes         READ themes         NOTIFY soundsChanged)
   Q_PROPERTY(QString      currentThemeId READ currentThemeId NOTIFY soundsChanged)
   Q_PROPERTY(QVariantList events         READ events         NOTIFY soundsChanged)
@@ -402,6 +405,9 @@ public:
   int          volume() const;
   bool         hasMute() const;
   bool         mute() const;
+  bool         hasDevice() const;
+  QVariantList devices() const;
+  QString      currentDeviceId() const;
   QVariantList themes() const;
   QString      currentThemeId() const;
   QVariantList events() const;
@@ -409,6 +415,7 @@ public:
   Q_INVOKABLE void setEnabled(bool v);
   Q_INVOKABLE void setVolume(int v);
   Q_INVOKABLE void setMute(bool v);
+  Q_INVOKABLE void setDevice(const QString &id);
   Q_INVOKABLE void setTheme(const QString &id);
   Q_INVOKABLE void setEventEnabled(const QString &id, bool v);
   Q_INVOKABLE void pickEventFile(const QString &id);
