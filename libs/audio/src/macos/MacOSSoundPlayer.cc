@@ -116,3 +116,20 @@ MacOSSoundPlayer::fire_eos()
 {
   events->eos_event();
 }
+
+std::vector<workrave::audio::SoundDevice>
+MacOSSoundPlayer::get_devices()
+{
+  return {};
+}
+
+void
+MacOSSoundPlayer::set_device(const std::string &device_id)
+{
+}
+
+std::string
+MacOSSoundPlayer::get_device() const
+{
+  return "";
+}

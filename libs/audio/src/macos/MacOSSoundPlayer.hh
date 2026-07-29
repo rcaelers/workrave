@@ -31,6 +31,10 @@ public:
 
   void fire_eos();
 
+  std::vector<workrave::audio::SoundDevice> get_devices() override;
+  void set_device(const std::string &device_id) override;
+  std::string get_device() const override;
+
 private:
   ISoundPlayerEvents *events;
 
