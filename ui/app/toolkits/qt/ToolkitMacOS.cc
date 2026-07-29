@@ -24,7 +24,16 @@
 #include "ToolkitMacOS.hh"
 #include "commonui/MenuDefs.hh"
 #include "MacOSDesktopWindow.hh"
-#include "ui/macos/MacOSLocker.hh"
+#include "ui/macos/MacOSLocker.hh" // TODO: check if we need both
+#include "MacOSBlockingOverlay.hh" 
+
+#include <QCursor>
+#include <QEvent>
+#include <QGuiApplication>
+#include <QMenuBar>
+#include <QScreen>
+
+using namespace workrave;
 
 #include <QEvent>
 #include <QTimer>
@@ -99,17 +108,41 @@ ToolkitMacOS::init(std::shared_ptr<IApplicationContext> app)
   dock_menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
                                             [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
   dock_menu->get_menu()->setAsDockMenu();
+
+  // Native macOS menu bar.  QMenuBar with nullptr parent becomes the global
+  // system menu bar on macOS.  Qt automatically promotes actions whose text
+  // matches "About", "Preferences", or "Quit" into the "Workrave" app menu
+  // at the top-left, so they appear there without any extra work.
+  menu_bar = new QMenuBar(nullptr);
+  menu_bar_menu = std::make_shared<ToolkitMenu>(app->get_menu_model());
+  menu_bar_menu->get_menu()->setTitle(QObject::tr("Workrave"));
+  menu_bar->addMenu(menu_bar_menu->get_menu());
 }
 
-bool
-ToolkitMacOS::eventFilter(QObject *obj, QEvent *event)
+auto
+ToolkitMacOS::create_break_window(int screen_index, BreakId break_id, BreakFlags break_flags) -> IBreakWindow::Ptr
 {
-  if (obj == main_window && event->type() == QEvent::WinIdChange)
+  QList<QScreen *> screens = QGuiApplication::screens();
+
+  // Find which screen the cursor is on; that screen gets the real break UI.
+  QPoint cursor_pos = QCursor::pos();
+  int active_index = 0;
+  for (int i = 0; i < screens.size(); i++)
     {
-      bool floating = main_window->windowFlags().testFlag(Qt::FramelessWindowHint) || main_window->windowType() == Qt::Tool;
-      configure_native_window(main_window->windowHandle(), main_window->testAttribute(Qt::WA_TranslucentBackground), floating);
+      if (screens[i]->geometry().contains(cursor_pos))
+        {
+          active_index = i;
+          break;
+        }
     }
-  return Toolkit::eventFilter(obj, event);
+
+  if (screen_index == active_index)
+    {
+      return Toolkit::create_break_window(screen_index, break_id, break_flags);
+    }
+
+  // All other screens get a plain blocking overlay with no controls.
+  return std::make_shared<MacOSBlockingOverlay>(screens[screen_index]);
 }
 
 auto
@@ -122,4 +155,25 @@ auto
 ToolkitMacOS::get_desktop_image() -> QPixmap
 {
   return MacOSDesktopWindow::get_desktop_image();
+}
+
+bool
+ToolkitMacOS::event(QEvent *e)
+{
+  if (e->type() == QEvent::ApplicationActivate)
+    {
+      show_window(IToolkit::WindowType::Main);
+    }
+  return Toolkit::event(e);
+}
+
+bool
+ToolkitMacOS::eventFilter(QObject *obj, QEvent *event)
+{
+  if (obj == main_window && event->type() == QEvent::WinIdChange)
+    {
+      bool floating = main_window->windowFlags().testFlag(Qt::FramelessWindowHint) || main_window->windowType() == Qt::Tool;
+      configure_native_window(main_window->windowHandle(), main_window->testAttribute(Qt::WA_TranslucentBackground), floating);
+    }
+  return Toolkit::eventFilter(obj, event);
 }

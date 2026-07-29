@@ -56,7 +56,9 @@ INSTALL(CODE "
         file(REMOVE_RECURSE
              \"${_deploy_app}/Contents/Frameworks\"
              \"${_deploy_app}/Contents/PlugIns\"
-             \"${_deploy_app}/Contents/Resources/qml\")
+             \"${_deploy_app}/Contents/Resources/qml\"
+	     \"${_deploy_app}/Contents/Resources/lib\"
+	     )
         file(REMOVE \"${_deploy_app}/Contents/MacOS/workrave-core-shadow-helper\")
         file(MAKE_DIRECTORY \"${_deploy_app}/Contents/Frameworks\")
         execute_process(COMMAND ln -sf ./Frameworks \"${_deploy_app}/Contents/lib\")
@@ -71,6 +73,11 @@ INSTALL(CODE "
         if(NOT \${_deploy_result} EQUAL 0)
             message(FATAL_ERROR \"macdeployqt failed with exit code \${_deploy_result}\")
         endif()
+	    if(NOT \"${WORKRAVE_SIGN_IDENTITY}\")
+            set(_app ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app)
+            message(\"-- Ad-hoc signing app bundle...\")
+            execute_process(COMMAND codesign --force --deep --sign - \${_app})
+	    endif()
         file(SHA256 \"${MACDEPLOYQT_EXECUTABLE}\" _mdt_hash)
         file(WRITE  \"${_deploy_stamp}\"            \"\${_mdt_hash}\")
     else()
