@@ -17,6 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include "gdkmm/display.h"
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -57,4 +58,24 @@ Glib::RefPtr<Gdk::Monitor>
 HeadInfo::get_monitor() const
 {
   return monitor;
+}
+
+int
+HeadInfo::get_monitor_index(const Glib::RefPtr<Gdk::Screen> screen) const
+{
+  auto display = screen->get_display();
+
+  int num_monitors = display->get_n_monitors();
+  int monitor_index = 0;
+
+  for (int i = 0; i < num_monitors; ++i)
+    {
+      auto m = display->get_monitor(i);
+      if (m && m->gobj() == get_monitor()->gobj())
+        {
+          monitor_index = i;
+          break;
+        }
+    }
+  return monitor_index;
 }

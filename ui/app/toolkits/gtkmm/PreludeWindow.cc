@@ -75,6 +75,7 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
       signal_screen_changed().connect(sigc::mem_fun(*this, &PreludeWindow::on_screen_changed_event));
       on_screen_changed_event(get_screen());
       set_size_request(head.get_width(), head.get_height());
+      fullscreen_on_monitor(get_screen(), head.get_monitor_index(get_screen()));
     }
 
   realize();
