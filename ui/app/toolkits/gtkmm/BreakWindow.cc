@@ -110,6 +110,8 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
           signal_screen_changed().connect(sigc::mem_fun(*this, &BreakWindow::on_screen_changed), false);
           on_screen_changed(get_screen());
           set_size_request(head.get_width(), head.get_height());
+
+          fullscreen_on_monitor(get_screen(), head.get_monitor_index(get_screen()));
         }
     }
 #if defined(PLATFORM_OS_UNIX)
@@ -911,7 +913,7 @@ BreakWindow::refresh_break_window()
       if (WindowsForceFocus::GetForceFocusValue() && (head.is_primary()))
         {
           WindowsForceFocus::ForceWindowFocus(hwnd, 0); // try without blocking
-       }
+        }
     }
 }
 #endif

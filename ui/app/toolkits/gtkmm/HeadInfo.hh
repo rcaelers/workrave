@@ -18,6 +18,7 @@
 #ifndef HEADINFO_HH
 #define HEADINFO_HH
 
+#include "gdkmm/screen.h"
 #if defined(PLATFORM_OS_WINDOWS_NATIVE)
 #  undef max
 #endif
@@ -36,6 +37,7 @@ public:
   int get_y() const;
   bool is_primary() const;
   Glib::RefPtr<Gdk::Monitor> get_monitor() const;
+  int get_monitor_index(Glib::RefPtr<Gdk::Screen> screen) const;
 
   bool primary{false};
   Gdk::Rectangle geometry;
