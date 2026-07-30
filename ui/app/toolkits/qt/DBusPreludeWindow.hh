@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2026 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,13 +15,24 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_UI_DBUSPRELUDEWINDOW_HH
-#define WORKRAVE_UI_DBUSPRELUDEWINDOW_HH
+#ifndef WORKRAVE_UI_QT_DBUSPRELUDEWINDOW_HH
+#define WORKRAVE_UI_QT_DBUSPRELUDEWINDOW_HH
+
+#include <memory>
+#include <string>
 
 #include "ui/Prelude.hh"
 #include "ui/IPreludeWindow.hh"
 #include "core/IApp.hh"
 
+//! Prelude rendered by the Workrave GNOME Shell extension over D-Bus.
+/*!
+ *  On GNOME the compositor will not let a client position its own windows, so
+ *  the shell extension draws the prelude instead. This class only drives it;
+ *  it owns no window of its own.
+ *
+ *  Qt counterpart of the gtkmm DBusPreludeWindow, using QtDBus rather than gio.
+ */
 class DBusPreludeWindow
   : public IPreludeWindow
   , Prelude
@@ -46,4 +57,4 @@ private:
   std::string progress_text;
 };
 
-#endif // WORKRAVE_UI_DBUSPRELUDEWINDOW_HH
+#endif // WORKRAVE_UI_QT_DBUSPRELUDEWINDOW_HH

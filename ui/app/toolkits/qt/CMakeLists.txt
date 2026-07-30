@@ -49,6 +49,12 @@ if (PLATFORM_OS_UNIX)
       Wayland::Client)
   endif()
 
+  if (HAVE_DBUS_QT)
+    # GNOME Shell extension preludes; counterpart of the gtkmm DBusPreludeWindow.
+    target_sources(workrave-toolkit-qt PRIVATE DBusPreludeWindow.cc)
+    target_link_libraries(workrave-toolkit-qt PRIVATE Qt${QT_VERSION_MAJOR}::DBus)
+  endif()
+
   target_include_directories(workrave-toolkit-qt PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix
     ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols
