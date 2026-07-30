@@ -47,6 +47,13 @@ if (PLATFORM_OS_UNIX)
   endif()
 
   if (HAVE_WAYLAND)
+    # zwlr_layer_surface_v1::get_popup's argument is typed as the xdg-shell
+    # protocol's xdg_popup interface, so the generated layer-shell code
+    # references xdg_popup_interface without defining it. Generate the
+    # xdg-shell bindings too and compile them in so that symbol resolves.
+    pkg_check_modules(WAYLAND_PROTOCOLS QUIET wayland-protocols)
+    pkg_get_variable(WAYLAND_PROTOCOLS_DATADIR wayland-protocols pkgdatadir)
+
     # Generated once here; both toolkit adapters use the same client bindings.
     add_custom_command(
       OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1.c
@@ -57,9 +64,19 @@ if (PLATFORM_OS_UNIX)
       VERBATIM
     )
 
+    add_custom_command(
+      OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell.c
+              ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client.h
+      COMMAND ${WAYLAND_SCANNER} private-code ${WAYLAND_PROTOCOLS_DATADIR}/stable/xdg-shell/xdg-shell.xml ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell.c
+      COMMAND ${WAYLAND_SCANNER} client-header ${WAYLAND_PROTOCOLS_DATADIR}/stable/xdg-shell/xdg-shell.xml ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client.h
+      DEPENDS ${WAYLAND_PROTOCOLS_DATADIR}/stable/xdg-shell/xdg-shell.xml
+      VERBATIM
+    )
+
     target_sources(workrave-app PRIVATE
       platforms/unix/WaylandLayerShell.cc
-      ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1.c)
+      ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1.c
+      ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell.c)
 
     # PUBLIC: the toolkit adapters include WaylandLayerShell.hh, which pulls in
     # the generated client header.
