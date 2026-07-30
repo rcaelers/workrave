@@ -21,7 +21,7 @@ private:
 
   Gtk::CheckButton *grpc_enabled_cb{nullptr};
   Gtk::ComboBoxText *grpc_transport_combo{nullptr};
-  Gtk::Label *grpc_socket_label{nullptr};
+  Gtk::Label *grpc_address_label{nullptr};
   Gtk::SpinButton *grpc_port_spin{nullptr};
 };
 

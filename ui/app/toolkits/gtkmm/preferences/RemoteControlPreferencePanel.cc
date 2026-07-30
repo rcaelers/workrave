@@ -43,11 +43,12 @@ RemoteControlPreferencePanel::create_panel()
   grpc_transport_combo->signal_changed().connect(sigc::mem_fun(*this, &RemoteControlPreferencePanel::on_grpc_transport_changed));
   grpc_panel->add_label(std::string(_("Connection type")) + ":", *grpc_transport_combo);
 
-  grpc_socket_label = Gtk::manage(new Gtk::Label(workrave::utils::Paths::get_rpc_socket_path().string()));
-  grpc_socket_label->set_xalign(0.0);
-  grpc_socket_label->set_selectable(true);
-  grpc_socket_label->set_tooltip_text(_("Filesystem path of the Unix-domain socket used by Workrave."));
-  grpc_panel->add_label(std::string(_("Socket filename")) + ":", *grpc_socket_label);
+  grpc_address_label =
+    Gtk::manage(new Gtk::Label("unix:" + workrave::utils::Paths::get_rpc_socket_path().string()));
+  grpc_address_label->set_xalign(0.0);
+  grpc_address_label->set_selectable(true);
+  grpc_address_label->set_tooltip_text(_("Address of the Unix-domain socket used by Workrave."));
+  grpc_panel->add_label(std::string(_("Server address")) + ":", *grpc_address_label);
 
   grpc_port_spin = Gtk::manage(new Gtk::SpinButton());
   grpc_port_spin->set_range(1, 65535);
@@ -88,6 +89,6 @@ RemoteControlPreferencePanel::update_grpc_widgets()
 {
   const bool enabled = grpc_enabled_cb->get_active();
   grpc_transport_combo->set_sensitive(enabled);
-  grpc_socket_label->set_sensitive(enabled && grpc_transport_combo->get_active_row_number() == 0);
+  grpc_address_label->set_sensitive(enabled && grpc_transport_combo->get_active_row_number() == 0);
   grpc_port_spin->set_sensitive(enabled && grpc_transport_combo->get_active_row_number() == 1);
 }

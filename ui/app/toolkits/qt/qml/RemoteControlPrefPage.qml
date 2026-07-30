@@ -40,9 +40,9 @@ Item {
             PrefTextRow {
                 width: parent.width
                 visible: root.bridge ? (root.bridge.grpcEnabled && root.bridge.grpcTransport === 0) : false
-                label: qsTr("Socket filename")
-                hint: qsTr("Filesystem path of the Unix-domain socket used by Workrave.")
-                value: root.bridge ? root.bridge.grpcSocket : ""
+                label: qsTr("Server address")
+                hint: qsTr("Address of the Unix-domain socket used by Workrave.")
+                value: root.bridge ? root.bridge.grpcAddress : ""
                 readOnly: true
             }
 
