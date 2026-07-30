@@ -41,6 +41,10 @@ endif()
 if (HAVE_QT)
   target_link_libraries(workrave-libs-utils PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Gui)
 	target_link_libraries(workrave-libs-utils PRIVATE Qt::GuiPrivate)
+
+  if (PLATFORM_OS_UNIX)
+    target_link_libraries(workrave-libs-utils PRIVATE ${X11_X11_LIB})
+  endif()
 endif()
 
 target_link_libraries(workrave-libs-utils PUBLIC fmt::fmt spdlog::spdlog Boost::boost)
