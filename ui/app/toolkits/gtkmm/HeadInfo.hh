@@ -18,13 +18,13 @@
 #ifndef HEADINFO_HH
 #define HEADINFO_HH
 
-#include "gdkmm/screen.h"
 #if defined(PLATFORM_OS_WINDOWS_NATIVE)
 #  undef max
 #endif
 
+#include <gdkmm/monitor.h>
 #include <gdkmm/rectangle.h>
-#include "gdkmm/monitor.h"
+#include <gdkmm/screen.h>
 
 class HeadInfo
 {

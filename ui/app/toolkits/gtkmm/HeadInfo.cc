@@ -17,12 +17,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "gdkmm/display.h"
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
 #include "HeadInfo.hh"
+
+#include <gdkmm/display.h>
 
 int
 HeadInfo::get_width() const
