@@ -40,6 +40,7 @@
 
 #if defined(HAVE_WAYLAND)
 #  include "IToolkitUnixPrivate.hh"
+#  include "WaylandScreenPlacement.hh"
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)
@@ -653,7 +654,15 @@ QmlRestBreakWindow::start()
       // Input and Off: full-screen transparent view; QML draws a centered floating card.
       QRect geo = (screen != nullptr) ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
       view->setGeometry(geo);
-      view->show();
+
+      bool shown = false;
+#if defined(HAVE_WAYLAND)
+      shown = WaylandScreenPlacement::arm(view, screen, layer_surface != nullptr);
+#endif
+      if (!shown)
+        {
+          view->show();
+        }
     }
 
   view->raise();

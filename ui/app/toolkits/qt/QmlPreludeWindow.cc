@@ -30,6 +30,7 @@
 
 #if defined(HAVE_WAYLAND)
 #  include "IToolkitUnixPrivate.hh"
+#  include "WaylandScreenPlacement.hh"
 #endif
 #if defined(PLATFORM_OS_MACOS)
 #  include "MacOSOverlayWindow.hh"
@@ -267,7 +268,14 @@ QmlPreludeWindow::start()
 #else
   // WindowStaysOnTopHint supplies the stacking behavior. Calling raise() here
   // can activate the application on some window systems.
-  view->show();
+  bool shown = false;
+#  if defined(HAVE_WAYLAND)
+  shown = WaylandScreenPlacement::arm(view, screen, layer_surface != nullptr);
+#  endif
+  if (!shown)
+    {
+      view->show();
+    }
 #endif
   started = true;
   update_input_region();

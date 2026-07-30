@@ -41,7 +41,8 @@ if (PLATFORM_OS_UNIX)
 
   if (HAVE_WAYLAND)
     target_sources(workrave-toolkit-qt PRIVATE
-      platforms/unix/WaylandWindowManager.cc)
+      platforms/unix/WaylandWindowManager.cc
+      platforms/unix/WaylandScreenPlacement.cc)
     target_link_libraries(workrave-toolkit-qt PUBLIC
       Qt::WaylandClient
       Qt::WaylandClientPrivate
@@ -120,6 +121,10 @@ set(MOC_SOURCES
   widgets/TimeBar.hh
   widgets/TimerBoxView.hh
 )
+
+if (PLATFORM_OS_UNIX AND HAVE_WAYLAND)
+  set(MOC_SOURCES ${MOC_SOURCES} platforms/unix/WaylandScreenPlacement.hh)
+endif()
 
 target_include_directories(workrave-toolkit-qt
   PRIVATE

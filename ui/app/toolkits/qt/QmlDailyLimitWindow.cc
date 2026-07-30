@@ -34,6 +34,7 @@
 
 #if defined(HAVE_WAYLAND)
 #  include "IToolkitUnixPrivate.hh"
+#  include "WaylandScreenPlacement.hh"
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)
@@ -322,7 +323,15 @@ QmlDailyLimitWindow::start()
       int x = geo.x() + (geo.width() - window_width) / 2;
       int y = geo.y() + (geo.height() - window_height) / 2;
       view->setGeometry(x, y, window_width, window_height);
-      view->show();
+
+      bool shown = false;
+#if defined(HAVE_WAYLAND)
+      shown = WaylandScreenPlacement::arm(view, screen, layer_surface != nullptr);
+#endif
+      if (!shown)
+        {
+          view->show();
+        }
     }
 
   view->raise();
