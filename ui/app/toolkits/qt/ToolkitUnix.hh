@@ -36,11 +36,14 @@ public:
   ToolkitUnix(int &argc, char **argv);
   ~ToolkitUnix() override = default;
 
+  static void apply_platform_override();
+
   // IToolkit
   void preinit(std::shared_ptr<workrave::config::IConfigurator> config) override;
   void init(std::shared_ptr<IApplicationContext> app) override;
   std::shared_ptr<Locker> get_locker() override;
   auto get_display_name() const -> const char * override;
+  auto create_prelude_window(int screen, workrave::BreakId break_id) -> IPreludeWindow::Ptr override;
 
   void show_notification(const std::string &id,
                          const std::string &title,

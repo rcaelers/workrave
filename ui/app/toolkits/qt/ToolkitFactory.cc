@@ -39,6 +39,7 @@ ToolkitFactory::create(int &argc, char **argv) -> std::shared_ptr<IToolkit>
 #elif defined(PLATFORM_OS_WINDOWS)
   return std::make_shared<ToolkitWindows>(argc, argv);
 #elif defined(PLATFORM_OS_UNIX)
+  ToolkitUnix::apply_platform_override();
   return std::make_shared<ToolkitUnix>(argc, argv);
 #else
 #  error Unsupported platform

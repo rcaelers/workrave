@@ -27,7 +27,9 @@
 
 #include "debug.hh"
 #include "utils/Platform.hh"
+#include "utils/Exception.hh"
 #include "ui/GUIConfig.hh"
+#include "DBusPreludeWindow.hh"
 // #include "GnomeSession.hh"
 
 #if defined(HAVE_INDICATOR)
@@ -45,13 +47,20 @@ ToolkitUnix::ToolkitUnix(int &argc, char **argv)
 }
 
 void
+ToolkitUnix::apply_platform_override()
+{
+  // An explicit QT_QPA_PLATFORM in the environment wins.
+  if (GUIConfig::force_x11()() && qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM"))
+    {
+      spdlog::info("Forcing X11 backend");
+      qputenv("QT_QPA_PLATFORM", QByteArrayLiteral("xcb"));
+    }
+}
+
+void
 ToolkitUnix::preinit(std::shared_ptr<workrave::config::IConfigurator> config)
 {
   TRACE_ENTRY();
-  if (GUIConfig::force_x11()())
-    {
-      spdlog::info("Forcing X11 backend -> Not implemented");
-    }
 
   XInitThreads();
 
@@ -117,6 +126,35 @@ ToolkitUnix::get_wayland_window_manager() -> std::shared_ptr<WaylandWindowManage
   return wayland_window_manager;
 }
 #endif
+
+auto
+ToolkitUnix::create_prelude_window(int screen_index, workrave::BreakId break_id) -> IPreludeWindow::Ptr
+{
+  // On GNOME the compositor will not let a client position its own windows, so
+  // the shell extension draws the prelude when it is available.
+  if (Platform::running_on_wayland() && GUIConfig::use_gnome_shell_preludes()())
+    {
+      if (DBusPreludeWindow::is_gnome_shell_applet_available())
+        {
+          if (screen_index != 0)
+            {
+              // The extension draws on the focused monitor only.
+              return {};
+            }
+
+          try
+            {
+              return std::make_shared<DBusPreludeWindow>(break_id);
+            }
+          catch (const workrave::utils::Exception &ex)
+            {
+              spdlog::debug("Workrave GNOME shell extension does not support preludes: {}", ex.details());
+            }
+        }
+    }
+
+  return Toolkit::create_prelude_window(screen_index, break_id);
+}
 
 void
 ToolkitUnix::show_notification(const std::string &id,
