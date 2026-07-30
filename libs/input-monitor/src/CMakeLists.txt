@@ -5,11 +5,16 @@ add_library(workrave-libs-input-monitor STATIC
 if (PLATFORM_OS_UNIX)
   target_sources(workrave-libs-input-monitor PRIVATE
     unix/RecordInputMonitor.cc
-    unix/X11InputMonitor.cc
     unix/XScreenSaverMonitor.cc
     unix/UnixInputMonitorFactory.cc
     unix/MutterInputMonitor.cc
     )
+
+  if (HAVE_X11_MONITOR)
+    target_sources(workrave-libs-input-monitor PRIVATE
+      unix/X11InputMonitor.cc
+      )
+  endif()
 
   target_include_directories(workrave-libs-input-monitor PRIVATE ${CMAKE_SOURCE_DIR}/libs/input-monitor/src/unix)
 

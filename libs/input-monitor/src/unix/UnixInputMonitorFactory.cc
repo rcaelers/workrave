@@ -31,9 +31,12 @@
 
 #include "UnixInputMonitorFactory.hh"
 #include "RecordInputMonitor.hh"
-#include "X11InputMonitor.hh"
 #include "XScreenSaverMonitor.hh"
 #include "MutterInputMonitor.hh"
+
+#if defined(HAVE_X11_MONITOR)
+#  include "X11InputMonitor.hh"
+#endif
 
 #if defined(HAVE_WAYLAND)
 #  if defined(HAVE_APP_GTK)
@@ -110,10 +113,12 @@ UnixInputMonitorFactory::create_monitor(MonitorCapability capability)
             {
               monitor = IInputMonitor::Ptr(new XScreenSaverMonitor());
             }
+#if defined(HAVE_X11_MONITOR)
           else if (monitor_method == "x11events")
             {
               monitor = IInputMonitor::Ptr(new X11InputMonitor(display));
             }
+#endif
           else if (monitor_method == "mutter")
             {
               monitor = IInputMonitor::Ptr(new MutterInputMonitor());

@@ -939,7 +939,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Wayland
 
-if (UNIX AND (NOT APPLE) AND WITH_UI_GTK)
+if (UNIX AND (NOT APPLE))
   if (WITH_WAYLAND)
     message(STATUS "Checking for: Wayland")
 
@@ -1155,7 +1155,13 @@ if (UNIX AND NOT APPLE)
   set (PLATFORM_OS_UNIX ON)
   set (PLATFORM_OS_NAME "Unix")
 
-  set (HAVE_MONITORS "mutter,wayland,screensaver,record,x11events")
+  option(WITH_X11_MONITOR "Enable the legacy X11 event-based input monitor" OFF)
+
+  set (HAVE_MONITORS "mutter,wayland,screensaver,record")
+  if (WITH_X11_MONITOR)
+    set (HAVE_X11_MONITOR ON)
+    set (HAVE_MONITORS "${HAVE_MONITORS},x11events")
+  endif()
 
   find_package(X11)
 
@@ -1407,6 +1413,7 @@ feature_bool("DBus Menus" HAVE_DBUSMENU)
 feature_bool("GStreamer" HAVE_GSTREAMER)
 feature_bool("Pulseaudio" HAVE_PULSE)
 feature_bool("Wayland" HAVE_WAYLAND)
+feature_bool("X11 event monitor" HAVE_X11_MONITOR)
 endif()
 feature_bool("DBUS" HAVE_DBUS)
 feature_bool("gRPC" HAVE_GRPC)
