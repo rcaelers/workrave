@@ -53,10 +53,6 @@ if (PLATFORM_OS_UNIX)
       Wayland::Client)
   endif()
 
-    # if (HAVE_DBUSMENU)
-    #   target_sources(workrave-toolkit-qt PRIVATE platforms/unix/DbusMenu.cc)
-    # endif()
-
     # if (HAVE_APPINDICATOR)
     #   target_sources(workrave-toolkit-qt PRIVATE platforms/unix/AppIndicatorMenu.cc)
     # endif()

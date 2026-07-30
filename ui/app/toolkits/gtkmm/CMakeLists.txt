@@ -79,10 +79,6 @@ if (PLATFORM_OS_UNIX)
         ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell.c)
     endif()
 
-    if (HAVE_DBUSMENU)
-      target_sources(workrave-toolkit-gtkmm PRIVATE platforms/unix/DbusMenu.cc)
-    endif()
-
     if (HAVE_APPINDICATOR)
       target_sources(workrave-toolkit-gtkmm PRIVATE platforms/unix/AppIndicatorMenu.cc)
     endif()
@@ -128,7 +124,6 @@ target_include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/preferences
   ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include
   ${GTK_INCLUDE_DIRS}
-  ${DBUSMENU_INCLUDE_DIRS}
   ${INDICATOR_INCLUDE_DIRS}
   ${APPINDICATOR_INCLUDE_DIRS}
   )
@@ -138,7 +133,6 @@ target_compile_definitions(workrave-toolkit-gtkmm PRIVATE GDK_DISABLE_DEPRECATED
 target_link_directories(workrave-toolkit-gtkmm PRIVATE ${GTK_LIBRARY_DIRS})
 target_link_directories(workrave-toolkit-gtkmm PRIVATE ${INDICATOR_LIBPATH})
 target_link_directories(workrave-toolkit-gtkmm PRIVATE ${fAPPINDICATOR_LIBPATH})
-target_link_directories(workrave-toolkit-gtkmm PRIVATE ${DBUSMENU_LIBPATH})
 
 If (PLATFORM_OS_WINDOWS)
   if (CMAKE_CROSSCOMPILING)
@@ -220,7 +214,6 @@ if (PLATFORM_OS_UNIX)
   target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${X11_X11_LIB} ${X11_XTest_LIB} ${X11_Xscreensaver_LIB})
   target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${INDICATOR_LIBRARIES})
   target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${APPINDICATOR_LIBRARIES})
-  target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${DBUSMENU_LIBRARIES})
   target_compile_definitions(workrave-toolkit-gtkmm PRIVATE -DGNOMELOCALEDIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}/locale")
 endif()
 

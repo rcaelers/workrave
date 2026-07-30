@@ -28,6 +28,16 @@ if (PLATFORM_OS_UNIX)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.Workrave.desktop DESTINATION ${DATADIR}/applications)
   target_include_directories(workrave-app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix)
 
+  # Toolkit neutral unix support, shared by the gtkmm and Qt toolkits.
+  if (HAVE_DBUSMENU)
+    target_sources(workrave-app PRIVATE platforms/unix/DbusMenu.cc)
+    target_include_directories(workrave-app PUBLIC
+      ${DBUSMENU_INCLUDE_DIRS}
+      ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include)
+    target_link_directories(workrave-app PUBLIC ${DBUSMENU_LIBPATH})
+    target_link_libraries(workrave-app PUBLIC ${DBUSMENU_LIBRARIES})
+  endif()
+
   # Desktop Application Autostart
   # This enables application autostart and indicates autostart parameters across
   # all Linux desktop managers.
