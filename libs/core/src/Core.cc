@@ -194,7 +194,7 @@ Core::update_rpc()
           const bool was_running = rpc_server != nullptr;
           rpc_server.reset();
           rpc_listen_address.clear();
-          spdlog::info(was_running ? "gRPC server stopped by preference" : "gRPC server disabled by preference");
+          spdlog::info(was_running ? "gRPC server stopped" : "gRPC server disabled");
           return;
         }
 
