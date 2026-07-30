@@ -61,22 +61,30 @@ HeadInfo::get_monitor() const
   return monitor;
 }
 
+//! Returns the display monitor index of this head, or -1 when it is unknown.
 int
 HeadInfo::get_monitor_index(const Glib::RefPtr<Gdk::Screen> screen) const
 {
+  if (!screen || !get_monitor())
+    {
+      return -1;
+    }
+
   auto display = screen->get_display();
+  if (!display)
+    {
+      return -1;
+    }
 
   int num_monitors = display->get_n_monitors();
-  int monitor_index = 0;
 
   for (int i = 0; i < num_monitors; ++i)
     {
       auto m = display->get_monitor(i);
       if (m && m->gobj() == get_monitor()->gobj())
         {
-          monitor_index = i;
-          break;
+          return i;
         }
     }
-  return monitor_index;
+  return -1;
 }
