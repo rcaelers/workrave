@@ -18,63 +18,33 @@
 #ifndef WAYLANDWINDOWMANAGER_HH
 #define WAYLANDWINDOWMANAGER_HH
 
-#include <list>
 #include <memory>
 
 #include <QWidget>
 #include <QWindow>
-#include <wayland-client-core.h>
 
-#include "wayland-wlr-layer-shell-unstable-v1-client-protocol.h"
+#include "WaylandLayerShell.hh"
 
-class LayerSurface
-{
-public:
-  LayerSurface(struct zwlr_layer_shell_v1 *layer_shell, QWidget *window, QScreen *screen, bool keyboard_focus);
-  LayerSurface(struct zwlr_layer_shell_v1 *layer_shell, QWindow *window, QScreen *screen, bool keyboard_focus);
-  ~LayerSurface();
-
-private:
-  static void layer_surface_configure(void *data,
-                                      struct zwlr_layer_surface_v1 *surface,
-                                      uint32_t serial,
-                                      uint32_t width,
-                                      uint32_t height);
-
-  static void layer_surface_closed(void *data, struct zwlr_layer_surface_v1 *surface);
-
-private:
-  struct zwlr_layer_shell_v1 *layer_shell{};
-  struct zwlr_layer_surface_v1 *layer_surface{};
-  struct wl_display *display{};
-  bool keyboard_focus{true};
-
-  static constexpr const struct zwlr_layer_surface_v1_listener layer_surface_listener = {
-    .configure = LayerSurface::layer_surface_configure,
-    .closed = LayerSurface::layer_surface_closed,
-  };
-};
-
+//! Qt adapter around the toolkit neutral WaylandLayerShell.
+/*!
+ *  Its only job is to pull the raw Wayland handles out of Qt and to feed the
+ *  compositor's size back into the QWindow.
+ */
 class WaylandWindowManager
 {
 public:
   WaylandWindowManager() = default;
-  ~WaylandWindowManager();
 
   bool init();
 
-  void init_surface(QWidget *window, QScreen *screen, bool keyboard_focus);
-  void init_surface(QWindow *window, QScreen *screen, bool keyboard_focus);
-  void clear_surfaces();
-
-public:
-  static void registry_global(void *data, struct wl_registry *registry, uint32_t id, const char *interface, uint32_t version);
-  static void registry_global_remove(void *data, struct wl_registry *registry, uint32_t id);
+  //! Creates a layer surface owned by the caller. Returns nullptr if unsupported.
+  auto init_surface(QWidget *window, QScreen *screen, bool keyboard_focus) -> std::shared_ptr<WaylandLayerSurface>;
+  auto init_surface(QWindow *window, QScreen *screen, bool keyboard_focus) -> std::shared_ptr<WaylandLayerSurface>;
 
 private:
-  struct wl_registry *wl_registry{};
-  struct zwlr_layer_shell_v1 *layer_shell{};
-  std::list<std::shared_ptr<LayerSurface>> surfaces;
+  auto create_surface(QWindow *window, QScreen *screen, bool keyboard_focus) -> std::shared_ptr<WaylandLayerSurface>;
+
+  WaylandLayerShell layer_shell;
 };
 
 #endif // WAYLANDWINDOWMANAGER_HH

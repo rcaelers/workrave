@@ -45,6 +45,28 @@ if (PLATFORM_OS_UNIX)
     target_link_libraries(workrave-app PUBLIC ${APPINDICATOR_LIBRARIES})
   endif()
 
+  if (HAVE_WAYLAND)
+    # Generated once here; both toolkit adapters use the same client bindings.
+    add_custom_command(
+      OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1.c
+              ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1-client.h
+      COMMAND ${WAYLAND_SCANNER} private-code ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1.c
+      COMMAND ${WAYLAND_SCANNER} client-header ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1-client.h
+      DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml
+      VERBATIM
+    )
+
+    target_sources(workrave-app PRIVATE
+      platforms/unix/WaylandLayerShell.cc
+      ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1.c)
+
+    # PUBLIC: the toolkit adapters include WaylandLayerShell.hh, which pulls in
+    # the generated client header.
+    target_include_directories(workrave-app PUBLIC
+      ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix
+      ${CMAKE_CURRENT_BINARY_DIR})
+    target_link_libraries(workrave-app PUBLIC Wayland::Client)
+  endif()
 
   # Desktop Application Autostart
   # This enables application autostart and indicates autostart parameters across

@@ -18,65 +18,31 @@
 #ifndef WAYLANDWINDOWMANAGER_HH
 #define WAYLANDWINDOWMANAGER_HH
 
-#include <cstdint>
 #include <memory>
 
 #include <gdk/gdkwayland.h>
-#include <gio/gio.h>
-#include <gtk/gtk.h>
 #include <gtkmm.h>
-#include <wayland-client-core.h>
 
-#include "wlr-layer-shell-unstable-v1-client.h"
+#include "WaylandLayerShell.hh"
 
-class LayerSurface
-{
-public:
-  LayerSurface(struct zwlr_layer_shell_v1 *layer_shell, Gtk::Widget &window, Glib::RefPtr<Gdk::Monitor> monitor, bool keyboard_focus);
-  ~LayerSurface();
-
-private:
-  static void layer_surface_configure(void *data,
-                                      struct zwlr_layer_surface_v1 *surface,
-                                      uint32_t serial,
-                                      uint32_t width,
-                                      uint32_t height);
-
-  static void layer_surface_closed(void *data, struct zwlr_layer_surface_v1 *surface);
-
-private:
-  struct zwlr_layer_shell_v1 *layer_shell{};
-  struct zwlr_layer_surface_v1 *layer_surface{};
-  struct wl_display *display{};
-  GtkWidget *gtk_window{};
-  bool keyboard_focus{true};
-
-  static constexpr const struct zwlr_layer_surface_v1_listener layer_surface_listener = {
-    .configure = LayerSurface::layer_surface_configure,
-    .closed = LayerSurface::layer_surface_closed,
-  };
-};
-
+//! gtkmm adapter around the toolkit neutral WaylandLayerShell.
+/*!
+ *  Its only job is to pull the raw Wayland handles out of GDK and to feed the
+ *  compositor's size back into the GtkWindow.
+ */
 class WaylandWindowManager
 {
 public:
   WaylandWindowManager() = default;
-  ~WaylandWindowManager();
 
   bool init();
 
   //! Creates a layer surface owned by the caller. Returns nullptr if unsupported.
   auto init_surface(Gtk::Widget &gtk_window, Glib::RefPtr<Gdk::Monitor> monitor, bool keyboard_focus)
-    -> std::shared_ptr<LayerSurface>;
-
-public:
-  static void registry_global(void *data, struct wl_registry *registry, uint32_t id, const char *interface, uint32_t version);
-  static void registry_global_remove(void *data, struct wl_registry *registry, uint32_t id);
+    -> std::shared_ptr<WaylandLayerSurface>;
 
 private:
-  struct wl_registry *wl_registry{};
-  struct zwlr_layer_shell_v1 *layer_shell{};
-  uint32_t layer_shell_id{};
+  WaylandLayerShell layer_shell;
 };
 
 #endif // WAYLANDWINDOWMANAGER_HH

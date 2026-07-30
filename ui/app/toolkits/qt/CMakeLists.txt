@@ -40,11 +40,6 @@ if (PLATFORM_OS_UNIX)
     platforms/unix/UnixLocker.cc)
 
   if (HAVE_WAYLAND)
-    qt_generate_wayland_protocol_client_sources(workrave-toolkit-qt
-      FILES
-        ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml
-        ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/xdg-shell.xml)
-
     target_sources(workrave-toolkit-qt PRIVATE
       platforms/unix/WaylandWindowManager.cc)
     target_link_libraries(workrave-toolkit-qt PUBLIC

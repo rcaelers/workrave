@@ -156,6 +156,7 @@ private:
 
 #if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;
+  std::shared_ptr<WaylandLayerSurface> layer_surface;
 #endif
 };
 

@@ -244,7 +244,7 @@ QmlPreludeWindow::start()
 
 #if defined(HAVE_WAYLAND)
   if (window_manager)
-    window_manager->init_surface(view, screen, false);
+    layer_surface = window_manager->init_surface(view, screen, false);
 #endif
 
   if (position_windows)
@@ -281,8 +281,7 @@ QmlPreludeWindow::stop()
   hide();
 
 #if defined(HAVE_WAYLAND)
-  if (window_manager)
-    window_manager->clear_surfaces();
+  layer_surface.reset();
 #endif
 
   mouse_monitor->stop();

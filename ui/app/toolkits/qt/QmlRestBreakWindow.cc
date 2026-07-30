@@ -634,7 +634,7 @@ QmlRestBreakWindow::start()
 
 #if defined(HAVE_WAYLAND)
   if (window_manager)
-    window_manager->init_surface(view, screen, true);
+    layer_surface = window_manager->init_surface(view, screen, true);
 #endif
 
 #if defined(PLATFORM_OS_MACOS)
@@ -679,8 +679,7 @@ QmlRestBreakWindow::stop()
 #endif
 
 #if defined(HAVE_WAYLAND)
-  if (window_manager)
-    window_manager->clear_surfaces();
+  layer_surface.reset();
 #endif
 }
 
