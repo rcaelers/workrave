@@ -156,6 +156,13 @@ private:
 #endif
 #if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;
+
+  //! Waiting for the compositor to confirm fullscreen, so it can be undone again
+  bool unfullscreen_pending{false};
+  sigc::connection unfullscreen_connection;
+
+  void arm_unfullscreen();
+  bool on_window_state_event(GdkEventWindowState *event) override;
 #endif
 
   void get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name);

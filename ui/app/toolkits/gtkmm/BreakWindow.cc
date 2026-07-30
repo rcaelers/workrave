@@ -245,6 +245,10 @@ BreakWindow::~BreakWindow()
       frame->set_frame_flashing(0);
     }
 
+#if defined(HAVE_WAYLAND)
+  unfullscreen_connection.disconnect();
+#endif
+
 #if defined(PLATFORM_OS_WINDOWS)
   delete desktop_window;
 #endif
@@ -727,6 +731,9 @@ BreakWindow::start()
       desktop_window->set_visible(true);
     }
 #endif
+#if defined(HAVE_WAYLAND)
+  arm_unfullscreen();
+#endif
   show_all();
 
   GtkUtil::set_always_on_top(this, true);
@@ -778,6 +785,8 @@ BreakWindow::stop()
     {
       window_manager->clear_surfaces();
     }
+  unfullscreen_connection.disconnect();
+  unfullscreen_pending = false;
 #endif
 
   hide();
@@ -807,6 +816,66 @@ void
 BreakWindow::update_break_window()
 {
 }
+
+#if defined(HAVE_WAYLAND)
+//! Requests a fullscreen window that is taken out of the fullscreen state again.
+/*!
+ *  Wayland has no protocol that lets a client pick the output it appears on.
+ *  The layer-shell protocol solves this, but it is unavailable on Mutter, so
+ *  the window is mapped fullscreen on the desired monitor instead. Staying
+ *  fullscreen is not an option: xdg_toplevel.set_fullscreen requires the
+ *  compositor to hide everything below a non-opaque surface, which renders the
+ *  translucent break window on a black backdrop. Leaving the fullscreen state
+ *  once the compositor has honoured it keeps the window on the monitor it was
+ *  placed on, while restoring normal compositing.
+ */
+void
+BreakWindow::arm_unfullscreen()
+{
+  TRACE_ENTRY();
+  if (!fullscreen_grab || window_manager || !Platform::running_on_wayland())
+    {
+      return;
+    }
+
+  if (!app || (app->get_toolkit()->get_head_count() <= 1))
+    {
+      return;
+    }
+
+  const auto screen = get_screen();
+  if (!screen)
+    {
+      return;
+    }
+
+  unfullscreen_connection.disconnect();
+  unfullscreen_pending = true;
+  fullscreen_on_monitor(screen, head.get_monitor_index(screen));
+}
+
+bool
+BreakWindow::on_window_state_event(GdkEventWindowState *event)
+{
+  if (unfullscreen_pending && ((event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN) != 0)
+      && ((event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN) != 0))
+    {
+      unfullscreen_pending = false;
+
+      // Leave the fullscreen state only after the compositor has presented a
+      // frame. Unsetting it right away allows the compositor to coalesce both
+      // requests, in which case the window never moves to the right monitor.
+      unfullscreen_connection = Glib::signal_timeout().connect(
+        [this]() {
+          unfullscreen();
+          return false;
+        },
+        100);
+    }
+
+  return Gtk::Window::on_window_state_event(event);
+}
+#endif
 
 bool
 BreakWindow::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)

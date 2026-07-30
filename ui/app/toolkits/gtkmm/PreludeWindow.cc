@@ -46,7 +46,9 @@ using namespace workrave;
 using namespace workrave::utils;
 
 PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
+  PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, HeadInfo head, BreakId break_id)
   : Gtk::Window(Gtk::WINDOW_POPUP)
+  , app(std::move(app))
 {
   TRACE_ENTRY();
 #if defined(HAVE_WAYLAND)
@@ -160,6 +162,9 @@ PreludeWindow::start()
   refresh();
 
   GtkUtil::center_window(*this, head);
+#if defined(HAVE_WAYLAND)
+  arm_unfullscreen();
+#endif
   show_all();
 
   GtkUtil::set_always_on_top(this, true);
@@ -209,10 +214,72 @@ PreludeWindow::stop()
     {
       window_manager->clear_surfaces();
     }
+  unfullscreen_connection.disconnect();
+  unfullscreen_pending = false;
 #endif
 
   hide();
 }
+
+#if defined(HAVE_WAYLAND)
+//! Requests a fullscreen window that is taken out of the fullscreen state again.
+/*!
+ *  Wayland has no protocol that lets a client pick the output it appears on.
+ *  The layer-shell protocol solves this, but it is unavailable on Mutter, so
+ *  the window is mapped fullscreen on the desired monitor instead. Staying
+ *  fullscreen is not an option: xdg_toplevel.set_fullscreen requires the
+ *  compositor to hide everything below a non-opaque surface, which renders the
+ *  translucent prelude window on a black backdrop. Leaving the fullscreen
+ *  state once the compositor has honoured it keeps the window on the monitor
+ *  it was placed on, while restoring normal compositing.
+ */
+void
+PreludeWindow::arm_unfullscreen()
+{
+  TRACE_ENTRY();
+  if (window_manager || !Platform::running_on_wayland() || Platform::can_position_windows())
+    {
+      return;
+    }
+
+  if (!app || (app->get_toolkit()->get_head_count() <= 1))
+    {
+      return;
+    }
+
+  const auto screen = get_screen();
+  if (!screen)
+    {
+      return;
+    }
+
+  unfullscreen_connection.disconnect();
+  unfullscreen_pending = true;
+  fullscreen_on_monitor(screen, head.get_monitor_index(screen));
+}
+
+bool
+PreludeWindow::on_window_state_event(GdkEventWindowState *event)
+{
+  if (unfullscreen_pending && ((event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN) != 0)
+      && ((event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN) != 0))
+    {
+      unfullscreen_pending = false;
+
+      // Leave the fullscreen state only after the compositor has presented a
+      // frame. Unsetting it right away allows the compositor to coalesce both
+      // requests, in which case the window never moves to the right monitor.
+      unfullscreen_connection = Glib::signal_timeout().connect(
+        [this]() {
+          unfullscreen();
+          return false;
+        },
+        100);
+    }
+
+  return Gtk::Window::on_window_state_event(event);
+}
+#endif
 
 //! Refresh window.
 void

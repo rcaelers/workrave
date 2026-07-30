@@ -35,7 +35,7 @@ class PreludeWindow
   , public IPreludeWindow
 {
 public:
-  PreludeWindow(HeadInfo head, workrave::BreakId break_id);
+  PreludeWindow(std::shared_ptr<IApplicationContext> app, HeadInfo head, workrave::BreakId break_id);
   ~PreludeWindow() override = default;
 
   void start() override;
@@ -58,6 +58,8 @@ private:
   void on_size_allocate_event(Gtk::Allocation &allocation);
 
 private:
+  std::shared_ptr<IApplicationContext> app;
+
   //! Avoid margin.
   const int SCREEN_MARGIN{20};
 
@@ -103,6 +105,13 @@ private:
 
 #if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;
+
+  //! Waiting for the compositor to confirm fullscreen, so it can be undone again
+  bool unfullscreen_pending{false};
+  sigc::connection unfullscreen_connection;
+
+  void arm_unfullscreen();
+  bool on_window_state_event(GdkEventWindowState *event) override;
 #endif
 };
 

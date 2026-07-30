@@ -240,7 +240,7 @@ Toolkit::create_prelude_window(int screen_index, workrave::BreakId break_id)
       return nullptr;
     }
   HeadInfo head = *optional_head;
-  return std::make_shared<PreludeWindow>(head, break_id);
+  return std::make_shared<PreludeWindow>(app, head, break_id);
 }
 
 void
