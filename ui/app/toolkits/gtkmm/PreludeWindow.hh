@@ -20,6 +20,7 @@
 
 #include "BreakWindow.hh"
 #include "ui/IPreludeWindow.hh"
+#include "ui/IApplicationContext.hh"
 
 class TimeBar;
 class Frame;

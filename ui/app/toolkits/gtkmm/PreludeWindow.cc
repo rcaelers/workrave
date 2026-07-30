@@ -45,8 +45,7 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
-  PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, HeadInfo head, BreakId break_id)
+PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, HeadInfo head, BreakId break_id)
   : Gtk::Window(Gtk::WINDOW_POPUP)
   , app(std::move(app))
 {
