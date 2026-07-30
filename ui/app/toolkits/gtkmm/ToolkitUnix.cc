@@ -138,7 +138,7 @@ ToolkitUnix::create_prelude_window(int screen_index, workrave::BreakId break_id)
                 }
               catch (const workrave::utils::Exception &ex)
                 {
-                  spdlog::debug("Workrave GNOME shell extension does not support preludes: {}", ex.what());
+                  spdlog::debug("Workrave GNOME shell extension does not support preludes: {}", ex.details());
                 }
             }
           else
