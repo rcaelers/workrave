@@ -91,6 +91,7 @@ ui/app/ApplicationUnix.cc
 ui/app/ApplicationWindows.cc
 ui/app/GenericDBusApplet.cc
 ui/app/GUIConfig.cc
+ui/app/Prelude.cc
 ui/app/main.cc
 ui/app/Menus.cc
 ui/app/org.workrave.gui.gschema.xml.in

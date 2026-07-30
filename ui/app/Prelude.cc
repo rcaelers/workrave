@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#include "Prelude.hh"
+#include "ui/Prelude.hh"
 
 #include "commonui/nls.h"
 

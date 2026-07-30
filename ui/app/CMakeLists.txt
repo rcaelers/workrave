@@ -6,6 +6,7 @@ target_sources(workrave-app PRIVATE
   ApplicationFactory.cc
   GUIConfig.cc
   Menus.cc
+  Prelude.cc
   PreferencesRegistry.cc
   SoundTheme.cc
   TimerBoxControl.cc
