@@ -38,6 +38,14 @@ if (PLATFORM_OS_UNIX)
     target_link_libraries(workrave-app PUBLIC ${DBUSMENU_LIBRARIES})
   endif()
 
+  if (HAVE_APPINDICATOR)
+    target_sources(workrave-app PRIVATE platforms/unix/AppIndicatorMenu.cc)
+    target_include_directories(workrave-app PUBLIC ${APPINDICATOR_INCLUDE_DIRS})
+    target_link_directories(workrave-app PUBLIC ${APPINDICATOR_LIBPATH})
+    target_link_libraries(workrave-app PUBLIC ${APPINDICATOR_LIBRARIES})
+  endif()
+
+
   # Desktop Application Autostart
   # This enables application autostart and indicates autostart parameters across
   # all Linux desktop managers.

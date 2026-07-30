@@ -53,10 +53,6 @@ if (PLATFORM_OS_UNIX)
       Wayland::Client)
   endif()
 
-    # if (HAVE_APPINDICATOR)
-    #   target_sources(workrave-toolkit-qt PRIVATE platforms/unix/AppIndicatorMenu.cc)
-    # endif()
-
   target_include_directories(workrave-toolkit-qt PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix
     ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols

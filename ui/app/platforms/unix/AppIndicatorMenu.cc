@@ -23,13 +23,43 @@
 #include "AppIndicatorMenu.hh"
 
 #include <filesystem>
+#include <string>
 
 #include <glib.h>
+#include <spdlog/spdlog.h>
 
+#include "utils/AssetPath.hh"
 #include "utils/Signals.hh"
 #include "ui/GUIConfig.hh"
-#include "GtkUtil.hh"
 #include "DbusMenu.hh"
+
+using namespace workrave::utils;
+
+namespace
+{
+  //! Resolves an image name against the configured icon theme.
+  /*!
+   *  Equivalent to GtkUtil::get_image_filename(), but without the toolkit
+   *  dependency, so this plugin can be shared by the gtkmm and Qt toolkits.
+   */
+  std::string
+  get_image_filename(const std::string &image)
+  {
+    std::string theme = GUIConfig::icon_theme()();
+    if (!theme.empty())
+      {
+        theme += G_DIR_SEPARATOR_S;
+      }
+
+    std::string path;
+    if (!AssetPath::complete_directory(theme + image, SearchPathId::Images, path))
+      {
+        AssetPath::complete_directory(image, SearchPathId::Images, path);
+      }
+
+    return path;
+  }
+} // namespace
 
 AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std::shared_ptr<DbusMenu> dbus_menu)
   : context(context)
@@ -77,15 +107,15 @@ AppIndicatorMenu::on_operation_mode_changed(workrave::OperationMode mode)
   switch (mode)
     {
     case workrave::OperationMode::Normal:
-      file = GtkUtil::get_image_filename("workrave-icon-medium.png");
+      file = get_image_filename("workrave-icon-medium.png");
       break;
 
     case workrave::OperationMode::Quiet:
-      file = GtkUtil::get_image_filename("workrave-quiet-icon-medium.png");
+      file = get_image_filename("workrave-quiet-icon-medium.png");
       break;
 
     case workrave::OperationMode::Suspended:
-      file = GtkUtil::get_image_filename("workrave-suspended-icon-medium.png");
+      file = get_image_filename("workrave-suspended-icon-medium.png");
       break;
     }
 

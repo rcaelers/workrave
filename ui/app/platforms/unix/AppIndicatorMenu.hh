@@ -19,28 +19,28 @@
 #ifndef APPINDICATORMENU_HH
 #define APPINDICATORMENU_HH
 
-#include <sigc++/trackable.h>
-#include <gtkmm.h>
+#include <memory>
+#include <string>
 
 #include "DbusMenu.hh"
 #include "utils/Signals.hh"
 
 #include "ui/Plugin.hh"
 #include "ui/IPluginContext.hh"
-#include "ToolkitMenu.hh"
 #include "ui/AppHold.hh"
 
 #if defined(HAVE_APPINDICATOR_AYATANA)
 #  include <libayatana-appindicator/app-indicator.h>
 #else
 #  include <libappindicator/app-indicator.h>
-#  endif
+#endif
 
+// libappindicator is a GTK library regardless of the toolkit Workrave itself
+// uses; the GtkMenu handed to it is only a placeholder that makes it create the
+// dbusmenu server whose root we replace.
 #include <gtk/gtk.h>
 
-class AppIndicatorMenu
-  : public sigc::trackable
-  , public Plugin<AppIndicatorMenu, DbusMenu>
+class AppIndicatorMenu : public Plugin<AppIndicatorMenu, DbusMenu>
 {
 public:
   explicit AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std::shared_ptr<DbusMenu> dbus_menu);
@@ -60,15 +60,12 @@ private:
 private:
   std::shared_ptr<IPluginContext> context;
   AppHold apphold;
-  bool connected;
+  bool connected{false};
   guint apphold_release_timer_id{0};
   std::weak_ptr<DbusMenu> dbus_menu;
-  std::shared_ptr<ToolkitMenu> menu;
   AppIndicator *indicator{};
 
   workrave::utils::Trackable tracker;
-
-private:
 };
 
 #endif // APPINDICATORMENU_HH
