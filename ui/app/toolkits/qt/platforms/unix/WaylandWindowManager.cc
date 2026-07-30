@@ -71,6 +71,7 @@ auto
 WaylandWindowManager::create_surface(QWindow *window, QScreen *screen, bool keyboard_focus)
   -> std::shared_ptr<WaylandLayerSurface>
 {
+  TRACE_ENTRY();
   if (!layer_shell.is_supported() || window == nullptr || screen == nullptr)
     {
       return {};
