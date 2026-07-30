@@ -98,6 +98,13 @@ get_pixmap_prop(Window the_window, char *prop_id)
 void
 set_desktop_background(GdkWindow *window)
 {
+  /* Everything below is X11 only. On Wayland there is no root pixmap to
+     inherit, and the accessors used here are not valid for the window. */
+  if (!GDK_IS_X11_WINDOW(window))
+    {
+      return;
+    }
+
   Pixmap xpm = get_pixmap_prop(GDK_WINDOW_XWINDOW(window), "_XROOTPMAP_ID");
 
   if (xpm != None)
