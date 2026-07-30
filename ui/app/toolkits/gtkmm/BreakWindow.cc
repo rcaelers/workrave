@@ -849,9 +849,16 @@ BreakWindow::arm_unfullscreen()
       return;
     }
 
+  const int monitor_index = head.get_monitor_index(screen);
+  if (monitor_index < 0)
+    {
+      TRACE_MSG("no monitor index for head");
+      return;
+    }
+
   unfullscreen_connection.disconnect();
   unfullscreen_pending = true;
-  fullscreen_on_monitor(screen, head.get_monitor_index(screen));
+  fullscreen_on_monitor(screen, monitor_index);
 }
 
 bool
