@@ -65,11 +65,13 @@ if (HAVE_TESTS)
     # Including all three production-generated headers in one translation
     # unit also proves their service-prefixed protobuf types do not collide.
     add_executable(workrave-core-next-rpc-service-names-test RpcServiceNamesTest.cc)
+    set_target_properties(workrave-core-next-rpc-service-names-test PROPERTIES USE_STUBS ON)
     target_include_directories(workrave-core-next-rpc-service-names-test PRIVATE
       ${CMAKE_BINARY_DIR}/libs/corenext/src
       ${CMAKE_BINARY_DIR}/libs/config/src)
     target_link_libraries(workrave-core-next-rpc-service-names-test PRIVATE
       GTest::gtest_main
+      workrave-libs-core-next
       workrave-libs-config-rpc
       workrave-libs-core-next-rpc
       gRPC::grpc++

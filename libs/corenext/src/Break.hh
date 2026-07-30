@@ -48,8 +48,6 @@ public:
   // IBreak
   // @rpc.signal(name="BreakEvent")
   boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event() override;
-  // @rpc.signal(name="BreakStateChanged")
-  boost::signals2::signal<void(BreakStage)> &signal_break_stage_changed();
   // @rpc(name="GetName")
   [[nodiscard]] std::string get_name() const override;
   // @rpc(name="IsEnabled")
@@ -76,9 +74,6 @@ public:
   [[nodiscard]] int64_t get_limit() const override;
   // @rpc(name="IsLimitEnabled")
   [[nodiscard]] bool is_limit_enabled() const override;
-  // @rpc(name="GetTimerRemaining")
-  // @rpc.dbus(return_type="int32")
-  [[nodiscard]] int64_t get_timer_remaining() const;
   // @rpc(name="GetTimerOverdue")
   // @rpc.dbus(return_type="int32")
   [[nodiscard]] int64_t get_total_overdue_time() const override;
@@ -94,8 +89,16 @@ public:
   void override(workrave::BreakId id);
   void daily_reset();
   [[nodiscard]] bool is_microbreak_used_for_activity() const;
+
+  // @rpc.signal(name="BreakStateChanged")
+  virtual boost::signals2::signal<void(BreakStage)> &signal_break_stage_changed();
+
+  // @rpc(name="GetTimerRemaining")
+  // @rpc.dbus(return_type="int32")
+  [[nodiscard]] virtual int64_t get_timer_remaining() const;
+
   // @rpc(name="GetBreakState")
-  [[nodiscard]] std::string get_break_stage() const;
+  [[nodiscard]] virtual std::string get_break_stage() const;
 
   static std::string get_stage_text(BreakStage stage);
 

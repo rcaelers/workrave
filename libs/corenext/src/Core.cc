@@ -197,7 +197,7 @@ Core::update_rpc()
           rpc_listen_address.clear();
         }
 
-      rpc_server = std::make_unique<RpcCoreServer>(*this, *configurator, listen_address);
+      rpc_server = std::make_unique<RpcCoreServer>(*this, get_break_registry(), *configurator, listen_address);
       rpc_listen_address = std::move(listen_address);
     }
   catch (std::exception &e)

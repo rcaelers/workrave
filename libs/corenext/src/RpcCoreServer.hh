@@ -22,8 +22,15 @@
 #include <string>
 
 #include "config/IConfigurator.hh"
+#include "core/CoreTypes.hh"
 
 class Core;
+class Break;
+namespace rpc
+{
+  template<typename Key, typename T>
+  class InstanceRegistry;
+}
 
 // Owns the gRPC server exposing CoreService/BreakService/ConfigService for
 // the real, running Core/BreaksControl/Configurator instances (constructed
@@ -39,17 +46,21 @@ class Core;
 // workrave-libs-core-next — can #include this header and hold a pointer to
 // it without pulling gRPC/protobuf onto every consumer's link line.
 //
-// The constructor's *definition* lives in the -rpc library, so Core.o's
-// reference to it is only resolved when the final executable links both
-// workrave-libs-core-next and workrave-libs-core-next-rpc together — there is
-// deliberately no CMake target_link_libraries edge from
-// workrave-libs-core-next to workrave-libs-core-next-rpc (that would be
-// circular, since the -rpc library already depends on the plain one). Any
-// target that wants a working RPC-enabled Core must therefore link both.
+// workrave-libs-core-next depends on workrave-libs-core-next-rpc (this is
+// the one allowed direction: Core::init_rpc() constructs a RpcCoreServer).
+// The reverse never happens: RpcCoreServer.cc only calls virtual
+// (ICore/IBreak-overriding, or explicitly `virtual`) methods through the
+// Core&/Break& references it's given, so it needs no real symbol from
+// workrave-libs-core-next — the break registry is passed in explicitly
+// below rather than obtained via Core::get_break_registry() (a non-virtual
+// method) precisely to avoid reintroducing such a dependency.
 class RpcCoreServer
 {
 public:
-  RpcCoreServer(Core &core, workrave::config::IConfigurator &configurator, std::string listen_address);
+  RpcCoreServer(Core &core,
+                rpc::InstanceRegistry<workrave::BreakId, Break> &break_registry,
+                workrave::config::IConfigurator &configurator,
+                std::string listen_address);
   ~RpcCoreServer();
 
   RpcCoreServer(const RpcCoreServer &) = delete;

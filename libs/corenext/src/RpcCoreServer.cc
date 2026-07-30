@@ -34,9 +34,12 @@
 
 struct RpcCoreServer::Impl
 {
-  Impl(Core &core, workrave::config::IConfigurator &configurator, std::string listen_address)
+  Impl(Core &core,
+       rpc::InstanceRegistry<workrave::BreakId, Break> &break_registry,
+       workrave::config::IConfigurator &configurator,
+       std::string listen_address)
     : core_service(core)
-    , break_service(core.get_break_registry())
+    , break_service(break_registry)
     , config_service(configurator)
     , server(rpc::ServerConfig{.listen_address = listen_address})
   {
@@ -73,8 +76,11 @@ struct RpcCoreServer::Impl
   rpc::RpcServer server;
 };
 
-RpcCoreServer::RpcCoreServer(Core &core, workrave::config::IConfigurator &configurator, std::string listen_address)
-  : impl_(std::make_unique<Impl>(core, configurator, std::move(listen_address)))
+RpcCoreServer::RpcCoreServer(Core &core,
+                              rpc::InstanceRegistry<workrave::BreakId, Break> &break_registry,
+                              workrave::config::IConfigurator &configurator,
+                              std::string listen_address)
+  : impl_(std::make_unique<Impl>(core, break_registry, configurator, std::move(listen_address)))
 {
 }
 
