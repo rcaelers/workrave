@@ -1725,10 +1725,10 @@ RemoteControlPrefBridge::grpcPort() const
 }
 
 QString
-RemoteControlPrefBridge::grpcSocket() const
+RemoteControlPrefBridge::grpcAddress() const
 {
 #if defined(HAVE_GRPC)
-  return QString::fromStdString(workrave::utils::Paths::get_rpc_socket_path().string());
+  return QString::fromStdString("unix:" + workrave::utils::Paths::get_rpc_socket_path().string());
 #else
   return {};
 #endif
