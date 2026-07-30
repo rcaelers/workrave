@@ -150,6 +150,8 @@ Platform::running_on_wayland()
   return GDK_IS_WAYLAND_DISPLAY(display);
 #  elif defined(HAVE_QT)
   return QGuiApplication::platformName() == "wayland";
+#  else
+  return false;
 #  endif
 }
 #endif
