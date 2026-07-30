@@ -24,6 +24,8 @@
 #include <memory>
 #include <gdk/gdkwayland.h>
 
+#include <spdlog/spdlog.h>
+
 #include "debug.hh"
 
 static const struct wl_registry_listener registry_listener = {
@@ -33,12 +35,19 @@ static const struct wl_registry_listener registry_listener = {
 
 WaylandWindowManager::~WaylandWindowManager()
 {
+  TRACE_ENTRY();
+  // Layer surfaces are owned by the windows and stay valid after the shell is
+  // destroyed, as required by zwlr_layer_shell_v1.destroy.
   if (layer_shell != nullptr)
     {
       zwlr_layer_shell_v1_destroy(layer_shell);
+      layer_shell = nullptr;
     }
-  wl_registry_destroy(wl_registry);
-  TRACE_ENTRY();
+  if (wl_registry != nullptr)
+    {
+      wl_registry_destroy(wl_registry);
+      wl_registry = nullptr;
+    }
 }
 
 bool
@@ -61,11 +70,13 @@ WaylandWindowManager::init()
 
   if (layer_shell == nullptr)
     {
-      TRACE_MSG("zwlr-layer-surface protocol unsupported");
+      TRACE_MSG("zwlr-layer-shell-v1 protocol unsupported");
+      spdlog::warn("Your Wayland compositor does not support the wlr layer shell protocol. Workrave will not be able to "
+                   "properly position its break windows.");
       return false;
     }
 
-  TRACE_MSG("ext-idle-notify-v1 protocol supported");
+  TRACE_MSG("zwlr-layer-shell-v1 protocol supported");
   return true;
 }
 
@@ -91,30 +102,37 @@ WaylandWindowManager::registry_global(void *data,
                          id,
                          &zwlr_layer_shell_v1_interface,
                          MIN((uint32_t)zwlr_layer_shell_v1_interface.version, version)));
+      self->layer_shell_id = id;
     }
 }
 
 void
 WaylandWindowManager::registry_global_remove(void *data, struct wl_registry *registry, uint32_t id)
 {
-}
-
-void
-WaylandWindowManager::init_surface(Gtk::Widget &gtk_window, Glib::RefPtr<Gdk::Monitor> monitor, bool keyboard_focus)
-{
   TRACE_ENTRY();
-  if (layer_shell != nullptr)
+  auto *self = static_cast<WaylandWindowManager *>(data);
+  if (self->layer_shell != nullptr && self->layer_shell_id == id)
     {
-      auto layer = std::make_shared<LayerSurface>(layer_shell, gtk_window, monitor, keyboard_focus);
-      surfaces.push_back(layer);
+      TRACE_MSG("zwlr-layer-shell-v1 withdrawn");
+      zwlr_layer_shell_v1_destroy(self->layer_shell);
+      self->layer_shell = nullptr;
+      self->layer_shell_id = 0;
     }
 }
 
-void
-WaylandWindowManager::clear_surfaces()
+auto
+WaylandWindowManager::init_surface(Gtk::Widget &gtk_window, Glib::RefPtr<Gdk::Monitor> monitor, bool keyboard_focus)
+  -> std::shared_ptr<LayerSurface>
 {
   TRACE_ENTRY();
-  surfaces.clear();
+  if (layer_shell == nullptr)
+    {
+      return {};
+    }
+
+  // Ownership stays with the caller: the manager is shared by every break and
+  // prelude window, so it must not be able to tear down another window's surface.
+  return std::make_shared<LayerSurface>(layer_shell, gtk_window, monitor, keyboard_focus);
 }
 
 LayerSurface::LayerSurface(struct zwlr_layer_shell_v1 *layer_shell,
@@ -127,20 +145,20 @@ LayerSurface::LayerSurface(struct zwlr_layer_shell_v1 *layer_shell,
 
 {
   TRACE_ENTRY();
-  gtk_widget_realize(gtk_window.gobj());
-  auto window = gtk_window.get_window();
-  wl_output *output = gdk_wayland_monitor_get_wl_output(monitor->gobj());
-
   auto *gdk_display = gdk_display_get_default();
   // NOLINTNEXTLINE(bugprone-assignment-in-if-condition,cppcoreguidelines-pro-type-cstyle-cast)
   if (!GDK_IS_WAYLAND_DISPLAY(gdk_display))
     {
+      TRACE_MSG("not running on wayland");
       return;
     }
 
   display = gdk_wayland_display_get_wl_display(gdk_display);
 
   gtk_widget_realize(gtk_window.gobj());
+  auto window = gtk_window.get_window();
+  wl_output *output = gdk_wayland_monitor_get_wl_output(monitor->gobj());
+
   gdk_wayland_window_set_use_custom_surface(window->gobj());
 
   auto *surface = gdk_wayland_window_get_wl_surface(window->gobj());
@@ -167,7 +185,12 @@ LayerSurface::LayerSurface(struct zwlr_layer_shell_v1 *layer_shell,
 
 LayerSurface::~LayerSurface()
 {
-  zwlr_layer_surface_v1_destroy(this->layer_surface);
+  TRACE_ENTRY();
+  if (layer_surface != nullptr)
+    {
+      zwlr_layer_surface_v1_destroy(layer_surface);
+      layer_surface = nullptr;
+    }
 }
 
 void
@@ -178,10 +201,20 @@ LayerSurface::layer_surface_configure(void *data,
                                       uint32_t width,
                                       uint32_t height)
 {
-  TRACE_ENTRY();
+  TRACE_ENTRY_PAR(width, height);
   auto *self = static_cast<LayerSurface *>(data);
+
   zwlr_layer_surface_v1_ack_configure(surface, serial);
-  wl_display_roundtrip(self->display);
+
+  // The compositor decides the size of a layer surface anchored to all four
+  // edges. Adopt it, otherwise the committed buffer does not match the size
+  // that was just acknowledged. Do not roundtrip here: this runs inside a
+  // Wayland event callback, and GDK flushes the surface itself.
+  if (width > 0 && height > 0 && self->gtk_window != nullptr)
+    {
+      gtk_widget_set_size_request(self->gtk_window, static_cast<int>(width), static_cast<int>(height));
+      gtk_window_resize(GTK_WINDOW(self->gtk_window), static_cast<int>(width), static_cast<int>(height));
+    }
 }
 
 void

@@ -58,6 +58,7 @@
 #  include "desktop-window.h"
 #endif
 #if defined(HAVE_WAYLAND)
+#  include "IToolkitUnixPrivate.hh"
 #  include "WaylandWindowManager.hh"
 #endif
 
@@ -79,14 +80,9 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
   TRACE_ENTRY();
 
 #if defined(HAVE_WAYLAND)
-  if (Platform::running_on_wayland())
+  if (auto toolkit_priv = std::dynamic_pointer_cast<IToolkitUnixPrivate>(app->get_toolkit()); toolkit_priv)
     {
-      auto wm = std::make_shared<WaylandWindowManager>();
-      bool success = wm->init();
-      if (success)
-        {
-          window_manager = wm;
-        }
+      window_manager = toolkit_priv->get_wayland_window_manager();
     }
 #endif
 
@@ -110,8 +106,6 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
           signal_screen_changed().connect(sigc::mem_fun(*this, &BreakWindow::on_screen_changed), false);
           on_screen_changed(get_screen());
           set_size_request(head.get_width(), head.get_height());
-
-          fullscreen_on_monitor(get_screen(), head.get_monitor_index(get_screen()));
         }
     }
 #if defined(PLATFORM_OS_UNIX)
@@ -712,7 +706,7 @@ BreakWindow::start()
 #if defined(HAVE_WAYLAND)
   if (window_manager && block_mode != BlockMode::Off)
     {
-      window_manager->init_surface(*this, head.get_monitor(), true);
+      layer_surface = window_manager->init_surface(*this, head.get_monitor(), true);
     }
 #endif
 
@@ -781,10 +775,7 @@ BreakWindow::stop()
     }
 
 #if defined(HAVE_WAYLAND)
-  if (window_manager)
-    {
-      window_manager->clear_surfaces();
-    }
+  layer_surface.reset();
   unfullscreen_connection.disconnect();
   unfullscreen_pending = false;
 #endif

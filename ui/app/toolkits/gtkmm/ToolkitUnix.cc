@@ -53,7 +53,26 @@ ToolkitUnix::preinit(std::shared_ptr<workrave::config::IConfigurator> config)
   gdk_init(nullptr, nullptr);
 
   locker = std::make_shared<UnixLocker>();
+
+#if defined(HAVE_WAYLAND)
+  if (workrave::utils::Platform::running_on_wayland())
+    {
+      auto wm = std::make_shared<WaylandWindowManager>();
+      if (wm->init())
+        {
+          wayland_window_manager = wm;
+        }
+    }
+#endif
 }
+
+#if defined(HAVE_WAYLAND)
+auto
+ToolkitUnix::get_wayland_window_manager() -> std::shared_ptr<WaylandWindowManager>
+{
+  return wayland_window_manager;
+}
+#endif
 
 void
 ToolkitUnix::init(std::shared_ptr<IApplicationContext> app)

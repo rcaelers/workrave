@@ -40,6 +40,9 @@
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <gdk/gdkwin32.h>
 #endif
+#if defined(HAVE_WAYLAND)
+#  include "IToolkitUnixPrivate.hh"
+#endif
 
 using namespace std;
 using namespace workrave;
@@ -51,14 +54,9 @@ PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, HeadInfo 
 {
   TRACE_ENTRY();
 #if defined(HAVE_WAYLAND)
-  if (Platform::running_on_wayland())
+  if (auto toolkit_priv = std::dynamic_pointer_cast<IToolkitUnixPrivate>(this->app->get_toolkit()); toolkit_priv)
     {
-      auto wm = std::make_shared<WaylandWindowManager>();
-      bool success = wm->init();
-      if (success)
-        {
-          window_manager = wm;
-        }
+      window_manager = toolkit_priv->get_wayland_window_manager();
     }
 #endif
 
@@ -76,7 +74,9 @@ PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, HeadInfo 
       signal_screen_changed().connect(sigc::mem_fun(*this, &PreludeWindow::on_screen_changed_event));
       on_screen_changed_event(get_screen());
       set_size_request(head.get_width(), head.get_height());
-      fullscreen_on_monitor(get_screen(), head.get_monitor_index(get_screen()));
+
+      // Placing the window on the right monitor is left to arm_unfullscreen(),
+      // which runs from start() before the window is mapped.
     }
 
   realize();
@@ -148,7 +148,7 @@ PreludeWindow::start()
 #if defined(HAVE_WAYLAND)
   if (window_manager)
     {
-      window_manager->init_surface(*this, head.get_monitor(), false);
+      layer_surface = window_manager->init_surface(*this, head.get_monitor(), false);
     }
 #endif
 
@@ -209,10 +209,7 @@ PreludeWindow::stop()
   frame->set_frame_flashing(0);
 
 #if defined(HAVE_WAYLAND)
-  if (window_manager)
-    {
-      window_manager->clear_surfaces();
-    }
+  layer_surface.reset();
   unfullscreen_connection.disconnect();
   unfullscreen_pending = false;
 #endif

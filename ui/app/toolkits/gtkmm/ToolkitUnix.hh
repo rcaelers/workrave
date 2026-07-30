@@ -20,9 +20,12 @@
 
 #include "Toolkit.hh"
 
+#include "IToolkitUnixPrivate.hh"
 #include "UnixLocker.hh"
 
-class ToolkitUnix : public Toolkit
+class ToolkitUnix
+  : public Toolkit
+  , public IToolkitUnixPrivate
 {
 public:
   ToolkitUnix(int &argc, char **argv);
@@ -41,8 +44,17 @@ public:
                          const std::string &balloon,
                          std::function<void()> func) override;
 
+  // IToolkitUnixPrivate
+#if defined(HAVE_WAYLAND)
+  auto get_wayland_window_manager() -> std::shared_ptr<WaylandWindowManager> override;
+#endif
+
 private:
   std::shared_ptr<UnixLocker> locker;
+
+#if defined(HAVE_WAYLAND)
+  std::shared_ptr<WaylandWindowManager> wayland_window_manager;
+#endif
 };
 
 #endif // TOOLKIT_UNIX_HH

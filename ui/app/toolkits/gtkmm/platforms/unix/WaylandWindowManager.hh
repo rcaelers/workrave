@@ -18,6 +18,9 @@
 #ifndef WAYLANDWINDOWMANAGER_HH
 #define WAYLANDWINDOWMANAGER_HH
 
+#include <cstdint>
+#include <memory>
+
 #include <gdk/gdkwayland.h>
 #include <gio/gio.h>
 #include <gtk/gtk.h>
@@ -62,8 +65,9 @@ public:
 
   bool init();
 
-  void init_surface(Gtk::Widget &gtk_window, Glib::RefPtr<Gdk::Monitor>, bool keyboard_focus);
-  void clear_surfaces();
+  //! Creates a layer surface owned by the caller. Returns nullptr if unsupported.
+  auto init_surface(Gtk::Widget &gtk_window, Glib::RefPtr<Gdk::Monitor> monitor, bool keyboard_focus)
+    -> std::shared_ptr<LayerSurface>;
 
 public:
   static void registry_global(void *data, struct wl_registry *registry, uint32_t id, const char *interface, uint32_t version);
@@ -72,7 +76,7 @@ public:
 private:
   struct wl_registry *wl_registry{};
   struct zwlr_layer_shell_v1 *layer_shell{};
-  std::list<std::shared_ptr<LayerSurface>> surfaces{};
+  uint32_t layer_shell_id{};
 };
 
 #endif // WAYLANDWINDOWMANAGER_HH
