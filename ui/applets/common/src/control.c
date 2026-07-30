@@ -155,7 +155,7 @@ workrave_timerbox_control_get_image(WorkraveTimerboxControl *self)
       workrave_timerbox_set_force_icon(priv->timerbox, FALSE);
       workrave_timerbox_update(priv->timerbox, priv->image);
 
-      gtk_widget_show(GTK_WIDGET(priv->image));
+      gtk_widget_set_visible(GTK_WIDGET(priv->image), TRUE);
     }
   return priv->image;
 }
@@ -205,7 +205,7 @@ workrave_timerbox_control_set_tray_icon_visible_when_not_running(WorkraveTimerbo
   workrave_timerbox_control_update_show_tray_icon(self);
 
   workrave_timerbox_update(priv->timerbox, priv->image);
-  gtk_widget_show(GTK_WIDGET(priv->image));
+  gtk_widget_set_visible(GTK_WIDGET(priv->image), TRUE);
 }
 
 GVariant *

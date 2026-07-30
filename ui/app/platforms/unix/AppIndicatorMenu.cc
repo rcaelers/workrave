@@ -65,7 +65,11 @@ AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std:
   : context(context)
   , apphold(context->get_toolkit())
 {
+  // app_indicator_new() is deprecated by libayatana-appindicator with no
+  // replacement constructor offered in its place.
+  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   indicator = app_indicator_new("workrave", "workrave", APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
+  G_GNUC_END_IGNORE_DEPRECATIONS
 
   GtkWidget *menu_widget = gtk_menu_new();
   app_indicator_set_menu(indicator, GTK_MENU(menu_widget));
