@@ -510,9 +510,19 @@ static void
 workrave_timerbox_control_create_dbus(WorkraveTimerboxControl *self)
 {
   WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
-  GSettings *settings = g_settings_new("org.workrave.gui");
-  gboolean autostart = g_settings_get_boolean(settings, "autostart");
-  g_object_unref(settings);
+
+  gboolean autostart = FALSE;
+#ifdef HAVE_GSETTINGS
+  GSettingsSchemaSource *source = g_settings_schema_source_get_default();
+  GSettingsSchema *schema = (source != NULL) ? g_settings_schema_source_lookup(source, "org.workrave.gui", TRUE) : NULL;
+  if (schema != NULL)
+    {
+      GSettings *settings = g_settings_new("org.workrave.gui");
+      autostart = g_settings_get_boolean(settings, "autostart");
+      g_object_unref(settings);
+      g_settings_schema_unref(schema);
+    }
+#endif
 
   GDBusProxyFlags flags = autostart ? 0 : G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START;
 
