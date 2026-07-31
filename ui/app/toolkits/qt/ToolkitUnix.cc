@@ -32,10 +32,6 @@
 #include "DBusPreludeWindow.hh"
 // #include "GnomeSession.hh"
 
-#if defined(HAVE_INDICATOR)
-#  include "IndicatorAppletMenu.hh"
-#endif
-
 using namespace workrave::utils;
 
 #include "config/IConfigurator.hh"
