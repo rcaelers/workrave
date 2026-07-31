@@ -701,9 +701,23 @@ endif()
 
 option(WITH_GNOME_CLASSIC_PANEL "Enable Gnome 3 Classic panel applet support" ${WITH_GNOME_CLASSIC_PANEL_DEFAULT})
 option(WITH_GNOME45 "Use GNOME 45 API" ON)
+option(WITH_GNOME_SHELL "Enable Gnome Shell support" ON)
 
 if (WITH_GNOME45)
   set (HAVE_GNOME45 ON)
+endif()
+
+if (WITH_GNOME_SHELL)
+  message(STATUS "Checking for: Gnome Shell")
+
+  find_package(GObjectIntrospection 0.9.12)
+
+  if (INTROSPECTION_FOUND)
+    set (HAVE_GNOME_SHELL ON)
+    set (HAVE_INTROSPECTION ON)
+  else()
+    set (WITH_GNOME_SHELL OFF)
+  endif()
 endif()
 
 if (WITH_GNOME_CLASSIC_PANEL AND HAVE_GTK)
@@ -1399,6 +1413,7 @@ feature_bool("GSettings configuration" HAVE_GSETTINGS)
 if (PLATFORM_OS_UNIX)
 feature_text("ActivityMonitors" HAVE_MONITORS)
 feature_bool("Gnome 3 Applet"  HAVE_GNOME3_PANEL_APPLET)
+feature_bool("Gnome Shell Extension" HAVE_GNOME_SHELL)
 if (HAVE_GNOME45)
   feature_string("Gnome Shell API" ">=45")
 else()
