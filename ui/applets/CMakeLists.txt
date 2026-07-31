@@ -2,10 +2,12 @@ add_subdirectory(common)
 
 add_subdirectory(cinnamon)
 
-if (HAVE_GNOME45)
-  add_subdirectory(gnome-shell-45)
-else()
-  add_subdirectory(gnome-shell)
+if (HAVE_GNOME_SHELL)
+  if (HAVE_GNOME45)
+    add_subdirectory(gnome-shell-45)
+  else()
+    add_subdirectory(gnome-shell)
+  endif()
 endif()
 
 if (HAVE_GNOME3_PANEL_APPLET)
