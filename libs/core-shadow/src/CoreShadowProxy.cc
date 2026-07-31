@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <iomanip>
 #include <limits>
 #include <sstream>
@@ -487,9 +488,9 @@ namespace workrave::core_shadow
 
         const auto elapsed_delta = live_snapshot->elapsed - core_snapshot.elapsed;
         const auto idle_delta = live_snapshot->idle - core_snapshot.idle;
-        max_timer_delta = std::max({max_timer_delta, std::llabs(elapsed_delta), std::llabs(idle_delta)});
+        max_timer_delta = std::max({max_timer_delta, std::abs(elapsed_delta), std::abs(idle_delta)});
 
-        if (std::llabs(elapsed_delta) >= timer_warning_threshold || std::llabs(idle_delta) >= timer_warning_threshold)
+        if (std::abs(elapsed_delta) >= timer_warning_threshold || std::abs(idle_delta) >= timer_warning_threshold)
           {
             spdlog::warn(
               "Core shadow: break {} corenext timer skew from core at tick {}: elapsed={}s idle={}s "

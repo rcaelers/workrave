@@ -240,7 +240,7 @@ namespace
                 }
               else if (fields[1] == "int64")
                 {
-                  configurator->set_value(fields[2], std::stoll(fields[3]), flags);
+                  configurator->set_value(fields[2], static_cast<int64_t>(std::stoll(fields[3])), flags);
                 }
               else if (fields[1] == "bool")
                 {
