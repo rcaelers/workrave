@@ -35,14 +35,14 @@ if (PLATFORM_OS_UNIX)
     target_include_directories(workrave-app PUBLIC
       ${DBUSMENU_INCLUDE_DIRS}
       ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include)
-    target_link_directories(workrave-app PUBLIC ${DBUSMENU_LIBPATH})
+    target_link_directories(workrave-app PUBLIC ${DBUSMENU_LIBRARY_DIRS})
     target_link_libraries(workrave-app PUBLIC ${DBUSMENU_LIBRARIES})
   endif()
 
   if (HAVE_APPINDICATOR)
-    target_sources(workrave-app PRIVATE platforms/unix/AppIndicatorMenu.cc)
+    target_sources(workrave-app PRIVATE platforms/unix/AppIndicatorMenu.cc platforms/unix/GioMenu.cc)
     target_include_directories(workrave-app PUBLIC ${APPINDICATOR_INCLUDE_DIRS})
-    target_link_directories(workrave-app PUBLIC ${APPINDICATOR_LIBPATH})
+    target_link_directories(workrave-app PUBLIC ${APPINDICATOR_LIBRARY_DIRS})
     target_link_libraries(workrave-app PUBLIC ${APPINDICATOR_LIBRARIES})
   endif()
 

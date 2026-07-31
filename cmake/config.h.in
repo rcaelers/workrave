@@ -3,7 +3,7 @@
 #cmakedefine HAVE_APP_GTK
 #cmakedefine HAVE_APP_QT
 #cmakedefine HAVE_APPINDICATOR
-#cmakedefine HAVE_APPINDICATOR_AYATANA
+
 #cmakedefine HAVE_CORE_NEXT
 #cmakedefine HAVE_CORE_NEXT_DBUS
 #cmakedefine HAVE_CORE_DBUS

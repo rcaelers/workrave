@@ -31,7 +31,6 @@
 #include "utils/AssetPath.hh"
 #include "utils/Signals.hh"
 #include "ui/GUIConfig.hh"
-#include "DbusMenu.hh"
 
 using namespace workrave::utils;
 
@@ -61,34 +60,28 @@ namespace
   }
 } // namespace
 
-AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std::shared_ptr<DbusMenu> dbus_menu)
+AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context)
   : context(context)
   , apphold(context->get_toolkit())
 {
-  // app_indicator_new() is deprecated by libayatana-appindicator with no
-  // replacement constructor offered in its place.
-  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   indicator = app_indicator_new("workrave", "workrave", APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
-  G_GNUC_END_IGNORE_DEPRECATIONS
 
-  GtkWidget *menu_widget = gtk_menu_new();
-  app_indicator_set_menu(indicator, GTK_MENU(menu_widget));
+  menu = std::make_unique<GioMenu>(context->get_menu_model());
+
+  app_indicator_set_actions(indicator, menu->get_actions());
+  app_indicator_set_menu(indicator, menu->get_menu());
+
   app_indicator_set_status(indicator, APP_INDICATOR_STATUS_ACTIVE);
-  app_indicator_set_attention_icon_full(indicator, "workrave", "workrave-icon");
+  app_indicator_set_attention_icon(indicator, "workrave", "workrave-icon");
 
   g_signal_connect(G_OBJECT(indicator),
-                   APP_INDICATOR_SIGNAL_CONNECTION_CHANGED,
+                   "connection-changed",
                    G_CALLBACK(&AppIndicatorMenu::on_appindicator_connection_changed),
                    this);
 
-  this->dbus_menu = dbus_menu;
   auto core = context->get_core();
   workrave::utils::connect(core->signal_operation_mode_changed(), tracker, [this](auto mode) {
     on_operation_mode_changed(mode);
-  });
-  auto menu_model = context->get_menu_model();
-  workrave::utils::connect(menu_model->signal_update(), tracker, [this]() {
-    update_dbus_menu_root();
   });
   workrave::OperationMode mode = core->get_regular_operation_mode();
   on_operation_mode_changed(mode);
@@ -131,21 +124,10 @@ AppIndicatorMenu::on_operation_mode_changed(workrave::OperationMode mode)
       std::string directory = path.parent_path().string();
       std::string filename = path.filename().string();
       app_indicator_set_icon_theme_path(indicator, directory.c_str());
-      app_indicator_set_icon_full(indicator, filename.c_str(), "workrave-icon");
+      app_indicator_set_icon(indicator, filename.c_str(), "workrave-icon");
     }
 
-  update_dbus_menu_root();
-}
-
-void
-AppIndicatorMenu::update_dbus_menu_root()
-{
-  DbusmenuServer *server{};
-  g_object_get(indicator, "dbus-menu-server", &server, NULL);
-  auto dbus_menu = this->dbus_menu.lock();
-  auto *root_menu_item = dbus_menu->get_root_menu_item();
-  g_object_ref(root_menu_item);
-  dbusmenu_server_set_root(server, root_menu_item);
+  menu->update();
 }
 
 gboolean

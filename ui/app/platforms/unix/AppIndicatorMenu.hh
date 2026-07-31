@@ -22,28 +22,19 @@
 #include <memory>
 #include <string>
 
-#include "DbusMenu.hh"
+#include "GioMenu.hh"
 #include "utils/Signals.hh"
 
 #include "ui/Plugin.hh"
 #include "ui/IPluginContext.hh"
 #include "ui/AppHold.hh"
 
-#if defined(HAVE_APPINDICATOR_AYATANA)
-#  include <libayatana-appindicator/app-indicator.h>
-#else
-#  include <libappindicator/app-indicator.h>
-#endif
+#include <ayatana-appindicator.h>
 
-// libappindicator is a GTK library regardless of the toolkit Workrave itself
-// uses; the GtkMenu handed to it is only a placeholder that makes it create the
-// dbusmenu server whose root we replace.
-#include <gtk/gtk.h>
-
-class AppIndicatorMenu : public Plugin<AppIndicatorMenu, DbusMenu>
+class AppIndicatorMenu : public Plugin<AppIndicatorMenu>
 {
 public:
-  explicit AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std::shared_ptr<DbusMenu> dbus_menu);
+  explicit AppIndicatorMenu(std::shared_ptr<IPluginContext> context);
   ~AppIndicatorMenu() override;
 
   std::string get_plugin_id() const override
@@ -53,7 +44,6 @@ public:
 
 private:
   void on_operation_mode_changed(workrave::OperationMode m);
-  void update_dbus_menu_root();
   static void on_appindicator_connection_changed(gpointer appindicator, gboolean connected, gpointer user_data);
   static gboolean apphold_release(gpointer user_data);
 
@@ -62,7 +52,7 @@ private:
   AppHold apphold;
   bool connected{false};
   guint apphold_release_timer_id{0};
-  std::weak_ptr<DbusMenu> dbus_menu;
+  std::unique_ptr<GioMenu> menu;
   AppIndicator *indicator{};
 
   workrave::utils::Trackable tracker;
