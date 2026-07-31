@@ -36,7 +36,9 @@ static void workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *
 static void workrave_timerbox_compute_dimensions(WorkraveTimerbox *self, int *width, int *height);
 static GdkPixbuf *workrave_load_image(WorkraveTimerbox *self, const char *name);
 static void workrave_timerbox_init_images(WorkraveTimerbox *self);
+#ifdef HAVE_GSETTINGS
 static void workrave_on_settings_changed(GSettings *gsettings, const gchar *key, void *user_data);
+#endif
 
 enum
 {
@@ -106,8 +108,17 @@ workrave_timerbox_init(WorkraveTimerbox *self)
   priv->force_icon = FALSE;
   priv->scale_factor = 1;
   priv->mode = g_strdup("normal");
-  priv->settings = g_settings_new("org.workrave.gui");
-  g_signal_connect(priv->settings, "changed", G_CALLBACK(workrave_on_settings_changed), self);
+  priv->settings = NULL;
+#ifdef HAVE_GSETTINGS
+  GSettingsSchemaSource *source = g_settings_schema_source_get_default();
+  GSettingsSchema *schema = (source != NULL) ? g_settings_schema_source_lookup(source, "org.workrave.gui", TRUE) : NULL;
+  if (schema != NULL)
+    {
+      priv->settings = g_settings_new("org.workrave.gui");
+      g_signal_connect(priv->settings, "changed", G_CALLBACK(workrave_on_settings_changed), self);
+      g_settings_schema_unref(schema);
+    }
+#endif
 
   priv->normal_sheep_icon = NULL;
   priv->quiet_sheep_icon = NULL;
@@ -502,7 +513,7 @@ workrave_load_image(WorkraveTimerbox *self, const char *name)
   GdkPixbuf *ret = NULL;
 
   char *file = NULL;
-  char *theme = g_settings_get_string(priv->settings, "icontheme");
+  char *theme = (priv->settings != NULL) ? g_settings_get_string(priv->settings, "icontheme") : NULL;
   if (theme != NULL)
     {
       file = g_build_filename(WORKRAVE_PKGDATADIR, "images", theme, name, NULL);
@@ -559,9 +570,11 @@ workrave_timerbox_init_images(WorkraveTimerbox *self)
     }
 }
 
+#ifdef HAVE_GSETTINGS
 static void
 workrave_on_settings_changed(GSettings *gsettings, const gchar *key, void *user_data)
 {
   WorkraveTimerbox *self = WORKRAVE_TIMERBOX(user_data);
   workrave_timerbox_init_images(self);
 }
+#endif
