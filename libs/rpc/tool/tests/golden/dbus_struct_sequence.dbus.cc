@@ -155,6 +155,8 @@ org_workrave_TestInterface2::org_workrave_TestInterface2(::workrave::rpc::dbus::
   (void)server;
 
 
+  qDBusRegisterMetaType<Point>();
+
 }
 
 std::string_view

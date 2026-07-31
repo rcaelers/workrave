@@ -179,6 +179,10 @@ org_workrave_AppletInterface::org_workrave_AppletInterface(::workrave::rpc::dbus
 {
 
 
+  qDBusRegisterMetaType<GenericDBusApplet::MenuItem>();
+
+  qDBusRegisterMetaType<GenericDBusApplet::TimerData>();
+
   signal_connections_.emplace_back(implementation_.signal_timers_updated().connect(
     [this](GenericDBusApplet::TimerData micro, GenericDBusApplet::TimerData rest, GenericDBusApplet::TimerData daily) {
       emit_TimersUpdated(micro, rest, daily);

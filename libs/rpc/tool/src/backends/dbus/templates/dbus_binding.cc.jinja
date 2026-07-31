@@ -47,7 +47,7 @@ namespace {{ adapter_namespace }}
   (void)server;
 {% endif %}
 {% for custom in dbus.custom_types -%}
-{%- if custom.kind == "enum" %}
+{%- if custom.kind == "enum" or custom.kind == "struct" %}
   qDBusRegisterMetaType<{{ model.types[custom.type_id].cxx.spelling }}>();
 {% endif -%}
 {%- endfor %}
