@@ -18,10 +18,11 @@ if (PLATFORM_OS_UNIX)
 
   target_include_directories(workrave-libs-input-monitor PRIVATE ${CMAKE_SOURCE_DIR}/libs/input-monitor/src/unix)
 
+  target_link_libraries(workrave-libs-input-monitor ${X11_X11_LIB} ${X11_Xtst_LIB} ${X11_Xss_LIB})
+
   if (HAVE_GTK)
     target_include_directories(workrave-libs-input-monitor PRIVATE ${GTK_INCLUDE_DIRS})
     target_link_libraries(workrave-libs-input-monitor ${GTK_LIBRARIES})
-    target_link_libraries(workrave-libs-input-monitor ${X11_X11_LIB} ${X11_Xtst_LIB} ${X11_Xss_LIB})
   endif()
 
   if (HAVE_WAYLAND)
