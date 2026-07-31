@@ -4,9 +4,41 @@ set(RPC_TOOL_BIN ${RPC_TOOL_DIR}/target/release/clang-rpc-gen${CMAKE_EXECUTABLE_
 set(RPC_CODEGEN "AUTO" CACHE STRING "Build RPC bindings: AUTO, ON, or OFF (use checked-in gen/ files)")
 set_property(CACHE RPC_CODEGEN PROPERTY STRINGS AUTO ON OFF)
 find_program(CARGO "cargo")
+
+# Locate libclang. Most Linux distros split LLVM into per-version packages;
+# the unversioned "libclang.so" symlink that find_library() below can match
+# only ships in the much less commonly installed libclang-<ver>-dev package.
+# The runtime package most people actually have (e.g. libclang1-21) installs
+# only a versioned soname such as /usr/lib/aarch64-linux-gnu/libclang-21.so.21
+# in a multiarch directory, which find_library() cannot match by name. Fall
+# back to globbing for those versioned libraries, picking the newest, the
+# same way the Rust clang-sys crate (used by clang-rpc-gen) locates libclang
+# at its own build time.
 find_library(RPC_LIBCLANG_LIBRARY
   NAMES clang libclang
   HINTS "$ENV{LIBCLANG_PATH}" /opt/homebrew/opt/llvm/lib)
+if (NOT RPC_LIBCLANG_LIBRARY)
+  file(GLOB _rpc_libclang_candidates
+    "$ENV{LIBCLANG_PATH}/libclang*.so*"
+    "$ENV{LIBCLANG_PATH}/libclang*.dylib"
+    /usr/lib/llvm-*/lib/libclang-*.so*
+    /usr/lib/*/libclang-*.so*
+    /usr/lib/libclang-*.so*
+    /usr/lib64/libclang-*.so*
+    /usr/local/lib/libclang-*.so*)
+  # libclang-cpp.so* is Clang's separate C++ interface library; clang-sys
+  # (and this glob's intent) need the C API library, plain libclang-<ver>.so*.
+  list(FILTER _rpc_libclang_candidates EXCLUDE REGEX "libclang-cpp")
+  if (_rpc_libclang_candidates)
+    list(SORT _rpc_libclang_candidates COMPARE NATURAL ORDER DESCENDING)
+    list(GET _rpc_libclang_candidates 0 RPC_LIBCLANG_LIBRARY)
+  endif()
+endif()
+if (RPC_LIBCLANG_LIBRARY)
+  get_filename_component(RPC_LIBCLANG_DIR "${RPC_LIBCLANG_LIBRARY}" DIRECTORY)
+  message(STATUS "RPC: found libclang: ${RPC_LIBCLANG_LIBRARY}")
+endif()
+
 if (RPC_CODEGEN STREQUAL "AUTO")
   if (CARGO AND RPC_LIBCLANG_LIBRARY)
     set(RPC_CODEGEN_ENABLED ON)
@@ -32,9 +64,14 @@ if (RPC_CODEGEN_ENABLED)
     ${RPC_TOOL_DIR}/src/*.rs
     ${RPC_TOOL_DIR}/src/*.jinja)
 
+  set(_rpc_cargo_env_command "")
+  if (RPC_LIBCLANG_DIR AND NOT DEFINED ENV{LIBCLANG_PATH})
+    set(_rpc_cargo_env_command ${CMAKE_COMMAND} -E env "LIBCLANG_PATH=${RPC_LIBCLANG_DIR}")
+  endif()
+
   add_custom_command(
     OUTPUT ${RPC_TOOL_BIN}
-    COMMAND ${CARGO} build --release --locked
+    COMMAND ${_rpc_cargo_env_command} ${CARGO} build --release --locked
     WORKING_DIRECTORY ${RPC_TOOL_DIR}
     DEPENDS ${RPC_TOOL_SOURCES} ${RPC_TOOL_DIR}/Cargo.toml
     COMMENT "Building clang-rpc-gen (Rust)")
