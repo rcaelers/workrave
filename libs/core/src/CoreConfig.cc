@@ -64,17 +64,6 @@ const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_OPTIONS = "general/operati
 const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_TIME = "general/operation_mode_auto_reset_time";
 const string CoreConfig::CFG_KEY_USAGE_MODE = "general/usage-mode";
 
-const string CoreConfig::CFG_KEY_DISTRIBUTION = "distribution";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_ENABLED = "distribution/enabled";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_LISTENING = "distribution/listening";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_PEERS = "distribution/peers";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP = "distribution/tcp";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PORT = "distribution/port";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_USERNAME = "distribution/username";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PASSWORD = "distribution/password";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS = "distribution/reconnect_attempts";
-const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_INTERVAL = "distribution/reconnect_interval";
-
 string
 CoreConfig::get_break_name(BreakId id)
 {
