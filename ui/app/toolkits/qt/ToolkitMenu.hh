@@ -71,7 +71,10 @@ namespace detail
   public:
     using Ptr = std::shared_ptr<ToolkitSubMenuEntry>;
 
-    ToolkitSubMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::SubMenuNode::Ptr node);
+    ToolkitSubMenuEntry(ToolkitMenuContext::Ptr context,
+                        ToolkitSubMenuEntry *parent,
+                        menus::SubMenuNode::Ptr node,
+                        QWidget *parent_widget = nullptr);
 
     [[nodiscard]] auto get_menu() const -> QMenu *;
     [[nodiscard]] auto get_action() const -> QAction * override;
@@ -182,7 +185,7 @@ class ToolkitMenu
 public:
   using Ptr = std::shared_ptr<ToolkitMenu>;
 
-  explicit ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter = nullptr);
+  explicit ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter = nullptr, QWidget *parent_widget = nullptr);
 
   [[nodiscard]] auto get_menu() const -> QMenu *;
 

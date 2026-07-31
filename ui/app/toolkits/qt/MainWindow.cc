@@ -65,8 +65,10 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
   switch_view(GUIConfig::display_style()());
   GUIConfig::display_style().connect(this, [this](DisplayStyle style) { switch_view(style); });
 
-  menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
-                                       [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
+  menu = std::make_shared<ToolkitMenu>(
+    app->get_menu_model(),
+    [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; },
+    this);
 
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(on_show_contextmenu(const QPoint &)));

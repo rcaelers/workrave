@@ -26,10 +26,10 @@
 
 using namespace detail;
 
-ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter)
+ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter, QWidget *parent_widget)
 {
   context = std::make_shared<detail::ToolkitMenuContext>(filter);
-  entry = std::make_shared<ToolkitSubMenuEntry>(context, nullptr, menu_model->get_root());
+  entry = std::make_shared<ToolkitSubMenuEntry>(context, nullptr, menu_model->get_root(), parent_widget);
   workrave::utils::connect(menu_model->signal_update(), this, [this]() { entry->init(); });
 }
 
@@ -105,12 +105,17 @@ ToolkitMenuEntry::get_context() const -> ToolkitMenuContext::Ptr
 
 ToolkitSubMenuEntry::ToolkitSubMenuEntry(ToolkitMenuContext::Ptr context,
                                          ToolkitSubMenuEntry *parent,
-                                         menus::SubMenuNode::Ptr node)
+                                         menus::SubMenuNode::Ptr node,
+                                         QWidget *parent_widget)
   : ToolkitMenuEntry(context)
   , parent(parent)
   , node(node)
 {
-  menu = new QMenu(tr(node->get_dynamic_text_no_accel().c_str()));
+  // A QMenu must have a widget parent: Wayland only creates a grabbing popup
+  // (one that closes when clicking outside it) for a surface with a transient
+  // parent, and Qt derives that transient parent from the widget parent. A
+  // parentless menu silently becomes an ordinary toplevel window instead.
+  menu = new QMenu(tr(node->get_dynamic_text_no_accel().c_str()), parent != nullptr ? parent->get_menu() : parent_widget);
   init();
 }
 
