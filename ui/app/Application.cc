@@ -204,6 +204,14 @@ Application::init_args()
 void
 Application::init_configurator()
 {
+#if defined(HAVE_QT)
+  // Must be set before any QSettings is constructed (e.g. QtSettingsConfigurator below),
+  // since QSettings() captures these names at construction time, not lazily.
+  QCoreApplication::setOrganizationName("Workrave");
+  QCoreApplication::setOrganizationDomain("workrave.org");
+  QCoreApplication::setApplicationName("Workrave");
+#endif
+
   std::string ini_file = AssetPath::complete_directory("workrave.ini", SearchPathId::Config);
 
   // LCOV_EXCL_START

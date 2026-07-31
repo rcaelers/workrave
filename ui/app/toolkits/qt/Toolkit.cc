@@ -48,9 +48,6 @@ Toolkit::Toolkit(int &argc, char **argv)
   , heartbeat_timer(new QTimer(this))
 {
   TRACE_ENTRY();
-  QCoreApplication::setOrganizationName("Workrave");
-  QCoreApplication::setOrganizationDomain("workrave.org");
-  QCoreApplication::setApplicationName("Workrave");
 }
 
 void
