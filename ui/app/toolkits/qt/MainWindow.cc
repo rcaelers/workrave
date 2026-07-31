@@ -57,19 +57,13 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
   layout->setContentsMargins(0, 0, 0, 0);
   setLayout(layout);
 
-  if (GUIConfig::sanctuary_ui_enabled()())
-    {
-      switch_view(GUIConfig::display_style()());
-      GUIConfig::display_style().connect(this, [this](DisplayStyle style) { switch_view(style); });
-    }
-  else
-    {
-      set_classic_window_chrome();
-
-      timer_box_view = new TimerBoxView(app->get_core());
-      timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
-      layout->addWidget(timer_box_view);
-    }
+  // display_style's own Classic value is what used to gate this on
+  // sanctuary_ui_enabled; switch_view() already renders Classic identically
+  // to the old plain-widget path below, so listening unconditionally here
+  // is what makes the "Timer layout" preference (which is reachable and
+  // settable regardless of sanctuary_ui_enabled) actually take effect.
+  switch_view(GUIConfig::display_style()());
+  GUIConfig::display_style().connect(this, [this](DisplayStyle style) { switch_view(style); });
 
   menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
                                        [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
