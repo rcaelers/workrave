@@ -826,7 +826,9 @@ endif()
 if (UNIX AND NOT APPLE)
   option(WITH_APPINDICATOR "Enable Appindicator support" ON)
 
-  if (WITH_APPINDICATOR)
+  # gtkmm only: the Qt toolkit publishes its own status icon via QSystemTrayIcon,
+  # so building the indicator too would put two icons in the tray.
+  if (WITH_APPINDICATOR AND WITH_UI_GTK)
     message(STATUS "Checking for: AppIndicator")
     pkg_check_modules(APPINDICATOR ayatana-appindicator-glib)
 
@@ -838,6 +840,10 @@ if (UNIX AND NOT APPLE)
       set (HAVE_APPINDICATOR OFF)
       set (HAVE_STATUSICON ON)
     endif()
+  else()
+    set (WITH_APPINDICATOR OFF)
+    set (HAVE_APPINDICATOR OFF)
+    set (HAVE_STATUSICON ON)
   endif()
 endif()
 

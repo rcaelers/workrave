@@ -39,7 +39,7 @@ if (PLATFORM_OS_UNIX)
     target_link_libraries(workrave-app PUBLIC ${DBUSMENU_LIBRARIES})
   endif()
 
-  if (HAVE_APPINDICATOR)
+  if (HAVE_APPINDICATOR AND WITH_UI_GTK)
     target_sources(workrave-app PRIVATE platforms/unix/AppIndicatorMenu.cc platforms/unix/GioMenu.cc)
     target_include_directories(workrave-app PUBLIC ${APPINDICATOR_INCLUDE_DIRS})
     target_link_directories(workrave-app PUBLIC ${APPINDICATOR_LIBRARY_DIRS})
