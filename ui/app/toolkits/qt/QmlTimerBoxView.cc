@@ -28,6 +28,7 @@
 #include <QQmlContext>
 #include <QScreen>
 #include <QVBoxLayout>
+#include <QWindow>
 
 #include "core/CoreTypes.hh"
 #include "debug.hh"
@@ -133,13 +134,29 @@ StatusWindowBridge::forceRestBreak()
 void
 StatusWindowBridge::startWindowDrag()
 {
+  system_move_active = false;
+
+  // Wayland gives a client no way to move itself: QCursor::pos() reports no
+  // usable global position and move() on a toplevel is ignored outright, so the
+  // manual drag below silently does nothing. Hand the drag to the compositor
+  // instead. This must happen while the button is down, which is exactly when
+  // QML calls us. Corner snapping is not possible on Wayland for the same
+  // reason, so stopWindowDrag() skips it in this mode.
+  if (owner_window != nullptr && QGuiApplication::platformName().startsWith(QLatin1String("wayland")))
+    {
+      if (QWindow *handle = owner_window->windowHandle(); handle != nullptr)
+        {
+          system_move_active = handle->startSystemMove();
+        }
+    }
+
   last_cursor_pos = QCursor::pos();
 }
 
 void
 StatusWindowBridge::continueWindowDrag()
 {
-  if (owner_window == nullptr)
+  if (owner_window == nullptr || system_move_active)
     return;
   QPoint current = QCursor::pos();
   owner_window->move(owner_window->pos() + current - last_cursor_pos);
@@ -149,6 +166,12 @@ StatusWindowBridge::continueWindowDrag()
 void
 StatusWindowBridge::stopWindowDrag()
 {
+  if (system_move_active)
+    {
+      system_move_active = false;
+      return;
+    }
+
   if (owner_window == nullptr)
     {
       return;

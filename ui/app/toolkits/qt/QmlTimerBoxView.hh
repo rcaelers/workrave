@@ -116,6 +116,8 @@ private:
   std::shared_ptr<workrave::ICore> core;
   QWidget *owner_window{nullptr};
   QPoint   last_cursor_pos;
+  // Set while the compositor is running the drag for us; see startWindowDrag().
+  bool system_move_active{false};
   std::array<TimerData, workrave::BREAK_ID_SIZEOF> timers;
   // slot assignments: slot_to_id[slot] = break_id currently in that slot
   std::array<int, workrave::BREAK_ID_SIZEOF> slot_to_id;
