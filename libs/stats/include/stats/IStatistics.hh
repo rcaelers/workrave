@@ -34,28 +34,41 @@ typedef __int64 int64_t;
 #include "stats/IStatisticsContext.hh"
 #include "stats/LocalTime.hh"
 #include "stats/StatValue.hh"
+#include "utils/Enum.hh"
 
 namespace workrave::stats
 {
+  //! How often the user was prompted for, took, skipped or postponed a break today.
+  enum class BreakStatValue
+  {
+    Prompted = 0,
+    Taken,
+    NaturalTaken,
+    Skipped,
+    Postponed,
+    UniqueBreaks,
+  };
+} // namespace workrave::stats
+
+template<>
+struct workrave::utils::enum_traits<workrave::stats::BreakStatValue>
+{
+  static constexpr auto min = workrave::stats::BreakStatValue::Prompted;
+  static constexpr auto max = workrave::stats::BreakStatValue::UniqueBreaks;
+  static constexpr auto linear = true;
+};
+
+namespace workrave::stats
+{
+  static constexpr auto STATS_BREAKVALUE_SIZEOF = workrave::utils::enum_count<BreakStatValue>();
+
   class IStatistics
   {
   public:
     using Ptr = std::shared_ptr<IStatistics>;
 
-    //! How often the user was prompted for, took, skipped or postponed a break today.
-    enum StatsBreakValueType
-    {
-      STATS_BREAKVALUE_PROMPTED = 0,
-      STATS_BREAKVALUE_TAKEN,
-      STATS_BREAKVALUE_NATURAL_TAKEN,
-      STATS_BREAKVALUE_SKIPPED,
-      STATS_BREAKVALUE_POSTPONED,
-      STATS_BREAKVALUE_UNIQUE_BREAKS,
-      STATS_BREAKVALUE_SIZEOF
-    };
-
     //! The break-prompt/taken/skipped/postponed counts of a single break, today.
-    using BreakCounters = std::array<workrave::stats::StatValue<int64_t>, STATS_BREAKVALUE_SIZEOF>;
+    using BreakCounters = workrave::utils::array<BreakStatValue, workrave::stats::StatValue<int64_t>>;
 
     struct DailyStats
     {
@@ -98,7 +111,7 @@ namespace workrave::stats
     virtual DailyStats *get_current_day() const = 0;
 
     //! Today's break-prompt/taken/skipped/postponed count. Live: add()/set() persist.
-    virtual workrave::stats::StatValue<int64_t> &break_counter(workrave::BreakId break_id, StatsBreakValueType type) = 0;
+    virtual workrave::stats::StatValue<int64_t> &break_counter(workrave::BreakId break_id, BreakStatValue type) = 0;
 
     //! How long a break has been overdue today. Live: set() updates it in place.
     virtual workrave::stats::StatValue<std::chrono::seconds> &total_overdue(workrave::BreakId break_id) = 0;

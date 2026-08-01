@@ -317,24 +317,23 @@ StatisticsBridge::updateStats()
         int64_t value = 0;
         switch (row)
           {
-            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS].get();
-            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS].get();
+          case 0:
+            value = bs[workrave::stats::BreakStatValue::UniqueBreaks].get();
             break;
           case 1:
-            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED].get()
-                    - bs[workrave::stats::IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS].get();
+            value = bs[workrave::stats::BreakStatValue::Prompted].get() - bs[workrave::stats::BreakStatValue::UniqueBreaks].get();
             break;
           case 2:
-            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_TAKEN].get();
+            value = bs[workrave::stats::BreakStatValue::Taken].get();
             break;
           case 3:
-            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN].get();
+            value = bs[workrave::stats::BreakStatValue::NaturalTaken].get();
             break;
           case 4:
-            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_SKIPPED].get();
+            value = bs[workrave::stats::BreakStatValue::Skipped].get();
             break;
           case 5:
-            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_POSTPONED].get();
+            value = bs[workrave::stats::BreakStatValue::Postponed].get();
             break;
           case 6:
             return formatTime(stats->total_overdue[break_id].get().count());

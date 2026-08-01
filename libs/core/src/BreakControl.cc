@@ -234,7 +234,7 @@ BreakControl::goto_stage(BreakStage stage)
 
                 // Update stats.
                 IStatistics *stats = core->get_statistics();
-                stats->break_counter(break_id, IStatistics::STATS_BREAKVALUE_TAKEN).add(1);
+                stats->break_counter(break_id, BreakStatValue::Taken).add(1);
 
                 // Play sound
                 switch (break_id)
@@ -400,11 +400,11 @@ BreakControl::start_break()
 
       // Update statistics.
       IStatistics *stats = core->get_statistics();
-      stats->break_counter(break_id, IStatistics::STATS_BREAKVALUE_PROMPTED).add(1);
+      stats->break_counter(break_id, BreakStatValue::Prompted).add(1);
 
       if (prelude_count == 0)
         {
-          stats->break_counter(break_id, IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS).add(1);
+          stats->break_counter(break_id, BreakStatValue::UniqueBreaks).add(1);
           // break_event_signal(BreakEvent::BreakStart);
         }
 
@@ -551,7 +551,7 @@ BreakControl::postpone_break()
 
           // Update stats.
           IStatistics *stats = core->get_statistics();
-          stats->break_counter(break_id, IStatistics::STATS_BREAKVALUE_POSTPONED).add(1);
+          stats->break_counter(break_id, BreakStatValue::Postponed).add(1);
 
           break_event_signal(BreakEvent::BreakPostponed);
         }
@@ -589,7 +589,7 @@ BreakControl::skip_break()
 
       // Update stats.
       IStatistics *stats = core->get_statistics();
-      stats->break_counter(break_id, IStatistics::STATS_BREAKVALUE_SKIPPED).add(1);
+      stats->break_counter(break_id, BreakStatValue::Skipped).add(1);
 
       break_event_signal(BreakEvent::BreakSkipped);
 

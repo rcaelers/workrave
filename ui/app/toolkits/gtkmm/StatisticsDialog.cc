@@ -316,32 +316,32 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
     {
       stringstream ss;
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS].get();
+      value = stats->break_stats[i][BreakStatValue::UniqueBreaks].get();
       ss.str("");
       ss << value;
       break_labels[i][0]->set_text(ss.str());
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_PROMPTED].get() - value;
+      value = stats->break_stats[i][BreakStatValue::Prompted].get() - value;
       ss.str("");
       ss << value;
       break_labels[i][1]->set_text(ss.str());
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_TAKEN].get();
+      value = stats->break_stats[i][BreakStatValue::Taken].get();
       ss.str("");
       ss << value;
       break_labels[i][2]->set_text(ss.str());
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN].get();
+      value = stats->break_stats[i][BreakStatValue::NaturalTaken].get();
       ss.str("");
       ss << value;
       break_labels[i][3]->set_text(ss.str());
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_SKIPPED].get();
+      value = stats->break_stats[i][BreakStatValue::Skipped].get();
       ss.str("");
       ss << value;
       break_labels[i][4]->set_text(ss.str());
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_POSTPONED].get();
+      value = stats->break_stats[i][BreakStatValue::Postponed].get();
       ss.str("");
       ss << value;
       break_labels[i][5]->set_text(ss.str());

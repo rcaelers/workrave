@@ -221,8 +221,9 @@ namespace
     // A day in progress that hasn't seen any activity yet has no start of its own,
     // so its date is only known through the current wall clock.
     const auto *today = statistics->get_current_day();
-    const Date today_date = (today != nullptr && today->start.has_value()) ? workrave::stats::date_of(*today->start)
-                                                                             : workrave::stats::date_of(workrave::stats::local_now());
+    const Date today_date = (today != nullptr && today->start.has_value())
+                              ? workrave::stats::date_of(*today->start)
+                              : workrave::stats::date_of(workrave::stats::local_now());
     std::erase(dates, today_date);
 
     return dates.size();
@@ -1669,7 +1670,7 @@ BOOST_AUTO_TEST_CASE(test_statistics_counters_and_delete_history)
   auto *today = statistics->get_current_day();
   BOOST_REQUIRE(today != nullptr);
 
-  auto &prompted = today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED];
+  auto &prompted = today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::BreakStatValue::Prompted];
   prompted.set(4);
   prompted.add(1);
   prompted.add(3);
@@ -1678,10 +1679,9 @@ BOOST_AUTO_TEST_CASE(test_statistics_counters_and_delete_history)
   BOOST_CHECK(statistics->delete_all_history());
   BOOST_CHECK_EQUAL(history_size(statistics), 0);
   BOOST_REQUIRE(statistics->get_current_day() != nullptr);
-  BOOST_CHECK_EQUAL(statistics->get_current_day()
-                      ->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED]
-                      .get(),
-                    0);
+  BOOST_CHECK_EQUAL(
+    statistics->get_current_day()->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::BreakStatValue::Prompted].get(),
+    0);
 }
 
 //! Break counters other than TOTAL_OVERDUE are written straight to the store, so they
@@ -1693,17 +1693,16 @@ BOOST_AUTO_TEST_CASE(test_statistics_break_counter_is_durable_immediately)
   auto *statistics = dynamic_cast<workrave::stats::IStatistics *>(core->get_statistics().get());
   BOOST_REQUIRE(statistics != nullptr);
 
-  statistics->get_current_day()
-    ->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED]
-    .add(1);
+  statistics->get_current_day()->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::BreakStatValue::Prompted].add(1);
 
   // Read the store directly, bypassing Statistics's own in-memory current_day, to
   // prove the increment reached the store immediately.
   auto store = workrave::stats::StatisticsStoreFactory::create(workrave::utils::Paths::get_state_directory());
   auto today = store->load_today();
   BOOST_REQUIRE(today.has_value());
-  BOOST_CHECK_EQUAL(today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED],
-                    1);
+  BOOST_CHECK_EQUAL(
+    today->break_stats[workrave::BREAK_ID_MICRO_BREAK][static_cast<size_t>(workrave::stats::BreakStatValue::Prompted)],
+    1);
 }
 
 BOOST_AUTO_TEST_CASE(test_statistics_load_current_day_and_history)
@@ -1734,9 +1733,7 @@ BOOST_AUTO_TEST_CASE(test_statistics_load_current_day_and_history)
   BOOST_REQUIRE(statistics != nullptr);
   auto *today = statistics->get_current_day();
   BOOST_REQUIRE(today != nullptr);
-  BOOST_CHECK_EQUAL(
-    today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED].get(),
-    1);
+  BOOST_CHECK_EQUAL(today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::BreakStatValue::Prompted].get(), 1);
   BOOST_CHECK_EQUAL(today->total_overdue[workrave::BREAK_ID_MICRO_BREAK].get().count(), 7);
   BOOST_CHECK_EQUAL(today->total_active_time.get().count(), 42);
 
@@ -1776,21 +1773,19 @@ BOOST_AUTO_TEST_CASE(test_statistics_start_new_day)
 
   auto *today = statistics->get_current_day();
   BOOST_REQUIRE(today != nullptr);
-  today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED].set(7);
+  today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::BreakStatValue::Prompted].set(7);
 
   statistics->start_new_day();
   BOOST_CHECK(statistics->get_current_day() == today);
   BOOST_CHECK_EQUAL(history_size(statistics), 0);
-  BOOST_CHECK_EQUAL(
-    today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED].get(),
-    7);
+  BOOST_CHECK_EQUAL(today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::BreakStatValue::Prompted].get(), 7);
 
   auto rollover = [statistics, this](int days_forward, int prompted) {
     auto *old_day = statistics->get_current_day();
     auto archived = history_size(statistics);
     old_day->start = workrave::stats::local_now();
     const Date old_date = workrave::stats::date_of(*old_day->start);
-    old_day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED].set(prompted);
+    old_day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::BreakStatValue::Prompted].set(prompted);
     sim->current_time += std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::days{days_forward}).count();
     statistics->start_new_day();
     // start_new_day() may have freed old_day (and its replacement may even reuse
@@ -1802,13 +1797,11 @@ BOOST_AUTO_TEST_CASE(test_statistics_start_new_day)
 
     auto archived_day = statistics->get_day(old_date);
     BOOST_REQUIRE(archived_day.has_value());
+    BOOST_CHECK_EQUAL(archived_day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::BreakStatValue::Prompted].get(),
+                      prompted);
     BOOST_CHECK_EQUAL(
-      archived_day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED].get(),
-      prompted);
-    BOOST_CHECK_EQUAL(statistics->get_current_day()
-                        ->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED]
-                        .get(),
-                      0);
+      statistics->get_current_day()->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::BreakStatValue::Prompted].get(),
+      0);
   };
 
   // A day, a month and a year forward; any later date must start a new day.
@@ -1831,7 +1824,7 @@ BOOST_AUTO_TEST_CASE(test_statistics_day_to_history)
   auto archive_current_day = [statistics, this](int days_forward, int prompted) {
     auto *day = statistics->get_current_day();
     day->start = workrave::stats::local_now();
-    day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED].set(prompted);
+    day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::BreakStatValue::Prompted].set(prompted);
     sim->current_time += std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::days{days_forward}).count();
     statistics->start_new_day();
   };
@@ -1847,18 +1840,14 @@ BOOST_AUTO_TEST_CASE(test_statistics_day_to_history)
   BOOST_CHECK(oldest.value() == first_day);
   auto oldest_day = statistics->get_day(oldest.value());
   BOOST_REQUIRE(oldest_day.has_value());
-  BOOST_CHECK_EQUAL(
-    oldest_day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED].get(),
-    11);
+  BOOST_CHECK_EQUAL(oldest_day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::BreakStatValue::Prompted].get(), 11);
 
   std::optional<Date> next = statistics->get_next_date(oldest.value());
   BOOST_REQUIRE(next.has_value());
   BOOST_CHECK(next.value() == Date{std::chrono::local_days{first_day} + std::chrono::days{800}});
   auto next_day = statistics->get_day(next.value());
   BOOST_REQUIRE(next_day.has_value());
-  BOOST_CHECK_EQUAL(
-    next_day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED].get(),
-    12);
+  BOOST_CHECK_EQUAL(next_day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::stats::BreakStatValue::Prompted].get(), 12);
 }
 
 BOOST_AUTO_TEST_CASE(test_load_valid_timer_state)

@@ -47,23 +47,23 @@ BreakStatistics::on_break_event(BreakEvent event)
   switch (event)
     {
     case BreakEvent::ShowPrelude:
-      statistics->break_counter(break_id, IStatistics::STATS_BREAKVALUE_PROMPTED).add(1);
+      statistics->break_counter(break_id, BreakStatValue::Prompted).add(1);
       break;
 
     case BreakEvent::BreakStart:
-      statistics->break_counter(break_id, IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS).add(1);
+      statistics->break_counter(break_id, BreakStatValue::UniqueBreaks).add(1);
       break;
 
     case BreakEvent::BreakPostponed:
-      statistics->break_counter(break_id, IStatistics::STATS_BREAKVALUE_POSTPONED).add(1);
+      statistics->break_counter(break_id, BreakStatValue::Postponed).add(1);
       break;
 
     case BreakEvent::BreakSkipped:
-      statistics->break_counter(break_id, IStatistics::STATS_BREAKVALUE_SKIPPED).add(1);
+      statistics->break_counter(break_id, BreakStatValue::Skipped).add(1);
       break;
 
     case BreakEvent::BreakTaken:
-      statistics->break_counter(break_id, IStatistics::STATS_BREAKVALUE_TAKEN).add(1);
+      statistics->break_counter(break_id, BreakStatValue::Taken).add(1);
       break;
 
     case BreakEvent::ShowBreak:

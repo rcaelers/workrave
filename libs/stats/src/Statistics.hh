@@ -38,7 +38,6 @@ namespace workrave::stats
     explicit Statistics(IStatisticsContext::Ptr context);
     ~Statistics() override;
 
-
   public:
     void init();
 
@@ -47,7 +46,7 @@ namespace workrave::stats
     bool delete_all_history() override;
 
     DailyStats *get_current_day() const override;
-    StatValue<int64_t> &break_counter(workrave::BreakId break_id, StatsBreakValueType type) override;
+    StatValue<int64_t> &break_counter(workrave::BreakId break_id, BreakStatValue type) override;
     StatValue<std::chrono::seconds> &total_overdue(workrave::BreakId break_id) override;
     StatValue<std::chrono::seconds> &total_active_time() override;
     std::optional<DailyStats> get_day(const Date &date) const override;

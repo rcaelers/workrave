@@ -1270,7 +1270,7 @@ Core::timer_action(BreakId id, TimerInfo info)
       break;
 
     case TIMER_EVENT_NATURAL_RESET:
-      statistics->break_counter(id, IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN).add(1);
+      statistics->break_counter(id, BreakStatValue::NaturalTaken).add(1);
       // FALLTHROUGH
 
     case TIMER_EVENT_RESET:
