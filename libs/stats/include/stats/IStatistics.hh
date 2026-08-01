@@ -105,7 +105,14 @@ namespace workrave::stats
     virtual void start_new_day() = 0;
 
     virtual bool delete_all_history() = 0;
+
+    //! Refreshes in-memory bookkeeping (activity start/stop). Cheap: safe to call
+    //! every heartbeat.
     virtual void update() = 0;
+
+    //! Persists the day in progress. Causes disk I/O: callers should rate-limit
+    //! this to avoid wearing out storage.
+    virtual void save() = 0;
 
     //! The day in progress, which is being counted right now.
     virtual DailyStats *get_current_day() const = 0;

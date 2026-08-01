@@ -172,10 +172,13 @@ BreaksControl::heartbeat()
       b->process();
     }
 
+  // Cheap, in-memory only: safe to do every heartbeat.
+  statistics->update();
+
   // Make state persistent.
   if (TimeSource::get_monotonic_time_sec() % SAVESTATETIME == 0)
     {
-      statistics->update();
+      statistics->save();
       save_state();
     }
 }

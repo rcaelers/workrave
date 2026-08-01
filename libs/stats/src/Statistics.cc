@@ -70,6 +70,7 @@ Statistics::Statistics(std::function<bool()> is_active)
 Statistics::~Statistics()
 {
   update();
+  save();
 
   delete current_day;
 }
@@ -88,7 +89,7 @@ Statistics::init()
     }
 }
 
-//! Periodic heartbeat.
+//! Refreshes in-memory bookkeeping. Cheap: safe to call every heartbeat.
 void
 Statistics::update()
 {
@@ -103,7 +104,13 @@ Statistics::update()
         }
       current_day->stop = now;
     }
+}
 
+//! Persists the day in progress. Causes disk I/O: callers should rate-limit
+//! this to avoid wearing out storage.
+void
+Statistics::save()
+{
   save_day(current_day);
 }
 
@@ -152,7 +159,7 @@ Statistics::start_new_day()
     }
 
   update();
-  save_day(current_day);
+  save();
 }
 
 void

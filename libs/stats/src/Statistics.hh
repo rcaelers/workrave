@@ -42,6 +42,7 @@ namespace workrave::stats
     void init();
 
     void update() override;
+    void save() override;
     void start_new_day() override;
     bool delete_all_history() override;
 

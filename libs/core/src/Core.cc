@@ -772,6 +772,7 @@ Core::set_powersave(bool down)
 
       save_state();
       statistics->update();
+      statistics->save();
     }
   else
     {
@@ -962,13 +963,16 @@ Core::heartbeat()
       statistics->total_overdue(BreakId(i)).set(std::chrono::seconds{timer->get_total_overdue_time()});
     }
 
+  // Cheap, in-memory only: safe to do every heartbeat.
+  statistics->update();
+
   // Set current time.
   int64_t current_time = TimeSource::get_real_time_sec();
 
   // Make state persistent.
   if (current_time % SAVESTATETIME == 0)
     {
-      statistics->update();
+      statistics->save();
       save_state();
     }
 

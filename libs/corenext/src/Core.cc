@@ -409,6 +409,7 @@ Core::set_powersave(bool down)
 
       breaks_control->save_state();
       statistics->update();
+      statistics->save();
     }
   else
     {
