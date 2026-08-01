@@ -296,14 +296,14 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       stats = &empty;
     }
 
-  if (stats->start == workrave::stats::LocalTime{})
+  if (stats->is_empty())
     {
       date_label->set_text("-");
     }
   else
     {
-      const std::tm start = workrave::stats::to_tm(stats->start);
-      const std::tm stop = workrave::stats::to_tm(stats->stop);
+      const std::tm start = workrave::stats::to_tm(*stats->start);
+      const std::tm stop = workrave::stats::to_tm(*stats->stop);
       auto data_range = fmt::format(fmt::runtime(_("{:%x}, from {:%X} to {:%X}")), start, start, stop);
       date_label->set_text(data_range);
     }

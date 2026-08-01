@@ -59,11 +59,11 @@ namespace workrave::stats
 
     struct DailyStats
     {
-      //! When this day started, in local time.
-      workrave::stats::LocalTime start;
+      //! When the user was first observed active today. Unset until then.
+      std::optional<workrave::stats::LocalTime> start;
 
-      //! When the user was last active on this day, in local time.
-      workrave::stats::LocalTime stop;
+      //! When the user was last observed active today. Unset the same way as start.
+      std::optional<workrave::stats::LocalTime> stop;
 
       //! How often the user was prompted for, took, skipped or postponed each break today.
       std::array<BreakCounters, BREAK_ID_SIZEOF> break_stats{};
@@ -75,9 +75,11 @@ namespace workrave::stats
       workrave::stats::StatValue<std::chrono::seconds> total_active_time;
 
       //! A day that was never started, as opposed to one without any activity.
+      //! start and stop are always set together, but both are checked so that
+      //! callers never need to assume that invariant to dereference safely.
       [[nodiscard]] bool is_empty() const
       {
-        return start == workrave::stats::LocalTime{};
+        return !start.has_value() || !stop.has_value();
       }
     };
 

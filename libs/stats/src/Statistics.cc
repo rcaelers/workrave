@@ -62,7 +62,6 @@ namespace workrave::stats
   Statistics::Statistics(IStatisticsContext::Ptr context)
     : context(std::move(context))
     , current_day(nullptr)
-    , been_active(false)
   {
   }
 
@@ -94,13 +93,12 @@ namespace workrave::stats
     if (context->is_active())
       {
         const LocalTime now = local_now();
-        current_day->stop = now;
 
-        if (!been_active)
+        if (!current_day->start.has_value())
           {
             current_day->start = now;
-            been_active = true;
           }
+        current_day->stop = now;
       }
 
     // A core that derives counters from its own timers fills them in here.
@@ -128,27 +126,27 @@ namespace workrave::stats
     return true;
   }
 
-  //! Starts a new day and archive current any (if exists)
+  //! Starts a new day and archives the current one (if it saw any activity).
   void Statistics::start_new_day()
   {
     TRACE_ENTRY();
-    const LocalTime now = local_now();
+    const Date today = date_of(local_now());
 
-    if (current_day == nullptr || date_of(now) != date_of(current_day->start))
+    // A day without activity has nothing worth archiving, so it is simply kept
+    // around and reused until either activity or a genuine day change occurs.
+    const bool day_changed = current_day != nullptr && current_day->start.has_value() && date_of(*current_day->start) != today;
+
+    if (current_day == nullptr || day_changed)
       {
-        TRACE_MSG("New day");
-        if (current_day != nullptr)
+        if (day_changed)
           {
             TRACE_MSG("Save old day");
             day_to_history(current_day);
           }
 
+        delete current_day;
         current_day = new DailyStats();
         wire_write_through(*current_day);
-        been_active = false;
-
-        current_day->start = now;
-        current_day->stop = now;
       }
 
     update();
@@ -168,8 +166,13 @@ namespace workrave::stats
   {
     DailyStatsRecord record;
 
-    record.start = stats->start;
-    record.stop = stats->stop;
+    // A day that has not seen any activity yet has no start/stop of its own; the
+    // store still needs a concrete time, so "now" is used as a placeholder until
+    // real activity sets one. This only ever backs the transient today-in-progress
+    // snapshot: an empty day is never archived to history (see start_new_day()).
+    const LocalTime now = local_now();
+    record.start = stats->start.value_or(now);
+    record.stop = stats->stop.value_or(now);
 
     record.break_stats.resize(BREAK_ID_SIZEOF);
     for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -251,8 +254,6 @@ namespace workrave::stats
           }
       }
 
-    been_active = true;
-
     return current_day != nullptr;
   }
 
@@ -300,7 +301,7 @@ namespace workrave::stats
   {
     // The day in progress is only written to the store now and then, so its
     // counters are read straight from memory.
-    if (current_day != nullptr && date_of(current_day->start) == date)
+    if (current_day != nullptr && current_day->start.has_value() && date_of(*current_day->start) == date)
       {
         return *current_day;
       }
@@ -360,9 +361,9 @@ namespace workrave::stats
 
     // Correct the stored value of the day in progress, which is behind by up to
     // one save interval, with what has been counted since.
-    if (current_day != nullptr)
+    if (current_day != nullptr && current_day->start.has_value())
       {
-        const Date today = date_of(current_day->start);
+        const Date today = date_of(*current_day->start);
         if (today >= from && today <= to)
           {
             std::optional<DailyStatsRecord> stored = store->load_date(today);

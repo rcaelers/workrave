@@ -262,7 +262,7 @@ StatisticsBridge::updateStats()
   std::optional<workrave::stats::IStatistics::DailyStats> day = (selected_year_ > 0) ? statistics_->get_day(selectedDate())
                                                                                      : std::nullopt;
 
-  if (!day.has_value() || day->start == workrave::stats::LocalTime{})
+  if (!day.has_value() || day->is_empty())
     {
       clearStats();
       return;
@@ -273,9 +273,9 @@ StatisticsBridge::updateStats()
   // ── Date text ──────────────────────────────────────────────────────────────
   {
     QLocale locale;
-    QDate start_date = to_qdate(workrave::stats::date_of(stats->start));
-    QTime start_time = to_qtime(stats->start);
-    QTime stop_time = to_qtime(stats->stop);
+    QDate start_date = to_qdate(workrave::stats::date_of(*stats->start));
+    QTime start_time = to_qtime(*stats->start);
+    QTime stop_time = to_qtime(*stats->stop);
 
     QString date_str = locale.toString(start_date, QLocale::ShortFormat);
     QString start_str = locale.toString(start_time, QLocale::ShortFormat);

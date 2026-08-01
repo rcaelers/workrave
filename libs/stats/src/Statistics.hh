@@ -79,9 +79,6 @@ namespace workrave::stats
 
     //! Statistics of current day.
     DailyStats *current_day;
-
-    //! Has the user been active on the current day?
-    bool been_active;
   };
 } // namespace workrave::stats
 

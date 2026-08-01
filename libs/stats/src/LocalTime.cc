@@ -17,12 +17,16 @@
 
 #include "stats/LocalTime.hh"
 
+#include "utils/TimeSource.hh"
+
 namespace workrave::stats
 {
   //! The current local wall clock time.
   LocalTime local_now()
   {
-    const std::time_t now = std::time(nullptr);
+    // Goes through TimeSource, like the rest of the codebase, so that tests can
+    // simulate the passage of time instead of mutating statistics directly.
+    const std::time_t now = std::chrono::system_clock::to_time_t(workrave::utils::TimeSource::get_real_time());
 
     std::tm local{};
 #if defined(_WIN32)
