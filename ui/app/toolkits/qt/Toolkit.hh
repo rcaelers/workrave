@@ -20,6 +20,7 @@
 
 #include <memory>
 #include <map>
+#include <optional>
 #include <boost/signals2.hpp>
 
 #include <QApplication>
@@ -134,6 +135,7 @@ private:
 
   workrave::utils::Trackable tracker;
   QTranslator *current_translator{nullptr};
+  std::optional<Qt::ColorScheme> last_color_scheme;
 
   boost::signals2::signal<void()> timer_signal;
   boost::signals2::signal<void()> main_window_closed_signal;

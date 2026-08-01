@@ -416,7 +416,7 @@ Toolkit::apply_qt_locale(const std::string &locale_code)
       }
   }
 
-  for (const QString &candidate : std::as_const(candidates))
+  for (const QString &candidate: std::as_const(candidates))
     {
       if (QFile::exists(candidate))
         {
@@ -479,8 +479,21 @@ Toolkit::eventFilter(QObject *obj, QEvent *event)
 {
   if (event->type() == QEvent::ApplicationPaletteChange || event->type() == QEvent::ThemeChange)
     {
-      spdlog::info("Theme changed to {}",
-                   (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Light) ? "Light" : "Dark");
+      const auto color_scheme = QGuiApplication::styleHints()->colorScheme();
+      if (last_color_scheme != color_scheme)
+        {
+          last_color_scheme = color_scheme;
+          const char *name = "Unknown";
+          if (color_scheme == Qt::ColorScheme::Light)
+            {
+              name = "Light";
+            }
+          else if (color_scheme == Qt::ColorScheme::Dark)
+            {
+              name = "Dark";
+            }
+          spdlog::info("Theme changed to {}", name);
+        }
     }
   return false;
 }
