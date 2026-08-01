@@ -53,15 +53,15 @@ namespace
 using namespace workrave::stats;
 
 std::shared_ptr<IStatistics>
-workrave::stats::create(std::shared_ptr<IStatisticsContext> context)
+workrave::stats::create(std::function<bool()> is_active)
 {
-  auto statistics = std::make_shared<Statistics>(context);
+  auto statistics = std::make_shared<Statistics>(std::move(is_active));
   statistics->init();
   return statistics;
 }
 
-Statistics::Statistics(IStatisticsContext::Ptr context)
-  : context(std::move(context))
+Statistics::Statistics(std::function<bool()> is_active)
+  : is_active(std::move(is_active))
   , current_day(nullptr)
 {
 }
@@ -93,7 +93,7 @@ void
 Statistics::update()
 {
   TRACE_ENTRY();
-  if (context->is_active())
+  if (is_active())
     {
       const LocalTime now = local_now();
 

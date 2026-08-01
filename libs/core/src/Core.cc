@@ -46,7 +46,6 @@
 #include "config/IConfigurator.hh"
 #include "core/CoreConfig.hh"
 #include "stats/IStatistics.hh"
-#include "StatisticsContext.hh"
 #include "BreakControl.hh"
 #include "Timer.hh"
 #include "TimePredFactory.hh"
@@ -299,7 +298,7 @@ Core::init_breaks()
 void
 Core::init_statistics()
 {
-  statistics = workrave::stats::create(std::make_shared<StatisticsContext>(this));
+  statistics = workrave::stats::create([this]() { return monitor->get_current_state() == ACTIVITY_ACTIVE; });
 }
 
 //! Loads the configuration of the monitor.

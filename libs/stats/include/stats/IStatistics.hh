@@ -20,6 +20,7 @@
 
 #include <array>
 #include <chrono>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <vector>
@@ -31,7 +32,6 @@ typedef __int64 int64_t;
 #endif
 
 #include "core/CoreTypes.hh"
-#include "stats/IStatisticsContext.hh"
 #include "stats/LocalTime.hh"
 #include "stats/StatValue.hh"
 #include "utils/Enum.hh"
@@ -141,7 +141,8 @@ namespace workrave::stats
     virtual std::chrono::seconds get_total_active_time(const Date &from, const Date &to) const = 0;
   };
 
-  std::shared_ptr<IStatistics> create(std::shared_ptr<IStatisticsContext> context);
+  //! Creates the statistics. is_active reports whether the user is active right now.
+  std::shared_ptr<IStatistics> create(std::function<bool()> is_active);
 
 } // namespace workrave::stats
 

@@ -43,7 +43,6 @@
 #include "Break.hh"
 #include "core/CoreConfig.hh"
 #include "stats/IStatistics.hh"
-#include "StatisticsContext.hh"
 
 #if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
 #  include "RpcCoreServer.hh"
@@ -109,7 +108,7 @@ Core::init(IApp *app, const char *display_name)
 
   monitor->init();
 
-  statistics = workrave::stats::create(std::make_shared<StatisticsContext>(monitor));
+  statistics = workrave::stats::create([m = monitor]() { return m->is_active(); });
 
   core_modes = std::make_shared<CoreModes>(monitor);
   breaks_control = std::make_shared<BreaksControl>(application, monitor, core_modes, statistics, hooks);

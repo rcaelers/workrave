@@ -19,12 +19,12 @@
 #define WORKRAVE_LIBS_STATS_STATISTICS_HH
 
 #include <chrono>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <vector>
 
 #include "stats/IStatistics.hh"
-#include "stats/IStatisticsContext.hh"
 #include "IStatisticsStore.hh"
 
 namespace workrave::stats
@@ -35,7 +35,7 @@ namespace workrave::stats
   public:
     using Ptr = std::shared_ptr<Statistics>;
 
-    explicit Statistics(IStatisticsContext::Ptr context);
+    explicit Statistics(std::function<bool()> is_active);
     ~Statistics() override;
 
   public:
@@ -70,8 +70,8 @@ namespace workrave::stats
     void wire_write_through(DailyStats &day);
 
   private:
-    //! What this core does differently.
-    IStatisticsContext::Ptr context;
+    //! Whether the user is active right now.
+    std::function<bool()> is_active;
 
     //! Persistent storage of the statistics.
     IStatisticsStore::Ptr store;
