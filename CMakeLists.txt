@@ -961,7 +961,7 @@ if (UNIX AND (NOT APPLE))
 
     find_program(WAYLAND_SCANNER wayland-scanner)
     if (NOT WAYLAND_SCANNER)
-      message(ERROR "wayland-scanner not found")
+      message(WARNING "wayland-scanner not found")
     endif()
 
     if (WAYLAND_CLIENT_FOUND AND WAYLAND_SCANNER)
