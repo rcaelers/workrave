@@ -3,6 +3,9 @@
 #endif
 
 #include "ScreenLockCustomCommand.hh"
+
+#include <utility>
+
 #include "debug.hh"
 
 #if defined(HAVE_GLIB)

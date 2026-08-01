@@ -4,5 +4,53 @@
   { "include": ["\"config/IConfiguratorListener.hh\"","private", "\"config/Config.hh\"", "public"] },
   { "include": ["\"config/Setting.hh\"",              "private", "\"config/Config.hh\"", "public"] },
 
-  { "include": ["\"core/ICoreHooks.hh\"", "private", "\"core/ICore.hh\"", "public"] }
+  { "include": ["\"core/ICoreHooks.hh\"", "private", "\"core/ICore.hh\"", "public"] },
+
+  { "include": [ "@<pulse/(direction|mainloop-api|sample|format|def|context|stream|introspect|subscribe|scache|version|error|operation|channelmap|volume|xmalloc|utf8|thread-mainloop|mainloop|mainloop-signal|util|timeval|proplist|rtclock)\\.h>",   "private", "<pulse/pulseaudio.h>", "public" ] },
+  { "include": [ "@\"pulse/(direction|mainloop-api|sample|format|def|context|stream|introspect|subscribe|scache|version|error|operation|channelmap|volume|xmalloc|utf8|thread-mainloop|mainloop|mainloop-signal|util|timeval|proplist|rtclock)\\.h\"", "private", "<pulse/pulseaudio.h>", "public" ] },
+
+  { "include": [ "@<gst/base/(?!base\\.h$).+>",         "private", "<gst/base/base.h>", "public" ] },
+  { "include": [ "@\"gst/base/(?!base\\.h$).+\"",       "private", "<gst/base/base.h>", "public" ] },
+  { "include": [ "@<gst/app/(?!app\\.h$).+>",           "private", "<gst/app/app.h>", "public" ] },
+  { "include": [ "@\"gst/app/(?!app\\.h$).+\"",         "private", "<gst/app/app.h>", "public" ] },
+  { "include": [ "@<gst/audio/(?!audio\\.h$).+>",       "private", "<gst/audio/audio.h>", "public" ] },
+  { "include": [ "@\"gst/audio/(?!audio\\.h$).+\"",     "private", "<gst/audio/audio.h>", "public" ] },
+  { "include": [ "@<gst/video/(?!video\\.h$).+>",       "private", "<gst/video/video.h>", "public" ] },
+  { "include": [ "@\"gst/video/(?!video\\.h$).+\"",     "private", "<gst/video/video.h>", "public" ] },
+  { "include": [ "@<gst/pbutils/(?!pbutils\\.h$).+>",   "private", "<gst/pbutils/pbutils.h>", "public" ] },
+  { "include": [ "@\"gst/pbutils/(?!pbutils\\.h$).+\"", "private", "<gst/pbutils/pbutils.h>", "public" ] },
+  { "include": [ "@<gst/tag/(?!tag\\.h$).+>",           "private", "<gst/tag/tag.h>", "public" ] },
+  { "include": [ "@\"gst/tag/(?!tag\\.h$).+\"",         "private", "<gst/tag/tag.h>", "public" ] },
+  { "include": [ "@<gst/rtp/(?!rtp\\.h$).+>",           "private", "<gst/rtp/rtp.h>", "public" ] },
+  { "include": [ "@\"gst/rtp/(?!rtp\\.h$).+\"",         "private", "<gst/rtp/rtp.h>", "public" ] },
+  { "include": [ "@<gst/rtsp/(?!rtsp\\.h$).+>",         "private", "<gst/rtsp/rtsp.h>", "public" ] },
+  { "include": [ "@\"gst/rtsp/(?!rtsp\\.h$).+\"",       "private", "<gst/rtsp/rtsp.h>", "public" ] },
+  { "include": [ "@<gst/sdp/(?!sdp\\.h$).+>",           "private", "<gst/sdp/sdp.h>", "public" ] },
+  { "include": [ "@\"gst/sdp/(?!sdp\\.h$).+\"",         "private", "<gst/sdp/sdp.h>", "public" ] },
+  { "include": [ "@<gst/net/(?!net\\.h$).+>",           "private", "<gst/net/net.h>", "public" ] },
+  { "include": [ "@\"gst/net/(?!net\\.h$).+\"",         "private", "<gst/net/net.h>", "public" ] },
+  { "include": [ "@<gst/check/(?!check\\.h$).+>",       "private", "<gst/check/check.h>", "public" ] },
+  { "include": [ "@\"gst/check/(?!check\\.h$).+\"",     "private", "<gst/check/check.h>", "public" ] },
+  { "include": [ "@<gst/controller/(?!controller\\.h$).+>",   "private", "<gst/controller/controller.h>", "public" ] },
+  { "include": [ "@\"gst/controller/(?!controller\\.h$).+\"", "private", "<gst/controller/controller.h>", "public" ] },
+  { "include": [ "@<gst/allocators/(?!allocators\\.h$).+>",   "private", "<gst/allocators/allocators.h>", "public" ] },
+  { "include": [ "@\"gst/allocators/(?!allocators\\.h$).+\"", "private", "<gst/allocators/allocators.h>", "public" ] },
+  { "include": [ "@<gst/fft/(?!fft\\.h$).+>",           "private", "<gst/fft/fft.h>", "public" ] },
+  { "include": [ "@\"gst/fft/(?!fft\\.h$).+\"",         "private", "<gst/fft/fft.h>", "public" ] },
+  { "include": [ "@<gst/gl/(?!gl\\.h$).+>",             "private", "<gst/gl/gl.h>", "public" ] },
+  { "include": [ "@\"gst/gl/(?!gl\\.h$).+\"",           "private", "<gst/gl/gl.h>", "public" ] },
+
+  { "include": [ "@<gst/(?!gst\\.h$).+>",   "private", "<gst/gst.h>", "public" ] },
+  { "include": [ "@\"gst/(?!gst\\.h$).+\"", "private", "<gst/gst.h>", "public" ] },
+
+  { "include": [ "@<grpcpp/(?!grpcpp\\.h$).+>",   "private", "<grpcpp/grpcpp.h>", "public" ] },
+  { "include": [ "@\"grpcpp/(?!grpcpp\\.h$).+\"", "private", "<grpcpp/grpcpp.h>", "public" ] },
+
+  { "include": [ "@<boost/signals2/(?!.*\\.hpp$).+>",   "private", "<boost/signals2.hpp>", "public" ] },
+  { "include": [ "@<boost/signals2/.+\\.hpp>",          "private", "<boost/signals2.hpp>", "public" ] },
+  { "include": [ "@\"boost/signals2/(?!.*\\.hpp$).+\"", "private", "<boost/signals2.hpp>", "public" ] },
+  { "include": [ "@\"boost/signals2/.+\\.hpp\"",        "private", "<boost/signals2.hpp>", "public" ] },
+
+  { "include": [ "@<libdbusmenu-glib/(?!dbusmenu-glib\\.h$).+>",   "private", "<libdbusmenu-glib/dbusmenu-glib.h>", "public" ] },
+  { "include": [ "@\"libdbusmenu-glib/(?!dbusmenu-glib\\.h$).+\"", "private", "<libdbusmenu-glib/dbusmenu-glib.h>", "public" ] }
 ]

@@ -3,7 +3,6 @@
 
 #include "rpc/RequestInterceptor.hh"
 
-#include <algorithm>
 #include <condition_variable>
 #include <cstddef>
 #include <mutex>

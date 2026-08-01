@@ -31,19 +31,19 @@
 #  include <glib.h>
 #endif
 
-#include <cstdlib>
 #include <cstdio>
-#include <cstring>
 
 #if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
 
 #include <algorithm>
-#include <iostream>
 
 #include "session/System.hh"
 #include "debug.hh"
+
+#include "session/IScreenLockMethod.hh"
+#include "session/ISystemStateChangeMethod.hh"
 
 #if defined(PLATFORM_OS_MACOS)
 #  include "ScreenLockMacOS.hh"
@@ -487,8 +487,7 @@ System::get_sleep_operations()
   std::vector<SystemOperation> ops;
   for (const auto &op: supported_system_operations)
     {
-      if (op.type == SystemOperation::SYSTEM_OPERATION_SUSPEND
-          || op.type == SystemOperation::SYSTEM_OPERATION_HIBERNATE
+      if (op.type == SystemOperation::SYSTEM_OPERATION_SUSPEND || op.type == SystemOperation::SYSTEM_OPERATION_HIBERNATE
           || op.type == SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID)
         {
           ops.push_back(op);
