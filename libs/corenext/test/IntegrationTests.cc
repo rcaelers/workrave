@@ -59,7 +59,7 @@ using namespace std::chrono_literals;
 
 #include "Timer.hh"
 #include "ICoreTestHooks.hh"
-#include "Statistics.hh"
+#include "stats/Statistics.hh"
 #include "SimulatedTime.hh"
 #include "ActivityMonitorStub.hh"
 
@@ -207,6 +207,27 @@ operator<<(std::ostream &out, const Observation &o)
   return out;
 }
 
+namespace
+{
+  using Date = workrave::IStatistics::Date;
+
+  //! The number of archived days, which is every day but the one in progress.
+  size_t
+  history_size(workrave::IStatistics *statistics)
+  {
+    using namespace std::chrono;
+    std::vector<Date> dates = statistics->get_dates(year{1} / 1 / 1, year{9999} / 12 / 31);
+
+    const auto *today = statistics->get_current_day();
+    if (today != nullptr)
+      {
+        std::erase(dates, workrave::stats::date_of(today->start));
+      }
+
+    return dates.size();
+  }
+} // namespace
+
 class Backend : public workrave::IApp
 {
 public:
@@ -219,6 +240,12 @@ public:
       {
         i = 0;
       }
+
+    // Statistics are now kept in a database that survives whatever an earlier
+    // test case left behind, so each test case starts from an empty state
+    // directory.
+    std::error_code ec;
+    std::filesystem::remove_all(workrave::utils::Paths::get_state_directory(), ec);
   }
 
   ~Backend() override
@@ -1636,7 +1663,7 @@ BOOST_AUTO_TEST_CASE(test_statistics_counters_and_delete_history)
 {
   init();
 
-  auto *statistics = dynamic_cast<Statistics *>(core->get_statistics().get());
+  auto *statistics = dynamic_cast<workrave::stats::Statistics *>(core->get_statistics().get());
   BOOST_REQUIRE(statistics != nullptr);
   auto *today = statistics->get_current_day();
   BOOST_REQUIRE(today != nullptr);
@@ -1664,7 +1691,7 @@ BOOST_AUTO_TEST_CASE(test_statistics_counters_and_delete_history)
 
   statistics->dump();
   BOOST_CHECK(statistics->delete_all_history());
-  BOOST_CHECK_EQUAL(statistics->get_history_size(), 0);
+  BOOST_CHECK_EQUAL(history_size(statistics), 0);
   BOOST_REQUIRE(statistics->get_current_day() != nullptr);
   BOOST_CHECK_EQUAL(statistics->get_current_day()->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_KEYSTROKES], 0);
 }
@@ -1693,7 +1720,7 @@ BOOST_AUTO_TEST_CASE(test_statistics_load_current_day_and_history)
 
   init();
 
-  auto *statistics = dynamic_cast<Statistics *>(core->get_statistics().get());
+  auto *statistics = dynamic_cast<workrave::stats::Statistics *>(core->get_statistics().get());
   BOOST_REQUIRE(statistics != nullptr);
   auto *today = statistics->get_current_day();
   BOOST_REQUIRE(today != nullptr);
@@ -1702,34 +1729,38 @@ BOOST_AUTO_TEST_CASE(test_statistics_load_current_day_and_history)
   BOOST_CHECK_EQUAL(today->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME], 42);
   BOOST_CHECK_EQUAL(today->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_KEYSTROKES], 60);
 
-  BOOST_CHECK_EQUAL(statistics->get_history_size(), 3);
-  BOOST_REQUIRE(statistics->get_day(-1) != nullptr);
-  BOOST_REQUIRE(statistics->get_day(-2) != nullptr);
-  BOOST_REQUIRE(statistics->get_day(1) != nullptr);
-  BOOST_CHECK_EQUAL(statistics->get_day(-1)->start.tm_mday, 1);
-  BOOST_CHECK_EQUAL(statistics->get_day(-2)->start.tm_mday, 2);
-  BOOST_CHECK_EQUAL(statistics->get_day(1)->start.tm_mday, 3);
-  BOOST_CHECK(statistics->get_day(4) == nullptr);
-  BOOST_CHECK(statistics->get_day(-4) == nullptr);
+  BOOST_CHECK_EQUAL(history_size(statistics), 3);
 
-  BOOST_CHECK_EQUAL(statistics->get_day(-1)->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME], 11);
-  BOOST_CHECK_EQUAL(statistics->get_day(-1)->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_KEYSTROKES], 0);
-  BOOST_CHECK_EQUAL(statistics->get_day(-2)->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME], 7);
+  using namespace std::chrono;
 
-  int index = -1;
-  int next = -1;
-  int previous = -1;
-  statistics->get_day_index_by_date(2020, 1, 2, index, next, previous);
-  BOOST_CHECK_EQUAL(index, 2);
-  BOOST_CHECK_EQUAL(next, 1);
-  BOOST_CHECK_EQUAL(previous, 3);
+  const Date first{year{2020} / 1 / 1};
+  const Date second{year{2020} / 1 / 2};
+  const Date third{year{2020} / 1 / 3};
+
+  BOOST_REQUIRE(statistics->get_day(first).has_value());
+  BOOST_REQUIRE(statistics->get_day(second).has_value());
+  BOOST_REQUIRE(statistics->get_day(third).has_value());
+  BOOST_CHECK(!statistics->get_day(year{2020} / 1 / 4).has_value());
+
+  BOOST_CHECK_EQUAL(statistics->get_day(first)->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME], 11);
+  BOOST_CHECK_EQUAL(statistics->get_day(first)->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_KEYSTROKES], 0);
+  BOOST_CHECK_EQUAL(statistics->get_day(second)->misc_stats[workrave::IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME], 7);
+
+  BOOST_CHECK(statistics->get_first_date() == first);
+  BOOST_CHECK(statistics->get_previous_date(second) == first);
+  BOOST_CHECK(statistics->get_next_date(second) == third);
+
+  // The third day only has a broken 'M' record, which counts as no active time.
+  BOOST_CHECK_EQUAL(statistics->get_total_active_time(first, year{2020} / 1 / last), 18);
+  BOOST_CHECK_EQUAL(statistics->get_total_active_time(first, second), 18);
+  BOOST_CHECK_EQUAL(statistics->get_total_active_time(first, first), 11);
 }
 
 BOOST_AUTO_TEST_CASE(test_statistics_start_new_day)
 {
   init();
 
-  auto *statistics = dynamic_cast<Statistics *>(core->get_statistics().get());
+  auto *statistics = dynamic_cast<workrave::stats::Statistics *>(core->get_statistics().get());
   BOOST_REQUIRE(statistics != nullptr);
   BOOST_REQUIRE(statistics->delete_all_history());
 
@@ -1739,81 +1770,68 @@ BOOST_AUTO_TEST_CASE(test_statistics_start_new_day)
 
   statistics->start_new_day();
   BOOST_CHECK(statistics->get_current_day() == today);
-  BOOST_CHECK_EQUAL(statistics->get_history_size(), 0);
+  BOOST_CHECK_EQUAL(history_size(statistics), 0);
   BOOST_CHECK_EQUAL(today->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED], 7);
 
   auto rollover = [statistics](auto change_date, int prompted) {
     auto *old_day = statistics->get_current_day();
-    auto history_size = statistics->get_history_size();
+    auto archived = history_size(statistics);
     statistics->set_break_counter(workrave::BREAK_ID_MICRO_BREAK, workrave::IStatistics::STATS_BREAKVALUE_PROMPTED, prompted);
     change_date(old_day->start);
     statistics->start_new_day();
 
     BOOST_REQUIRE(statistics->get_current_day() != nullptr);
     BOOST_CHECK(statistics->get_current_day() != old_day);
-    BOOST_CHECK_EQUAL(statistics->get_history_size(), history_size + 1);
+    BOOST_CHECK_EQUAL(history_size(statistics), archived + 1);
     BOOST_CHECK_EQUAL(old_day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED], prompted);
     BOOST_CHECK_EQUAL(
       statistics->get_current_day()->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED],
       0);
   };
 
-  rollover([](std::tm &date) { date.tm_mday = date.tm_mday == 1 ? 2 : 1; }, 7);
-  rollover([](std::tm &date) { date.tm_mon = date.tm_mon == 0 ? 1 : 0; }, 8);
-  rollover([](std::tm &date) { date.tm_year = date.tm_year == 1 ? 2 : 1; }, 9);
-  BOOST_CHECK(std::filesystem::is_regular_file(workrave::utils::Paths::get_state_directory() / "historystats"));
+  // A day, a month and a year back; any earlier date must start a new day.
+  rollover([](workrave::stats::LocalTime &start) { start -= std::chrono::days{1}; }, 7);
+  rollover([](workrave::stats::LocalTime &start) { start -= std::chrono::days{40}; }, 8);
+  rollover([](workrave::stats::LocalTime &start) { start -= std::chrono::days{400}; }, 9);
+  BOOST_CHECK(std::filesystem::is_regular_file(workrave::utils::Paths::get_state_directory() / "statistics.db"));
 }
 
 BOOST_AUTO_TEST_CASE(test_statistics_day_to_history)
 {
   init();
 
-  auto *statistics = dynamic_cast<Statistics *>(core->get_statistics().get());
+  auto *statistics = dynamic_cast<workrave::stats::Statistics *>(core->get_statistics().get());
   BOOST_REQUIRE(statistics != nullptr);
   BOOST_REQUIRE(statistics->delete_all_history());
 
-  auto history_path = workrave::utils::Paths::get_state_directory() / "historystats";
-  auto history_file_counts = [&history_path]() {
-    std::array<int, 2> counts{};
-    std::ifstream history_file(history_path);
-    std::string line;
-    while (std::getline(history_file, line))
-      {
-        if (line == "WorkRaveStats 4")
-          {
-            counts[0]++;
-          }
-        else if (line.starts_with("D "))
-          {
-            counts[1]++;
-          }
-      }
-    return counts;
-  };
-  auto archive_current_day = [statistics](int year, int prompted) {
+  const Date today = workrave::stats::date_of(workrave::stats::local_now());
+
+  auto archive_current_day = [statistics](int days_back, int prompted) {
     auto *day = statistics->get_current_day();
     statistics->set_break_counter(workrave::BREAK_ID_MICRO_BREAK, workrave::IStatistics::STATS_BREAKVALUE_PROMPTED, prompted);
-    day->start.tm_year = year;
+    day->start -= std::chrono::days{days_back};
     statistics->start_new_day();
   };
 
-  archive_current_day(1, 11);
-  auto counts = history_file_counts();
-  BOOST_CHECK_EQUAL(counts[0], 1);
-  BOOST_CHECK_EQUAL(counts[1], 1);
+  archive_current_day(800, 11);
+  BOOST_CHECK_EQUAL(history_size(statistics), 1);
 
-  archive_current_day(2, 12);
-  counts = history_file_counts();
-  BOOST_CHECK_EQUAL(counts[0], 1);
-  BOOST_CHECK_EQUAL(counts[1], 2);
+  archive_current_day(400, 12);
+  BOOST_CHECK_EQUAL(history_size(statistics), 2);
 
-  BOOST_CHECK_EQUAL(statistics->get_history_size(), 2);
-  BOOST_REQUIRE(statistics->get_day(-1) != nullptr);
-  BOOST_REQUIRE(statistics->get_day(-2) != nullptr);
-  BOOST_CHECK_EQUAL(statistics->get_day(-1)->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED],
-                    11);
-  BOOST_CHECK_EQUAL(statistics->get_day(-2)->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED],
-                    12);
+  std::optional<Date> oldest = statistics->get_first_date();
+  BOOST_REQUIRE(oldest.has_value());
+  BOOST_CHECK(oldest.value() == Date{std::chrono::local_days{today} - std::chrono::days{800}});
+  auto oldest_day = statistics->get_day(oldest.value());
+  BOOST_REQUIRE(oldest_day.has_value());
+  BOOST_CHECK_EQUAL(oldest_day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED], 11);
+
+  std::optional<Date> next = statistics->get_next_date(oldest.value());
+  BOOST_REQUIRE(next.has_value());
+  BOOST_CHECK(next.value() == Date{std::chrono::local_days{today} - std::chrono::days{400}});
+  auto next_day = statistics->get_day(next.value());
+  BOOST_REQUIRE(next_day.has_value());
+  BOOST_CHECK_EQUAL(next_day->break_stats[workrave::BREAK_ID_MICRO_BREAK][workrave::IStatistics::STATS_BREAKVALUE_PROMPTED], 12);
 }
 
 BOOST_AUTO_TEST_CASE(test_load_valid_timer_state)

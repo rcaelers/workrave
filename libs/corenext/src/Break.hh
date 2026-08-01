@@ -24,7 +24,7 @@
 #include "BreakStateModel.hh"
 #include "BreakStatistics.hh"
 #include "IActivityMonitor.hh"
-#include "Statistics.hh"
+#include "stats/Statistics.hh"
 #include "Timer.hh"
 
 #include "config/IConfigurator.hh"
@@ -42,7 +42,7 @@ public:
         workrave::IApp *app,
         Timer::Ptr timer,
         IActivityMonitor::Ptr activity_monitor,
-        Statistics::Ptr statistics,
+        workrave::stats::Statistics::Ptr statistics,
         CoreHooks::Ptr hooks);
 
   // IBreak

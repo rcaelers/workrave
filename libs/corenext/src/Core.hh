@@ -26,7 +26,7 @@
 #include "core/ICore.hh"
 #include "LocalActivityMonitor.hh"
 #include "BreaksControl.hh"
-#include "Statistics.hh"
+#include "stats/Statistics.hh"
 #include "CoreHooks.hh"
 #include "CoreModes.hh"
 
@@ -128,7 +128,7 @@ private:
   workrave::IApp *application{nullptr};
 
   //! The statistics collector.
-  Statistics::Ptr statistics;
+  workrave::stats::Statistics::Ptr statistics;
 
   //! Did the OS announce a powersave?
   bool powersave{false};

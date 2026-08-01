@@ -29,7 +29,7 @@ using namespace workrave;
 BreakStatistics::BreakStatistics(BreakId break_id,
                                  BreakStateModel::Ptr break_state_model,
                                  Timer::Ptr timer,
-                                 Statistics::Ptr statistics)
+                                 workrave::stats::Statistics::Ptr statistics)
   : break_id(break_id)
   , break_state_model(break_state_model)
   , timer(timer)
@@ -46,23 +46,23 @@ BreakStatistics::on_break_event(BreakEvent event)
   switch (event)
     {
     case BreakEvent::ShowPrelude:
-      statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_PROMPTED);
+      statistics->increment_break_counter(break_id, workrave::IStatistics::STATS_BREAKVALUE_PROMPTED);
       break;
 
     case BreakEvent::BreakStart:
-      statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_UNIQUE_BREAKS);
+      statistics->increment_break_counter(break_id, workrave::IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS);
       break;
 
     case BreakEvent::BreakPostponed:
-      statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_POSTPONED);
+      statistics->increment_break_counter(break_id, workrave::IStatistics::STATS_BREAKVALUE_POSTPONED);
       break;
 
     case BreakEvent::BreakSkipped:
-      statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
+      statistics->increment_break_counter(break_id, workrave::IStatistics::STATS_BREAKVALUE_SKIPPED);
       break;
 
     case BreakEvent::BreakTaken:
-      statistics->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
+      statistics->increment_break_counter(break_id, workrave::IStatistics::STATS_BREAKVALUE_TAKEN);
       break;
 
     case BreakEvent::ShowBreak:
@@ -86,10 +86,10 @@ BreakStatistics::update()
 {
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, static_cast<int>(timer->get_elapsed_time()));
+      statistics->set_counter(workrave::IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME, static_cast<int>(timer->get_elapsed_time()));
     }
 
   statistics->set_break_counter(break_id,
-                                Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE,
+                                workrave::IStatistics::STATS_BREAKVALUE_TOTAL_OVERDUE,
                                 static_cast<int>(timer->get_total_overdue_time()));
 }

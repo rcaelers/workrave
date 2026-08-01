@@ -42,6 +42,30 @@
 
 using namespace workrave;
 
+namespace
+{
+  QDate
+  to_qdate(const workrave::IStatistics::Date &date)
+  {
+    return {static_cast<int>(date.year()), static_cast<int>(static_cast<unsigned>(date.month())),
+            static_cast<int>(static_cast<unsigned>(date.day()))};
+  }
+
+  workrave::IStatistics::Date
+  to_date(const QDate &date)
+  {
+    return std::chrono::year{date.year()} / date.month() / date.day();
+  }
+
+  QTime
+  to_qtime(workrave::stats::LocalTime time)
+  {
+    const std::chrono::hh_mm_ss clock{workrave::stats::time_of_day(time)};
+    return {static_cast<int>(clock.hours().count()), static_cast<int>(clock.minutes().count()),
+            static_cast<int>(clock.seconds().count())};
+  }
+} // namespace
+
 // ── StatisticsBridge ──────────────────────────────────────────────────────────
 
 StatisticsBridge::StatisticsBridge(workrave::IStatistics::Ptr statistics,
@@ -86,16 +110,9 @@ StatisticsBridge::calendarCells() const
 
   // Collect which days have data
   QSet<int> days_with_data;
-  for (int d = 1; d <= days_in_month; d++)
+  for (const Date &date: statistics_->get_dates(to_date(first), to_date(first.addDays(days_in_month - 1))))
     {
-      int idx  = 0;
-      int next = 0;
-      int prev = 0;
-      statistics_->get_day_index_by_date(calendar_year_, calendar_month_, d, idx, next, prev);
-      if (idx >= 0)
-        {
-          days_with_data.insert(d);
-        }
+      days_with_data.insert(static_cast<int>(static_cast<unsigned>(date.day())));
     }
 
   QVariantList cells;
@@ -125,109 +142,93 @@ StatisticsBridge::calendarCells() const
 
 // ── Navigation ────────────────────────────────────────────────────────────────
 
+workrave::IStatistics::Date
+StatisticsBridge::selectedDate() const
+{
+  return to_date(QDate(selected_year_, selected_month_, selected_day_));
+}
+
 void
 StatisticsBridge::goBack()
 {
-  if (current_prev_ >= 0)
+  std::optional<Date> date = statistics_->get_previous_date(selectedDate());
+  if (date.has_value())
     {
-      selectDayIndex(current_prev_);
+      selectDate(date.value());
     }
 }
 
 void
 StatisticsBridge::goForward()
 {
-  if (current_next_ >= 0)
+  std::optional<Date> date = statistics_->get_next_date(selectedDate());
+  if (date.has_value())
     {
-      selectDayIndex(current_next_);
+      selectDate(date.value());
     }
 }
 
 void
 StatisticsBridge::goFirst()
 {
-  int size = statistics_->get_history_size();
-  if (size >= 0)
+  std::optional<Date> date = statistics_->get_first_date();
+  if (date.has_value())
     {
-      selectDayIndex(size);
+      selectDate(date.value());
     }
 }
 
 void
 StatisticsBridge::goLast()
 {
-  int size = statistics_->get_history_size();
-  if (size >= 0)
+  std::optional<Date> date = statistics_->get_last_date();
+  if (date.has_value())
     {
-      selectDayIndex(0);
+      selectDate(date.value());
     }
 }
 
 void
 StatisticsBridge::selectDate(int y, int m, int d)
 {
-  int idx  = 0;
-  int next = 0;
-  int prev = 0;
-  statistics_->get_day_index_by_date(y, m, d, idx, next, prev);
-  if (idx >= 0)
-    {
-      selectDayIndex(idx);
-    }
-  else
-    {
-      selected_year_  = y;
-      selected_month_ = m;
-      selected_day_   = d;
-      current_idx_    = -1;
-      current_next_   = next;
-      current_prev_   = prev;
-      clearStats();
-      Q_EMIT calendarChanged();
-      Q_EMIT dataChanged();
-      Q_EMIT navChanged();
-    }
+  selectDate(to_date(QDate(y, m, d)));
 }
 
+//! Shows the given date, whether or not it has statistics.
 void
-StatisticsBridge::selectDayIndex(int idx)
+StatisticsBridge::selectDate(const Date &date)
 {
-  IStatistics::DailyStats *stats = statistics_->get_day(idx);
-  if (stats == nullptr)
-    {
-      return;
-    }
+  const QDate selected = to_qdate(date);
 
-  int next = 0;
-  int prev = 0;
-  statistics_->get_day_index_by_date(stats->start.tm_year + 1900,
-                                      stats->start.tm_mon + 1,
-                                      stats->start.tm_mday,
-                                      idx,
-                                      next,
-                                      prev);
-
-  current_idx_  = idx;
-  current_next_ = next;
-  current_prev_ = prev;
-
-  selected_year_  = stats->start.tm_year + 1900;
-  selected_month_ = stats->start.tm_mon + 1;
-  selected_day_   = stats->start.tm_mday;
+  selected_year_  = selected.year();
+  selected_month_ = selected.month();
+  selected_day_   = selected.day();
 
   // Flip the calendar page if needed
-  bool page_changed = (calendar_year_ != selected_year_) || (calendar_month_ != selected_month_);
-  if (page_changed)
-    {
-      calendar_year_  = selected_year_;
-      calendar_month_ = selected_month_;
-    }
+  calendar_year_  = selected.year();
+  calendar_month_ = selected.month();
 
   updateStats();
+  updateNavigation();
 
   Q_EMIT calendarChanged();
   Q_EMIT dataChanged();
   Q_EMIT navChanged();
+}
+
+//! Works out which of the navigation buttons have somewhere to go.
+void
+StatisticsBridge::updateNavigation()
+{
+  const Date date = selectedDate();
+
+  std::optional<Date> first = statistics_->get_first_date();
+  std::optional<Date> last  = statistics_->get_last_date();
+
+  can_go_back_    = statistics_->get_previous_date(date).has_value();
+  can_go_forward_ = statistics_->get_next_date(date).has_value();
+  can_go_first_   = first.has_value() && first.value() != date;
+  can_go_last_    = last.has_value() && last.value() != date;
 }
 
 // ── prevMonth / nextMonth ─────────────────────────────────────────────────────
@@ -261,20 +262,22 @@ StatisticsBridge::nextMonth()
 void
 StatisticsBridge::updateStats()
 {
-  IStatistics::DailyStats *stats = (current_idx_ >= 0) ? statistics_->get_day(current_idx_) : nullptr;
+  std::optional<IStatistics::DailyStats> day = (selected_year_ > 0) ? statistics_->get_day(selectedDate()) : std::nullopt;
 
-  if (stats == nullptr || stats->start.tm_year == 0)
+  if (!day.has_value() || day->start == workrave::stats::LocalTime{})
     {
       clearStats();
       return;
     }
 
+  const IStatistics::DailyStats *stats = &day.value();
+
   // ── Date text ──────────────────────────────────────────────────────────────
   {
     QLocale locale;
-    QDate start_date(stats->start.tm_year + 1900, stats->start.tm_mon + 1, stats->start.tm_mday);
-    QTime start_time(stats->start.tm_hour, stats->start.tm_min, stats->start.tm_sec);
-    QTime stop_time(stats->stop.tm_hour, stats->stop.tm_min, stats->stop.tm_sec);
+    QDate start_date = to_qdate(workrave::stats::date_of(stats->start));
+    QTime start_time = to_qtime(stats->start);
+    QTime stop_time = to_qtime(stats->stop);
 
     QString date_str  = locale.toString(start_date, QLocale::ShortFormat);
     QString start_str = locale.toString(start_time, QLocale::ShortFormat);
@@ -372,44 +375,15 @@ StatisticsBridge::updateWeekUsage()
       return;
     }
 
-  std::tm timeinfo{};
-  std::memset(&timeinfo, 0, sizeof(timeinfo));
-  timeinfo.tm_mday = selected_day_;
-  timeinfo.tm_mon  = selected_month_ - 1;
-  timeinfo.tm_year = selected_year_ - 1900;
-
-  std::time_t t        = std::mktime(&timeinfo);
-  std::tm const *tloc  = std::localtime(&t);
-
   QLocale locale;
-  int week_start = locale.firstDayOfWeek() % 7; // Qt: 1=Mon…7=Sun → 0-based Sun=0
+  const QDate selected(selected_year_, selected_month_, selected_day_);
 
-  int offset     = (tloc->tm_wday - week_start + 7) % 7;
-  int64_t total  = 0;
+  // Qt: dayOfWeek() and firstDayOfWeek() are both 1=Mon … 7=Sun.
+  const int offset = (selected.dayOfWeek() - locale.firstDayOfWeek() + 7) % 7;
+  const QDate first = selected.addDays(-offset);
+  const QDate last = first.addDays(6);
 
-  for (int i = 0; i < 7; i++)
-    {
-      std::tm day_tm{};
-      std::memset(&day_tm, 0, sizeof(day_tm));
-      day_tm.tm_mday = selected_day_ - offset + i;
-      day_tm.tm_mon  = selected_month_ - 1;
-      day_tm.tm_year = selected_year_ - 1900;
-      std::time_t dt   = std::mktime(&day_tm);
-      std::tm const *dl = std::localtime(&dt);
-
-      int idx  = 0;
-      int next = 0;
-      int prev = 0;
-      statistics_->get_day_index_by_date(dl->tm_year + 1900, dl->tm_mon + 1, dl->tm_mday, idx, next, prev);
-      if (idx >= 0)
-        {
-          IStatistics::DailyStats *stats = statistics_->get_day(idx);
-          if (stats != nullptr)
-            {
-              total += stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
-            }
-        }
-    }
+  const int64_t total = statistics_->get_total_active_time(to_date(first), to_date(last));
 
   weekly_usage_ = (total > 0) ? formatTime(total) : QString{};
 }
@@ -425,24 +399,10 @@ StatisticsBridge::updateMonthUsage()
       return;
     }
 
-  int max_mday = QDate(selected_year_, selected_month_, 1).daysInMonth();
-  int64_t total = 0;
+  const int days_in_month = QDate(selected_year_, selected_month_, 1).daysInMonth();
 
-  for (int d = 1; d <= max_mday; d++)
-    {
-      int idx  = 0;
-      int next = 0;
-      int prev = 0;
-      statistics_->get_day_index_by_date(selected_year_, selected_month_, d, idx, next, prev);
-      if (idx >= 0)
-        {
-          IStatistics::DailyStats *stats = statistics_->get_day(idx);
-          if (stats != nullptr)
-            {
-              total += stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
-            }
-        }
-    }
+  const QDate first(selected_year_, selected_month_, 1);
+  const int64_t total = statistics_->get_total_active_time(to_date(first), to_date(first.addDays(days_in_month - 1)));
 
   monthly_usage_ = (total > 0) ? formatTime(total) : QString{};
 }
@@ -452,7 +412,8 @@ StatisticsBridge::updateMonthUsage()
 void
 StatisticsBridge::tick()
 {
-  if (current_idx_ == 0)
+  const QDate today = QDate::currentDate();
+  if (selected_year_ == today.year() && selected_month_ == today.month() && selected_day_ == today.day())
     {
       statistics_->update();
       updateStats();
@@ -469,29 +430,13 @@ StatisticsBridge::deleteAllHistory()
   if (success)
     {
       statistics_->update();
-      current_idx_    = -1;
-      current_next_   = -1;
-      current_prev_   = -1;
-      selected_year_  = 0;
-      selected_month_ = 0;
-      selected_day_   = 0;
       clearStats();
 
-      // Navigate to last (most recent) entry, which may not exist after deletion
-      int size = statistics_->get_history_size();
-      if (size >= 0)
-        {
-          selectDayIndex(0);
-        }
-      else
-        {
-          QDate today      = QDate::currentDate();
-          calendar_year_   = today.year();
-          calendar_month_  = today.month();
-          Q_EMIT calendarChanged();
-          Q_EMIT dataChanged();
-          Q_EMIT navChanged();
-        }
+      // Deleting starts a new day, so there is normally something to show; fall
+      // back to today if there is not.
+      std::optional<Date> last = statistics_->get_last_date();
+      const QDate today = QDate::currentDate();
+      selectDate(last.value_or(to_date(today)));
     }
   Q_EMIT deleteCompleted(success);
 }

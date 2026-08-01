@@ -486,7 +486,6 @@ Item {
                     }
                 }
             }
-        }
 
         // ── Bottom bar ────────────────────────────────────────────────────────
         Rectangle {
@@ -507,6 +506,7 @@ Item {
                 onClicked: root.closeRequested()
             }
         }
+    }
 
     // ── ActionButton component ────────────────────────────────────────────────
     component ActionButton: Rectangle {

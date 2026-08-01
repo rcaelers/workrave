@@ -128,6 +128,10 @@
       "platform": "x86 | x64"
     },
     {
+      "name": "sqlite3",
+      "platform": "x86 | x64"
+    },
+    {
       "name": "adwaita-icon-theme",
       "version>=": "43#1",
       "platform": "x64"

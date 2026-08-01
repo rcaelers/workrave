@@ -39,7 +39,7 @@
 #include "core/ICoreEventListener.hh"
 #include "config/IConfiguratorListener.hh"
 #include "Timer.hh"
-#include "Statistics.hh"
+#include "stats/Statistics.hh"
 #include "utils/Diagnostics.hh"
 #include "utils/Signals.hh"
 #include "CoreHooks.hh"
@@ -48,7 +48,6 @@
 
 using namespace workrave;
 
-class Statistics;
 class FakeActivityMonitor;
 class IdleLogManager;
 class BreakControl;
@@ -92,7 +91,7 @@ public:
   bool is_taking() const override;
   std::string get_break_stage(BreakId id);
 
-  Statistics *get_statistics() const override;
+  workrave::stats::Statistics *get_statistics() const override;
   void set_core_events_listener(ICoreEventListener *l) override;
   // @rpc(name="ForceBreak")
   void force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint) override;
@@ -227,7 +226,7 @@ private:
   IApp *application{nullptr};
 
   //! The statistics collector.
-  Statistics *statistics{nullptr};
+  workrave::stats::Statistics::Ptr statistics;
 
   //! Current operation mode.
   TracedField<OperationMode> operation_mode_active{"core.operation_mode_active", OperationMode::Normal};

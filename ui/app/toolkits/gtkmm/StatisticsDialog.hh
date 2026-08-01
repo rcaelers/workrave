@@ -93,14 +93,13 @@ private:
   void on_history_delete_all();
 
   void init_gui();
-  void select_day(int day);
 
   void create_break_page(Gtk::Widget *tnotebook);
   void create_activity_page(Gtk::Widget *tnotebook);
 
   void stream_distance(std::stringstream &stream, int64_t pixels);
-  void get_calendar_day_index(int &idx, int &next, int &prev);
-  void set_calendar_day_index(int idx);
+  workrave::IStatistics::Date get_calendar_date() const;
+  void set_calendar_date(const workrave::IStatistics::Date &date);
   void on_calendar_month_changed();
   void on_calendar_day_selected();
   void on_history_go_back();

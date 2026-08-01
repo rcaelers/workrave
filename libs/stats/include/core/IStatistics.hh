@@ -20,6 +20,8 @@
 
 #include <ctime>
 #include <memory>
+#include <optional>
+#include <vector>
 
 #if defined(PLATFORM_OS_WINDOWS_NATIVE)
 typedef __int64 int64_t;
@@ -28,6 +30,8 @@ typedef __int64 int64_t;
 #endif
 
 #include "core/CoreTypes.hh"
+#include "stats/DailyStatsRecord.hh"
+#include "stats/LocalTime.hh"
 
 namespace workrave
 {
@@ -64,11 +68,11 @@ namespace workrave
 
     struct DailyStats
     {
-      //! Start time of this day.
-      struct tm start;
+      //! When this day started, in local time.
+      workrave::stats::LocalTime start{};
 
-      //! Stop time of this day.
-      struct tm stop;
+      //! When the user was last active on this day, in local time.
+      workrave::stats::LocalTime stop{};
 
       //! Statistic of each break
       BreakStats break_stats[BREAK_ID_SIZEOF];
@@ -77,16 +81,39 @@ namespace workrave
       MiscStats misc_stats;
     };
 
+    //! A local calendar date, as statistics are kept per calendar day.
+    using Date = workrave::stats::Date;
+
   public:
     virtual ~IStatistics() = default;
 
     virtual bool delete_all_history() = 0;
     virtual void update() = 0;
-    virtual DailyStats *get_current_day() const = 0;
-    virtual DailyStats *get_day(int day) const = 0;
-    virtual void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const = 0;
-    virtual int get_history_size() const = 0;
     virtual void dump() = 0;
+
+    //! The day in progress, which is being counted right now.
+    virtual DailyStats *get_current_day() const = 0;
+
+    //! The statistics of a single date, today included.
+    virtual std::optional<DailyStats> get_day(const Date &date) const = 0;
+
+    //! The dates in the inclusive range that have statistics, oldest first.
+    virtual std::vector<Date> get_dates(const Date &from, const Date &to) const = 0;
+
+    //! The nearest date with statistics before the given date.
+    virtual std::optional<Date> get_previous_date(const Date &date) const = 0;
+
+    //! The nearest date with statistics after the given date.
+    virtual std::optional<Date> get_next_date(const Date &date) const = 0;
+
+    //! The oldest date with statistics.
+    virtual std::optional<Date> get_first_date() const = 0;
+
+    //! The most recent date with statistics, which is normally today.
+    virtual std::optional<Date> get_last_date() const = 0;
+
+    //! The total active time over the inclusive date range.
+    virtual int64_t get_total_active_time(const Date &from, const Date &to) const = 0;
   };
 } // namespace workrave
 

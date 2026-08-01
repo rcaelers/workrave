@@ -30,7 +30,7 @@ Break::Break(BreakId break_id,
              IApp *app,
              Timer::Ptr timer,
              IActivityMonitor::Ptr activity_monitor,
-             Statistics::Ptr statistics,
+             workrave::stats::Statistics::Ptr statistics,
              CoreHooks::Ptr hooks)
   : break_id(break_id)
   , timer(timer)

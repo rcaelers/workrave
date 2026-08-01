@@ -19,7 +19,9 @@
 #  include "config.h"
 #endif
 
+#include <array>
 #include <cstdio>
+#include <optional>
 #include <sstream>
 
 #include <ctime>
@@ -305,6 +307,37 @@ StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
   ((Gtk::Notebook *)tnotebook)->append_page(*table, *box);
 }
 
+namespace
+{
+  //! Today, as the calendar sees it.
+  workrave::IStatistics::Date
+  today_date()
+  {
+    return workrave::stats::date_of(workrave::stats::local_now());
+  }
+
+  bool
+  date_is_within(const workrave::IStatistics::Date &date,
+                 const workrave::IStatistics::Date &from,
+                 const workrave::IStatistics::Date &to)
+  {
+    return date >= from && date <= to;
+  }
+
+  //! The date the calendar widget is showing.
+  workrave::IStatistics::Date
+  to_date(const Gtk::Calendar *calendar)
+  {
+    guint year = 0;
+    guint month = 0;
+    guint day = 0;
+    calendar->get_date(year, month, day);
+
+    // Gtk counts months from zero.
+    return std::chrono::year{static_cast<int>(year)} / (month + 1) / day;
+  }
+} // namespace
+
 void
 StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
 {
@@ -316,13 +349,15 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       stats = &empty;
     }
 
-  if (stats->start.tm_year == 0 /*stats->is_empty() */)
+  if (stats->start == workrave::stats::LocalTime{})
     {
       date_label->set_text("-");
     }
   else
     {
-      auto data_range = fmt::format(fmt::runtime(_("{:%x}, from {:%X} to {:%X}")), stats->start, stats->start, stats->stop);
+      const std::tm start = workrave::stats::to_tm(stats->start);
+      const std::tm stop = workrave::stats::to_tm(stats->stop);
+      auto data_range = fmt::format(fmt::runtime(_("{:%x}, from {:%X} to {:%X}")), start, start, stop);
       date_label->set_text(data_range);
     }
 
@@ -407,100 +442,35 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
 void
 StatisticsDialog::display_week_statistics()
 {
-  guint y = 0;
-  guint m = 0;
-  guint d = 0;
-  calendar->get_date(y, m, d);
+  using namespace std::chrono;
 
-  std::tm timeinfo{};
-  std::memset(&timeinfo, 0, sizeof(timeinfo));
-  timeinfo.tm_mday = d;
-  timeinfo.tm_mon = m;
-  timeinfo.tm_year = y - 1900;
+  const IStatistics::Date date = to_date(calendar);
 
-  std::time_t t = std::mktime(&timeinfo);
-  std::tm const *time_loc = std::localtime(&t);
+  const auto weekday_of_date = weekday{sys_days{date}};
+  const int offset = (static_cast<int>(weekday_of_date.c_encoding()) - Locale::get_week_start() + 7) % 7;
 
-  int offset = (time_loc->tm_wday - Locale::get_week_start() + 7) % 7;
-  int64_t total_week = 0;
-  for (int i = 0; i < 7; i++)
-    {
-      std::memset(&timeinfo, 0, sizeof(timeinfo));
-      timeinfo.tm_mday = d - offset + i;
-      timeinfo.tm_mon = m;
-      timeinfo.tm_year = y - 1900;
-      t = std::mktime(&timeinfo);
-      time_loc = std::localtime(&t);
+  const IStatistics::Date from{local_days{date} - days{offset}};
+  const IStatistics::Date to{local_days{from} + days{6}};
 
-      int idx = 0;
-      int next = 0;
-      int prev = 0;
-      statistics->get_day_index_by_date(time_loc->tm_year + 1900, time_loc->tm_mon + 1, time_loc->tm_mday, idx, next, prev);
+  update_usage_real_time |= date_is_within(today_date(), from, to);
 
-      if (idx >= 0)
-        {
-          IStatistics::DailyStats *stats = statistics->get_day(idx);
-          if (stats != nullptr)
-            {
-              total_week += stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
-            }
-
-          update_usage_real_time |= (idx == 0);
-        }
-    }
-
+  const int64_t total_week = statistics->get_total_active_time(from, to);
   weekly_usage_time_label->set_text(total_week > 0 ? Text::time_to_string(total_week) : "");
 }
 
 void
 StatisticsDialog::display_month_statistics()
 {
-  guint y = 0;
-  guint m = 0;
-  guint d = 0;
-  calendar->get_date(y, m, d);
+  using namespace std::chrono;
 
-  guint max_mday = 0;
-  if (m == 3 || m == 5 || m == 8 || m == 10)
-    {
-      max_mday = 30;
-    }
-  else if (m == 1)
-    {
-      bool is_leap = (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
-      if (is_leap)
-        {
-          max_mday = 29;
-        }
-      else
-        {
-          max_mday = 28;
-        }
-    }
-  else
-    {
-      max_mday = 31;
-    }
+  const IStatistics::Date date = to_date(calendar);
 
-  int64_t total_month = 0;
-  for (guint i = 1; i <= max_mday; i++)
-    {
-      int idx = 0;
-      int next = 0;
-      int prev = 0;
-      statistics->get_day_index_by_date(y, m + 1, i, idx, next, prev);
-      if (idx >= 0)
-        {
-          IStatistics::DailyStats *stats = statistics->get_day(idx);
-          if (stats != nullptr)
-            {
-              total_month += stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
-            }
+  const IStatistics::Date from{date.year() / date.month() / 1};
+  const IStatistics::Date to{date.year() / date.month() / last};
 
-          update_usage_real_time |= (idx == 0);
-        }
-    }
+  update_usage_real_time |= date_is_within(today_date(), from, to);
 
+  const int64_t total_month = statistics->get_total_active_time(from, to);
   monthly_usage_time_label->set_text(total_month > 0 ? Text::time_to_string(total_month) : "");
 }
 
@@ -541,88 +511,86 @@ StatisticsDialog::on_calendar_day_selected()
   display_calendar_date();
 }
 
-void
-StatisticsDialog::get_calendar_day_index(int &idx, int &next, int &prev)
+workrave::IStatistics::Date
+StatisticsDialog::get_calendar_date() const
 {
-  guint y = 0;
-  guint m = 0;
-  guint d = 0;
-  calendar->get_date(y, m, d);
-  statistics->get_day_index_by_date(y, m + 1, d, idx, next, prev);
+  return to_date(calendar);
 }
 
 void
-StatisticsDialog::set_calendar_day_index(int idx)
+StatisticsDialog::set_calendar_date(const IStatistics::Date &date)
 {
-  IStatistics::DailyStats *stats = statistics->get_day(idx);
-  calendar->select_month(stats->start.tm_mon, stats->start.tm_year + 1900);
-  calendar->select_day(stats->start.tm_mday);
+  calendar->select_month(static_cast<unsigned>(date.month()) - 1, static_cast<int>(date.year()));
+  calendar->select_day(static_cast<unsigned>(date.day()));
   display_calendar_date();
 }
 
 void
 StatisticsDialog::display_calendar_date()
 {
-  int idx = 0;
-  int next = 0;
-  int prev = 0;
-  get_calendar_day_index(idx, next, prev);
-  IStatistics::DailyStats *stats = nullptr;
-  if (idx >= 0)
+  const IStatistics::Date date = get_calendar_date();
+
+  std::optional<IStatistics::DailyStats> stats = statistics->get_day(date);
+  if (stats.has_value())
     {
-      stats = statistics->get_day(idx);
-      display_statistics(stats);
+      display_statistics(&stats.value());
     }
   else
     {
       clear_display_statistics();
     }
+
   update_usage_real_time = false;
   display_week_statistics();
   display_month_statistics();
-  forward_btn->set_sensitive(next >= 0);
-  back_btn->set_sensitive(prev >= 0);
-  last_btn->set_sensitive(idx != 0);
-  first_btn->set_sensitive(idx != statistics->get_history_size());
+
+  std::optional<IStatistics::Date> first = statistics->get_first_date();
+  std::optional<IStatistics::Date> last = statistics->get_last_date();
+
+  forward_btn->set_sensitive(statistics->get_next_date(date).has_value());
+  back_btn->set_sensitive(statistics->get_previous_date(date).has_value());
+  last_btn->set_sensitive(last.has_value() && last.value() != date);
+  first_btn->set_sensitive(first.has_value() && first.value() != date);
 }
 
 void
 StatisticsDialog::on_history_go_back()
 {
-  int idx = 0;
-  int next = 0;
-  int prev = 0;
-  get_calendar_day_index(idx, next, prev);
-  if (prev >= 0)
+  std::optional<IStatistics::Date> date = statistics->get_previous_date(get_calendar_date());
+  if (date.has_value())
     {
-      set_calendar_day_index(prev);
+      set_calendar_date(date.value());
     }
 }
 
 void
 StatisticsDialog::on_history_go_forward()
 {
-  int idx = 0;
-  int next = 0;
-  int prev = 0;
-  get_calendar_day_index(idx, next, prev);
-  if (next >= 0)
+  std::optional<IStatistics::Date> date = statistics->get_next_date(get_calendar_date());
+  if (date.has_value())
     {
-      set_calendar_day_index(next);
+      set_calendar_date(date.value());
     }
 }
 
 void
 StatisticsDialog::on_history_goto_last()
 {
-  set_calendar_day_index(0);
+  std::optional<IStatistics::Date> date = statistics->get_last_date();
+  if (date.has_value())
+    {
+      set_calendar_date(date.value());
+    }
 }
 
 void
 StatisticsDialog::on_history_goto_first()
 {
-  int size = statistics->get_history_size();
-  set_calendar_day_index(size);
+  std::optional<IStatistics::Date> date = statistics->get_first_date();
+  if (date.has_value())
+    {
+      set_calendar_date(date.value());
+    }
 }
 
 void

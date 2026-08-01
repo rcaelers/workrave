@@ -28,7 +28,6 @@ libs/corenext/src/DayTimePred.cc
 libs/corenext/src/LocalActivityMonitor.cc
 libs/corenext/src/org.workrave.gschema.xml.in
 libs/corenext/src/ReadingActivityMonitor.cc
-libs/corenext/src/Statistics.cc
 libs/corenext/src/TimerActivityMonitor.cc
 libs/corenext/src/Timer.cc
 libs/core/src/Break.cc
@@ -40,10 +39,10 @@ libs/core/src/DayTimePred.cc
 libs/core/src/LocalActivityMonitor.cc
 libs/core/src/org.workrave.gschema.xml.in
 libs/core/src/ReadingActivityMonitor.cc
-libs/core/src/Statistics.cc
 libs/core/src/TimePredFactory.cc
 libs/core/src/Timer.cc
 libs/crash/src/CrashReporter.cc
+libs/stats/src/Statistics.cc
 libs/hooks/harpoon/src/harpoon.c
 libs/input-monitor/src/InputMonitor.cc
 libs/input-monitor/src/InputMonitorFactory.cc

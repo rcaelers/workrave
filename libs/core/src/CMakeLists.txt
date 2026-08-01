@@ -11,7 +11,7 @@ add_library(workrave-libs-core STATIC
   DayTimePred.cc
   LocalActivityMonitor.cc
   ReadingActivityMonitor.cc
-  Statistics.cc
+  StatisticsContext.cc
   Test.cc
   Timer.cc
   #TimerActivityMonitor.cc
@@ -78,7 +78,7 @@ if (HAVE_GRPC AND NOT HAVE_CORE_SHADOW)
     RpcCoreServer.cc)
   target_link_libraries(workrave-libs-core-rpc
     PUBLIC workrave-libs-core
-    PRIVATE workrave-libs-rpc workrave-libs-config-rpc gRPC::grpc++ protobuf::libprotobuf)
+    PRIVATE workrave-libs-core-api workrave-libs-rpc workrave-libs-config-rpc gRPC::grpc++ protobuf::libprotobuf)
   target_include_directories(workrave-libs-core-rpc PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -92,8 +92,10 @@ endif()
 
 target_link_libraries(workrave-libs-core
   PUBLIC
+  workrave-libs-core-api
   workrave-libs-utils
-  workrave-libs-config)
+  workrave-libs-config
+  workrave-libs-stats)
 
 target_link_libraries(workrave-libs-core PUBLIC
   $<$<NOT:$<BOOL:$<TARGET_PROPERTY:USE_STUBS>>>:workrave-libs-input-monitor>

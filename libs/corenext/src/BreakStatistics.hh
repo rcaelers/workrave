@@ -21,7 +21,7 @@
 #include <memory>
 
 #include "BreakStateModel.hh"
-#include "Statistics.hh"
+#include "stats/Statistics.hh"
 #include "utils/Signals.hh"
 
 class BreakStatistics : public workrave::utils::Trackable
@@ -33,7 +33,7 @@ public:
   BreakStatistics(workrave::BreakId break_id,
                   BreakStateModel::Ptr break_state_model,
                   Timer::Ptr timer,
-                  Statistics::Ptr statistics);
+                  workrave::stats::Statistics::Ptr statistics);
 
   void update();
   void daily_reset();
@@ -45,7 +45,7 @@ private:
   workrave::BreakId break_id;
   BreakStateModel::Ptr break_state_model;
   Timer::Ptr timer;
-  Statistics::Ptr statistics;
+  workrave::stats::Statistics::Ptr statistics;
 };
 
 #endif // BREAKSTATISTICS_HH

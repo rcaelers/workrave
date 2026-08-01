@@ -1233,6 +1233,17 @@ if((NOT ${spdlog_FOUND}) OR (NOT ${fmt_FOUND}))
 endif()
 
 #----------------------------------------------------------------------------------------------------
+# SQLite
+
+find_package(SQLite3 3.37 REQUIRED)
+
+if (TARGET SQLite3::SQLite3)
+  set(SQLITE3_TARGET SQLite3::SQLite3)
+else()
+  set(SQLITE3_TARGET SQLite::SQLite3)
+endif()
+
+#----------------------------------------------------------------------------------------------------
 # Crash reporting - Windows
 
 set(HAVE_CRASH_REPORT OFF)

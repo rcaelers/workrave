@@ -45,7 +45,8 @@
 #include "config/ConfiguratorFactory.hh"
 #include "config/IConfigurator.hh"
 #include "core/CoreConfig.hh"
-#include "Statistics.hh"
+#include "stats/Statistics.hh"
+#include "StatisticsContext.hh"
 #include "BreakControl.hh"
 #include "Timer.hh"
 #include "TimePredFactory.hh"
@@ -119,7 +120,6 @@ Core::~Core()
       monitor->terminate();
     }
 
-  delete statistics;
 }
 
 /********************************************************************************/
@@ -299,8 +299,8 @@ Core::init_breaks()
 void
 Core::init_statistics()
 {
-  statistics = new Statistics();
-  statistics->init(this);
+  statistics = std::make_shared<workrave::stats::Statistics>(std::make_shared<StatisticsContext>(this));
+  statistics->init();
 }
 
 //! Loads the configuration of the monitor.
@@ -463,10 +463,10 @@ Core::get_activity_monitor() const
 }
 
 //! Returns the statistics.
-Statistics *
+workrave::stats::Statistics *
 Core::get_statistics() const
 {
-  return statistics;
+  return statistics.get();
 }
 
 //! Returns the specified break controller.
@@ -1127,7 +1127,7 @@ Core::process_timers()
 
       if (i == BREAK_ID_DAILY_LIMIT && (info.event == TIMER_EVENT_NATURAL_RESET || info.event == TIMER_EVENT_RESET))
         {
-          statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, (int)info.elapsed_time);
+          statistics->set_counter(workrave::IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME, (int)info.elapsed_time);
           statistics->start_new_day();
 
           daily_reset();
@@ -1273,7 +1273,7 @@ Core::timer_action(BreakId id, TimerInfo info)
       break;
 
     case TIMER_EVENT_NATURAL_RESET:
-      statistics->increment_break_counter(id, Statistics::STATS_BREAKVALUE_NATURAL_TAKEN);
+      statistics->increment_break_counter(id, workrave::IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN);
       // FALLTHROUGH
 
     case TIMER_EVENT_RESET:
@@ -1416,7 +1416,7 @@ Core::daily_reset()
 
       int64_t overdue = t->get_total_overdue_time();
 
-      statistics->set_break_counter(((BreakId)i), Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)overdue);
+      statistics->set_break_counter(((BreakId)i), workrave::IStatistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)overdue);
 
       t->daily_reset_timer();
     }

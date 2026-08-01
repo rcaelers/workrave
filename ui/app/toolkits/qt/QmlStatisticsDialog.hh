@@ -73,10 +73,10 @@ public:
 
   QString selectedDateText() const { return selected_date_text_; }
 
-  bool canGoBack() const { return current_prev_ >= 0; }
-  bool canGoForward() const { return current_next_ >= 0; }
-  bool canGoFirst() const { return current_idx_ != statistics_->get_history_size(); }
-  bool canGoLast() const { return current_idx_ != 0; }
+  bool canGoBack() const { return can_go_back_; }
+  bool canGoForward() const { return can_go_forward_; }
+  bool canGoFirst() const { return can_go_first_; }
+  bool canGoLast() const { return can_go_last_; }
 
   QVariantList breakStats() const { return break_stats_; }
 
@@ -102,11 +102,14 @@ Q_SIGNALS:
   void deleteCompleted(bool success);
 
 private:
-  void selectDayIndex(int idx);
+  using Date = workrave::IStatistics::Date;
+
+  Date selectedDate() const;
+  void selectDate(const Date &date);
+  void updateNavigation();
   void updateStats();
   void updateWeekUsage();
   void updateMonthUsage();
-  void updateDaysWithData();
   void clearStats();
 
   static QString formatTime(int64_t secs);
@@ -119,12 +122,15 @@ private:
   int calendar_month_{0};
 
   // Currently displayed day
-  int current_idx_{-1};
-  int current_next_{-1};
-  int current_prev_{-1};
   int selected_year_{0};
   int selected_month_{0};
   int selected_day_{0};
+
+  // Navigation state, derived from the dates that have statistics
+  bool can_go_back_{false};
+  bool can_go_forward_{false};
+  bool can_go_first_{false};
+  bool can_go_last_{false};
 
   // Cached property values
   QString selected_date_text_;
