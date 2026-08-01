@@ -44,6 +44,10 @@ target_link_libraries(workrave-core-shadow-helper
   workrave-libs-utils
   fmt::fmt)
 
+target_compile_definitions(workrave-libs-core-shadow
+  PRIVATE
+  "WORKRAVE_CORE_SHADOW_HELPER_PATH=\"$<TARGET_FILE:workrave-core-shadow-helper>\"")
+
 if (NOT PLATFORM_OS_MACOS)
   install(TARGETS workrave-core-shadow-helper RUNTIME DESTINATION "${BINDIR}")
 endif()

@@ -79,6 +79,14 @@ namespace workrave::core_shadow
           }
       }
 
+#if defined(WORKRAVE_CORE_SHADOW_HELPER_PATH)
+    const std::filesystem::path build_helper{WORKRAVE_CORE_SHADOW_HELPER_PATH};
+    if (std::filesystem::exists(build_helper))
+      {
+        return build_helper;
+      }
+#endif
+
     const auto app_dir = workrave::utils::Paths::get_application_directory();
     for (const auto &candidate: {app_dir / "workrave-core-shadow-helper",
                                  app_dir / "MacOS" / "workrave-core-shadow-helper",
