@@ -1,43 +1,128 @@
 #!/usr/bin/env python3
-"""
-IWYU wrapper — configured by CMake, do not edit the generated copy.
-
-  * Silently skips Objective-C++ compilation units (IWYU aborts on ObjC).
-  * Suppresses the verbose "The full include-list for ..." summary blocks;
-    the add/remove lines above them already carry the same information.
-"""
+"""IWYU wrapper - configured by CMake, do not edit the generated copy."""
 import sys
 import subprocess
+from pathlib import Path
+
+
+def should_skip(args):
+    """Skip inputs IWYU should not analyze."""
+    prev = None
+    for arg in args:
+        if prev == '-x' and arg.startswith('objective-c'):
+            return True
+        if not arg.startswith('-') and arg.endswith('.mm'):
+            return True
+        if is_source_file(arg) and '_deps' in Path(arg).parts:
+            return True
+        prev = arg
+    return False
+
+
+def is_source_file(arg):
+    if arg.startswith('-'):
+        return False
+    return Path(arg).suffix in {
+        '.c',
+        '.cc',
+        '.cpp',
+        '.cxx',
+        '.c++',
+        '.C',
+        '.m',
+        '.mm',
+    }
+
+
+def filter_output(text):
+    """Drop IWYU's verbose full include-list blocks."""
+    filtered = []
+    in_full_list = False
+    for line in text.splitlines(keepends=True):
+        if line.startswith('The full include-list for '):
+            in_full_list = True
+            continue
+        if in_full_list:
+            if line.rstrip('\n') == '---':
+                in_full_list = False
+            continue
+        filtered.append(line)
+    return ''.join(filtered)
+
+
+def iwyu_args_for_compile(compile_args):
+    """Remove compiler flags that IWYU/Clang does not understand."""
+    result = []
+    skip_next = False
+    unsupported = {
+        '-fconcepts',
+        '-fconcepts-ts',
+        '-fmodules-ts',
+        '-fno-default-inline',
+    }
+    unsupported_prefixes = (
+        '-fmodule-mapper=',
+        '-fdeps-file=',
+        '-fdeps-target=',
+        '-fdeps-format=',
+    )
+    for arg in compile_args:
+        if skip_next:
+            skip_next = False
+            continue
+        if arg in unsupported or arg.startswith(unsupported_prefixes):
+            continue
+        if arg in ('-fmodule-mapper', '-fdeps-file', '-fdeps-target', '-fdeps-format'):
+            skip_next = True
+            continue
+        result.append(arg)
+    return result
+
+
+def run_iwyu(args):
+    if should_skip(args):
+        return 0
+
+    proc = subprocess.run(
+        ['@IWYU_EXECUTABLE@'] + args,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+
+    output = filter_output(proc.stdout + proc.stderr)
+    if output:
+        sys.stderr.write(output)
+        if proc.returncode != 0:
+            sys.stderr.write(f'IWYU exited with status {proc.returncode}\n')
+    return proc.returncode
+
+
+def split_launcher_args(args):
+    if '--' not in args:
+        sys.stderr.write('IWYU launcher missing -- before compiler command\n')
+        sys.exit(2)
+    sep = args.index('--')
+    return args[:sep], args[sep + 1:]
+
 
 args = sys.argv[1:]
 
-# Skip Objective-C++: -x objective-c* flag or a .mm source file argument.
-prev = None
-for arg in args:
-    if prev == '-x' and arg.startswith('objective-c'):
-        sys.exit(0)
-    if not arg.startswith('-') and arg.endswith('.mm'):
-        sys.exit(0)
-    prev = arg
+if args and args[0] == '--launcher':
+    extra_iwyu_args, compile_command = split_launcher_args(args[1:])
+    if not compile_command:
+        sys.stderr.write('IWYU launcher missing compiler command\n')
+        sys.exit(2)
 
-proc = subprocess.run(
-    ['@IWYU_EXECUTABLE@'] + args,
-    stderr=subprocess.PIPE,
-    text=True,
-)
+    compile_proc = subprocess.run(compile_command)
+    if compile_proc.returncode != 0:
+        sys.exit(compile_proc.returncode)
 
-# Strip "The full include-list for <file>:\n...\n---\n" blocks.
-filtered = []
-in_full_list = False
-for line in proc.stderr.splitlines(keepends=True):
-    if line.startswith('The full include-list for '):
-        in_full_list = True
-        continue
-    if in_full_list:
-        if line.rstrip('\n') == '---':
-            in_full_list = False
-        continue
-    filtered.append(line)
+    compiler = Path(compile_command[0]).name
+    iwyu_args = extra_iwyu_args + iwyu_args_for_compile(compile_command[1:])
+    if compiler.endswith('++') and '--driver-mode=g++' not in iwyu_args:
+        iwyu_args.append('--driver-mode=g++')
+    run_iwyu(iwyu_args)
+    sys.exit(0)
 
-sys.stderr.write(''.join(filtered))
-sys.exit(proc.returncode)
+sys.exit(run_iwyu(args))

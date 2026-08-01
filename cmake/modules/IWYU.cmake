@@ -52,20 +52,23 @@ file(CHMOD "${_iwyu_wrapper}" PERMISSIONS
   GROUP_READ GROUP_EXECUTE
   WORLD_READ WORLD_EXECUTE)
 
-# Base command — each -Xiwyu flag and its argument must be separate list elements
-set(_iwyu_cmd
-  "${_iwyu_wrapper}"
+# Base IWYU arguments — each -Xiwyu flag and its argument must be separate list elements
+set(_iwyu_args
   -Xiwyu --cxx17ns
   -Xiwyu --no_fwd_decls
   -Xiwyu --quoted_includes_first
   -Xiwyu --keep=*/config.h
 )
 
+set(_iwyu_have_bundled_boost FALSE)
 if(IWYU_SHARE_DIR)
   # qt5_11.imp covers all Qt6 public header names (they didn't change between Qt5/Qt6)
   foreach(_imp qt5_11.imp boost-all.imp boost-all-private.imp)
     if(EXISTS "${IWYU_SHARE_DIR}/${_imp}")
-      list(APPEND _iwyu_cmd -Xiwyu "--mapping_file=${IWYU_SHARE_DIR}/${_imp}")
+      list(APPEND _iwyu_args -Xiwyu "--mapping_file=${IWYU_SHARE_DIR}/${_imp}")
+      if(_imp MATCHES "^boost")
+        set(_iwyu_have_bundled_boost TRUE)
+      endif()
     endif()
   endforeach()
   message(STATUS "IWYU: using bundled mappings from ${IWYU_SHARE_DIR}")
@@ -73,10 +76,15 @@ else()
   message(WARNING "IWYU: bundled mapping files not found; Qt/Boost mappings unavailable")
 endif()
 
-foreach(_imp qt.imp boost.imp spdlog.imp workrave.imp)
+set(_iwyu_project_mappings qt.imp spdlog.imp workrave.imp)
+if(NOT _iwyu_have_bundled_boost)
+  list(APPEND _iwyu_project_mappings boost.imp)
+endif()
+
+foreach(_imp ${_iwyu_project_mappings})
   set(_imp_path "${CMAKE_SOURCE_DIR}/cmake/iwyu/${_imp}")
   if(EXISTS "${_imp_path}")
-    list(APPEND _iwyu_cmd -Xiwyu "--mapping_file=${_imp_path}")
+    list(APPEND _iwyu_args -Xiwyu "--mapping_file=${_imp_path}")
     message(STATUS "IWYU: loading project mapping ${_imp_path}")
   endif()
 endforeach()
@@ -91,24 +99,38 @@ if(APPLE)
     RESULT_VARIABLE _xcrun_result
   )
   if(_xcrun_result EQUAL 0 AND _macos_sdk_path)
-    list(APPEND _iwyu_cmd -isysroot "${_macos_sdk_path}")
+    list(APPEND _iwyu_args -isysroot "${_macos_sdk_path}")
     message(STATUS "IWYU: macOS sysroot ${_macos_sdk_path}")
   else()
     message(WARNING "IWYU: xcrun failed to find SDK path; standard headers may be missing")
   endif()
 endif()
 
+set(_iwyu_cmd
+  "${_iwyu_wrapper}"
+  ${_iwyu_args}
+)
 set(IWYU_COMMAND "${_iwyu_cmd}" CACHE INTERNAL "IWYU invocation command" FORCE)
 
+# CMake's CXX_INCLUDE_WHAT_YOU_USE path runs through __run_co_compile, which
+# captures and discards IWYU output. Use a compiler launcher instead so the
+# filtered diagnostics are visible in normal build logs.
+set(_iwyu_launcher_cmd
+  "${_iwyu_wrapper}"
+  --launcher
+  ${_iwyu_args}
+  --
+)
+set(IWYU_LAUNCHER_COMMAND "${_iwyu_launcher_cmd}" CACHE INTERNAL "IWYU compiler launcher command" FORCE)
+
 # Apply globally — every C++ target defined after this point inherits IWYU.
-# Objective-C++ sources that IWYU cannot handle must opt out with SKIP_LINTING ON.
-set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE "${IWYU_COMMAND}")
+set(CMAKE_CXX_COMPILER_LAUNCHER "${IWYU_LAUNCHER_COMMAND}")
 
 message(STATUS "IWYU: enabled globally (${IWYU_EXECUTABLE})")
 
 # Kept for explicit per-target use (e.g. re-enabling after a set_target_properties override).
 macro(target_enable_iwyu _target)
   set_target_properties(${_target} PROPERTIES
-    CXX_INCLUDE_WHAT_YOU_USE "${IWYU_COMMAND}"
+    CXX_COMPILER_LAUNCHER "${IWYU_LAUNCHER_COMMAND}"
   )
 endmacro()
