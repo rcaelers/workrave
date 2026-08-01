@@ -25,7 +25,7 @@
 
 #include <sqlite3.h>
 
-#include "stats/IStatisticsStore.hh"
+#include "IStatisticsStore.hh"
 
 namespace workrave::stats
 {
@@ -55,6 +55,7 @@ namespace workrave::stats
     [[nodiscard]] std::optional<DailyStatsRecord> load_today() override;
     [[nodiscard]] std::vector<DailyStatsRecord> load_history() override;
     void save_today(const DailyStatsRecord &record) override;
+    void set_break_counter(workrave::BreakId break_id, int counter, int64_t value) override;
     void append_history(const DailyStatsRecord &record) override;
     bool delete_all() override;
 

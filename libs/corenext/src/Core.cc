@@ -42,7 +42,7 @@
 #include "core/IApp.hh"
 #include "Break.hh"
 #include "core/CoreConfig.hh"
-#include "stats/Statistics.hh"
+#include "stats/IStatistics.hh"
 #include "StatisticsContext.hh"
 
 #if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
@@ -109,7 +109,7 @@ Core::init(IApp *app, const char *display_name)
 
   monitor->init();
 
-  statistics = std::make_shared<workrave::stats::Statistics>(std::make_shared<StatisticsContext>(monitor));
+  statistics = workrave::stats::create(std::make_shared<StatisticsContext>(monitor));
   statistics->init();
 
   core_modes = std::make_shared<CoreModes>(monitor);
@@ -293,7 +293,7 @@ Core::get_break(BreakId id) const
 }
 
 //! Returns the statistics.
-IStatistics::Ptr
+workrave::stats::IStatistics::Ptr
 Core::get_statistics() const
 {
   return statistics;

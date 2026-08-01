@@ -24,29 +24,34 @@
 #include <optional>
 #include <vector>
 
-#include "stats/IStatisticsStore.hh"
+#include "DailyStatsRecord.hh"
 
 namespace workrave::stats
 {
   //! Statistics storage in the historical "WorkRaveStats" text format.
-  class FileStatisticsStore : public IStatisticsStore
+  /*!
+   *  Only ever used internally, to import a legacy text-format install into
+   *  SqliteStatisticsStore, and by tests to build fixtures. Never held through an
+   *  interface, so it is a plain class rather than an IStatisticsStore.
+   */
+  class FileStatisticsStore
   {
   public:
     explicit FileStatisticsStore(std::filesystem::path state_directory);
 
-    [[nodiscard]] std::optional<DailyStatsRecord> load_today() override;
-    [[nodiscard]] std::vector<DailyStatsRecord> load_history() override;
-    void save_today(const DailyStatsRecord &record) override;
-    void append_history(const DailyStatsRecord &record) override;
-    bool delete_all() override;
+    [[nodiscard]] std::optional<DailyStatsRecord> load_today();
+    [[nodiscard]] std::vector<DailyStatsRecord> load_history();
+    void save_today(const DailyStatsRecord &record);
+    void append_history(const DailyStatsRecord &record);
+    bool delete_all();
 
-    [[nodiscard]] std::optional<DailyStatsRecord> load_date(const Date &date) override;
-    [[nodiscard]] std::vector<Date> get_dates(const Date &from, const Date &to) override;
-    [[nodiscard]] std::optional<Date> get_previous_date(const Date &date) override;
-    [[nodiscard]] std::optional<Date> get_next_date(const Date &date) override;
-    [[nodiscard]] std::optional<Date> get_first_date() override;
-    [[nodiscard]] std::optional<Date> get_last_date() override;
-    [[nodiscard]] int64_t get_total_misc(int counter, const Date &from, const Date &to) override;
+    [[nodiscard]] std::optional<DailyStatsRecord> load_date(const Date &date);
+    [[nodiscard]] std::vector<Date> get_dates(const Date &from, const Date &to);
+    [[nodiscard]] std::optional<Date> get_previous_date(const Date &date);
+    [[nodiscard]] std::optional<Date> get_next_date(const Date &date);
+    [[nodiscard]] std::optional<Date> get_first_date();
+    [[nodiscard]] std::optional<Date> get_last_date();
+    [[nodiscard]] int64_t get_total_misc(int counter, const Date &from, const Date &to);
 
   private:
     [[nodiscard]] std::map<Date, DailyStatsRecord> load_all();

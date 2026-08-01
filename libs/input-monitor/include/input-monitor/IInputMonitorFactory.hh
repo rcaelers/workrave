@@ -24,12 +24,6 @@ namespace workrave
 {
   namespace input_monitor
   {
-    enum class MonitorCapability
-    {
-      Activity,
-      Statistics
-    };
-
     //! Factory to create input monitors.
     class IInputMonitorFactory
     {
@@ -37,7 +31,7 @@ namespace workrave
       virtual ~IInputMonitorFactory() = default;
 
       virtual void init(const char *display) = 0;
-      virtual IInputMonitor::Ptr create_monitor(MonitorCapability capability) = 0;
+      virtual IInputMonitor::Ptr create_monitor() = 0;
     };
   } // namespace input_monitor
 } // namespace workrave

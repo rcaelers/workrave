@@ -15,11 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "stats/IStatisticsStore.hh"
+#include "IStatisticsStore.hh"
 
 #include <spdlog/spdlog.h>
 
-#include "FileStatisticsStore.hh"
 #include "SqliteStatisticsStore.hh"
 
 namespace workrave::stats
@@ -32,7 +31,7 @@ namespace workrave::stats
         return store;
       }
 
-    spdlog::warn("falling back to file based statistics");
-    return std::make_shared<FileStatisticsStore>(state_directory);
+    spdlog::warn("statistics database could not be opened; running without persisted statistics");
+    return nullptr;
   }
 } // namespace workrave::stats

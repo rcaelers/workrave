@@ -18,9 +18,7 @@
 #ifndef STATISTICSDIALOG_HH
 #define STATISTICSDIALOG_HH
 
-#include <sstream>
-
-#include "core/IStatistics.hh"
+#include "stats/IStatistics.hh"
 #include "Hig.hh"
 #include "ui/IApplicationContext.hh"
 
@@ -47,13 +45,10 @@ private:
   std::shared_ptr<IApplicationContext> app;
 
   /** Stats */
-  workrave::IStatistics *statistics{nullptr};
+  workrave::stats::IStatistics *statistics{nullptr};
 
   /** Labels for break stats. */
   Gtk::Label *break_labels[workrave::BREAK_ID_SIZEOF][9]{};
-
-  /** Labels for break stats. */
-  Gtk::Label *activity_labels[5]{};
 
   /** Usage label */
   Gtk::Label *usage_label{nullptr};
@@ -95,11 +90,9 @@ private:
   void init_gui();
 
   void create_break_page(Gtk::Widget *tnotebook);
-  void create_activity_page(Gtk::Widget *tnotebook);
 
-  void stream_distance(std::stringstream &stream, int64_t pixels);
-  workrave::IStatistics::Date get_calendar_date() const;
-  void set_calendar_date(const workrave::IStatistics::Date &date);
+  workrave::stats::IStatistics::Date get_calendar_date() const;
+  void set_calendar_date(const workrave::stats::IStatistics::Date &date);
   void on_calendar_month_changed();
   void on_calendar_day_selected();
   void on_history_go_back();
@@ -107,7 +100,7 @@ private:
   void on_history_goto_last();
   void on_history_goto_first();
   void display_calendar_date();
-  void display_statistics(workrave::IStatistics::DailyStats *stats);
+  void display_statistics(workrave::stats::IStatistics::DailyStats *stats);
   void clear_display_statistics();
   void display_week_statistics();
   void display_month_statistics();

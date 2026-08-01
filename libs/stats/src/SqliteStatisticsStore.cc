@@ -614,6 +614,33 @@ namespace workrave::stats
   }
 
   void
+  SqliteStatisticsStore::set_break_counter(BreakId break_id, int counter, int64_t value)
+  {
+    const std::optional<std::string> today = get_property(PROPERTY_TODAY);
+    if (!today.has_value())
+      {
+        return;
+      }
+
+    Statement statement(db,
+                        "INSERT INTO stats_break (day, break_id, counter, value) VALUES (?, ?, ?, ?)"
+                        " ON CONFLICT (day, break_id, counter) DO UPDATE SET value = ?4");
+    if (!statement)
+      {
+        return;
+      }
+
+    statement.bind(1, today.value());
+    statement.bind(2, static_cast<int64_t>(break_id));
+    statement.bind(3, static_cast<int64_t>(counter));
+    statement.bind(4, value);
+    if (!statement.run())
+      {
+        spdlog::error("failed to update break counter of {}: {}", today.value(), sqlite3_errmsg(db));
+      }
+  }
+
+  void
   SqliteStatisticsStore::append_history(const DailyStatsRecord &record)
   {
     Transaction transaction(db);

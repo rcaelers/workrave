@@ -27,7 +27,7 @@
 #include <QVariantList>
 #include <QVariantMap>
 
-#include "core/IStatistics.hh"
+#include "stats/IStatistics.hh"
 #include "ui/IApplicationContext.hh"
 
 // ── StatisticsBridge ──────────────────────────────────────────────────────────
@@ -61,28 +61,61 @@ class StatisticsBridge : public QObject
   Q_PROPERTY(QString monthlyUsage READ monthlyUsage NOTIFY dataChanged)
 
 public:
-  explicit StatisticsBridge(workrave::IStatistics::Ptr statistics,
-                             std::shared_ptr<IApplicationContext> app,
-                             QObject *parent = nullptr);
+  explicit StatisticsBridge(workrave::stats::IStatistics::Ptr statistics,
+                            std::shared_ptr<IApplicationContext> app,
+                            QObject *parent = nullptr);
 
   // Property accessors
-  int calendarYear() const { return calendar_year_; }
-  int calendarMonth() const { return calendar_month_; }
+  int calendarYear() const
+  {
+    return calendar_year_;
+  }
+  int calendarMonth() const
+  {
+    return calendar_month_;
+  }
   QString calendarMonthYearText() const;
   QVariantList calendarCells() const;
 
-  QString selectedDateText() const { return selected_date_text_; }
+  QString selectedDateText() const
+  {
+    return selected_date_text_;
+  }
 
-  bool canGoBack() const { return can_go_back_; }
-  bool canGoForward() const { return can_go_forward_; }
-  bool canGoFirst() const { return can_go_first_; }
-  bool canGoLast() const { return can_go_last_; }
+  bool canGoBack() const
+  {
+    return can_go_back_;
+  }
+  bool canGoForward() const
+  {
+    return can_go_forward_;
+  }
+  bool canGoFirst() const
+  {
+    return can_go_first_;
+  }
+  bool canGoLast() const
+  {
+    return can_go_last_;
+  }
 
-  QVariantList breakStats() const { return break_stats_; }
+  QVariantList breakStats() const
+  {
+    return break_stats_;
+  }
 
-  QString dailyUsage() const { return daily_usage_; }
-  QString weeklyUsage() const { return weekly_usage_; }
-  QString monthlyUsage() const { return monthly_usage_; }
+  QString dailyUsage() const
+  {
+    return daily_usage_;
+  }
+  QString weeklyUsage() const
+  {
+    return weekly_usage_;
+  }
+  QString monthlyUsage() const
+  {
+    return monthly_usage_;
+  }
 
   // Invokable actions
   Q_INVOKABLE void goBack();
@@ -102,7 +135,7 @@ Q_SIGNALS:
   void deleteCompleted(bool success);
 
 private:
-  using Date = workrave::IStatistics::Date;
+  using Date = workrave::stats::IStatistics::Date;
 
   Date selectedDate() const;
   void selectDate(const Date &date);
@@ -114,7 +147,7 @@ private:
 
   static QString formatTime(int64_t secs);
 
-  workrave::IStatistics::Ptr statistics_;
+  workrave::stats::IStatistics::Ptr statistics_;
   std::shared_ptr<IApplicationContext> app_;
 
   // Calendar state

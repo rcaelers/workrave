@@ -35,6 +35,7 @@ if (HAVE_TESTS)
   target_link_libraries(workrave-core-integration-test PRIVATE ${EXTRA_LIBRARIES})
 
   target_include_directories(workrave-core-integration-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/core/src)
+  target_include_directories(workrave-core-integration-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/stats/src)
 
   if (HAVE_APP_QT)
     target_link_libraries(workrave-core-integration-test PRIVATE ${Qt6DBus_LIBRARIES})

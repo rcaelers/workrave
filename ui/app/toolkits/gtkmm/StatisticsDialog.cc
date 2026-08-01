@@ -20,7 +20,6 @@
 #endif
 
 #include <array>
-#include <cstdio>
 #include <optional>
 #include <sstream>
 
@@ -51,11 +50,6 @@ StatisticsDialog::StatisticsDialog(std::shared_ptr<IApplicationContext> app)
   auto core = app->get_core();
   statistics = core->get_statistics();
   statistics->update();
-
-  for (int i = 0; i < 5; i++)
-    {
-      activity_labels[i] = nullptr;
-    }
 
   init_gui();
   display_calendar_date();
@@ -128,10 +122,6 @@ StatisticsDialog::init_gui()
   hbox->pack_start(*navbox, true, true, 0);
 
   create_break_page(tnotebook);
-#if !defined(PLATFORM_OS_MACOS)
-  // No details activity statistics on macOS
-  create_activity_page(tnotebook);
-#endif
 
   tnotebook->show_all();
 
@@ -266,67 +256,23 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 #endif
 }
 
-void
-StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
-{
-  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 3));
-  Gtk::Label *lab = Gtk::manage(new Gtk::Label(_("Activity")));
-  box->pack_start(*lab, false, false, 0);
-
-  Gtk::Table *table = Gtk::manage(new Gtk::Table(8, 5, false));
-  table->set_row_spacings(2);
-  table->set_col_spacings(6);
-  table->set_border_width(6);
-
-  Gtk::Widget *mouse_time_label = GtkUtil::create_label_with_tooltip(_("Mouse usage:"),
-                                                                     _("The total time you were using the mouse"));
-  Gtk::Widget *mouse_movement_label = GtkUtil::create_label_with_tooltip(_("Mouse movement:"),
-                                                                         _("The total on-screen mouse movement"));
-  Gtk::Widget *mouse_click_movement_label = GtkUtil::create_label_with_tooltip(
-    _("Effective mouse movement:"),
-    _("The total mouse movement you would have had if you moved your "
-      "mouse in straight lines between clicks"));
-  Gtk::Widget *mouse_clicks_label = GtkUtil::create_label_with_tooltip(_("Mouse button clicks:"),
-                                                                       _("The total number of mouse button clicks"));
-  Gtk::Widget *keystrokes_label = GtkUtil::create_label_with_tooltip(_("Keystrokes:"), _("The total number of keys pressed"));
-
-  int y = 0;
-  GtkUtil::table_attach_left_aligned(*table, *mouse_time_label, 0, y++);
-  GtkUtil::table_attach_left_aligned(*table, *mouse_movement_label, 0, y++);
-  GtkUtil::table_attach_left_aligned(*table, *mouse_click_movement_label, 0, y++);
-  GtkUtil::table_attach_left_aligned(*table, *mouse_clicks_label, 0, y++);
-  GtkUtil::table_attach_left_aligned(*table, *keystrokes_label, 0, y++);
-
-  for (int i = 0; i < 5; i++)
-    {
-      activity_labels[i] = Gtk::manage(new Gtk::Label());
-      GtkUtil::table_attach_right_aligned(*table, *activity_labels[i], 1, i);
-    }
-
-  box->show_all();
-  ((Gtk::Notebook *)tnotebook)->append_page(*table, *box);
-}
-
 namespace
 {
   //! Today, as the calendar sees it.
-  workrave::IStatistics::Date
-  today_date()
+  workrave::stats::IStatistics::Date today_date()
   {
     return workrave::stats::date_of(workrave::stats::local_now());
   }
 
-  bool
-  date_is_within(const workrave::IStatistics::Date &date,
-                 const workrave::IStatistics::Date &from,
-                 const workrave::IStatistics::Date &to)
+  bool date_is_within(const workrave::stats::IStatistics::Date &date,
+                      const workrave::stats::IStatistics::Date &from,
+                      const workrave::stats::IStatistics::Date &to)
   {
     return date >= from && date <= to;
   }
 
   //! The date the calendar widget is showing.
-  workrave::IStatistics::Date
-  to_date(const Gtk::Calendar *calendar)
+  workrave::stats::IStatistics::Date to_date(const Gtk::Calendar *calendar)
   {
     guint year = 0;
     guint month = 0;
@@ -361,7 +307,7 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       date_label->set_text(data_range);
     }
 
-  int64_t value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
+  int64_t value = stats->total_active_time.get().count();
   daily_usage_time_label->set_text(Text::time_to_string(value));
 
   // Put the breaks in table.
@@ -369,73 +315,39 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
     {
       stringstream ss;
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS];
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS].get();
       ss.str("");
       ss << value;
       break_labels[i][0]->set_text(ss.str());
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_PROMPTED] - value;
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_PROMPTED].get() - value;
       ss.str("");
       ss << value;
       break_labels[i][1]->set_text(ss.str());
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_TAKEN];
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_TAKEN].get();
       ss.str("");
       ss << value;
       break_labels[i][2]->set_text(ss.str());
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN];
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN].get();
       ss.str("");
       ss << value;
       break_labels[i][3]->set_text(ss.str());
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_SKIPPED];
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_SKIPPED].get();
       ss.str("");
       ss << value;
       break_labels[i][4]->set_text(ss.str());
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_POSTPONED];
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_POSTPONED].get();
       ss.str("");
       ss << value;
       break_labels[i][5]->set_text(ss.str());
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_TOTAL_OVERDUE];
+      value = stats->total_overdue[i].get().count();
 
       break_labels[i][6]->set_text(Text::time_to_string(value));
-    }
-
-  stringstream ss;
-
-  if (activity_labels[0] != nullptr)
-    {
-      // Label not available is OS X
-
-      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOVEMENT_TIME];
-      if (value > 24 * 60 * 60)
-        {
-          value = 0;
-        }
-      activity_labels[0]->set_text(Text::time_to_string(value));
-
-      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
-      ss.str("");
-      stream_distance(ss, value);
-      activity_labels[1]->set_text(ss.str());
-
-      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_CLICK_MOVEMENT];
-      ss.str("");
-      stream_distance(ss, value);
-      activity_labels[2]->set_text(ss.str());
-
-      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_CLICKS];
-      ss.str("");
-      ss << value;
-      activity_labels[3]->set_text(ss.str());
-
-      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_KEYSTROKES];
-      ss.str("");
-      ss << value;
-      activity_labels[4]->set_text(ss.str());
     }
 }
 
@@ -454,7 +366,7 @@ StatisticsDialog::display_week_statistics()
 
   update_usage_real_time |= date_is_within(today_date(), from, to);
 
-  const int64_t total_week = statistics->get_total_active_time(from, to);
+  const int64_t total_week = statistics->get_total_active_time(from, to).count();
   weekly_usage_time_label->set_text(total_week > 0 ? Text::time_to_string(total_week) : "");
 }
 
@@ -470,7 +382,7 @@ StatisticsDialog::display_month_statistics()
 
   update_usage_real_time |= date_is_within(today_date(), from, to);
 
-  const int64_t total_month = statistics->get_total_active_time(from, to);
+  const int64_t total_month = statistics->get_total_active_time(from, to).count();
   monthly_usage_time_label->set_text(total_month > 0 ? Text::time_to_string(total_month) : "");
 }
 
@@ -490,13 +402,6 @@ StatisticsDialog::clear_display_statistics()
           break_labels[i][j]->set_text("");
         }
     }
-  for (int i = 0; i <= 4; i++)
-    {
-      if (activity_labels[i] != nullptr)
-        {
-          activity_labels[i]->set_text("");
-        }
-    }
 }
 
 void
@@ -511,7 +416,7 @@ StatisticsDialog::on_calendar_day_selected()
   display_calendar_date();
 }
 
-workrave::IStatistics::Date
+workrave::stats::IStatistics::Date
 StatisticsDialog::get_calendar_date() const
 {
   return to_date(calendar);
@@ -653,20 +558,4 @@ StatisticsDialog::on_timer()
       display_calendar_date();
     }
   return true;
-}
-
-void
-StatisticsDialog::stream_distance(stringstream &stream, int64_t pixels)
-{
-  GdkDisplay *display = gdk_display_get_default();
-  GdkMonitor *monitor = gdk_display_get_primary_monitor(display);
-
-  GdkRectangle geometry;
-  gdk_monitor_get_geometry(monitor, &geometry);
-
-  double mm = (double)pixels * gdk_monitor_get_width_mm(monitor) / geometry.width;
-
-  char buf[64];
-  sprintf(buf, "%.02f m", mm / 1000);
-  stream << buf;
 }

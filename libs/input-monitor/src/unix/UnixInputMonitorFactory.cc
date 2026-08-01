@@ -67,10 +67,9 @@ UnixInputMonitorFactory::init(const char *display)
 
 //! Retrieves the input activity monitor
 IInputMonitor::Ptr
-UnixInputMonitorFactory::create_monitor(MonitorCapability capability)
+UnixInputMonitorFactory::create_monitor()
 {
   TRACE_ENTRY();
-  (void)capability;
 
   if (monitor == nullptr)
     {

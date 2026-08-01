@@ -18,6 +18,8 @@
 #ifndef WORKRAVE_BACKEND_ISTATISTICS_HH
 #define WORKRAVE_BACKEND_ISTATISTICS_HH
 
+#include <array>
+#include <chrono>
 #include <ctime>
 #include <memory>
 #include <optional>
@@ -30,16 +32,18 @@ typedef __int64 int64_t;
 #endif
 
 #include "core/CoreTypes.hh"
-#include "stats/DailyStatsRecord.hh"
+#include "stats/IStatisticsContext.hh"
 #include "stats/LocalTime.hh"
+#include "stats/StatValue.hh"
 
-namespace workrave
+namespace workrave::stats
 {
   class IStatistics
   {
   public:
     using Ptr = std::shared_ptr<IStatistics>;
 
+    //! How often the user was prompted for, took, skipped or postponed a break today.
     enum StatsBreakValueType
     {
       STATS_BREAKVALUE_PROMPTED = 0,
@@ -48,44 +52,38 @@ namespace workrave
       STATS_BREAKVALUE_SKIPPED,
       STATS_BREAKVALUE_POSTPONED,
       STATS_BREAKVALUE_UNIQUE_BREAKS,
-      STATS_BREAKVALUE_TOTAL_OVERDUE,
       STATS_BREAKVALUE_SIZEOF
     };
 
-    enum StatsValueType
-    {
-      STATS_VALUE_TOTAL_ACTIVE_TIME = 0,
-      STATS_VALUE_TOTAL_MOUSE_MOVEMENT,
-      STATS_VALUE_TOTAL_CLICK_MOVEMENT,
-      STATS_VALUE_TOTAL_MOVEMENT_TIME,
-      STATS_VALUE_TOTAL_CLICKS,
-      STATS_VALUE_TOTAL_KEYSTROKES,
-      STATS_VALUE_SIZEOF
-    };
-
-    using BreakStats = int[STATS_BREAKVALUE_SIZEOF];
-    using MiscStats = int64_t[STATS_VALUE_SIZEOF];
+    //! The break-prompt/taken/skipped/postponed counts of a single break, today.
+    using BreakCounters = std::array<workrave::stats::StatValue<int64_t>, STATS_BREAKVALUE_SIZEOF>;
 
     struct DailyStats
     {
       //! When this day started, in local time.
-      workrave::stats::LocalTime start{};
+      workrave::stats::LocalTime start;
 
       //! When the user was last active on this day, in local time.
-      workrave::stats::LocalTime stop{};
+      workrave::stats::LocalTime stop;
 
-      //! Statistic of each break
-      BreakStats break_stats[BREAK_ID_SIZEOF];
+      //! How often the user was prompted for, took, skipped or postponed each break today.
+      std::array<BreakCounters, BREAK_ID_SIZEOF> break_stats{};
 
-      //! Misc statistics
-      MiscStats misc_stats;
+      //! How long each break has been overdue today. Recomputed continuously.
+      std::array<workrave::stats::StatValue<std::chrono::seconds>, BREAK_ID_SIZEOF> total_overdue{};
+
+      //! How long the user has been active today. Recomputed continuously.
+      workrave::stats::StatValue<std::chrono::seconds> total_active_time;
     };
 
     //! A local calendar date, as statistics are kept per calendar day.
-    using Date = workrave::stats::Date;
+    using Date = std::chrono::year_month_day;
 
   public:
     virtual ~IStatistics() = default;
+
+    virtual void init() = 0;
+    virtual void start_new_day() = 0;
 
     virtual bool delete_all_history() = 0;
     virtual void update() = 0;
@@ -113,8 +111,11 @@ namespace workrave
     virtual std::optional<Date> get_last_date() const = 0;
 
     //! The total active time over the inclusive date range.
-    virtual int64_t get_total_active_time(const Date &from, const Date &to) const = 0;
+    virtual std::chrono::seconds get_total_active_time(const Date &from, const Date &to) const = 0;
   };
-} // namespace workrave
+
+  std::shared_ptr<IStatistics> create(std::shared_ptr<IStatisticsContext> context);
+
+} // namespace workrave::stats
 
 #endif // WORKRAVE_BACKEND_ISTATISTICS_HH

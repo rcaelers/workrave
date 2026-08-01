@@ -27,7 +27,7 @@
 #include "core/CoreTypes.hh"
 #include "core/IBreak.hh"
 #include "core/ICoreHooks.hh"
-#include "core/IStatistics.hh"
+#include "stats/IStatistics.hh"
 
 namespace workrave
 {
@@ -56,7 +56,7 @@ namespace workrave
     [[nodiscard]] virtual IBreak::Ptr get_break(BreakId id) const = 0;
 
     //! Return the statistics interface.
-    [[nodiscard]] virtual IStatistics::Ptr get_statistics() const = 0;
+    [[nodiscard]] virtual workrave::stats::IStatistics::Ptr get_statistics() const = 0;
 
     //! Is the user currently active?
     [[nodiscard]] virtual bool is_user_active() const = 0;

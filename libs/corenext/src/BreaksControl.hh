@@ -26,7 +26,7 @@
 #include "core/ICore.hh"
 #include "CoreModes.hh"
 #include "CoreHooks.hh"
-#include "stats/Statistics.hh"
+#include "stats/IStatistics.hh"
 #include "ReadingActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
 
@@ -44,7 +44,7 @@ public:
   BreaksControl(workrave::IApp *app,
                 IActivityMonitor::Ptr activity_monitor,
                 CoreModes::Ptr modes,
-                workrave::stats::Statistics::Ptr statistics,
+                workrave::stats::IStatistics::Ptr statistics,
                 CoreHooks::Ptr hooks);
   virtual ~BreaksControl();
 
@@ -90,7 +90,7 @@ private:
   TimerActivityMonitor::Ptr microbreak_activity_monitor;
 
   CoreModes::Ptr modes;
-  workrave::stats::Statistics::Ptr statistics;
+  workrave::stats::IStatistics::Ptr statistics;
   CoreHooks::Ptr hooks;
 
   Break::Ptr breaks[workrave::BREAK_ID_SIZEOF];

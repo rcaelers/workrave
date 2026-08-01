@@ -44,31 +44,30 @@ using namespace workrave;
 
 namespace
 {
-  QDate
-  to_qdate(const workrave::IStatistics::Date &date)
+  QDate to_qdate(const workrave::stats::IStatistics::Date &date)
   {
-    return {static_cast<int>(date.year()), static_cast<int>(static_cast<unsigned>(date.month())),
+    return {static_cast<int>(date.year()),
+            static_cast<int>(static_cast<unsigned>(date.month())),
             static_cast<int>(static_cast<unsigned>(date.day()))};
   }
 
-  workrave::IStatistics::Date
-  to_date(const QDate &date)
+  workrave::stats::IStatistics::Date to_date(const QDate &date)
   {
     return std::chrono::year{date.year()} / date.month() / date.day();
   }
 
-  QTime
-  to_qtime(workrave::stats::LocalTime time)
+  QTime to_qtime(workrave::stats::LocalTime time)
   {
     const std::chrono::hh_mm_ss clock{workrave::stats::time_of_day(time)};
-    return {static_cast<int>(clock.hours().count()), static_cast<int>(clock.minutes().count()),
+    return {static_cast<int>(clock.hours().count()),
+            static_cast<int>(clock.minutes().count()),
             static_cast<int>(clock.seconds().count())};
   }
 } // namespace
 
 // ── StatisticsBridge ──────────────────────────────────────────────────────────
 
-StatisticsBridge::StatisticsBridge(workrave::IStatistics::Ptr statistics,
+StatisticsBridge::StatisticsBridge(workrave::stats::IStatistics::Ptr statistics,
                                    std::shared_ptr<IApplicationContext> app,
                                    QObject *parent)
   : QObject(parent)
@@ -78,7 +77,7 @@ StatisticsBridge::StatisticsBridge(workrave::IStatistics::Ptr statistics,
   statistics_->update();
 
   QDate today = QDate::currentDate();
-  calendar_year_  = today.year();
+  calendar_year_ = today.year();
   calendar_month_ = today.month();
 
   // Seed empty cached values
@@ -117,7 +116,7 @@ StatisticsBridge::calendarCells() const
 
   QVariantList cells;
   int total = offset + days_in_month;
-  int rows  = (total + 6) / 7; // ceil to multiple of 7
+  int rows = (total + 6) / 7; // ceil to multiple of 7
   int count = rows * 7;
 
   for (int i = 0; i < count; i++)
@@ -128,12 +127,10 @@ StatisticsBridge::calendarCells() const
         {
           day = 0;
         }
-      cell[QStringLiteral("day")]        = day;
-      cell[QStringLiteral("hasData")]    = (day > 0) && days_with_data.contains(day);
-      cell[QStringLiteral("isSelected")] = (day > 0)
-                                           && (calendar_year_  == selected_year_)
-                                           && (calendar_month_ == selected_month_)
-                                           && (day             == selected_day_);
+      cell[QStringLiteral("day")] = day;
+      cell[QStringLiteral("hasData")] = (day > 0) && days_with_data.contains(day);
+      cell[QStringLiteral("isSelected")] = (day > 0) && (calendar_year_ == selected_year_) && (calendar_month_ == selected_month_)
+                                           && (day == selected_day_);
       cells.append(cell);
     }
 
@@ -142,7 +139,7 @@ StatisticsBridge::calendarCells() const
 
 // ── Navigation ────────────────────────────────────────────────────────────────
 
-workrave::IStatistics::Date
+workrave::stats::IStatistics::Date
 StatisticsBridge::selectedDate() const
 {
   return to_date(QDate(selected_year_, selected_month_, selected_day_));
@@ -200,12 +197,12 @@ StatisticsBridge::selectDate(const Date &date)
 {
   const QDate selected = to_qdate(date);
 
-  selected_year_  = selected.year();
+  selected_year_ = selected.year();
   selected_month_ = selected.month();
-  selected_day_   = selected.day();
+  selected_day_ = selected.day();
 
   // Flip the calendar page if needed
-  calendar_year_  = selected.year();
+  calendar_year_ = selected.year();
   calendar_month_ = selected.month();
 
   updateStats();
@@ -223,12 +220,12 @@ StatisticsBridge::updateNavigation()
   const Date date = selectedDate();
 
   std::optional<Date> first = statistics_->get_first_date();
-  std::optional<Date> last  = statistics_->get_last_date();
+  std::optional<Date> last = statistics_->get_last_date();
 
-  can_go_back_    = statistics_->get_previous_date(date).has_value();
+  can_go_back_ = statistics_->get_previous_date(date).has_value();
   can_go_forward_ = statistics_->get_next_date(date).has_value();
-  can_go_first_   = first.has_value() && first.value() != date;
-  can_go_last_    = last.has_value() && last.value() != date;
+  can_go_first_ = first.has_value() && first.value() != date;
+  can_go_last_ = last.has_value() && last.value() != date;
 }
 
 // ── prevMonth / nextMonth ─────────────────────────────────────────────────────
@@ -262,7 +259,8 @@ StatisticsBridge::nextMonth()
 void
 StatisticsBridge::updateStats()
 {
-  std::optional<IStatistics::DailyStats> day = (selected_year_ > 0) ? statistics_->get_day(selectedDate()) : std::nullopt;
+  std::optional<workrave::stats::IStatistics::DailyStats> day = (selected_year_ > 0) ? statistics_->get_day(selectedDate())
+                                                                                     : std::nullopt;
 
   if (!day.has_value() || day->start == workrave::stats::LocalTime{})
     {
@@ -270,7 +268,7 @@ StatisticsBridge::updateStats()
       return;
     }
 
-  const IStatistics::DailyStats *stats = &day.value();
+  const workrave::stats::IStatistics::DailyStats *stats = &day.value();
 
   // ── Date text ──────────────────────────────────────────────────────────────
   {
@@ -279,14 +277,11 @@ StatisticsBridge::updateStats()
     QTime start_time = to_qtime(stats->start);
     QTime stop_time = to_qtime(stats->stop);
 
-    QString date_str  = locale.toString(start_date, QLocale::ShortFormat);
+    QString date_str = locale.toString(start_date, QLocale::ShortFormat);
     QString start_str = locale.toString(start_time, QLocale::ShortFormat);
-    QString stop_str  = locale.toString(stop_time, QLocale::ShortFormat);
+    QString stop_str = locale.toString(stop_time, QLocale::ShortFormat);
 
-    selected_date_text_ = QObject::tr("%1, from %2 to %3")
-                            .arg(date_str)
-                            .arg(start_str)
-                            .arg(stop_str);
+    selected_date_text_ = QObject::tr("%1, from %2 to %3").arg(date_str).arg(start_str).arg(stop_str);
   }
 
   // ── Break stats (7 rows × 3 break types) ──────────────────────────────────
@@ -299,55 +294,66 @@ StatisticsBridge::updateStats()
   static const std::array<BreakRowDef, 7> break_row_defs = {{
     {.label = QT_TR_NOOP("Break prompts"),
      .tooltip = QT_TR_NOOP("The number of times you were prompted to break, excluding repeated prompts for the same break")},
-    {.label = QT_TR_NOOP("Repeated prompts"),
-     .tooltip = QT_TR_NOOP("The number of times you were repeatedly prompted to break")},
+    {.label = QT_TR_NOOP("Repeated prompts"), .tooltip = QT_TR_NOOP("The number of times you were repeatedly prompted to break")},
     {.label = QT_TR_NOOP("Prompted breaks taken"),
      .tooltip = QT_TR_NOOP("The number of times you took a break when being prompted")},
     {.label = QT_TR_NOOP("Natural breaks taken"),
      .tooltip = QT_TR_NOOP("The number of times you took a break without being prompted")},
-    {.label = QT_TR_NOOP("Breaks skipped"),
-     .tooltip = QT_TR_NOOP("The number of breaks you skipped")},
-    {.label = QT_TR_NOOP("Breaks postponed"),
-     .tooltip = QT_TR_NOOP("The number of breaks you postponed")},
-    {.label = QT_TR_NOOP("Overdue time"),
-     .tooltip = QT_TR_NOOP("The total time this break was overdue")},
+    {.label = QT_TR_NOOP("Breaks skipped"), .tooltip = QT_TR_NOOP("The number of breaks you skipped")},
+    {.label = QT_TR_NOOP("Breaks postponed"), .tooltip = QT_TR_NOOP("The number of breaks you postponed")},
+    {.label = QT_TR_NOOP("Overdue time"), .tooltip = QT_TR_NOOP("The total time this break was overdue")},
   }};
 
   QVariantList rows;
   for (int row = 0; row < 7; row++)
     {
       QVariantMap r;
-      r[QStringLiteral("label")]   = QObject::tr(break_row_defs.at(row).label);
+      r[QStringLiteral("label")] = QObject::tr(break_row_defs.at(row).label);
       r[QStringLiteral("tooltip")] = QObject::tr(break_row_defs.at(row).tooltip);
 
       // micro=0, rest=1, daily=2
       auto cell_value = [&](int break_id) -> QString {
         const auto &bs = stats->break_stats[break_id];
-        int64_t value  = 0;
+        int64_t value = 0;
         switch (row)
           {
-          case 0: value = bs[IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS]; break;
-          case 1: value = bs[IStatistics::STATS_BREAKVALUE_PROMPTED] - bs[IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS]; break;
-          case 2: value = bs[IStatistics::STATS_BREAKVALUE_TAKEN]; break;
-          case 3: value = bs[IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN]; break;
-          case 4: value = bs[IStatistics::STATS_BREAKVALUE_SKIPPED]; break;
-          case 5: value = bs[IStatistics::STATS_BREAKVALUE_POSTPONED]; break;
-          case 6: value = bs[IStatistics::STATS_BREAKVALUE_TOTAL_OVERDUE]; return formatTime(value);
-          default: break;
+            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS].get();
+            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS].get();
+            break;
+          case 1:
+            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED].get()
+                    - bs[workrave::stats::IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS].get();
+            break;
+          case 2:
+            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_TAKEN].get();
+            break;
+          case 3:
+            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN].get();
+            break;
+          case 4:
+            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_SKIPPED].get();
+            break;
+          case 5:
+            value = bs[workrave::stats::IStatistics::STATS_BREAKVALUE_POSTPONED].get();
+            break;
+          case 6:
+            return formatTime(stats->total_overdue[break_id].get().count());
+          default:
+            break;
           }
         return QString::number(value);
       };
 
       r[QStringLiteral("micro")] = cell_value(BREAK_ID_MICRO_BREAK);
-      r[QStringLiteral("rest")]  = cell_value(BREAK_ID_REST_BREAK);
+      r[QStringLiteral("rest")] = cell_value(BREAK_ID_REST_BREAK);
       r[QStringLiteral("daily")] = cell_value(BREAK_ID_DAILY_LIMIT);
       rows.append(r);
     }
   break_stats_ = rows;
 
   // ── Daily usage ────────────────────────────────────────────────────────────
-  int64_t daily = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
-  daily_usage_  = daily > 0 ? formatTime(daily) : QString{};
+  int64_t daily = stats->total_active_time.get().count();
+  daily_usage_ = daily > 0 ? formatTime(daily) : QString{};
 
   // ── Week / month usage ─────────────────────────────────────────────────────
   updateWeekUsage();
@@ -383,7 +389,7 @@ StatisticsBridge::updateWeekUsage()
   const QDate first = selected.addDays(-offset);
   const QDate last = first.addDays(6);
 
-  const int64_t total = statistics_->get_total_active_time(to_date(first), to_date(last));
+  const int64_t total = statistics_->get_total_active_time(to_date(first), to_date(last)).count();
 
   weekly_usage_ = (total > 0) ? formatTime(total) : QString{};
 }
@@ -402,7 +408,7 @@ StatisticsBridge::updateMonthUsage()
   const int days_in_month = QDate(selected_year_, selected_month_, 1).daysInMonth();
 
   const QDate first(selected_year_, selected_month_, 1);
-  const int64_t total = statistics_->get_total_active_time(to_date(first), to_date(first.addDays(days_in_month - 1)));
+  const int64_t total = statistics_->get_total_active_time(to_date(first), to_date(first.addDays(days_in_month - 1))).count();
 
   monthly_usage_ = (total > 0) ? formatTime(total) : QString{};
 }
@@ -453,14 +459,9 @@ StatisticsBridge::formatTime(int64_t secs)
 
   if (h > 0)
     {
-      return QStringLiteral("%1:%2:%3")
-        .arg(h)
-        .arg(m, 2, 10, QChar('0'))
-        .arg(s, 2, 10, QChar('0'));
+      return QStringLiteral("%1:%2:%3").arg(h).arg(m, 2, 10, QChar('0')).arg(s, 2, 10, QChar('0'));
     }
-  return QStringLiteral("%1:%2")
-    .arg(m)
-    .arg(s, 2, 10, QChar('0'));
+  return QStringLiteral("%1:%2").arg(m).arg(s, 2, 10, QChar('0'));
 }
 
 // ── QmlStatisticsDialog ───────────────────────────────────────────────────────
@@ -469,7 +470,7 @@ QmlStatisticsDialog::QmlStatisticsDialog(std::shared_ptr<IApplicationContext> ap
 {
   TRACE_ENTRY();
 
-  auto core       = app->get_core();
+  auto core = app->get_core();
   auto statistics = core->get_statistics();
 
   bridge_ = new StatisticsBridge(statistics, app);
@@ -499,7 +500,7 @@ QmlStatisticsDialog::QmlStatisticsDialog(std::shared_ptr<IApplicationContext> ap
   QObject::connect(view_, &QQuickView::statusChanged, bridge_, [this](QQuickView::Status status) {
     if (status == QQuickView::Error)
       {
-        for (const auto &err : view_->errors())
+        for (const auto &err: view_->errors())
           {
             spdlog::error("StatisticsDialog QML error: {}", err.toString().toStdString());
           }

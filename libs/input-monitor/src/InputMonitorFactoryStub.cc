@@ -94,8 +94,7 @@ InputMonitorFactory::init(IConfigurator::Ptr config, const char *display)
 }
 
 IInputMonitor::Ptr
-InputMonitorFactory::create_monitor(MonitorCapability capability)
+InputMonitorFactory::create_monitor()
 {
-  (void)capability;
   return IInputMonitor::Ptr(new InputMonitorStub());
 }

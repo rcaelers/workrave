@@ -55,7 +55,7 @@ LocalActivityMonitor::init()
   load_config();
   CoreConfig::key_monitor().connect(this, [this] { load_config(); });
 
-  input_monitor = InputMonitorFactory::create_monitor(MonitorCapability::Activity);
+  input_monitor = InputMonitorFactory::create_monitor();
   if (input_monitor != nullptr)
     {
       input_monitor->subscribe(this);

@@ -20,9 +20,10 @@
 
 #include <memory>
 
+
 namespace workrave::stats
 {
-  class Statistics;
+  class IStatistics;
 
   //! Context the statistics need to know about the core they belong to.
   class IStatisticsContext
@@ -36,7 +37,7 @@ namespace workrave::stats
     [[nodiscard]] virtual bool is_active() const = 0;
 
     //! Refreshes the counters the core derives from its timers, before a save.
-    virtual void update_counters(Statistics &statistics)
+    virtual void update_counters(workrave::stats::IStatistics *statistics)
     {
       (void)statistics;
     }

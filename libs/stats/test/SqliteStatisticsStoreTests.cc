@@ -194,6 +194,16 @@ namespace
     check_date_queries(sqlite_store());
   }
 
+  TEST_F(SqliteStoreTest, break_counter_updates)
+  {
+    check_break_counter_updates(sqlite_store());
+  }
+
+  TEST_F(SqliteStoreTest, break_counter_update_without_today)
+  {
+    check_break_counter_update_without_today(sqlite_store());
+  }
+
   TEST_F(SqliteStoreTest, delete_all)
   {
     auto store = sqlite_store();

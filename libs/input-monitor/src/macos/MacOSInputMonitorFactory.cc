@@ -37,10 +37,8 @@ MacOSInputMonitorFactory::init(const char *display)
 }
 
 IInputMonitor::Ptr
-MacOSInputMonitorFactory::create_monitor(MonitorCapability capability)
+MacOSInputMonitorFactory::create_monitor()
 {
-  (void)capability;
-
   if (monitor == nullptr)
     {
       monitor = std::make_shared<MacOSInputMonitor>();

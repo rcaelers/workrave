@@ -133,7 +133,7 @@ namespace workrave::core_shadow
     void heartbeat() override;
     void force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint) override;
     [[nodiscard]] IBreak::Ptr get_break(BreakId id) const override;
-    [[nodiscard]] IStatistics::Ptr get_statistics() const override;
+    [[nodiscard]] workrave::stats::IStatistics::Ptr get_statistics() const override;
     [[nodiscard]] bool is_user_active() const override;
     [[nodiscard]] bool is_taking() const override;
     [[nodiscard]] OperationMode get_active_operation_mode() override;

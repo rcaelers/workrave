@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#include "stats/Statistics.hh"
+#include "Statistics.hh"
 
 #if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
@@ -30,32 +30,37 @@
 #include <optional>
 #include <sstream>
 #include <cassert>
-#include <cmath>
 
 #include "debug.hh"
 
 #include "utils/Paths.hh"
-#include "input-monitor/InputMonitorFactory.hh"
-#include "input-monitor/IInputMonitor.hh"
-
-#define MAX_JUMP (10000)
 
 using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
-using namespace workrave::input_monitor;
+
+namespace
+{
+  //! Where total_overdue sits within each break's counter row in the store, matching
+  //! where STATS_BREAKVALUE_TOTAL_OVERDUE used to sit before it became its own field.
+  constexpr size_t OVERDUE_STORAGE_INDEX = workrave::stats::IStatistics::STATS_BREAKVALUE_SIZEOF;
+
+  //! Where total_active_time sits within misc_stats in the store, matching where
+  //! STATS_VALUE_TOTAL_ACTIVE_TIME used to sit before it became its own field.
+  constexpr size_t ACTIVE_TIME_STORAGE_INDEX = 0;
+} // namespace
 
 namespace workrave::stats
 {
+  std::shared_ptr<IStatistics> create(std::shared_ptr<IStatisticsContext> context)
+  {
+    return std::make_shared<Statistics>(context);
+  }
 
   Statistics::Statistics(IStatisticsContext::Ptr context)
     : context(std::move(context))
     , current_day(nullptr)
     , been_active(false)
-    , prev_x(-1)
-    , prev_y(-1)
-    , click_x(-1)
-    , click_y(-1)
   {
   }
 
@@ -65,22 +70,11 @@ namespace workrave::stats
     update();
 
     delete current_day;
-
-    if (input_monitor != nullptr)
-      {
-        input_monitor->unsubscribe(this);
-      }
   }
 
   //! Initializes the Statistics.
   void Statistics::init()
   {
-    input_monitor = InputMonitorFactory::create_monitor(MonitorCapability::Statistics);
-    if (input_monitor != nullptr)
-      {
-        input_monitor->subscribe(this);
-      }
-
     store = StatisticsStoreFactory::create(Paths::get_state_directory());
 
     current_day = nullptr;
@@ -108,7 +102,7 @@ namespace workrave::stats
       }
 
     // A core that derives counters from its own timers fills them in here.
-    context->update_counters(*this);
+    context->update_counters(this);
 
     save_day(current_day);
   }
@@ -148,6 +142,7 @@ namespace workrave::stats
           }
 
         current_day = new DailyStatsImpl();
+        wire_write_through(*current_day);
         been_active = false;
 
         current_day->start = now;
@@ -177,11 +172,18 @@ namespace workrave::stats
     record.break_stats.resize(BREAK_ID_SIZEOF);
     for (int i = 0; i < BREAK_ID_SIZEOF; i++)
       {
-        const BreakStats &bs = stats->break_stats[i];
-        record.break_stats[i].assign(std::begin(bs), std::end(bs));
+        std::vector<int64_t> &counters = record.break_stats[i];
+        counters.resize(OVERDUE_STORAGE_INDEX + 1);
+
+        for (int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
+          {
+            counters[j] = stats->break_stats[i][j].to_storage();
+          }
+        counters[OVERDUE_STORAGE_INDEX] = stats->total_overdue[i].to_storage();
       }
 
-    record.misc_stats.assign(std::begin(stats->misc_stats), std::end(stats->misc_stats));
+    record.misc_stats.resize(ACTIVE_TIME_STORAGE_INDEX + 1);
+    record.misc_stats[ACTIVE_TIME_STORAGE_INDEX] = stats->total_active_time.to_storage();
 
     return record;
   }
@@ -202,17 +204,23 @@ namespace workrave::stats
     const size_t breaks = std::min<size_t>(record.break_stats.size(), BREAK_ID_SIZEOF);
     for (size_t i = 0; i < breaks; i++)
       {
-        const size_t counters = std::min<size_t>(record.break_stats[i].size(), STATS_BREAKVALUE_SIZEOF);
-        for (size_t j = 0; j < counters; j++)
+        const std::vector<int64_t> &counters = record.break_stats[i];
+
+        const size_t known = std::min<size_t>(counters.size(), STATS_BREAKVALUE_SIZEOF);
+        for (size_t j = 0; j < known; j++)
           {
-            stats.break_stats[i][j] = static_cast<int>(record.break_stats[i][j]);
+            stats.break_stats[i][j].from_storage(counters[j]);
+          }
+
+        if (counters.size() > OVERDUE_STORAGE_INDEX)
+          {
+            stats.total_overdue[i].from_storage(counters[OVERDUE_STORAGE_INDEX]);
           }
       }
 
-    const size_t counters = std::min<size_t>(record.misc_stats.size(), STATS_VALUE_SIZEOF);
-    for (size_t i = 0; i < counters; i++)
+    if (record.misc_stats.size() > ACTIVE_TIME_STORAGE_INDEX)
       {
-        stats.misc_stats[i] = record.misc_stats[i];
+        stats.total_active_time.from_storage(record.misc_stats[ACTIVE_TIME_STORAGE_INDEX]);
       }
 
     return stats;
@@ -237,6 +245,7 @@ namespace workrave::stats
         if (record.has_value())
           {
             current_day = new DailyStatsImpl(from_record(record.value()));
+            wire_write_through(*current_day);
           }
       }
 
@@ -245,48 +254,24 @@ namespace workrave::stats
     return current_day != nullptr;
   }
 
-  //! Increment the specified statistics counter of the current day.
-  void Statistics::increment_break_counter(BreakId bt, StatsBreakValueType st)
+  //! Binds the break counters of the given day to write straight through to the
+  //! store. total_overdue/total_active_time are left unbound, since they stay buffered.
+  void Statistics::wire_write_through(DailyStatsImpl &day)
   {
-    if (current_day == nullptr)
+    for (int i = 0; i < BREAK_ID_SIZEOF; i++)
       {
-        start_new_day();
+        for (int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
+          {
+            const auto break_id = static_cast<BreakId>(i);
+            const int counter = j;
+            day.break_stats[i][j].on_change([this, break_id, counter](int64_t value) {
+              if (store != nullptr)
+                {
+                  store->set_break_counter(break_id, counter, value);
+                }
+            });
+          }
       }
-
-    BreakStats &bs = current_day->break_stats[bt];
-    bs[st]++;
-  }
-
-  void Statistics::set_break_counter(BreakId bt, StatsBreakValueType st, int value)
-  {
-    if (current_day == nullptr)
-      {
-        start_new_day();
-      }
-
-    BreakStats &bs = current_day->break_stats[bt];
-    bs[st] = value;
-  }
-
-  void Statistics::add_break_counter(BreakId bt, StatsBreakValueType st, int value)
-  {
-    if (current_day == nullptr)
-      {
-        start_new_day();
-      }
-
-    BreakStats &bs = current_day->break_stats[bt];
-    bs[st] += value;
-  }
-
-  void Statistics::set_counter(StatsValueType t, int value)
-  {
-    current_day->misc_stats[t] = value;
-  }
-
-  int64_t Statistics::get_counter(StatsValueType t)
-  {
-    return current_day->misc_stats[t];
   }
 
   //! Dump
@@ -298,20 +283,15 @@ namespace workrave::stats
     stringstream ss;
     for (int i = 0; i < BREAK_ID_SIZEOF; i++)
       {
-        BreakStats &bs = current_day->break_stats[i];
-
         ss << "Break " << i << " ";
-        for (auto value: bs)
+        for (const auto &counter: current_day->break_stats[i])
           {
-            ss << value << " ";
+            ss << counter.get() << " ";
           }
+        ss << current_day->total_overdue[i].get().count() << " ";
       }
 
-    ss << "stats ";
-    for (int64_t value: current_day->misc_stats)
-      {
-        ss << value << " ";
-      }
+    ss << "stats " << current_day->total_active_time.get().count() << " ";
   }
 
   Statistics::DailyStatsImpl *Statistics::get_current_day() const
@@ -372,14 +352,14 @@ namespace workrave::stats
     return store != nullptr ? store->get_last_date() : std::nullopt;
   }
 
-  int64_t Statistics::get_total_active_time(const Date &from, const Date &to) const
+  std::chrono::seconds Statistics::get_total_active_time(const Date &from, const Date &to) const
   {
     if (store == nullptr)
       {
-        return 0;
+        return std::chrono::seconds::zero();
       }
 
-    int64_t total = store->get_total_misc(STATS_VALUE_TOTAL_ACTIVE_TIME, from, to);
+    int64_t total = store->get_total_misc(static_cast<int>(ACTIVE_TIME_STORAGE_INDEX), from, to);
 
     // Correct the stored value of the day in progress, which is behind by up to
     // one save interval, with what has been counted since.
@@ -389,118 +369,14 @@ namespace workrave::stats
         if (today >= from && today <= to)
           {
             std::optional<DailyStatsRecord> stored = store->load_date(today);
-            if (stored.has_value() && stored->misc_stats.size() > STATS_VALUE_TOTAL_ACTIVE_TIME)
+            if (stored.has_value() && stored->misc_stats.size() > ACTIVE_TIME_STORAGE_INDEX)
               {
-                total -= stored->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME];
+                total -= stored->misc_stats[ACTIVE_TIME_STORAGE_INDEX];
               }
-            total += current_day->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME];
+            total += current_day->total_active_time.get().count();
           }
       }
 
-    return total;
-  }
-
-  //! Activity is reported by the input monitor.
-  void Statistics::action_notify()
-  {
-  }
-
-  //! Mouse activity is reported by the input monitor.
-  void Statistics::mouse_notify(int x, int y, int wheel_delta)
-  {
-    static const int sensitivity = 3;
-
-    lock.lock();
-
-    if (current_day != nullptr && x >= 0 && y >= 0)
-      {
-        int delta_x = sensitivity;
-        int delta_y = sensitivity;
-
-        if (prev_x != -1 && prev_y != -1)
-          {
-            delta_x = abs(x - prev_x);
-            delta_y = abs(y - prev_y);
-          }
-
-        prev_x = x;
-        prev_y = y;
-
-        // Sanity checks, ignore unreasonable large jumps...
-        if (delta_x < MAX_JUMP && delta_y < MAX_JUMP && (delta_x >= sensitivity || delta_y >= sensitivity || wheel_delta != 0))
-          {
-            int64_t movement = current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
-            int distance = int(sqrt(static_cast<double>(delta_x * delta_x + delta_y * delta_y)));
-
-            movement += distance;
-            if (movement > 0)
-              {
-                current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT] = movement;
-              }
-
-            auto now = std::chrono::system_clock::now();
-            auto tv = now - last_mouse_time;
-
-            if (tv < std::chrono::seconds(1))
-              {
-                current_day->total_mouse_time += tv;
-                current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] = std::chrono::duration_cast<std::chrono::seconds>(
-                                                                             current_day->total_mouse_time.time_since_epoch())
-                                                                             .count();
-              }
-
-            last_mouse_time = now;
-          }
-      }
-
-    lock.unlock();
-  }
-
-  //! Mouse button activity is reported by the input monitor.
-  void Statistics::button_notify(bool is_press)
-  {
-    lock.lock();
-    if (current_day != nullptr)
-      {
-        if (click_x != -1 && click_y != -1 && prev_x != -1 && prev_y != -1)
-          {
-            int delta_x = click_x - prev_x;
-            int delta_y = click_y - prev_y;
-
-            int64_t movement = current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT];
-            int64_t distance = int(sqrt(static_cast<double>(delta_x * delta_x + delta_y * delta_y)));
-
-            movement += distance;
-            if (movement > 0)
-              {
-                current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT] = movement;
-              }
-          }
-
-        click_x = prev_x;
-        click_y = prev_y;
-
-        if (is_press)
-          {
-            current_day->misc_stats[STATS_VALUE_TOTAL_CLICKS]++;
-          }
-      }
-    lock.unlock();
-  }
-
-  //! Keyboard activity is reported by the input monitor.
-  void Statistics::keyboard_notify(bool repeat)
-  {
-    if (repeat)
-      {
-        return;
-      }
-
-    lock.lock();
-    if (current_day != nullptr)
-      {
-        current_day->misc_stats[STATS_VALUE_TOTAL_KEYSTROKES]++;
-      }
-    lock.unlock();
+    return std::chrono::seconds{total};
   }
 } // namespace workrave::stats

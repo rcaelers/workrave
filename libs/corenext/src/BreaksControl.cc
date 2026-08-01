@@ -42,7 +42,7 @@ using namespace workrave::utils;
 BreaksControl::BreaksControl(IApp *app,
                              IActivityMonitor::Ptr activity_monitor,
                              CoreModes::Ptr modes,
-                             workrave::stats::Statistics::Ptr statistics,
+                             workrave::stats::IStatistics::Ptr statistics,
                              CoreHooks::Ptr hooks)
   : application(app)
   , activity_monitor(activity_monitor)

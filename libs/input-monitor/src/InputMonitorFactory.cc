@@ -54,11 +54,11 @@ InputMonitorFactory::init(IConfigurator::Ptr config, const char *display)
 }
 
 IInputMonitor::Ptr
-InputMonitorFactory::create_monitor(MonitorCapability capability)
+InputMonitorFactory::create_monitor()
 {
   if (factory != nullptr)
     {
-      return factory->create_monitor(capability);
+      return factory->create_monitor();
     }
 
   return IInputMonitor::Ptr();

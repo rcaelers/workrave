@@ -35,16 +35,11 @@ class W32InputMonitorFactory : public workrave::input_monitor::IInputMonitorFact
 public:
   W32InputMonitorFactory(workrave::config::IConfigurator::Ptr config);
   virtual void init(const char *display);
-  virtual workrave::input_monitor::IInputMonitor::Ptr create_monitor(MonitorCapability capability);
-
-private:
-  workrave::input_monitor::IInputMonitor::Ptr create_statistics_monitor();
-  workrave::input_monitor::IInputMonitor::Ptr create_activity_monitor();
+  virtual workrave::input_monitor::IInputMonitor::Ptr create_monitor();
 
 private:
   workrave::config::IConfigurator::Ptr config;
   workrave::input_monitor::IInputMonitor::Ptr activity_monitor;
-  workrave::input_monitor::IInputMonitor::Ptr statistics_monitor;
   TracedField<std::string> actual_monitor_method;
 };
 

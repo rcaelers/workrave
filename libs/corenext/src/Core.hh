@@ -26,7 +26,7 @@
 #include "core/ICore.hh"
 #include "LocalActivityMonitor.hh"
 #include "BreaksControl.hh"
-#include "stats/Statistics.hh"
+#include "stats/IStatistics.hh"
 #include "CoreHooks.hh"
 #include "CoreModes.hh"
 
@@ -61,7 +61,7 @@ public:
   // @rpc(name="ForceBreak")
   void force_break(workrave::BreakId id, workrave::utils::Flags<workrave::BreakHint> break_hint) override;
   workrave::IBreak::Ptr get_break(workrave::BreakId id) const override;
-  workrave::IStatistics::Ptr get_statistics() const override;
+  workrave::stats::IStatistics::Ptr get_statistics() const override;
   ICoreHooks::Ptr get_hooks() const override;
   // @rpc(name="IsActive")
   bool is_user_active() const override;
@@ -128,7 +128,7 @@ private:
   workrave::IApp *application{nullptr};
 
   //! The statistics collector.
-  workrave::stats::Statistics::Ptr statistics;
+  workrave::stats::IStatistics::Ptr statistics;
 
   //! Did the OS announce a powersave?
   bool powersave{false};

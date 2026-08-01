@@ -765,7 +765,7 @@ namespace workrave::core_shadow
     return breaks[id];
   }
 
-  IStatistics::Ptr CoreShadowProxy::get_statistics() const
+  workrave::stats::IStatistics::Ptr CoreShadowProxy::get_statistics() const
   {
     return live_core->get_statistics();
   }

@@ -18,12 +18,14 @@
 #ifndef WORKRAVE_LIBS_STATS_ISTATISTICSSTORE_HH
 #define WORKRAVE_LIBS_STATS_ISTATISTICSSTORE_HH
 
+#include <cstdint>
 #include <filesystem>
 #include <memory>
 #include <optional>
 #include <vector>
 
-#include "stats/DailyStatsRecord.hh"
+#include "core/CoreTypes.hh"
+#include "DailyStatsRecord.hh"
 
 namespace workrave::stats
 {
@@ -43,6 +45,9 @@ namespace workrave::stats
 
     //! Stores the statistics of the day currently in progress.
     virtual void save_today(const DailyStatsRecord &record) = 0;
+
+    //! Sets a single break counter of the day in progress to an absolute value, immediately and durably.
+    virtual void set_break_counter(workrave::BreakId break_id, int counter, int64_t value) = 0;
 
     //! Archives a completed day.
     virtual void append_history(const DailyStatsRecord &record) = 0;
@@ -75,7 +80,9 @@ namespace workrave::stats
   class StatisticsStoreFactory
   {
   public:
-    //! Creates the store for the statistics kept in the given state directory.
+    //! Creates the live store for the given state directory. Returns nullptr if no
+    //! writable store could be opened, leaving the caller without persistence for
+    //! this session.
     static IStatisticsStore::Ptr create(const std::filesystem::path &state_directory);
   };
 } // namespace workrave::stats

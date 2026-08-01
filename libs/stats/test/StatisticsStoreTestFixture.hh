@@ -29,7 +29,7 @@
 #include <string>
 #include <vector>
 
-#include "stats/IStatisticsStore.hh"
+#include "IStatisticsStore.hh"
 
 #include "FileStatisticsStore.hh"
 #include "SqliteStatisticsStore.hh"
@@ -37,14 +37,12 @@
 namespace workrave::stats
 {
   //! Reports dates and times readably rather than as a byte dump when a check fails.
-  inline void
-  PrintTo(const Date &date, std::ostream *os)
+  inline void PrintTo(const Date &date, std::ostream *os)
   {
     *os << date;
   }
 
-  inline void
-  PrintTo(const LocalTime &time, std::ostream *os)
+  inline void PrintTo(const LocalTime &time, std::ostream *os)
   {
     *os << date_of(time) << " " << std::chrono::hh_mm_ss{time_of_day(time)};
   }
@@ -53,24 +51,23 @@ namespace workrave::stats
 namespace workrave::stats::test
 {
   //! A single day exactly as Workrave 1.10/1.11 writes it.
-  inline const char *const REFERENCE_STATS = "WorkRaveStats 4\n"
-                                             "D 12 6 125 9 15 12 6 125 17 42\n"
-                                             "B 0 7 1 2 3 4 5 6 7 \n"
-                                             "B 1 7 8 9 10 11 12 13 14 \n"
-                                             "B 2 7 15 16 17 18 19 20 21 \n"
-                                             "B 3 7 22 23 24 25 26 27 28 \n"
-                                             "m 6 100 200 300 400 500 600 \n";
+  inline const char *const REFERENCE_STATS =
+    "WorkRaveStats 4\n"
+    "D 12 6 125 9 15 12 6 125 17 42\n"
+    "B 0 7 1 2 3 4 5 6 7 \n"
+    "B 1 7 8 9 10 11 12 13 14 \n"
+    "B 2 7 15 16 17 18 19 20 21 \n"
+    "B 3 7 22 23 24 25 26 27 28 \n"
+    "m 6 100 200 300 400 500 600 \n";
 
   //! The day the reference statistics belong to, optionally moved within the month.
-  inline Date
-  reference_date(int mday = 12)
+  inline Date reference_date(int mday = 12)
   {
     return std::chrono::year{2025} / 7 / mday;
   }
 
   //! The reference day, optionally moved to another day of the month.
-  inline DailyStatsRecord
-  make_record(int mday = 12)
+  inline DailyStatsRecord make_record(int mday = 12)
   {
     using namespace std::chrono;
 
@@ -158,8 +155,8 @@ namespace workrave::stats::test
   };
 
   //! The date based queries, which both stores must answer the same way.
-  inline void
-  check_date_queries(const IStatisticsStore::Ptr &store)
+  template<typename Store>
+  inline void check_date_queries(const std::shared_ptr<Store> &store)
   {
     store->append_history(make_record(12));
     store->append_history(make_record(14));
@@ -207,6 +204,36 @@ namespace workrave::stats::test
     ASSERT_TRUE(day.has_value());
     EXPECT_EQ(day->date(), middle);
     EXPECT_FALSE(store->load_date(gap).has_value());
+  }
+
+  //! set_break_counter() must take effect on today immediately, without a
+  //! save_today() in between.
+  inline void check_break_counter_updates(const IStatisticsStore::Ptr &store)
+  {
+    store->save_today(make_record());
+
+    // Reference day has break 1 as [8, 9, 10, 11, 12, 13, 14].
+    store->set_break_counter(workrave::BREAK_ID_REST_BREAK, 5, 42);
+
+    auto today = store->load_today();
+    ASSERT_TRUE(today.has_value());
+    EXPECT_EQ(today->break_stats[workrave::BREAK_ID_REST_BREAK][5], 42);
+
+    // A counter beyond what the day currently holds grows the record to fit it.
+    store->set_break_counter(workrave::BREAK_ID_DAILY_LIMIT, 7, 3);
+
+    today = store->load_today();
+    ASSERT_TRUE(today.has_value());
+    ASSERT_GT(today->break_stats[workrave::BREAK_ID_DAILY_LIMIT].size(), 7U);
+    EXPECT_EQ(today->break_stats[workrave::BREAK_ID_DAILY_LIMIT][7], 3);
+  }
+
+  //! Without a day in progress there is nothing to update.
+  inline void check_break_counter_update_without_today(const IStatisticsStore::Ptr &store)
+  {
+    store->set_break_counter(workrave::BREAK_ID_MICRO_BREAK, 0, 1);
+
+    EXPECT_FALSE(store->load_today().has_value());
   }
 } // namespace workrave::stats::test
 

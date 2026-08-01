@@ -45,7 +45,7 @@
 #include "config/ConfiguratorFactory.hh"
 #include "config/IConfigurator.hh"
 #include "core/CoreConfig.hh"
-#include "stats/Statistics.hh"
+#include "stats/IStatistics.hh"
 #include "StatisticsContext.hh"
 #include "BreakControl.hh"
 #include "Timer.hh"
@@ -119,7 +119,6 @@ Core::~Core()
     {
       monitor->terminate();
     }
-
 }
 
 /********************************************************************************/
@@ -299,7 +298,7 @@ Core::init_breaks()
 void
 Core::init_statistics()
 {
-  statistics = std::make_shared<workrave::stats::Statistics>(std::make_shared<StatisticsContext>(this));
+  statistics = workrave::stats::create(std::make_shared<StatisticsContext>(this));
   statistics->init();
 }
 
@@ -308,10 +307,10 @@ void
 Core::load_monitor_config()
 {
   TRACE_ENTRY();
-  int noise;
-  int activity;
-  int idle;
-  int sensitivity;
+  int noise = 0;
+  int activity = 0;
+  int idle = 0;
+  int sensitivity = 0;
 
   assert(configurator != nullptr);
   assert(local_monitor != nullptr);
@@ -463,7 +462,7 @@ Core::get_activity_monitor() const
 }
 
 //! Returns the statistics.
-workrave::stats::Statistics *
+workrave::stats::IStatistics *
 Core::get_statistics() const
 {
   return statistics.get();
@@ -588,7 +587,6 @@ Core::set_operation_mode_internal(OperationMode mode)
       update_active_operation_mode();
       CoreConfig::operation_mode().set(mode);
       operation_mode_changed_signal(operation_mode_regular);
-
     }
 }
 
@@ -700,7 +698,6 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
         }
 
       usage_mode_changed_signal(mode);
-
     }
 }
 
@@ -1127,7 +1124,7 @@ Core::process_timers()
 
       if (i == BREAK_ID_DAILY_LIMIT && (info.event == TIMER_EVENT_NATURAL_RESET || info.event == TIMER_EVENT_RESET))
         {
-          statistics->set_counter(workrave::IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME, (int)info.elapsed_time);
+          statistics->get_current_day()->total_active_time.set(std::chrono::seconds{info.elapsed_time});
           statistics->start_new_day();
 
           daily_reset();
@@ -1273,7 +1270,7 @@ Core::timer_action(BreakId id, TimerInfo info)
       break;
 
     case TIMER_EVENT_NATURAL_RESET:
-      statistics->increment_break_counter(id, workrave::IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN);
+      statistics->get_current_day()->break_stats[id][workrave::stats::IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN].add(1);
       // FALLTHROUGH
 
     case TIMER_EVENT_RESET:
@@ -1409,6 +1406,7 @@ void
 Core::daily_reset()
 {
   TRACE_ENTRY();
+  auto *today = statistics->get_current_day();
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       Timer *t = breaks[i].get_timer();
@@ -1416,7 +1414,7 @@ Core::daily_reset()
 
       int64_t overdue = t->get_total_overdue_time();
 
-      statistics->set_break_counter(((BreakId)i), workrave::IStatistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)overdue);
+      today->total_overdue[i].set(std::chrono::seconds{overdue});
 
       t->daily_reset_timer();
     }

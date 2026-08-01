@@ -31,7 +31,7 @@ namespace workrave
     {
     public:
       static void init(workrave::config::IConfigurator::Ptr config, const char *display);
-      static workrave::input_monitor::IInputMonitor::Ptr create_monitor(workrave::input_monitor::MonitorCapability capability);
+      static workrave::input_monitor::IInputMonitor::Ptr create_monitor();
 
     private:
       static workrave::input_monitor::IInputMonitorFactory *factory;

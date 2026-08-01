@@ -23,8 +23,8 @@
 
 #include <cassert>
 
-#include "core/IStatistics.hh"
-#include "stats/Statistics.hh"
+#include "stats/IStatistics.hh"
+#include "stats/IStatistics.hh"
 
 #include "Core.hh"
 #include "Timer.hh"
@@ -43,25 +43,25 @@ StatisticsContext::is_active() const
 }
 
 void
-StatisticsContext::update_counters(workrave::stats::Statistics &statistics)
+StatisticsContext::update_counters(workrave::stats::IStatistics *statistics)
 {
   if (core == nullptr)
     {
       return;
     }
 
+  auto *today = statistics->get_current_day();
+
   // The total active time is what the daily limit timer has counted.
   Timer *daily_limit = core->get_break(BREAK_ID_DAILY_LIMIT)->get_timer();
   assert(daily_limit != nullptr);
-  statistics.set_counter(IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME, static_cast<int>(daily_limit->get_elapsed_time()));
+  today->total_active_time.set(std::chrono::seconds{daily_limit->get_elapsed_time()});
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       Timer *timer = core->get_break(BreakId(i))->get_timer();
       assert(timer != nullptr);
 
-      statistics.set_break_counter(BreakId(i),
-                                   IStatistics::STATS_BREAKVALUE_TOTAL_OVERDUE,
-                                   static_cast<int>(timer->get_total_overdue_time()));
+      today->total_overdue[i].set(std::chrono::seconds{timer->get_total_overdue_time()});
     }
 }

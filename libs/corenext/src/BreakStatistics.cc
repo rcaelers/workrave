@@ -29,7 +29,7 @@ using namespace workrave;
 BreakStatistics::BreakStatistics(BreakId break_id,
                                  BreakStateModel::Ptr break_state_model,
                                  Timer::Ptr timer,
-                                 workrave::stats::Statistics::Ptr statistics)
+                                 workrave::stats::IStatistics::Ptr statistics)
   : break_id(break_id)
   , break_state_model(break_state_model)
   , timer(timer)
@@ -43,26 +43,28 @@ BreakStatistics::BreakStatistics(BreakId break_id,
 void
 BreakStatistics::on_break_event(BreakEvent event)
 {
+  auto *today = statistics->get_current_day();
+
   switch (event)
     {
     case BreakEvent::ShowPrelude:
-      statistics->increment_break_counter(break_id, workrave::IStatistics::STATS_BREAKVALUE_PROMPTED);
+      today->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED].add(1);
       break;
 
     case BreakEvent::BreakStart:
-      statistics->increment_break_counter(break_id, workrave::IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS);
+      today->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS].add(1);
       break;
 
     case BreakEvent::BreakPostponed:
-      statistics->increment_break_counter(break_id, workrave::IStatistics::STATS_BREAKVALUE_POSTPONED);
+      today->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_POSTPONED].add(1);
       break;
 
     case BreakEvent::BreakSkipped:
-      statistics->increment_break_counter(break_id, workrave::IStatistics::STATS_BREAKVALUE_SKIPPED);
+      today->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_SKIPPED].add(1);
       break;
 
     case BreakEvent::BreakTaken:
-      statistics->increment_break_counter(break_id, workrave::IStatistics::STATS_BREAKVALUE_TAKEN);
+      today->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_TAKEN].add(1);
       break;
 
     case BreakEvent::ShowBreak:
@@ -84,12 +86,12 @@ BreakStatistics::daily_reset()
 void
 BreakStatistics::update()
 {
+  auto *today = statistics->get_current_day();
+
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      statistics->set_counter(workrave::IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME, static_cast<int>(timer->get_elapsed_time()));
+      today->total_active_time.set(std::chrono::seconds{timer->get_elapsed_time()});
     }
 
-  statistics->set_break_counter(break_id,
-                                workrave::IStatistics::STATS_BREAKVALUE_TOTAL_OVERDUE,
-                                static_cast<int>(timer->get_total_overdue_time()));
+  today->total_overdue[break_id].set(std::chrono::seconds{timer->get_total_overdue_time()});
 }

@@ -36,7 +36,6 @@ W32InputMonitorFactory::W32InputMonitorFactory(IConfigurator::Ptr config)
   , actual_monitor_method{"monitor.method", ""}
 {
   activity_monitor = NULL;
-  statistics_monitor = NULL;
 }
 
 void
@@ -47,23 +46,7 @@ W32InputMonitorFactory::init(const char *display)
 
 //! Retrieves the input activity monitor
 IInputMonitor::Ptr
-W32InputMonitorFactory::create_monitor(MonitorCapability capability)
-{
-  if (capability == MonitorCapability::Activity)
-    {
-      return create_activity_monitor();
-    }
-  else if (capability == MonitorCapability::Statistics)
-    {
-      return create_statistics_monitor();
-    }
-
-  return IInputMonitor::Ptr();
-}
-
-//! Retrieves the input activity monitor
-IInputMonitor::Ptr
-W32InputMonitorFactory::create_activity_monitor()
+W32InputMonitorFactory::create_monitor()
 {
   TRACE_ENTRY();
   IInputMonitor::Ptr monitor = NULL;
@@ -184,40 +167,4 @@ W32InputMonitorFactory::create_activity_monitor()
     }
 
   return monitor;
-}
-
-//! Retrieves the current input monitor for detailed statistics
-IInputMonitor::Ptr
-W32InputMonitorFactory::create_statistics_monitor()
-{
-  TRACE_ENTRY();
-  if (activity_monitor == NULL)
-    {
-      create_activity_monitor();
-    }
-
-  if (actual_monitor_method == "nohook")
-    {
-      IInputMonitor::Ptr monitor = IInputMonitor::Ptr(new W32LowLevelMonitor(config));
-      bool initialized = monitor->init();
-
-      if (!initialized)
-        {
-          TRACE_MSG("failed to init lowlevel monitor");
-          monitor.reset();
-        }
-      else
-        {
-          TRACE_MSG("use lowlevel monitor");
-          statistics_monitor = monitor;
-          return statistics_monitor;
-        }
-    }
-  else
-    {
-      TRACE_MSG("use activity monitor");
-      return activity_monitor;
-    }
-
-  return IInputMonitor::Ptr();
 }

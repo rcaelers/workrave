@@ -20,50 +20,23 @@
 
 #include <chrono>
 #include <memory>
-#include <mutex>
 #include <optional>
 #include <vector>
 
-#include "input-monitor/IInputMonitor.hh"
-#include "input-monitor/IInputMonitorListener.hh"
-
-#include "core/IStatistics.hh"
+#include "stats/IStatistics.hh"
 #include "stats/IStatisticsContext.hh"
-#include "stats/IStatisticsStore.hh"
+#include "IStatisticsStore.hh"
 
 namespace workrave::stats
-{
-  //! Counts and stores what the user did today, and what they did before.
-  class Statistics
-    : public workrave::IStatistics
-    , public workrave::input_monitor::IInputMonitorListener
+{ //! Counts and stores what the user did today, and what they did before.
+  class Statistics : public workrave::stats::IStatistics
   {
   public:
     using Ptr = std::shared_ptr<Statistics>;
 
   private:
-    struct DailyStatsImpl : public workrave::IStatistics::DailyStats
+    struct DailyStatsImpl : public workrave::stats::IStatistics::DailyStats
     {
-      //! Total time that the mouse was moving.
-      std::chrono::system_clock::time_point total_mouse_time;
-
-      DailyStatsImpl()
-        : DailyStats()
-      {
-        for (auto &break_stat: break_stats)
-          {
-            for (int &stat: break_stat)
-              {
-                stat = 0;
-              }
-          }
-
-        for (int64_t &misc_stat: misc_stats)
-          {
-            misc_stat = 0;
-          }
-      }
-
       //! A day that was never started, as opposed to one without any activity.
       bool is_empty() const
       {
@@ -78,14 +51,10 @@ namespace workrave::stats
     bool delete_all_history() override;
 
   public:
-    void init();
+    void init() override;
     void update() override;
     void dump() override;
-    void start_new_day();
-
-    void increment_break_counter(workrave::BreakId, StatsBreakValueType st);
-    void set_break_counter(workrave::BreakId bt, StatsBreakValueType st, int value);
-    void add_break_counter(workrave::BreakId bt, StatsBreakValueType st, int value);
+    void start_new_day() override;
 
     DailyStatsImpl *get_current_day() const override;
     std::optional<DailyStats> get_day(const Date &date) const override;
@@ -94,16 +63,9 @@ namespace workrave::stats
     std::optional<Date> get_next_date(const Date &date) const override;
     std::optional<Date> get_first_date() const override;
     std::optional<Date> get_last_date() const override;
-    int64_t get_total_active_time(const Date &from, const Date &to) const override;
-    void set_counter(StatsValueType t, int value);
-    int64_t get_counter(StatsValueType t);
+    std::chrono::seconds get_total_active_time(const Date &from, const Date &to) const override;
 
   private:
-    void action_notify() override;
-    void mouse_notify(int x, int y, int wheel = 0) override;
-    void button_notify(bool is_press) override;
-    void keyboard_notify(bool repeat) override;
-
     bool load_current_day();
 
   private:
@@ -114,6 +76,11 @@ namespace workrave::stats
 
     void day_to_history(DailyStatsImpl *stats);
 
+    //! Binds the break counters of the given day to write straight through to the
+    //! store. total_overdue/total_active_time are left unbound, since they stay
+    //! buffered.
+    void wire_write_through(DailyStatsImpl &day);
+
   private:
     //! What this core does differently.
     IStatisticsContext::Ptr context;
@@ -121,32 +88,11 @@ namespace workrave::stats
     //! Persistent storage of the statistics.
     IStatisticsStore::Ptr store;
 
-    //! Mouse/Keyboard monitoring.
-    workrave::input_monitor::IInputMonitor::Ptr input_monitor;
-
-    //! Last time a mouse event was received.
-    std::chrono::system_clock::time_point last_mouse_time;
-
     //! Statistics of current day.
     DailyStatsImpl *current_day;
 
     //! Has the user been active on the current day?
     bool been_active;
-
-    //! Internal locking
-    std::mutex lock;
-
-    //! Previous X coordinate
-    int prev_x;
-
-    //! Previous Y coordinate
-    int prev_y;
-
-    //! Previous X-click coordinate
-    int click_x;
-
-    //! Previous Y-click coordinate
-    int click_y;
   };
 } // namespace workrave::stats
 
