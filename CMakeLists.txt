@@ -1209,7 +1209,7 @@ else()
       "MIT"
       GIT_REPOSITORY https://github.com/fmtlib/fmt.git
       GIT_SHALLOW TRUE
-      GIT_TAG 12.2.0
+      GIT_TAG 12.1.0
     )
   FetchContent_MakeAvailable(fmt)
   target_compile_definitions(fmt INTERFACE FMT_HEADER_ONLY=1)
