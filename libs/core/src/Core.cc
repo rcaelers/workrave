@@ -952,6 +952,15 @@ Core::heartbeat()
         {
           bc->heartbeat();
         }
+
+      // Keep the statistics' overdue/active-time counters fresh, independent of
+      // when they next get persisted.
+      Timer *timer = breaks[i].get_timer();
+      if (i == BREAK_ID_DAILY_LIMIT)
+        {
+          statistics->total_active_time().set(std::chrono::seconds{timer->get_elapsed_time()});
+        }
+      statistics->total_overdue(BreakId(i)).set(std::chrono::seconds{timer->get_total_overdue_time()});
     }
 
   // Set current time.

@@ -31,7 +31,6 @@ public:
   }
 
   [[nodiscard]] bool is_active() const override;
-  void update_counters(workrave::stats::IStatistics *statistics) override;
 
 private:
   Core *core{nullptr};

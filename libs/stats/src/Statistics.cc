@@ -104,9 +104,6 @@ Statistics::update()
       current_day->stop = now;
     }
 
-  // A core that derives counters from its own timers fills them in here.
-  context->update_counters(this);
-
   save_day(current_day);
 }
 
