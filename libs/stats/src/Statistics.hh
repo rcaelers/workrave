@@ -28,35 +28,28 @@
 #include "IStatisticsStore.hh"
 
 namespace workrave::stats
-{ //! Counts and stores what the user did today, and what they did before.
+{
+  //! Counts and stores what the user did today, and what they did before.
   class Statistics : public workrave::stats::IStatistics
   {
   public:
     using Ptr = std::shared_ptr<Statistics>;
 
-  private:
-    struct DailyStatsImpl : public workrave::stats::IStatistics::DailyStats
-    {
-      //! A day that was never started, as opposed to one without any activity.
-      bool is_empty() const
-      {
-        return start == LocalTime{};
-      }
-    };
-
-  public:
     explicit Statistics(IStatisticsContext::Ptr context);
     ~Statistics() override;
 
-    bool delete_all_history() override;
 
   public:
-    void init() override;
-    void update() override;
-    void dump() override;
-    void start_new_day() override;
+    void init();
 
-    DailyStatsImpl *get_current_day() const override;
+    void update() override;
+    void start_new_day() override;
+    bool delete_all_history() override;
+
+    DailyStats *get_current_day() const override;
+    StatValue<int64_t> &break_counter(workrave::BreakId break_id, StatsBreakValueType type) override;
+    StatValue<std::chrono::seconds> &total_overdue(workrave::BreakId break_id) override;
+    StatValue<std::chrono::seconds> &total_active_time() override;
     std::optional<DailyStats> get_day(const Date &date) const override;
     std::vector<Date> get_dates(const Date &from, const Date &to) const override;
     std::optional<Date> get_previous_date(const Date &date) const override;
@@ -69,17 +62,13 @@ namespace workrave::stats
     bool load_current_day();
 
   private:
-    void save_day(DailyStatsImpl *stats);
+    void save_day(DailyStats *stats);
 
-    static DailyStatsRecord to_record(const DailyStatsImpl *stats);
-    static DailyStatsImpl from_record(const DailyStatsRecord &record);
+    static DailyStatsRecord to_record(const DailyStats *stats);
+    static DailyStats from_record(const DailyStatsRecord &record);
 
-    void day_to_history(DailyStatsImpl *stats);
-
-    //! Binds the break counters of the given day to write straight through to the
-    //! store. total_overdue/total_active_time are left unbound, since they stay
-    //! buffered.
-    void wire_write_through(DailyStatsImpl &day);
+    void day_to_history(DailyStats *stats);
+    void wire_write_through(DailyStats &day);
 
   private:
     //! What this core does differently.
@@ -89,7 +78,7 @@ namespace workrave::stats
     IStatisticsStore::Ptr store;
 
     //! Statistics of current day.
-    DailyStatsImpl *current_day;
+    DailyStats *current_day;
 
     //! Has the user been active on the current day?
     bool been_active;

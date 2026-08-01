@@ -54,7 +54,9 @@ namespace workrave::stats
 {
   std::shared_ptr<IStatistics> create(std::shared_ptr<IStatisticsContext> context)
   {
-    return std::make_shared<Statistics>(context);
+    auto statistics = std::make_shared<Statistics>(context);
+    statistics->init();
+    return statistics;
   }
 
   Statistics::Statistics(IStatisticsContext::Ptr context)
@@ -141,7 +143,7 @@ namespace workrave::stats
             day_to_history(current_day);
           }
 
-        current_day = new DailyStatsImpl();
+        current_day = new DailyStats();
         wire_write_through(*current_day);
         been_active = false;
 
@@ -153,7 +155,7 @@ namespace workrave::stats
     save_day(current_day);
   }
 
-  void Statistics::day_to_history(DailyStatsImpl *stats)
+  void Statistics::day_to_history(DailyStats *stats)
   {
     if (store != nullptr)
       {
@@ -162,7 +164,7 @@ namespace workrave::stats
   }
 
   //! Converts a day to the representation used by the statistics store.
-  DailyStatsRecord Statistics::to_record(const DailyStatsImpl *stats)
+  DailyStatsRecord Statistics::to_record(const DailyStats *stats)
   {
     DailyStatsRecord record;
 
@@ -194,9 +196,9 @@ namespace workrave::stats
    *  discarded, and counters this version expects but the store does not have
    *  keep their initial value.
    */
-  Statistics::DailyStatsImpl Statistics::from_record(const DailyStatsRecord &record)
+  Statistics::DailyStats Statistics::from_record(const DailyStatsRecord &record)
   {
-    DailyStatsImpl stats;
+    DailyStats stats;
 
     stats.start = record.start;
     stats.stop = record.stop;
@@ -227,7 +229,7 @@ namespace workrave::stats
   }
 
   //! Saves the statistics of the specified day.
-  void Statistics::save_day(DailyStatsImpl *stats)
+  void Statistics::save_day(DailyStats *stats)
   {
     if (store != nullptr && stats != nullptr)
       {
@@ -244,7 +246,7 @@ namespace workrave::stats
         std::optional<DailyStatsRecord> record = store->load_today();
         if (record.has_value())
           {
-            current_day = new DailyStatsImpl(from_record(record.value()));
+            current_day = new DailyStats(from_record(record.value()));
             wire_write_through(*current_day);
           }
       }
@@ -256,7 +258,7 @@ namespace workrave::stats
 
   //! Binds the break counters of the given day to write straight through to the
   //! store. total_overdue/total_active_time are left unbound, since they stay buffered.
-  void Statistics::wire_write_through(DailyStatsImpl &day)
+  void Statistics::wire_write_through(DailyStats &day)
   {
     for (int i = 0; i < BREAK_ID_SIZEOF; i++)
       {
@@ -274,29 +276,24 @@ namespace workrave::stats
       }
   }
 
-  //! Dump
-  void Statistics::dump()
-  {
-    TRACE_ENTRY();
-    update();
-
-    stringstream ss;
-    for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-      {
-        ss << "Break " << i << " ";
-        for (const auto &counter: current_day->break_stats[i])
-          {
-            ss << counter.get() << " ";
-          }
-        ss << current_day->total_overdue[i].get().count() << " ";
-      }
-
-    ss << "stats " << current_day->total_active_time.get().count() << " ";
-  }
-
-  Statistics::DailyStatsImpl *Statistics::get_current_day() const
+  Statistics::DailyStats *Statistics::get_current_day() const
   {
     return current_day;
+  }
+
+  StatValue<int64_t> &Statistics::break_counter(BreakId break_id, StatsBreakValueType type)
+  {
+    return current_day->break_stats[break_id][type];
+  }
+
+  StatValue<std::chrono::seconds> &Statistics::total_overdue(BreakId break_id)
+  {
+    return current_day->total_overdue[break_id];
+  }
+
+  StatValue<std::chrono::seconds> &Statistics::total_active_time()
+  {
+    return current_day->total_active_time;
   }
 
   std::optional<IStatistics::DailyStats> Statistics::get_day(const Date &date) const

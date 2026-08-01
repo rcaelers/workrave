@@ -77,6 +77,7 @@ const int SAVESTATETIME = 60;
 
 using namespace workrave::utils;
 using namespace workrave::config;
+using namespace workrave::stats;
 using namespace std;
 
 ICore::Ptr
@@ -299,7 +300,6 @@ void
 Core::init_statistics()
 {
   statistics = workrave::stats::create(std::make_shared<StatisticsContext>(this));
-  statistics->init();
 }
 
 //! Loads the configuration of the monitor.
@@ -1124,7 +1124,7 @@ Core::process_timers()
 
       if (i == BREAK_ID_DAILY_LIMIT && (info.event == TIMER_EVENT_NATURAL_RESET || info.event == TIMER_EVENT_RESET))
         {
-          statistics->get_current_day()->total_active_time.set(std::chrono::seconds{info.elapsed_time});
+          statistics->total_active_time().set(std::chrono::seconds{info.elapsed_time});
           statistics->start_new_day();
 
           daily_reset();
@@ -1270,7 +1270,7 @@ Core::timer_action(BreakId id, TimerInfo info)
       break;
 
     case TIMER_EVENT_NATURAL_RESET:
-      statistics->get_current_day()->break_stats[id][workrave::stats::IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN].add(1);
+      statistics->break_counter(id, IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN).add(1);
       // FALLTHROUGH
 
     case TIMER_EVENT_RESET:
@@ -1406,7 +1406,6 @@ void
 Core::daily_reset()
 {
   TRACE_ENTRY();
-  auto *today = statistics->get_current_day();
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       Timer *t = breaks[i].get_timer();
@@ -1414,7 +1413,7 @@ Core::daily_reset()
 
       int64_t overdue = t->get_total_overdue_time();
 
-      today->total_overdue[i].set(std::chrono::seconds{overdue});
+      statistics->total_overdue(BreakId(i)).set(std::chrono::seconds{overdue});
 
       t->daily_reset_timer();
     }

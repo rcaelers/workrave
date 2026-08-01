@@ -1655,7 +1655,6 @@ BOOST_AUTO_TEST_CASE(test_statistics_counters_and_delete_history)
   prompted.add(3);
   BOOST_CHECK_EQUAL(prompted.get(), 8);
 
-  statistics->dump();
   BOOST_CHECK(statistics->delete_all_history());
   BOOST_CHECK_EQUAL(history_size(statistics), 0);
   BOOST_REQUIRE(statistics->get_current_day() != nullptr);

@@ -33,9 +33,9 @@
 #include "IActivityMonitor.hh"
 #include "IActivityMonitorListener.hh"
 #include "Timer.hh"
-#include "stats/IStatistics.hh"
 
 using namespace std;
+using namespace workrave::stats;
 
 //! Construct a new Break Controller.
 /*!
@@ -233,8 +233,8 @@ BreakControl::goto_stage(BreakStage stage)
                 // natural break end.
 
                 // Update stats.
-                workrave::stats::IStatistics *stats = core->get_statistics();
-                stats->get_current_day()->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_TAKEN].add(1);
+                IStatistics *stats = core->get_statistics();
+                stats->break_counter(break_id, IStatistics::STATS_BREAKVALUE_TAKEN).add(1);
 
                 // Play sound
                 switch (break_id)
@@ -399,13 +399,12 @@ BreakControl::start_break()
       break_timer->stop_timer();
 
       // Update statistics.
-      workrave::stats::IStatistics *stats = core->get_statistics();
-      auto *stats_today = stats->get_current_day();
-      stats_today->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED].add(1);
+      IStatistics *stats = core->get_statistics();
+      stats->break_counter(break_id, IStatistics::STATS_BREAKVALUE_PROMPTED).add(1);
 
       if (prelude_count == 0)
         {
-          stats_today->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS].add(1);
+          stats->break_counter(break_id, IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS).add(1);
           // break_event_signal(BreakEvent::BreakStart);
         }
 
@@ -551,8 +550,8 @@ BreakControl::postpone_break()
             }
 
           // Update stats.
-          workrave::stats::IStatistics *stats = core->get_statistics();
-          stats->get_current_day()->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_POSTPONED].add(1);
+          IStatistics *stats = core->get_statistics();
+          stats->break_counter(break_id, IStatistics::STATS_BREAKVALUE_POSTPONED).add(1);
 
           break_event_signal(BreakEvent::BreakPostponed);
         }
@@ -589,8 +588,8 @@ BreakControl::skip_break()
         }
 
       // Update stats.
-      workrave::stats::IStatistics *stats = core->get_statistics();
-      stats->get_current_day()->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_SKIPPED].add(1);
+      IStatistics *stats = core->get_statistics();
+      stats->break_counter(break_id, IStatistics::STATS_BREAKVALUE_SKIPPED).add(1);
 
       break_event_signal(BreakEvent::BreakSkipped);
 

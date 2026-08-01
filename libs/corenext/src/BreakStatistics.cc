@@ -25,6 +25,7 @@
 
 using namespace std;
 using namespace workrave;
+using namespace workrave::stats;
 
 BreakStatistics::BreakStatistics(BreakId break_id,
                                  BreakStateModel::Ptr break_state_model,
@@ -43,28 +44,26 @@ BreakStatistics::BreakStatistics(BreakId break_id,
 void
 BreakStatistics::on_break_event(BreakEvent event)
 {
-  auto *today = statistics->get_current_day();
-
   switch (event)
     {
     case BreakEvent::ShowPrelude:
-      today->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_PROMPTED].add(1);
+      statistics->break_counter(break_id, IStatistics::STATS_BREAKVALUE_PROMPTED).add(1);
       break;
 
     case BreakEvent::BreakStart:
-      today->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS].add(1);
+      statistics->break_counter(break_id, IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS).add(1);
       break;
 
     case BreakEvent::BreakPostponed:
-      today->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_POSTPONED].add(1);
+      statistics->break_counter(break_id, IStatistics::STATS_BREAKVALUE_POSTPONED).add(1);
       break;
 
     case BreakEvent::BreakSkipped:
-      today->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_SKIPPED].add(1);
+      statistics->break_counter(break_id, IStatistics::STATS_BREAKVALUE_SKIPPED).add(1);
       break;
 
     case BreakEvent::BreakTaken:
-      today->break_stats[break_id][workrave::stats::IStatistics::STATS_BREAKVALUE_TAKEN].add(1);
+      statistics->break_counter(break_id, IStatistics::STATS_BREAKVALUE_TAKEN).add(1);
       break;
 
     case BreakEvent::ShowBreak:
@@ -86,12 +85,10 @@ BreakStatistics::daily_reset()
 void
 BreakStatistics::update()
 {
-  auto *today = statistics->get_current_day();
-
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      today->total_active_time.set(std::chrono::seconds{timer->get_elapsed_time()});
+      statistics->total_active_time().set(std::chrono::seconds{timer->get_elapsed_time()});
     }
 
-  today->total_overdue[break_id].set(std::chrono::seconds{timer->get_total_overdue_time()});
+  statistics->total_overdue(break_id).set(std::chrono::seconds{timer->get_total_overdue_time()});
 }

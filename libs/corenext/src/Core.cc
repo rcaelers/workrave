@@ -110,7 +110,6 @@ Core::init(IApp *app, const char *display_name)
   monitor->init();
 
   statistics = workrave::stats::create(std::make_shared<StatisticsContext>(monitor));
-  statistics->init();
 
   core_modes = std::make_shared<CoreModes>(monitor);
   breaks_control = std::make_shared<BreaksControl>(application, monitor, core_modes, statistics, hooks);

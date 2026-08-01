@@ -20,7 +20,6 @@
 
 #include <array>
 #include <chrono>
-#include <ctime>
 #include <memory>
 #include <optional>
 #include <vector>
@@ -74,6 +73,12 @@ namespace workrave::stats
 
       //! How long the user has been active today. Recomputed continuously.
       workrave::stats::StatValue<std::chrono::seconds> total_active_time;
+
+      //! A day that was never started, as opposed to one without any activity.
+      [[nodiscard]] bool is_empty() const
+      {
+        return start == workrave::stats::LocalTime{};
+      }
     };
 
     //! A local calendar date, as statistics are kept per calendar day.
@@ -82,15 +87,22 @@ namespace workrave::stats
   public:
     virtual ~IStatistics() = default;
 
-    virtual void init() = 0;
     virtual void start_new_day() = 0;
 
     virtual bool delete_all_history() = 0;
     virtual void update() = 0;
-    virtual void dump() = 0;
 
     //! The day in progress, which is being counted right now.
     virtual DailyStats *get_current_day() const = 0;
+
+    //! Today's break-prompt/taken/skipped/postponed count. Live: add()/set() persist.
+    virtual workrave::stats::StatValue<int64_t> &break_counter(workrave::BreakId break_id, StatsBreakValueType type) = 0;
+
+    //! How long a break has been overdue today. Live: set() updates it in place.
+    virtual workrave::stats::StatValue<std::chrono::seconds> &total_overdue(workrave::BreakId break_id) = 0;
+
+    //! How long the user has been active today. Live: set() updates it in place.
+    virtual workrave::stats::StatValue<std::chrono::seconds> &total_active_time() = 0;
 
     //! The statistics of a single date, today included.
     virtual std::optional<DailyStats> get_day(const Date &date) const = 0;
