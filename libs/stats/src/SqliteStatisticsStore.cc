@@ -31,7 +31,28 @@ namespace
 
   const char *const PROPERTY_SCHEMA_VERSION = "schema_version";
   const char *const PROPERTY_TODAY = "today";
-  const char *const PROPERTY_IMPORTED = "imported_text_statistics";
+
+  //! The mtime (raw file_clock ticks) of historystats/todaystats at the time
+  //! each was last imported. Re-checked on every open() so that new data
+  //! written by an older Workrave, after a downgrade, is picked up again.
+  const char *const PROPERTY_IMPORTED_HISTORY_MTIME = "imported_historystats_mtime";
+  const char *const PROPERTY_IMPORTED_TODAY_MTIME = "imported_todaystats_mtime";
+
+  //! The mtime of a file, in raw file_clock ticks, or nullopt if it does not
+  //! exist. file_clock's epoch is not guaranteed to align with any other
+  //! clock, so ticks can legitimately be negative: they may only be compared
+  //! to other ticks from this same clock, never against a sentinel like 0.
+  std::optional<int64_t>
+  mtime_ticks(const std::filesystem::path &path)
+  {
+    std::error_code ec;
+    const auto time = std::filesystem::last_write_time(path, ec);
+    if (ec)
+      {
+        return std::nullopt;
+      }
+    return time.time_since_epoch().count();
+  }
 
   //! Formats a calendar date as 'YYYY-MM-DD', which sorts chronologically.
   std::string
@@ -283,14 +304,43 @@ namespace workrave::stats
 
   //! Imports the statistics of a Workrave that still used the text format.
   /*!
-   *  This runs once, on the first start after upgrading. The text files are
-   *  kept, renamed to .bak, so that going back to an older Workrave does not
-   *  lose any history.
+   *  The text files are left untouched, under their original names, so that
+   *  going back to an older Workrave keeps working exactly as before. Because
+   *  they are never renamed away, this re-checks their mtime on every open():
+   *  if someone downgrades, lets an older Workrave add to them, and then
+   *  upgrades again, that new data gets imported too. A day already present in
+   *  the database is left alone rather than overwritten: it can only be there
+   *  because this Workrave has already counted it, live, more accurately than
+   *  whatever a legacy text snapshot has to offer.
    */
   bool
   SqliteStatisticsStore::import_text_statistics()
   {
-    if (get_property(PROPERTY_IMPORTED).has_value())
+    const std::filesystem::path history_path = state_directory / "historystats";
+    const std::filesystem::path today_path = state_directory / "todaystats";
+
+    const std::optional<int64_t> history_mtime = mtime_ticks(history_path);
+    const std::optional<int64_t> today_mtime = mtime_ticks(today_path);
+
+    if (!history_mtime.has_value() && !today_mtime.has_value())
+      {
+        // Neither text file exists: nothing to import.
+        return true;
+      }
+
+    // A file counts as changed if it exists and its mtime does not match what
+    // was recorded the last time it was imported (including never having been
+    // recorded at all).
+    auto changed = [this](const char *property, std::optional<int64_t> current) {
+      if (!current.has_value())
+        {
+          return false;
+        }
+      const std::optional<std::string> stored = get_property(property);
+      return !stored.has_value() || std::stoll(stored.value()) != current.value();
+    };
+
+    if (!changed(PROPERTY_IMPORTED_HISTORY_MTIME, history_mtime) && !changed(PROPERTY_IMPORTED_TODAY_MTIME, today_mtime))
       {
         return true;
       }
@@ -308,13 +358,17 @@ namespace workrave::stats
 
       for (const DailyStatsRecord &record: history)
         {
+          if (has_day(record.date()))
+            {
+              continue;
+            }
           if (!store_day(record))
             {
               return false;
             }
         }
 
-      if (today.has_value())
+      if (today.has_value() && !has_day(today->date()))
         {
           if (!store_day(today.value()) || !set_property(PROPERTY_TODAY, to_day(today->date())))
             {
@@ -322,7 +376,12 @@ namespace workrave::stats
             }
         }
 
-      if (!set_property(PROPERTY_IMPORTED, std::to_string(SCHEMA_VERSION)) || !transaction.commit())
+      const bool history_recorded = !history_mtime.has_value() || set_property(PROPERTY_IMPORTED_HISTORY_MTIME,
+                                                                                std::to_string(history_mtime.value()));
+      const bool today_recorded =
+        !today_mtime.has_value() || set_property(PROPERTY_IMPORTED_TODAY_MTIME, std::to_string(today_mtime.value()));
+
+      if (!history_recorded || !today_recorded || !transaction.commit())
         {
           return false;
         }
@@ -331,20 +390,6 @@ namespace workrave::stats
     if (!history.empty() || today.has_value())
       {
         spdlog::info("imported {} days of statistics", history.size() + (today.has_value() ? 1 : 0));
-      }
-
-    for (const char *name: {"historystats", "todaystats"})
-      {
-        const std::filesystem::path path = state_directory / name;
-        if (std::filesystem::is_regular_file(path))
-          {
-            std::error_code ec;
-            std::filesystem::rename(path, std::filesystem::path(path) += ".bak", ec);
-            if (ec)
-              {
-                spdlog::warn("failed to rename {}: {}", path.string(), ec.message());
-              }
-          }
       }
 
     return true;
@@ -380,6 +425,20 @@ namespace workrave::stats
     statement.bind(1, key);
     statement.bind(2, value);
     return statement.run();
+  }
+
+  //! Whether the given day already has a row in the database.
+  bool
+  SqliteStatisticsStore::has_day(const Date &date)
+  {
+    Statement statement(db, "SELECT 1 FROM stats_day WHERE day = ?");
+    if (!statement)
+      {
+        return false;
+      }
+
+    statement.bind(1, to_day(date));
+    return statement.step();
   }
 
   //! Writes a day and its counters, replacing whatever was stored for that date.

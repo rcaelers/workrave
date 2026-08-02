@@ -78,6 +78,7 @@ namespace workrave::stats
     [[nodiscard]] std::optional<std::string> get_property(const std::string &key);
     bool set_property(const std::string &key, const std::string &value);
 
+    [[nodiscard]] bool has_day(const Date &date);
     bool store_day(const DailyStatsRecord &record);
     [[nodiscard]] std::optional<DailyStatsRecord> load_day(const std::string &day);
     [[nodiscard]] std::vector<std::string> load_days();

@@ -280,7 +280,9 @@ namespace
     EXPECT_EQ(today->break_stats[3][6], 28);
   }
 
-  //! Downgrading to an older Workrave must not mean losing everything.
+  //! Downgrading to an older Workrave must not mean losing everything: the text
+  //! files stay right where an older Workrave expects to find them, under
+  //! their original names.
   TEST_F(MigrationTest, import_keeps_the_original_files)
   {
     auto text_store = file_store();
@@ -289,10 +291,8 @@ namespace
 
     auto store = sqlite_store();
 
-    EXPECT_FALSE(exists("historystats"));
-    EXPECT_FALSE(exists("todaystats"));
-    EXPECT_TRUE(exists("historystats.bak"));
-    EXPECT_TRUE(exists("todaystats.bak"));
+    EXPECT_TRUE(exists("historystats"));
+    EXPECT_TRUE(exists("todaystats"));
   }
 
   //! Nothing to import is not a failure.
@@ -302,11 +302,12 @@ namespace
 
     EXPECT_FALSE(store->load_today().has_value());
     EXPECT_TRUE(store->load_history().empty());
-    EXPECT_FALSE(exists("historystats.bak"));
   }
 
-  //! Text statistics are imported once, never again.
-  TEST_F(MigrationTest, import_runs_only_once)
+  //! If an older Workrave is used after a downgrade and appends to the text
+  //! files, the next upgrade must pick up what it added, not just what was
+  //! there the first time.
+  TEST_F(MigrationTest, import_picks_up_new_data_after_downgrade)
   {
     file_store()->append_history(make_record(12));
 
@@ -316,8 +317,33 @@ namespace
     file_store()->append_history(make_record(13));
 
     auto store = sqlite_store();
-    EXPECT_EQ(store->load_history().size(), 1U);
+    EXPECT_EQ(store->load_history().size(), 2U);
     EXPECT_TRUE(exists("historystats"));
+  }
+
+  //! A day already in the database is more up to date than a legacy text
+  //! snapshot of it, so a re-import must not clobber it.
+  TEST_F(MigrationTest, reimport_does_not_overwrite_existing_days)
+  {
+    file_store()->append_history(make_record(12));
+
+    auto store = sqlite_store();
+    ASSERT_EQ(store->load_history().size(), 1U);
+    EXPECT_EQ(store->load_history()[0].misc_stats[0], 100);
+
+    // The database has since moved on for that day; this must survive re-import.
+    DailyStatsRecord updated = make_record(12);
+    updated.misc_stats[0] = 999;
+    store->append_history(updated);
+
+    // As if an older Workrave had appended to the text file again.
+    file_store()->append_history(make_record(13));
+
+    auto reopened = sqlite_store();
+    auto history = reopened->load_history();
+    ASSERT_EQ(history.size(), 2U);
+    EXPECT_EQ(history[0].misc_stats[0], 999);
+    EXPECT_EQ(history[1].date(), reference_date(13));
   }
 
   //! Statistics from before the import must survive it.
