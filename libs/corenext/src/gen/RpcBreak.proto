@@ -33,13 +33,13 @@ service BreakService {
 
   rpc IsLimitEnabled(.workrave.breaks.IsLimitEnabledRequest) returns (.workrave.breaks.IsLimitEnabledResponse);
 
-  rpc GetTimerRemaining(.workrave.breaks.GetTimerRemainingRequest) returns (.workrave.breaks.GetTimerRemainingResponse);
-
   rpc GetTimerOverdue(.workrave.breaks.GetTimerOverdueRequest) returns (.workrave.breaks.GetTimerOverdueResponse);
 
   rpc PostponeBreak(.workrave.breaks.PostponeBreakRequest) returns (.workrave.breaks.PostponeBreakResponse);
 
   rpc SkipBreak(.workrave.breaks.SkipBreakRequest) returns (.workrave.breaks.SkipBreakResponse);
+
+  rpc GetTimerRemaining(.workrave.breaks.GetTimerRemainingRequest) returns (.workrave.breaks.GetTimerRemainingResponse);
 
   rpc GetBreakState(.workrave.breaks.GetBreakStateRequest) returns (.workrave.breaks.GetBreakStateResponse);
 

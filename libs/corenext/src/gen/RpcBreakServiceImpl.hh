@@ -75,10 +75,6 @@ public:
                                  const ::workrave::breaks::IsLimitEnabledRequest *request,
                                  ::workrave::breaks::IsLimitEnabledResponse *response) override;
 
-  ::grpc::Status GetTimerRemaining(::grpc::ServerContext *context,
-                                 const ::workrave::breaks::GetTimerRemainingRequest *request,
-                                 ::workrave::breaks::GetTimerRemainingResponse *response) override;
-
   ::grpc::Status GetTimerOverdue(::grpc::ServerContext *context,
                                  const ::workrave::breaks::GetTimerOverdueRequest *request,
                                  ::workrave::breaks::GetTimerOverdueResponse *response) override;
@@ -90,6 +86,10 @@ public:
   ::grpc::Status SkipBreak(::grpc::ServerContext *context,
                                  const ::workrave::breaks::SkipBreakRequest *request,
                                  ::workrave::breaks::SkipBreakResponse *response) override;
+
+  ::grpc::Status GetTimerRemaining(::grpc::ServerContext *context,
+                                 const ::workrave::breaks::GetTimerRemainingRequest *request,
+                                 ::workrave::breaks::GetTimerRemainingResponse *response) override;
 
   ::grpc::Status GetBreakState(::grpc::ServerContext *context,
                                  const ::workrave::breaks::GetBreakStateRequest *request,
