@@ -60,26 +60,23 @@ set(_iwyu_args
   -Xiwyu --keep=*/config.h
 )
 
-set(_iwyu_have_bundled_boost FALSE)
 if(IWYU_SHARE_DIR)
   # qt5_11.imp covers all Qt6 public header names (they didn't change between Qt5/Qt6)
-  foreach(_imp qt5_11.imp boost-all.imp boost-all-private.imp)
+  # boost-all.imp marks individual Signals2 headers such as connection.hpp public.
+  # That conflicts with our supported <boost/signals2.hpp> alternative.  Keep
+  # boost-all-private.imp for its implementation-header mappings and use the
+  # project Boost mapping for public alternatives instead.
+  foreach(_imp qt5_11.imp boost-all-private.imp)
     if(EXISTS "${IWYU_SHARE_DIR}/${_imp}")
       list(APPEND _iwyu_args -Xiwyu "--mapping_file=${IWYU_SHARE_DIR}/${_imp}")
-      if(_imp MATCHES "^boost")
-        set(_iwyu_have_bundled_boost TRUE)
-      endif()
     endif()
   endforeach()
   message(STATUS "IWYU: using bundled mappings from ${IWYU_SHARE_DIR}")
 else()
-  message(WARNING "IWYU: bundled mapping files not found; Qt/Boost mappings unavailable")
+  message(WARNING "IWYU: bundled mapping files not found; Qt mappings unavailable")
 endif()
 
-set(_iwyu_project_mappings qt.imp spdlog.imp workrave.imp)
-if(NOT _iwyu_have_bundled_boost)
-  list(APPEND _iwyu_project_mappings boost.imp)
-endif()
+set(_iwyu_project_mappings qt.imp boost.imp spdlog.imp workrave.imp)
 
 foreach(_imp ${_iwyu_project_mappings})
   set(_imp_path "${CMAKE_SOURCE_DIR}/cmake/iwyu/${_imp}")

@@ -32,7 +32,6 @@
 
 #include "QmlPrefsBridges.hh"
 #include "QmlPluginPrefBridges.hh"
-#include "debug.hh"
 
 QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject *parent)
   : QObject(parent)

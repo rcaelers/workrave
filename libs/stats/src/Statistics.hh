@@ -23,9 +23,12 @@
 #include <memory>
 #include <optional>
 #include <vector>
+#include <stdint.h>
 
+#include "core/CoreTypes.hh"
 #include "stats/IStatistics.hh"
 #include "IStatisticsStore.hh"
+#include "DailyStatsRecord.hh"
 
 namespace workrave::stats
 {

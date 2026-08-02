@@ -18,8 +18,6 @@
 #ifndef TOOLKIT_FACTORY_HH
 #define TOOLKIT_FACTORY_HH
 
-#include <memory>
-
 #include "ui/IToolkitFactory.hh"
 
 class ToolkitFactory : public IToolkitFactory

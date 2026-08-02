@@ -1,8 +1,13 @@
 [
+  { "include": ["<boost/algorithm/string/trim.hpp>",                                     "private", "<boost/algorithm/string.hpp>",      "public"] },
+  { "include": ["<boost/lexical_cast/bad_lexical_cast.hpp>",                            "private", "<boost/lexical_cast.hpp>",          "public"] },
   { "include": ["<boost/optional/detail/optional_common_defs.hpp>",                        "private", "<boost/optional.hpp>",               "public"] },
+  { "include": ["<boost/property_tree/ptree_fwd.hpp>",                                  "private", "<boost/property_tree/ptree.hpp>",    "public"] },
 
-  { "include": ["<boost/signals2/mutex.hpp>",                                               "private", "<boost/signals2.hpp>",               "public"] },
-  { "include": ["<boost/signals2/variadic_signal.hpp>",                                     "private", "<boost/signals2.hpp>",               "public"] },
+  { "include": [ "@<boost/signals2/(?!.*\\.hpp$).+>",   "private", "<boost/signals2.hpp>", "public" ] },
+  { "include": [ "@<boost/signals2/.+\\.hpp>",          "private", "<boost/signals2.hpp>", "public" ] },
+  { "include": [ "@\"boost/signals2/(?!.*\\.hpp$).+\"", "private", "<boost/signals2.hpp>", "public" ] },
+  { "include": [ "@\"boost/signals2/.+\\.hpp\"",        "private", "<boost/signals2.hpp>", "public" ] },
 
   { "include": ["<boost/preprocessor/arithmetic/limits/dec_256.hpp>",                       "private", "<boost/test/unit_test.hpp>",          "public"] },
   { "include": ["<boost/preprocessor/arithmetic/limits/inc_256.hpp>",                       "private", "<boost/test/unit_test.hpp>",          "public"] },

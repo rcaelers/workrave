@@ -19,7 +19,6 @@
 #  include "config.h"
 #endif
 
-#include <exception>
 #include <memory>
 #include <spdlog/spdlog.h>
 

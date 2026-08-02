@@ -28,7 +28,6 @@
 #include "core/CoreTypes.hh"
 #include "utils/Signals.hh"
 
-#include "commonui/MenuModel.hh"
 #include "ui/AppHold.hh"
 #include "ui/IApplicationContext.hh"
 

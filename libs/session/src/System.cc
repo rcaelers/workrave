@@ -31,8 +31,6 @@
 #  include <glib.h>
 #endif
 
-#include <cstdio>
-
 #if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
@@ -74,6 +72,8 @@ std::vector<ISystemStateChangeMethod *> System::system_state_commands;
 std::vector<System::SystemOperation> System::supported_system_operations;
 
 #if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
+#  include <spdlog/spdlog.h>
+
 GDBusConnection *System::session_connection = nullptr;
 GDBusConnection *System::system_connection = nullptr;
 #endif
@@ -88,8 +88,8 @@ System::init_DBus()
   session_connection = g_bus_get_sync(G_BUS_TYPE_SESSION, nullptr, &error);
   if (error != nullptr)
     {
-      // it is rare and serious, so report it the user
-      std::cerr << "Cannot establish connection to the session bus: " << error->message << std::endl;
+      // It is rare and serious, so report it to the user.
+      spdlog::error("Cannot establish connection to the session bus: {}", error->message);
       g_error_free(error);
       error = nullptr;
     }
@@ -97,7 +97,7 @@ System::init_DBus()
   system_connection = g_bus_get_sync(G_BUS_TYPE_SYSTEM, nullptr, &error);
   if (error != nullptr)
     {
-      std::cerr << "Cannot establish connection to the system bus: " << error->message << std::endl;
+      spdlog::error("Cannot establish connection to the system bus: {}", error->message);
       g_error_free(error);
       error = nullptr;
     }

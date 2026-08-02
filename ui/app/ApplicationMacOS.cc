@@ -20,7 +20,6 @@
 #endif
 
 #include "ApplicationMacOS.hh"
-#include "commonui/MenuDefs.hh"
 
 ApplicationMacOS::ApplicationMacOS(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory)
   : Application(argc, argv, toolkit_factory)

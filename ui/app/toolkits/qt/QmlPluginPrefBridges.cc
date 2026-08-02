@@ -18,11 +18,13 @@
 #  include "config.h"
 #endif
 
-#include "QmlPluginPrefBridges.hh"
-
 #include <algorithm>
 
 #include "QmlPrefsBridges.hh"
+#include "QmlPluginPrefBridges.hh"
+
+#include "ui/prefwidgets/Frame.hh"
+#include "ui/prefwidgets/Box.hh"
 
 // ── PrefRowBridge ─────────────────────────────────────────────────────────────
 
@@ -125,7 +127,7 @@ PrefRowBridge::options() const
   if (!choice_)
     return {};
   QStringList list;
-  for (const auto &s : choice_->get_content())
+  for (const auto &s: choice_->get_content())
     {
       list << QString::fromStdString(s);
     }
@@ -281,7 +283,7 @@ namespace QmlPluginPageBuilder
                           PluginGroupBridge *group,
                           QObject *parent)
   {
-    for (auto &child : children)
+    for (auto &child: children)
       {
         PrefRowBridge *row = nullptr;
 
@@ -313,9 +315,7 @@ namespace QmlPluginPageBuilder
       }
   }
 
-  static void buildWidget(std::shared_ptr<ui::prefwidgets::Widget> widget,
-                          PluginPageBridge *page,
-                          QObject *parent)
+  static void buildWidget(std::shared_ptr<ui::prefwidgets::Widget> widget, PluginPageBridge *page, QObject *parent)
   {
     if (auto frame = std::dynamic_pointer_cast<ui::prefwidgets::Frame>(widget); frame)
       {
@@ -325,7 +325,7 @@ namespace QmlPluginPageBuilder
       }
     else if (auto box = std::dynamic_pointer_cast<ui::prefwidgets::Box>(widget); box)
       {
-        for (auto &child : box->get_content())
+        for (auto &child: box->get_content())
           {
             buildWidget(child, page, parent);
           }
