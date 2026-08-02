@@ -34,7 +34,18 @@ class UnixLocker : public Locker
 public:
   UnixLocker() = default;
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
   void set_window(GdkWindow *window);
+#else
+  // GTK4 removed the GdkWindow/device-grab APIs this class used to exclusively
+  // grab keyboard and pointer input during a break (while still letting a
+  // configured "lock screen" shortcut through via a raw X event filter).
+  // Neither gdk_seat_grab() nor gdk_window_add_filter() have a GTK4
+  // replacement, so on GTK4 this class is a no-op stub: can_lock() reports
+  // false, same as it always has on Wayland, and BreakWindow falls back to
+  // its fullscreen_grab path instead of relying on an exclusive input grab.
+  void set_window(void * /*window*/) {}
+#endif
 
   bool can_lock() override;
   void prepare_lock() override;
@@ -42,6 +53,7 @@ public:
   void unlock() override;
 
 private:
+#if !GTK_CHECK_VERSION(4, 0, 0)
   bool lock_internal();
   bool on_lock_retry_timer();
 
@@ -52,10 +64,10 @@ private:
   void add_keybinding_shortcut(const char *binding, const char *schema_name, const char *key_name);
   bool parse_keybinding(const char *binding, unsigned long *keysym, unsigned int *modifiers);
 
-#if !GTK_CHECK_VERSION(3, 24, 0)
+#  if !GTK_CHECK_VERSION(3, 24, 0)
   GdkDevice *keyboard{nullptr};
   GdkDevice *pointer{nullptr};
-#endif
+#  endif
   GdkWindow *grab_window{nullptr};
   bool grab_wanted{false};
   bool grabbed{false};
@@ -69,6 +81,7 @@ private:
     bool valid{false};
   };
   std::vector<Shortcut> lock_shortcuts;
+#endif
 };
 
 #endif // UNIXLOCKER_HH

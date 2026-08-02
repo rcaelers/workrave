@@ -50,9 +50,6 @@ private:
   /** Labels for break stats. */
   Gtk::Label *break_labels[workrave::BREAK_ID_SIZEOF][9]{};
 
-  /** Usage label */
-  Gtk::Label *usage_label{nullptr};
-
   /** Daily time. */
   Gtk::Label *daily_usage_time_label{nullptr};
 

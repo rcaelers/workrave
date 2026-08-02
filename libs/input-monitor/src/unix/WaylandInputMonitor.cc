@@ -22,7 +22,12 @@
 #include "WaylandInputMonitor.hh"
 
 #include <memory>
-#include <gdk/gdkwayland.h>
+#include <gdk/gdk.h>
+#if GDK_MAJOR_VERSION >= 4
+#  include <gdk/wayland/gdkwayland.h>
+#else
+#  include <gdk/gdkwayland.h>
+#endif
 
 #include "ext-idle-notify-v1-client.h"
 #include "debug.hh"

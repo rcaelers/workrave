@@ -71,12 +71,12 @@ public:
         catch (const Glib::Error &e)
           {
             // Older extension versions do not expose SetSanctuary.
-            spdlog::debug("GNOME shell extension does not support Sanctuary preludes: {}", e.what().c_str());
+            spdlog::debug("GNOME shell extension does not support Sanctuary preludes: {}", std::string(e.what()));
           }
       }
     catch (const Glib::Error &e)
       {
-        spdlog::error("Failed to create D-Bus proxy for prelude window: {}", e.what().c_str());
+        spdlog::error("Failed to create D-Bus proxy for prelude window: {}", std::string(e.what()));
         throw workrave::utils::Exception("Failed to create D-Bus proxy for prelude window");
       }
   }
@@ -103,14 +103,30 @@ public:
 
   void callMethod(const std::string &method)
   {
-    proxy->call_sync(method, Glib::VariantContainerBase(), -1, Gio::DBus::CALL_FLAGS_NONE);
+    proxy->call_sync(method,
+                      Glib::VariantContainerBase(),
+                      -1,
+#if GLIBMM_CHECK_VERSION(2, 68, 0)
+                      Gio::DBus::CallFlags::NONE
+#else
+                      Gio::DBus::CALL_FLAGS_NONE
+#endif
+    );
   }
 
   template<typename... Args>
   void callMethod(const std::string &method, Args &&...args)
   {
     auto variant = create_variant(std::forward<Args>(args)...);
-    proxy->call_sync(method, variant, -1, Gio::DBus::CALL_FLAGS_NONE);
+    proxy->call_sync(method,
+                      variant,
+                      -1,
+#if GLIBMM_CHECK_VERSION(2, 68, 0)
+                      Gio::DBus::CallFlags::NONE
+#else
+                      Gio::DBus::CALL_FLAGS_NONE
+#endif
+    );
   }
 
 private:
@@ -158,9 +174,9 @@ DBusPreludeWindow::start()
       std::string title = get_title(break_id);
       impl->callMethod("Start", title);
     }
-  catch (const Glib::Exception &e)
+  catch (const Glib::Error &e)
     {
-      spdlog::error("Failed to start D-Bus prelude window: {}", e.what().c_str());
+      spdlog::error("Failed to start D-Bus prelude window: {}", std::string(e.what()));
     }
 }
 
@@ -171,9 +187,9 @@ DBusPreludeWindow::stop()
     {
       impl->callMethod("Stop");
     }
-  catch (const Glib::Exception &e)
+  catch (const Glib::Error &e)
     {
-      spdlog::error("Failed to stop D-Bus prelude window: {}", e.what().c_str());
+      spdlog::error("Failed to stop D-Bus prelude window: {}", std::string(e.what()));
     }
 }
 
@@ -184,9 +200,9 @@ DBusPreludeWindow::refresh()
     {
       impl->callMethod("Refresh");
     }
-  catch (const Glib::Exception &e)
+  catch (const Glib::Error &e)
     {
-      spdlog::error("Failed to refresh D-Bus prelude window: {}", e.what().c_str());
+      spdlog::error("Failed to refresh D-Bus prelude window: {}", std::string(e.what()));
     }
 }
 
@@ -199,9 +215,9 @@ DBusPreludeWindow::set_progress(int value, int max_value)
       auto text = fmt::format(fmt::runtime(progress_text), Text::time_to_string(max_value - value));
       impl->callMethod("SetProgressText", text);
     }
-  catch (const Glib::Exception &e)
+  catch (const Glib::Error &e)
     {
-      spdlog::error("Failed to set D-Bus prelude window progress: {}", e.what().c_str());
+      spdlog::error("Failed to set D-Bus prelude window progress: {}", std::string(e.what()));
     }
 }
 
@@ -212,9 +228,9 @@ DBusPreludeWindow::set_stage(workrave::IApp::PreludeStage stage)
     {
       impl->callMethod("SetStage", std::string(workrave::utils::enum_to_string(stage)));
     }
-  catch (const Glib::Exception &e)
+  catch (const Glib::Error &e)
     {
-      spdlog::error("Failed to set D-Bus prelude window stage: {}", e.what().c_str());
+      spdlog::error("Failed to set D-Bus prelude window stage: {}", std::string(e.what()));
     }
 }
 

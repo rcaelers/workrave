@@ -124,7 +124,7 @@ X11SystrayAppletWindow::activate()
       control = std::make_shared<TimerBoxControl>(context->get_core(), "applet", view);
       control->update();
 
-      auto *box = manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL));
+      auto *box = manage(new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL));
       box->set_spacing(1);
       box->pack_start(*view, true, true, 0);
 

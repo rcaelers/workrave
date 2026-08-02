@@ -62,6 +62,14 @@ PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, HeadInfo 
     {
       window_manager = toolkit_priv->get_wayland_window_manager();
     }
+#  if GTK_CHECK_VERSION(4, 0, 0) && defined(HAVE_GTK4_LAYER_SHELL)
+  // Must happen before this window is realized (see Gtk::Widget::realize()
+  // below), since gtk4-layer-shell requires that.
+  if (window_manager)
+    {
+      window_manager->setup_surface(*this, head.get_monitor(), false);
+    }
+#  endif
 #endif
 
   // On W32, must be *before* realize, otherwise a border is drawn.
@@ -164,10 +172,12 @@ PreludeWindow::start()
   realize_if_needed();
 
 #if defined(HAVE_WAYLAND)
+#  if !GTK_CHECK_VERSION(4, 0, 0) || !defined(HAVE_GTK4_LAYER_SHELL)
   if (window_manager)
     {
       layer_surface = window_manager->init_surface(*this, head.get_monitor(), false);
     }
+#  endif
 #endif
 
   // Set some window hints.
@@ -244,7 +254,9 @@ PreludeWindow::stop()
   frame->set_frame_flashing(0);
 
 #if defined(HAVE_WAYLAND)
+#  if !GTK_CHECK_VERSION(4, 0, 0) || !defined(HAVE_GTK4_LAYER_SHELL)
   layer_surface.reset();
+#  endif
   unfullscreen_connection.disconnect();
   unfullscreen_pending = false;
 #endif
@@ -278,6 +290,28 @@ PreludeWindow::arm_unfullscreen()
       return;
     }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  auto monitor = head.get_monitor();
+  if (!monitor)
+    {
+      TRACE_MSG("no monitor for head");
+      return;
+    }
+
+  unfullscreen_connection.disconnect();
+  unfullscreen_pending = true;
+  fullscreen_on_monitor(monitor);
+
+  if (!surface_state_connection.connected())
+    {
+      auto toplevel = std::dynamic_pointer_cast<Gdk::Toplevel>(get_surface());
+      if (toplevel)
+        {
+          surface_state_connection =
+            toplevel->property_state().signal_changed().connect(sigc::mem_fun(*this, &PreludeWindow::on_surface_state_changed));
+        }
+    }
+#else
   const auto screen = get_screen();
   if (!screen)
     {
@@ -294,8 +328,35 @@ PreludeWindow::arm_unfullscreen()
   unfullscreen_connection.disconnect();
   unfullscreen_pending = true;
   fullscreen_on_monitor(screen, monitor_index);
+#endif
 }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+void
+PreludeWindow::on_surface_state_changed()
+{
+  auto toplevel = std::dynamic_pointer_cast<Gdk::Toplevel>(get_surface());
+  if (!toplevel)
+    {
+      return;
+    }
+
+  if (unfullscreen_pending && (toplevel->property_state().get_value() & Gdk::Toplevel::State::FULLSCREEN) == Gdk::Toplevel::State::FULLSCREEN)
+    {
+      unfullscreen_pending = false;
+
+      // Leave the fullscreen state only after the compositor has presented a
+      // frame. Unsetting it right away allows the compositor to coalesce both
+      // requests, in which case the window never moves to the right monitor.
+      unfullscreen_connection = Glib::signal_timeout().connect(
+        [this]() {
+          unfullscreen();
+          return false;
+        },
+        100);
+    }
+}
+#else
 bool
 PreludeWindow::on_window_state_event(GdkEventWindowState *event)
 {
@@ -317,6 +378,7 @@ PreludeWindow::on_window_state_event(GdkEventWindowState *event)
 
   return Gtk::Window::on_window_state_event(event);
 }
+#endif
 #endif
 
 //! Refresh window.

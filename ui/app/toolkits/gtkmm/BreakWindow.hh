@@ -163,14 +163,21 @@ private:
 #endif
 #if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;
+#  if !GTK_CHECK_VERSION(4, 0, 0) || !defined(HAVE_GTK4_LAYER_SHELL)
   std::shared_ptr<WaylandLayerSurface> layer_surface;
+#  endif
 
   //! Waiting for the compositor to confirm fullscreen, so it can be undone again
   bool unfullscreen_pending{false};
   sigc::connection unfullscreen_connection;
 
   void arm_unfullscreen();
+#  if GTK_CHECK_VERSION(4, 0, 0)
+  sigc::connection surface_state_connection;
+  void on_surface_state_changed();
+#  else
   bool on_window_state_event(GdkEventWindowState *event) override;
+#  endif
 #endif
 
   void get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name);

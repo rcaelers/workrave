@@ -261,6 +261,13 @@ set_target_properties(workrave PROPERTIES
     XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME YES
 )
 
+if (HAVE_GTK4_LAYER_SHELL)
+  # gtk4-layer-shell's docs: "If you link against libwayland you must link
+  # this library before libwayland." Link it first, directly on the final
+  # executable, before workrave-app (below) pulls in libwayland-client.
+  target_link_libraries(workrave PRIVATE ${GTK4_LAYER_SHELL_LIBRARIES})
+endif()
+
 target_link_libraries(workrave
   PRIVATE
   workrave-app

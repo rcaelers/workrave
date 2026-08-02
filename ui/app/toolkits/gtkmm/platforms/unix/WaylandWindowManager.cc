@@ -23,9 +23,70 @@
 
 #include <memory>
 
-#include <gdk/gdkwayland.h>
+#include <gdk/gdk.h>
+#if GDK_MAJOR_VERSION >= 4
+#  include <gdk/wayland/gdkwayland.h>
+#else
+#  include <gdk/gdkwayland.h>
+#endif
 
 #include "debug.hh"
+
+#if GTK_CHECK_VERSION(4, 0, 0) && defined(HAVE_GTK4_LAYER_SHELL)
+
+bool
+WaylandWindowManager::init()
+{
+  TRACE_ENTRY();
+  return gtk_layer_is_supported();
+}
+
+void
+WaylandWindowManager::setup_surface(Gtk::Window &gtk_window, const Glib::RefPtr<Gdk::Monitor> &monitor, bool keyboard_focus)
+{
+  TRACE_ENTRY();
+  auto *window = gtk_window.gobj();
+
+  gtk_layer_init_for_window(window);
+  gtk_layer_set_namespace(window, "workrave");
+  gtk_layer_set_layer(window, GTK_LAYER_SHELL_LAYER_OVERLAY);
+  gtk_layer_set_keyboard_mode(window,
+                              keyboard_focus ? GTK_LAYER_SHELL_KEYBOARD_MODE_EXCLUSIVE : GTK_LAYER_SHELL_KEYBOARD_MODE_NONE);
+  if (monitor)
+    {
+      gtk_layer_set_monitor(window, monitor->gobj());
+    }
+
+  // Anchored to every edge: covers the whole output. GTK's own size
+  // negotiation resizes the window to what the compositor grants, so unlike
+  // the raw-protocol path there is no manual configure/resize step.
+  gtk_layer_set_anchor(window, GTK_LAYER_SHELL_EDGE_TOP, TRUE);
+  gtk_layer_set_anchor(window, GTK_LAYER_SHELL_EDGE_BOTTOM, TRUE);
+  gtk_layer_set_anchor(window, GTK_LAYER_SHELL_EDGE_LEFT, TRUE);
+  gtk_layer_set_anchor(window, GTK_LAYER_SHELL_EDGE_RIGHT, TRUE);
+  gtk_layer_set_exclusive_zone(window, -1);
+}
+
+#elif GTK_CHECK_VERSION(4, 0, 0)
+
+bool
+WaylandWindowManager::init()
+{
+  TRACE_ENTRY();
+  // No gtk4-layer-shell, and GTK4 alone has no supported way to hand a
+  // surface to the layer shell (see WaylandWindowManager.hh), so there is no
+  // point binding the protocol.
+  return false;
+}
+
+auto
+WaylandWindowManager::init_surface(Gtk::Widget & /*gtk_window*/, Glib::RefPtr<Gdk::Monitor> /*monitor*/, bool /*keyboard_focus*/)
+  -> std::shared_ptr<WaylandLayerSurface>
+{
+  return {};
+}
+
+#else // GTK3
 
 bool
 WaylandWindowManager::init()
@@ -83,3 +144,5 @@ WaylandWindowManager::init_surface(Gtk::Widget &gtk_window, Glib::RefPtr<Gdk::Mo
                                         }
                                     });
 }
+
+#endif

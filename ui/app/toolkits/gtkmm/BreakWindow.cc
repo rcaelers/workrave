@@ -54,7 +54,7 @@
 #  include "ui/windows/DesktopWindow.hh"
 #  include "config/IConfigurator.hh"
 #  include "core/ICore.hh"
-#elif defined(PLATFORM_OS_UNIX)
+#elif defined(PLATFORM_OS_UNIX) && !GTK_CHECK_VERSION(4, 0, 0)
 #  include "desktop-window.h"
 #endif
 #if defined(HAVE_WAYLAND)
@@ -88,6 +88,14 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
     {
       window_manager = toolkit_priv->get_wayland_window_manager();
     }
+#  if GTK_CHECK_VERSION(4, 0, 0) && defined(HAVE_GTK4_LAYER_SHELL)
+  // Must happen before this window is realized (see Gtk::Widget::realize()
+  // below), since gtk4-layer-shell requires that.
+  if (window_manager && mode != BlockMode::Off)
+    {
+      window_manager->setup_surface(*this, head.get_monitor(), true);
+    }
+#  endif
 #endif
 
   fullscreen_grab = !app->get_toolkit()->get_locker()->can_lock();
@@ -209,12 +217,21 @@ BreakWindow::init_gui()
 
 #elif defined(PLATFORM_OS_UNIX)
               set_size_request(head.get_width(), head.get_height());
+#  if GTK_CHECK_VERSION(4, 0, 0)
+              // GTK4 surfaces are always client-side rendered, so there is no
+              // GdkWindow to paint the X11 root pixmap into; just center the
+              // frame like the fullscreen_grab case below.
+              window_frame->set_halign(Gtk::Align::CENTER);
+              window_frame->set_valign(Gtk::Align::CENTER);
+              GtkCompat::set_child(*this, *window_frame);
+#  else
               set_app_paintable(true);
               Glib::RefPtr<Gdk::Window> window = get_window();
               set_desktop_background(window->gobj());
               Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
               align->add(*window_frame);
               add(*align);
+#  endif
 #endif
             }
           else
@@ -763,10 +780,12 @@ BreakWindow::start()
   realize_if_needed();
 
 #if defined(HAVE_WAYLAND)
+#  if !GTK_CHECK_VERSION(4, 0, 0) || !defined(HAVE_GTK4_LAYER_SHELL)
   if (window_manager && block_mode != BlockMode::Off)
     {
       layer_surface = window_manager->init_surface(*this, head.get_monitor(), true);
     }
+#  endif
 #endif
 
   // Set some window hints.
@@ -832,7 +851,9 @@ BreakWindow::stop()
     }
 
 #if defined(HAVE_WAYLAND)
+#  if !GTK_CHECK_VERSION(4, 0, 0) || !defined(HAVE_GTK4_LAYER_SHELL)
   layer_surface.reset();
+#  endif
   unfullscreen_connection.disconnect();
   unfullscreen_pending = false;
 #endif
@@ -891,6 +912,28 @@ BreakWindow::arm_unfullscreen()
       return;
     }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  auto monitor = head.get_monitor();
+  if (!monitor)
+    {
+      TRACE_MSG("no monitor for head");
+      return;
+    }
+
+  unfullscreen_connection.disconnect();
+  unfullscreen_pending = true;
+  fullscreen_on_monitor(monitor);
+
+  if (!surface_state_connection.connected())
+    {
+      auto toplevel = std::dynamic_pointer_cast<Gdk::Toplevel>(get_surface());
+      if (toplevel)
+        {
+          surface_state_connection =
+            toplevel->property_state().signal_changed().connect(sigc::mem_fun(*this, &BreakWindow::on_surface_state_changed));
+        }
+    }
+#else
   const auto screen = get_screen();
   if (!screen)
     {
@@ -907,8 +950,35 @@ BreakWindow::arm_unfullscreen()
   unfullscreen_connection.disconnect();
   unfullscreen_pending = true;
   fullscreen_on_monitor(screen, monitor_index);
+#endif
 }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+void
+BreakWindow::on_surface_state_changed()
+{
+  auto toplevel = std::dynamic_pointer_cast<Gdk::Toplevel>(get_surface());
+  if (!toplevel)
+    {
+      return;
+    }
+
+  if (unfullscreen_pending && (toplevel->property_state().get_value() & Gdk::Toplevel::State::FULLSCREEN) == Gdk::Toplevel::State::FULLSCREEN)
+    {
+      unfullscreen_pending = false;
+
+      // Leave the fullscreen state only after the compositor has presented a
+      // frame. Unsetting it right away allows the compositor to coalesce both
+      // requests, in which case the window never moves to the right monitor.
+      unfullscreen_connection = Glib::signal_timeout().connect(
+        [this]() {
+          unfullscreen();
+          return false;
+        },
+        100);
+    }
+}
+#else
 bool
 BreakWindow::on_window_state_event(GdkEventWindowState *event)
 {
@@ -930,6 +1000,7 @@ BreakWindow::on_window_state_event(GdkEventWindowState *event)
 
   return Gtk::Window::on_window_state_event(event);
 }
+#endif
 #endif
 
 #if GTK_CHECK_VERSION(4, 0, 0)
