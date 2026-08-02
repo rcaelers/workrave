@@ -410,18 +410,6 @@ org_workrave_BreakInterface::introspection() const noexcept
 
   "\n"
 
-  "    <method name=\"GetTimerRemaining\">\n"
-
-  "\n"
-
-  "      <arg type=\"i\" name=\"result\" direction=\"out\" />\n"
-
-  "\n"
-
-  "    </method>\n"
-
-  "\n"
-
   "    <method name=\"GetTimerOverdue\">\n"
 
   "\n"
@@ -443,6 +431,18 @@ org_workrave_BreakInterface::introspection() const noexcept
   "\n"
 
   "    <method name=\"SkipBreak\">\n"
+
+  "\n"
+
+  "    </method>\n"
+
+  "\n"
+
+  "    <method name=\"GetTimerRemaining\">\n"
+
+  "\n"
+
+  "      <arg type=\"i\" name=\"result\" direction=\"out\" />\n"
 
   "\n"
 
@@ -528,13 +528,13 @@ org_workrave_BreakInterface::dispatch(const QDBusMessage &message, const QDBusCo
 
       {.name = "IsLimitEnabled", .method = &org_workrave_BreakInterface::dispatch_IsLimitEnabled},
 
-      {.name = "GetTimerRemaining", .method = &org_workrave_BreakInterface::dispatch_GetTimerRemaining},
-
       {.name = "GetTimerOverdue", .method = &org_workrave_BreakInterface::dispatch_GetTimerOverdue},
 
       {.name = "PostponeBreak", .method = &org_workrave_BreakInterface::dispatch_PostponeBreak},
 
       {.name = "SkipBreak", .method = &org_workrave_BreakInterface::dispatch_SkipBreak},
+
+      {.name = "GetTimerRemaining", .method = &org_workrave_BreakInterface::dispatch_GetTimerRemaining},
 
       {.name = "GetBreakState", .method = &org_workrave_BreakInterface::dispatch_GetBreakState},
 
@@ -998,43 +998,6 @@ org_workrave_BreakInterface::dispatch_IsLimitEnabled(const QDBusMessage &message
 
 
 void
-org_workrave_BreakInterface::dispatch_GetTimerRemaining(const QDBusMessage &message, const QDBusConnection &connection)
-{
-
-
-  int64_t p_result{};
-
-
-  const auto num_in_args = message.arguments().size();
-  if (num_in_args != 0)
-    {
-      throw ::workrave::rpc::dbus::Error(
-        std::string(::workrave::rpc::dbus::error_names::invalid_args),
-        "Incorrect number of input parameters for org.workrave.BreakInterface.GetTimerRemaining");
-    }
-
-
-
-
-  p_result = implementation_.get_timer_remaining();
-
-
-  QDBusMessage reply = message.createReply();
-
-  reply << ::workrave::rpc::dbus::QtCodec<int32_t>::encode(::workrave::rpc::dbus::checked_dbus_wire_cast<int32_t>(p_result));
-
-
-
-  if (!connection.send(reply))
-    {
-      throw ::workrave::rpc::dbus::Error(
-        std::string(::workrave::rpc::dbus::error_names::failed),
-        "Failed to send reply for org.workrave.BreakInterface.GetTimerRemaining");
-    }
-}
-
-
-void
 org_workrave_BreakInterface::dispatch_GetTimerOverdue(const QDBusMessage &message, const QDBusConnection &connection)
 {
 
@@ -1133,6 +1096,43 @@ org_workrave_BreakInterface::dispatch_SkipBreak(const QDBusMessage &message, con
       throw ::workrave::rpc::dbus::Error(
         std::string(::workrave::rpc::dbus::error_names::failed),
         "Failed to send reply for org.workrave.BreakInterface.SkipBreak");
+    }
+}
+
+
+void
+org_workrave_BreakInterface::dispatch_GetTimerRemaining(const QDBusMessage &message, const QDBusConnection &connection)
+{
+
+
+  int64_t p_result{};
+
+
+  const auto num_in_args = message.arguments().size();
+  if (num_in_args != 0)
+    {
+      throw ::workrave::rpc::dbus::Error(
+        std::string(::workrave::rpc::dbus::error_names::invalid_args),
+        "Incorrect number of input parameters for org.workrave.BreakInterface.GetTimerRemaining");
+    }
+
+
+
+
+  p_result = implementation_.get_timer_remaining();
+
+
+  QDBusMessage reply = message.createReply();
+
+  reply << ::workrave::rpc::dbus::QtCodec<int32_t>::encode(::workrave::rpc::dbus::checked_dbus_wire_cast<int32_t>(p_result));
+
+
+
+  if (!connection.send(reply))
+    {
+      throw ::workrave::rpc::dbus::Error(
+        std::string(::workrave::rpc::dbus::error_names::failed),
+        "Failed to send reply for org.workrave.BreakInterface.GetTimerRemaining");
     }
 }
 
