@@ -34,11 +34,22 @@ ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter)
 
   entry = std::make_shared<ToolkitSubMenuEntry>(context, nullptr, root);
 
-  workrave::utils::connect(menu_model->signal_update(), this, [this]() { entry->init(); });
 #if GTK_CHECK_VERSION(4, 0, 0)
+  workrave::utils::connect(menu_model->signal_update(), this, [this]() {
+    entry->init();
+    // GTK's PopoverMenu tracks each submenu's GtkStack page by the identity
+    // of the Gio::Menu behind it. init() replaces nested submenus with brand
+    // new Gio::Menu objects, and live-mutating the model that PopoverMenu is
+    // already bound to made it try to add the new page before it had
+    // finished tearing down the old one, reported as "duplicate child name
+    // in GtkStack". Rebinding via set_menu_model() instead makes GTK tear
+    // down and rebuild its tracking atomically from the new tree.
+    gtk_menu->set_menu_model(entry->get_menu());
+  });
   gtk_menu = std::make_shared<Gtk::PopoverMenu>(entry->get_menu());
   gtk_menu->set_has_arrow(false);
 #else
+  workrave::utils::connect(menu_model->signal_update(), this, [this]() { entry->init(); });
   gtk_menu = std::make_shared<Gtk::Menu>(entry->get_menu());
 #endif
 }
@@ -142,6 +153,11 @@ ToolkitSubMenuEntry::ToolkitSubMenuEntry(ToolkitMenuContext::Ptr context,
 void
 ToolkitSubMenuEntry::init()
 {
+  // Drop the previous children before rebuilding below; without this,
+  // re-running init() (e.g. every time the menu model's update signal fires
+  // again) leaked the old child entries.
+  children.clear();
+
   if (parent != nullptr)
     {
       const MenuNodeFilter &filter = get_context()->get_filter();
@@ -155,11 +171,23 @@ ToolkitSubMenuEntry::init()
     }
   else
     {
+#if GTK_CHECK_VERSION(4, 0, 0)
+      // Always create a fresh Gio::Menu rather than reusing the previous one
+      // and calling remove_all() on it. ToolkitMenu's signal_update handler
+      // rebinds the PopoverMenu to this root menu via set_menu_model(), which
+      // is a no-op unless the pointer actually changes (it's a plain
+      // g_set_object() under the hood) -- reusing the same object here would
+      // make that rebind silently do nothing.
+      menu = Gio::Menu::create();
+#else
+      // GTK3's Gtk::Menu is constructed once from this object and keeps
+      // observing it live; it must stay the same instance.
       if (!menu)
         {
           menu = Gio::Menu::create();
         }
       menu->remove_all();
+#endif
     }
 
   add_section();
