@@ -70,7 +70,11 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
                          HeadInfo &head,
                          BreakFlags break_flags,
                          BlockMode mode)
+#if GTK_CHECK_VERSION(4, 0, 0)
+  : Gtk::Window()
+#else
   : Gtk::Window(Gtk::WINDOW_TOPLEVEL)
+#endif
   , app(app)
   , head(head)
   , block_mode(mode)
@@ -89,22 +93,28 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
   fullscreen_grab = !app->get_toolkit()->get_locker()->can_lock();
 
   // Keep the break window on top of all other Workrave windows
+#if !GTK_CHECK_VERSION(4, 0, 0)
   set_type_hint(Gdk::WINDOW_TYPE_HINT_DIALOG);
+#endif
 
   if (mode != BlockMode::Off)
     {
       // Disable titlebar to appear like a popup
       set_decorated(false);
+#if !GTK_CHECK_VERSION(4, 0, 0)
       set_skip_taskbar_hint(true);
       set_skip_pager_hint(true);
+#endif
 
       if (fullscreen_grab)
         {
           TRACE_MSG("Fullscreen grab");
+#if !GTK_CHECK_VERSION(4, 0, 0)
           set_app_paintable(true);
           signal_draw().connect(sigc::mem_fun(*this, &BreakWindow::on_draw), false);
           signal_screen_changed().connect(sigc::mem_fun(*this, &BreakWindow::on_screen_changed), false);
           on_screen_changed(get_screen());
+#endif
           set_size_request(head.get_width(), head.get_height());
         }
     }
@@ -123,7 +133,7 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
 
   // Need to realize window before it is shown
   // Otherwise, there is not gobj()...
-  realize();
+  Gtk::Widget::realize();
 
 #if defined(PLATFORM_OS_WINDOWS)
   // Here's the secret: IMMEDIATELY after your window creation, set focus to it
@@ -133,11 +143,13 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
   SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 #endif
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
   if (mode == BlockMode::Off)
     {
       Glib::RefPtr<Gdk::Window> window = get_window();
       window->set_functions(Gdk::FUNC_MOVE);
     }
+#endif
 
   bool initial_ignore_activity = false;
 
@@ -169,12 +181,12 @@ BreakWindow::init_gui()
 
       if (block_mode == BlockMode::Off)
         {
-          set_border_width(12);
-          add(*gui);
+          GtkCompat::set_border_width(*this, 12);
+          GtkCompat::set_child(*this, *gui);
         }
       else
         {
-          set_border_width(0);
+          GtkCompat::set_border_width(*this, 0);
           Frame *window_frame = Gtk::manage(new Frame());
           window_frame->set_border_width(0);
           window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
@@ -193,7 +205,7 @@ BreakWindow::init_gui()
             {
 #if defined(PLATFORM_OS_WINDOWS)
               desktop_window = new DesktopWindow(head.get_x(), head.get_y(), head.get_width(), head.get_height());
-              add(*window_frame);
+              GtkCompat::set_child(*this, *window_frame);
 
 #elif defined(PLATFORM_OS_UNIX)
               set_size_request(head.get_width(), head.get_height());
@@ -209,13 +221,19 @@ BreakWindow::init_gui()
             {
               if (fullscreen_grab)
                 {
+#if GTK_CHECK_VERSION(4, 0, 0)
+                  window_frame->set_halign(Gtk::Align::CENTER);
+                  window_frame->set_valign(Gtk::Align::CENTER);
+                  GtkCompat::set_child(*this, *window_frame);
+#else
                   Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
                   align->add(*window_frame);
                   add(*align);
+#endif
                 }
               else
                 {
-                  add(*window_frame);
+                  GtkCompat::set_child(*this, *window_frame);
                 }
             }
         }
@@ -225,8 +243,14 @@ BreakWindow::init_gui()
           set_can_focus(false);
         }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+      GtkCompat::show_all(*this);
+      // Gtk::Window::stick() (pin to all workspaces) was removed in GTK4;
+      // workspace placement is left to the compositor.
+#else
       show_all_children();
       stick();
+#endif
     }
 }
 
@@ -365,7 +389,7 @@ BreakWindow::on_sysoper_combobox_changed()
 {
   // based on https://developer.gnome.org/gtkmm-tutorial/stable/combobox-example-full.html.en
   TRACE_ENTRY();
-  Gtk::ListStore::const_iterator iter = sysoper_combobox->get_active();
+  Gtk::ListStore::iterator iter = sysoper_combobox->get_active();
   if (!iter)
     {
       TRACE_MSG("!iter");
@@ -553,28 +577,32 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
 }
 
 //! Control buttons.
-Gtk::Box *
+GtkCompat::Box *
 BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
 {
+#if !GTK_CHECK_VERSION(4, 0, 0)
   accel_group = Gtk::AccelGroup::create();
   add_accel_group(accel_group);
+#endif
 
-  auto *vbox = new Gtk::Box(Gtk::Orientation::VERTICAL, 0);
+  auto *vbox = new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL, 0);
 
-  button_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
-  box_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
+  button_size_group = Gtk::SizeGroup::create(GtkCompat::SIZE_GROUP_HORIZONTAL);
+  box_size_group = Gtk::SizeGroup::create(GtkCompat::SIZE_GROUP_HORIZONTAL);
 
   if ((break_flags != BREAK_FLAGS_NONE) || lockable || shutdownable)
     {
-      auto *top_box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL, 0));
-      auto *bottom_box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL, 6));
+      auto *top_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 0));
+      auto *bottom_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 6));
 
-      vbox->pack_end(*bottom_box, Gtk::PACK_SHRINK, 2);
+      vbox->pack_end(*bottom_box, false, false, 2);
 
       if (break_flags != BREAK_FLAGS_NONE)
         {
-          Gtk::HButtonBox *button_box = Gtk::manage(new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6));
-          bottom_box->pack_end(*button_box, Gtk::PACK_SHRINK, 0);
+          // A plain end-aligned box stands in for Gtk::HButtonBox (removed in
+          // GTK4); children are already packed with pack_end() below.
+          GtkCompat::Box *button_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 6));
+          bottom_box->pack_end(*button_box, false, false, 0);
 
           bool skip_locked = false;
           bool postpone_locked = false;
@@ -591,7 +619,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
                   skip_button->set_tooltip_text(msg);
                 }
 
-              button_box->pack_end(*skip_button, Gtk::PACK_EXPAND_WIDGET, 0);
+              button_box->pack_end(*skip_button, true, true, 0);
               button_size_group->add_widget(*skip_button);
             }
 
@@ -604,23 +632,43 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
                   const char *msg = _("You cannot postpone this break while another non-postponable break is overdue.");
                   postpone_button->set_tooltip_text(msg);
                 }
-              button_box->pack_end(*postpone_button, Gtk::PACK_EXPAND_WIDGET, 0);
+              button_box->pack_end(*postpone_button, true, true, 0);
               button_size_group->add_widget(*postpone_button);
             }
 
           if (skip_locked || postpone_locked)
             {
-              auto *progress_bar_box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL, 0));
+              auto *progress_bar_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 0));
 
               progress_bar = Gtk::manage(new Gtk::ProgressBar);
-              progress_bar->set_orientation(Gtk::ORIENTATION_HORIZONTAL);
+              progress_bar->set_orientation(GtkCompat::ORIENTATION_HORIZONTAL);
               progress_bar->set_fraction(0);
               progress_bar->set_name("locked-progress");
               update_skip_postpone_lock();
 
-              vbox->pack_end(*top_box, Gtk::PACK_SHRINK, 0);
-              top_box->pack_end(*progress_bar_box, Gtk::PACK_SHRINK, 0);
+              vbox->pack_end(*top_box, false, false, 0);
+              top_box->pack_end(*progress_bar_box, false, false, 0);
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+              // Gtk::Alignment was removed in GTK4; align the progress bar
+              // directly instead of wrapping it in an alignment widget.
+              if (skip_locked && postpone_locked)
+                {
+                  progress_bar->set_halign(Gtk::Align::FILL);
+                  progress_bar->set_valign(Gtk::Align::START);
+                }
+              else if (skip_locked)
+                {
+                  progress_bar->set_halign(Gtk::Align::START);
+                  progress_bar->set_valign(Gtk::Align::END);
+                }
+              else
+                {
+                  progress_bar->set_halign(Gtk::Align::END);
+                  progress_bar->set_valign(Gtk::Align::START);
+                }
+              progress_bar_box->pack_end(*progress_bar, true, true, 6);
+#else
               Gtk::Alignment *align = nullptr;
               if (skip_locked && postpone_locked)
                 {
@@ -635,7 +683,8 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
                   align = Gtk::manage(new Gtk::Alignment(1, 0, 0, 0.0));
                 }
               align->add(*progress_bar);
-              progress_bar_box->pack_end(*align, Gtk::PACK_EXPAND_WIDGET, 6);
+              progress_bar_box->pack_end(*align, true, true, 6);
+#endif
 
               box_size_group->add_widget(*progress_bar_box);
               box_size_group->add_widget(*button_box);
@@ -659,7 +708,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
               sysoper_combobox = create_sysoper_combobox();
               if (sysoper_combobox != nullptr)
                 {
-                  bottom_box->pack_start(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
+                  bottom_box->pack_start(*sysoper_combobox, false, false, 0);
                 }
             }
           else
@@ -667,7 +716,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
               lock_button = create_lock_button();
               if (lock_button != nullptr)
                 {
-                  bottom_box->pack_start(*lock_button, Gtk::PACK_SHRINK, 0);
+                  bottom_box->pack_start(*lock_button, false, false, 0);
                 }
             }
         }
@@ -686,10 +735,18 @@ BreakWindow::init()
 static void
 disable_button_focus(GtkWidget *w, gpointer data)
 {
+#if GTK_CHECK_VERSION(4, 0, 0)
+  (void)data;
+  for (GtkWidget *child = gtk_widget_get_first_child(w); child != nullptr; child = gtk_widget_get_next_sibling(child))
+    {
+      disable_button_focus(child, nullptr);
+    }
+#else
   if (GTK_IS_CONTAINER(w))
     {
       gtk_container_forall(GTK_CONTAINER(w), (GtkCallback)disable_button_focus, nullptr);
     }
+#endif
 
   if (GTK_IS_BUTTON(w))
     {
@@ -713,8 +770,10 @@ BreakWindow::start()
 #endif
 
   // Set some window hints.
+#if !GTK_CHECK_VERSION(4, 0, 0)
   set_skip_pager_hint(true);
   set_skip_taskbar_hint(true);
+#endif
 
   GtkUtil::set_always_on_top(this, true);
 
@@ -730,7 +789,7 @@ BreakWindow::start()
 #if defined(HAVE_WAYLAND)
   arm_unfullscreen();
 #endif
-  show_all();
+  GtkCompat::show_all(*this);
 
   GtkUtil::set_always_on_top(this, true);
 
@@ -759,11 +818,7 @@ BreakWindow::start()
 
       // ...and clear the focus of the break window, which already focussed
       // the button.
-      GtkWidget *toplevel = gtk_widget_get_toplevel(GTK_WIDGET(sysoper_combobox->gobj()));
-      if (gtk_widget_is_toplevel(toplevel))
-        {
-          gtk_window_set_focus(GTK_WINDOW(toplevel), nullptr);
-        }
+      unset_focus();
     }
 }
 
@@ -877,6 +932,28 @@ BreakWindow::on_window_state_event(GdkEventWindowState *event)
 }
 #endif
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+void
+BreakWindow::snapshot_vfunc(const Glib::RefPtr<Gtk::Snapshot> &snapshot)
+{
+  if (fullscreen_grab)
+    {
+      auto cr = snapshot->append_cairo(Gdk::Rectangle(0, 0, get_width(), get_height()));
+      if (block_mode == BlockMode::All)
+        {
+          cr->set_source_rgba(0, 0, 0, 0.95);
+        }
+      else
+        {
+          cr->set_source_rgba(0.1, 0.1, 0.1, 0.1);
+        }
+      cr->set_operator(Cairo::Context::Operator::SOURCE);
+      cr->paint();
+    }
+
+  Gtk::Window::snapshot_vfunc(snapshot);
+}
+#else
 bool
 BreakWindow::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
@@ -913,6 +990,7 @@ BreakWindow::on_screen_changed(const Glib::RefPtr<Gdk::Screen> &previous_screen)
       gtk_widget_set_visual(GTK_WIDGET(gobj()), visual->gobj());
     }
 }
+#endif
 
 #if defined(PLATFORM_OS_WINDOWS)
 /* WindowsCompat::RefreshBreakWindow()

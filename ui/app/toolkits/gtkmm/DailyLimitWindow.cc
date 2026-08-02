@@ -60,15 +60,15 @@ DailyLimitWindow::create_gui()
 
   // Icon
   Gtk::Image *img = GtkUtil::create_image("daily-limit.png");
-  img->set_alignment(0.0, 0.0);
+  GtkCompat::set_image_alignment(*img, 0.0, 0.0);
 
   // Box
-  auto *hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 12));
+  auto *hbox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 12));
   hbox->pack_start(*img, false, false, 0);
   hbox->pack_start(*label, true, true, 0);
 
   // Overall vbox
-  auto *box = new GtkCompat::Box(Gtk::Orientation::VERTICAL, 12);
+  auto *box = new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL, 12);
   box->pack_start(*hbox, true, true, 0);
 
   // Button box at the bottom.

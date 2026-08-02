@@ -27,12 +27,13 @@
 #include "ui/prefwidgets/gtkmm/BoxWidget.hh"
 
 #include <gtkmm.h>
+#include "commonui/GtkCompat.hh"
 
 class DataConnector;
 class Configurator;
 
 class GeneralPreferencePanel
-  : public Gtk::VBox
+  : public GtkCompat::VBox
   , public workrave::utils::Trackable
 {
 public:

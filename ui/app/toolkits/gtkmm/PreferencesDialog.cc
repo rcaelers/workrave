@@ -48,6 +48,13 @@ PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplicationContext> app)
 {
   TRACE_ENTRY();
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  focus_controller = Gtk::EventControllerFocus::create();
+  focus_controller->signal_enter().connect(sigc::mem_fun(*this, &PreferencesDialog::on_focus_in));
+  focus_controller->signal_leave().connect(sigc::mem_fun(*this, &PreferencesDialog::on_focus_out));
+  add_controller(focus_controller);
+#endif
+
   init_ui();
 
   create_timers_page();
@@ -61,7 +68,7 @@ PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplicationContext> app)
   create_plugin_pages();
   create_plugin_panels();
 
-  show_all();
+  GtkCompat::show_all(*this);
 }
 
 PreferencesDialog::~PreferencesDialog()
@@ -75,26 +82,30 @@ void
 PreferencesDialog::init_ui()
 {
   set_default_size(960, 640);
-  set_border_width(6);
+  GtkCompat::set_border_width(*this, 6);
 
   stack.set_hexpand(true);
   stack.set_vexpand(true);
-  stack.set_transition_type(Gtk::StackTransitionType::STACK_TRANSITION_TYPE_CROSSFADE);
+  stack.set_transition_type(GtkCompat::STACK_TRANSITION_TYPE_CROSSFADE);
 
-  auto *box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL, 6));
+  auto *box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 6));
   box->set_hexpand(true);
   box->set_vexpand(true);
   box->pack_start(panel_list, true, true, 0);
-  box->pack_start(*Gtk::manage(new Gtk::Separator(Gtk::ORIENTATION_HORIZONTAL)), false, false, 0);
+  box->pack_start(*Gtk::manage(new Gtk::Separator(GtkCompat::ORIENTATION_HORIZONTAL)), false, false, 0);
   box->pack_start(stack, true, true, 0);
+#if GTK_CHECK_VERSION(4, 0, 0)
+  get_content_area()->append(*box);
+#else
   get_content_area()->add(*box);
+#endif
 
   panel_list.signal_activated().connect([this](const std::string &id) { stack.set_visible_child(id); });
 
-  Gtk::Button *button = add_button(_("Close"), Gtk::RESPONSE_CLOSE);
-  button->set_image_from_icon_name("window-close", Gtk::ICON_SIZE_BUTTON);
+  Gtk::Button *button = add_button(_("Close"), GtkCompat::RESPONSE_CLOSE);
+  button->set_image_from_icon_name("window-close");
 
-  show_all();
+  GtkCompat::show_all(*this);
 }
 
 void
@@ -103,13 +114,13 @@ PreferencesDialog::create_timers_page()
   std::array<std::string, 3> timer_ids = {"microbreak", "restbreak", "dailylimit"};
   auto page = add_page("timer", _("Timers"), "workrave-timer-symbolic");
 
-  Glib::RefPtr<Gtk::SizeGroup> hsize_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
-  Glib::RefPtr<Gtk::SizeGroup> vsize_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_VERTICAL);
+  Glib::RefPtr<Gtk::SizeGroup> hsize_group = Gtk::SizeGroup::create(GtkCompat::SIZE_GROUP_HORIZONTAL);
+  Glib::RefPtr<Gtk::SizeGroup> vsize_group = Gtk::SizeGroup::create(GtkCompat::SIZE_GROUP_VERTICAL);
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       Gtk::Widget *box = Gtk::manage(GtkUtil::create_label_for_break((BreakId)i));
       TimerPreferencePanel *tp = Gtk::manage(new TimerPreferencePanel(app, BreakId(i), hsize_group, vsize_group));
-      box->show_all();
+      GtkCompat::show_all(*box);
       page->add_panel(timer_ids.at(i), tp, box);
     }
 }
@@ -187,7 +198,7 @@ PreferencesDialog::create_panel(std::shared_ptr<ui::prefwidgets::Def> &def)
   if (auto paneldef = std::dynamic_pointer_cast<ui::prefwidgets::PanelDef>(def); paneldef)
     {
       ui::prefwidgets::gtkmm::Builder builder;
-      auto *box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL, 6));
+      auto *box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL, 6));
       auto frame = std::make_shared<ui::prefwidgets::gtkmm::BoxWidget>(box);
       builder.build(widget, frame);
       page->add_panel(panelid, box, paneldef->get_label());
@@ -216,8 +227,8 @@ PreferencesDialog::add_page(const std::string &id, const std::string &label, con
   notebook->set_show_tabs(false);
   notebook->set_show_border(false);
 
-  notebook->set_border_width(6);
-  notebook->set_tab_pos(Gtk::POS_TOP);
+  GtkCompat::set_border_width(*notebook, 6);
+  notebook->set_tab_pos(GtkCompat::POS_TOP);
 
   auto page_info = std::make_shared<PreferencesPage>(id, notebook);
   pages[id] = page_info;
@@ -228,6 +239,31 @@ PreferencesDialog::add_page(const std::string &id, const std::string &label, con
   return page_info;
 }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+void
+PreferencesDialog::on_focus_in()
+{
+  TRACE_ENTRY();
+  BlockMode block_mode = GUIConfig::block_mode()();
+  if (block_mode != BlockMode::Off)
+    {
+      auto core = app->get_core();
+      OperationMode mode = core->get_active_operation_mode();
+      if (mode == OperationMode::Normal)
+        {
+          core->set_operation_mode_override(OperationMode::Quiet, "preferences");
+        }
+    }
+}
+
+void
+PreferencesDialog::on_focus_out()
+{
+  TRACE_ENTRY();
+  auto core = app->get_core();
+  core->remove_operation_mode_override("preferences");
+}
+#else
 bool
 PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
 {
@@ -253,6 +289,7 @@ PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
   core->remove_operation_mode_override("preferences");
   return Gtk::Dialog::on_focus_out_event(event);
 }
+#endif
 
 PreferencesPage::PreferencesPage(const std::string &id, Gtk::Notebook *notebook)
   : id(id)

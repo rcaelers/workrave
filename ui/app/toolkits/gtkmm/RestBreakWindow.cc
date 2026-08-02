@@ -58,9 +58,9 @@ Gtk::Widget *
 RestBreakWindow::create_gui()
 {
   // Add other widgets.
-  auto *vbox = new Gtk::VBox(false, 6);
+  auto *vbox = new GtkCompat::VBox(false, 6);
 
-  pluggable_panel = Gtk::manage(new Gtk::HBox);
+  pluggable_panel = Gtk::manage(new GtkCompat::HBox);
 
   vbox->pack_start(*pluggable_panel, false, false, 0);
 
@@ -68,10 +68,10 @@ RestBreakWindow::create_gui()
   timebar = Gtk::manage(new TimeBar("rest-break"));
   vbox->pack_start(*timebar, false, false, 6);
 
-  Gtk::Box *bottom_box = create_bottom_box(true, GUIConfig::break_enable_shutdown(BREAK_ID_REST_BREAK)());
+  GtkCompat::Box *bottom_box = create_bottom_box(true, GUIConfig::break_enable_shutdown(BREAK_ID_REST_BREAK)());
   if (bottom_box != nullptr)
     {
-      vbox->pack_end(*Gtk::manage(bottom_box), Gtk::PACK_SHRINK, 6);
+      vbox->pack_end(*Gtk::manage(bottom_box), false, false, 6);
     }
 
   return vbox;
@@ -151,10 +151,10 @@ RestBreakWindow::draw_time_bar()
 Gtk::Widget *
 RestBreakWindow::create_info_panel()
 {
-  auto *info_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 12));
+  auto *info_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 12));
 
   Gtk::Image *info_img = GtkUtil::create_image("rest-break.png");
-  info_img->set_alignment(0.0, 0.0);
+  GtkCompat::set_image_alignment(*info_img, 0.0, 0.0);
   Gtk::Label *info_lab = Gtk::manage(new Gtk::Label());
   Glib::ustring txt;
 
@@ -182,12 +182,21 @@ void
 RestBreakWindow::clear_pluggable_panel()
 {
   TRACE_ENTRY();
+#if GTK_CHECK_VERSION(4, 0, 0)
+  Gtk::Widget *child = pluggable_panel->get_first_child();
+  if (child != nullptr)
+    {
+      TRACE_MSG("Clearing");
+      pluggable_panel->remove(*child);
+    }
+#else
   auto children = pluggable_panel->get_children();
   if (!children.empty())
     {
       TRACE_MSG("Clearing");
       pluggable_panel->remove(*(*(children.begin())));
     }
+#endif
 }
 
 int
@@ -217,7 +226,7 @@ RestBreakWindow::install_exercises_panel()
       pluggable_panel->pack_start(*exercises_panel, false, false, 0);
       exercises_panel->set_exercise_count(get_exercise_count());
       exercises_panel->signal_stop().connect(sigc::mem_fun(*this, &RestBreakWindow::install_info_panel));
-      pluggable_panel->show_all();
+      GtkCompat::show_all(*pluggable_panel);
       pluggable_panel->queue_resize();
     }
   center();
@@ -233,17 +242,24 @@ RestBreakWindow::install_info_panel()
   set_ignore_activity(false);
   clear_pluggable_panel();
   pluggable_panel->pack_start(*(create_info_panel()), false, false, 0);
-  pluggable_panel->show_all();
+  GtkCompat::show_all(*pluggable_panel);
   pluggable_panel->queue_resize();
 
   BlockMode block_mode = GUIConfig::block_mode()();
+#if GTK_CHECK_VERSION(4, 0, 0)
+  // GTK4 removed Window::move()/get_position(); applications can no longer
+  // reposition their own top-level windows, so a resized window cannot be
+  // nudged back to its previous center. Fall through to center().
+  (void)block_mode;
+  center();
+#else
   if (block_mode == BlockMode::Off && head.is_primary())
     {
       Gtk::Requisition new_size;
       get_preferred_size(new_size, natural_size);
 
-      int width_delta = (new_size.width - old_size.width) / 2;
-      int height_delta = (new_size.height - old_size.height) / 2;
+      int width_delta = (GtkCompat::req_width(new_size) - GtkCompat::req_width(old_size)) / 2;
+      int height_delta = (GtkCompat::req_height(new_size) - GtkCompat::req_height(old_size)) / 2;
 
       int x = 0;
       int y = 0;
@@ -254,6 +270,7 @@ RestBreakWindow::install_info_panel()
     {
       center();
     }
+#endif
 }
 
 void

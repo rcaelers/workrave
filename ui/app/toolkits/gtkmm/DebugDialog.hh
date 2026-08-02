@@ -24,6 +24,7 @@
 #include <gtkmm/dialog.h>
 #include <gtkmm/textbuffer.h>
 
+#include "commonui/GtkCompat.hh"
 #include "utils/Diagnostics.hh"
 
 namespace Gtk

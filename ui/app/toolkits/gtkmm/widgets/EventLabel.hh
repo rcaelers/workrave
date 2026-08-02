@@ -31,6 +31,8 @@ public:
   }
 
 private:
+#if !GTK_CHECK_VERSION(4, 0, 0)
+  // See EventImage.hh for why this is needed only on GTK3.
   void on_realize() override;
   void on_unrealize() override;
   bool on_map_event(GdkEventAny *event) override;
@@ -38,6 +40,7 @@ private:
   void on_size_allocate(Gtk::Allocation &allocation) override;
 
   GdkWindow *event_window{nullptr};
+#endif
 };
 
 #endif // EVENTLABEL_HH

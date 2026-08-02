@@ -32,6 +32,11 @@ public:
   }
 
 private:
+#if !GTK_CHECK_VERSION(4, 0, 0)
+  // In GTK3, plain Gtk::Image widgets are windowless and therefore never
+  // receive input events (needed here so that tooltips work). Give it its
+  // own input-only GdkWindow. GTK4 widgets receive input directly, so none
+  // of this is needed there.
   void on_realize() override;
   void on_unrealize() override;
   bool on_map_event(GdkEventAny *event) override;
@@ -39,6 +44,7 @@ private:
   void on_size_allocate(Gtk::Allocation &allocation) override;
 
   GdkWindow *event_window{nullptr};
+#endif
 };
 
 #endif // EVENTIMAGE_HH

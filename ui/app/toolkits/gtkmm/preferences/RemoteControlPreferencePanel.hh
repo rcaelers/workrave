@@ -5,8 +5,9 @@
 #define REMOTECONTROLPREFERENCEPANEL_HH
 
 #include <gtkmm.h>
+#include "commonui/GtkCompat.hh"
 
-class RemoteControlPreferencePanel : public Gtk::VBox
+class RemoteControlPreferencePanel : public GtkCompat::VBox
 {
 public:
   RemoteControlPreferencePanel();

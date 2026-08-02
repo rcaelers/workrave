@@ -17,7 +17,7 @@
 using namespace workrave;
 
 RemoteControlPreferencePanel::RemoteControlPreferencePanel()
-  : Gtk::VBox(false, 6)
+  : GtkCompat::VBox(false, 6)
 {
   create_panel();
 }
@@ -31,7 +31,7 @@ RemoteControlPreferencePanel::create_panel()
     _("Enable gRPC"),
     _("Allows local applications to control Workrave through gRPC. Disabling this closes the server immediately.")));
   grpc_enabled_cb = Gtk::manage(new Gtk::CheckButton());
-  grpc_enabled_cb->add(*grpc_enabled_label);
+  GtkCompat::set_child(*grpc_enabled_cb, *grpc_enabled_label);
   grpc_enabled_cb->set_active(CoreConfig::grpc_enabled()());
   grpc_enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &RemoteControlPreferencePanel::on_grpc_enabled_toggled));
   grpc_panel->add_widget(*grpc_enabled_cb, false, false);
@@ -60,7 +60,7 @@ RemoteControlPreferencePanel::create_panel()
   grpc_panel->add_label(std::string(_("TCP port")) + ":", *grpc_port_spin);
 
   update_grpc_widgets();
-  grpc_panel->set_border_width(12);
+  GtkCompat::set_border_width(*grpc_panel, 12);
   pack_start(*grpc_panel, false, false, 0);
 }
 

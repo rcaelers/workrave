@@ -27,16 +27,24 @@
 
 ExercisesDialog::ExercisesDialog(SoundTheme::Ptr sound_theme, ExerciseCollection::Ptr exercises)
   : HigDialog(_("Exercises"), false, false)
+#if GTK_CHECK_VERSION(4, 0, 0)
+  , action_box(GtkCompat::ORIENTATION_HORIZONTAL, 6)
+  , exercises_panel(sound_theme, exercises, &action_box)
+#else
   , exercises_panel(sound_theme, exercises, get_action_area())
+#endif
 {
   get_vbox()->pack_start(exercises_panel, true, true, 0);
-  Gtk::Button *button = add_button(_("Close"), Gtk::RESPONSE_CLOSE);
-  button->set_image_from_icon_name("window-close", Gtk::ICON_SIZE_BUTTON);
+#if GTK_CHECK_VERSION(4, 0, 0)
+  add_action_widget(action_box, Gtk::ResponseType::NONE);
+#endif
+  Gtk::Button *button = add_button(_("Close"), GtkCompat::RESPONSE_CLOSE);
+  button->set_image_from_icon_name("window-close");
 }
 
 int
 ExercisesDialog::run()
 {
-  show_all();
+  GtkCompat::show_all(*this);
   return 0;
 }

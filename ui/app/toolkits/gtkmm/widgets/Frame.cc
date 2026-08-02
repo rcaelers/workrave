@@ -32,6 +32,12 @@ Frame::~Frame()
     {
       flash_signal.disconnect();
     }
+#if GTK_CHECK_VERSION(4, 0, 0)
+  if (child != nullptr)
+    {
+      child->unparent();
+    }
+#endif
 }
 
 void
@@ -103,6 +109,87 @@ Frame::on_timer()
   return true;
 }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+void
+Frame::add(Gtk::Widget &child_widget)
+{
+  child = &child_widget;
+  child_widget.set_parent(*this);
+}
+
+Gtk::Widget *
+Frame::get_child() const
+{
+  return child;
+}
+
+void
+Frame::set_border_width(guint width)
+{
+  border_width = width;
+  queue_resize();
+}
+
+guint
+Frame::get_border_width() const
+{
+  return border_width;
+}
+
+void
+Frame::size_allocate_vfunc(int width, int height, int baseline)
+{
+  if (child != nullptr)
+    {
+      int b = static_cast<int>(border_width + frame_width);
+
+      Gtk::Allocation alloc;
+      alloc.set_x(b);
+      alloc.set_y(b);
+      alloc.set_width(width - 2 * b);
+      alloc.set_height(height - 2 * b);
+
+      child->size_allocate(alloc, baseline);
+    }
+}
+
+void
+Frame::measure_vfunc(Gtk::Orientation orientation,
+                      int for_size,
+                      int &minimum,
+                      int &natural,
+                      int &minimum_baseline,
+                      int &natural_baseline) const
+{
+  minimum = natural = 0;
+  minimum_baseline = natural_baseline = -1;
+
+  if (child != nullptr)
+    {
+      child->measure(orientation, for_size, minimum, natural, minimum_baseline, natural_baseline);
+    }
+
+  int d = 2 * static_cast<int>(border_width + frame_width);
+  minimum += d;
+  natural += d;
+  minimum_baseline = natural_baseline = -1;
+}
+
+void
+Frame::snapshot_vfunc(const Glib::RefPtr<Gtk::Snapshot> &snapshot)
+{
+  int width = get_width();
+  int height = get_height();
+
+  auto cr = snapshot->append_cairo(Gdk::Rectangle(0, 0, width, height));
+  draw(cr, width, height);
+
+  if (child != nullptr)
+    {
+      snapshot_child(*child, snapshot);
+    }
+}
+#else
 void
 Frame::on_size_allocate(Gtk::Allocation &allocation)
 {
@@ -162,12 +249,23 @@ Frame::get_preferred_height_for_width_vfunc(int /* width */, int &minimum_height
 bool
 Frame::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
-  Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
-
   // Physical width/height
   Gtk::Allocation allocation = get_allocation();
   int width = allocation.get_width();
   int height = allocation.get_height();
+
+  draw(cr, width, height);
+
+  Gtk::Widget::on_draw(cr);
+
+  return true;
+}
+#endif
+
+void
+Frame::draw(const Cairo::RefPtr<Cairo::Context> &cr, int width, int height)
+{
+  Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
 
   switch (frame_style)
     {
@@ -192,6 +290,22 @@ Frame::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
       style_context->set_state((Gtk::StateFlags)0);
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+      style_context->add_class("background");
+      style_context->render_background(cr, 0, 0, width, height);
+
+      style_context->remove_class("background");
+      style_context->add_class("frame");
+      style_context->render_frame(cr, 0, 0, width, height);
+
+      style_context->remove_class("frame");
+      style_context->add_class("background");
+      style_context->render_background(cr, 1, 1, width - 2, height - 2);
+
+      style_context->remove_class("background");
+      style_context->add_class("frame");
+      style_context->render_frame(cr, 1, 1, width - 2, height - 2);
+#else
       style_context->add_class(GTK_STYLE_CLASS_BACKGROUND);
       style_context->render_background(cr, 0, 0, width, height);
 
@@ -206,14 +320,11 @@ Frame::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
       style_context->remove_class(GTK_STYLE_CLASS_BACKGROUND);
       style_context->add_class(GTK_STYLE_CLASS_FRAME);
       style_context->render_frame(cr, 1, 1, width - 2, height - 2);
+#endif
 
       style_context->context_restore();
       break;
     }
-
-  Gtk::Widget::on_draw(cr);
-
-  return true;
 }
 
 void

@@ -21,7 +21,6 @@
 #include <string>
 #include <list>
 #include <sigc++/sigc++.h>
-#include <gdkmm/types.h>
 
 #include <gtkmm.h>
 
@@ -62,7 +61,7 @@ public:
 
   void connect(const std::string &setting,
                DataConnection *connection,
-               sigc::slot<bool, const std::string &, bool> slot,
+               sigc::slot<bool(const std::string &, bool)> slot,
                dc::Flags flags = dc::NONE);
 
   template<class T, class R = T>
@@ -74,7 +73,7 @@ public:
   template<class T, class R = T>
   void connect(workrave::config::Setting<T, R> &setting,
                DataConnection *connection,
-               sigc::slot<bool, const std::string &, bool> slot,
+               sigc::slot<bool(const std::string &, bool)> slot,
                dc::Flags flags = dc::NONE)
   {
     connect(setting.key(), connection, slot, flags);

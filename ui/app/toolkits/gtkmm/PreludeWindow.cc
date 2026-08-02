@@ -49,7 +49,11 @@ using namespace workrave;
 using namespace workrave::utils;
 
 PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, HeadInfo head, BreakId break_id)
+#if GTK_CHECK_VERSION(4, 0, 0)
+  : Gtk::Window()
+#else
   : Gtk::Window(Gtk::WINDOW_POPUP)
+#endif
   , app(std::move(app))
 {
   TRACE_ENTRY();
@@ -63,9 +67,16 @@ PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, HeadInfo 
   // On W32, must be *before* realize, otherwise a border is drawn.
   set_resizable(false);
   set_decorated(false);
-  set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+  GtkCompat::set_border_width(*this, 0);
 
-  Gtk::Window::set_border_width(0);
+#if GTK_CHECK_VERSION(4, 0, 0)
+  // GTK4 removed Window::move()/set_position(): applications can no longer
+  // position their own top-level windows. Always fall back to the
+  // "can't position windows" strategy: a transparent window covering the
+  // whole head, with the visible frame aligned inside it.
+  set_size_request(head.get_width(), head.get_height());
+#else
+  set_position(Gtk::WIN_POS_CENTER_ALWAYS);
 
   if (!Platform::can_position_windows())
     {
@@ -78,19 +89,20 @@ PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, HeadInfo 
       // Placing the window on the right monitor is left to arm_unfullscreen(),
       // which runs from start() before the window is mapped.
     }
+#endif
 
-  realize();
+  Gtk::Widget::realize();
 
   time_bar = Gtk::manage(new TimeBar("prelude"));
   label = Gtk::manage(new Gtk::Label());
 
-  auto *vbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL, 6));
+  auto *vbox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL, 6));
   vbox->pack_start(*label, false, false, 0);
   vbox->pack_start(*time_bar, false, false, 0);
 
   image_icon = Gtk::manage(new Gtk::Image());
 
-  auto *hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6));
+  auto *hbox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 6));
   hbox->pack_start(*image_icon, false, false, 0);
   hbox->pack_start(*vbox, false, false, 0);
 
@@ -128,11 +140,17 @@ PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, HeadInfo 
     }
 
   set_can_focus(false);
+#if GTK_CHECK_VERSION(4, 0, 0)
+  // GTK4 removed set_accept_focus()/set_focus_on_map() (WM focus-stealing
+  // hints) and stick() (pin to all workspaces); no direct replacement.
+  GtkCompat::show_all(*this);
+#else
   set_accept_focus(false);
   set_focus_on_map(false);
 
   show_all_children();
   stick();
+#endif
 
   this->head = head;
 }
@@ -153,8 +171,10 @@ PreludeWindow::start()
 #endif
 
   // Set some window hints.
+#if !GTK_CHECK_VERSION(4, 0, 0)
   set_skip_pager_hint(true);
   set_skip_taskbar_hint(true);
+#endif
 
   GtkUtil::set_always_on_top(this, true);
 
@@ -164,7 +184,7 @@ PreludeWindow::start()
 #if defined(HAVE_WAYLAND)
   arm_unfullscreen();
 #endif
-  show_all();
+  GtkCompat::show_all(*this);
 
   GtkUtil::set_always_on_top(this, true);
 
@@ -181,6 +201,20 @@ PreludeWindow::add(Gtk::Widget &widget)
       window_frame->set_border_width(0);
       window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+      // GTK4 removed Window::move()/set_position(), so windows can never be
+      // positioned by the app; always use the "can't position windows"
+      // strategy of a transparent full-head window with the frame aligned
+      // inside it (see the constructor).
+      window_frame->set_halign(Gtk::Align::CENTER);
+      window_frame->set_valign(Gtk::Align::CENTER);
+      GtkCompat::set_child(*this, *window_frame);
+
+      auto motion_controller = Gtk::EventControllerMotion::create();
+      motion_controller->signal_enter().connect(
+        [this](double /* x */, double /* y */) { on_enter_notify(); });
+      window_frame->add_controller(motion_controller);
+#else
       if (!Platform::can_position_windows())
         {
           align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
@@ -196,6 +230,7 @@ PreludeWindow::add(Gtk::Widget &widget)
 
       window_frame->add_events(Gdk::ENTER_NOTIFY_MASK);
       window_frame->signal_enter_notify_event().connect(sigc::mem_fun(*this, &PreludeWindow::on_enter_notify_event), false);
+#endif
     }
 
   window_frame->add(widget);
@@ -372,8 +407,13 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
     case IApp::PreludeStage::MoveOut:
       if (!did_avoid)
         {
+#if GTK_CHECK_VERSION(4, 0, 0)
+          window_frame->set_valign(Gtk::Align::START);
+          window_frame->set_margin_top(SCREEN_MARGIN);
+#else
           auto [winx, winy] = GtkUtil::get_centered_position(*this, head);
           move(winx, head.get_y() + SCREEN_MARGIN);
+#endif
         }
       break;
     }
@@ -392,6 +432,13 @@ PreludeWindow::on_frame_flash_event(bool frame_visible)
   refresh();
 }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+void
+PreludeWindow::on_enter_notify()
+{
+  avoid_pointer();
+}
+#else
 bool
 PreludeWindow::on_enter_notify_event(GdkEventCrossing *event)
 {
@@ -399,6 +446,7 @@ PreludeWindow::on_enter_notify_event(GdkEventCrossing *event)
   avoid_pointer();
   return false;
 }
+#endif
 
 void
 PreludeWindow::avoid_pointer()
@@ -407,6 +455,39 @@ PreludeWindow::avoid_pointer()
 
   did_avoid = true;
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  Gtk::Allocation a = frame->get_allocation();
+  int winy = a.get_y();
+  int height = a.get_height();
+
+  int screen_height = head.get_height();
+  int top_y = head.get_y() + SCREEN_MARGIN;
+  int bottom_y = head.get_y() + screen_height - height - SCREEN_MARGIN;
+
+  if (winy > (head.get_y() + screen_height / 2))
+    {
+      winy = top_y;
+    }
+  else
+    {
+      winy = bottom_y;
+    }
+
+  TRACE_MSG("new y: {} ty: {} by:{} h:{}", winy, top_y, bottom_y, screen_height);
+
+  if (winy == bottom_y)
+    {
+      window_frame->set_valign(Gtk::Align::END);
+      window_frame->set_margin_bottom(SCREEN_MARGIN);
+      window_frame->set_margin_top(0);
+    }
+  else
+    {
+      window_frame->set_valign(Gtk::Align::START);
+      window_frame->set_margin_top(SCREEN_MARGIN);
+      window_frame->set_margin_bottom(0);
+    }
+#else
   int winx = 0;
   int winy = 0;
   int width = 0;
@@ -458,18 +539,44 @@ PreludeWindow::avoid_pointer()
       set_position(Gtk::WIN_POS_NONE);
       move(winx, winy);
     }
+#endif
 }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+void
+PreludeWindow::snapshot_vfunc(const Glib::RefPtr<Gtk::Snapshot> &snapshot)
+{
+  auto cr = snapshot->append_cairo(Gdk::Rectangle(0, 0, get_width(), get_height()));
+  cr->save();
+  cr->set_source_rgba(0.0, 0.0, 0.0, 0.0);
+  cr->set_operator(Cairo::Context::Operator::SOURCE);
+  cr->paint();
+  cr->restore();
+
+  Gtk::Window::snapshot_vfunc(snapshot);
+}
+
+void
+PreludeWindow::size_allocate_vfunc(int width, int height, int baseline)
+{
+  Gtk::Window::size_allocate_vfunc(width, height, baseline);
+  if (window_frame != nullptr)
+    {
+      Gtk::Allocation allocation = window_frame->get_allocation();
+      update_input_region(allocation);
+    }
+}
+#else
 bool
 PreludeWindow::on_draw_event(const Cairo::RefPtr<Cairo::Context> &cr)
 {
   cr->save();
   cr->set_source_rgba(0.0, 0.0, 0.0, 0.0);
-#if CAIROMM_CHECK_VERSION(1, 15, 4)
+#  if CAIROMM_CHECK_VERSION(1, 15, 4)
   cr->set_operator(Cairo::Context::Operator::SOURCE);
-#else
+#  else
   cr->set_operator(Cairo::OPERATOR_SOURCE);
-#endif
+#  endif
   cr->paint();
   cr->restore();
 
@@ -495,10 +602,20 @@ PreludeWindow::on_size_allocate_event(Gtk::Allocation &allocation)
 {
   update_input_region(allocation);
 }
+#endif
 
 void
 PreludeWindow::update_input_region(Gtk::Allocation &allocation)
 {
+#if GTK_CHECK_VERSION(4, 0, 0)
+  Glib::RefPtr<Gdk::Display> display = get_display();
+  Glib::RefPtr<Gdk::Surface> surface = get_surface();
+  if (surface && display && display->supports_input_shapes())
+    {
+      Cairo::RectangleInt rect = {allocation.get_x(), allocation.get_y(), allocation.get_width(), allocation.get_height()};
+      surface->set_input_region(Cairo::Region::create(rect));
+    }
+#else
   if (!Platform::can_position_windows())
     {
       Glib::RefPtr<Gdk::Window> window = get_window();
@@ -510,4 +627,5 @@ PreludeWindow::update_input_region(Gtk::Allocation &allocation)
           window->input_shape_combine_region(Cairo::Region::create(rect), 0, 0);
         }
     }
+#endif
 }

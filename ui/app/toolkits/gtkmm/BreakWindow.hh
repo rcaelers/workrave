@@ -20,6 +20,7 @@
 
 #include <gtkmm.h>
 
+#include "commonui/GtkCompat.hh"
 #include "ui/IBreakWindow.hh"
 #include "HeadInfo.hh"
 #include "GtkUtil.hh"
@@ -144,7 +145,9 @@ private:
   SysoperModelColumns *sysoper_model_columns{nullptr};
 
   bool accel_added{false};
+#if !GTK_CHECK_VERSION(4, 0, 0)
   Glib::RefPtr<Gtk::AccelGroup> accel_group;
+#endif
   Gtk::Button *lock_button{nullptr};
   Gtk::Button *postpone_button{nullptr};
   Gtk::Button *skip_button{nullptr};
@@ -174,8 +177,12 @@ private:
   void append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model, System::SystemOperation::SystemOperationType type);
   void on_sysoper_combobox_changed();
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  void snapshot_vfunc(const Glib::RefPtr<Gtk::Snapshot> &snapshot) override;
+#else
   bool on_draw(const ::Cairo::RefPtr<::Cairo::Context> &cr) override;
   void on_screen_changed(const Glib::RefPtr<Gdk::Screen> &previous_screen) override;
+#endif
 };
 
 #endif // BREAKWINDOW_HH

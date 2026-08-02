@@ -29,7 +29,11 @@ public:
   virtual ~IToolkitPrivate() = default;
 
   virtual std::optional<HeadInfo> get_head_info(int screen_index) const = 0;
+#if GTK_CHECK_VERSION(4, 0, 0)
+  virtual void attach_menu(Gtk::PopoverMenu *menu) = 0;
+#else
   virtual void attach_menu(Gtk::Menu *menu) = 0;
+#endif
 };
 
 #endif // ITOOLKIT_PRIVATE_HH

@@ -27,12 +27,13 @@
 #include "ui/prefwidgets/gtkmm/BoxWidget.hh"
 
 #include <gtkmm.h>
+#include "commonui/GtkCompat.hh"
 
 class DataConnector;
 class Configurator;
 
 class MonitoringPreferencePanel
-  : public Gtk::VBox
+  : public GtkCompat::VBox
   , public workrave::utils::Trackable
 {
 public:
@@ -56,7 +57,7 @@ private:
 #if defined(PLATFORM_OS_WINDOWS)
   Gtk::CheckButton *monitor_type_cb{nullptr};
   Glib::RefPtr<Gtk::Adjustment> sensitivity_adjustment{Gtk::Adjustment::create(3, 0, 100)};
-  Gtk::HBox *sensitivity_box{nullptr};
+  GtkCompat::HBox *sensitivity_box{nullptr};
 #endif
 };
 

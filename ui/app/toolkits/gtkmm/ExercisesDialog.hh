@@ -29,6 +29,11 @@ public:
   int run();
 
 private:
+#if GTK_CHECK_VERSION(4, 0, 0)
+  // GTK4 dialogs have no get_action_area(); build our own box of action
+  // widgets and add it via add_action_widget() instead.
+  GtkCompat::Box action_box;
+#endif
   ExercisesPanel exercises_panel;
 };
 

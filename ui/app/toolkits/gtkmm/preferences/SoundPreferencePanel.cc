@@ -35,8 +35,85 @@
 using namespace workrave;
 using namespace workrave::utils;
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+SoundPreferencePanel::SoundFileButton::SoundFileButton(const Glib::ustring &title)
+  : title(title)
+{
+  signal_clicked().connect(sigc::mem_fun(*this, &SoundFileButton::on_clicked));
+  update_label();
+}
+
+void
+SoundPreferencePanel::SoundFileButton::add_filter(const Glib::RefPtr<Gtk::FileFilter> &filter)
+{
+  if (!filters)
+    {
+      filters = Gio::ListStore<Gtk::FileFilter>::create();
+    }
+  filters->append(filter);
+}
+
+void
+SoundPreferencePanel::SoundFileButton::set_filename(const std::string &filename)
+{
+  current_filename = filename;
+  update_label();
+}
+
+std::string
+SoundPreferencePanel::SoundFileButton::get_filename() const
+{
+  return current_filename;
+}
+
+sigc::signal<void()> &
+SoundPreferencePanel::SoundFileButton::signal_file_set()
+{
+  return file_set_signal;
+}
+
+void
+SoundPreferencePanel::SoundFileButton::update_label()
+{
+  set_label(current_filename.empty() ? _("(None)") : Glib::path_get_basename(current_filename));
+}
+
+void
+SoundPreferencePanel::SoundFileButton::on_clicked()
+{
+  auto dialog = Gtk::FileDialog::create();
+  dialog->set_title(title);
+  if (filters)
+    {
+      dialog->set_filters(filters);
+    }
+
+  auto *window = dynamic_cast<Gtk::Window *>(get_root());
+  dialog->open(*window, sigc::bind(sigc::mem_fun(*this, &SoundFileButton::on_dialog_response), dialog));
+}
+
+void
+SoundPreferencePanel::SoundFileButton::on_dialog_response(Glib::RefPtr<Gio::AsyncResult> &result, Glib::RefPtr<Gtk::FileDialog> dialog)
+{
+  try
+    {
+      auto file = dialog->open_finish(result);
+      if (file)
+        {
+          current_filename = file->get_path();
+          update_label();
+          file_set_signal.emit();
+        }
+    }
+  catch (const Glib::Error &)
+    {
+      // User cancelled or an error occurred; keep the current selection.
+    }
+}
+#endif
+
 SoundPreferencePanel::SoundPreferencePanel(std::shared_ptr<IApplicationContext> app)
-  : Gtk::VBox(false, 6)
+  : GtkCompat::VBox(false, 6)
   , connector(std::make_shared<DataConnector>(app))
   , sound_theme(app->get_sound_theme())
 {
@@ -76,7 +153,8 @@ SoundPreferencePanel::create_panel()
   if (sound_theme->capability(workrave::audio::SoundCapability::VOLUME))
     {
       // Volume
-      sound_volume_scale = Gtk::manage(new Gtk::HScale(0.0, 100.0, 0.0));
+      sound_volume_scale = Gtk::manage(new Gtk::Scale(GtkCompat::ORIENTATION_HORIZONTAL));
+      sound_volume_scale->set_range(0.0, 100.0);
       sound_volume_scale->set_increments(1.0, 5.0);
       connector->connect(sound_theme->sound_volume(), dc::wrap(sound_volume_scale->get_adjustment()));
 
@@ -132,7 +210,9 @@ SoundPreferencePanel::create_panel()
       row[sound_model.label] = sound_theme->sound_event_to_id(snd.event);
     }
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
   sound_treeview.set_rules_hint();
+#endif
   sound_treeview.set_search_column(sound_model.description.index());
 
   int cols_count = sound_treeview.append_column_editable(_("Play"), sound_model.enabled);
@@ -145,18 +225,22 @@ SoundPreferencePanel::create_panel()
   column->set_fixed_width(40);
 
   Gtk::ScrolledWindow *sound_scroll = Gtk::manage(new Gtk::ScrolledWindow());
-  sound_scroll->add(sound_treeview);
+  GtkCompat::set_child(*sound_scroll, sound_treeview);
   sound_scroll->set_size_request(-1, 200);
   sound_treeview.set_size_request(-1, 200);
 
   hig->add_widget(*sound_scroll, true, true);
 
-  Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 6));
+  GtkCompat::HBox *hbox = Gtk::manage(new GtkCompat::HBox(false, 6));
 
   sound_play_button = Gtk::manage(new Gtk::Button(_("Play")));
   hbox->pack_start(*sound_play_button, false, false, 0);
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  fsbutton = Gtk::manage(new SoundFileButton(_("Choose a sound")));
+#else
   fsbutton = Gtk::manage(new Gtk::FileChooserButton(_("Choose a sound"), Gtk::FILE_CHOOSER_ACTION_OPEN));
+#endif
 
   hbox->pack_start(*fsbutton, true, true, 0);
 
@@ -172,18 +256,21 @@ SoundPreferencePanel::create_panel()
 
   hig->add_widget(*hbox);
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
+  // GtkFileDialog (used on GTK4) cannot host an extra widget, so the
+  // in-dialog preview button only exists on GTK3.
   Gtk::HBox *selector_hbox = Gtk::manage(new Gtk::HBox(false, 0));
   Gtk::Button *selector_playbutton = Gtk::manage(new Gtk::Button(_("Play")));
 
   selector_hbox->pack_end(*selector_playbutton, false, false, 0);
   selector_playbutton->show();
   fsbutton->set_extra_widget(*selector_hbox);
+  selector_playbutton->signal_clicked().connect(sigc::mem_fun(*this, &SoundPreferencePanel::on_sound_filechooser_play));
+#endif
 
   cell->signal_toggled().connect(sigc::mem_fun(*this, &SoundPreferencePanel::on_sound_enabled));
 
   sound_play_button->signal_clicked().connect(sigc::mem_fun(*this, &SoundPreferencePanel::on_sound_play));
-
-  selector_playbutton->signal_clicked().connect(sigc::mem_fun(*this, &SoundPreferencePanel::on_sound_filechooser_play));
 
   fsbutton->signal_file_set().connect(sigc::mem_fun(*this, &SoundPreferencePanel::on_sound_filechooser_select));
 
@@ -197,7 +284,7 @@ SoundPreferencePanel::create_panel()
     }
 
   update_senstives();
-  set_border_width(12);
+  GtkCompat::set_border_width(*this, 12);
 }
 
 void

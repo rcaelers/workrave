@@ -26,6 +26,7 @@
 #include "ui/ITimerBoxView.hh"
 
 #include "TimeBar.hh"
+#include "commonui/GtkCompat.hh"
 
 class EventImage;
 
@@ -34,7 +35,6 @@ namespace Gtk
   class Image;
   class Bin;
   class Image;
-  class EventBox;
 } // namespace Gtk
 
 class TimerBoxGtkView
@@ -64,7 +64,11 @@ public:
   void set_sheep_only(bool sheep_only);
   bool is_sheep_only() const;
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  void snapshot_vfunc(const Glib::RefPtr<Gtk::Snapshot> &snapshot) override;
+#else
   bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
+#endif
 
 private:
   void init_widgets();
@@ -95,7 +99,7 @@ private:
   Gtk::Image *sheep{nullptr};
 
   //! Sheep
-  Gtk::EventBox *sheep_eventbox{nullptr};
+  GtkCompat::EventBox *sheep_eventbox{nullptr};
 
   //! orientation.
   Orientation orientation{ORIENTATION_VERTICAL};

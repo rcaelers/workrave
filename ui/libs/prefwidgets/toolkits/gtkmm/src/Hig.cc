@@ -24,7 +24,7 @@
 #include "Hig.hh"
 
 HigCategoryPanel::HigCategoryPanel(Gtk::Widget &lab, bool fill)
-  : GtkCompat::Box(Gtk::Orientation::VERTICAL)
+  : GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL)
 {
   init(lab, fill);
 }
@@ -33,7 +33,7 @@ HigCategoryPanel::HigCategoryPanel(const char *lab, bool fill)
 {
   auto *widg = new Gtk::Label();
   widg->set_markup(std::string("<span weight=\"bold\">") + lab + "</span>");
-  widg->set_halign(Gtk::Align::START);
+  widg->set_halign(GtkCompat::ALIGN_START);
   init(*widg, fill);
 }
 
@@ -49,12 +49,12 @@ HigCategoryPanel::init(Gtk::Widget &lab, bool fill)
   set_spacing(6);
   pack_start(lab, false, false, 0);
 
-  auto *ibox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL));
+  auto *ibox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   pack_start(*ibox, fill, fill, 0);
 
   Gtk::Label *indent_lab = Gtk::manage(new Gtk::Label("    "));
   ibox->pack_start(*indent_lab, false, false, 0);
-  options_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL));
+  options_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL));
   ibox->pack_start(*options_box, true, true, 0);
   options_box->set_spacing(6);
 }
@@ -70,9 +70,9 @@ HigCategoryPanel::add_label(const char *text, Gtk::Widget &widget, bool expand, 
 void
 HigCategoryPanel::add_label(Gtk::Label &label, Gtk::Widget &widget, bool expand, bool fill)
 {
-  label.set_halign(Gtk::Align::START);
+  label.set_halign(GtkCompat::ALIGN_START);
   size_group->add_widget(label);
-  auto *box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL));
+  auto *box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   box->set_spacing(6);
   box->pack_start(label, false, true, 0);
   box->pack_start(widget, expand, fill, 0);
@@ -90,7 +90,7 @@ HigCategoryPanel::add_caption(const char *text)
 {
   auto *lab = new Gtk::Label();
   lab->set_markup(std::string("<span weight=\"bold\">") + text + "</span>");
-  lab->set_halign(Gtk::Align::START);
+  lab->set_halign(GtkCompat::ALIGN_START);
   add_caption(*lab);
 }
 
@@ -99,18 +99,18 @@ HigCategoryPanel::add_caption(Gtk::Widget &lab)
 {
   pack_start(lab, false, false, 0);
 
-  auto *ibox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL));
+  auto *ibox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   pack_start(*ibox, false, false, 0);
 
   Gtk::Label *indent_lab = Gtk::manage(new Gtk::Label("    "));
   ibox->pack_start(*indent_lab, false, false, 0);
-  options_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL));
+  options_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL));
   ibox->pack_start(*options_box, false, false, 0);
   options_box->set_spacing(6);
 }
 
 HigCategoriesPanel::HigCategoriesPanel()
-  : GtkCompat::Box(Gtk::Orientation::VERTICAL)
+  : GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL)
 {
   set_spacing(18);
 }

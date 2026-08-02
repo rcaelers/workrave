@@ -30,6 +30,7 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include "gdkmm/rgba.h"
+#include <cairomm/cairomm.h>
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
@@ -90,14 +91,21 @@ GtkUtil::update_custom_stock_button(Gtk::Button *btn, const char *label_text, co
   if (has_button_images() || (label_text == nullptr))
     {
       img = Gtk::manage(new Gtk::Image());
+#if GTK_CHECK_VERSION(4, 0, 0)
+      img->set_from_icon_name(icon);
+#else
       img->set_from_icon_name(icon, Gtk::ICON_SIZE_BUTTON);
+#endif
     }
+#if GTK_CHECK_VERSION(4, 0, 0)
+  btn->unset_child();
+#else
   btn->remove();
+#endif
   if (label_text != nullptr)
     {
       Gtk::Label *label = Gtk::manage(new Gtk::Label(label_text));
-      auto *hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 2));
-      Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+      auto *hbox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 2));
       if (img != nullptr)
         {
           hbox->pack_start(*img, false, false, 0);
@@ -105,14 +113,22 @@ GtkUtil::update_custom_stock_button(Gtk::Button *btn, const char *label_text, co
       label->set_use_underline();
       btn->set_data(*label_quark, (void *)label);
       hbox->pack_end(*label, false, false, 0);
+#if GTK_CHECK_VERSION(4, 0, 0)
+      hbox->set_halign(Gtk::Align::CENTER);
+      hbox->set_valign(Gtk::Align::CENTER);
+      GtkCompat::set_child(*btn, *hbox);
+      GtkCompat::show_all(*hbox);
+#else
+      Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
       btn->add(*align);
       align->add(*hbox);
       align->show_all();
+#endif
     }
   else
     {
-      btn->add(*img);
-      img->show_all();
+      GtkCompat::set_child(*btn, *img);
+      GtkCompat::show_all(*img);
     }
 }
 
@@ -134,8 +150,7 @@ GtkUtil::create_image_button(const char *label_text, const char *image_file, boo
   if (label_text != nullptr && label)
     {
       Gtk::Label *label = Gtk::manage(new Gtk::Label(label_text));
-      auto *hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 2));
-      Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+      auto *hbox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 2));
       if (img != nullptr)
         {
           hbox->pack_start(*img, false, false, 0);
@@ -143,14 +158,22 @@ GtkUtil::create_image_button(const char *label_text, const char *image_file, boo
       label->set_use_underline();
       btn->set_data(*label_quark, (void *)label);
       hbox->pack_end(*label, false, false, 0);
+#if GTK_CHECK_VERSION(4, 0, 0)
+      hbox->set_halign(Gtk::Align::CENTER);
+      hbox->set_valign(Gtk::Align::CENTER);
+      GtkCompat::set_child(*btn, *hbox);
+      GtkCompat::show_all(*hbox);
+#else
+      Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
       btn->add(*align);
       align->add(*hbox);
       align->show_all();
+#endif
     }
   else
     {
-      btn->add(*img);
-      img->show_all();
+      GtkCompat::set_child(*btn, *img);
+      GtkCompat::show_all(*img);
     }
   return btn;
 }
@@ -158,7 +181,7 @@ GtkUtil::create_image_button(const char *label_text, const char *image_file, boo
 Gtk::Widget *
 GtkUtil::create_label_with_icon(string text, const char *icon)
 {
-  auto *box = new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 3);
+  auto *box = new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 3);
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(text));
   Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
   box->pack_start(*img, false, false, 0);
@@ -182,9 +205,17 @@ GtkUtil::create_label_for_break(BreakId id)
 void
 GtkUtil::table_attach_aligned(Gtk::Grid &table, Gtk::Widget &child, guint left_attach, guint top_attach, bool left)
 {
+#if GTK_CHECK_VERSION(4, 0, 0)
+  // Gtk::Alignment was removed in GTK4; align the child directly instead of
+  // wrapping it in an alignment widget.
+  child.set_halign(left ? Gtk::Align::START : Gtk::Align::END);
+  child.set_valign(Gtk::Align::START);
+  table.attach(child, static_cast<int>(left_attach), static_cast<int>(top_attach), 1, 1);
+#else
   Gtk::Alignment *a = Gtk::manage(new Gtk::Alignment(left ? Gtk::ALIGN_START : Gtk::ALIGN_END, Gtk::ALIGN_START, 0.0, 0.0));
   a->add(child);
-  table.attach(*a, left_attach, left_attach + 1, top_attach, top_attach + 1, Gtk::FILL, Gtk::SHRINK);
+  table.attach(*a, left_attach, top_attach, 1, 1);
+#endif
 }
 
 void
@@ -334,6 +365,12 @@ void
 GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
 {
   TRACE_ENTRY();
+#if GTK_CHECK_VERSION(4, 0, 0)
+  // GTK4 removed Window::move()/set_position(): applications can no longer
+  // position their own top-level windows (the compositor owns placement).
+  (void)window;
+  (void)head;
+#else
   Gtk::Requisition size;
   Gtk::Requisition minsize;
   window.get_preferred_size(minsize, size);
@@ -346,6 +383,7 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
 
   window.set_position(Gtk::WIN_POS_NONE);
   window.move(x, y);
+#endif
 }
 
 std::pair<int, int>
@@ -356,12 +394,13 @@ GtkUtil::get_centered_position(Gtk::Window &window, HeadInfo &head)
   Gtk::Requisition minsize;
   window.get_preferred_size(minsize, size);
 
-  int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
-  int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;
+  int x = head.geometry.get_x() + (head.geometry.get_width() - GtkCompat::req_width(size)) / 2;
+  int y = head.geometry.get_y() + (head.geometry.get_height() - GtkCompat::req_height(size)) / 2;
 
   return {x, y};
 }
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
 void
 GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> accel_group)
 {
@@ -375,6 +414,7 @@ GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> acce
         }
     }
 }
+#endif
 
 /* GtkUtil::get_visible_tooltip_window()
 
@@ -498,6 +538,13 @@ GtkUtil::set_always_on_top(Gtk::Window *window, bool ontop)
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET(window->gobj())));
   WindowsCompat::SetWindowOnTop(hwnd, ontop);
 
+#elif GTK_CHECK_VERSION(4, 0, 0)
+
+  // GTK4 removed Window::set_keep_above(): client-controlled window
+  // stacking is no longer supported, this is left to the compositor.
+  (void)window;
+  (void)ontop;
+
 #else
 
   window->set_keep_above(ontop);
@@ -519,11 +566,15 @@ GtkUtil::override_color(const std::string &color_name, const std::string &widget
         {
           label.set_name(widget_name);
         }
+#if GTK_CHECK_VERSION(4, 0, 0)
+      color = context->get_color();
+#else
       color = context->get_color(context->get_state());
+#endif
     }
   catch (const Glib::Error &error)
     {
-      spdlog::error("Error retrieving CSS property '{}': {}", color_name, error.what().c_str());
+      spdlog::error("Error retrieving CSS property '{}': {}", color_name, std::string(error.what()));
     }
 }
 
@@ -540,10 +591,29 @@ GtkUtil::override_bg_color(const std::string &color_name, const std::string &wid
         {
           label.set_name(widget_name);
         }
+#if GTK_CHECK_VERSION(4, 0, 0)
+      // GTK4 removed StyleContext::get_background_color(); render the
+      // background into a 1x1 surface and read the resulting pixel back.
+      auto surface = Cairo::ImageSurface::create(Cairo::Surface::Format::ARGB32, 1, 1);
+      auto cr = Cairo::Context::create(surface);
+      context->render_background(cr, 0, 0, 1, 1);
+      surface->flush();
+
+      const unsigned char *data = surface->get_data();
+      double a = data[3] / 255.0;
+      if (a > 0.0)
+        {
+          color.set_blue(data[0] / 255.0 / a);
+          color.set_green(data[1] / 255.0 / a);
+          color.set_red(data[2] / 255.0 / a);
+          color.set_alpha(a);
+        }
+#else
       color = context->get_background_color(context->get_state());
+#endif
     }
   catch (const Glib::Error &error)
     {
-      spdlog::error("Error retrieving CSS property '{}': {}", color_name, error.what().c_str());
+      spdlog::error("Error retrieving CSS property '{}': {}", color_name, std::string(error.what()));
     }
 }

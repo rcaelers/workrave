@@ -62,8 +62,8 @@ text_buffer_set_markup(GtkTextBuffer *buffer, const gchar *markup, gint len)
 
 int ExercisesPanel::exercises_pointer = 0;
 
-ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, ExerciseCollection::Ptr exercises, Gtk::ButtonBox *dialog_action_area)
-  : Gtk::HBox(false, 6)
+ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, ExerciseCollection::Ptr exercises, GtkCompat::Box *dialog_action_area)
+  : GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 6)
   , sound_theme(sound_theme)
   , exercises(exercises)
 {
@@ -74,15 +74,15 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, ExerciseCollection::
   copy(exercise_list.begin(), exercise_list.end(), back_inserter(shuffled_exercises));
   shuffle(shuffled_exercises.begin(), shuffled_exercises.end(), std::mt19937(std::random_device()()));
 
-  progress_bar.set_orientation(Gtk::ORIENTATION_VERTICAL);
+  progress_bar.set_orientation(GtkCompat::ORIENTATION_VERTICAL);
 
-  description_scroll.add(description_text);
-  description_scroll.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+  GtkCompat::set_child(description_scroll, description_text);
+  description_scroll.set_policy(GtkCompat::POLICY_AUTOMATIC, GtkCompat::POLICY_AUTOMATIC);
 
   description_text.set_cursor_visible(false);
-  description_text.set_wrap_mode(Gtk::WRAP_WORD);
+  description_text.set_wrap_mode(GtkCompat::WRAP_WORD);
   description_text.set_editable(false);
-  image_frame.add(image);
+  GtkCompat::set_child(image_frame, image);
 
   pause_button = Gtk::manage(new Gtk::Button());
   Gtk::Widget *description_widget = nullptr;
@@ -106,7 +106,7 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, ExerciseCollection::
       stop_button = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, CLOSE_BUTTON_ID));
       stop_button->signal_clicked().connect(sigc::mem_fun(*this, &ExercisesPanel::on_stop));
 
-      auto *button_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL));
+      auto *button_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
       Gtk::Label *browse_label = Gtk::manage(new Gtk::Label());
       string browse_label_text = "<b>";
       browse_label_text += _("Exercises player");
@@ -117,9 +117,19 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, ExerciseCollection::
       button_box->pack_start(*pause_button, false, false, 0);
       button_box->pack_start(*forward_button, false, false, 0);
       button_box->pack_start(*stop_button, false, false, 0);
-      Gtk::Alignment *button_align = Gtk::manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
-      button_align->add(*button_box);
-      auto *description_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL));
+
+      // Gtk::Alignment was removed in GTK4; align the button box to the
+      // top-right directly instead of wrapping it in an alignment widget.
+      Gtk::Widget *button_align = button_box;
+#if GTK_CHECK_VERSION(4, 0, 0)
+      button_box->set_halign(Gtk::Align::END);
+      button_box->set_valign(Gtk::Align::START);
+#else
+      Gtk::Alignment *alignment = Gtk::manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
+      alignment->add(*button_box);
+      button_align = alignment;
+#endif
+      auto *description_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL));
       description_box->pack_start(description_scroll, true, true, 0);
       description_box->pack_start(*button_align, false, false, 0);
       description_widget = description_box;
@@ -170,8 +180,18 @@ ExercisesPanel::on_realize()
 
   style_context->context_save();
   style_context->set_state((Gtk::StateFlags)0);
+#if GTK_CHECK_VERSION(4, 0, 0)
+  style_context->add_class("background");
+  // override_background_color() was removed in GTK4; match the
+  // description text's background to the panel's via CSS instead.
+  static const char *css = "textview, textview text { background-color: @theme_bg_color; }";
+  auto css_provider = Gtk::CssProvider::create();
+  css_provider->load_from_data(css);
+  description_text.get_style_context()->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+#else
   style_context->add_class(GTK_STYLE_CLASS_BACKGROUND);
   description_text.override_background_color(get_style_context()->get_background_color());
+#endif
   style_context->context_restore();
 }
 

@@ -35,10 +35,19 @@ ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter)
   entry = std::make_shared<ToolkitSubMenuEntry>(context, nullptr, root);
 
   workrave::utils::connect(menu_model->signal_update(), this, [this]() { entry->init(); });
+#if GTK_CHECK_VERSION(4, 0, 0)
+  gtk_menu = std::make_shared<Gtk::PopoverMenu>(entry->get_menu());
+  gtk_menu->set_has_arrow(false);
+#else
   gtk_menu = std::make_shared<Gtk::Menu>(entry->get_menu());
+#endif
 }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+std::shared_ptr<Gtk::PopoverMenu>
+#else
 std::shared_ptr<Gtk::Menu>
+#endif
 ToolkitMenu::get_menu() const
 {
   return gtk_menu;

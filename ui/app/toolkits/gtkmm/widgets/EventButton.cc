@@ -21,6 +21,25 @@
 
 #include "EventButton.hh"
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+EventButton::EventButton()
+{
+  click_gesture = Gtk::GestureClick::create();
+  click_gesture->set_button(0);
+  click_gesture->set_propagation_phase(Gtk::PropagationPhase::CAPTURE);
+  click_gesture->signal_pressed().connect(sigc::mem_fun(*this, &EventButton::on_button_pressed));
+  add_controller(click_gesture);
+}
+
+void
+EventButton::on_button_pressed(int /* n_press */, double /* x */, double /* y */)
+{
+  bool handled = button_pressed.emit(static_cast<int>(click_gesture->get_current_button()));
+  click_gesture->set_state(handled ? Gtk::EventSequenceState::CLAIMED : Gtk::EventSequenceState::DENIED);
+}
+#else
+EventButton::EventButton() = default;
+
 bool
 EventButton::on_button_press_event(GdkEventButton *event)
 {
@@ -34,3 +53,4 @@ EventButton::on_button_press_event(GdkEventButton *event)
 
   return ret;
 }
+#endif

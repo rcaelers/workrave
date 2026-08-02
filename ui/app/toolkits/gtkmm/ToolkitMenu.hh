@@ -147,11 +147,19 @@ public:
   explicit ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter = nullptr);
 
   Glib::RefPtr<Gio::SimpleActionGroup> get_action_group() const;
+#if GTK_CHECK_VERSION(4, 0, 0)
+  std::shared_ptr<Gtk::PopoverMenu> get_menu() const;
+#else
   std::shared_ptr<Gtk::Menu> get_menu() const;
+#endif
 
 private:
   std::shared_ptr<detail::ToolkitMenuContext> context;
+#if GTK_CHECK_VERSION(4, 0, 0)
+  std::shared_ptr<Gtk::PopoverMenu> gtk_menu;
+#else
   std::shared_ptr<Gtk::Menu> gtk_menu;
+#endif
   detail::ToolkitSubMenuEntry::Ptr entry;
 };
 

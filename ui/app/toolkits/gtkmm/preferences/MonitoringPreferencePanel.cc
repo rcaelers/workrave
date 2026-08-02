@@ -33,7 +33,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 MonitoringPreferencePanel::MonitoringPreferencePanel(std::shared_ptr<IApplicationContext> app)
-  : Gtk::VBox(false, 6)
+  : GtkCompat::VBox(false, 6)
   , app(app)
   , connector(std::make_shared<DataConnector>(app))
 
@@ -50,7 +50,7 @@ MonitoringPreferencePanel::~MonitoringPreferencePanel()
 void
 MonitoringPreferencePanel::create_panel()
 {
-  set_border_width(12);
+  GtkCompat::set_border_width(*this, 12);
 
 #if defined(PLATFORM_OS_WINDOWS)
   Gtk::Label *monitor_type_lab = Gtk::manage(GtkUtil::create_label(_("Use alternate monitor"), false));
