@@ -22,6 +22,7 @@
 
 #include <gtkmm.h>
 
+#include "commonui/GtkCompat.hh"
 #include "handler/user_hook.h"
 
 namespace Gtk
@@ -74,7 +75,7 @@ private:
   Glib::RefPtr<Gtk::TextTag> bold_tag_;
   std::vector<AttachmentEntry> entries_;
   crashpad::CrashSummary summary_;
-  Gtk::VBox *vbox{nullptr};
+  GtkCompat::Box *vbox{nullptr};
 };
 
 class CrashDialog : public Gtk::Dialog
@@ -95,7 +96,7 @@ private:
 
 private:
   Gtk::TextView *text_view{nullptr};
-  Gtk::VBox *vbox{nullptr};
+  GtkCompat::Box *vbox{nullptr};
   Gtk::ScrolledWindow scrolled_window;
   Glib::RefPtr<Gtk::TextBuffer> text_buffer;
   CrashDetailsDialog *details_dlg{nullptr};

@@ -89,14 +89,14 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
   set_border_width(6);
   set_title(_("Software Update"));
 
-  auto *box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+  auto *box = Gtk::manage(new GtkCompat::Box(Gtk::ORIENTATION_VERTICAL));
   add(*box);
   auto *content_area = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
   content_area->set_border_width(6);
   content_area->set_spacing(6);
   box->pack_start(*content_area, true, true, 0);
 
-  auto *logo_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+  auto *logo_box = Gtk::manage(new GtkCompat::Box(Gtk::ORIENTATION_VERTICAL));
   logo_box->set_border_width(6);
   logo_box->set_spacing(6);
   content_area->pack_start(*logo_box, false, false, 0);
@@ -119,7 +119,7 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
     }
 #endif
 
-  auto *update_info_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+  auto *update_info_box =Gtk::manage(new GtkCompat::Box(Gtk::ORIENTATION_VERTICAL));
   update_info_box->set_border_width(6);
   update_info_box->set_spacing(10);
   content_area->pack_start(*update_info_box, true, true, 0);
@@ -132,7 +132,7 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
   title_label->set_use_markup();
   update_info_box->pack_start(*title_label, false, false, 0);
 
-  auto *info_hbox = Gtk::manage(new Gtk::HBox());
+  auto *info_hbox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   update_info_box->pack_start(*info_hbox, false, false, 0);
 
   auto *info_label = Gtk::manage(
@@ -200,7 +200,7 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
       scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
       scrolled_window.add(*text_view);
 
-      Gtk::HBox *scrolled_box = Gtk::manage(new Gtk::HBox(false, 6));
+      auto *scrolled_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 6));
       scrolled_box->pack_start(scrolled_window, true, true, 0);
 
       notes_frame->add(*scrolled_box);

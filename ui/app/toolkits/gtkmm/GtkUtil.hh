@@ -20,6 +20,8 @@
 
 #include <gtkmm.h>
 
+#include "commonui/GtkCompat.hh"
+
 #include <string>
 
 #include "core/CoreTypes.hh"
