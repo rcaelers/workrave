@@ -18,8 +18,6 @@
 #define QMLPLUGINPREFBRIDGES_HH
 
 #include <memory>
-#include <map>
-#include <string>
 
 #include <QObject>
 #include <QString>
@@ -31,8 +29,6 @@
 #include "ui/prefwidgets/Value.hh"
 #include "ui/prefwidgets/Choice.hh"
 #include "ui/prefwidgets/Entry.hh"
-#include "ui/prefwidgets/Frame.hh"
-#include "ui/prefwidgets/Box.hh"
 #include "ui/prefwidgets/Def.hh"
 
 // ── PrefRowBridge ─────────────────────────────────────────────────────────────

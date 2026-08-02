@@ -37,7 +37,6 @@
 #include <iostream>
 #include <fstream>
 #include <map>
-#include <set>
 #include <chrono>
 #include <unistd.h>
 using namespace std::chrono_literals;
@@ -47,12 +46,10 @@ using namespace std::chrono_literals;
 #include "core/ICore.hh"
 #include "core/IApp.hh"
 #include "core/IBreak.hh"
-#include "input-monitor/InputMonitorFactoryStub.hh"
 
 #include "config/Config.hh"
 #include "config/SettingCache.hh"
 
-#include "utils/ITimeSource.hh"
 #include "utils/Paths.hh"
 #include "utils/TimeSource.hh"
 #include "debug.hh"
@@ -768,7 +765,7 @@ public:
     return config;
   }
 
-  bool on_load_timer_state(Timer::Ptr breaks[workrave::BREAK_ID_SIZEOF])
+  bool on_load_timer_state(Timer::Ptr breaks[workrave::BREAK_ID_SIZEOF]) const
   {
     return load_timer_state_result;
   }

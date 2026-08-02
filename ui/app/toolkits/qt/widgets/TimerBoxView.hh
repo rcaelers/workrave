@@ -24,15 +24,14 @@
 #include <array>
 #include <memory>
 
+#include "core/CoreTypes.hh"
+#include "core/ICore.hh"
+
+#include "ui/UiTypes.hh"
 #include "ui/ITimerBoxView.hh"
 #include "utils/Signals.hh"
 
 #include "TimeBar.hh"
-
-namespace workrave
-{
-  class ICore;
-}
 
 class TimerBoxView
   : public QWidget

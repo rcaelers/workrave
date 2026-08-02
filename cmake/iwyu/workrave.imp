@@ -1,4 +1,6 @@
 [
+  { "include": ["<_stdlib.h>", "private", "<cstdlib>", "public"] },
+
   { "include": ["\"config/ConfiguratorFactory.hh\"", "private", "\"config/Config.hh\"", "public"] },
   { "include": ["\"config/IConfigurator.hh\"",        "private", "\"config/Config.hh\"", "public"] },
   { "include": ["\"config/IConfiguratorListener.hh\"","private", "\"config/Config.hh\"", "public"] },
@@ -45,11 +47,6 @@
 
   { "include": [ "@<grpcpp/(?!grpcpp\\.h$).+>",   "private", "<grpcpp/grpcpp.h>", "public" ] },
   { "include": [ "@\"grpcpp/(?!grpcpp\\.h$).+\"", "private", "<grpcpp/grpcpp.h>", "public" ] },
-
-  { "include": [ "@<boost/signals2/(?!.*\\.hpp$).+>",   "private", "<boost/signals2.hpp>", "public" ] },
-  { "include": [ "@<boost/signals2/.+\\.hpp>",          "private", "<boost/signals2.hpp>", "public" ] },
-  { "include": [ "@\"boost/signals2/(?!.*\\.hpp$).+\"", "private", "<boost/signals2.hpp>", "public" ] },
-  { "include": [ "@\"boost/signals2/.+\\.hpp\"",        "private", "<boost/signals2.hpp>", "public" ] },
 
   { "include": [ "@<libdbusmenu-glib/(?!dbusmenu-glib\\.h$).+>",   "private", "<libdbusmenu-glib/dbusmenu-glib.h>", "public" ] },
   { "include": [ "@\"libdbusmenu-glib/(?!dbusmenu-glib\\.h$).+\"", "private", "<libdbusmenu-glib/dbusmenu-glib.h>", "public" ] }

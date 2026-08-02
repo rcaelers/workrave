@@ -19,8 +19,12 @@
 #define PREFERENCES_REGISTRY_HH
 
 #include <map>
-#include <boost/signals2.hpp>
+#include <list>
+#include <utility>
+#include <string>
+#include <memory>
 
+#include "ui/prefwidgets/Def.hh"
 #include "ui/IPreferencesRegistryInternal.hh"
 
 class PreferencesRegistry : public IPreferencesRegistryInternal

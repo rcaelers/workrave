@@ -28,7 +28,6 @@
 #include <algorithm>
 #include <cstring>
 #include <optional>
-#include <cassert>
 
 #include "debug.hh"
 

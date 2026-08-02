@@ -21,7 +21,6 @@
 
 #include <gtest/gtest.h>
 
-#include <cstring>
 #include <string>
 
 #include "StatisticsStoreTestFixture.hh"

@@ -19,6 +19,8 @@
 #  include "config.h"
 #endif
 
+#include <cstdlib>
+
 #include "utils/Platform.hh"
 
 #if defined(HAVE_GTK)
@@ -32,14 +34,11 @@
 #  endif
 #endif
 
-#if defined(HAVE_QT)
+#if defined(HAVE_QT) && defined(PLATFORM_OS_UNIX)
+#  include <X11/Xlib.h>
 #  include <QtGui>
 #  include <qapplication.h>
 #  include <qpa/qplatformnativeinterface.h>
-
-#  if defined(PLATFORM_OS_UNIX)
-#    include <X11/Xlib.h>
-#  endif
 #endif
 
 using namespace workrave::utils;

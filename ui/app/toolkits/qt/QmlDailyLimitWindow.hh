@@ -28,7 +28,6 @@
 #include "ui/GUIConfig.hh"
 #include "ui/UiTypes.hh"
 #include "ui/IApplicationContext.hh"
-#include "core/CoreTypes.hh"
 #include "utils/Signals.hh"
 
 #if defined(HAVE_WAYLAND)

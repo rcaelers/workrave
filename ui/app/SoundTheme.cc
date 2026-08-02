@@ -35,7 +35,6 @@
 #include "config/IConfigurator.hh"
 #include "config/SettingCache.hh"
 #include "utils/AssetPath.hh"
-#include "utils/Platform.hh"
 
 using namespace workrave;
 using namespace workrave::config;

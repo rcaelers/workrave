@@ -13,6 +13,8 @@ def should_skip(args):
             return True
         if not arg.startswith('-') and arg.endswith('.mm'):
             return True
+        if not arg.startswith('-') and Path(arg).name.endswith(('.pb.c', '.pb.cc', 'ppv.h', 'ServiceImpl.hh', 'ServiceImpl.cc')):
+            return True
         if is_source_file(arg) and '_deps' in Path(arg).parts:
             return True
         prev = arg

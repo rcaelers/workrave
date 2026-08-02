@@ -21,7 +21,6 @@
 
 #include <iostream>
 #include <algorithm>
-#include <array>
 #include <filesystem>
 
 #include "utils/Paths.hh"
@@ -29,6 +28,7 @@
 #include "debug.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
+#  include <array>
 #  include <shlobj.h>
 #  include <shlwapi.h>
 #  include <windows.h>

@@ -35,9 +35,7 @@
 #include "ui/IToolkit.hh"
 #include "ui/SoundTheme.hh"
 #include "utils/AssetPath.hh"
-#include "utils/Platform.hh"
 #include "utils/Ui.hh"
-#include "qformat.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>

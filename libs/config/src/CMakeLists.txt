@@ -2,8 +2,7 @@ add_library(workrave-libs-config STATIC
   Configurator.cc
   ConfiguratorFactory.cc
   IniConfigurator.cc
-  XmlConfigurator.cc
-  SettingCache.cc)
+  XmlConfigurator.cc)
 
 target_code_coverage(workrave-libs-config)
 

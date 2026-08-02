@@ -26,7 +26,6 @@
 #include <unistd.h>
 
 #include "debug.hh"
-#include "input-monitor/IInputMonitorListener.hh"
 
 MacOSInputMonitor::~MacOSInputMonitor()
 {

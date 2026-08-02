@@ -12,7 +12,6 @@ libs/config/src/GSettingsConfigurator.cc
 libs/config/src/IniConfigurator.cc
 libs/config/src/macos/MacOSConfigurator.cc
 libs/config/src/QtSettingsConfigurator.cc
-libs/config/src/SettingCache.cc
 libs/config/src/windows/W32Configurator.cc
 libs/config/src/XmlConfigurator.cc
 libs/corenext/src/Break.cc

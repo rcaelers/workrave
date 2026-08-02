@@ -25,14 +25,10 @@
 
 #include "Timer.hh"
 
-#include <memory>
-
 #include "debug.hh"
 #include "utils/TimeSource.hh"
 
 #include <sstream>
-#include <cstdio>
-#include <cmath>
 #include <ctime>
 #include <utility>
 
