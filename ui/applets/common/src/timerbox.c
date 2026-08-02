@@ -202,6 +202,10 @@ workrave_timerbox_update_sheep(WorkraveTimerbox *self, cairo_t *cr)
 
   if ((priv->enabled && priv->filled_slots == 0) || priv->force_icon)
     {
+      // gdk_cairo_set_source_pixbuf() has no GTK3-available replacement
+      // (GTK4 suggests the paintable/snapshot API, which GTK3 doesn't have)
+      // and this file is compiled against both toolkits, see CMakeLists.txt.
+      G_GNUC_BEGIN_IGNORE_DEPRECATIONS
       if (!priv->enabled || g_strcmp0("normal", priv->mode) == 0)
         {
           gdk_cairo_set_source_pixbuf(cr, priv->normal_sheep_icon, 0, 0);
@@ -214,6 +218,7 @@ workrave_timerbox_update_sheep(WorkraveTimerbox *self, cairo_t *cr)
         {
           gdk_cairo_set_source_pixbuf(cr, priv->quiet_sheep_icon, 0, 0);
         }
+      G_GNUC_END_IGNORE_DEPRECATIONS
       cairo_paint(cr);
     }
 }
@@ -266,7 +271,10 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr)
               workrave_timebar_draw(bar, cr);
               cairo_restore(cr);
 
+              // See the comment in workrave_timerbox_update_sheep() above.
+              G_GNUC_BEGIN_IGNORE_DEPRECATIONS
               gdk_cairo_set_source_pixbuf(cr, priv->break_to_icon[bid], x, y + icon_dy);
+              G_GNUC_END_IGNORE_DEPRECATIONS
               cairo_fill(cr);
               cairo_paint(cr);
 
@@ -363,8 +371,13 @@ workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
 
   workrave_timerbox_draw(self, cr);
 
+  // Neither function has a GTK3-available replacement (GTK4 suggests the
+  // paintable/snapshot API, which GTK3 doesn't have) and this file is
+  // compiled against both toolkits, see CMakeLists.txt.
+  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   GdkPixbuf *pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, width, height);
   gtk_image_set_from_pixbuf(image, pixbuf);
+  G_GNUC_END_IGNORE_DEPRECATIONS
 
   g_object_unref(pixbuf);
   cairo_surface_destroy(surface);
