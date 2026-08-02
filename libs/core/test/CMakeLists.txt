@@ -5,7 +5,7 @@ if (HAVE_TESTS)
   target_code_coverage(workrave-core-timer-test AUTO)
 
   target_link_libraries(workrave-core-timer-test PRIVATE workrave-libs-core)
-  target_link_libraries(workrave-core-timer-test PRIVATE Boost::unit_test_framework)
+  target_link_libraries(workrave-core-timer-test PRIVATE GTest::gtest_main)
   target_link_libraries(workrave-core-timer-test PRIVATE ${EXTRA_LIBRARIES})
   set_target_properties(workrave-core-timer-test PROPERTIES USE_STUBS ON)
 
@@ -31,7 +31,7 @@ if (HAVE_TESTS)
   endif()
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-config)
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-utils)
-  target_link_libraries(workrave-core-integration-test PRIVATE Boost::unit_test_framework)
+  target_link_libraries(workrave-core-integration-test PRIVATE GTest::gtest_main)
   target_link_libraries(workrave-core-integration-test PRIVATE ${EXTRA_LIBRARIES})
 
   target_include_directories(workrave-core-integration-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/core/src)

@@ -7,7 +7,7 @@ if (HAVE_TESTS)
   set_target_properties(workrave-core-next-timer-test PROPERTIES USE_STUBS ON)
 
   target_link_libraries(workrave-core-next-timer-test PRIVATE workrave-libs-core-next)
-  target_link_libraries(workrave-core-next-timer-test PRIVATE Boost::unit_test_framework)
+  target_link_libraries(workrave-core-next-timer-test PRIVATE GTest::gtest_main)
   target_link_libraries(workrave-core-next-timer-test PRIVATE ${EXTRA_LIBRARIES})
 
   target_include_directories(workrave-core-next-timer-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/corenext/src)
@@ -36,7 +36,7 @@ if (HAVE_TESTS)
   endif()
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-config)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-utils)
-  target_link_libraries(workrave-core-next-integration-test PRIVATE Boost::unit_test_framework)
+  target_link_libraries(workrave-core-next-integration-test PRIVATE GTest::gtest_main)
   target_link_libraries(workrave-core-next-integration-test PRIVATE ${EXTRA_LIBRARIES})
 
   target_include_directories(workrave-core-next-integration-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/corenext/src)
