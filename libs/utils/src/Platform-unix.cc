@@ -35,10 +35,10 @@
 #endif
 
 #if defined(HAVE_QT) && defined(PLATFORM_OS_UNIX)
-#  include <X11/Xlib.h>
 #  include <QtGui>
 #  include <qapplication.h>
 #  include <qpa/qplatformnativeinterface.h>
+#  include <X11/Xlib.h>
 #endif
 
 using namespace workrave::utils;

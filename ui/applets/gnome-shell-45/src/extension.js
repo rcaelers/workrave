@@ -606,9 +606,19 @@ const WorkraveButton = GObject.registerClass(
 
           if (popup) {
             popup.setSensitive(visible);
-            popup.connect("activate", (item, event) =>
-              this._onMenuCommand(item, event, id),
-            );
+            if (type == MENU_ITEM_TYPE_CHECK) {
+              // PopupSwitchMenuItem's switch can be toggled directly (drag
+              // gesture on the switch handle) without the row ever emitting
+              // "activate", so listen on "toggled" instead: it fires
+              // reliably for every state change, however it was triggered.
+              popup.connect("toggled", (item, state) =>
+                this._onMenuCommand(item, null, id),
+              );
+            } else {
+              popup.connect("activate", (item, event) =>
+                this._onMenuCommand(item, event, id),
+              );
+            }
             current_menu.addMenuItem(popup);
             this._menu_entries[action] = popup;
           }
