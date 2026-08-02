@@ -36,6 +36,10 @@
 #include "config/SettingCache.hh"
 #include "utils/AssetPath.hh"
 
+#if defined(PLATFORM_OS_WINDOWS)
+#  include "utils/Platform.hh"
+#endif
+
 using namespace workrave;
 using namespace workrave::config;
 using namespace workrave::audio;

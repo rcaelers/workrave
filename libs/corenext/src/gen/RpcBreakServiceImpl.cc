@@ -345,33 +345,6 @@ BreakService::BreakService(::rpc::InstanceRegistry<workrave::BreakId, Break> &re
 }
 
 
-::grpc::Status BreakService::GetTimerRemaining(::grpc::ServerContext * /*context*/,
-                                                            const ::workrave::breaks::GetTimerRemainingRequest *request,
-                                                            ::workrave::breaks::GetTimerRemainingResponse *response)
-{
-  try
-    {
-
-      auto &impl_ = registry_.resolve(static_cast<workrave::BreakId>(request->id()));
-
-
-
-      auto rpc_result = impl_.get_timer_remaining();
-
-      response->set_result(rpc_result);
-
-
-
-      ::rpc::intercept_request({"workrave.BreakService", "GetTimerRemaining", *request});
-    }
-  catch (const std::exception &e)
-    {
-      return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, e.what());
-    }
-  return ::grpc::Status::OK;
-}
-
-
 ::grpc::Status BreakService::GetTimerOverdue(::grpc::ServerContext * /*context*/,
                                                             const ::workrave::breaks::GetTimerOverdueRequest *request,
                                                             ::workrave::breaks::GetTimerOverdueResponse *response)
@@ -438,6 +411,33 @@ BreakService::BreakService(::rpc::InstanceRegistry<workrave::BreakId, Break> &re
 
 
       ::rpc::intercept_request({"workrave.BreakService", "SkipBreak", *request});
+    }
+  catch (const std::exception &e)
+    {
+      return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, e.what());
+    }
+  return ::grpc::Status::OK;
+}
+
+
+::grpc::Status BreakService::GetTimerRemaining(::grpc::ServerContext * /*context*/,
+                                                            const ::workrave::breaks::GetTimerRemainingRequest *request,
+                                                            ::workrave::breaks::GetTimerRemainingResponse *response)
+{
+  try
+    {
+
+      auto &impl_ = registry_.resolve(static_cast<workrave::BreakId>(request->id()));
+
+
+
+      auto rpc_result = impl_.get_timer_remaining();
+
+      response->set_result(rpc_result);
+
+
+
+      ::rpc::intercept_request({"workrave.BreakService", "GetTimerRemaining", *request});
     }
   catch (const std::exception &e)
     {

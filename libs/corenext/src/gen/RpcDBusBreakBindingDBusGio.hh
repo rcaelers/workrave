@@ -59,13 +59,13 @@ private:
 
   void dispatch_IsLimitEnabled(GVariant *parameters, GDBusMethodInvocation *invocation);
 
-  void dispatch_GetTimerRemaining(GVariant *parameters, GDBusMethodInvocation *invocation);
-
   void dispatch_GetTimerOverdue(GVariant *parameters, GDBusMethodInvocation *invocation);
 
   void dispatch_PostponeBreak(GVariant *parameters, GDBusMethodInvocation *invocation);
 
   void dispatch_SkipBreak(GVariant *parameters, GDBusMethodInvocation *invocation);
+
+  void dispatch_GetTimerRemaining(GVariant *parameters, GDBusMethodInvocation *invocation);
 
   void dispatch_GetBreakState(GVariant *parameters, GDBusMethodInvocation *invocation);
 

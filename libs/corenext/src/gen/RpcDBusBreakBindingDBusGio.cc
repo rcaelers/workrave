@@ -250,12 +250,6 @@ org_workrave_BreakInterface::introspection() const noexcept
 
   "    </method>\n"
 
-  "    <method name=\"GetTimerRemaining\">\n"
-
-  "      <arg type=\"i\" name=\"result\" direction=\"out\" />\n"
-
-  "    </method>\n"
-
   "    <method name=\"GetTimerOverdue\">\n"
 
   "      <arg type=\"i\" name=\"result\" direction=\"out\" />\n"
@@ -267,6 +261,12 @@ org_workrave_BreakInterface::introspection() const noexcept
   "    </method>\n"
 
   "    <method name=\"SkipBreak\">\n"
+
+  "    </method>\n"
+
+  "    <method name=\"GetTimerRemaining\">\n"
+
+  "      <arg type=\"i\" name=\"result\" direction=\"out\" />\n"
 
   "    </method>\n"
 
@@ -324,13 +324,13 @@ org_workrave_BreakInterface::dispatch(std::string_view method, GVariant *paramet
 
     {.name = "IsLimitEnabled", .method = &org_workrave_BreakInterface::dispatch_IsLimitEnabled},
 
-    {.name = "GetTimerRemaining", .method = &org_workrave_BreakInterface::dispatch_GetTimerRemaining},
-
     {.name = "GetTimerOverdue", .method = &org_workrave_BreakInterface::dispatch_GetTimerOverdue},
 
     {.name = "PostponeBreak", .method = &org_workrave_BreakInterface::dispatch_PostponeBreak},
 
     {.name = "SkipBreak", .method = &org_workrave_BreakInterface::dispatch_SkipBreak},
+
+    {.name = "GetTimerRemaining", .method = &org_workrave_BreakInterface::dispatch_GetTimerRemaining},
 
     {.name = "GetBreakState", .method = &org_workrave_BreakInterface::dispatch_GetBreakState},
 
@@ -686,34 +686,6 @@ org_workrave_BreakInterface::dispatch_IsLimitEnabled(GVariant *parameters, GDBus
 
 
 void
-org_workrave_BreakInterface::dispatch_GetTimerRemaining(GVariant *parameters, GDBusMethodInvocation *invocation)
-{
-  if (parameters == nullptr || !g_variant_is_of_type(parameters, G_VARIANT_TYPE_TUPLE)
-      || g_variant_n_children(parameters) != 0)
-    {
-      throw ::workrave::rpc::dbus::Error(
-        std::string(::workrave::rpc::dbus::error_names::invalid_args),
-        "Incorrect number of input parameters for org.workrave.BreakInterface.GetTimerRemaining");
-    }
-
-
-  int64_t p_result{};
-  p_result = implementation_.get_timer_remaining();
-
-
-  std::vector<GVariant *> reply_values;
-  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
-
-  reply_values.push_back(::workrave::rpc::dbus::GioCodec<int32_t>::encode(::workrave::rpc::dbus::checked_dbus_wire_cast<int32_t>(p_result)));
-
-
-  GVariant *reply = g_variant_new_tuple(
-    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
-  ::workrave::rpc::dbus::gio_return_method_value(invocation, reply, reply_fd_list.get());
-}
-
-
-void
 org_workrave_BreakInterface::dispatch_GetTimerOverdue(GVariant *parameters, GDBusMethodInvocation *invocation)
 {
   if (parameters == nullptr || !g_variant_is_of_type(parameters, G_VARIANT_TYPE_TUPLE)
@@ -783,6 +755,34 @@ org_workrave_BreakInterface::dispatch_SkipBreak(GVariant *parameters, GDBusMetho
 
   std::vector<GVariant *> reply_values;
   ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
+
+
+  GVariant *reply = g_variant_new_tuple(
+    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
+  ::workrave::rpc::dbus::gio_return_method_value(invocation, reply, reply_fd_list.get());
+}
+
+
+void
+org_workrave_BreakInterface::dispatch_GetTimerRemaining(GVariant *parameters, GDBusMethodInvocation *invocation)
+{
+  if (parameters == nullptr || !g_variant_is_of_type(parameters, G_VARIANT_TYPE_TUPLE)
+      || g_variant_n_children(parameters) != 0)
+    {
+      throw ::workrave::rpc::dbus::Error(
+        std::string(::workrave::rpc::dbus::error_names::invalid_args),
+        "Incorrect number of input parameters for org.workrave.BreakInterface.GetTimerRemaining");
+    }
+
+
+  int64_t p_result{};
+  p_result = implementation_.get_timer_remaining();
+
+
+  std::vector<GVariant *> reply_values;
+  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
+
+  reply_values.push_back(::workrave::rpc::dbus::GioCodec<int32_t>::encode(::workrave::rpc::dbus::checked_dbus_wire_cast<int32_t>(p_result)));
 
 
   GVariant *reply = g_variant_new_tuple(

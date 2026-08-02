@@ -57,13 +57,13 @@ private:
 
   void dispatch_IsLimitEnabled(const QDBusMessage &message, const QDBusConnection &connection);
 
-  void dispatch_GetTimerRemaining(const QDBusMessage &message, const QDBusConnection &connection);
-
   void dispatch_GetTimerOverdue(const QDBusMessage &message, const QDBusConnection &connection);
 
   void dispatch_PostponeBreak(const QDBusMessage &message, const QDBusConnection &connection);
 
   void dispatch_SkipBreak(const QDBusMessage &message, const QDBusConnection &connection);
+
+  void dispatch_GetTimerRemaining(const QDBusMessage &message, const QDBusConnection &connection);
 
   void dispatch_GetBreakState(const QDBusMessage &message, const QDBusConnection &connection);
 

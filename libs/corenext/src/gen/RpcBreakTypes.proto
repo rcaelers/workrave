@@ -284,19 +284,6 @@ message IsLimitEnabledResponse {
 }
 
 
-message GetTimerRemainingRequest {
-
-  BreakId id = 1;
-
-}
-
-message GetTimerRemainingResponse {
-
-  int64 result = 1;
-
-}
-
-
 message GetTimerOverdueRequest {
 
   BreakId id = 1;
@@ -328,6 +315,19 @@ message SkipBreakRequest {
 }
 
 message SkipBreakResponse {
+
+}
+
+
+message GetTimerRemainingRequest {
+
+  BreakId id = 1;
+
+}
+
+message GetTimerRemainingResponse {
+
+  int64 result = 1;
 
 }
 
