@@ -34,7 +34,7 @@ namespace Gtk
 #include <gtkmm/box.h>
 
 class TimerBoxPreferencePanel
-  : public Gtk::HBox
+  : public GtkCompat::Box
   , public workrave::utils::Trackable
 {
 public:

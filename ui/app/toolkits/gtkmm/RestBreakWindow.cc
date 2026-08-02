@@ -151,7 +151,7 @@ RestBreakWindow::draw_time_bar()
 Gtk::Widget *
 RestBreakWindow::create_info_panel()
 {
-  Gtk::HBox *info_box = Gtk::manage(new Gtk::HBox(false, 12));
+  auto *info_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 12));
 
   Gtk::Image *info_img = GtkUtil::create_image("rest-break.png");
   info_img->set_alignment(0.0, 0.0);

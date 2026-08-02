@@ -38,7 +38,7 @@ namespace Gtk
 } // namespace Gtk
 
 class TimerBoxGtkView
-  : public Gtk::Table
+  : public Gtk::Grid
   , public ITimerBoxView
   , public workrave::utils::Trackable
 {

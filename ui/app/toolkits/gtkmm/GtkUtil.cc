@@ -96,7 +96,7 @@ GtkUtil::update_custom_stock_button(Gtk::Button *btn, const char *label_text, co
   if (label_text != nullptr)
     {
       Gtk::Label *label = Gtk::manage(new Gtk::Label(label_text));
-      Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 2));
+      auto *hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 2));
       Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
       if (img != nullptr)
         {
@@ -134,7 +134,7 @@ GtkUtil::create_image_button(const char *label_text, const char *image_file, boo
   if (label_text != nullptr && label)
     {
       Gtk::Label *label = Gtk::manage(new Gtk::Label(label_text));
-      Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 2));
+      auto *hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 2));
       Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
       if (img != nullptr)
         {
@@ -158,7 +158,7 @@ GtkUtil::create_image_button(const char *label_text, const char *image_file, boo
 Gtk::Widget *
 GtkUtil::create_label_with_icon(string text, const char *icon)
 {
-  auto *box = new Gtk::HBox(false, 3);
+  auto *box = new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 3);
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(text));
   Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
   box->pack_start(*img, false, false, 0);
@@ -180,7 +180,7 @@ GtkUtil::create_label_for_break(BreakId id)
 }
 
 void
-GtkUtil::table_attach_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach, bool left)
+GtkUtil::table_attach_aligned(Gtk::Grid &table, Gtk::Widget &child, guint left_attach, guint top_attach, bool left)
 {
   Gtk::Alignment *a = Gtk::manage(new Gtk::Alignment(left ? Gtk::ALIGN_START : Gtk::ALIGN_END, Gtk::ALIGN_START, 0.0, 0.0));
   a->add(child);
@@ -188,13 +188,13 @@ GtkUtil::table_attach_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_
 }
 
 void
-GtkUtil::table_attach_left_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach)
+GtkUtil::table_attach_left_aligned(Gtk::Grid &table, Gtk::Widget &child, guint left_attach, guint top_attach)
 {
   table_attach_aligned(table, child, left_attach, top_attach, true);
 }
 
 void
-GtkUtil::table_attach_right_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach)
+GtkUtil::table_attach_right_aligned(Gtk::Grid &table, Gtk::Widget &child, guint left_attach, guint top_attach)
 {
   table_attach_aligned(table, child, left_attach, top_attach, false);
 }

@@ -57,7 +57,7 @@ TimeEntryWidget::init_ui(std::shared_ptr<ContainerWidget> container)
   // adjustment = Gtk::Adjustment::create(def->get_value(), def->get_min(), def->get_max());
   // widget = Gtk::manage(new Gtk::TimeEntryButton(adjustment));
 
-  box = Gtk::manage(new Gtk::HBox(false, 1));
+  box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 1));
   add_to_size_groups(def, box);
 
   secs = Gtk::manage(new Gtk::SpinButton(secs_adjustment));

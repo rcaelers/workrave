@@ -106,7 +106,7 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, ExerciseCollection::
       stop_button = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, CLOSE_BUTTON_ID));
       stop_button->signal_clicked().connect(sigc::mem_fun(*this, &ExercisesPanel::on_stop));
 
-      Gtk::HBox *button_box = Gtk::manage(new Gtk::HBox());
+      auto *button_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL));
       Gtk::Label *browse_label = Gtk::manage(new Gtk::Label());
       string browse_label_text = "<b>";
       browse_label_text += _("Exercises player");
@@ -119,7 +119,7 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, ExerciseCollection::
       button_box->pack_start(*stop_button, false, false, 0);
       Gtk::Alignment *button_align = Gtk::manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
       button_align->add(*button_box);
-      Gtk::VBox *description_box = Gtk::manage(new Gtk::VBox());
+      auto *description_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL));
       description_box->pack_start(description_scroll, true, true, 0);
       description_box->pack_start(*button_align, false, false, 0);
       description_widget = description_box;
@@ -165,7 +165,7 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, ExerciseCollection::
 void
 ExercisesPanel::on_realize()
 {
-  Gtk::HBox::on_realize();
+  GtkCompat::Box::on_realize();
   Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
 
   style_context->context_save();

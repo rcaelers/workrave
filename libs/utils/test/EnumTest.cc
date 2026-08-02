@@ -23,20 +23,15 @@
 #include <iostream>
 #include <sstream>
 
-#define BOOST_TEST_MODULE "workrave-utils-enum"
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/range/adaptor/reversed.hpp>
 
 #include "utils/Enum.hh"
 #include "utils/EnumIterator.hh"
 
-struct Fixture
+class EnumTest : public ::testing::Test
 {
-  Fixture() = default;
-  ~Fixture() = default;
-
-private:
 };
 
 enum class OperationMode
@@ -175,96 +170,96 @@ struct workrave::utils::enum_traits<Kind>
     {{"none", Kind::None}, {"A", Kind::A}, {"B", Kind::B}, {"C", Kind::C}, {"D", Kind::D}}};
 };
 
-BOOST_FIXTURE_TEST_SUITE(s, Fixture)
 
-BOOST_AUTO_TEST_CASE(test_enum_class_mix_max)
+
+TEST_F(EnumTest, test_enum_class_mix_max)
 {
-  BOOST_CHECK_EQUAL(workrave::utils::enum_has_min_v<OperationMode>, true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_has_max_v<OperationMode>, true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_has_invalid_v<OperationMode>, false);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_has_names_v<OperationMode>, false);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_has_min_v<OperationModeNoMinMax>, false);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_has_max_v<OperationModeNoMinMax>, false);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_min_value<OperationMode>(), 2);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_max_value<OperationMode>(), 4);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_count<OperationMode>(), 3);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationMode>(0), false);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationMode>(1), false);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationMode>(2), true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationMode>(3), true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationMode>(4), true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationMode>(5), false);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationMode>(OperationMode::Invalid), false);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationMode>(OperationMode::Normal), true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationMode>(OperationMode::Suspended), true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationMode>(OperationMode::Quiet), true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationMode>(OperationMode::NotInRange), false);
+  EXPECT_EQ(workrave::utils::enum_has_min_v<OperationMode>, true);
+  EXPECT_EQ(workrave::utils::enum_has_max_v<OperationMode>, true);
+  EXPECT_EQ(workrave::utils::enum_has_invalid_v<OperationMode>, false);
+  EXPECT_EQ(workrave::utils::enum_has_names_v<OperationMode>, false);
+  EXPECT_EQ(workrave::utils::enum_has_min_v<OperationModeNoMinMax>, false);
+  EXPECT_EQ(workrave::utils::enum_has_max_v<OperationModeNoMinMax>, false);
+  EXPECT_EQ(workrave::utils::enum_min_value<OperationMode>(), 2);
+  EXPECT_EQ(workrave::utils::enum_max_value<OperationMode>(), 4);
+  EXPECT_EQ(workrave::utils::enum_count<OperationMode>(), 3);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationMode>(0), false);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationMode>(1), false);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationMode>(2), true);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationMode>(3), true);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationMode>(4), true);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationMode>(5), false);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationMode>(OperationMode::Invalid), false);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationMode>(OperationMode::Normal), true);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationMode>(OperationMode::Suspended), true);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationMode>(OperationMode::Quiet), true);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationMode>(OperationMode::NotInRange), false);
 }
 
-BOOST_AUTO_TEST_CASE(test_enum_mix_max)
+TEST_F(EnumTest, test_enum_mix_max)
 {
-  BOOST_CHECK_EQUAL(workrave::utils::enum_has_min_v<OperationModeEnum>, true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_has_max_v<OperationModeEnum>, true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_has_invalid_v<OperationModeEnum>, true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_has_names_v<OperationModeEnum>, true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_min_value<OperationModeEnum>(), 2);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_max_value<OperationModeEnum>(), 4);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_count<OperationModeEnum>(), 3);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationModeEnum>(1), false);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationModeEnum>(2), true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationModeEnum>(3), true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationModeEnum>(4), true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationModeEnum>(5), false);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationModeEnum>(OperationModeEnum::Invalid), false);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationModeEnum>(OperationModeEnum::Normal), true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationModeEnum>(OperationModeEnum::Suspended), true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationModeEnum>(OperationModeEnum::Quiet), true);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationModeEnum>(OperationModeEnum::NotInRange), false);
+  EXPECT_EQ(workrave::utils::enum_has_min_v<OperationModeEnum>, true);
+  EXPECT_EQ(workrave::utils::enum_has_max_v<OperationModeEnum>, true);
+  EXPECT_EQ(workrave::utils::enum_has_invalid_v<OperationModeEnum>, true);
+  EXPECT_EQ(workrave::utils::enum_has_names_v<OperationModeEnum>, true);
+  EXPECT_EQ(workrave::utils::enum_min_value<OperationModeEnum>(), 2);
+  EXPECT_EQ(workrave::utils::enum_max_value<OperationModeEnum>(), 4);
+  EXPECT_EQ(workrave::utils::enum_count<OperationModeEnum>(), 3);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationModeEnum>(1), false);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationModeEnum>(2), true);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationModeEnum>(3), true);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationModeEnum>(4), true);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationModeEnum>(5), false);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationModeEnum>(OperationModeEnum::Invalid), false);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationModeEnum>(OperationModeEnum::Normal), true);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationModeEnum>(OperationModeEnum::Suspended), true);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationModeEnum>(OperationModeEnum::Quiet), true);
+  EXPECT_EQ(workrave::utils::enum_in_range<OperationModeEnum>(OperationModeEnum::NotInRange), false);
 }
 
-BOOST_AUTO_TEST_CASE(test_enum_class_from_string)
+TEST_F(EnumTest, test_enum_class_from_string)
 {
-  BOOST_CHECK_EQUAL(workrave::utils::enum_from_string<OperationModeEnum>("invalid"), OperationModeEnum::Invalid);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_from_string<OperationModeEnum>("normal"), OperationModeEnum::Normal);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_from_string<OperationModeEnum>("suspended"), OperationModeEnum::Suspended);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_from_string<OperationModeEnum>("quiet"), OperationModeEnum::Quiet);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_from_string<OperationModeEnum>("notinrange"), OperationModeEnum::NotInRange);
-  BOOST_CHECK_EQUAL(workrave::utils::enum_from_string<OperationModeEnum>("foo"), OperationModeEnum::Invalid);
+  EXPECT_EQ(workrave::utils::enum_from_string<OperationModeEnum>("invalid"), OperationModeEnum::Invalid);
+  EXPECT_EQ(workrave::utils::enum_from_string<OperationModeEnum>("normal"), OperationModeEnum::Normal);
+  EXPECT_EQ(workrave::utils::enum_from_string<OperationModeEnum>("suspended"), OperationModeEnum::Suspended);
+  EXPECT_EQ(workrave::utils::enum_from_string<OperationModeEnum>("quiet"), OperationModeEnum::Quiet);
+  EXPECT_EQ(workrave::utils::enum_from_string<OperationModeEnum>("notinrange"), OperationModeEnum::NotInRange);
+  EXPECT_EQ(workrave::utils::enum_from_string<OperationModeEnum>("foo"), OperationModeEnum::Invalid);
 }
 
-BOOST_AUTO_TEST_CASE(test_enum_class_to_string)
+TEST_F(EnumTest, test_enum_class_to_string)
 {
-  BOOST_CHECK_EQUAL(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Invalid), "invalid");
-  BOOST_CHECK_EQUAL(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Normal), "normal");
-  BOOST_CHECK_EQUAL(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Suspended), "suspended");
-  BOOST_CHECK_EQUAL(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Quiet), "quiet");
-  BOOST_CHECK_EQUAL(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::NotInRange), "notinrange");
-  BOOST_CHECK_EQUAL(workrave::utils::enum_to_string<OperationModeEnum>(static_cast<OperationModeEnum>(200)), "");
+  EXPECT_EQ(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Invalid), "invalid");
+  EXPECT_EQ(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Normal), "normal");
+  EXPECT_EQ(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Suspended), "suspended");
+  EXPECT_EQ(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Quiet), "quiet");
+  EXPECT_EQ(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::NotInRange), "notinrange");
+  EXPECT_EQ(workrave::utils::enum_to_string<OperationModeEnum>(static_cast<OperationModeEnum>(200)), "");
 }
 
-BOOST_AUTO_TEST_CASE(test_enum_class_linear)
+TEST_F(EnumTest, test_enum_class_linear)
 {
   auto e = OperationMode::Normal;
   auto ee = e++;
-  BOOST_CHECK_EQUAL(e, OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(ee, OperationMode::Normal);
+  EXPECT_EQ(e, OperationMode::Suspended);
+  EXPECT_EQ(ee, OperationMode::Normal);
   ee = ++e;
-  BOOST_CHECK_EQUAL(ee, OperationMode::Quiet);
-  BOOST_CHECK_EQUAL(e, OperationMode::Quiet);
+  EXPECT_EQ(ee, OperationMode::Quiet);
+  EXPECT_EQ(e, OperationMode::Quiet);
 }
 
-BOOST_AUTO_TEST_CASE(test_enum_linear)
+TEST_F(EnumTest, test_enum_linear)
 {
   auto e = OperationModeEnum::Normal;
   auto ee = e++;
-  BOOST_CHECK_EQUAL(e, OperationModeEnum::Suspended);
-  BOOST_CHECK_EQUAL(ee, OperationModeEnum::Normal);
+  EXPECT_EQ(e, OperationModeEnum::Suspended);
+  EXPECT_EQ(ee, OperationModeEnum::Normal);
   ee = ++e;
-  BOOST_CHECK_EQUAL(ee, OperationModeEnum::Quiet);
-  BOOST_CHECK_EQUAL(e, OperationModeEnum::Quiet);
+  EXPECT_EQ(ee, OperationModeEnum::Quiet);
+  EXPECT_EQ(e, OperationModeEnum::Quiet);
 }
 
-BOOST_AUTO_TEST_CASE(test_enum_class_range)
+TEST_F(EnumTest, test_enum_class_range)
 {
   std::vector<OperationMode> modes;
 
@@ -273,13 +268,13 @@ BOOST_AUTO_TEST_CASE(test_enum_class_range)
       modes.push_back(v);
     }
 
-  BOOST_CHECK_EQUAL(modes.size(), 3);
-  BOOST_CHECK_EQUAL(modes[0], OperationMode::Normal);
-  BOOST_CHECK_EQUAL(modes[1], OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(modes[2], OperationMode::Quiet);
+  EXPECT_EQ(modes.size(), 3);
+  EXPECT_EQ(modes[0], OperationMode::Normal);
+  EXPECT_EQ(modes[1], OperationMode::Suspended);
+  EXPECT_EQ(modes[2], OperationMode::Quiet);
 }
 
-BOOST_AUTO_TEST_CASE(test_enum_range)
+TEST_F(EnumTest, test_enum_range)
 {
   std::vector<OperationModeEnum> modes;
 
@@ -288,13 +283,13 @@ BOOST_AUTO_TEST_CASE(test_enum_range)
       modes.push_back(v);
     }
 
-  BOOST_CHECK_EQUAL(modes.size(), 3);
-  BOOST_CHECK_EQUAL(modes[0], OperationModeEnum::Normal);
-  BOOST_CHECK_EQUAL(modes[1], OperationModeEnum::Suspended);
-  BOOST_CHECK_EQUAL(modes[2], OperationModeEnum::Quiet);
+  EXPECT_EQ(modes.size(), 3);
+  EXPECT_EQ(modes[0], OperationModeEnum::Normal);
+  EXPECT_EQ(modes[1], OperationModeEnum::Suspended);
+  EXPECT_EQ(modes[2], OperationModeEnum::Quiet);
 }
 
-BOOST_AUTO_TEST_CASE(test_enum_reverse_range)
+TEST_F(EnumTest, test_enum_reverse_range)
 {
   std::vector<OperationMode> modes;
 
@@ -303,13 +298,13 @@ BOOST_AUTO_TEST_CASE(test_enum_reverse_range)
       modes.push_back(v);
     }
 
-  BOOST_CHECK_EQUAL(modes.size(), 3);
-  BOOST_CHECK_EQUAL(modes[0], OperationMode::Quiet);
-  BOOST_CHECK_EQUAL(modes[1], OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(modes[2], OperationMode::Normal);
+  EXPECT_EQ(modes.size(), 3);
+  EXPECT_EQ(modes[0], OperationMode::Quiet);
+  EXPECT_EQ(modes[1], OperationMode::Suspended);
+  EXPECT_EQ(modes[2], OperationMode::Normal);
 }
 
-BOOST_AUTO_TEST_CASE(test_enum_value_range)
+TEST_F(EnumTest, test_enum_value_range)
 {
   std::vector<int> modes;
 
@@ -318,122 +313,122 @@ BOOST_AUTO_TEST_CASE(test_enum_value_range)
       modes.push_back(v);
     }
 
-  BOOST_CHECK_EQUAL(modes.size(), 3);
-  BOOST_CHECK_EQUAL(modes[0], 2);
-  BOOST_CHECK_EQUAL(modes[1], 3);
-  BOOST_CHECK_EQUAL(modes[2], 4);
+  EXPECT_EQ(modes.size(), 3);
+  EXPECT_EQ(modes[0], 2);
+  EXPECT_EQ(modes[1], 3);
+  EXPECT_EQ(modes[2], 4);
 }
 
-BOOST_AUTO_TEST_CASE(test_enum_array)
+TEST_F(EnumTest, test_enum_array)
 {
   workrave::utils::array<OperationMode, std::string> arr{"Normal", "Suspended", "Quiet"};
 
-  BOOST_CHECK_EQUAL(arr.size(), 3);
-  BOOST_CHECK_EQUAL(arr[0], "Normal");
-  BOOST_CHECK_EQUAL(arr[1], "Suspended");
-  BOOST_CHECK_EQUAL(arr[2], "Quiet");
+  EXPECT_EQ(arr.size(), 3);
+  EXPECT_EQ(arr[0], "Normal");
+  EXPECT_EQ(arr[1], "Suspended");
+  EXPECT_EQ(arr[2], "Quiet");
 
   const workrave::utils::array<OperationMode, std::string> arrc{"Normal", "Suspended", "Quiet"};
 
-  BOOST_CHECK_EQUAL(arrc.size(), 3);
-  BOOST_CHECK_EQUAL(arrc[0], "Normal");
-  BOOST_CHECK_EQUAL(arrc[1], "Suspended");
-  BOOST_CHECK_EQUAL(arrc[2], "Quiet");
+  EXPECT_EQ(arrc.size(), 3);
+  EXPECT_EQ(arrc[0], "Normal");
+  EXPECT_EQ(arrc[1], "Suspended");
+  EXPECT_EQ(arrc[2], "Quiet");
 
-  BOOST_CHECK_EQUAL(arr[OperationMode::Normal], "Normal");
-  BOOST_CHECK_EQUAL(arr[OperationMode::Suspended], "Suspended");
-  BOOST_CHECK_EQUAL(arr[OperationMode::Quiet], "Quiet");
+  EXPECT_EQ(arr[OperationMode::Normal], "Normal");
+  EXPECT_EQ(arr[OperationMode::Suspended], "Suspended");
+  EXPECT_EQ(arr[OperationMode::Quiet], "Quiet");
 }
 
-BOOST_AUTO_TEST_CASE(test_flags)
+TEST_F(EnumTest, test_flags)
 {
   auto k{Kind::A | Kind::B};
-  BOOST_CHECK_EQUAL(k.get(), 3);
+  EXPECT_EQ(k.get(), 3);
 
   k |= Kind::C;
-  BOOST_CHECK_EQUAL(k.get(), 7);
+  EXPECT_EQ(k.get(), 7);
 
   k &= Kind::C;
-  BOOST_CHECK_EQUAL(k.get(), 4);
+  EXPECT_EQ(k.get(), 4);
 
   k ^= Kind::A;
-  BOOST_CHECK_EQUAL(k.get(), 5);
+  EXPECT_EQ(k.get(), 5);
 
   k ^= Kind::A;
-  BOOST_CHECK_EQUAL(k.get(), 4);
+  EXPECT_EQ(k.get(), 4);
 
   k |= workrave::utils::Flags<Kind>{Kind::D};
-  BOOST_CHECK_EQUAL(k.get(), 12);
+  EXPECT_EQ(k.get(), 12);
 
   k &= workrave::utils::Flags<Kind>{Kind::D};
-  BOOST_CHECK_EQUAL(k.get(), 8);
+  EXPECT_EQ(k.get(), 8);
 
   k ^= workrave::utils::Flags<Kind>{Kind::A};
-  BOOST_CHECK_EQUAL(k.get(), 9);
+  EXPECT_EQ(k.get(), 9);
 
   k ^= workrave::utils::Flags<Kind>{Kind::A};
-  BOOST_CHECK_EQUAL(k.get(), 8);
+  EXPECT_EQ(k.get(), 8);
 
   workrave::utils::Flags<Kind> b{Kind::B};
   k = k | b;
-  BOOST_CHECK_EQUAL(k.get(), 10);
+  EXPECT_EQ(k.get(), 10);
 
   workrave::utils::Flags<Kind> a{Kind::A};
   k = k ^ a;
-  BOOST_CHECK_EQUAL(k.get(), 11);
+  EXPECT_EQ(k.get(), 11);
 
   k = k ^ a;
-  BOOST_CHECK_EQUAL(k.get(), 10);
+  EXPECT_EQ(k.get(), 10);
 
   workrave::utils::Flags<Kind> d{Kind::D};
   k = k & d;
-  BOOST_CHECK_EQUAL(k.get(), 8);
+  EXPECT_EQ(k.get(), 8);
 
   k = Kind::A | Kind::B | Kind::C | Kind::D;
   k &= (~(Kind::B | Kind::D));
-  BOOST_CHECK_EQUAL(k.get(), 5);
-  BOOST_CHECK_EQUAL(k.is_set(Kind::A), true);
-  BOOST_CHECK_EQUAL(k.is_set(Kind::B), false);
-  BOOST_CHECK_EQUAL(k.is_set(Kind::C), true);
-  BOOST_CHECK_EQUAL(k.is_set(Kind::D), false);
+  EXPECT_EQ(k.get(), 5);
+  EXPECT_EQ(k.is_set(Kind::A), true);
+  EXPECT_EQ(k.is_set(Kind::B), false);
+  EXPECT_EQ(k.is_set(Kind::C), true);
+  EXPECT_EQ(k.is_set(Kind::D), false);
 
   k = Kind::A & Kind::B;
-  BOOST_CHECK_EQUAL(k.get(), 0);
+  EXPECT_EQ(k.get(), 0);
 
   k = Kind::A ^ Kind::B;
-  BOOST_CHECK_EQUAL(k.get(), 3);
+  EXPECT_EQ(k.get(), 3);
 
   k = Kind::B ^ Kind::B;
-  BOOST_CHECK_EQUAL(k.get(), 0);
+  EXPECT_EQ(k.get(), 0);
 
   k.clear();
-  BOOST_CHECK_EQUAL(k.get(), 0);
+  EXPECT_EQ(k.get(), 0);
 
   k.set(9);
-  BOOST_CHECK_EQUAL(k.is_set(Kind::A), true);
-  BOOST_CHECK_EQUAL(k.is_set(Kind::B), false);
-  BOOST_CHECK_EQUAL(k.is_set(Kind::C), false);
-  BOOST_CHECK_EQUAL(k.is_set(Kind::D), true);
-  BOOST_CHECK_EQUAL(k.is_set(Kind::A | Kind::D), true);
-  BOOST_CHECK_EQUAL(k.is_set(Kind::B | Kind::D), false);
+  EXPECT_EQ(k.is_set(Kind::A), true);
+  EXPECT_EQ(k.is_set(Kind::B), false);
+  EXPECT_EQ(k.is_set(Kind::C), false);
+  EXPECT_EQ(k.is_set(Kind::D), true);
+  EXPECT_EQ(k.is_set(Kind::A | Kind::D), true);
+  EXPECT_EQ(k.is_set(Kind::B | Kind::D), false);
 
   k = Kind::A;
-  BOOST_CHECK_EQUAL(k.get(), 1);
-  BOOST_CHECK_EQUAL(k == a, true);
-  BOOST_CHECK_EQUAL(k == b, false);
-  BOOST_CHECK_EQUAL(k != a, false);
-  BOOST_CHECK_EQUAL(k != b, true);
+  EXPECT_EQ(k.get(), 1);
+  EXPECT_EQ(k == a, true);
+  EXPECT_EQ(k == b, false);
+  EXPECT_EQ(k != a, false);
+  EXPECT_EQ(k != b, true);
 
   k = ~Kind::A;
-  BOOST_CHECK_EQUAL(k.get(), ~1);
+  EXPECT_EQ(k.get(), ~1);
 
   k = Kind::A | Kind::B | Kind::D;
-  BOOST_CHECK_EQUAL(static_cast<bool>(k & (Kind::A | Kind::B)), true);
-  BOOST_CHECK_EQUAL(static_cast<bool>(k & (Kind::C)), false);
+  EXPECT_EQ(static_cast<bool>(k & (Kind::A | Kind::B)), true);
+  EXPECT_EQ(static_cast<bool>(k & (Kind::C)), false);
 
   std::ostringstream oss;
   oss << k;
-  BOOST_CHECK_EQUAL(oss.str(), "A,B,D");
+  EXPECT_EQ(oss.str(), "A,B,D");
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

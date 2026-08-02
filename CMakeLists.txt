@@ -296,7 +296,7 @@ include(WorkraveTests)
 # Toolkit selection
 
 set (WITH_UI "Gtk+3" CACHE STRING "UI Toolkit to use")
-set (WITH_UI_VALUES "Qt" "Gtk+3")
+set (WITH_UI_VALUES "Qt" "Gtk+3" "Gtk+4")
 set_property(CACHE WITH_UI PROPERTY STRINGS ${WITH_UI_VALUES})
 list(FIND WITH_UI_VALUES ${WITH_UI} WITH_UI_INDEX)
 if (${WITH_UI_INDEX} EQUAL -1)
@@ -310,6 +310,9 @@ endif()
 
 set (WITH_UI_GTK FALSE)
 if ("${WITH_UI}" STREQUAL "Gtk+3")
+  set (WITH_UI_GTK TRUE)
+endif()
+if ("${WITH_UI}" STREQUAL "Gtk+4")
   set (WITH_UI_GTK TRUE)
 endif()
 
@@ -539,6 +542,38 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   find_package(GSettings)
 endif()
 
+
+if ("${WITH_UI}" STREQUAL "Gtk+4")
+  message(STATUS "Checking for: Gtk 4")
+
+  pkg_check_modules(
+    GTK REQUIRED
+    gtkmm-4.0>=4.4.0
+    gtk4>=4.6.0)
+
+  pkg_check_modules(
+    GLIB REQUIRED
+    glib-2.0>=2.71.0
+    gio-2.0>=2.71.0)
+
+  set (HAVE_GSETTINGS ON)
+  set (HAVE_GLIB ON)
+  set (HAVE_GTK ON)
+  set (HAVE_APP_GTK ON)
+
+  if (WITH_DBUS)
+    set (HAVE_DBUS ON)
+    set (HAVE_DBUS_GIO ON)
+    set (DBUS_BACKEND "gio")
+  endif()
+
+  pkg_check_modules(
+    GTK3 REQUIRED
+    gtk+-3.0>=3.22.0)
+
+  #include_directories(${GLIB_INCLUDE_DIRS})
+  find_package(GSettings)
+endif()
 
 #----------------------------------------------------------------------------------------------------
 # Qt

@@ -95,7 +95,7 @@ private:
 
 private:
   Gtk::TextView *text_view{nullptr};
-  Gtk::VBox *vbox{nullptr};
+  GtkCompat::Box *vbox{nullptr};
   Gtk::ScrolledWindow scrolled_window;
   Glib::RefPtr<Gtk::TextBuffer> text_buffer;
   CrashDetailsDialog *details_dlg{nullptr};

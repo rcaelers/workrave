@@ -18,9 +18,15 @@
 #include <gtkmm.h>
 #include <gdkmm/types.h>
 
-class Frame : public Gtk::Bin
+class Frame
+  :
+#if GTK_CHECK_VERSION(4, 0, 0)
+  public Gtk::Widget
+#else
+  public Gtk::Bin
+#endif
 {
-public:
+	public:
   using flash_signal_t = sigc::signal<void(bool)>;
 
   enum Style

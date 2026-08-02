@@ -63,13 +63,13 @@ MicroBreakWindow::create_gui()
   Gtk::Image *img = GtkUtil::create_image("micro-break.png");
   img->set_alignment(0.0, 0.0);
 
-  // HBox
-  Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 12));
+  // Box
+  auto *hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 12));
   hbox->pack_start(*img, false, false, 0);
   hbox->pack_start(*label, Gtk::PACK_EXPAND_PADDING, 0);
 
   // Overall vbox
-  auto *box = new Gtk::VBox(false, 12);
+  auto *box = new GtkCompat::Box(Gtk::Orientation::VERTICAL, 12);
   box->pack_start(*hbox, Gtk::PACK_EXPAND_WIDGET, 0);
   box->pack_start(*time_bar, Gtk::PACK_EXPAND_WIDGET, 0);
 
@@ -79,12 +79,12 @@ MicroBreakWindow::create_gui()
 
   if ((break_flags != BREAK_FLAGS_NONE) || restbreak->is_enabled())
     {
-      Gtk::HBox *button_box = nullptr;
+      GtkCompat::Box *button_box = nullptr;
       if (break_flags != BREAK_FLAGS_NONE)
         {
-          button_box = Gtk::manage(new Gtk::HBox(false, 6));
+          button_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6));
 
-          Gtk::HBox *bbox = Gtk::manage(new Gtk::HBox(true, 6));
+          auto *bbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6));
 
           if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
             {
@@ -109,7 +109,7 @@ MicroBreakWindow::create_gui()
         }
       else
         {
-          button_box = Gtk::manage(new Gtk::HBox(false, 6));
+          button_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6));
           button_box->pack_end(*Gtk::manage(create_restbreaknow_button(true)), Gtk::PACK_SHRINK, 0);
         }
       box->pack_start(*button_box, Gtk::PACK_EXPAND_WIDGET, 0);
