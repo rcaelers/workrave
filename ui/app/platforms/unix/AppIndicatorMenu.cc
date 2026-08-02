@@ -28,6 +28,10 @@
 #include <glib.h>
 #include <spdlog/spdlog.h>
 
+#if !defined(HAVE_APPINDICATOR_GLIB)
+#  include <gtk/gtk.h>
+#endif
+
 #include "utils/AssetPath.hh"
 #include "utils/Signals.hh"
 #include "ui/GUIConfig.hh"
@@ -60,6 +64,7 @@ namespace
   }
 } // namespace
 
+#if defined(HAVE_APPINDICATOR_GLIB)
 AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context)
   : context(context)
   , apphold(context->get_toolkit())
@@ -73,6 +78,28 @@ AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context)
 
   app_indicator_set_status(indicator, APP_INDICATOR_STATUS_ACTIVE);
   app_indicator_set_attention_icon(indicator, "workrave", "workrave-icon");
+#else
+AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std::shared_ptr<DbusMenu> dbus_menu)
+  : context(context)
+  , apphold(context->get_toolkit())
+{
+  indicator = app_indicator_new("workrave", "workrave", APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
+
+  // The classic library requires a GtkMenu for set_menu(), but the menu content
+  // is actually served over DBus: attach the shared menu model's root item to
+  // the indicator's own DBus Menu server, same as the panel indicator applet.
+  GtkWidget *menu_widget = gtk_menu_new();
+  app_indicator_set_menu(indicator, GTK_MENU(menu_widget));
+
+  DbusmenuServer *server{};
+  g_object_get(indicator, "dbus-menu-server", &server, NULL);
+  auto *root_menu_item = dbus_menu->get_root_menu_item();
+  g_object_ref(root_menu_item);
+  dbusmenu_server_set_root(server, root_menu_item);
+
+  app_indicator_set_status(indicator, APP_INDICATOR_STATUS_ACTIVE);
+  app_indicator_set_attention_icon_full(indicator, "workrave", "workrave-icon");
+#endif
 
   g_signal_connect(G_OBJECT(indicator),
                    "connection-changed",
@@ -124,10 +151,16 @@ AppIndicatorMenu::on_operation_mode_changed(workrave::OperationMode mode)
       std::string directory = path.parent_path().string();
       std::string filename = path.filename().string();
       app_indicator_set_icon_theme_path(indicator, directory.c_str());
+#if defined(HAVE_APPINDICATOR_GLIB)
       app_indicator_set_icon(indicator, filename.c_str(), "workrave-icon");
+#else
+      app_indicator_set_icon_full(indicator, filename.c_str(), "workrave-icon");
+#endif
     }
 
+#if defined(HAVE_APPINDICATOR_GLIB)
   menu->update();
+#endif
 }
 
 gboolean
