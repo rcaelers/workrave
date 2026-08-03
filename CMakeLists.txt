@@ -1133,6 +1133,7 @@ if (WITH_CRASHPAD)
     GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
     # GIT_SHALLOW TRUE
     GIT_TAG 2ee3985352352c4ad302635877561f7a6101da99
+    EXCLUDE_FROM_ALL
   )
   set(CRASHPAD_ENABLE_STACKTRACE ON CACHE BOOL "Enable stack traces in crashpad" FORCE)
   FetchContent_MakeAvailable(crashpad)
