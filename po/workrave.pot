@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 14:03+0200\n"
+"POT-Creation-Date: 2026-08-03 23:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,189 +21,314 @@ msgstr ""
 msgid "Replaced by use-microbreak-activity"
 msgstr ""
 
-#: ui/app/Application.cc:464
+#: libs/corenext/src/org.workrave.gschema.xml.in:221
+#: libs/core/src/org.workrave.gschema.xml.in:237
+msgid "Enable the gRPC server"
+msgstr ""
+
+#: libs/corenext/src/org.workrave.gschema.xml.in:222
+#: libs/core/src/org.workrave.gschema.xml.in:238
+msgid "Allow local applications to control Workrave through gRPC."
+msgstr ""
+
+#: libs/corenext/src/org.workrave.gschema.xml.in:230
+#: libs/core/src/org.workrave.gschema.xml.in:246
+msgid "gRPC transport"
+msgstr ""
+
+#: libs/corenext/src/org.workrave.gschema.xml.in:231
+#: libs/core/src/org.workrave.gschema.xml.in:247
+msgid "Use a Unix-domain socket or a loopback TCP/IP socket."
+msgstr ""
+
+#: libs/corenext/src/org.workrave.gschema.xml.in:236
+#: libs/core/src/org.workrave.gschema.xml.in:252
+msgid "gRPC TCP port"
+msgstr ""
+
+#: libs/corenext/src/org.workrave.gschema.xml.in:237
+#: libs/core/src/org.workrave.gschema.xml.in:253
+msgid "TCP port used when the gRPC transport is set to TCP/IP."
+msgstr ""
+
+#: ui/app/Application.cc:469
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
-#: ui/app/Application.cc:689
+#: ui/app/Application.cc:694
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ui/app/Application.cc:705
+#: ui/app/Application.cc:710
 msgid ""
 "Workrave is in suspended mode.\n"
 "Mouse and keyboard activity will not be monitored."
 msgstr ""
 
-#: ui/app/Application.cc:713
+#: ui/app/Application.cc:718
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #. FIXME: duplicate
 #. Layout
-#: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/Application.cc:728 ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
 #: ui/app/toolkits/gtkmm/Ui.cc:38
-#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
+#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
+#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
 msgid "Micro-break"
 msgstr ""
 
-#: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/Application.cc:728 ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
-#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:266
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:55
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:132
+#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:184
+#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:262
+#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:270
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:22
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:65
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:96
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:576
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:237
 msgid "Rest break"
 msgstr ""
 
 #. label
-#: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/Application.cc:728 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
 #: ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
 #: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:91
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:140
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:101
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:83
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:23
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:70
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:245
 msgid "Daily limit"
 msgstr ""
 
-#: ui/app/Application.cc:730 ui/app/Application.cc:734
+#: ui/app/Application.cc:735 ui/app/Application.cc:739
 msgid "Mode: "
 msgstr ""
 
-#: ui/app/Application.cc:730 ui/app/platforms/windows/WindowsFocusAssist.cc:78
+#: ui/app/Application.cc:735 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:387
 msgid "Suspended"
 msgstr ""
 
-#: ui/app/Application.cc:734 ui/app/platforms/windows/WindowsFocusAssist.cc:78
+#: ui/app/Application.cc:739 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:389
 msgid "Quiet"
 msgstr ""
 
-#: ui/app/Menus.cc:64 ui/applets/mate/src/main.c:360
+#: ui/app/Prelude.cc:35 ui/app/toolkits/gtkmm/PreludeWindow.cc:115
+#: ui/app/toolkits/qt/qml/PreludeOverlay.qml:15
+msgid "Time for a micro-break?"
+msgstr ""
+
+#: ui/app/Prelude.cc:37 ui/app/toolkits/gtkmm/PreludeWindow.cc:119
+msgid "You need a rest break..."
+msgstr ""
+
+#: ui/app/Prelude.cc:39 ui/app/toolkits/gtkmm/PreludeWindow.cc:123
+msgid "You should stop for today..."
+msgstr ""
+
+#: ui/app/Prelude.cc:51 ui/app/toolkits/gtkmm/PreludeWindow.cc:334
+#: ui/app/toolkits/qt/qml/PreludeClassic.qml:102
+#: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
+#, c++-format
+msgid "Break in {}"
+msgstr ""
+
+#: ui/app/Prelude.cc:53 ui/app/toolkits/gtkmm/PreludeWindow.cc:338
+#, c++-format
+msgid "Disappears in {}"
+msgstr ""
+
+#: ui/app/Prelude.cc:55 ui/app/toolkits/gtkmm/PreludeWindow.cc:342
+#, c++-format
+msgid "Silent in {}"
+msgstr ""
+
+#: ui/app/Menus.cc:68 ui/applets/mate/src/main.c:360
 msgid "_Open"
 msgstr ""
 
-#: ui/app/Menus.cc:70 ui/applets/mate/src/main.c:364
+#: ui/app/Menus.cc:74 ui/applets/mate/src/main.c:364
 msgid "_Preferences"
 msgstr ""
 
-#: ui/app/Menus.cc:73
+#: ui/app/Menus.cc:77
 msgid "_Rest break"
 msgstr ""
 
-#: ui/app/Menus.cc:76 ui/applets/mate/src/main.c:366
+#: ui/app/Menus.cc:80 ui/applets/mate/src/main.c:366
 msgid "_Exercises"
 msgstr ""
 
-#: ui/app/Menus.cc:79
+#: ui/app/Menus.cc:83
 msgid "S_tatistics"
 msgstr ""
 
-#: ui/app/Menus.cc:88 ui/applets/mate/src/main.c:370
+#: ui/app/Menus.cc:92 ui/applets/mate/src/main.c:370
 msgid "_Mode"
 msgstr ""
 
-#: ui/app/Menus.cc:96
+#: ui/app/Menus.cc:100
 msgid "_Normal"
 msgstr ""
 
-#: ui/app/Menus.cc:103
+#: ui/app/Menus.cc:107
 msgid "_Suspended"
 msgstr ""
 
-#: ui/app/Menus.cc:110
+#: ui/app/Menus.cc:114
 msgid "Q_uiet"
 msgstr ""
 
-#: ui/app/Menus.cc:116
+#: ui/app/Menus.cc:120
 msgid "Temporarily Suspended..."
 msgstr ""
 
-#: ui/app/Menus.cc:119
+#: ui/app/Menus.cc:123
 msgid "Temporarily Quiet..."
 msgstr ""
 
-#: ui/app/Menus.cc:125
+#: ui/app/Menus.cc:129
 msgid "_Reading mode"
 msgstr ""
 
-#: ui/app/Menus.cc:135 ui/applets/mate/src/main.c:372
+#: ui/app/Menus.cc:139 ui/applets/mate/src/main.c:372
 msgid "_About"
 msgstr ""
 
-#: ui/app/Menus.cc:138 ui/applets/mate/src/main.c:374
+#: ui/app/Menus.cc:142 ui/applets/mate/src/main.c:374
 msgid "_Quit"
 msgstr ""
 
-#: ui/app/Menus.cc:164
+#: ui/app/Menus.cc:168
 msgid "Indefinitely"
 msgstr ""
 
-#: ui/app/Menus.cc:176
+#: ui/app/Menus.cc:180
 msgid "For 1 hour"
 msgstr ""
 
-#: ui/app/Menus.cc:177
+#: ui/app/Menus.cc:181
 #, qt-format
 msgid "For %1% hours"
 msgstr ""
 
-#: ui/app/Menus.cc:183
+#: ui/app/Menus.cc:187
 msgid "and 1 minute"
 msgstr ""
 
-#: ui/app/Menus.cc:183
+#: ui/app/Menus.cc:187
 #, qt-format
 msgid "and %1% minutes"
 msgstr ""
 
-#: ui/app/Menus.cc:187
+#: ui/app/Menus.cc:191
 msgid "For 1 minute"
 msgstr ""
 
-#: ui/app/Menus.cc:187
+#: ui/app/Menus.cc:191
 #, qt-format
 msgid "For %1% minutes"
 msgstr ""
 
-#: ui/app/Menus.cc:196
+#: ui/app/Menus.cc:200
 msgid "Until next day"
 msgstr ""
 
-#: ui/app/Menus.cc:295
+#: ui/app/Menus.cc:299
 #, qt-format
 msgid "Q_uiet (until %1%)"
 msgstr ""
 
-#: ui/app/Menus.cc:300
+#: ui/app/Menus.cc:304
 #, qt-format
 msgid "_Suspended (until %1%)"
 msgstr ""
 
-#: ui/app/Menus.cc:308
+#: ui/app/Menus.cc:312
 msgid "Q_uiet (until next day)"
 msgstr ""
 
-#: ui/app/Menus.cc:313
+#: ui/app/Menus.cc:317
 msgid "_Suspended (until next day)"
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:10
+msgid "Preferred screen lock method"
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:11
+msgid ""
+"Identifier of the screen lock method used by break windows. An empty value "
+"selects the first available method."
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:15
+msgid "Preferred sleep operation"
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:16
+msgid "System sleep operation used by break windows."
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:20
+msgid "Custom screen lock command"
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:21
+msgid "Command to execute when the custom screen lock method is selected."
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:51
+msgid "Interface color scheme"
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:52
+msgid "Select a light, dark, or automatically detected interface color scheme."
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:71
+msgid "Use the Sanctuary interface"
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:72
+msgid "Use the Sanctuary design for break windows and the status window."
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:77
+msgid "Timer display style"
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:78
+msgid "Select the visual style used to display timers."
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:376
+msgid "Audio output device"
+msgstr ""
+
+#: ui/app/org.workrave.gui.gschema.xml.in:377
+msgid ""
+"Stable identifier of the audio output device. An empty value follows the "
+"system default device."
 msgstr ""
 
 #: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:4
@@ -249,6 +374,7 @@ msgid ""
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:148
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:67
 msgid "Release notes"
 msgstr ""
 
@@ -381,10 +507,18 @@ msgid "Lock"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:277
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:14
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:14
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:14
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:18
 msgid "Shutdown"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:281
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:15
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:15
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:15
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:19
 msgid "Suspend"
 msgstr ""
 
@@ -396,11 +530,25 @@ msgstr ""
 msgid "Suspend hybrid"
 msgstr ""
 
+#. Historical Gtk msgids — reuses the existing po translations. The
+#. mnemonic underscore ("_Skip") is stripped for display.
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:408
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:12
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:12
+#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:12
+#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:12
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:12
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:16
 msgid "_Skip"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:418
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:13
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:13
+#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:13
+#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:13
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:13
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:17
 msgid "_Postpone"
 msgstr ""
 
@@ -464,6 +612,8 @@ msgid "Additional comments (optional):"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:108
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:193
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -477,46 +627,54 @@ msgstr ""
 #. Dialog
 #: ui/app/toolkits/gtkmm/DebugDialog.cc:51
 #: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:90
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:143
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:54
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:357
-#: ui/app/toolkits/qt/qml/StatusWindow.qml:95
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:94
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:136
+#: ui/app/toolkits/qt/qml/AboutDialog.qml:152
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:174
+#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:166
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:313
+#: ui/app/toolkits/qt/qml/StatusWindow.qml:96
 msgid "Close"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/ExercisesDialog.cc:29
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:538
+#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:36
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:707
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:160
 msgid "Exercises"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:92
+#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:151
 msgid "Previous"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:93
+#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:159
 msgid "Next"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:112
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:175
 msgid "Exercises player"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:146
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:278
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:636
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:274
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:808
 msgid "Previous exercise"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:147
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:294
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:648
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:325
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:859
 msgid "Next exercise"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:148
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:325
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:289
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:823
 msgid "Pause exercises"
 msgstr ""
 
@@ -525,20 +683,24 @@ msgid "End exercises"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
+#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:155
 msgid "Resume"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
+#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:155
 msgid "Pause"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:321
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:289
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:823
 msgid "Resume exercises"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
-#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:194
+#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:108
+#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:199
 msgid "Please relax for a few seconds"
 msgstr ""
 
@@ -618,44 +780,61 @@ msgstr ""
 msgid "The pixel size that icons should be forced to, or zero"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:45
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:46
 msgid "Preferences"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:100
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:104
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:20
 msgid "Timers"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:116
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:26
 msgid "User interface"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:72
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:27
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
 msgid "General"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:29
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:92
 msgid "Status window"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
 msgid "Applet"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:135
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:137
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:65
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:139
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:141
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:24
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:75
 msgid "Monitoring"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:143
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:145
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:77
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:147
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:149
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:28
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:87
 msgid "Sounds"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:156
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:34
+msgid "Remote control"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:158
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:35
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:103
+msgid "gRPC"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
@@ -677,7 +856,7 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:126
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:104
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:122
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:124
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:123
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:26
 msgid "Options"
@@ -718,7 +897,7 @@ msgid ""
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:190
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:227
 msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
 msgstr ""
 
@@ -729,7 +908,7 @@ msgid ""
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:229
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:199
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:236
 msgid ""
 "Use GNOME Shell extension for showing break prompts on Wayland (EXPERIMENTAL)"
 msgstr ""
@@ -802,59 +981,63 @@ msgid "Debug monitoring"
 msgstr ""
 
 #. Options
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:56
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:57
 msgid "Sound Options"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:61
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:62
 msgid "No sounds"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:62
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:63
 msgid "Play sounds using sound card"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:83
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
 msgid "Volume"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
+msgid "Output device:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:94
 msgid "Sound:"
 msgstr ""
 
 #. Volume
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:105
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:99
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:171
 msgid "Mute sounds during rest break and daily limit"
 msgstr ""
 
 #. Sound themes
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:177
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:107
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:243
 msgid "Sound Events"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:106
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:115
 msgid "Sound Theme:"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:129
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:147
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:167
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:261
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:138
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:176
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:327
 msgid "Play"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:134
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:143
 msgid "Event"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:159
 msgid "Choose a sound"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:165
 msgid "Wavefiles"
 msgstr ""
 
@@ -910,13 +1093,11 @@ msgid ""
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
 msgid "Placement"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
 msgid "Cycle time"
 msgstr ""
@@ -940,20 +1121,20 @@ msgstr ""
 #. Prelude frame
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:95
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:72
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:90
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:92
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:91
 msgid "Break prompting"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:94
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:96
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:95
 msgid "Prompt before breaking"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:114
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
 msgid "Maximum number of prompts"
 msgstr ""
@@ -961,7 +1142,7 @@ msgstr ""
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:108
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:126
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:128
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:127
 msgid "Show 'Postpone' button"
 msgstr ""
@@ -969,7 +1150,7 @@ msgstr ""
 #. Skippable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:133
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:116
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:134
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:136
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:135
 msgid "Show 'Skip' button"
 msgstr ""
@@ -1005,273 +1186,192 @@ msgid "Time between breaks"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
 msgid "Break duration"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:73
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
 msgid "Postpone time"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/Prelude.cc:35
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:113
-#: ui/app/toolkits/qt/qml/PreludeOverlay.qml:15
-msgid "Time for a micro-break?"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/Prelude.cc:37
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:117
-msgid "You need a rest break..."
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/Prelude.cc:39
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:121
-msgid "You should stop for today..."
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/Prelude.cc:51
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:263
-#: ui/app/toolkits/qt/qml/PreludeClassic.qml:101
-#: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
-#, c++-format
-msgid "Break in {}"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/Prelude.cc:53
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:267
-#, c++-format
-msgid "Disappears in {}"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/Prelude.cc:55
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:271
-#, c++-format
-msgid "Silent in {}"
-msgstr ""
-
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:258
 #, c++-format
 msgid "Rest break for {}"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
 msgid "Natural rest break"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:217
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:227
 msgid "This is your natural rest break."
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:228
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:46
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:119
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:48
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:116
 msgid "Statistics"
 msgstr ""
 
 #. Navigation box
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:108
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:105
 msgid "Browse history"
 msgstr ""
 
 #. Delete button
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:113
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:110
 msgid "Delete all statistics history"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:120
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:117
 msgid "Date:"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:153
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:146
 msgid "Breaks"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:161
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:154
 msgid "Break prompts"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:162
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:155
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:159
 msgid "Repeated prompts"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:167
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:160
 msgid "The number of times you were repeatedly prompted to break"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:162
 msgid "Prompted breaks taken"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:170
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:163
 msgid "The number of times you took a break when being prompted"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:173
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
 msgid "Natural breaks taken"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:174
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:167
 msgid "The number of times you took a break without being prompted"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
 msgid "Breaks skipped"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
 msgid "The number of breaks you skipped"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:171
 msgid "Breaks postponed"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:179
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:172
 msgid "The number of breaks you postponed"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:181
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:174
 msgid "Overdue time"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:181
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:174
 msgid "The total time this break was overdue"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:183
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
 msgid "Usage"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:183
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
 msgid "Active computer usage"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:185
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
 msgid "Daily"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:186
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:179
 msgid "The total computer usage for the selected day"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:189
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
 msgid "Weekly"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:190
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:183
 msgid "The total computer usage for the whole week of the selected day"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:193
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:186
 msgid "Monthly"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:194
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:187
 msgid "The total computer usage for the whole month of the selected day"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:271
-msgid "Activity"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:279
-msgid "Mouse usage:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:280
-msgid "The total time you were using the mouse"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:281
-msgid "Mouse movement:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:282
-msgid "The total on-screen mouse movement"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:284
-msgid "Effective mouse movement:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:285
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:287
-msgid "Mouse button clicks:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
-msgid "The total number of mouse button clicks"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:289
-msgid "Keystrokes:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:289
-msgid "The total number of keys pressed"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:325
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:307
 #, c-format
 msgid "{:%x}, from {:%X} to {:%X}"
 msgstr ""
 
 #. Confirm the user's intention
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:643
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:515
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:517
 msgid "Warning"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:515
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:654
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:528
 msgid "Files deleted!"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:655
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:529
 msgid "The files containing your statistics history have been deleted."
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:657
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:531
 msgid "Info"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:662
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:536
 msgid "File deletion failed!"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:663
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:537
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:665
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:539
 msgid "Error"
 msgstr ""
 
@@ -1279,6 +1379,7 @@ msgstr ""
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
 #: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
 #: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:350
+#: ui/app/toolkits/qt/qml/AboutDialog.qml:46
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -1509,6 +1610,26 @@ msgstr ""
 msgid "%s%d seconds"
 msgstr ""
 
+#: ui/app/toolkits/qt/qml/AboutDialog.qml:87
+msgid "Authors"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/AboutDialog.qml:87
+msgid "Translators"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:151
+msgid "Skip this version"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:162
+msgid "Remind me later"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:167
+msgid "Install update"
+msgstr ""
+
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:26
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:26
 msgid "Visibility"
@@ -1579,113 +1700,44 @@ msgid "The original Workrave widget — text timers, no transparency."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:120
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:128
-msgid "Layout"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:148
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
-msgid ""
-"Where each timer appears. Pair timers into the same slot to save space — "
-"Workrave will alternate between them."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:161
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:169
-msgid "Next to each other"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:169
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:177
-msgid "Micro + Rest together"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:177
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:185
-msgid "Rest + Daily together"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:185
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:193
-msgid "All in one slot"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:198
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
-msgid "When timers share a slot, switch between them this often."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:217
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:225
 msgid "Per-timer visibility"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:221
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:50
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 msgid "Microbreak"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:98
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:218
-msgid ""
-"You have reached your daily limit. Please stop working behind the computer. "
-"If your working day is not over yet, find something else to do, such as "
-"reviewing a document."
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:152
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:133
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:608
+msgid "Are you sure you want to shut down the computer?"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:137
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:129
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:136
-#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:188
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:290
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:298
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:282
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:141
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:144
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:366
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:368
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:467
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:468
-msgid "Postpone"
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:153
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:146
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:302
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:146
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:621
+msgid "Are you sure you want to put the computer to sleep?"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:144
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:158
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:166
-#: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:195
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:322
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:330
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:289
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:159
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:161
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:379
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:382
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:480
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:482
-msgid "Skip"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:74
-msgid "DAILY LIMIT"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:105
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:115
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:118
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:451
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:114
+#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:120
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:116
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:594
 msgid "Lock screen"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:245
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:252
-msgid "Stop working"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:280
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:357
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:190
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:502
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:218
+#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:361
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:171
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:671
 msgid "Postpone and skip will unlock after resting"
 msgstr ""
 
@@ -1704,7 +1756,7 @@ msgid "When today's active time crosses this, the daily-limit window appears."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:72
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:74
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
 msgid "When postponed, Workrave reminds you again after this long."
 msgstr ""
@@ -1718,7 +1770,7 @@ msgid "Show a gentle reminder a few seconds before the limit is enforced."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:85
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:103
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:105
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
 msgid "Limit number of prompts"
 msgstr ""
@@ -1728,13 +1780,13 @@ msgid "When off, Workrave keeps reminding you until the limit is enforced."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:127
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:129
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:128
 msgid "Whether the postpone button appears on the break window."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:117
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:135
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:137
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:136
 msgid "Whether the skip button appears on the break window."
 msgstr ""
@@ -1745,20 +1797,14 @@ msgid ""
 "spent at the computer; turn off to limit only active use."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:40
-msgid "← Previous"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:132
+msgid "Enable shutting down the computer from the daily limit screen"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:45
-msgid "▶ Resume"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:45
-msgid "⏸ Pause"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:50
-msgid "Next →"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:133
+msgid ""
+"Adds power buttons to the daily limit window so you can stop work and shut "
+"down or sleep the computer."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
@@ -1824,22 +1870,56 @@ msgid "Visual style used for Workrave's icons."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:185
+msgid "Lock & power"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:189
+msgid "Custom lock command"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:190
+msgid ""
+"Shell command for locking the screen. When set, appears as 'Custom command' "
+"in the lock method list."
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:192
+msgid "e.g. /usr/bin/pmset displaysleepnow"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:199
+msgid "Lock method"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:200
+msgid "Which screen-lock backend to use when the Lock button is pressed."
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:209
+msgid "Sleep action"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:210
+msgid "What the Sleep button does — suspend, hibernate, or hybrid sleep."
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:222
 msgid "Linux display server"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:191
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:228
 msgid ""
 "Runs Workrave under XWayland instead of native Wayland. Requires a restart "
 "of Workrave."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:200
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:237
 msgid ""
 "Uses the Workrave GNOME Shell extension to show break prompts on Wayland. "
 "Experimental."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:182
+#: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:187
 msgid "Please stop and relax"
 msgstr ""
 
@@ -1851,16 +1931,16 @@ msgstr ""
 msgid "How long you've been using the keyboard or mouse before being prompted."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:54
 msgid "How long each microbreak lasts."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:95
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:97
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:96
 msgid "Show a gentle reminder a few seconds before the break starts."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:104
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:106
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:105
 msgid "When off, Workrave keeps reminding you until the break starts."
 msgstr ""
@@ -1885,99 +1965,94 @@ msgstr ""
 msgid "Open debug window"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:51
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
+msgid "Status applet"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:61
 msgid ""
 "A short pause to look away, stretch, and reset. Workrave reminds you several "
 "times an hour."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:56
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:66
 msgid ""
 "A longer break with guided exercises. Workrave suggests one every 30–60 "
 "minutes of activity."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:61
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:71
 msgid ""
 "A cap on how long you'll work at the computer in a day. Workrave nudges you "
 "to stop when you reach it."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:66
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:76
 msgid ""
 "How Workrave detects your activity — keyboard, mouse, and system idle state."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:73
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:83
 msgid "How Workrave behaves on your system, and how forcefully it interrupts."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:78
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:88
 msgid ""
 "Choose which sounds Workrave plays at break events, and adjust the volume."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:83
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:93
 msgid "The little always-visible window with your three timers."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:87
-msgid "Status applet"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:88
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:98
 msgid "The system-tray or panel applet showing your three timers."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:131
-msgid "Workrave — Preferences"
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:104
+msgid "Allow local applications to inspect and control Workrave."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PreludeClassic.qml:71
+#: ui/app/toolkits/qt/qml/PreludeClassic.qml:72
 msgid "Time for a break?"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:165
-msgid "Exercises player:"
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:97
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:577
+msgid "Exercise"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:218
-msgid ""
-"This is your rest break. Make sure you stand up and walk away from your "
-"computer on a regular basis. Just walk around for a few minutes, stretch, "
-"and relax."
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:98
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:469
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:578
+msgid "%1 of %2"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:80
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
-msgid "REST BREAK"
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:333
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:867
+msgid "Stop exercises"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:81
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:99
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
-msgid "OF"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
-msgid "INPUT BLOCKED"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:341
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:708
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:402
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:971
 msgid "Exercises complete — please relax"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:347
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:709
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:408
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:972
 msgid "Please stand up and walk away from your computer"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:585
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:754
 msgid "Total left"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:715
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:756
+msgid "of %1"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:978
 msgid "End break early"
 msgstr ""
 
@@ -2017,19 +2092,23 @@ msgstr ""
 msgid "Play a sound when a break starts or ends."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:123
+msgid "Output device"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172
 msgid "Silences system audio when a rest break or daily limit begins."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:129
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
 msgid "Sound theme"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:287
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:353
 msgid "Choose…"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:314
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:380
 msgid "Clear"
 msgstr ""
 
@@ -2039,6 +2118,36 @@ msgstr ""
 
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:38
 msgid "Always on top"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:128
+msgid "Layout"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
+msgid ""
+"Where each timer appears. Pair timers into the same slot to save space — "
+"Workrave will alternate between them."
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:169
+msgid "Next to each other"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:177
+msgid "Micro + Rest together"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:185
+msgid "Rest + Daily together"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:193
+msgid "All in one slot"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
+msgid "When timers share a slot, switch between them this often."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
