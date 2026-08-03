@@ -513,7 +513,6 @@ Item {
         property string label: ""
         property bool highlighted: false
         property bool hovered: false
-        property bool enabled: true
         signal clicked()
 
         height: 30
@@ -548,7 +547,6 @@ Item {
     component NavButton: Rectangle {
         property string label: ""
         property bool hovered: false
-        property bool enabled: true
         signal clicked()
 
         width: 30; height: 30

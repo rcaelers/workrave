@@ -284,7 +284,6 @@ Item {
         property string label: ""
         property bool highlighted: false
         property bool hovered: false
-        property bool enabled: true
         signal clicked()
 
         height: 30
