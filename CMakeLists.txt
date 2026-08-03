@@ -11,6 +11,23 @@ if(POLICY CMP0167)
   cmake_policy(SET CMP0167 NEW)
 endif()
 
+#----------------------------------------------------------------------------------------------------
+# Compiler cache
+#
+# Must be set before project() so CMAKE_<LANG>_COMPILER_LAUNCHER is picked up
+# the first time each language's compiler is configured.
+
+option(WITH_CCACHE "Use ccache to speed up recompilation, if found" ON)
+set(HAVE_CCACHE OFF)
+if (WITH_CCACHE)
+  find_program(CCACHE_PROGRAM ccache)
+  if (CCACHE_PROGRAM)
+    set(HAVE_CCACHE ON)
+    set(CMAKE_C_COMPILER_LAUNCHER "${CCACHE_PROGRAM}" CACHE STRING "")
+    set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}" CACHE STRING "")
+  endif()
+endif()
+
 project(Workrave)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -1442,6 +1459,7 @@ feature_text("Workrave" WORKRAVE_VERSION)
 feature_text("Install prefix" CMAKE_INSTALL_PREFIX)
 feature_text("OS" PLATFORM_OS_NAME)
 feature_text("UI" WITH_UI)
+feature_bool("ccache" HAVE_CCACHE)
 message(STATUS "")
 feature_bool("GSettings configuration" HAVE_GSETTINGS)
 if (PLATFORM_OS_UNIX)
