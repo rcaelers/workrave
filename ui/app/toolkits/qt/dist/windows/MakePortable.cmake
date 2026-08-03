@@ -15,8 +15,8 @@
 #   STAGING_DIR      scratch directory to assemble the portable tree in
 #   PORTABLE_NAME    name of the top-level folder inside the zip (e.g. WorkraveQt)
 #   OUTPUT_ZIP       path of the zip file to produce
-#   SIGN             whether to sigstore-sign OUTPUT_ZIP (mirrors the top-level SIGN option)
-#   SIGNCOSIGNSH     path to the sigstore-signing script (only required when SIGN is ON)
+#   WITH_SIGN        whether to sigstore-sign OUTPUT_ZIP (mirrors the top-level WITH_SIGN option)
+#   SIGNCOSIGNSH     path to the sigstore-signing script (only required when WITH_SIGN is ON)
 
 foreach(var INSTALL_PATH DIST_SOURCE_DIR STAGING_DIR PORTABLE_NAME OUTPUT_ZIP)
   if(NOT DEFINED ${var})
@@ -86,10 +86,10 @@ endif()
 
 message(STATUS "Created portable zip: ${OUTPUT_ZIP}")
 
-# Sigstore-sign the finished zip, producing "<OUTPUT_ZIP>.sigstore". SIGN and
-# SIGNCOSIGNSH are passed in via -D from CMakeLists.txt (derived from the
-# top-level SIGN option); SIGNCOSIGNSH is unset when SIGN is OFF.
-if(SIGN)
+# Sigstore-sign the finished zip, producing "<OUTPUT_ZIP>.sigstore". WITH_SIGN
+# and SIGNCOSIGNSH are passed in via -D from CMakeLists.txt (derived from the
+# top-level WITH_SIGN option); SIGNCOSIGNSH is unset when WITH_SIGN is OFF.
+if(WITH_SIGN)
   find_program(BASH_CMD bash REQUIRED)
   message(STATUS "Sigstore-signing: ${OUTPUT_ZIP}")
   execute_process(

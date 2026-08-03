@@ -113,8 +113,8 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~
         echo Building on MSYS2
 
         if [[ -n "$DOSIGN" ]]; then
-            CMAKE_FLAGS+=("-DSIGN=ON")
-            CMAKE_FLAGS+=("-DSIGN_SCRIPTS_ROOT=${SCRIPTS_DIR}/local")
+            CMAKE_FLAGS+=("-DWITH_SIGN=ON")
+            CMAKE_FLAGS+=("-DWITH_SIGN_SCRIPTS_ROOT=${SCRIPTS_DIR}/local")
         fi
     else
         TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/${CONF_SYSTEM}-${CONF_COMPILER}.cmake

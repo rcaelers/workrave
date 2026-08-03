@@ -86,7 +86,12 @@ foreach (po_file ${POFILES})
       DEPENDS ${POTFILE} ${po_file}
       )
 
-    install(FILES ${gmo_file} DESTINATION ${LOCALEDIR}/${language}/LC_MESSAGES RENAME workrave.mo)
+    # gettext .mo files are only consumed by the gtkmm/GTK toolkit; the Qt
+    # toolkit loads its translations from share/translations (the .qm files
+    # generated above from the same .po sources) instead.
+    if (WITH_UI_GTK)
+      install(FILES ${gmo_file} DESTINATION ${LOCALEDIR}/${language}/LC_MESSAGES RENAME workrave.mo)
+    endif()
     set(gmo_files ${gmo_files} ${gmo_file})
   endif()
 endforeach()

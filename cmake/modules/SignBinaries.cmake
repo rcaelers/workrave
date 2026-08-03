@@ -4,13 +4,13 @@
 # been resolved into CMAKE_INSTALL_PREFIX (see InstallDependencies.cmake in
 # the gtkmm/qt Windows dist directories), so both the installer and the
 # portable target consume already-signed binaries. Controlled by the
-# top-level SIGN option; a no-op when it's OFF.
+# top-level WITH_SIGN option; a no-op when it's OFF.
 #
 # Expects (via install(CODE "set(...)")):
-#   SIGN         whether signing is enabled
-#   SIGNTOOLSH   path to the authenticode-signing script (only set when SIGN is ON)
+#   WITH_SIGN    whether signing is enabled
+#   SIGNTOOLSH   path to the authenticode-signing script (only set when WITH_SIGN is ON)
 
-if (SIGN)
+if (WITH_SIGN)
   find_program(BASH_CMD bash REQUIRED)
   file(GLOB_RECURSE exe_files "${CMAKE_INSTALL_PREFIX}/*[Ww]orkrave*.exe")
   if (exe_files)

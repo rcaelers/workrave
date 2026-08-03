@@ -1,16 +1,24 @@
 if (HAVE_UNFOLD_AUTO_UPDATE)
 
   if (PLATFORM_OS_WINDOWS)
+    # EXCLUDE_FROM_ALL keeps unfold's own install() rules (and those of its
+    # sub-dependency sigstore, e.g. lib/cmake/{Unfold,SigstoreVerifier},
+    # include/{unfold,sigstore}) from leaking into our install tree; only the
+    # runtime DLLs are installed explicitly below.
     FetchContent_Declare_Logged(
       unfold
       "Auto-update framework"
       "MIT"
       GIT_REPOSITORY https://github.com/rcaelers/unfold.git
       GIT_TAG 14abf214d640cf8e45c385ba6ce5b4f9866993d9
+      EXCLUDE_FROM_ALL
     )
     if(NOT unfold_POPULATED)
       FetchContent_MakeAvailable(unfold)
       install(TARGETS unfold RUNTIME DESTINATION bin)
+      if (TARGET sigstore)
+        install(TARGETS sigstore RUNTIME DESTINATION bin)
+      endif()
     endif()
 
     # Prefer system/MSYS2 cmark (CMake package); fallback to FetchContent.

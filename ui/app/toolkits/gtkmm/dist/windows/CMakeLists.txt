@@ -129,8 +129,8 @@ install(CODE "set(HAVE_DBUS \"${HAVE_DBUS}\")")
 install(CODE "set(HAVE_SBOM \"${HAVE_SBOM}\")")
 install(CODE "set(SOURCE_DIR \"${CMAKE_SOURCE_DIR}\")")
 
-install(CODE "set(SIGN ${SIGN})")
-if (SIGN)
+install(CODE "set(WITH_SIGN ${WITH_SIGN})")
+if (WITH_SIGN)
   install(CODE "set(SIGNTOOLSH \"${SIGNTOOLSH}\")")
 endif()
 
@@ -164,10 +164,10 @@ set(INSTALLER_NAME "workrave-installer")
 set(INSTALLER_TARGET "${INSTALLER_NAME}.exe")
 set(ISCC_FILENAME_FLAGS "/F${INSTALLER_NAME}")
 
-# When SIGN is ON, ISCC authenticode-signs the installer/uninstaller itself
-# via the "Certum" SignTool it invokes for every file it produces.
+# When WITH_SIGN is ON, ISCC authenticode-signs the installer/uninstaller
+# itself via the "Certum" SignTool it invokes for every file it produces.
 set(ISCC_FLAGS "")
-if (SIGN)
+if (WITH_SIGN)
   set(ISCC_FLAGS "/DSignTool=Certum" "/SCertum=${SIGNTOOLPS1} $f")
 endif()
 
@@ -175,7 +175,7 @@ set(INSTALLER_BUILD_COMMANDS
     COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" "/DCHANNEL=${WORKRAVE_CHANNEL}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS})
 
 # Sigstore-sign the resulting installer.exe, producing "<exe>.sigstore".
-if (SIGN)
+if (WITH_SIGN)
   find_program(BASH_CMD bash REQUIRED)
   list(APPEND INSTALLER_BUILD_COMMANDS
        COMMAND "${BASH_CMD}" "${SIGNCOSIGNSH}" "${CMAKE_INSTALL_PREFIX}/${INSTALLER_TARGET}")
@@ -198,7 +198,7 @@ add_custom_command(OUTPUT "${PORTABLE_ZIP}"
                            "-DSTAGING_DIR=${CMAKE_CURRENT_BINARY_DIR}/portable"
                            "-DPORTABLE_NAME=${PORTABLE_NAME}"
                            "-DOUTPUT_ZIP=${PORTABLE_ZIP}"
-                           "-DSIGN=${SIGN}"
+                           "-DWITH_SIGN=${WITH_SIGN}"
                            "-DSIGNCOSIGNSH=${SIGNCOSIGNSH}"
                            -P "${CMAKE_CURRENT_SOURCE_DIR}/MakePortable.cmake"
                    DEPENDS workrave "${CMAKE_CURRENT_SOURCE_DIR}/MakePortable.cmake"
