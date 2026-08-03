@@ -56,6 +56,11 @@ install(CODE "set(HAVE_CRASHPAD \"${HAVE_CRASHPAD}\")")
 install(CODE "set(HAVE_SBOM \"${HAVE_SBOM}\")")
 install(CODE "set(SOURCE_DIR \"${CMAKE_SOURCE_DIR}\")")
 
+install(CODE "set(SIGN ${SIGN})")
+if (SIGN)
+  install(CODE "set(SIGNTOOLSH \"${SIGNTOOLSH}\")")
+endif()
+
 if (HAVE_SBOM)
   find_program(BASH_CMD bash REQUIRED)
   install(CODE "set(BASH_CMD \"${BASH_CMD}\")")
@@ -70,6 +75,7 @@ if (MSVC)
 endif()
 
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/InstallDependencies.cmake")
+install(SCRIPT "${CMAKE_SOURCE_DIR}/cmake/modules/SignBinaries.cmake")
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/GenerateSBOM.cmake")
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
 
@@ -95,10 +101,45 @@ set(PREPARE_INNO_SETUP_COMMAND
     "-P"
     "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
 
+# When SIGN is ON, ISCC authenticode-signs the installer/uninstaller itself
+# via the "Certum" SignTool it invokes for every file it produces.
+set(ISCC_FLAGS "")
+if (SIGN)
+  set(ISCC_FLAGS "/DSignTool=Certum" "/SCertum=${SIGNTOOLPS1} $f")
+endif()
+
+set(INSTALLER_BUILD_COMMANDS
+    COMMAND ${PREPARE_INNO_SETUP_COMMAND}
+    COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" "/DCHANNEL=${WORKRAVE_CHANNEL}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS})
+
+# Sigstore-sign the resulting installer.exe, producing "<exe>.sigstore".
+if (SIGN)
+  find_program(BASH_CMD bash REQUIRED)
+  list(APPEND INSTALLER_BUILD_COMMANDS
+       COMMAND "${BASH_CMD}" "${SIGNCOSIGNSH}" "${CMAKE_INSTALL_PREFIX}/${INSTALLER_TARGET}")
+endif()
+
 add_custom_command(OUTPUT ${INSTALLER_TARGET}
-                   COMMAND ${PREPARE_INNO_SETUP_COMMAND}
-                   COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" "/DCHANNEL=${WORKRAVE_CHANNEL}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
+                   ${INSTALLER_BUILD_COMMANDS}
                    DEPENDS workrave "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake"
                    VERBATIM)
 
 add_custom_target(installer DEPENDS ${INSTALLER_TARGET})
+
+set(PORTABLE_NAME "WorkraveQt")
+set(PORTABLE_ZIP "${CMAKE_INSTALL_PREFIX}/workrave-qt-portable.zip")
+
+add_custom_command(OUTPUT "${PORTABLE_ZIP}"
+                   COMMAND "${CMAKE_COMMAND}"
+                           "-DINSTALL_PATH=${CMAKE_INSTALL_PREFIX}"
+                           "-DDIST_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
+                           "-DSTAGING_DIR=${CMAKE_CURRENT_BINARY_DIR}/portable"
+                           "-DPORTABLE_NAME=${PORTABLE_NAME}"
+                           "-DOUTPUT_ZIP=${PORTABLE_ZIP}"
+                           "-DSIGN=${SIGN}"
+                           "-DSIGNCOSIGNSH=${SIGNCOSIGNSH}"
+                           -P "${CMAKE_CURRENT_SOURCE_DIR}/MakePortable.cmake"
+                   DEPENDS workrave "${CMAKE_CURRENT_SOURCE_DIR}/MakePortable.cmake"
+                   VERBATIM)
+
+add_custom_target(portable DEPENDS "${PORTABLE_ZIP}")

@@ -112,8 +112,9 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~
         TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/msys2.cmake
         echo Building on MSYS2
 
-        if [[ -n "$SIGNTOOLSH" ]]; then
-            CMAKE_FLAGS+=("-DISCC_FLAGS=/DSignTool=Certum;/SCertum=$SIGNTOOLPS1 \$f")
+        if [[ -n "$DOSIGN" ]]; then
+            CMAKE_FLAGS+=("-DSIGN=ON")
+            CMAKE_FLAGS+=("-DSIGN_SCRIPTS_ROOT=${SCRIPTS_DIR}/local")
         fi
     else
         TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/${CONF_SYSTEM}-${CONF_COMPILER}.cmake
@@ -221,43 +222,20 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
     fi
 fi
 
-# Sign Windows binaries
-if [[ $WORKRAVE_ENV == "local-windows-msys2" && -n "$SIGNTOOLSH" ]]; then
-
-    files_to_sign=$(find ${OUTPUT_DIR} -name "*[Ww]orkrave*.exe")
-
-    echo "Signing files : $files_to_sign"
-
-    export MSYS2_ARG_CONV_EXCL="/n;/t;/fd;/v"
-    ## powershell -c "(New-Object Media.SoundPlayer C:/Windows/Media/Alarm05.wav).PlaySync();" &
-    "$SIGNTOOLSH" $files_to_sign
-    unset MSYS2_ARG_CONV_EXCL
-fi
-
 if [[ $MSYSTEM == "CLANG64" ]]; then
     echo Deploying
     baseWindowsFilename=workrave-windows-${baseFilenamePostfix}
 
     # Portable
 
-    PORTABLE_DIR=${BUILD_DIR}/portable
     portableFilename=${baseWindowsFilename}-portable.zip
 
-    mkdir -p ${PORTABLE_DIR}/Workrave
-    for d in ${OUTPUT_DIR}/bin ${OUTPUT_DIR}/bin32 ${OUTPUT_DIR}/lib ${OUTPUT_DIR}/etc/ ${OUTPUT_DIR}/share; do
-        if [ -d $d ]; then
-            cp -a $d ${PORTABLE_DIR}/Workrave
-        fi
-    done
-    cp -a ${OUTPUT_DIR}/*.txt ${PORTABLE_DIR}/Workrave
-    cp -a ${SOURCES_DIR}/ui/app/toolkits/gtkmm/dist/windows/Workrave.lnk ${PORTABLE_DIR}/Workrave
-    cp -a ${SOURCES_DIR}/ui/app/toolkits/gtkmm/dist/windows/workrave.ini ${PORTABLE_DIR}/Workrave/etc
+    ninja ${MAKE_FLAGS[@]} portable
 
-    cd ${PORTABLE_DIR}
-    zip -9 -r ${DEPLOY_DIR}/${portableFilename} .
-
-    cd ${BUILD_DIR}
-    ${SCRIPTS_DIR}/ci/artifact.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
+    if [[ -e ${OUTPUT_DIR}/workrave-portable.zip ]]; then
+        cp ${OUTPUT_DIR}/workrave-portable.zip ${DEPLOY_DIR}/${portableFilename}
+        ${SCRIPTS_DIR}/ci/artifact.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
+    fi
 
     # Installer
 

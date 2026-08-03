@@ -51,13 +51,6 @@ init_tools() {
     export AWS=${AWS:-"/c/Program Files/Amazon/AWSCLIV2/aws"}
     export GH=${GH:-"/c/Program Files/GitHub CLI/gh.exe"}
     export AWS_REGION=us-east-1
-
-    if [ -n "$DOSIGN" ]; then
-        SCRIPTS_LOCAL_DIR_WIN=$(cygpath -w ${SCRIPTS_DIR}/local)
-        export SIGNTOOLPS1="powershell.exe -ExecutionPolicy Bypass -File ${SCRIPTS_LOCAL_DIR_WIN}\sign-authenticode.ps1"
-        export SIGNTOOLSH="${SCRIPTS_DIR}/local/sign-authenticode.sh"
-    fi
-
     export PATH="/c/Program Files/nodejs:/opt/jq/bin":$PATH
     export SYMBOL_SERVER_URL="${SYMBOL_SERVER_URL:-https://crashes.workrave.org}"
 }

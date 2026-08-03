@@ -365,6 +365,29 @@ add_compile_definitions(
 )
 
 #----------------------------------------------------------------------------------------------------
+# Windows code signing
+
+if (WIN32)
+  option(SIGN "Sign Windows binaries, installers and portable packages during the build" OFF)
+  set(SIGN_SCRIPTS_ROOT "${CMAKE_SOURCE_DIR}/tools/local" CACHE PATH
+      "Directory containing the sign-authenticode(.sh/.ps1)/sign-cosign.sh scripts")
+
+  if (SIGN)
+    foreach(script sign-authenticode.sh sign-authenticode.ps1 sign-cosign.sh)
+      if (NOT EXISTS "${SIGN_SCRIPTS_ROOT}/${script}")
+        message(FATAL_ERROR "SIGN is ON but ${SIGN_SCRIPTS_ROOT}/${script} does not exist. "
+                             "Set SIGN_SCRIPTS_ROOT to the directory containing the signing scripts.")
+      endif()
+    endforeach()
+
+    set(SIGNTOOLSH "${SIGN_SCRIPTS_ROOT}/sign-authenticode.sh")
+    set(SIGNCOSIGNSH "${SIGN_SCRIPTS_ROOT}/sign-cosign.sh")
+    file(TO_NATIVE_PATH "${SIGN_SCRIPTS_ROOT}/sign-authenticode.ps1" SIGNTOOLPS1_SCRIPT_WIN)
+    set(SIGNTOOLPS1 "powershell.exe -ExecutionPolicy Bypass -File ${SIGNTOOLPS1_SCRIPT_WIN}")
+  endif()
+endif()
+
+#----------------------------------------------------------------------------------------------------
 # Core selection
 
 option (WITH_CORE_NEXT "Enable Core Next" OFF)
