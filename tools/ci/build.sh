@@ -35,7 +35,7 @@ build() {
 
     if [ -z "${rel_dir}" ]; then
         if [ -n "${CONF_APPIMAGE}" ]; then
-            cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=/usr ${cmake_args[@]}
+            cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DAPPIMAGE_APPDIR=${OUTPUT_DIR}/AppData ${cmake_args[@]}
         else
             cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} "${cmake_args[@]}"
         fi
@@ -176,49 +176,16 @@ fi
 # AppImage
 if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
     if [ -n "${CONF_APPIMAGE}" ]; then
-        if [ ! -d ${SOURCES_DIR}/_ext ]; then
-            mkdir -p ${SOURCES_DIR}/_ext
+        ninja ${MAKE_FLAGS[@]} appimage
+
+        appImageFile=$(find "${BUILD_DIR}" -maxdepth 1 -name "Workrave*.AppImage" | head -n1)
+        if [ -n "$appImageFile" ]; then
+            baseLinuxFilename=workrave-linux-${baseFilenamePostfix}
+            filename=${baseLinuxFilename}.AppImage
+
+            cp "$appImageFile" ${DEPLOY_DIR}/${filename}
+            ${SCRIPTS_DIR}/ci/artifact.sh -f ${filename} -k appimage -c ${CONFIG} -p linux
         fi
-
-        PLATFORM=$(uname -m)
-        if [ ! -d ${SOURCES_DIR}/_ext/appimage-${PLATFORM} ]; then
-            mkdir -p ${SOURCES_DIR}/_ext/appimage-${PLATFORM}
-            cd ${SOURCES_DIR}/_ext/appimage-${PLATFORM}
-            curl -L -O https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-${PLATFORM}.AppImage
-            # https://github.com/AppImage/AppImageKit/issues/965#issuecomment-1333557171
-            dd if=/dev/zero bs=1 count=3 seek=8 conv=notrunc of=linuxdeploy-${PLATFORM}.AppImage
-            chmod +x linuxdeploy-${PLATFORM}.AppImage
-            curl -L -O https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-gtk/master/linuxdeploy-plugin-gtk.sh
-            chmod +x linuxdeploy-plugin-gtk.sh
-        fi
-
-        EXTRA=
-        CONFIG=release
-        if [ "$CONF_CONFIGURATION" == "Debug" ]; then
-            EXTRA="-Debug"
-            CONFIG="debug"
-        fi
-
-        if [[ -z "$WORKRAVE_RELEASE" ]]; then
-            echo "No tag build."
-            version=${WORKRAVE_LONG_GIT_VERSION}-${WORKRAVE_BUILD_DATE}${EXTRA}
-        else
-            echo "Tag build : $WORKRAVE_RELEASE"
-            version=${WORKRAVE_VERSION}${EXTRA}
-        fi
-
-        export LD_LIBRARY_PATH=${OUTPUT_DIR}/AppData/usr/lib:${OUTPUT_DIR}/AppData/usr/lib/${PLATFORM}-linux-gnu
-
-        cd ${OUTPUT_DIR}
-        VERSION="$version" ${SOURCES_DIR}/_ext/appimage-${PLATFORM}/linuxdeploy-${PLATFORM}.AppImage \
-            --appdir ${OUTPUT_DIR}/AppData \
-            --plugin gtk \
-            --output appimage \
-            --icon-file ${OUTPUT_DIR}/AppData/usr/share/icons/hicolor/scalable/apps/workrave.svg \
-            --desktop-file ${OUTPUT_DIR}/AppData/usr/share/applications/org.workrave.Workrave.desktop
-
-        cp ${OUTPUT_DIR}/Workrave*.AppImage ${DEPLOY_DIR}/
-        ${SCRIPTS_DIR}/ci/artifact.sh -f Workrave*.AppImage -k appimage -c ${CONFIG} -p linux
     fi
 fi
 

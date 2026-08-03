@@ -49,6 +49,8 @@ if(PLATFORM_OS_MACOS)
   add_subdirectory(macos)
 elseif(PLATFORM_OS_WINDOWS)
   add_subdirectory(windows)
+elseif(PLATFORM_OS_UNIX)
+  add_subdirectory(linux)
 endif()
 
 include(CPack)
