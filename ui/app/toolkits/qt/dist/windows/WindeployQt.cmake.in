@@ -10,6 +10,9 @@ set(_windeployqt_args
   --libdir "${CMAKE_INSTALL_PREFIX}/@qtconf_dest_dir@"
   --no-translations
   --no-compiler-runtime
+  # qmltooling plugins are QML debugger/profiler backends (used by Qt
+  # Creator etc.), never loaded by the app itself at runtime.
+  --skip-plugin-types qmltooling
   --force)
 
 set(_windeployqt_path "@QT_HOST_LIBEXECS_DIR@;@QT_BIN_DIR@")
