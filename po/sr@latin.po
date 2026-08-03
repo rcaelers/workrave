@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave Srbija\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-03 23:36+0200\n"
+"POT-Creation-Date: 2026-08-04 00:26+0200\n"
 "PO-Revision-Date: 2012-04-05 12:58+0100\n"
 "Last-Translator: Goran Maricic <maricic.goran@gmail.com>\n"
 "Language-Team: Tehpro Serbian <it@tehpro.rs>\n"
@@ -79,9 +79,11 @@ msgstr "Program je u tihom režimu. Nikakvi prozori upozorenja neće biti prikaz
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-#: ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/Ui.cc:38 ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 msgid "Micro-break"
 msgstr "Mikro pauza"
 
@@ -316,8 +318,9 @@ msgid "Use the Sanctuary design for break windows and the status window."
 msgstr ""
 
 #: ui/app/org.workrave.gui.gschema.xml.in:77
+#, fuzzy
 msgid "Timer display style"
-msgstr ""
+msgstr "Prikaz"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:78
 msgid "Select the visual style used to display timers."
@@ -457,15 +460,15 @@ msgid "Get updates as soon as they are available"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
-msgid "Release channel:"
+msgid "Release channel"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
-msgid "Proxy Type:"
+msgid "Proxy Type"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
-msgid "Proxy:"
+msgid "Proxy"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
@@ -708,22 +711,22 @@ msgstr "Opustite se na nekoliko sekundi."
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
 #, fuzzy, c++-format
 msgid "Next rest break in {}"
-msgstr "Sledeća pauza za odmor za %s"
+msgstr "Sledeća pauza za odmor za {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
 #, fuzzy, c++-format
 msgid "Rest break {} overdue"
-msgstr "Pauza za odmor sa %s zakašnjenjem"
+msgstr "Pauza za odmor sa {} zakašnjenjem"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
 #, fuzzy, c++-format
 msgid "Daily limit in {}"
-msgstr "Dnevni limit za %s"
+msgstr "Dnevni limit za {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
 #, fuzzy, c++-format
 msgid "Daily limit {} overdue"
-msgstr "Dnevni limit sa %s zakašnjenjem"
+msgstr "Dnevni limit sa {} zakašnjenjem"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
 msgid "Orientation"
@@ -806,11 +809,12 @@ msgstr "Opšte"
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:29
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:92
-#, fuzzy
 msgid "Status window"
 msgstr "Prozor stanja"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
 msgid "Applet"
 msgstr "Program"
 
@@ -868,7 +872,7 @@ msgstr "Mogućnosti"
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
 #, fuzzy
 msgid "Block mode"
-msgstr "Način blokiranja:"
+msgstr "Način blokiranja"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
@@ -880,9 +884,8 @@ msgstr "(font nije dostupan)"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-#, fuzzy
 msgid "Language"
-msgstr "Jezik:"
+msgstr "Jezik"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
@@ -941,7 +944,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
 #, fuzzy
 msgid "Dark mode"
-msgstr "Način blokiranja:"
+msgstr "Način blokiranja"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
@@ -968,7 +971,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
 #, fuzzy
 msgid "Mouse sensitivity"
-msgstr "Pomeranje miša:"
+msgstr "Pomeranje miša"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -996,7 +999,7 @@ msgstr "Pusti zvuke koristeći zvučnu karticu"
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
 #, fuzzy
 msgid "Volume"
-msgstr "Jačina zvuka:"
+msgstr "Jačina zvuka"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
 msgid "Output device:"
@@ -1019,7 +1022,8 @@ msgid "Sound Events"
 msgstr "Zvučni događaji"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:115
-msgid "Sound Theme:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
+msgid "Sound theme"
 msgstr "Zvučna tema: "
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:138
@@ -1093,13 +1097,13 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
 #, fuzzy
 msgid "Placement"
-msgstr "Smeštaj:"
+msgstr "Smeštaj"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
 #, fuzzy
 msgid "Cycle time"
-msgstr "Vreme ciklusa:"
+msgstr "Vreme ciklusa"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
@@ -1190,14 +1194,14 @@ msgstr "Vreme do kraja:"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
 #, fuzzy
 msgid "Time between breaks"
-msgstr "Vreme između odmora:"
+msgstr "Vreme između odmora"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
 #, fuzzy
 msgid "Break duration"
-msgstr "Trajanje odmora:"
+msgstr "Trajanje odmora"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
@@ -1205,13 +1209,13 @@ msgstr "Trajanje odmora:"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
 #, fuzzy
 msgid "Postpone time"
-msgstr "Odloži za:"
+msgstr "Odloži za"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:258
 #, fuzzy, c++-format
 msgid "Rest break for {}"
-msgstr "Odmor za %s"
+msgstr "Odmor za {}"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
@@ -1452,8 +1456,9 @@ msgid "Workrave is a free program that assists in the recovery and prevention of
 msgstr ""
 
 #: ui/app/workrave.metainfo.xml:17
+#, fuzzy
 msgid "The break warning window"
-msgstr ""
+msgstr "Sada napravi pauzu"
 
 #: ui/app/workrave.metainfo.xml:21
 #, fuzzy
@@ -1682,14 +1687,6 @@ msgstr ""
 msgid "Per-timer visibility"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
-#, fuzzy
-msgid "Microbreak"
-msgstr "Mikro pauza"
-
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:152
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
@@ -1867,7 +1864,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:199
 #, fuzzy
 msgid "Lock method"
-msgstr "Način blokiranja:"
+msgstr "Način blokiranja"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:200
 msgid "Which screen-lock backend to use when the Lock button is pressed."
@@ -1941,10 +1938,10 @@ msgstr ""
 msgid "Open debug window"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
-msgid "Status applet"
-msgstr ""
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
+#, fuzzy
+msgid "Micro-break"
+msgstr "Mikro pauza"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:61
 msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
@@ -2068,11 +2065,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172
 msgid "Silences system audio when a rest break or daily limit begins."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
-#, fuzzy
-msgid "Sound theme"
-msgstr "Zvučna tema: "
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:353
 msgid "Choose…"

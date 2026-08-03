@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-03 23:36+0200\n"
+"POT-Creation-Date: 2026-08-04 00:26+0200\n"
 "PO-Revision-Date: 2011-02-16 19:21+0100\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -75,9 +75,11 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-#: ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/Ui.cc:38 ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 #, fuzzy
 msgid "Micro-break"
 msgstr "Paŭzeto"
@@ -459,15 +461,15 @@ msgid "Get updates as soon as they are available"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
-msgid "Release channel:"
+msgid "Release channel"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
-msgid "Proxy Type:"
+msgid "Proxy Type"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
-msgid "Proxy:"
+msgid "Proxy"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
@@ -711,12 +713,12 @@ msgstr "Bonvolu trankviliĝi por kelkaj sekundoj"
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
 #, fuzzy, c++-format
 msgid "Next rest break in {}"
-msgstr "Sekvanta ripozo en %s"
+msgstr "Sekvanta ripozo en {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
 #, fuzzy, c++-format
 msgid "Rest break {} overdue"
-msgstr "Ripozo por %s"
+msgstr "Ripozo por {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
 #, fuzzy, c++-format
@@ -814,6 +816,8 @@ msgid "Status window"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
 msgid "Applet"
 msgstr ""
 
@@ -1019,7 +1023,8 @@ msgid "Sound Events"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:115
-msgid "Sound Theme:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
+msgid "Sound theme"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:138
@@ -1140,7 +1145,7 @@ msgstr "Instigu antaŭ ol ripozi"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
 #, fuzzy
 msgid "Maximum number of prompts"
-msgstr "Maksimuma numero da instigoj:"
+msgstr "Maksimuma numero da instigoj"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -1212,7 +1217,7 @@ msgstr "Prokrasta tempo"
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:258
 #, fuzzy, c++-format
 msgid "Rest break for {}"
-msgstr "Ripozo por %s"
+msgstr "Ripozo por {}"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
@@ -1470,8 +1475,9 @@ msgid "Workrave is a free program that assists in the recovery and prevention of
 msgstr ""
 
 #: ui/app/workrave.metainfo.xml:17
+#, fuzzy
 msgid "The break warning window"
-msgstr ""
+msgstr "Sekvanta ripozo en %s"
 
 #: ui/app/workrave.metainfo.xml:21
 #, fuzzy
@@ -1700,14 +1706,6 @@ msgstr ""
 msgid "Per-timer visibility"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
-#, fuzzy
-msgid "Microbreak"
-msgstr "Paŭzeto"
-
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:152
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
@@ -1772,7 +1770,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
 #, fuzzy
 msgid "Limit number of prompts"
-msgstr "Maksimuma numero da instigoj:"
+msgstr "Maksimuma numero da instigoj"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
@@ -1952,10 +1950,10 @@ msgstr ""
 msgid "Open debug window"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
-msgid "Status applet"
-msgstr ""
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
+#, fuzzy
+msgid "Micro-break"
+msgstr "Paŭzeto"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:61
 msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
@@ -2077,10 +2075,6 @@ msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172
 msgid "Silences system audio when a rest break or daily limit begins."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
-msgid "Sound theme"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:353

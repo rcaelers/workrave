@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.11.00\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-03 23:36+0200\n"
+"POT-Creation-Date: 2026-08-04 00:26+0200\n"
 "PO-Revision-Date: 2026-07-22 10:02+0800\n"
 "Last-Translator: 大眼仔~旭 <wcxu21@126.com>\n"
 "Language-Team: 大眼仔~旭<wcxu21@126.com>\n"
@@ -74,9 +74,11 @@ msgstr "Workrave 处于静默模式，不会弹出休息窗口。"
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-#: ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/Ui.cc:38 ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 msgid "Micro-break"
 msgstr "微型休息"
 
@@ -116,7 +118,7 @@ msgstr "每日时长上限"
 
 #: ui/app/Application.cc:735 ui/app/Application.cc:739
 msgid "Mode: "
-msgstr "模式："
+msgstr "模式"
 
 #: ui/app/Application.cc:735 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:387
@@ -309,8 +311,9 @@ msgid "Use the Sanctuary design for break windows and the status window."
 msgstr ""
 
 #: ui/app/org.workrave.gui.gschema.xml.in:77
+#, fuzzy
 msgid "Timer display style"
-msgstr ""
+msgstr "显示设置"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:78
 msgid "Select the visual style used to display timers."
@@ -449,16 +452,16 @@ msgid "Get updates as soon as they are available"
 msgstr "新版本发布后立即获取更新"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
-msgid "Release channel:"
-msgstr "更新渠道："
+msgid "Release channel"
+msgstr "更新渠道"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
-msgid "Proxy Type:"
-msgstr "代理类型："
+msgid "Proxy Type"
+msgstr "代理类型"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
-msgid "Proxy:"
-msgstr "代理地址："
+msgid "Proxy"
+msgstr "代理地址"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
 msgid "Check for _Updates"
@@ -696,22 +699,22 @@ msgstr "请放松休息几秒"
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
 #, fuzzy, c++-format
 msgid "Next rest break in {}"
-msgstr "距离下次长时间休息还有 %s"
+msgstr "距离下次长时间休息还有 {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
 #, fuzzy, c++-format
 msgid "Rest break {} overdue"
-msgstr "长时间休息已超时 %s"
+msgstr "长时间休息已超时 {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
 #, fuzzy, c++-format
 msgid "Daily limit in {}"
-msgstr "距离达到每日时长上限还有 %s"
+msgstr "距离达到每日时长上限还有 {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
 #, fuzzy, c++-format
 msgid "Daily limit {} overdue"
-msgstr "每日时长上限已超时 %s"
+msgstr "每日时长上限已超时 {}"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
 msgid "Orientation"
@@ -794,11 +797,12 @@ msgstr "常规"
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:29
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:92
-#, fuzzy
 msgid "Status window"
 msgstr "状态窗口"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
 msgid "Applet"
 msgstr "面板小程序"
 
@@ -856,7 +860,7 @@ msgstr "选项"
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
 #, fuzzy
 msgid "Block mode"
-msgstr "锁定模式："
+msgstr "锁定模式"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
@@ -868,9 +872,8 @@ msgstr "（字体不可用）"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-#, fuzzy
 msgid "Language"
-msgstr "语言："
+msgstr "语言"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
@@ -927,7 +930,7 @@ msgstr "自动"
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
 #, fuzzy
 msgid "Dark mode"
-msgstr "深色模式："
+msgstr "深色模式"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
@@ -953,7 +956,7 @@ msgstr "修改该设置后需要手动重启 Workrave"
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
 #, fuzzy
 msgid "Mouse sensitivity"
-msgstr "鼠标灵敏度："
+msgstr "鼠标灵敏度"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -981,7 +984,7 @@ msgstr "通过声卡播放提示音"
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
 #, fuzzy
 msgid "Volume"
-msgstr "音量："
+msgstr "音量"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
 msgid "Output device:"
@@ -1004,8 +1007,9 @@ msgid "Sound Events"
 msgstr "声音事件"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:115
-msgid "Sound Theme:"
-msgstr "音效主题："
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
+msgid "Sound theme"
+msgstr "音效主题"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:138
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
@@ -1078,13 +1082,13 @@ msgstr "仅当托盘图标或面板小程序启用时状态窗口才会自动隐
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
 #, fuzzy
 msgid "Placement"
-msgstr "摆放位置："
+msgstr "摆放位置"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
 #, fuzzy
 msgid "Cycle time"
-msgstr "轮换时长："
+msgstr "轮换时长"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 msgid "Fallback applet enabled"
@@ -1122,7 +1126,7 @@ msgstr "休息前弹出预告"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
 #, fuzzy
 msgid "Maximum number of prompts"
-msgstr "最多提醒次数："
+msgstr "最多提醒次数"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -1149,7 +1153,7 @@ msgstr "将微型休息视作有效活动时长"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
 #, fuzzy
 msgid "Number of exercises"
-msgstr "练习动作数量："
+msgstr "练习动作数量"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
@@ -1170,14 +1174,14 @@ msgstr "结束前预告时长："
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
 #, fuzzy
 msgid "Time between breaks"
-msgstr "休息间隔："
+msgstr "休息间隔"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
 #, fuzzy
 msgid "Break duration"
-msgstr "休息时长："
+msgstr "休息时长"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
@@ -1185,13 +1189,13 @@ msgstr "休息时长："
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
 #, fuzzy
 msgid "Postpone time"
-msgstr "延后时长："
+msgstr "延后时长"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:258
 #, fuzzy, c++-format
 msgid "Rest break for {}"
-msgstr "长时间休息，剩余 %s"
+msgstr "长时间休息，剩余 {}"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
@@ -1656,14 +1660,6 @@ msgstr ""
 msgid "Per-timer visibility"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
-#, fuzzy
-msgid "Microbreak"
-msgstr "微型休息"
-
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:152
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
@@ -1729,7 +1725,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
 #, fuzzy
 msgid "Limit number of prompts"
-msgstr "最多提醒次数："
+msgstr "最多提醒次数"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
@@ -1783,7 +1779,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
 #, fuzzy
 msgid "Theme"
-msgstr "图标主题："
+msgstr "图标主题"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
 msgid "Use Sanctuary UI"
@@ -1817,7 +1813,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
 #, fuzzy
 msgid "Icon theme"
-msgstr "图标主题："
+msgstr "图标主题"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
 msgid "Visual style used for Workrave's icons."
@@ -1842,7 +1838,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:199
 #, fuzzy
 msgid "Lock method"
-msgstr "锁定模式："
+msgstr "锁定模式"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:200
 msgid "Which screen-lock backend to use when the Lock button is pressed."
@@ -1919,10 +1915,10 @@ msgstr ""
 msgid "Open debug window"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
-msgid "Status applet"
-msgstr ""
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
+#, fuzzy
+msgid "Micro-break"
+msgstr "微型休息"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:61
 msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
@@ -2046,11 +2042,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172
 msgid "Silences system audio when a rest break or daily limit begins."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
-#, fuzzy
-msgid "Sound theme"
-msgstr "音效主题："
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:353
 msgid "Choose…"

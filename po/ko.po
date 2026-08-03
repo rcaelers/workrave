@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-03 23:36+0200\n"
+"POT-Creation-Date: 2026-08-04 00:26+0200\n"
 "PO-Revision-Date: 2011-02-16 19:24+0100\n"
 "Last-Translator: softwant\n"
 "Language-Team: Korean <freeware@softwant.com>\n"
@@ -74,9 +74,11 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-#: ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/Ui.cc:38 ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 msgid "Micro-break"
 msgstr "잠깐 휴식"
 
@@ -146,17 +148,17 @@ msgstr "오늘은 그만해야 해요..."
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, fuzzy, c++-format
 msgid "Break in {}"
-msgstr "%s 경과 후 휴식"
+msgstr "{} 경과 후 휴식"
 
 #: ui/app/Prelude.cc:53 ui/app/toolkits/gtkmm/PreludeWindow.cc:338
 #, fuzzy, c++-format
 msgid "Disappears in {}"
-msgstr "%s 후에 사라짐"
+msgstr "{} 후에 사라짐"
 
 #: ui/app/Prelude.cc:55 ui/app/toolkits/gtkmm/PreludeWindow.cc:342
 #, fuzzy, c++-format
 msgid "Silent in {}"
-msgstr "%s 경과 후 잠잠잠"
+msgstr "{} 경과 후 잠잠잠"
 
 #: ui/app/Menus.cc:68 ui/applets/mate/src/main.c:360
 msgid "_Open"
@@ -311,8 +313,9 @@ msgid "Use the Sanctuary design for break windows and the status window."
 msgstr ""
 
 #: ui/app/org.workrave.gui.gschema.xml.in:77
+#, fuzzy
 msgid "Timer display style"
-msgstr ""
+msgstr "표시"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:78
 msgid "Select the visual style used to display timers."
@@ -452,15 +455,15 @@ msgid "Get updates as soon as they are available"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
-msgid "Release channel:"
+msgid "Release channel"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
-msgid "Proxy Type:"
+msgid "Proxy Type"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
-msgid "Proxy:"
+msgid "Proxy"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
@@ -705,22 +708,22 @@ msgstr "잠시동안 긴장을 푸세요."
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
 #, fuzzy, c++-format
 msgid "Next rest break in {}"
-msgstr "다음 휴식은 %s 후입니다"
+msgstr "다음 휴식은 {} 후입니다"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
 #, fuzzy, c++-format
 msgid "Rest break {} overdue"
-msgstr "%s 초과 휴식"
+msgstr "{} 초과 휴식"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
 #, fuzzy, c++-format
 msgid "Daily limit in {}"
-msgstr "%s으로 일간 제한"
+msgstr "{}으로 일간 제한"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
 #, fuzzy, c++-format
 msgid "Daily limit {} overdue"
-msgstr "일간 제한 %s를 넘어섬"
+msgstr "일간 제한 {}를 넘어섬"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
 msgid "Orientation"
@@ -803,11 +806,12 @@ msgstr "일반"
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:29
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:92
-#, fuzzy
 msgid "Status window"
 msgstr "상태 창"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
 msgid "Applet"
 msgstr "애플릿"
 
@@ -877,9 +881,8 @@ msgstr "(글꼴을 사용할 수 없음)"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-#, fuzzy
 msgid "Language"
-msgstr "언어:"
+msgstr "언어"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
@@ -964,7 +967,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
 #, fuzzy
 msgid "Mouse sensitivity"
-msgstr "마우스 동작:"
+msgstr "마우스 동작"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -992,7 +995,7 @@ msgstr "사운드카드를 사용하여 소리 재생"
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
 #, fuzzy
 msgid "Volume"
-msgstr "소리 크기:"
+msgstr "소리 크기"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
 msgid "Output device:"
@@ -1015,8 +1018,9 @@ msgid "Sound Events"
 msgstr "소리 효과"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:115
-msgid "Sound Theme:"
-msgstr "소리 테마:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
+msgid "Sound theme"
+msgstr "소리 테마"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:138
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
@@ -1089,13 +1093,13 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
 #, fuzzy
 msgid "Placement"
-msgstr "위치 :"
+msgstr "위치"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
 #, fuzzy
 msgid "Cycle time"
-msgstr "시간 주기:"
+msgstr "시간 주기"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
@@ -1135,7 +1139,7 @@ msgstr "휴식 전 알림"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
 #, fuzzy
 msgid "Maximum number of prompts"
-msgstr "최대 알림 수:"
+msgstr "최대 알림 수"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -1164,7 +1168,7 @@ msgstr "잠깐 휴식을 활동으로 간주"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
 #, fuzzy
 msgid "Number of exercises"
-msgstr "운동 횟수:"
+msgstr "운동 횟수"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
@@ -1185,14 +1189,14 @@ msgstr "전에 :"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
 #, fuzzy
 msgid "Time between breaks"
-msgstr "휴식 간 시간:"
+msgstr "휴식 간 시간"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
 #, fuzzy
 msgid "Break duration"
-msgstr "휴식 시간:"
+msgstr "휴식 시간"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
@@ -1200,13 +1204,13 @@ msgstr "휴식 시간:"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
 #, fuzzy
 msgid "Postpone time"
-msgstr "연기 시간:"
+msgstr "연기 시간"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:258
 #, fuzzy, c++-format
 msgid "Rest break for {}"
-msgstr "%s 동안 휴식"
+msgstr "{} 동안 휴식"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
@@ -1447,8 +1451,9 @@ msgid "Workrave is a free program that assists in the recovery and prevention of
 msgstr ""
 
 #: ui/app/workrave.metainfo.xml:17
+#, fuzzy
 msgid "The break warning window"
-msgstr ""
+msgstr "지금 휴식 취하기"
 
 #: ui/app/workrave.metainfo.xml:21
 #, fuzzy
@@ -1677,14 +1682,6 @@ msgstr ""
 msgid "Per-timer visibility"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
-#, fuzzy
-msgid "Microbreak"
-msgstr "잠깐 휴식"
-
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:152
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
@@ -1750,7 +1747,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
 #, fuzzy
 msgid "Limit number of prompts"
-msgstr "최대 알림 수:"
+msgstr "최대 알림 수"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
@@ -1803,7 +1800,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
 #, fuzzy
 msgid "Theme"
-msgstr "소리 테마:"
+msgstr "소리 테마"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
 msgid "Use Sanctuary UI"
@@ -1837,7 +1834,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
 #, fuzzy
 msgid "Icon theme"
-msgstr "소리 테마:"
+msgstr "소리 테마"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
 msgid "Visual style used for Workrave's icons."
@@ -1936,10 +1933,10 @@ msgstr ""
 msgid "Open debug window"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
-msgid "Status applet"
-msgstr ""
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
+#, fuzzy
+msgid "Micro-break"
+msgstr "잠깐 휴식"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:61
 msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
@@ -2063,11 +2060,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172
 msgid "Silences system audio when a rest break or daily limit begins."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
-#, fuzzy
-msgid "Sound theme"
-msgstr "소리 테마:"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:353
 msgid "Choose…"

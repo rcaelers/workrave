@@ -247,20 +247,20 @@ AutoUpdater::init_preferences()
                                        })
                              ->when(&workrave::updater::Config::enabled())
                              ->on_save([](bool first) { workrave::updater::Config::priority().set(first ? 1 : 0); })
-                        << ui::prefwidgets::Choice::create(N_("Release channel:"))
+                        << ui::prefwidgets::Choice::create(N_("Release channel"))
                              ->connect(&workrave::updater::Config::channel(),
                                        {{workrave::updater::Channel::Stable, 0},
                                         {workrave::updater::Channel::Candidate, 1},
                                         {workrave::updater::Channel::Beta, 2}})
                              ->assign(channels)
                              ->when(&workrave::updater::Config::enabled())
-                        << ui::prefwidgets::Choice::create(N_("Proxy Type:"))
+                        << ui::prefwidgets::Choice::create(N_("Proxy Type"))
                              ->connect(
                                &workrave::updater::Config::proxy_type(),
                                {{unfold::ProxyType::None, 0}, {unfold::ProxyType::System, 1}, {unfold::ProxyType::Custom, 2}})
                              ->assign(proxy_types)
                              ->when(&workrave::updater::Config::enabled())
-                        << ui::prefwidgets::Entry::create(N_("Proxy:"))
+                        << ui::prefwidgets::Entry::create(N_("Proxy"))
                              ->connect(&workrave::updater::Config::proxy())
                              ->when(&workrave::updater::Config::proxy_type(),
                                     [](unfold::ProxyType t) { return t == unfold::ProxyType::Custom; }));

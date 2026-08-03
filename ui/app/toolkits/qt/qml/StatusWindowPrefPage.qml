@@ -226,7 +226,7 @@ Item {
 
             TimerVisibilityRow {
                 width: parent.width
-                timerName:  qsTr("Microbreak")
+                timerName:  qsTr("Micro-break")
                 timerColor: tok.sage
                 value:      root.bridge ? root.bridge.microVisibility : 0
                 onSelected: (v) => { if (root.bridge) root.bridge.setMicroVisibility(v) }

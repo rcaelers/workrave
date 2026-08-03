@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-03 23:36+0200\n"
+"POT-Creation-Date: 2026-08-04 00:26+0200\n"
 "PO-Revision-Date: 2021-11-25 12:14+0330\n"
 "Last-Translator: MohammadSaleh Kamyab <mskf1383@protonmail.com>\n"
 "Language-Team: <Tarfandkhaneh@Gmail.com>\n"
@@ -79,9 +79,11 @@ msgstr "وُرک‌رِیو در حالت ساکت قرار دارد. هیچ پ�
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-#: ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/Ui.cc:38 ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 msgid "Micro-break"
 msgstr "تنفّس"
 
@@ -151,17 +153,17 @@ msgstr "برای امروز کافی است..."
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, fuzzy, c++-format
 msgid "Break in {}"
-msgstr "وقفه در %s"
+msgstr "وقفه در {}"
 
 #: ui/app/Prelude.cc:53 ui/app/toolkits/gtkmm/PreludeWindow.cc:338
 #, fuzzy, c++-format
 msgid "Disappears in {}"
-msgstr "ناپدید شدن در %s"
+msgstr "ناپدید شدن در {}"
 
 #: ui/app/Prelude.cc:55 ui/app/toolkits/gtkmm/PreludeWindow.cc:342
 #, fuzzy, c++-format
 msgid "Silent in {}"
-msgstr "سکوت در %s"
+msgstr "سکوت در {}"
 
 #: ui/app/Menus.cc:68 ui/applets/mate/src/main.c:360
 msgid "_Open"
@@ -314,8 +316,9 @@ msgid "Use the Sanctuary design for break windows and the status window."
 msgstr ""
 
 #: ui/app/org.workrave.gui.gschema.xml.in:77
+#, fuzzy
 msgid "Timer display style"
-msgstr ""
+msgstr "نمایش"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:78
 msgid "Select the visual style used to display timers."
@@ -455,15 +458,15 @@ msgid "Get updates as soon as they are available"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
-msgid "Release channel:"
+msgid "Release channel"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
-msgid "Proxy Type:"
+msgid "Proxy Type"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
-msgid "Proxy:"
+msgid "Proxy"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
@@ -700,22 +703,22 @@ msgstr "لطفاً برای چند ثانیه آرام باشید"
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
 #, fuzzy, c++-format
 msgid "Next rest break in {}"
-msgstr "استراحت پسین در %s"
+msgstr "استراحت پسین در {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
 #, fuzzy, c++-format
 msgid "Rest break {} overdue"
-msgstr "استراحت %s به‌سر رسید"
+msgstr "استراحت {} به‌سر رسید"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
 #, fuzzy, c++-format
 msgid "Daily limit in {}"
-msgstr "محدودیت روزانه در %s"
+msgstr "محدودیت روزانه در {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
 #, fuzzy, c++-format
 msgid "Daily limit {} overdue"
-msgstr "محدودیت روزانهٔ %s به‌سر رسید"
+msgstr "محدودیت روزانهٔ {} به‌سر رسید"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
 msgid "Orientation"
@@ -798,11 +801,12 @@ msgstr "عمومی"
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:29
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:92
-#, fuzzy
 msgid "Status window"
 msgstr "پنجرهٔ وضعیت"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
 msgid "Applet"
 msgstr "برنامک"
 
@@ -861,7 +865,7 @@ msgstr "گزینه‌ها"
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
 #, fuzzy
 msgid "Block mode"
-msgstr "حالت مسدود:"
+msgstr "حالت مسدود"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
@@ -873,9 +877,8 @@ msgstr "(قلم در دسترس نیست)"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-#, fuzzy
 msgid "Language"
-msgstr "زبان:"
+msgstr "زبان"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
@@ -932,7 +935,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
 #, fuzzy
 msgid "Dark mode"
-msgstr "حالت مسدود:"
+msgstr "حالت مسدود"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
@@ -958,7 +961,7 @@ msgstr "پس از تغییر این تنظیم،‌ وُرک‌وِیو نیاز
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
 #, fuzzy
 msgid "Mouse sensitivity"
-msgstr "حسّاسیت موشی:"
+msgstr "حسّاسیت موشی"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -986,7 +989,7 @@ msgstr "پخش شدن صداها با استفاده از کارت صدا"
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
 #, fuzzy
 msgid "Volume"
-msgstr "حجم صدا:"
+msgstr "حجم صدا"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
 msgid "Output device:"
@@ -1009,8 +1012,9 @@ msgid "Sound Events"
 msgstr "صدای رویدادها"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:115
-msgid "Sound Theme:"
-msgstr "پوستهٔ صدا:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
+msgid "Sound theme"
+msgstr "پوستهٔ صدا"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:138
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
@@ -1083,13 +1087,13 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
 #, fuzzy
 msgid "Placement"
-msgstr "قرارگیری:"
+msgstr "قرارگیری"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
 #, fuzzy
 msgid "Cycle time"
-msgstr "زمان چرخه:"
+msgstr "زمان چرخه"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 msgid "Fallback applet enabled"
@@ -1127,7 +1131,7 @@ msgstr "وادارسازی پیش از وقفه"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
 #, fuzzy
 msgid "Maximum number of prompts"
-msgstr "بیش‌ترین تعداد وادارسازها:"
+msgstr "بیش‌ترین تعداد وادارسازها"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -1154,7 +1158,7 @@ msgstr "در نظر گرفتن تنفّس به عنوان یک فعّالیت"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
 #, fuzzy
 msgid "Number of exercises"
-msgstr "تعداد نرمش‌ها:"
+msgstr "تعداد نرمش‌ها"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
@@ -1175,14 +1179,14 @@ msgstr "زمان پیش از پایان:"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
 #, fuzzy
 msgid "Time between breaks"
-msgstr "زمان بین وقفه‌ها:"
+msgstr "زمان بین وقفه‌ها"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
 #, fuzzy
 msgid "Break duration"
-msgstr "مدّت وقفه:"
+msgstr "مدّت وقفه"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
@@ -1190,13 +1194,13 @@ msgstr "مدّت وقفه:"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
 #, fuzzy
 msgid "Postpone time"
-msgstr "زمان موکول کردن:"
+msgstr "زمان موکول کردن"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:258
 #, fuzzy, c++-format
 msgid "Rest break for {}"
-msgstr "استراحت برای %s"
+msgstr "استراحت برای {}"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
@@ -1436,8 +1440,9 @@ msgid "Workrave is a free program that assists in the recovery and prevention of
 msgstr "وُرک‌رِیو برنامه‌ای است که به پیشگیری و بهبود آسیب‌های فیزیکی مکرّر (RSI) کمک می‌کند. این برنامه مدام شما را برای تنفّس، استراحت یاد‌آوری می‌کند و شما را به محدودیت روزانه‌تان محدود می‌کند."
 
 #: ui/app/workrave.metainfo.xml:17
+#, fuzzy
 msgid "The break warning window"
-msgstr ""
+msgstr "اکنون استراحت کنید"
 
 #: ui/app/workrave.metainfo.xml:21
 #, fuzzy
@@ -1664,14 +1669,6 @@ msgstr ""
 msgid "Per-timer visibility"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
-#, fuzzy
-msgid "Microbreak"
-msgstr "تنفّس"
-
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:152
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
@@ -1737,7 +1734,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
 #, fuzzy
 msgid "Limit number of prompts"
-msgstr "بیش‌ترین تعداد وادارسازها:"
+msgstr "بیش‌ترین تعداد وادارسازها"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
@@ -1791,7 +1788,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
 #, fuzzy
 msgid "Theme"
-msgstr "پوستهٔ نقشک:"
+msgstr "پوستهٔ نقشک"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
 msgid "Use Sanctuary UI"
@@ -1825,7 +1822,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
 #, fuzzy
 msgid "Icon theme"
-msgstr "پوستهٔ نقشک:"
+msgstr "پوستهٔ نقشک"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
 msgid "Visual style used for Workrave's icons."
@@ -1850,7 +1847,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:199
 #, fuzzy
 msgid "Lock method"
-msgstr "حالت مسدود:"
+msgstr "حالت مسدود"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:200
 msgid "Which screen-lock backend to use when the Lock button is pressed."
@@ -1925,10 +1922,10 @@ msgstr ""
 msgid "Open debug window"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
-msgid "Status applet"
-msgstr ""
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
+#, fuzzy
+msgid "Micro-break"
+msgstr "تنفّس"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:61
 msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
@@ -2052,11 +2049,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172
 msgid "Silences system audio when a rest break or daily limit begins."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
-#, fuzzy
-msgid "Sound theme"
-msgstr "پوستهٔ صدا:"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:353
 msgid "Choose…"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.10.48\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-03 23:36+0200\n"
+"POT-Creation-Date: 2026-08-04 00:26+0200\n"
 "PO-Revision-Date: 2021-09-17 12:59+0200\n"
 "Last-Translator: Jordi Mallach <jordi@mallach.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -77,9 +77,11 @@ msgstr "El Workrave és en mode silenciós. No es mostraran avisos de pausa."
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-#: ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/Ui.cc:38 ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 msgid "Micro-break"
 msgstr "Micropausa"
 
@@ -149,17 +151,17 @@ msgstr "Hauríeu d'acabar per avui…"
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, fuzzy, c++-format
 msgid "Break in {}"
-msgstr "Descans en %s"
+msgstr "Descans en {}"
 
 #: ui/app/Prelude.cc:53 ui/app/toolkits/gtkmm/PreludeWindow.cc:338
 #, fuzzy, c++-format
 msgid "Disappears in {}"
-msgstr "Desapareixerà en %s"
+msgstr "Desapareixerà en {}"
 
 #: ui/app/Prelude.cc:55 ui/app/toolkits/gtkmm/PreludeWindow.cc:342
 #, fuzzy, c++-format
 msgid "Silent in {}"
-msgstr "Silenciós en %s"
+msgstr "Silenciós en {}"
 
 #: ui/app/Menus.cc:68 ui/applets/mate/src/main.c:360
 msgid "_Open"
@@ -312,8 +314,9 @@ msgid "Use the Sanctuary design for break windows and the status window."
 msgstr ""
 
 #: ui/app/org.workrave.gui.gschema.xml.in:77
+#, fuzzy
 msgid "Timer display style"
-msgstr ""
+msgstr "Visualizació"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:78
 msgid "Select the visual style used to display timers."
@@ -454,15 +457,15 @@ msgid "Get updates as soon as they are available"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
-msgid "Release channel:"
+msgid "Release channel"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
-msgid "Proxy Type:"
+msgid "Proxy Type"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
-msgid "Proxy:"
+msgid "Proxy"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
@@ -499,8 +502,9 @@ msgid "Lock..."
 msgstr "Bloca…"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:273
+#, fuzzy
 msgid "Lock"
-msgstr "Bloca"
+msgstr "Bloca…"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:277
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:14
@@ -699,22 +703,22 @@ msgstr "Relaxeu-vos durant uns pocs segons"
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
 #, fuzzy, c++-format
 msgid "Next rest break in {}"
-msgstr "El següent descans és en %s"
+msgstr "El següent descans és en {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
 #, fuzzy, c++-format
 msgid "Rest break {} overdue"
-msgstr "Fa %s que hauríeu d'haver descansat"
+msgstr "Fa {} que hauríeu d'haver descansat"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
 #, fuzzy, c++-format
 msgid "Daily limit in {}"
-msgstr "El límit diari és en %s"
+msgstr "El límit diari és en {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
 #, fuzzy, c++-format
 msgid "Daily limit {} overdue"
-msgstr "Fa %s que heu arribat al vostre límit diari"
+msgstr "Fa {} que heu arribat al vostre límit diari"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
 msgid "Orientation"
@@ -797,11 +801,12 @@ msgstr "General"
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:29
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:92
-#, fuzzy
 msgid "Status window"
 msgstr "Finestra d'estat"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
 msgid "Applet"
 msgstr "Miniaplicació"
 
@@ -872,9 +877,8 @@ msgstr "(tipus de lletra no disponible)"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-#, fuzzy
 msgid "Language"
-msgstr "Llengua:"
+msgstr "Llengua"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
@@ -957,7 +961,7 @@ msgstr "S'ha de reiniciar el Workrave manualment després de canviar aquest par�
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
 #, fuzzy
 msgid "Mouse sensitivity"
-msgstr "Sensitivitat del ratolí:"
+msgstr "Sensitivitat del ratolí"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -985,7 +989,7 @@ msgstr "Reprodueix sons utilitzant la targeta de so"
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
 #, fuzzy
 msgid "Volume"
-msgstr "Volum:"
+msgstr "Volum"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
 msgid "Output device:"
@@ -1008,8 +1012,9 @@ msgid "Sound Events"
 msgstr "Esdeveniments de so"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:115
-msgid "Sound Theme:"
-msgstr "Tema de so:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
+msgid "Sound theme"
+msgstr "Tema de so"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:138
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
@@ -1082,13 +1087,13 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
 #, fuzzy
 msgid "Placement"
-msgstr "Ubicació:"
+msgstr "Ubicació"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
 #, fuzzy
 msgid "Cycle time"
-msgstr "Temps del cicle:"
+msgstr "Temps del cicle"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 msgid "Fallback applet enabled"
@@ -1126,7 +1131,7 @@ msgstr "Pregunta abans de descansar"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
 #, fuzzy
 msgid "Maximum number of prompts"
-msgstr "Nombre màxim de preguntes:"
+msgstr "Nombre màxim de preguntes"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -1153,7 +1158,7 @@ msgstr "Compta les micropauses com a activitat"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
 #, fuzzy
 msgid "Number of exercises"
-msgstr "Nombre d'exercicis:"
+msgstr "Nombre d'exercicis"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
@@ -1174,14 +1179,14 @@ msgstr "Temps abans del final:"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
 #, fuzzy
 msgid "Time between breaks"
-msgstr "Temps entre descansos:"
+msgstr "Temps entre descansos"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
 #, fuzzy
 msgid "Break duration"
-msgstr "Duració del descans:"
+msgstr "Duració del descans"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
@@ -1189,13 +1194,13 @@ msgstr "Duració del descans:"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
 #, fuzzy
 msgid "Postpone time"
-msgstr "Temps d'ajornament:"
+msgstr "Temps d'ajornament"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:258
 #, fuzzy, c++-format
 msgid "Rest break for {}"
-msgstr "Descans de %s"
+msgstr "Descans de {}"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
@@ -1434,8 +1439,9 @@ msgid "Workrave is a free program that assists in the recovery and prevention of
 msgstr ""
 
 #: ui/app/workrave.metainfo.xml:17
+#, fuzzy
 msgid "The break warning window"
-msgstr ""
+msgstr "Inicia un descans ara"
 
 #: ui/app/workrave.metainfo.xml:21
 #, fuzzy
@@ -1664,14 +1670,6 @@ msgstr ""
 msgid "Per-timer visibility"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
-#, fuzzy
-msgid "Microbreak"
-msgstr "Micropausa"
-
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:152
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
@@ -1737,7 +1735,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
 #, fuzzy
 msgid "Limit number of prompts"
-msgstr "Nombre màxim de preguntes:"
+msgstr "Nombre màxim de preguntes"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
@@ -1791,7 +1789,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
 #, fuzzy
 msgid "Theme"
-msgstr "Tema d'icones:"
+msgstr "Tema d'icones"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
 msgid "Use Sanctuary UI"
@@ -1825,7 +1823,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
 #, fuzzy
 msgid "Icon theme"
-msgstr "Tema d'icones:"
+msgstr "Tema d'icones"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
 msgid "Visual style used for Workrave's icons."
@@ -1925,10 +1923,10 @@ msgstr ""
 msgid "Open debug window"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
-msgid "Status applet"
-msgstr ""
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
+#, fuzzy
+msgid "Micro-break"
+msgstr "Micropausa"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:61
 msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
@@ -2052,11 +2050,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172
 msgid "Silences system audio when a rest break or daily limit begins."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
-#, fuzzy
-msgid "Sound theme"
-msgstr "Tema de so:"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:353
 msgid "Choose…"

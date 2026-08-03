@@ -1708,7 +1708,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:21
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:60
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
-msgid "Microbreak"
+msgid "Micro-break"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:152

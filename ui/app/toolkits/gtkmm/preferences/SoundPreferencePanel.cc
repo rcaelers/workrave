@@ -112,7 +112,7 @@ SoundPreferencePanel::create_panel()
   update_sound_theme_selection();
 
   sound_theme_button->signal_changed().connect(sigc::mem_fun(*this, &SoundPreferencePanel::on_sound_theme_changed));
-  hig->add_label(_("Sound Theme:"), *sound_theme_button);
+  hig->add_label(std::string(_("Sound theme")) + ":", *sound_theme_button);
 
   sound_store = Gtk::ListStore::create(sound_model);
   sound_treeview.set_model(sound_store);

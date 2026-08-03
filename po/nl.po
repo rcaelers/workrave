@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.8.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-03 23:36+0200\n"
+"POT-Creation-Date: 2026-08-04 00:26+0200\n"
 "PO-Revision-Date: 2022-10-15 15:51+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -31,9 +31,8 @@ msgstr ""
 
 #: libs/corenext/src/org.workrave.gschema.xml.in:230
 #: libs/core/src/org.workrave.gschema.xml.in:246
-#, fuzzy
 msgid "gRPC transport"
-msgstr "Crashrapport"
+msgstr "gRPC-transport"
 
 #: libs/corenext/src/org.workrave.gschema.xml.in:231
 #: libs/core/src/org.workrave.gschema.xml.in:247
@@ -77,9 +76,11 @@ msgstr "Workrave is in stille modus. Pauzevensters zullen niet getoond worden."
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-#: ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/Ui.cc:38 ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 msgid "Micro-break"
 msgstr "Micropauze"
 
@@ -303,9 +304,8 @@ msgid "Select a light, dark, or automatically detected interface color scheme."
 msgstr ""
 
 #: ui/app/org.workrave.gui.gschema.xml.in:71
-#, fuzzy
 msgid "Use the Sanctuary interface"
-msgstr "Gebruikersinterface"
+msgstr "Sanctuary-interface gebruiken"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:72
 msgid "Use the Sanctuary design for break windows and the status window."
@@ -313,7 +313,7 @@ msgstr ""
 
 #: ui/app/org.workrave.gui.gschema.xml.in:77
 msgid "Timer display style"
-msgstr ""
+msgstr "Weergavestijl van de timer"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:78
 msgid "Select the visual style used to display timers."
@@ -452,16 +452,16 @@ msgid "Get updates as soon as they are available"
 msgstr "Updates ophalen zodra ze beschikbaar zijn"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
-msgid "Release channel:"
-msgstr "Release-kanaal:"
+msgid "Release channel"
+msgstr "Release-kanaal"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
-msgid "Proxy Type:"
-msgstr "Proxytype:"
+msgid "Proxy Type"
+msgstr "Proxytype"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
-msgid "Proxy:"
-msgstr "Proxy:"
+msgid "Proxy"
+msgstr "Proxy"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
 msgid "Check for _Updates"
@@ -559,14 +559,12 @@ msgid "Crash report details"
 msgstr "Crashrapport details"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:111
-#, fuzzy
 msgid "Crash details"
-msgstr "crashdetails"
+msgstr "Crashdetails"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:160
-#, fuzzy
 msgid "Crash Info"
-msgstr "Crashrapport"
+msgstr "Crashinformatie"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:304
 msgid "(file not found or not readable)"
@@ -581,7 +579,6 @@ msgid "Workrave crash reporter"
 msgstr "Workrave crashrapportage"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:379
-#, fuzzy
 msgid "Workrave encountered a problem and crashed. Please help us diagnose and fix this problem by sending a crash report."
 msgstr "Workrave heeft een probleem ondervonden en is gecrasht. Help ons dit probleem te diagnosticeren en op te lossen door een crashrapport te verzenden."
 
@@ -698,24 +695,23 @@ msgid "Please relax for a few seconds"
 msgstr "Ontspan gedurende enkele seconden"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, fuzzy, c++-format
+#, c++-format
 msgid "Next rest break in {}"
-msgstr "Rustpauze over %s"
+msgstr "Rustpauze over {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, fuzzy, c++-format
+#, c++-format
 msgid "Rest break {} overdue"
-msgstr "Rustpauze %s te laat"
+msgstr "Rustpauze {} te laat"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
-#, fuzzy, c++-format
+#, c++-format
 msgid "Daily limit in {}"
-msgstr "Dagelijkse limiet over %s"
+msgstr "Dagelijkse limiet over {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
-#, fuzzy, c++-format
 msgid "Daily limit {} overdue"
-msgstr "%s over dagelijkse limiet"
+msgstr "Dagelijkse limiet {} te laat"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
 msgid "Orientation"
@@ -798,11 +794,12 @@ msgstr "Algemeen"
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:29
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:92
-#, fuzzy
 msgid "Status window"
 msgstr "Statusvenster"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
 msgid "Applet"
 msgstr "Applet"
 
@@ -858,9 +855,8 @@ msgstr "Opties"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-#, fuzzy
 msgid "Block mode"
-msgstr "Blokkeermodus:"
+msgstr "Blokkeermodus"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
@@ -872,9 +868,8 @@ msgstr "(lettertype niet beschikbaar)"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-#, fuzzy
 msgid "Language"
-msgstr "Taal:"
+msgstr "Taal"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
@@ -929,9 +924,8 @@ msgstr "Automatisch"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-#, fuzzy
 msgid "Dark mode"
-msgstr "Donkere modus:"
+msgstr "Donkere modus"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
@@ -955,9 +949,8 @@ msgstr "Workrave dient handmatig herstart te worden na het wijzigen van deze ins
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-#, fuzzy
 msgid "Mouse sensitivity"
-msgstr "Muisgevoeligheid:"
+msgstr "Muisgevoeligheid"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -983,9 +976,8 @@ msgstr "Geluiden via de geluidskaart afspelen"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:83
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-#, fuzzy
 msgid "Volume"
-msgstr "Volume:"
+msgstr "Volume"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
 msgid "Output device:"
@@ -1008,8 +1000,9 @@ msgid "Sound Events"
 msgstr "Geluiden"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:115
-msgid "Sound Theme:"
-msgstr "Geluidsthema:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
+msgid "Sound theme"
+msgstr "Geluidsthema"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:138
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
@@ -1080,15 +1073,13 @@ msgstr "Let op: het statusvenster wordt alleen verborgen als het statuspictogram
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-#, fuzzy
 msgid "Placement"
-msgstr "Plaatsing:"
+msgstr "Plaatsing"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-#, fuzzy
 msgid "Cycle time"
-msgstr "Afwisseltijd:"
+msgstr "Afwisseltijd"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 msgid "Fallback applet enabled"
@@ -1124,9 +1115,8 @@ msgstr "Vragen alvorens te pauzeren"
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:114
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-#, fuzzy
 msgid "Maximum number of prompts"
-msgstr "Maximaal aantal verzoeken:"
+msgstr "Maximaal aantal herinneringen"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -1151,9 +1141,8 @@ msgstr "Micropauzes tellen als werktijd"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-#, fuzzy
 msgid "Number of exercises"
-msgstr "Aantal oefeningen:"
+msgstr "Aantal oefeningen"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
@@ -1172,30 +1161,27 @@ msgstr "Werktijd:"
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-#, fuzzy
 msgid "Time between breaks"
-msgstr "Werktijd:"
+msgstr "Tijd tussen pauzes"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-#, fuzzy
 msgid "Break duration"
-msgstr "Pauzeduur:"
+msgstr "Pauzeduur"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:73
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-#, fuzzy
 msgid "Postpone time"
-msgstr "Uitsteltijd:"
+msgstr "Uitsteltijd"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:258
-#, fuzzy, c++-format
+#, c++-format
 msgid "Rest break for {}"
-msgstr "Rustpauze gedurende %s"
+msgstr "Rustpauze gedurende {}"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
@@ -1521,7 +1507,6 @@ msgid "Look into the darkness"
 msgstr "Kijken in de duisternis"
 
 #: ui/data/exercises/exercises.xml.in:73
-#, fuzzy
 msgid "Cover your eyes with your palms in such a way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
 msgstr "Bedek je ogen met je handpalmen zodanig dat je wel nog je ogen kunt openen. Open nu je ogen en kijk in de duisternis van je handpalmen. Deze oefening geeft meer rust dan wanneer je je ogen alleen maar sluit."
 
@@ -1569,24 +1554,20 @@ msgid "Authors"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/AboutDialog.qml:87
-#, fuzzy
 msgid "Translators"
-msgstr "_Vertaald door"
+msgstr "Vertaald door"
 
 #: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:151
-#, fuzzy
 msgid "Skip this version"
-msgstr "_Sla deze versie over"
+msgstr "Sla deze versie over"
 
 #: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:162
-#, fuzzy
 msgid "Remind me later"
-msgstr "_Herinner me later"
+msgstr "Herinner me later"
 
 #: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:167
-#, fuzzy
 msgid "Install update"
-msgstr "_Installeer update"
+msgstr "Installeer update"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:26
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:26
@@ -1594,9 +1575,8 @@ msgid "Visibility"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:30
-#, fuzzy
 msgid "Show status applet"
-msgstr "Statusicoon weergeven"
+msgstr "Paneelapplet weergeven"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:31
 msgid "Turn off to hide the panel applet — Workrave still runs from the tray."
@@ -1604,9 +1584,8 @@ msgstr ""
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:40
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:48
-#, fuzzy
 msgid "Display style"
-msgstr "Weergave"
+msgstr "Weergavestijl"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:61
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:69
@@ -1663,14 +1642,6 @@ msgstr ""
 msgid "Per-timer visibility"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
-#, fuzzy
-msgid "Microbreak"
-msgstr "Micropauze"
-
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:152
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
@@ -1691,9 +1662,8 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:120
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:116
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:594
-#, fuzzy
 msgid "Lock screen"
-msgstr "Invoer en scherm blokkeren"
+msgstr "Scherm vergrendelen"
 
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:218
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:361
@@ -1723,9 +1693,8 @@ msgid "When postponed, Workrave reminds you again after this long."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:76
-#, fuzzy
 msgid "Prompt before enforcing limit"
-msgstr "Vragen alvorens te pauzeren"
+msgstr "Vragen alvorens de limiet af te dwingen"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:77
 msgid "Show a gentle reminder a few seconds before the limit is enforced."
@@ -1734,9 +1703,8 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:85
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:105
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
-#, fuzzy
 msgid "Limit number of prompts"
-msgstr "Maximaal aantal verzoeken:"
+msgstr "Aantal herinneringen beperken"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
@@ -1759,9 +1727,8 @@ msgid "During a microbreak you're usually still seated. Turn on to limit the tim
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:132
-#, fuzzy
 msgid "Enable shutting down the computer from the daily limit screen"
-msgstr "Het afsluiten van de computer vanuit het rustpauze-scherm inschakelen"
+msgstr "Het afsluiten van de computer vanuit het dagelijkse-limietscherm inschakelen"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:133
 msgid "Adds power buttons to the daily limit window so you can stop work and shut down or sleep the computer."
@@ -1788,9 +1755,8 @@ msgid "Workrave shows the break window but doesn't interrupt input."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
-#, fuzzy
 msgid "Theme"
-msgstr "Icoonthema:"
+msgstr "Thema"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
 msgid "Use Sanctuary UI"
@@ -1801,9 +1767,8 @@ msgid "When enabled, break windows and the status window use the new QML-based d
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:113
-#, fuzzy
 msgid "System"
-msgstr "Systeemproxy"
+msgstr "Systeem"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:118
 msgid "Adds a Workrave icon to the system tray for quick access."
@@ -1822,9 +1787,8 @@ msgid "Light or dark colour scheme for the Workrave windows."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
-#, fuzzy
 msgid "Icon theme"
-msgstr "Icoonthema:"
+msgstr "Icoonthema"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
 msgid "Visual style used for Workrave's icons."
@@ -1847,9 +1811,8 @@ msgid "e.g. /usr/bin/pmset displaysleepnow"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:199
-#, fuzzy
 msgid "Lock method"
-msgstr "Blokkeermodus:"
+msgstr "Vergrendelmethode"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:200
 msgid "Which screen-lock backend to use when the Lock button is pressed."
@@ -1868,14 +1831,12 @@ msgid "Linux display server"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:228
-#, fuzzy
 msgid "Runs Workrave under XWayland instead of native Wayland. Requires a restart of Workrave."
-msgstr "Forceer het gebruik van X11 op Wayland (vereist herstart van Workrave)"
+msgstr "Voert Workrave uit onder XWayland in plaats van natieve Wayland-ondersteuning. Vereist een herstart van Workrave."
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:237
-#, fuzzy
 msgid "Uses the Workrave GNOME Shell extension to show break prompts on Wayland. Experimental."
-msgstr "Gebruik GNOME Shell-extensie om pauze-meldingen weer te geven op Wayland (EXPERIMENTEEL)"
+msgstr "Gebruikt de GNOME Shell-extensie van Workrave om pauzemeldingen te tonen op Wayland. Experimenteel."
 
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:187
 msgid "Please stop and relax"
@@ -1904,19 +1865,16 @@ msgid "When off, Workrave keeps reminding you until the break starts."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:25
-#, fuzzy
 msgid "Activity detection"
-msgstr "Activiteit"
+msgstr "Activiteitsdetectie"
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
-#, fuzzy
 msgid "Debug"
-msgstr "Debuglogging"
+msgstr "Foutopsporing"
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:80
-#, fuzzy
 msgid "Activity monitor"
-msgstr "Activiteit"
+msgstr "Activiteitsmonitor"
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:86
 msgid "Open the debug window to inspect raw activity events and monitor state."
@@ -1926,10 +1884,9 @@ msgstr ""
 msgid "Open debug window"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
-msgid "Status applet"
-msgstr ""
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
+msgid "Micro-break"
+msgstr "Micropauze"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:61
 msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
@@ -1968,15 +1925,13 @@ msgid "Allow local applications to inspect and control Workrave."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/PreludeClassic.qml:72
-#, fuzzy
 msgid "Time for a break?"
-msgstr "Tijd voor een micropauze?"
+msgstr "Tijd voor een pauze?"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:97
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:577
-#, fuzzy
 msgid "Exercise"
-msgstr "Oefeningen"
+msgstr "Oefening"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:98
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:469
@@ -1986,7 +1941,6 @@ msgstr ""
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:333
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:867
-#, fuzzy
 msgid "Stop exercises"
 msgstr "Oefeningen stoppen"
 
@@ -2001,9 +1955,8 @@ msgid "Please stand up and walk away from your computer"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:754
-#, fuzzy
 msgid "Total left"
-msgstr "Totaal aantal pauzes"
+msgstr "Nog te gaan"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:756
 msgid "of %1"
@@ -2022,9 +1975,8 @@ msgid "Active time required before a rest break is prompted."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:53
-#, fuzzy
 msgid "How long each rest break lasts."
-msgstr "Je bent toe aan een rustpauze..."
+msgstr "Hoe lang elke rustpauze duurt."
 
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:144
 msgid "Counts time the screen is locked as part of your break. Prevents being prompted right after you unlock."
@@ -2039,9 +1991,8 @@ msgid "Workrave picks this many at random from its library each rest break."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:30
-#, fuzzy
 msgid "Enable sounds"
-msgstr "Geen geluid"
+msgstr "Geluiden inschakelen"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
@@ -2054,11 +2005,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172
 msgid "Silences system audio when a rest break or daily limit begins."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
-#, fuzzy
-msgid "Sound theme"
-msgstr "Geluidsthema:"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:353
 msgid "Choose…"
@@ -2085,9 +2031,8 @@ msgid "Where each timer appears. Pair timers into the same slot to save space �
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:169
-#, fuzzy
 msgid "Next to each other"
-msgstr "Alle timers onder elkaar"
+msgstr "Naast elkaar"
 
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:177
 msgid "Micro + Rest together"
@@ -2098,9 +2043,8 @@ msgid "Rest + Daily together"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:193
-#, fuzzy
 msgid "All in one slot"
-msgstr "Alle timers afwisselend op één plek"
+msgstr "Alles in één slot"
 
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
 msgid "When timers share a slot, switch between them this often."

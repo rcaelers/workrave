@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-03 23:36+0200\n"
+"POT-Creation-Date: 2026-08-04 00:26+0200\n"
 "PO-Revision-Date: 2011-02-16 19:21+0100\n"
 "Last-Translator: Prokopis Prokopidis <prokopidis@gmail.com>\n"
 "Language-Team:  <en@li.org>\n"
@@ -74,9 +74,11 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-#: ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/Ui.cc:38 ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 msgid "Micro-break"
 msgstr "Μικρο-παύση"
 
@@ -314,8 +316,9 @@ msgid "Use the Sanctuary design for break windows and the status window."
 msgstr ""
 
 #: ui/app/org.workrave.gui.gschema.xml.in:77
+#, fuzzy
 msgid "Timer display style"
-msgstr ""
+msgstr "Εμφάνιση"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:78
 msgid "Select the visual style used to display timers."
@@ -455,15 +458,15 @@ msgid "Get updates as soon as they are available"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
-msgid "Release channel:"
+msgid "Release channel"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
-msgid "Proxy Type:"
+msgid "Proxy Type"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
-msgid "Proxy:"
+msgid "Proxy"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
@@ -671,7 +674,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:859
 #, fuzzy
 msgid "Next exercise"
-msgstr "Αριθμός ασκήσεων:"
+msgstr "Αριθμός ασκήσεων"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:148
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:325
@@ -679,7 +682,7 @@ msgstr "Αριθμός ασκήσεων:"
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:823
 #, fuzzy
 msgid "Pause exercises"
-msgstr "Αριθμός ασκήσεων:"
+msgstr "Αριθμός ασκήσεων"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:152
 #, fuzzy
@@ -701,7 +704,7 @@ msgstr "Παύση"
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:823
 #, fuzzy
 msgid "Resume exercises"
-msgstr "Αριθμός ασκήσεων:"
+msgstr "Αριθμός ασκήσεων"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:108
@@ -712,22 +715,22 @@ msgstr "Χαλαρώστε για μερικά δευτερόλεπτα"
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
 #, fuzzy, c++-format
 msgid "Next rest break in {}"
-msgstr "Το επόμενο διάλειμμα είναι σε %s"
+msgstr "Το επόμενο διάλειμμα είναι σε {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
 #, fuzzy, c++-format
 msgid "Rest break {} overdue"
-msgstr "Το διάλειμμα έχει καθυστερήσει κατά %s"
+msgstr "Το διάλειμμα έχει καθυστερήσει κατά {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
 #, fuzzy, c++-format
 msgid "Daily limit in {}"
-msgstr "Ημερήσιο όριο σε %s"
+msgstr "Ημερήσιο όριο σε {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
 #, fuzzy, c++-format
 msgid "Daily limit {} overdue"
-msgstr "Υπέρβαση του ημερήσιου ορίου κατά %s"
+msgstr "Υπέρβαση του ημερήσιου ορίου κατά {}"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
 msgid "Orientation"
@@ -812,11 +815,12 @@ msgstr "Γενικά"
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:29
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:92
-#, fuzzy
 msgid "Status window"
 msgstr "Παράθυρο Κατάστασης"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
 msgid "Applet"
 msgstr "Applet"
 
@@ -835,7 +839,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:87
 #, fuzzy
 msgid "Sounds"
-msgstr "Ήχος:"
+msgstr "Ήχος"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:156
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:34
@@ -877,7 +881,7 @@ msgstr "Επιλογές"
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
 #, fuzzy
 msgid "Block mode"
-msgstr "Λειτουργία κλειδώματος:"
+msgstr "Λειτουργία κλειδώματος"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
@@ -950,7 +954,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
 #, fuzzy
 msgid "Dark mode"
-msgstr "Λειτουργία κλειδώματος:"
+msgstr "Λειτουργία κλειδώματος"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
@@ -976,7 +980,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
 #, fuzzy
 msgid "Mouse sensitivity"
-msgstr "Κίνηση του ποντικιού:"
+msgstr "Κίνηση του ποντικιού"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -1032,9 +1036,10 @@ msgstr ""
 #  panel->add(*start_in_tray_cb);
 #  panel->add(*start_in_tray_cb);
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:115
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
 #, fuzzy
-msgid "Sound Theme:"
-msgstr "Ήχος:"
+msgid "Sound theme"
+msgstr "Ήχος"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:138
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
@@ -1108,13 +1113,13 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
 #, fuzzy
 msgid "Placement"
-msgstr "Τοποθέτηση:"
+msgstr "Τοποθέτηση"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
 #, fuzzy
 msgid "Cycle time"
-msgstr "Περίοδος εναλλαγής:"
+msgstr "Περίοδος εναλλαγής"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
@@ -1156,7 +1161,7 @@ msgstr "Προτροπή πριν το διάλειμμα"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
 #, fuzzy
 msgid "Maximum number of prompts"
-msgstr "Μέγιστος αριθμός προτροπών:"
+msgstr "Μέγιστος αριθμός προτροπών"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -1185,7 +1190,7 @@ msgstr "Οι μικροπαύσεις να θεωρούνται δραστηρι
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
 #, fuzzy
 msgid "Number of exercises"
-msgstr "Αριθμός ασκήσεων:"
+msgstr "Αριθμός ασκήσεων"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
@@ -1206,14 +1211,14 @@ msgstr "Συνολικός χρόνος εργασίας:"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
 #, fuzzy
 msgid "Time between breaks"
-msgstr "Χρόνος ανάμεσα σε δύο διαλείμματα:"
+msgstr "Χρόνος ανάμεσα σε δύο διαλείμματα"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
 #, fuzzy
 msgid "Break duration"
-msgstr "Διάρκεια διαλειμμάτων:"
+msgstr "Διάρκεια διαλειμμάτων"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
@@ -1221,13 +1226,13 @@ msgstr "Διάρκεια διαλειμμάτων:"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
 #, fuzzy
 msgid "Postpone time"
-msgstr "Διάρκεια αναβολών:"
+msgstr "Διάρκεια αναβολών"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:258
 #, fuzzy, c++-format
 msgid "Rest break for {}"
-msgstr "Διάλειμμα σε %s"
+msgstr "Διάλειμμα σε {}"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
@@ -1472,8 +1477,9 @@ msgid "Workrave is a free program that assists in the recovery and prevention of
 msgstr ""
 
 #: ui/app/workrave.metainfo.xml:17
+#, fuzzy
 msgid "The break warning window"
-msgstr ""
+msgstr "Το επόμενο διάλειμμα είναι σε %s"
 
 #: ui/app/workrave.metainfo.xml:21
 #, fuzzy
@@ -1703,14 +1709,6 @@ msgstr ""
 msgid "Per-timer visibility"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
-#, fuzzy
-msgid "Microbreak"
-msgstr "Μικρο-παύση"
-
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:152
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
@@ -1776,7 +1774,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
 #, fuzzy
 msgid "Limit number of prompts"
-msgstr "Μέγιστος αριθμός προτροπών:"
+msgstr "Μέγιστος αριθμός προτροπών"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
@@ -1831,7 +1829,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
 #, fuzzy
 msgid "Theme"
-msgstr "Ήχος:"
+msgstr "Ήχος"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
 msgid "Use Sanctuary UI"
@@ -1866,7 +1864,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
 #, fuzzy
 msgid "Icon theme"
-msgstr "Ήχος:"
+msgstr "Ήχος"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
 msgid "Visual style used for Workrave's icons."
@@ -1891,7 +1889,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:199
 #, fuzzy
 msgid "Lock method"
-msgstr "Λειτουργία κλειδώματος:"
+msgstr "Λειτουργία κλειδώματος"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:200
 msgid "Which screen-lock backend to use when the Lock button is pressed."
@@ -1965,10 +1963,10 @@ msgstr ""
 msgid "Open debug window"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
-msgid "Status applet"
-msgstr ""
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
+#, fuzzy
+msgid "Micro-break"
+msgstr "Μικρο-παύση"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:61
 msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
@@ -2092,13 +2090,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172
 msgid "Silences system audio when a rest break or daily limit begins."
 msgstr ""
-
-#  panel->add(*start_in_tray_cb);
-#  panel->add(*start_in_tray_cb);
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
-#, fuzzy
-msgid "Sound theme"
-msgstr "Ήχος:"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:353
 msgid "Choose…"

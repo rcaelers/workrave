@@ -18,7 +18,7 @@ Item {
     readonly property var staticNavModel: {
         var sections = [
           { id: "timers", title: qsTr("Timers"), children: [
-            { id: "microbreak",  title: qsTr("Microbreak")    },
+            { id: "microbreak",  title: qsTr("Micro-break")    },
             { id: "restbreak",   title: qsTr("Rest break")    },
             { id: "daily",       title: qsTr("Daily limit")   },
             { id: "monitoring",  title: qsTr("Monitoring")    },
@@ -27,7 +27,7 @@ Item {
             { id: "general",     title: qsTr("General")         },
             { id: "sounds",      title: qsTr("Sounds")          },
             { id: "status",      title: qsTr("Status window")   },
-            { id: "applet",      title: qsTr("Status applet")   },
+            { id: "applet",      title: qsTr("Applet")   },
           ]},
         ]
         if (root.hasGrpc) {
@@ -57,7 +57,7 @@ Item {
     function pageMetaForRoute(sec, pg) {
         if (sec === "timers") {
             if (pg === "microbreak") return {
-                title: qsTr("Microbreak"),
+                title: qsTr("Micro-break"),
                 lede:  qsTr("A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."),
                 url:   "MicrobreakPrefPage.qml"
             }
@@ -94,7 +94,7 @@ Item {
                 url:   "StatusWindowPrefPage.qml"
             }
             if (pg === "applet") return {
-                title: qsTr("Status applet"),
+                title: qsTr("Applet"),
                 lede:  qsTr("The system-tray or panel applet showing your three timers."),
                 url:   "AppletPrefPage.qml"
             }
