@@ -193,14 +193,27 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
     echo Deploying
     baseWindowsFilename=workrave-windows-${baseFilenamePostfix}
 
+    # The gtkmm and Qt toolkits' dist/windows/CMakeLists.txt name their
+    # installer/portable targets differently (workrave-installer.exe vs
+    # workrave-qt-installer.exe, etc.) so the same build can carry both
+    # side by side; pick the names matching whichever toolkit this build
+    # was configured with (CONF_UI, defaults to Gtk+3 like WITH_UI itself).
+    if [[ "$CONF_UI" == "Qt" ]]; then
+        installerBaseName=workrave-qt-installer
+        portableBaseName=workrave-qt-portable
+    else
+        installerBaseName=workrave-installer
+        portableBaseName=workrave-portable
+    fi
+
     # Portable
 
     portableFilename=${baseWindowsFilename}-portable.zip
 
     ninja ${MAKE_FLAGS[@]} portable
 
-    if [[ -e ${OUTPUT_DIR}/workrave-portable.zip ]]; then
-        cp ${OUTPUT_DIR}/workrave-portable.zip ${DEPLOY_DIR}/${portableFilename}
+    if [[ -e ${OUTPUT_DIR}/${portableBaseName}.zip ]]; then
+        cp ${OUTPUT_DIR}/${portableBaseName}.zip ${DEPLOY_DIR}/${portableFilename}
         ${SCRIPTS_DIR}/ci/artifact.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
     fi
 
@@ -208,7 +221,7 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
 
     ninja ${MAKE_FLAGS[@]} installer
 
-    if [[ -e ${OUTPUT_DIR}/workrave-installer.exe ]]; then
+    if [[ -e ${OUTPUT_DIR}/${installerBaseName}.exe ]]; then
 
         # if [[ $WORKRAVE_ENV != "local-windows-msys2" ]]; then
         #
@@ -227,7 +240,7 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
         filename=${baseWindowsFilename}.exe
         symbolsFilename=${baseWindowsFilename}.sym
 
-        cp ${OUTPUT_DIR}/workrave-installer.exe ${DEPLOY_DIR}/${filename}
+        cp ${OUTPUT_DIR}/${installerBaseName}.exe ${DEPLOY_DIR}/${filename}
         if [[ -e ${OUTPUT_DIR}/workrave.sym ]]; then
             cp ${OUTPUT_DIR}/workrave.sym ${DEPLOY_DIR}/${symbolsFilename}
         fi
