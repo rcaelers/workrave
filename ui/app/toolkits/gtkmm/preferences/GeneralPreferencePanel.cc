@@ -45,7 +45,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 GeneralPreferencePanel::GeneralPreferencePanel(std::shared_ptr<IApplicationContext> app)
-  : Gtk::VBox(false, 6)
+  : GtkCompat::VBox(false, 6)
   , app(app)
   , connector(std::make_shared<DataConnector>(app))
 
@@ -189,7 +189,7 @@ GeneralPreferencePanel::create_panel()
     {
       Gtk::Label *autostart_lab = Gtk::manage(GtkUtil::create_label(_("Start Workrave on logon"), false));
       autostart_cb = Gtk::manage(new Gtk::CheckButton());
-      autostart_cb->add(*autostart_lab);
+      GtkCompat::set_child(*autostart_cb, *autostart_lab);
       autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &GeneralPreferencePanel::on_autostart_toggled));
       panel->add_widget(*autostart_cb);
 
@@ -207,7 +207,7 @@ GeneralPreferencePanel::create_panel()
                                          "system tray icons, or have disabled system tray icons by default.")));
 
   trayicon_cb = Gtk::manage(new Gtk::CheckButton());
-  trayicon_cb->add(*trayicon_lab);
+  GtkCompat::set_child(*trayicon_cb, *trayicon_lab);
   connector->connect(GUIConfig::trayicon_enabled(), dc::wrap(trayicon_cb));
 
   panel->add_widget(*trayicon_cb, false, false);
@@ -220,7 +220,7 @@ GeneralPreferencePanel::create_panel()
                                          "Changing this option requires a restart of Workrave.")));
 
   force_x11_cb = Gtk::manage(new Gtk::CheckButton());
-  force_x11_cb->add(*force_x11_lab);
+  GtkCompat::set_child(*force_x11_cb, *force_x11_lab);
   connector->connect(GUIConfig::force_x11(), dc::wrap(force_x11_cb));
 
   panel->add_widget(*force_x11_cb, false, false);
@@ -230,7 +230,7 @@ GeneralPreferencePanel::create_panel()
     _("Workrave can use its GNOME Shell extension to enhance its integration with the desktop environment running on Wayland.")));
 
   use_gnome_shell_preludes_cb = Gtk::manage(new Gtk::CheckButton());
-  use_gnome_shell_preludes_cb->add(*use_gnome_shell_preludes_lab);
+  GtkCompat::set_child(*use_gnome_shell_preludes_cb, *use_gnome_shell_preludes_lab);
   connector->connect(GUIConfig::use_gnome_shell_preludes(), dc::wrap(use_gnome_shell_preludes_cb));
 
   panel->add_widget(*use_gnome_shell_preludes_cb, false, false);
@@ -274,7 +274,7 @@ GeneralPreferencePanel::create_panel()
 #endif
   pack_start(*panel, false, false, 0);
 
-  panel->set_border_width(12);
+  GtkCompat::set_border_width(*panel, 12);
 }
 
 #if defined(PLATFORM_OS_WINDOWS)

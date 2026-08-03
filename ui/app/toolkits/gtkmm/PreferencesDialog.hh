@@ -64,8 +64,13 @@ private:
   void create_plugin_panels();
   void create_panel(std::shared_ptr<ui::prefwidgets::Def> &def);
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  void on_focus_in();
+  void on_focus_out();
+#else
   bool on_focus_in_event(GdkEventFocus *event) override;
   bool on_focus_out_event(GdkEventFocus *event) override;
+#endif
 
 private:
   std::shared_ptr<IApplicationContext> app;
@@ -73,6 +78,9 @@ private:
   std::list<std::shared_ptr<ui::prefwidgets::gtkmm::BoxWidget>> frames;
   PanelList panel_list;
   Gtk::Stack stack;
+#if GTK_CHECK_VERSION(4, 0, 0)
+  Glib::RefPtr<Gtk::EventControllerFocus> focus_controller;
+#endif
 };
 
 #endif // PREFERENCESWINDOW_HH

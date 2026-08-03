@@ -61,17 +61,17 @@ MicroBreakWindow::create_gui()
 
   // Icon
   Gtk::Image *img = GtkUtil::create_image("micro-break.png");
-  img->set_alignment(0.0, 0.0);
+  GtkCompat::set_image_alignment(*img, 0.0, 0.0);
 
-  // HBox
-  Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 12));
+  // Box
+  auto *hbox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 12));
   hbox->pack_start(*img, false, false, 0);
-  hbox->pack_start(*label, Gtk::PACK_EXPAND_PADDING, 0);
+  hbox->pack_start(*label, true, false, 0);
 
   // Overall vbox
-  auto *box = new Gtk::VBox(false, 12);
-  box->pack_start(*hbox, Gtk::PACK_EXPAND_WIDGET, 0);
-  box->pack_start(*time_bar, Gtk::PACK_EXPAND_WIDGET, 0);
+  auto *box = new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL, 12);
+  box->pack_start(*hbox, true, true, 0);
+  box->pack_start(*time_bar, true, true, 0);
 
   // Button box at the bottom.
   auto core = app->get_core();
@@ -79,40 +79,47 @@ MicroBreakWindow::create_gui()
 
   if ((break_flags != BREAK_FLAGS_NONE) || restbreak->is_enabled())
     {
-      Gtk::HBox *button_box = nullptr;
+      GtkCompat::Box *button_box = nullptr;
       if (break_flags != BREAK_FLAGS_NONE)
         {
-          button_box = Gtk::manage(new Gtk::HBox(false, 6));
+          button_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 6));
 
-          Gtk::HBox *bbox = Gtk::manage(new Gtk::HBox(true, 6));
+          auto *bbox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 6));
 
           if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
             {
               Gtk::Button *postpone_button = create_postpone_button();
-              bbox->pack_end(*postpone_button, Gtk::PACK_EXPAND_WIDGET, 0);
+              bbox->pack_end(*postpone_button, true, true, 0);
             }
 
           if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
             {
               Gtk::Button *skip_button = create_skip_button();
-              bbox->pack_end(*skip_button, Gtk::PACK_EXPAND_WIDGET, 0);
+              bbox->pack_end(*skip_button, true, true, 0);
             }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+          // Gtk::Alignment was removed in GTK4; align the box directly.
+          bbox->set_halign(Gtk::Align::END);
+          bbox->set_valign(Gtk::Align::START);
+          Gtk::Widget *bboxa = bbox;
+#else
           Gtk::Alignment *bboxa = Gtk::manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
           bboxa->add(*bbox);
+#endif
 
           if (restbreak->is_enabled())
             {
-              button_box->pack_start(*Gtk::manage(create_restbreaknow_button(false)), Gtk::PACK_SHRINK, 0);
+              button_box->pack_start(*Gtk::manage(create_restbreaknow_button(false)), false, false, 0);
             }
-          button_box->pack_end(*bboxa, Gtk::PACK_EXPAND_WIDGET, 0);
+          button_box->pack_end(*bboxa, true, true, 0);
         }
       else
         {
-          button_box = Gtk::manage(new Gtk::HBox(false, 6));
-          button_box->pack_end(*Gtk::manage(create_restbreaknow_button(true)), Gtk::PACK_SHRINK, 0);
+          button_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 6));
+          button_box->pack_end(*Gtk::manage(create_restbreaknow_button(true)), false, false, 0);
         }
-      box->pack_start(*button_box, Gtk::PACK_EXPAND_WIDGET, 0);
+      box->pack_start(*button_box, true, true, 0);
     }
 
   fixed_size = false;
@@ -244,11 +251,11 @@ MicroBreakWindow::update_break_window()
     {
       // Make sure the label doesn't resize anymore.
       // There has to be a better way to do this...
-      GtkRequisition min_size;
-      GtkRequisition natural_size;
+      Gtk::Requisition min_size;
+      Gtk::Requisition natural_size;
       label->get_preferred_size(min_size, natural_size);
 
-      label->set_size_request(min_size.width, min_size.height);
+      label->set_size_request(GtkCompat::req_width(min_size), GtkCompat::req_height(min_size));
       fixed_size = true;
       center();
     }

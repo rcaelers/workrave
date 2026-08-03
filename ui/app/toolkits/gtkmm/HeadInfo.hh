@@ -22,9 +22,13 @@
 #  undef max
 #endif
 
+#include <gtkmm.h>
 #include <gdkmm/monitor.h>
 #include <gdkmm/rectangle.h>
-#include <gdkmm/screen.h>
+#include <gdkmm/display.h>
+#if !GTK_CHECK_VERSION(4, 0, 0)
+#  include <gdkmm/screen.h>
+#endif
 
 class HeadInfo
 {
@@ -37,7 +41,11 @@ public:
   int get_y() const;
   bool is_primary() const;
   Glib::RefPtr<Gdk::Monitor> get_monitor() const;
+#if GTK_CHECK_VERSION(4, 0, 0)
+  int get_monitor_index(const Glib::RefPtr<Gdk::Display> &display) const;
+#else
   int get_monitor_index(Glib::RefPtr<Gdk::Screen> screen) const;
+#endif
 
   bool primary{false};
   Gdk::Rectangle geometry;

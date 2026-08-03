@@ -27,13 +27,16 @@
 
 #include <glibmm.h>
 #include <gio/gio.h>
-#include <gdk/gdkx.h>
-#include <X11/Xlib.h>
-#include <X11/extensions/XInput2.h>
-#include <X11/keysym.h>
-#include <X11/XF86keysym.h>
-#include <X11/XKBlib.h>
-#include <X11/X.h>
+#include <gdk/gdk.h>
+#if !GTK_CHECK_VERSION(4, 0, 0)
+#  include <gdk/gdkx.h>
+#  include <X11/Xlib.h>
+#  include <X11/extensions/XInput2.h>
+#  include <X11/keysym.h>
+#  include <X11/XF86keysym.h>
+#  include <X11/XKBlib.h>
+#  include <X11/X.h>
+#endif
 
 #include <spdlog/spdlog.h>
 
@@ -42,6 +45,8 @@
 #include "session/System.hh"
 
 using namespace workrave::utils;
+
+#if !GTK_CHECK_VERSION(4, 0, 0)
 
 bool
 UnixLocker::can_lock()
@@ -471,3 +476,28 @@ UnixLocker::on_lock_retry_timer()
     }
   return grab_wanted && !grabbed;
 }
+
+#else // GTK_CHECK_VERSION(4, 0, 0)
+
+bool
+UnixLocker::can_lock()
+{
+  return false;
+}
+
+void
+UnixLocker::prepare_lock()
+{
+}
+
+void
+UnixLocker::lock()
+{
+}
+
+void
+UnixLocker::unlock()
+{
+}
+
+#endif // GTK_CHECK_VERSION(4, 0, 0)

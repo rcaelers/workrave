@@ -39,7 +39,7 @@
 using namespace workrave;
 
 TimerBoxPreferencePanel::TimerBoxPreferencePanel(std::shared_ptr<IApplicationContext> app, std::string n)
-  : Gtk::HBox(false, 6)
+  : GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 6)
   , app(app)
   , name(std::move(n))
 {
@@ -115,7 +115,7 @@ TimerBoxPreferencePanel::create_page()
                                              "do not support, or have disabled status icons.")));
 
       enabled_cb = Gtk::manage(new Gtk::CheckButton());
-      enabled_cb->add(*enabled_lab);
+      GtkCompat::set_child(*enabled_cb, *enabled_lab);
       hig->add_widget(*enabled_cb);
     }
 
@@ -138,18 +138,18 @@ TimerBoxPreferencePanel::create_page()
     {
       Gtk::Label *applet_fallback_enabled_lab = Gtk::manage(GtkUtil::create_label(_("Fallback applet enabled"), false));
       applet_fallback_enabled_cb = Gtk::manage(new Gtk::CheckButton());
-      applet_fallback_enabled_cb->add(*applet_fallback_enabled_lab);
+      GtkCompat::set_child(*applet_fallback_enabled_cb, *applet_fallback_enabled_lab);
       hig->add_widget(*applet_fallback_enabled_cb);
 
       Gtk::Label *applet_icon_enabled_lab = Gtk::manage(GtkUtil::create_label(_("Show status icon"), false));
       applet_icon_enabled_cb = Gtk::manage(new Gtk::CheckButton());
-      applet_icon_enabled_cb->add(*applet_icon_enabled_lab);
+      GtkCompat::set_child(*applet_icon_enabled_cb, *applet_icon_enabled_lab);
       hig->add_widget(*applet_icon_enabled_cb);
     }
 
   pack_end(*hig, true, true, 0);
 
-  set_border_width(12);
+  GtkCompat::set_border_width(*this, 12);
 }
 
 //! Retrieves the applet configuration and sets the widgets.
@@ -336,7 +336,7 @@ TimerBoxPreferencePanel::enable_buttons()
   int count = 0;
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (timer_display_button[i]->get_active() == 0)
+      if (timer_display_button[i]->get_active_row_number() == 0)
         {
           count++;
         }

@@ -27,6 +27,7 @@
 
 #include "TimeBar.hh"
 #include "commonui/Text.hh"
+#include "commonui/GtkCompat.hh"
 #include "ui/UiTypes.hh"
 #include "GtkUtil.hh"
 
@@ -54,8 +55,12 @@ TimeBar::TimeBar(const std::string &name)
       {TimerColorId::Bg, Gdk::RGBA("black")},
     }
 {
+#if GTK_CHECK_VERSION(4, 0, 0)
+  set_draw_func(sigc::mem_fun(*this, &TimeBar::on_draw));
+#else
   add_events(Gdk::EXPOSURE_MASK);
   add_events(Gdk::BUTTON_PRESS_MASK);
+#endif
 
   set_bar_color(TimerColorId::Inactive);
   set_secondary_bar_color(TimerColorId::Inactive);
@@ -125,6 +130,7 @@ TimeBar::update()
   queue_draw();
 }
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
 void
 TimeBar::on_size_allocate(Gtk::Allocation &allocation)
 {
@@ -136,6 +142,7 @@ TimeBar::on_size_allocate(Gtk::Allocation &allocation)
       get_window()->move_resize(allocation.get_x(), allocation.get_y(), allocation.get_width(), allocation.get_height());
     }
 }
+#endif
 
 void
 TimeBar::get_preferred_size(int &width, int &height) const
@@ -161,6 +168,23 @@ TimeBar::get_preferred_size(int &width, int &height) const
   height = max(height + (2 * MARGINY), MIN_HORIZONTAL_BAR_HEIGHT);
 }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+void
+TimeBar::measure_vfunc(Gtk::Orientation orientation,
+                        int /* for_size */,
+                        int &minimum,
+                        int &natural,
+                        int &minimum_baseline,
+                        int &natural_baseline) const
+{
+  int width = 0;
+  int height = 0;
+  get_preferred_size(width, height);
+
+  minimum = natural = (orientation == Gtk::Orientation::HORIZONTAL) ? width : height;
+  minimum_baseline = natural_baseline = -1;
+}
+#else
 Gtk::SizeRequestMode
 TimeBar::get_request_mode_vfunc() const
 {
@@ -196,15 +220,18 @@ TimeBar::get_preferred_height_for_width_vfunc(int /* width */, int &minimum_heig
 {
   get_preferred_height_vfunc(minimum_height, natural_height);
 }
+#endif
 
 void
 TimeBar::draw_frame(const Cairo::RefPtr<Cairo::Context> &cr, int width, int height)
 {
   // Draw background
   Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
-  style_context->set_state(Gtk::STATE_FLAG_ACTIVE);
+  style_context->set_state(GtkCompat::STATE_FLAG_ACTIVE);
+#if !GTK_CHECK_VERSION(4, 0, 0)
   Gdk::RGBA back_color = style_context->get_background_color();
   set_color(cr, back_color);
+#endif
 
   // clip to the area indicated by the expose event so that we only redraw
   // the portion of the window that needs to be redrawn
@@ -341,7 +368,11 @@ TimeBar::draw_text(const Cairo::RefPtr<Cairo::Context> &cr, const std::array<Bar
   cr->reset_clip();
 
   Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
+#if GTK_CHECK_VERSION(4, 0, 0)
+  set_color(cr, style_context->get_color());
+#else
   set_color(cr, style_context->get_color(Gtk::STATE_FLAG_ACTIVE));
+#endif
   cr->move_to(text_x, text_y);
   pl1->show_in_cairo_context(cr);
 
@@ -362,6 +393,27 @@ TimeBar::draw_text(const Cairo::RefPtr<Cairo::Context> &cr, const std::array<Bar
     }
 }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+void
+TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr, int width, int height)
+{
+  Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
+
+  style_context->context_save();
+  style_context->add_class("frame");
+
+  // Physical width/height
+  int win_w = width - 2;
+  int win_h = height;
+
+  auto bars = calc_bars(cr, win_w, win_h);
+  draw_frame(cr, win_w, win_h);
+  draw_bars(cr, bars);
+  draw_text(cr, bars, win_w, win_h);
+
+  style_context->context_restore();
+}
+#else
 bool
 TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
@@ -384,6 +436,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
   return Gtk::Widget::on_draw(cr);
 }
+#endif
 
 void
 TimeBar::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color) const

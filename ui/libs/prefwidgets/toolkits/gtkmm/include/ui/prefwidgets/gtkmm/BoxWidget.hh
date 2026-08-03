@@ -26,6 +26,7 @@
 
 #include "ui/prefwidgets/Box.hh"
 #include "ContainerWidget.hh"
+#include "commonui/GtkCompat.hh"
 
 namespace ui::prefwidgets::gtkmm
 {
@@ -33,7 +34,7 @@ namespace ui::prefwidgets::gtkmm
   {
   public:
     BoxWidget(std::shared_ptr<ui::prefwidgets::Box> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry);
-    explicit BoxWidget(Gtk::Box *box);
+    explicit BoxWidget(GtkCompat::Box *box);
     ~BoxWidget() override = default;
 
     void add(std::shared_ptr<Widget> widget) override;
@@ -42,7 +43,7 @@ namespace ui::prefwidgets::gtkmm
 
   private:
     std::shared_ptr<ui::prefwidgets::Box> def;
-    Gtk::Box *box{};
+    GtkCompat::Box *box{};
     std::list<std::shared_ptr<Widget>> children;
   };
 } // namespace ui::prefwidgets::gtkmm

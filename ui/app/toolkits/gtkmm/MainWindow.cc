@@ -57,7 +57,7 @@ MainWindow::~MainWindow()
   TRACE_ENTRY();
   delete timer_box_control;
 
-#if defined(PLATFORM_OS_UNIX)
+#if defined(PLATFORM_OS_UNIX) && !GTK_CHECK_VERSION(4, 0, 0)
   delete leader;
 #endif
 }
@@ -69,24 +69,33 @@ MainWindow::open_window()
   // Head count is 0, when monitor is powered off due to sleeping on Sway.
   if (timer_box_view->get_visible_count() > 0 && app->get_toolkit()->get_head_count() > 0)
     {
+      GtkCompat::show_all(*this);
+
+#if GTK_CHECK_VERSION(4, 0, 0)
+      present();
+      // Gtk::Window::stick(), set_position()/set_gravity() and move() were
+      // all removed in GTK4; the compositor owns window placement.
+#else
       stick();
-      show_all();
       deiconify();
 
       set_position(Gtk::WIN_POS_NONE);
       set_gravity(Gdk::GRAVITY_NORTH_WEST);
 
       move_to_start_position();
+#endif
 
       GUIConfig::timerbox_enabled("main_window").set(true);
 
       bool always_on_top = GUIConfig::main_window_always_on_top()();
       GtkUtil::set_always_on_top(this, always_on_top);
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
       if (always_on_top)
         {
           raise();
         }
+#endif
     }
 }
 
@@ -102,7 +111,11 @@ MainWindow::close_window()
   else
     {
       TRACE_MSG("iconify");
+#if GTK_CHECK_VERSION(4, 0, 0)
+      minimize();
+#else
       iconify();
+#endif
     }
 
   GUIConfig::timerbox_enabled("main_window").set(false);
@@ -134,20 +147,28 @@ MainWindow::init()
 {
   TRACE_ENTRY();
 
-  set_border_width(2);
+  GtkCompat::set_border_width(*this, 2);
   set_resizable(false);
+#if !GTK_CHECK_VERSION(4, 0, 0)
   set_gravity(Gdk::GRAVITY_NORTH_WEST);
   set_position(Gtk::WIN_POS_NONE);
+#endif
   set_title("Workrave");
 
-#if GLIBMM_CHECK_VERSION(2, 68, 0)
-  std::vector<Glib::RefPtr<Gdk::Pixbuf>> icons;
+#if GTK_CHECK_VERSION(4, 0, 0)
+  // GTK4 dropped the pixbuf-list based icon API in favour of icon-theme
+  // lookups; the "workrave" icon is installed into the hicolor theme at
+  // the same sizes the pixbuf list used to load individually.
+  Gtk::Window::set_default_icon_name("workrave");
 #else
+#  if GLIBMM_CHECK_VERSION(2, 68, 0)
+  std::vector<Glib::RefPtr<Gdk::Pixbuf>> icons;
+#  else
   std::list<Glib::RefPtr<Gdk::Pixbuf>> icons;
-#endif
+#  endif
 
   const char *icon_files[] = {
-#if !defined(PLATFORM_OS_WINDOWS)
+#  if !defined(PLATFORM_OS_WINDOWS)
     // This causes a crash on windows
     "scalable" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.svg",
     "16x16" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
@@ -157,7 +178,7 @@ MainWindow::init()
     "64x64" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
     "96x96" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
     "128x128" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
-#else
+#  else
     "16x16" G_DIR_SEPARATOR_S "workrave.png",
     "24x24" G_DIR_SEPARATOR_S "workrave.png",
     "32x32" G_DIR_SEPARATOR_S "workrave.png",
@@ -165,7 +186,7 @@ MainWindow::init()
     "64x64" G_DIR_SEPARATOR_S "workrave.png",
     "96x96" G_DIR_SEPARATOR_S "workrave.png",
     "128x128" G_DIR_SEPARATOR_S "workrave.png",
-#endif
+#  endif
   };
 
   for (auto &icon_file: icon_files)
@@ -177,19 +198,29 @@ MainWindow::init()
         }
     }
 
-#if GLIBMM_CHECK_VERSION(2, 68, 0)
+#  if GLIBMM_CHECK_VERSION(2, 68, 0)
   Gtk::Window::set_default_icon_list(icons);
-#else
+#  else
   Glib::ListHandle<Glib::RefPtr<Gdk::Pixbuf>> icon_list(icons);
   Gtk::Window::set_default_icon_list(icon_list);
+#  endif
 #endif
-  // Gtk::Window::set_default_icon_name("workrave");
 
   timer_box_view = Gtk::manage(new TimerBoxGtkView(app->get_core()));
   timer_box_control = new TimerBoxControl(app->get_core(), "main_window", timer_box_view);
   timer_box_view->set_geometry(ORIENTATION_HORIZONTAL, -1);
   timer_box_control->update();
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  timer_view_eventbox = Gtk::manage(new GtkCompat::EventBox);
+  timer_view_eventbox->add(*timer_box_view);
+  GtkCompat::set_child(*this, *timer_view_eventbox);
+
+  timer_view_click_gesture = Gtk::GestureClick::create();
+  timer_view_click_gesture->set_button(0);
+  timer_view_click_gesture->signal_pressed().connect(sigc::mem_fun(*this, &MainWindow::on_timer_view_button_press));
+  timer_view_eventbox->add_controller(timer_view_click_gesture);
+#else
   auto *eventbox = Gtk::manage(new Gtk::EventBox);
   eventbox->set_visible_window(false);
   eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
@@ -200,13 +231,14 @@ MainWindow::init()
   realize_if_needed();
   Glib::RefPtr<Gdk::Window> window = get_window();
   window->set_decorations(Gdk::DECOR_BORDER | Gdk::DECOR_TITLE | Gdk::DECOR_MENU);
+#endif
 
-#if defined(PLATFORM_OS_WINDOWS)
+#if defined(PLATFORM_OS_WINDOWS) && !GTK_CHECK_VERSION(4, 0, 0)
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
   SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~(WS_MINIMIZEBOX | WS_MAXIMIZEBOX));
 #endif
 
-#if defined(PLATFORM_OS_UNIX)
+#if defined(PLATFORM_OS_UNIX) && !GTK_CHECK_VERSION(4, 0, 0)
   // HACK. this sets a different group leader in the WM_HINTS....
   // Without this hack, metacity makes ALL windows on-top.
   leader = new Gtk::Window(Gtk::WINDOW_POPUP);
@@ -217,15 +249,21 @@ MainWindow::init()
 
   menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
                                        [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
+#if GTK_CHECK_VERSION(4, 0, 0)
+  menu->get_menu()->set_parent(*timer_view_eventbox);
+#else
   menu->get_menu()->attach_to_widget(*this);
+#endif
   insert_action_group("app", menu->get_action_group());
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
   signal_configure_event().connect(
     [this](GdkEventConfigure *event) {
       locate_window(event);
       return false;
     },
     false);
+#endif
 
   GUIConfig::key_timerbox("main_window").connect(this, [this]() { on_enabled_changed(); });
 
@@ -259,6 +297,19 @@ MainWindow::on_enabled_changed()
     }
 }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+bool
+MainWindow::on_close_request()
+{
+  TRACE_ENTRY();
+  if (can_close)
+    {
+      close_window();
+    }
+  closed_signal();
+  return true;
+}
+#else
 bool
 MainWindow::on_delete_event(GdkEventAny * /*any_event*/)
 {
@@ -270,7 +321,28 @@ MainWindow::on_delete_event(GdkEventAny * /*any_event*/)
   closed_signal();
   return true;
 }
+#endif
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+void
+MainWindow::on_timer_view_button_press(int /* n_press */, double x, double y)
+{
+  TRACE_ENTRY();
+
+  if (timer_view_click_gesture->get_current_button() == 3)
+    {
+      bool taking = app->get_core()->is_taking();
+      if (!taking || (GUIConfig::block_mode()() != BlockMode::All && GUIConfig::block_mode()() != BlockMode::Input))
+        {
+          // Workaround for https://gitlab.gnome.org/GNOME/gtk/-/issues/5238
+          app->get_menu_model()->update();
+
+          menu->get_menu()->set_pointing_to(Gdk::Rectangle(static_cast<int>(x), static_cast<int>(y), 1, 1));
+          menu->get_menu()->popup();
+        }
+    }
+}
+#else
 bool
 MainWindow::on_timer_view_button_press_event(const GdkEventButton *event)
 {
@@ -291,7 +363,9 @@ MainWindow::on_timer_view_button_press_event(const GdkEventButton *event)
 
   return false;
 }
+#endif
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
 void
 MainWindow::move_to_start_position()
 {
@@ -349,6 +423,7 @@ MainWindow::locate_window(GdkEventConfigure *event)
   GUIConfig::main_window_y().set(y);
   GUIConfig::main_window_head().set(head);
 }
+#endif
 
 int
 MainWindow::convert_display_to_monitor(int &x, int &y)

@@ -39,7 +39,6 @@ target_link_libraries(workrave-applet
 target_include_directories(workrave-applet
   PRIVATE
   ${CMAKE_SOURCE_DIR}/ui/libs/commonui/include
-  ${GTK_INCLUDE_DIRS}
   ${PANELAPPLET_INCLUDE_DIRS}
   )
 

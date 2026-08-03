@@ -26,16 +26,20 @@ PanelList::PanelList()
 {
   set_vexpand(true);
   set_size_request(200, -1);
-  set_policy(Gtk::POLICY_NEVER, Gtk::POLICY_AUTOMATIC);
+  set_policy(GtkCompat::POLICY_NEVER, GtkCompat::POLICY_AUTOMATIC);
 
   list_box = Gtk::manage(new Gtk::ListBox());
-  list_box->set_selection_mode(Gtk::SelectionMode::SELECTION_SINGLE);
+#if GTK_CHECK_VERSION(4, 0, 0)
+  list_box->set_selection_mode(Gtk::SelectionMode::SINGLE);
+#else
+  list_box->set_selection_mode(Gtk::SELECTION_SINGLE);
+#endif
   list_box->signal_row_activated().connect([this](Gtk::ListBoxRow *row) {
     const char *id = (const char *)row->get_data("id");
     activated_signal(id);
   });
 
-  add(*list_box);
+  GtkCompat::set_child(*this, *list_box);
 }
 
 void
@@ -50,7 +54,11 @@ PanelList::add_row(const std::string &id, const std::string &name, const std::st
   grid->set_column_spacing(12);
 
   Gtk::Image *img = Gtk::manage(new Gtk::Image());
+#if GTK_CHECK_VERSION(4, 0, 0)
+  img->set_from_icon_name(image);
+#else
   img->set_from_icon_name(image, Gtk::IconSize(Gtk::ICON_SIZE_INVALID));
+#endif
   img->set_pixel_size(24);
   grid->attach(*img, 0, 0, 1, 1);
 
@@ -60,12 +68,17 @@ PanelList::add_row(const std::string &id, const std::string &name, const std::st
   grid->attach(*label, 1, 0, 1, 1);
 
   auto *row = Gtk::manage(new Gtk::ListBoxRow());
-  row->add(*grid);
+  GtkCompat::set_child(*row, *grid);
   row->set_data("id", g_strdup(id.c_str()), g_free);
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  list_box->append(*row);
+#else
   list_box->add(*row);
-  if (list_box->get_children().size() == 1)
+#endif
+  if (!has_rows)
     {
+      has_rows = true;
       list_box->select_row(*row);
     }
 }

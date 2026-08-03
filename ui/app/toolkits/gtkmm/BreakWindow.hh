@@ -20,6 +20,7 @@
 
 #include <gtkmm.h>
 
+#include "commonui/GtkCompat.hh"
 #include "ui/IBreakWindow.hh"
 #include "HeadInfo.hh"
 #include "GtkUtil.hh"
@@ -73,12 +74,16 @@ protected:
 
   void center();
 
-  Gtk::Box *create_bottom_box(bool lockable, bool shutdownable);
+  GtkCompat::Box *create_bottom_box(bool lockable, bool shutdownable);
   void update_skip_postpone_lock();
   void check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, workrave::BreakId &break_id);
   void on_shutdown_button_clicked();
   void on_skip_button_clicked();
+#if GTK_CHECK_VERSION(4, 0, 0)
+  // TODO: use close request
+#else
   bool on_delete_event(GdkEventAny * /*any_event*/) override;
+#endif
   void on_postpone_button_clicked();
   void on_lock_button_clicked();
 
@@ -140,7 +145,9 @@ private:
   SysoperModelColumns *sysoper_model_columns{nullptr};
 
   bool accel_added{false};
+#if !GTK_CHECK_VERSION(4, 0, 0)
   Glib::RefPtr<Gtk::AccelGroup> accel_group;
+#endif
   Gtk::Button *lock_button{nullptr};
   Gtk::Button *postpone_button{nullptr};
   Gtk::Button *skip_button{nullptr};
@@ -156,22 +163,33 @@ private:
 #endif
 #if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;
+#  if !GTK_CHECK_VERSION(4, 0, 0) || !defined(HAVE_GTK4_LAYER_SHELL)
   std::shared_ptr<WaylandLayerSurface> layer_surface;
+#  endif
 
   //! Waiting for the compositor to confirm fullscreen, so it can be undone again
   bool unfullscreen_pending{false};
   sigc::connection unfullscreen_connection;
 
   void arm_unfullscreen();
+#  if GTK_CHECK_VERSION(4, 0, 0)
+  sigc::connection surface_state_connection;
+  void on_surface_state_changed();
+#  else
   bool on_window_state_event(GdkEventWindowState *event) override;
+#  endif
 #endif
 
   void get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name);
   void append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model, System::SystemOperation::SystemOperationType type);
   void on_sysoper_combobox_changed();
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  void snapshot_vfunc(const Glib::RefPtr<Gtk::Snapshot> &snapshot) override;
+#else
   bool on_draw(const ::Cairo::RefPtr<::Cairo::Context> &cr) override;
   void on_screen_changed(const Glib::RefPtr<Gdk::Screen> &previous_screen) override;
+#endif
 };
 
 #endif // BREAKWINDOW_HH

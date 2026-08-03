@@ -27,6 +27,7 @@
 #include <spdlog/fmt/ostr.h>
 
 #include <gtkmm.h>
+#include "GtkUtil.hh"
 
 #include <cmath>
 #include <utility>
@@ -89,14 +90,14 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
   set_border_width(6);
   set_title(_("Software Update"));
 
-  auto *box = Gtk::manage(new GtkCompat::Box(Gtk::ORIENTATION_VERTICAL));
+  auto *box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL));
   add(*box);
-  auto *content_area = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+  auto *content_area = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   content_area->set_border_width(6);
   content_area->set_spacing(6);
   box->pack_start(*content_area, true, true, 0);
 
-  auto *logo_box = Gtk::manage(new GtkCompat::Box(Gtk::ORIENTATION_VERTICAL));
+  auto *logo_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL));
   logo_box->set_border_width(6);
   logo_box->set_spacing(6);
   content_area->pack_start(*logo_box, false, false, 0);
@@ -119,7 +120,7 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
     }
 #endif
 
-  auto *update_info_box =Gtk::manage(new GtkCompat::Box(Gtk::ORIENTATION_VERTICAL));
+  auto *update_info_box =Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL));
   update_info_box->set_border_width(6);
   update_info_box->set_spacing(10);
   content_area->pack_start(*update_info_box, true, true, 0);
@@ -215,7 +216,7 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
         }
     }
 
-  auto *status_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+  auto *status_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   status_box->set_border_width(6);
   status_box->set_spacing(10);
   box->pack_start(*status_box, false, true, 0);
@@ -230,7 +231,7 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
 
   progress_bar = Gtk::manage(new Gtk::ProgressBar());
   progress_bar->set_fraction(0);
-  progress_bar->set_orientation(Gtk::ORIENTATION_HORIZONTAL);
+  progress_bar->set_orientation(GtkCompat::ORIENTATION_HORIZONTAL);
   progress_bar_frame->add(*progress_bar);
 
   std::string css_string = R"(
@@ -245,14 +246,14 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
 
   status_box->pack_start(*progress_bar_frame, true, true, 6);
 
-  auto *bottom_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+  auto *bottom_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   box->pack_start(*bottom_box, Gtk::PACK_SHRINK, 0);
 
-  left_button_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+  left_button_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   bottom_box->pack_start(*left_button_box, Gtk::PACK_SHRINK, 6);
-  right_button_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+  right_button_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   bottom_box->pack_end(*right_button_box, Gtk::PACK_SHRINK, 6);
-  close_button_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+  close_button_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   bottom_box->pack_end(*close_button_box, Gtk::PACK_SHRINK, 6);
 
   auto *skip_button = Gtk::manage(new Gtk::Button(_("_Skip this version")));

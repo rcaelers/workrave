@@ -107,7 +107,11 @@ public:
   boost::signals2::signal<void()> &signal_status_icon_activated() override;
 
   // IToolkitPrivate
+#if GTK_CHECK_VERSION(4, 0, 0)
+  void attach_menu(Gtk::PopoverMenu *menu) override;
+#else
   void attach_menu(Gtk::Menu *menu) override;
+#endif
 
 protected:
   void notify_add_confirm_function(const std::string &id, std::function<void()> func);

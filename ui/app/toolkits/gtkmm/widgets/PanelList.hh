@@ -22,6 +22,8 @@
 
 #include <gtkmm.h>
 
+#include "commonui/GtkCompat.hh"
+
 class PanelList : public Gtk::ScrolledWindow
 {
 public:
@@ -36,6 +38,7 @@ public:
 private:
   Gtk::ListBox *list_box{nullptr};
   activated_signal_t activated_signal;
+  bool has_rows{false};
 };
 
 #endif // PANEL_LIST_HH

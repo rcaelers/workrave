@@ -21,6 +21,7 @@
 
 #include "EventImage.hh"
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
 void
 EventImage::on_realize()
 {
@@ -103,3 +104,4 @@ EventImage::on_size_allocate(Gtk::Allocation &allocation)
                              allocation.get_height());
     }
 }
+#endif

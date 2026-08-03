@@ -24,7 +24,12 @@
 #include <condition_variable>
 #include <thread>
 
-#include <gdk/gdkwayland.h>
+#include <gdk/gdk.h>
+#if GDK_MAJOR_VERSION >= 4
+#  include <gdk/wayland/gdkwayland.h>
+#else
+#  include <gdk/gdkwayland.h>
+#endif
 #include <gio/gio.h>
 
 class WaylandInputMonitor : public InputMonitor

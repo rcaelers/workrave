@@ -73,7 +73,11 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   this->app = app;
 
   Glib::set_prgname("org.workrave.Workrave");
+#if GTK_CHECK_VERSION(4, 0, 0)
+  gapp = Gtk::Application::create("org.workrave.Workrave");
+#else
   gapp = Gtk::Application::create(argc, argv, "org.workrave.Workrave");
+#endif
   init_css();
 
   menu_model = app->get_menu_model();
@@ -107,7 +111,11 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   init_multihead();
   init_debug();
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  Gtk::IconTheme::get_for_display(Gdk::Display::get_default())->add_resource_path("/workrave/icons/scalable");
+#else
   gtk_icon_theme_add_resource_path(gtk_icon_theme_get_default(), "/workrave/icons/scalable");
+#endif
 }
 
 void
@@ -148,7 +156,11 @@ Toolkit::can_close() const
 void
 Toolkit::run()
 {
+#if GTK_CHECK_VERSION(4, 0, 0)
+  gapp->run(argc, argv);
+#else
   gapp->run();
+#endif
 }
 
 std::optional<HeadInfo>
@@ -177,7 +189,13 @@ Toolkit::get_head_info(int screen_index) const
     }
 
   HeadInfo head;
+#if GTK_CHECK_VERSION(4, 0, 0)
+  // GTK4 removed Gdk::Monitor::is_primary(): the "primary monitor" concept
+  // no longer exists (Wayland has none). Treat the first monitor as primary.
+  head.primary = screen_index == 0;
+#else
   head.primary = monitor->is_primary();
+#endif
   head.monitor = monitor;
   monitor->get_geometry(head.geometry);
   logger->info("Display #{}: primary={} x={} y={} w={} h={}",
@@ -293,7 +311,14 @@ Toolkit::show_about()
       about_dialog->set_comments(
         _("This program assists in the prevention and recovery"
           " of Repetitive Strain Injury (RSI)."));
+#if GTK_CHECK_VERSION(4, 0, 0)
+      if (pixbuf)
+        {
+          about_dialog->set_logo(Gdk::Texture::create_for_pixbuf(pixbuf));
+        }
+#else
       about_dialog->set_logo(pixbuf);
+#endif
       about_dialog->set_translator_credits(workrave_translators);
 
 #if defined(WORKRAVE_GIT_VERSION)
@@ -304,11 +329,20 @@ Toolkit::show_about()
       about_dialog->set_website("https://www.workrave.org/");
       about_dialog->set_website_label("www.workrave.org");
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+      // GTK4's AboutDialog derives from Window, not Dialog, so there is no
+      // signal_response(); clean up when the user dismisses it instead.
+      about_dialog->signal_hide().connect([this]() {
+        delete about_dialog;
+        about_dialog = nullptr;
+      });
+#else
       about_dialog->signal_response().connect([this](int reponse) {
         about_dialog->hide();
         delete about_dialog;
         about_dialog = nullptr;
       });
+#endif
     }
   about_dialog->present();
 }
@@ -357,7 +391,9 @@ Toolkit::show_main_window()
   TRACE_ENTRY();
   main_window->open_window();
   main_window->show();
+#if !GTK_CHECK_VERSION(4, 0, 0)
   main_window->raise();
+#endif
   GUIConfig::timerbox_enabled("main_window").set(true);
 }
 
@@ -477,18 +513,29 @@ Toolkit::show_tooltip(const std::string &tip)
 #endif
 }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+void
+Toolkit::attach_menu(Gtk::PopoverMenu *menu)
+{
+  menu->set_parent(*main_window);
+}
+#else
 void
 Toolkit::attach_menu(Gtk::Menu *menu)
 {
   menu->attach_to_widget(*main_window);
 }
+#endif
 
 void
 Toolkit::init_multihead()
 {
   TRACE_ENTRY();
+#if !GTK_CHECK_VERSION(4, 0, 0)
+  // Gdk::Screen was removed in GTK4; nothing here used it beyond fetching it.
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   Glib::RefPtr<Gdk::Screen> screen = display->get_default_screen();
+#endif
 }
 
 #if defined(NDEBUG)
@@ -522,6 +569,16 @@ Toolkit::init_css()
       auto provider = Gtk::CssProvider::create();
       provider->load_from_resource("/workrave/ui/default.css");
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+      auto display = Gdk::Display::get_default();
+      if (!display)
+        {
+          spdlog::error("Failed to get default display for CSS provider");
+          return;
+        }
+
+      Gtk::StyleContext::add_provider_for_display(display, provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+#else
       auto screen = Gdk::Screen::get_default();
       if (!screen)
         {
@@ -530,6 +587,7 @@ Toolkit::init_css()
         }
 
       Gtk::StyleContext::add_provider_for_screen(screen, provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+#endif
 
       std::string css_file = AssetPath::complete_directory("user.css", SearchPathId::Config);
       if (std::filesystem::is_regular_file(css_file))
@@ -537,12 +595,16 @@ Toolkit::init_css()
           spdlog::info("Loading user CSS: {}", css_file);
           auto user_provider = Gtk::CssProvider::create();
           user_provider->load_from_path(css_file);
+#if GTK_CHECK_VERSION(4, 0, 0)
+          Gtk::StyleContext::add_provider_for_display(display, user_provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
+#else
           Gtk::StyleContext::add_provider_for_screen(screen, user_provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
+#endif
         }
     }
-  catch (const Glib::Exception &ex)
+  catch (const Glib::Error &ex)
     {
-      spdlog::error("Failed to load CSS: {}", ex.what().c_str());
+      spdlog::error("Failed to load CSS: {}", std::string(ex.what()));
     }
   catch (const std::exception &ex)
     {
@@ -635,12 +697,24 @@ Toolkit::get_unique_monitors() const
     }
 
   std::vector<Glib::RefPtr<Gdk::Monitor>> monitors;
+
+#if GTK_CHECK_VERSION(4, 0, 0)
+  auto monitor_list = display->get_monitors();
+  guint n_monitors = monitor_list->get_n_items();
+
+  for (guint i = 0; i < n_monitors; ++i)
+    {
+      auto monitor = std::dynamic_pointer_cast<Gdk::Monitor>(monitor_list->get_object(i));
+      if (monitor)
+        {
+#else
   int n_monitors = display->get_n_monitors();
 
   for (int i = 0; i < n_monitors; ++i)
     {
       if (auto monitor = display->get_monitor(i))
         {
+#endif
           Gdk::Rectangle geometry;
           monitor->get_geometry(geometry);
 

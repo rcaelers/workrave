@@ -296,7 +296,7 @@ include(WorkraveTests)
 # Toolkit selection
 
 set (WITH_UI "Gtk+3" CACHE STRING "UI Toolkit to use")
-set (WITH_UI_VALUES "Qt" "Gtk+3")
+set (WITH_UI_VALUES "Qt" "Gtk+3" "Gtk+4")
 set_property(CACHE WITH_UI PROPERTY STRINGS ${WITH_UI_VALUES})
 list(FIND WITH_UI_VALUES ${WITH_UI} WITH_UI_INDEX)
 if (${WITH_UI_INDEX} EQUAL -1)
@@ -310,6 +310,9 @@ endif()
 
 set (WITH_UI_GTK FALSE)
 if ("${WITH_UI}" STREQUAL "Gtk+3")
+  set (WITH_UI_GTK TRUE)
+endif()
+if ("${WITH_UI}" STREQUAL "Gtk+4")
   set (WITH_UI_GTK TRUE)
 endif()
 
@@ -539,6 +542,38 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   find_package(GSettings)
 endif()
 
+
+if ("${WITH_UI}" STREQUAL "Gtk+4")
+  message(STATUS "Checking for: Gtk 4")
+
+  pkg_check_modules(
+    GTK REQUIRED
+    gtkmm-4.0>=4.4.0
+    gtk4>=4.6.0)
+
+  pkg_check_modules(
+    GLIB REQUIRED
+    glib-2.0>=2.71.0
+    gio-2.0>=2.71.0)
+
+  set (HAVE_GSETTINGS ON)
+  set (HAVE_GLIB ON)
+  set (HAVE_GTK ON)
+  set (HAVE_APP_GTK ON)
+
+  if (WITH_DBUS)
+    set (HAVE_DBUS ON)
+    set (HAVE_DBUS_GIO ON)
+    set (DBUS_BACKEND "gio")
+  endif()
+
+  pkg_check_modules(
+    GTK3 REQUIRED
+    gtk+-3.0>=3.22.0)
+
+  #include_directories(${GLIB_INCLUDE_DIRS})
+  find_package(GSettings)
+endif()
 
 #----------------------------------------------------------------------------------------------------
 # Qt
@@ -968,6 +1003,18 @@ if (UNIX AND (NOT APPLE))
       set (HAVE_WAYLAND ON)
     else()
       set (WITH_WAYLAND OFF)
+    endif()
+  endif()
+
+  # GTK4 dropped the GdkWindow-era hook that let a client hand a surface to
+  # zwlr_layer_shell_v1 directly, so break/prelude windows can only be pinned
+  # to a specific monitor via the layer shell on GTK4 if gtk4-layer-shell
+  # (which works around this at the Wayland protocol level) is available.
+  if (HAVE_WAYLAND AND "${WITH_UI}" STREQUAL "Gtk+4")
+    message(STATUS "Checking for: GTK4 Layer Shell")
+    pkg_check_modules(GTK4_LAYER_SHELL gtk4-layer-shell-0)
+    if (GTK4_LAYER_SHELL_FOUND)
+      set (HAVE_GTK4_LAYER_SHELL ON)
     endif()
   endif()
 endif()
@@ -1439,6 +1486,7 @@ feature_bool("DBus Menus" HAVE_DBUSMENU)
 feature_bool("GStreamer" HAVE_GSTREAMER)
 feature_bool("Pulseaudio" HAVE_PULSE)
 feature_bool("Wayland" HAVE_WAYLAND)
+feature_bool("GTK4 Layer Shell" HAVE_GTK4_LAYER_SHELL)
 feature_bool("X11 event monitor" HAVE_X11_MONITOR)
 endif()
 feature_bool("DBUS" HAVE_DBUS)

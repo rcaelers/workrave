@@ -229,7 +229,7 @@
 //       rect2 = down_rect;
 //     }
 
-//   Gdk::Color textcolor = style->get_fg(Gtk::STATE_NORMAL);
+//   Gdk::RGBA textcolor = style->get_fg(Gtk::STATE_NORMAL);
 
 //   TRACE_VAR(textcolor.get_red() << " " <<
 //             textcolor.get_green() << " " <<

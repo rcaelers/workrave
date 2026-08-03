@@ -23,7 +23,6 @@
 
 #include <gtkmm.h>
 #include <gdkmm.h>
-#include <gdkmm/types.h>
 
 #include "ui/UiTypes.hh"
 
@@ -83,6 +82,15 @@ private:
   void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color) const;
 
 protected:
+#if GTK_CHECK_VERSION(4, 0, 0)
+  void measure_vfunc(Gtk::Orientation orientation,
+                      int for_size,
+                      int &minimum,
+                      int &natural,
+                      int &minimum_baseline,
+                      int &natural_baseline) const override;
+  void on_draw(const Cairo::RefPtr<Cairo::Context> &cr, int width, int height);
+#else
   Gtk::SizeRequestMode get_request_mode_vfunc() const override;
   void get_preferred_width_vfunc(int &minimum_width, int &natural_width) const override;
   void get_preferred_height_vfunc(int &minimum_height, int &natural_height) const override;
@@ -90,6 +98,7 @@ protected:
   void get_preferred_height_for_width_vfunc(int width, int &minimum_height, int &natural_height) const override;
   void on_size_allocate(Gtk::Allocation &allocation) override;
   bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
+#endif
 
 private:
   std::map<TimerColorId, Gdk::RGBA> bar_colors;

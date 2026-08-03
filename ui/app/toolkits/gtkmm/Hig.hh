@@ -18,9 +18,9 @@
 #ifndef HIG_HH
 #define HIG_HH
 
-#include <gtkmm/dialog.h>
-#include <gtkmm/box.h>
-#include <gtkmm/sizegroup.h>
+#include <gtkmm.h>
+
+#include "commonui/GtkCompat.hh"
 #include <string>
 
 class HigDialog : public Gtk::Dialog
@@ -28,15 +28,15 @@ class HigDialog : public Gtk::Dialog
 public:
   HigDialog();
   explicit HigDialog(const Glib::ustring &title, bool modal = false, bool use_separator = false);
-  Gtk::VBox *get_vbox();
+  GtkCompat::Box *get_vbox();
 
 private:
   void set_hig_defaults();
 
-  Gtk::VBox *vbox{nullptr};
+  GtkCompat::Box *vbox{nullptr};
 };
 
-class HigCategoryPanel : public Gtk::VBox
+class HigCategoryPanel : public GtkCompat::Box
 {
 public:
   explicit HigCategoryPanel(Gtk::Widget &lab, bool fill = false);
@@ -53,15 +53,19 @@ public:
 private:
   void init(Gtk::Widget &lab, bool fill = false);
 
-  Gtk::VBox *options_box{nullptr};
+  GtkCompat::Box *options_box{nullptr};
   Glib::RefPtr<Gtk::SizeGroup> size_group;
 };
 
-class HigCategoriesPanel : public Gtk::VBox
+class HigCategoriesPanel : public GtkCompat::Box
 {
 public:
   HigCategoriesPanel();
-  void add(Gtk::Widget &panel) override;
+  void add(Gtk::Widget &panel)
+#if !GTK_CHECK_VERSION(4, 0, 0)
+    override
+#endif
+    ;
 };
 
 class HigUtil

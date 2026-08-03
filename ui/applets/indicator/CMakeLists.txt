@@ -13,7 +13,6 @@ if (WITH_INDICATOR)
 
   target_include_directories(workrave-applet-indicator PRIVATE
                              ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include
-                             ${GTK_INCLUDE_DIRS}
                              ${INDICATOR_INCLUDE_DIRS}
                              ${DBUSMENU_INCLUDE_DIRS}
                              ${DBUSMENU_GTK_INCLUDE_DIRS})

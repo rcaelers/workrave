@@ -21,7 +21,9 @@
 
 #include "ToolkitUnix.hh"
 
-#include <X11/Xlib.h>
+#if !GTK_CHECK_VERSION(4, 0, 0)
+#  include <X11/Xlib.h>
+#endif
 
 #include "BreakWindow.hh"
 
@@ -49,8 +51,15 @@ ToolkitUnix::preinit(std::shared_ptr<workrave::config::IConfigurator> config)
       g_setenv("GDK_BACKEND", "x11", TRUE);
     }
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
   XInitThreads();
   gdk_init(nullptr, nullptr);
+#else
+  // Platform::running_on_wayland() below needs a display manager, which
+  // requires GDK to be initialized; gtk_init() is safe to call again later
+  // when Gtk::Application::create() runs.
+  gtk_init();
+#endif
 
   locker = std::make_shared<UnixLocker>();
 
@@ -92,12 +101,14 @@ IBreakWindow::Ptr
 ToolkitUnix::create_break_window(int screen_index, workrave::BreakId break_id, BreakFlags break_flags)
 {
   auto ret = Toolkit::create_break_window(screen_index, break_id, break_flags);
+#if !GTK_CHECK_VERSION(4, 0, 0)
   // FIXME: remove hack
   if (auto break_window = std::dynamic_pointer_cast<BreakWindow>(ret); break_window)
     {
       auto *gdk_window = break_window->get_window()->gobj();
       locker->set_window(gdk_window);
     }
+#endif
   return ret;
 }
 

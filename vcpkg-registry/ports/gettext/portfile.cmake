@@ -143,6 +143,7 @@ if(subdirs)
     vcpkg_configure_make(SOURCE_PATH "${SOURCE_PATH}"
         DETERMINE_BUILD_TRIPLET
         USE_WRAPPERS
+        ADD_BIN_TO_PATH # So configure can check for working iconv
         ADDITIONAL_MSYS_PACKAGES gzip
         OPTIONS
             ${OPTIONS}

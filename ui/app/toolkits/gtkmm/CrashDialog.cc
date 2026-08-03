@@ -342,7 +342,7 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
   set_title(_("Workrave crash reporter"));
   set_border_width(0);
 
-  vbox = Gtk::manage(new Gtk::VBox());
+  vbox = Gtk::manage(new GtkCompat::VBox());
   vbox->set_border_width(0);
   vbox->set_spacing(0);
   get_vbox()->pack_start(*vbox, true, true, 0);
@@ -352,7 +352,7 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
   const Gdk::RGBA header_color("#fde8e8");
   auto *header_eb = Gtk::manage(new Gtk::EventBox());
   header_eb->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
-  auto *header_box = Gtk::manage(new Gtk::VBox(false, 6));
+  auto *header_box = Gtk::manage(new GtkCompat::VBox(false, 6));
   header_box->set_border_width(12);
   header_box->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
   header_eb->add(*header_box);
@@ -360,11 +360,11 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
 
   const Gdk::RGBA header_fg("#1a1a1a");
 
-  auto *header_content = Gtk::manage(new Gtk::HBox(false, 12));
+  auto *header_content = Gtk::manage(new GtkCompat::HBox(false, 12));
   header_content->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
   header_box->pack_start(*header_content, false, false, 0);
 
-  auto *header_text = Gtk::manage(new Gtk::VBox(false, 6));
+  auto *header_text = Gtk::manage(new GtkCompat::VBox(false, 6));
   header_text->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
   header_content->pack_start(*header_text, true, true, 0);
 
@@ -394,7 +394,7 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
     }
 
   // Content area
-  auto *content_box = Gtk::manage(new Gtk::VBox(false, 8));
+  auto *content_box = Gtk::manage(new GtkCompat::VBox(false, 8));
   content_box->set_border_width(12);
   vbox->pack_start(*content_box, true, true, 0);
 
@@ -405,7 +405,7 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
   GtkCompat::Box *ibox = create_indented_box(content_box);
 
   // Details button (left-aligned) with hint below it
-  auto *details_btn_row = Gtk::manage(new Gtk::HBox(false, 0));
+  auto *details_btn_row = Gtk::manage(new GtkCompat::HBox(false, 0));
   ibox->pack_start(*details_btn_row, false, false, 0);
   auto *details_btn = Gtk::manage(new Gtk::Button(_("Details...")));
   details_btn->signal_clicked().connect(sigc::mem_fun(*this, &CrashDialog::on_details_clicked));
@@ -416,7 +416,7 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
   details_hint->set_xalign(0);
   ibox->pack_start(*details_hint, false, false, 0);
 
-  auto *sep = Gtk::manage(new Gtk::Separator(Gtk::ORIENTATION_HORIZONTAL));
+  auto *sep = Gtk::manage(new GtkCompat::HSeparator());
   ibox->pack_start(*sep, false, false, 2);
 
   auto *user_text_label = Gtk::manage(new Gtk::Label(_("Additional comments (optional):"), Gtk::ALIGN_START));

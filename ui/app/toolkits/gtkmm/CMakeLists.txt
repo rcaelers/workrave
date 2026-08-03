@@ -48,18 +48,33 @@ if (PLATFORM_OS_UNIX)
   target_sources(workrave-toolkit-gtkmm PRIVATE
     ToolkitUnix.cc
     DBusPreludeWindow.cc
-    platforms/unix/X11SystrayAppletWindow.cc
-    platforms/unix/desktop-window.c
-    platforms/unix/gtktrayicon.c
     platforms/unix/UnixLocker.cc
     LoginSession.cc
   )
+
+  # X11 XEMBED systray (Gtk::Plug/Gtk::Socket) and the GdkWindow-based root
+  # pixmap background trick have no GTK4 equivalent; AppIndicator covers the
+  # tray icon on GTK4.
+  if (NOT "${WITH_UI}" STREQUAL "Gtk+4")
+    target_sources(workrave-toolkit-gtkmm PRIVATE
+      platforms/unix/X11SystrayAppletWindow.cc
+      platforms/unix/desktop-window.c
+      platforms/unix/gtktrayicon.c
+    )
+  endif()
 
     if (HAVE_WAYLAND)
       # The layer shell protocol bindings and the toolkit neutral core live in
       # workrave-app; only the GDK adapter is built here.
       target_sources(workrave-toolkit-gtkmm PRIVATE
         platforms/unix/WaylandWindowManager.cc)
+
+      if (HAVE_GTK4_LAYER_SHELL)
+        target_include_directories(workrave-toolkit-gtkmm PRIVATE ${GTK4_LAYER_SHELL_INCLUDE_DIRS})
+        target_link_directories(workrave-toolkit-gtkmm PRIVATE ${GTK4_LAYER_SHELL_LIBRARY_DIRS})
+        target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${GTK4_LAYER_SHELL_LIBRARIES})
+        target_compile_definitions(workrave-toolkit-gtkmm PRIVATE HAVE_GTK4_LAYER_SHELL)
+      endif()
     endif()
 
     target_include_directories(workrave-toolkit-gtkmm
@@ -101,15 +116,12 @@ target_include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/widgets
   ${CMAKE_CURRENT_SOURCE_DIR}/preferences
-  ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include
   ${GTK_INCLUDE_DIRS}
-  ${INDICATOR_INCLUDE_DIRS}
   )
 
 target_compile_definitions(workrave-toolkit-gtkmm PRIVATE GDK_DISABLE_DEPRECATED GTK_DISABLE_DEPRECATED)
 
 target_link_directories(workrave-toolkit-gtkmm PRIVATE ${GTK_LIBRARY_DIRS})
-target_link_directories(workrave-toolkit-gtkmm PRIVATE ${INDICATOR_LIBPATH})
 
 If (PLATFORM_OS_WINDOWS)
   if (CMAKE_CROSSCOMPILING)
@@ -189,7 +201,6 @@ target_link_directories(workrave-toolkit-gtkmm PUBLIC ${GTK_LIBRARY_DIRS})
 
 if (PLATFORM_OS_UNIX)
   target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${X11_X11_LIB} ${X11_XTest_LIB} ${X11_Xscreensaver_LIB})
-  target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${INDICATOR_LIBRARIES})
   target_compile_definitions(workrave-toolkit-gtkmm PRIVATE -DGNOMELOCALEDIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}/locale")
 endif()
 

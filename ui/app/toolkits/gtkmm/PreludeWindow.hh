@@ -19,6 +19,7 @@
 #define PRELUDEWINDOW_HH
 
 #include "BreakWindow.hh"
+#include "commonui/GtkCompat.hh"
 #include "ui/IPreludeWindow.hh"
 #include "ui/IApplicationContext.hh"
 
@@ -48,15 +49,20 @@ public:
 
 private:
   void on_frame_flash_event(bool frame_visible);
+#if GTK_CHECK_VERSION(4, 0, 0)
+  void add(Gtk::Widget &widget);
+  void on_enter_notify();
+  void snapshot_vfunc(const Glib::RefPtr<Gtk::Snapshot> &snapshot) override;
+  void size_allocate_vfunc(int width, int height, int baseline) override;
+#else
   void add(Gtk::Widget &widget) override;
-
   bool on_enter_notify_event(GdkEventCrossing *event) override;
-  void avoid_pointer();
-
   bool on_draw_event(const ::Cairo::RefPtr<::Cairo::Context> &cr);
   void on_screen_changed_event(const Glib::RefPtr<Gdk::Screen> &previous_screen);
-  void update_input_region(Gtk::Allocation &allocation);
   void on_size_allocate_event(Gtk::Allocation &allocation);
+#endif
+  void avoid_pointer();
+  void update_input_region(Gtk::Allocation &allocation);
 
 private:
   std::shared_ptr<IApplicationContext> app;
@@ -101,19 +107,28 @@ private:
   //! Head
   HeadInfo head;
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
   // Alignment in Wayland
   Gtk::Alignment *align{nullptr};
+#endif
 
 #if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;
+#  if !GTK_CHECK_VERSION(4, 0, 0) || !defined(HAVE_GTK4_LAYER_SHELL)
   std::shared_ptr<WaylandLayerSurface> layer_surface;
+#  endif
 
   //! Waiting for the compositor to confirm fullscreen, so it can be undone again
   bool unfullscreen_pending{false};
   sigc::connection unfullscreen_connection;
 
   void arm_unfullscreen();
+#  if GTK_CHECK_VERSION(4, 0, 0)
+  sigc::connection surface_state_connection;
+  void on_surface_state_changed();
+#  else
   bool on_window_state_event(GdkEventWindowState *event) override;
+#  endif
 #endif
 };
 

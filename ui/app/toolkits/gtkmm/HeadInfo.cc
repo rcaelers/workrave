@@ -62,6 +62,29 @@ HeadInfo::get_monitor() const
 }
 
 //! Returns the display monitor index of this head, or -1 when it is unknown.
+#if GTK_CHECK_VERSION(4, 0, 0)
+int
+HeadInfo::get_monitor_index(const Glib::RefPtr<Gdk::Display> &display) const
+{
+  if (!display || !get_monitor())
+    {
+      return -1;
+    }
+
+  auto monitors = display->get_monitors();
+  guint num_monitors = monitors->get_n_items();
+
+  for (guint i = 0; i < num_monitors; ++i)
+    {
+      auto m = std::dynamic_pointer_cast<Gdk::Monitor>(monitors->get_object(i));
+      if (m && m->gobj() == get_monitor()->gobj())
+        {
+          return static_cast<int>(i);
+        }
+    }
+  return -1;
+}
+#else
 int
 HeadInfo::get_monitor_index(const Glib::RefPtr<Gdk::Screen> screen) const
 {
@@ -88,3 +111,4 @@ HeadInfo::get_monitor_index(const Glib::RefPtr<Gdk::Screen> screen) const
     }
   return -1;
 }
+#endif

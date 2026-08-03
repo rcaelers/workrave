@@ -36,14 +36,20 @@ HigDialog::HigDialog(const Glib::ustring &title, bool modal, bool use_separator)
   set_hig_defaults();
 }
 
-Gtk::VBox *
+GtkCompat::Box *
 HigDialog::get_vbox()
 {
   if (vbox == nullptr)
     {
-      vbox = Gtk::manage(new Gtk::VBox());
-      vbox->set_border_width(6);
-      Gtk::Dialog::get_vbox()->pack_start(*vbox, true, true, 0);
+      vbox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL));
+      GtkCompat::set_border_width(*vbox, 6);
+#if GTK_CHECK_VERSION(4, 0, 0)
+      get_content_area()->append(*vbox);
+      vbox->set_hexpand(true);
+      vbox->set_vexpand(true);
+#else
+      get_content_area()->pack_start(*vbox, true, true, 0);
+#endif
     }
   return vbox;
 }
@@ -51,7 +57,7 @@ HigDialog::get_vbox()
 void
 HigDialog::set_hig_defaults()
 {
-  set_border_width(6);
+  GtkCompat::set_border_width(*this, 6);
 }
 
 HigCategoryPanel::HigCategoryPanel(Gtk::Widget &lab, bool fill)
@@ -60,25 +66,26 @@ HigCategoryPanel::HigCategoryPanel(Gtk::Widget &lab, bool fill)
 }
 
 HigCategoryPanel::HigCategoryPanel(const char *lab, bool fill)
+  : GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL)
 {
   Gtk::Label *widg = Gtk::manage(GtkUtil::create_label(std::string(lab), true));
-  widg->set_alignment(0.0);
+  widg->set_xalign(0.0);
   init(*widg, fill);
 }
 
 void
 HigCategoryPanel::init(Gtk::Widget &lab, bool fill)
 {
-  size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
+  size_group = Gtk::SizeGroup::create(GtkCompat::SIZE_GROUP_HORIZONTAL);
   set_spacing(6);
   pack_start(lab, false, false, 0);
 
-  Gtk::HBox *ibox = Gtk::manage(new Gtk::HBox());
+  auto *ibox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   pack_start(*ibox, fill, fill, 0);
 
   Gtk::Label *indent_lab = Gtk::manage(new Gtk::Label("    "));
   ibox->pack_start(*indent_lab, false, false, 0);
-  options_box = Gtk::manage(new Gtk::VBox());
+  options_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL));
   ibox->pack_start(*options_box, true, true, 0);
   options_box->set_spacing(6);
 }
@@ -102,9 +109,9 @@ HigCategoryPanel::add_label(const std::string &text, Gtk::Widget &widget, bool e
 void
 HigCategoryPanel::add_label(Gtk::Label &label, Gtk::Widget &widget, bool expand, bool fill)
 {
-  label.set_alignment(0.0);
+  label.set_xalign(0.0);
   size_group->add_widget(label);
-  Gtk::HBox *box = Gtk::manage(new Gtk::HBox());
+  auto *box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   box->set_spacing(6);
   box->pack_start(label, false, true, 0);
   box->pack_start(widget, expand, fill, 0);
@@ -121,7 +128,7 @@ void
 HigCategoryPanel::add_caption(const char *text)
 {
   Gtk::Label *lab = Gtk::manage(GtkUtil::create_label(std::string(text), true));
-  lab->set_alignment(0.0);
+  lab->set_xalign(0.0);
   add_caption(*lab);
 }
 
@@ -130,17 +137,18 @@ HigCategoryPanel::add_caption(Gtk::Widget &lab)
 {
   pack_start(lab, false, false, 0);
 
-  Gtk::HBox *ibox = Gtk::manage(new Gtk::HBox());
+  auto *ibox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   pack_start(*ibox, false, false, 0);
 
   Gtk::Label *indent_lab = Gtk::manage(new Gtk::Label("    "));
   ibox->pack_start(*indent_lab, false, false, 0);
-  options_box = Gtk::manage(new Gtk::VBox());
+  options_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL));
   ibox->pack_start(*options_box, false, false, 0);
   options_box->set_spacing(6);
 }
 
 HigCategoriesPanel::HigCategoriesPanel()
+  : GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL)
 {
   set_spacing(18);
 }

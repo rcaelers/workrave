@@ -62,7 +62,7 @@ StatisticsDialog::run()
   // Periodic timer.
   Glib::signal_timeout().connect(sigc::mem_fun(*this, &StatisticsDialog::on_timer), 1000);
 
-  show_all();
+  GtkCompat::show_all(*this);
   return 0;
 }
 
@@ -71,19 +71,28 @@ StatisticsDialog::init_gui()
 {
 #if !defined(PLATFORM_OS_MACOS)
   Gtk::Notebook *tnotebook = Gtk::manage(new Gtk::Notebook());
-  tnotebook->set_tab_pos(Gtk::POS_TOP);
+  tnotebook->set_tab_pos(GtkCompat::POS_TOP);
 #else
-  Gtk::HBox *tnotebook = Gtk::manage(new Gtk::HBox(false, 6));
+  auto *tnotebook = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 6));
 #endif
 
   // Calendar
   calendar = Gtk::manage(new Gtk::Calendar());
+#if GTK_CHECK_VERSION(4, 0, 0)
+  calendar->signal_next_month().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_month_changed));
+  calendar->signal_prev_month().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_month_changed));
+  calendar->signal_next_year().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_month_changed));
+  calendar->signal_prev_year().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_month_changed));
+  calendar->signal_day_selected().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_day_selected));
+  calendar->property_show_week_numbers() = true;
+#else
   calendar->signal_month_changed().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_month_changed));
   calendar->signal_day_selected().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_day_selected));
   calendar->set_display_options(Gtk::CALENDAR_SHOW_WEEK_NUMBERS | Gtk::CALENDAR_SHOW_DAY_NAMES | Gtk::CALENDAR_SHOW_HEADING);
+#endif
 
   // Button box.
-  Gtk::HBox *btnbox = Gtk::manage(new Gtk::HBox(false, 6));
+  auto *btnbox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 6));
   first_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, "go-first"));
   first_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_goto_first));
   last_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, "go-last"));
@@ -118,13 +127,13 @@ StatisticsDialog::init_gui()
   statbox->add_widget(*tnotebook);
   navbox->add(*statbox);
 
-  Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 12));
+  auto *hbox = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 12));
   hbox->pack_start(*browsebox, false, false, 0);
   hbox->pack_start(*navbox, true, true, 0);
 
   create_break_page(tnotebook);
 
-  tnotebook->show_all();
+  GtkCompat::show_all(*tnotebook);
 
 #if !defined(PLATFORM_OS_MACOS)
   tnotebook->set_current_page(0);
@@ -133,23 +142,23 @@ StatisticsDialog::init_gui()
   get_vbox()->pack_start(*hbox, true, true, 0);
 
   // Dialog
-  Gtk::Button *button = add_button(_("Close"), Gtk::RESPONSE_CLOSE);
-  button->set_image_from_icon_name("window-close", Gtk::ICON_SIZE_BUTTON);
+  Gtk::Button *button = add_button(_("Close"), GtkCompat::RESPONSE_CLOSE);
+  button->set_image_from_icon_name("window-close");
 
-  show_all();
+  GtkCompat::show_all(*this);
 }
 
 void
 StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 {
-  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 3));
+  auto *box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 3));
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(_("Breaks")));
   box->pack_start(*lab, false, false, 0);
 
-  Gtk::Table *table = Gtk::manage(new Gtk::Table(10, 5, false));
-  table->set_row_spacings(2);
-  table->set_col_spacings(6);
-  table->set_border_width(6);
+  Gtk::Grid *table = Gtk::manage(new Gtk::Grid());
+  table->set_row_spacing(2);
+  table->set_column_spacing(6);
+  GtkCompat::set_border_width(*table, 6);
 
   Gtk::Widget *unique_label = GtkUtil::create_label_with_tooltip(_("Break prompts"),
                                                                  _("The number of times you were prompted to break, excluding"
@@ -186,8 +195,8 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
     _("Monthly"),
     _("The total computer usage for the whole month of the selected day"));
 
-  Gtk::HSeparator *hrule = Gtk::manage(new Gtk::HSeparator());
-  Gtk::VSeparator *vrule = Gtk::manage(new Gtk::VSeparator());
+  GtkCompat::HSeparator *hrule = Gtk::manage(new GtkCompat::HSeparator());
+  GtkCompat::VSeparator *vrule = Gtk::manage(new GtkCompat::VSeparator());
 
   // Add labels to table.
   int y = 0;
@@ -202,8 +211,10 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   GtkUtil::table_attach_left_aligned(*table, *dl_label, 4, y);
 
   y = 1;
-  table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
-  table->attach(*vrule, 1, 2, 0, 9, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
+  table->attach(*hrule, 0, y, 5, 1);
+  hrule->set_hexpand(true);
+  table->attach(*vrule, 1, 0, 1, 9);
+  vrule->set_vexpand(true);
 
   y = 2;
   GtkUtil::table_attach_left_aligned(*table, *unique_label, 0, y++);
@@ -214,23 +225,26 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   GtkUtil::table_attach_left_aligned(*table, *postponed_label, 0, y++);
   GtkUtil::table_attach_left_aligned(*table, *overdue_label, 0, y++);
 
-  hrule = Gtk::manage(new Gtk::HSeparator());
-  table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
+  hrule = Gtk::manage(new GtkCompat::HSeparator());
+  table->attach(*hrule, 0, y, 5, 1);
+  hrule->set_hexpand(true);
   y++;
 
   daily_usage_time_label = Gtk::manage(new Gtk::Label());
   weekly_usage_time_label = Gtk::manage(new Gtk::Label());
   monthly_usage_time_label = Gtk::manage(new Gtk::Label());
 
-  vrule = Gtk::manage(new Gtk::VSeparator());
-  table->attach(*vrule, 1, 2, y, y + 3, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
+  vrule = Gtk::manage(new GtkCompat::VSeparator());
+  table->attach(*vrule, 1, y, 1, 3);
+  vrule->set_vexpand(true);
   GtkUtil::table_attach_right_aligned(*table, *daily_usage_label, 2, y);
   GtkUtil::table_attach_right_aligned(*table, *weekly_usage_label, 3, y);
   GtkUtil::table_attach_right_aligned(*table, *monthly_usage_label, 4, y);
   y++;
 
-  hrule = Gtk::manage(new Gtk::HSeparator());
-  table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
+  hrule = Gtk::manage(new GtkCompat::HSeparator());
+  table->attach(*hrule, 0, y, 5, 1);
+  hrule->set_hexpand(true);
   y++;
 
   GtkUtil::table_attach_left_aligned(*table, *usage_label, 0, y);
@@ -248,12 +262,12 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
         }
     }
 
-  box->show_all();
+  GtkCompat::show_all(*box);
 
 #if !defined(PLATFORM_OS_MACOS)
   ((Gtk::Notebook *)tnotebook)->append_page(*table, *box);
 #else
-  ((Gtk::HBox *)tnotebook)->pack_start(*table, true, true, 0);
+  ((GtkCompat::Box *)tnotebook)->pack_start(*table, true, true, 0);
 #endif
 }
 
@@ -275,6 +289,10 @@ namespace
   //! The date the calendar widget is showing.
   workrave::stats::IStatistics::Date to_date(const Gtk::Calendar *calendar)
   {
+#if GTK_CHECK_VERSION(4, 0, 0)
+    Glib::DateTime dt = calendar->get_date();
+    return std::chrono::year{dt.get_year()} / dt.get_month() / dt.get_day_of_month();
+#else
     guint year = 0;
     guint month = 0;
     guint day = 0;
@@ -282,6 +300,7 @@ namespace
 
     // Gtk counts months from zero.
     return std::chrono::year{static_cast<int>(year)} / (month + 1) / day;
+#endif
   }
 } // namespace
 
@@ -426,8 +445,18 @@ StatisticsDialog::get_calendar_date() const
 void
 StatisticsDialog::set_calendar_date(const IStatistics::Date &date)
 {
+#if GTK_CHECK_VERSION(4, 0, 0)
+  auto dt = Glib::DateTime::create_local(static_cast<int>(date.year()),
+                                          static_cast<unsigned>(date.month()),
+                                          static_cast<unsigned>(date.day()),
+                                          0,
+                                          0,
+                                          0.0);
+  calendar->select_day(dt);
+#else
   calendar->select_month(static_cast<unsigned>(date.month()) - 1, static_cast<int>(date.year()));
   calendar->select_day(static_cast<unsigned>(date.day()));
+#endif
   display_calendar_date();
 }
 
@@ -513,10 +542,10 @@ StatisticsDialog::on_history_delete_all()
 
   // Confirm the user's intention
   string msg = HigUtil::create_alert_text(_("Warning"), _("You have chosen to delete your statistics history. Continue?"));
-  Gtk::MessageDialog mb_ask(*this, msg, true, Gtk::MESSAGE_WARNING, Gtk::BUTTONS_YES_NO, false);
+  Gtk::MessageDialog mb_ask(*this, msg, true, GtkCompat::MESSAGE_WARNING, GtkCompat::BUTTONS_YES_NO, false);
   mb_ask.set_title(_("Warning"));
-  mb_ask.get_widget_for_response(Gtk::RESPONSE_NO)->grab_default();
-  if (mb_ask.run() == Gtk::RESPONSE_YES)
+  GtkCompat::grab_default(mb_ask, *mb_ask.get_widget_for_response(static_cast<int>(GtkCompat::RESPONSE_NO)));
+  if (GtkCompat::run_dialog(mb_ask) == static_cast<int>(GtkCompat::RESPONSE_YES))
     {
       mb_ask.hide();
 
@@ -527,18 +556,18 @@ StatisticsDialog::on_history_delete_all()
             {
               msg = HigUtil::create_alert_text(_("Files deleted!"),
                                                _("The files containing your statistics history have been deleted."));
-              Gtk::MessageDialog mb_info(*this, msg, true, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, false);
+              Gtk::MessageDialog mb_info(*this, msg, true, GtkCompat::MESSAGE_INFO, GtkCompat::BUTTONS_OK, false);
               mb_info.set_title(_("Info"));
-              mb_info.run();
+              GtkCompat::run_dialog(mb_info);
               break;
             }
 
           msg = HigUtil::create_alert_text(_("File deletion failed!"),
                                            _("The files containing your statistics history could not be deleted. Try again?"));
-          Gtk::MessageDialog mb_error(*this, msg, true, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_YES_NO, false);
+          Gtk::MessageDialog mb_error(*this, msg, true, GtkCompat::MESSAGE_ERROR, GtkCompat::BUTTONS_YES_NO, false);
           mb_error.set_title(_("Error"));
-          mb_error.get_widget_for_response(Gtk::RESPONSE_NO)->grab_default();
-          if (mb_error.run() != Gtk::RESPONSE_YES)
+          GtkCompat::grab_default(mb_error, *mb_error.get_widget_for_response(static_cast<int>(GtkCompat::RESPONSE_NO)));
+          if (GtkCompat::run_dialog(mb_error) != static_cast<int>(GtkCompat::RESPONSE_YES))
             {
               break;
             }

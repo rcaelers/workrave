@@ -16,11 +16,16 @@
 //
 
 #include <gtkmm.h>
-#include <gdkmm/types.h>
 
-class Frame : public Gtk::Bin
+class Frame
+  :
+#if GTK_CHECK_VERSION(4, 0, 0)
+  public Gtk::Widget
+#else
+  public Gtk::Bin
+#endif
 {
-public:
+	public:
   using flash_signal_t = sigc::signal<void(bool)>;
 
   enum Style
@@ -39,8 +44,28 @@ public:
   void set_frame_visible(bool visible);
   flash_signal_t &signal_flash();
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  // GTK4 dropped Gtk::Bin; this class now derives from Gtk::Widget directly
+  // and has to provide its own single-child bookkeeping.
+  void add(Gtk::Widget &child);
+  Gtk::Widget *get_child() const;
+  void set_border_width(guint width);
+  guint get_border_width() const;
+#endif
+
 protected:
   bool on_timer();
+
+#if GTK_CHECK_VERSION(4, 0, 0)
+  void size_allocate_vfunc(int width, int height, int baseline) override;
+  void measure_vfunc(Gtk::Orientation orientation,
+                      int for_size,
+                      int &minimum,
+                      int &natural,
+                      int &minimum_baseline,
+                      int &natural_baseline) const override;
+  void snapshot_vfunc(const Glib::RefPtr<Gtk::Snapshot> &snapshot) override;
+#else
   void on_size_allocate(Gtk::Allocation &allocation) override;
 
   Gtk::SizeRequestMode get_request_mode_vfunc() const override;
@@ -49,7 +74,9 @@ protected:
   void get_preferred_width_for_height_vfunc(int height, int &minimum_width, int &natural_width) const override;
   void get_preferred_height_for_width_vfunc(int width, int &minimum_height, int &natural_height) const override;
   bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
+#endif
 
+  void draw(const Cairo::RefPtr<Cairo::Context> &cr, int width, int height);
   void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color);
 
 private:
@@ -76,4 +103,12 @@ private:
 
   //! Flash signal source
   flash_signal_t flash_signal_src;
+
+#if GTK_CHECK_VERSION(4, 0, 0)
+  //! Single child (GTK4 has no Gtk::Bin to provide this).
+  Gtk::Widget *child{nullptr};
+
+  //! Border width (GTK4 has no Gtk::Container to provide this).
+  guint border_width{0};
+#endif
 };

@@ -18,15 +18,15 @@
 #ifndef TIMEENTRY_HH
 #define TIMEENTRY_HH
 
-#include <gtkmm/box.h>
-#include <gtkmm/adjustment.h>
+#include <gtkmm.h>
+#include "commonui/GtkCompat.hh"
 
 namespace Gtk
 {
   class SpinButton;
 }
 
-class TimeEntry : public Gtk::HBox
+class TimeEntry : public GtkCompat::Box
 {
 public:
   TimeEntry();

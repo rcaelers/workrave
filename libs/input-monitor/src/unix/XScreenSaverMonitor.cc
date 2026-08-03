@@ -24,7 +24,12 @@
 #include <memory>
 
 #if defined(HAVE_GTK)
+#include <gdk/gdk.h>
+#if GDK_MAJOR_VERSION >= 4
+#  include <gdk/x11/gdkx.h>
+#else
 #  include <gdk/gdkx.h>
+#endif
 #endif
 
 #include "input-monitor/IInputMonitorListener.hh"

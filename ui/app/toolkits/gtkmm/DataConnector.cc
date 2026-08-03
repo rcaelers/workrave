@@ -86,7 +86,7 @@ DataConnector::connect(const string &setting, DataConnection *connection, dc::Fl
 void
 DataConnector::connect(const string &setting,
                        DataConnection *connection,
-                       sigc::slot<bool, const string &, bool> slot,
+                       sigc::slot<bool(const string &, bool)> slot,
                        dc::Flags flags)
 {
   if (connection != nullptr)
@@ -479,13 +479,32 @@ DataConnectionGtkEntryTwin::widget_changed_notify()
 
       if (value1 == value2)
         {
+#if GTK_CHECK_VERSION(4, 0, 0)
+          widget1->get_style_context()->remove_class("workrave-mismatch");
+          widget2->get_style_context()->remove_class("workrave-mismatch");
+#else
           widget1->unset_background_color();
           widget2->unset_background_color();
+#endif
         }
       else
         {
+#if GTK_CHECK_VERSION(4, 0, 0)
+          // GTK4 removed Widget::override_background_color(); use a CSS
+          // class instead, registered once for the default display.
+          static Glib::RefPtr<Gtk::CssProvider> mismatch_provider = [] {
+            auto provider = Gtk::CssProvider::create();
+            provider->load_from_data(".workrave-mismatch { background-color: orange; }");
+            Gtk::StyleContext::add_provider_for_display(Gdk::Display::get_default(), provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+            return provider;
+          }();
+          (void)mismatch_provider;
+          widget1->get_style_context()->add_class("workrave-mismatch");
+          widget2->get_style_context()->add_class("workrave-mismatch");
+#else
           widget1->override_background_color(Gdk::RGBA("orange"));
           widget2->override_background_color(Gdk::RGBA("orange"));
+#endif
           verified = false;
         }
 

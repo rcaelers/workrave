@@ -61,13 +61,13 @@ ToolkitMacOS::setup_environment()
   auto share_dir = resources_dir / "share";
 
   Glib::setenv("DYLD_LIBRARY_PATH", lib_dir.string() + ":" + (lib_dir / "gdk-pixbuf-2.0" / "2.10.0" / "loaders").string());
-  Glib::setenv("FONTCONFIG_PATH", etc_dir / "fonts");
-  Glib::setenv("GDK_PIXBUF_MODULE_FILE", lib_dir / "gdk-pixbuf-2.0" / "2.10.0" / "loaders.cache");
-  Glib::setenv("GIO_MODULE_DIR", lib_dir / "gio" / "modules");
-  Glib::setenv("GTK_DATA_PREFIX", resources_dir);
-  Glib::setenv("GTK_EXE_PREFIX", resources_dir);
-  Glib::setenv("GTK_PATH", resources_dir);
+  Glib::setenv("FONTCONFIG_PATH", (etc_dir / "fonts").string());
+  Glib::setenv("GDK_PIXBUF_MODULE_FILE", (lib_dir / "gdk-pixbuf-2.0" / "2.10.0" / "loaders.cache").string());
+  Glib::setenv("GIO_MODULE_DIR", (lib_dir / "gio" / "modules").string());
+  Glib::setenv("GTK_DATA_PREFIX", resources_dir.string());
+  Glib::setenv("GTK_EXE_PREFIX", resources_dir.string());
+  Glib::setenv("GTK_PATH", resources_dir.string());
   Glib::setenv("PATH", bin_dir.string() + ":" + Glib::getenv("PATH"));
-  Glib::setenv("XDG_CONFIG_DIRS", etc_dir / "xdg");
-  Glib::setenv("XDG_DATA_DIRS", share_dir);
+  Glib::setenv("XDG_CONFIG_DIRS", (etc_dir / "xdg").string());
+  Glib::setenv("XDG_DATA_DIRS", share_dir.string());
 }

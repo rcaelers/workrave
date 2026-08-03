@@ -19,18 +19,27 @@
 #define EVENTBUTTON_HH
 
 #include <gtkmm/button.h>
+#if GTK_CHECK_VERSION(4, 0, 0)
+#  include <gtkmm/gestureclick.h>
+#endif
 
 class EventButton : public Gtk::Button
 {
 public:
   using pressed_signal_t = sigc::signal<bool(int)>;
 
-  EventButton() = default;
+  EventButton();
 
   pressed_signal_t button_pressed;
 
 private:
+#if GTK_CHECK_VERSION(4, 0, 0)
+  void on_button_pressed(int n_press, double x, double y);
+
+  Glib::RefPtr<Gtk::GestureClick> click_gesture;
+#else
   bool on_button_press_event(GdkEventButton *event) override;
+#endif
 };
 
 #endif // EVENTBUTTON_HH

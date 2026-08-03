@@ -24,11 +24,12 @@
 #include "ui/IApplicationContext.hh"
 
 #include <gtkmm.h>
+#include "commonui/GtkCompat.hh"
 
 class DataConnector;
 
 class SoundPreferencePanel
-  : public Gtk::VBox
+  : public GtkCompat::VBox
   , public workrave::utils::Trackable
 {
 public:
@@ -80,10 +81,41 @@ private:
   Glib::RefPtr<Gtk::ListStore> sound_store;
   Gtk::CellRendererToggle sound_enabled_cellrenderer;
   Gtk::CellRendererText sound_event_cellrenderer;
-  Gtk::HScale *sound_volume_scale{nullptr};
+  Gtk::Scale *sound_volume_scale{nullptr};
   Gtk::Button *sound_play_button{nullptr};
   Gtk::CheckButton *mute_cb{nullptr};
+
+#if GTK_CHECK_VERSION(4, 0, 0)
+  // GTK4 removed Gtk::FileChooserButton. This minimal stand-in shows the
+  // current filename on a button and opens an async Gtk::FileDialog to
+  // change it. Unlike the GTK3 widget it cannot host an extra widget, so
+  // the in-dialog preview "Play" button is dropped for this toolkit.
+  class SoundFileButton : public Gtk::Button
+  {
+  public:
+    explicit SoundFileButton(const Glib::ustring &title);
+
+    void add_filter(const Glib::RefPtr<Gtk::FileFilter> &filter);
+    void set_filename(const std::string &filename);
+    std::string get_filename() const;
+    sigc::signal<void()> &signal_file_set();
+
+  private:
+    void on_clicked();
+    void on_dialog_response(Glib::RefPtr<Gio::AsyncResult> &result, Glib::RefPtr<Gtk::FileDialog> dialog);
+    void update_label();
+
+    Glib::ustring title;
+    std::string current_filename;
+    Glib::RefPtr<Gio::ListStore<Gtk::FileFilter>> filters;
+    sigc::signal<void()> file_set_signal;
+  };
+
+  SoundFileButton *fsbutton{nullptr};
+#else
   Gtk::FileChooserButton *fsbutton{nullptr};
+#endif
+
   Glib::RefPtr<Gtk::FileFilter> filefilter;
   std::string fsbutton_filename;
   Gtk::ComboBoxText *device_combo{nullptr};

@@ -21,6 +21,7 @@
 
 #include "EventLabel.hh"
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
 void
 EventLabel::on_realize()
 {
@@ -103,3 +104,4 @@ EventLabel::on_size_allocate(Gtk::Allocation &allocation)
                              allocation.get_height());
     }
 }
+#endif

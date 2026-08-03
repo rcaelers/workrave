@@ -46,18 +46,18 @@ TimerPreferencePanel::TimerPreferencePanel(std::shared_ptr<IApplicationContext> 
                                            BreakId t,
                                            Glib::RefPtr<Gtk::SizeGroup> hsize_group,
                                            Glib::RefPtr<Gtk::SizeGroup> vsize_group)
-  : Gtk::VBox(false, 6)
+  : GtkCompat::Box(GtkCompat::ORIENTATION_VERTICAL, 6)
   , connector(std::make_shared<DataConnector>(app))
 
 {
   break_id = t;
 
-  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 6));
+  auto *box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL, 6));
 
   // Enabled/Disabled checkbox
   Gtk::Label *enabled_lab = Gtk::manage(GtkUtil::create_label(_("Enable timer"), true));
   enabled_cb = Gtk::manage(new Gtk::CheckButton());
-  enabled_cb->add(*enabled_lab);
+  GtkCompat::set_child(*enabled_cb, *enabled_lab);
   enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerPreferencePanel::on_enabled_toggled));
 
   HigCategoriesPanel *categories = Gtk::manage(new HigCategoriesPanel());
@@ -80,7 +80,7 @@ TimerPreferencePanel::TimerPreferencePanel(std::shared_ptr<IApplicationContext> 
 
   connector->connect(CoreConfig::break_enabled(break_id), dc::wrap(enabled_cb));
 
-  set_border_width(12);
+  GtkCompat::set_border_width(*this, 12);
 }
 
 TimerPreferencePanel::~TimerPreferencePanel()
@@ -97,7 +97,7 @@ TimerPreferencePanel::create_prelude_panel()
   prelude_cb = Gtk::manage(new Gtk::CheckButton(_("Prompt before breaking")));
   hig->add_widget(*prelude_cb);
 
-  Gtk::HBox *max_box = Gtk::manage(new Gtk::HBox());
+  auto *max_box = Gtk::manage(new GtkCompat::Box(GtkCompat::ORIENTATION_HORIZONTAL));
   has_max_prelude_cb = Gtk::manage(new Gtk::CheckButton(std::string(_("Maximum number of prompts")) + ":"));
   max_prelude_spin = Gtk::manage(new Gtk::SpinButton(max_prelude_adjustment));
   max_box->pack_start(*has_max_prelude_cb, false, false, 0);

@@ -21,6 +21,7 @@
 #include <string>
 #include <gtkmm.h>
 
+#include "commonui/GtkCompat.hh"
 #include "utils/Signals.hh"
 
 #include "ui/IApplicationContext.hh"
@@ -54,14 +55,22 @@ private:
 
   int convert_display_to_monitor(int &x, int &y);
   void convert_monitor_to_display(int &x, int &y, int head);
-  void locate_window(GdkEventConfigure *event);
   void move_to_start_position();
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  void on_timer_view_button_press(int n_press, double x, double y);
+#else
+  void locate_window(GdkEventConfigure *event);
   bool on_timer_view_button_press_event(const GdkEventButton *event);
+#endif
   void on_enabled_changed();
 
   // UI Events.
+#if GTK_CHECK_VERSION(4, 0, 0)
+  bool on_close_request() override;
+#else
   bool on_delete_event(GdkEventAny * /*any_event*/) override;
+#endif
 
 private:
   std::shared_ptr<IApplicationContext> app;
@@ -80,7 +89,12 @@ private:
 
   std::shared_ptr<ToolkitMenu> menu;
 
-#if defined(PLATFORM_OS_UNIX)
+#if GTK_CHECK_VERSION(4, 0, 0)
+  GtkCompat::EventBox *timer_view_eventbox{nullptr};
+  Glib::RefPtr<Gtk::GestureClick> timer_view_click_gesture;
+#endif
+
+#if defined(PLATFORM_OS_UNIX) && !GTK_CHECK_VERSION(4, 0, 0)
   Gtk::Window *leader{nullptr};
 #endif
 

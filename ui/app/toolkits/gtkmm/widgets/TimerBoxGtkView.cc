@@ -23,7 +23,9 @@
 
 #include <gtkmm/image.h>
 #include <gtkmm/sizegroup.h>
-#include <gtkmm/eventbox.h>
+#if !GTK_CHECK_VERSION(4, 0, 0)
+#  include <gtkmm/eventbox.h>
+#endif
 
 #include "commonui/nls.h"
 #include "debug.hh"
@@ -103,10 +105,14 @@ TimerBoxGtkView::init()
       sheep_eventbox->unreference();
     }
 
-  sheep_eventbox = new Gtk::EventBox;
+  sheep_eventbox = new GtkCompat::EventBox;
+#if GTK_CHECK_VERSION(4, 0, 0)
+  sheep_eventbox->set_hexpand(false);
+  sheep_eventbox->set_vexpand(false);
+#else
   sheep_eventbox->set_events(sheep_eventbox->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
-
   sheep_eventbox->property_visible_window() = false;
+#endif
 
   string sheep_file = AssetPath::complete_directory("workrave-icon-medium.png", SearchPathId::Images);
   sheep = Gtk::manage(new Gtk::Image(sheep_file));
@@ -134,7 +140,7 @@ TimerBoxGtkView::init()
 void
 TimerBoxGtkView::init_widgets()
 {
-  Glib::RefPtr<Gtk::SizeGroup> size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_BOTH);
+  Glib::RefPtr<Gtk::SizeGroup> size_group = Gtk::SizeGroup::create(GtkCompat::SIZE_GROUP_BOTH);
 
   const std::array<const char *, 3> icons = {"timer-micro-break.png", "timer-rest-break.png", "timer-daily.png"};
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
@@ -143,12 +149,16 @@ TimerBoxGtkView::init_widgets()
       Gtk::Widget *w = nullptr;
       if (count == BREAK_ID_REST_BREAK)
         {
-          img->set_padding(0, 0);
-
           auto *b = new EventButton();
+#if GTK_CHECK_VERSION(4, 0, 0)
+          b->set_has_frame(false);
+          b->set_child(*Gtk::manage(img));
+#else
+          img->set_padding(0, 0);
           b->set_relief(Gtk::RELIEF_NONE);
           b->set_border_width(0);
           b->add(*Gtk::manage(img));
+#endif
           b->set_can_focus(false);
 
           static const char button_style[] =
@@ -170,7 +180,12 @@ TimerBoxGtkView::init_widgets()
       else
         {
           w = img;
+#if GTK_CHECK_VERSION(4, 0, 0)
+          img->set_margin_top(2);
+          img->set_margin_bottom(2);
+#else
           img->set_padding(0, 2);
+#endif
         }
 
       size_group->add_widget(*w);
@@ -227,22 +242,23 @@ TimerBoxGtkView::init_table()
   int tsize = size;
 
   Gtk::Requisition label_size;
-  Gtk::Requisition bar_size;
   Gtk::Requisition my_size;
+  Gtk::Requisition natural_size;
 
-  GtkRequisition natural_size;
   labels[0]->get_preferred_size(label_size, natural_size);
   get_preferred_size(my_size, natural_size);
-  TRACE_MSG("my_size = {} {}", my_size.width, my_size.height);
-  TRACE_MSG("natural_size = {} {}", natural_size.width, natural_size.height);
+  TRACE_MSG("my_size = {} {}", GtkCompat::req_width(my_size), GtkCompat::req_height(my_size));
+  TRACE_MSG("natural_size = {} {}", GtkCompat::req_width(natural_size), GtkCompat::req_height(natural_size));
 
-  bars[0]->get_preferred_size(bar_size.width, bar_size.height);
-  TRACE_MSG("bar_size = {} {}", bar_size.width, bar_size.height);
-  TRACE_MSG("label_size = {} {}", label_size.width, label_size.height);
+  int bar_width = 0;
+  int bar_height = 0;
+  bars[0]->get_preferred_size(bar_width, bar_height);
+  TRACE_MSG("bar_size = {} {}", bar_width, bar_height);
+  TRACE_MSG("label_size = {} {}", GtkCompat::req_width(label_size), GtkCompat::req_height(label_size));
 
   if (size == -1 && (orientation == ORIENTATION_HORIZONTAL))
     {
-      tsize = label_size.width + bar_size.width + 9;
+      tsize = GtkCompat::req_width(label_size) + bar_width + 9;
     }
 
   if (tsize != -1)
@@ -269,7 +285,7 @@ TimerBoxGtkView::init_table()
     }
   else
     {
-      rows = tsize / (bar_size.height);
+      rows = tsize / bar_height;
       if (rows <= 0)
         {
           rows = 1;
@@ -313,8 +329,8 @@ TimerBoxGtkView::init_table()
   TRACE_VAR(rows, table_rows, columns, table_columns);
   {
     TRACE_MSG("resize");
-    resize(rows, columns);
-    set_spacings(0);
+    set_row_spacing(0);
+    set_column_spacing(0);
 
     table_columns = columns;
     table_rows = rows;
@@ -324,7 +340,7 @@ TimerBoxGtkView::init_table()
   if (number_of_timers == 0 && visible_count != 0)
     {
       TRACE_MSG("add sheep");
-      attach(*sheep_eventbox, 0, 2, 0, 1, Gtk::FILL, Gtk::SHRINK);
+      attach(*sheep_eventbox, 0, 0, 2, 1);
     }
 
   // Fill table.
@@ -342,14 +358,17 @@ TimerBoxGtkView::init_table()
           int cur_row = (2 * item) / columns;
           int cur_col = (2 * item) % columns;
 
-          attach(*labels[id], cur_col, cur_col + 1, cur_row, cur_row + 1, Gtk::SHRINK, Gtk::EXPAND);
+          attach(*labels[id], cur_col, cur_row, 1, 1);
+          labels[id]->set_vexpand(true);
 
           int bias = 1;
 
           cur_row = (2 * item + bias) / columns;
           cur_col = (2 * item + bias) % columns;
 
-          attach(*bars[id], cur_col, cur_col + 1, cur_row, cur_row + 1, Gtk::FILL | Gtk::EXPAND, Gtk::EXPAND);
+          attach(*bars[id], cur_col, cur_row, 1, 1);
+          bars[id]->set_hexpand(true);
+          bars[id]->set_vexpand(true);
         }
     }
 
@@ -360,11 +379,11 @@ TimerBoxGtkView::init_table()
 
   visible_count = number_of_timers;
 
-  show_all();
+  GtkCompat::show_all(*this);
 
   get_preferred_size(my_size, natural_size);
-  TRACE_MSG("my_size = {} {}", my_size.width, my_size.height);
-  TRACE_MSG("natural_size = {} {}", natural_size.width, natural_size.height);
+  TRACE_MSG("my_size = {} {}", GtkCompat::req_width(my_size), GtkCompat::req_height(my_size));
+  TRACE_MSG("natural_size = {} {}", GtkCompat::req_width(natural_size), GtkCompat::req_height(natural_size));
 }
 
 void
@@ -465,19 +484,35 @@ TimerBoxGtkView::is_sheep_only() const
   return sheep_only || get_number_of_timers() == 0;
 }
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+void
+TimerBoxGtkView::snapshot_vfunc(const Glib::RefPtr<Gtk::Snapshot> &snapshot)
+{
+  if (transparent)
+    {
+      auto cr = snapshot->append_cairo(Gdk::Rectangle(0, 0, get_width(), get_height()));
+      cr->set_source_rgba(0, 0, 0, 0);
+      cr->set_operator(Cairo::Context::Operator::SOURCE);
+      cr->paint();
+    }
+
+  Gtk::Widget::snapshot_vfunc(snapshot);
+}
+#else
 bool
 TimerBoxGtkView::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
   if (transparent)
     {
       cr->set_source_rgba(0, 0, 0, 0);
-#if CAIROMM_CHECK_VERSION(1, 15, 4)
+#  if CAIROMM_CHECK_VERSION(1, 15, 4)
       cr->set_operator(Cairo::Context::Operator::SOURCE);
-#else
+#  else
       cr->set_operator(Cairo::OPERATOR_SOURCE);
-#endif
+#  endif
       cr->paint();
     };
 
   return Gtk::Widget::on_draw(cr);
 }
+#endif
