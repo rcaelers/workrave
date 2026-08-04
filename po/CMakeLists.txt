@@ -35,6 +35,15 @@ if (GETTEXT_FOUND)
   # update-po: regenerate .pot first, then merge into every .po file.
   add_custom_target(update-po)
   add_dependencies(update-po update-pot)
+
+  # Keep the committed po/workrave.pot in sync with the regenerated one.
+  add_custom_command(
+    TARGET update-po
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${POTFILE} ${CMAKE_CURRENT_SOURCE_DIR}/workrave.pot
+    COMMENT "Copying ${POTFILE} to ${CMAKE_CURRENT_SOURCE_DIR}/workrave.pot"
+    VERBATIM
+  )
 endif()
 
 foreach (po_file ${POFILES})
