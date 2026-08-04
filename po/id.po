@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.10.52\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-04 07:57+0200\n"
+"POT-Creation-Date: 2026-08-04 17:08+0200\n"
 "PO-Revision-Date: 2025-10-24 15:47+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: \n"
@@ -833,12 +833,6 @@ msgstr "Suara"
 msgid "Remote control"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:158
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:35
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:103
-msgid "gRPC"
-msgstr ""
-
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:85
 msgid "No blocking"
@@ -1420,10 +1414,6 @@ msgstr "Latihan berakhir"
 #: ui/app/toolkits/gtkmm/Ui.cc:110
 msgid "Exercise change"
 msgstr "Latihan berubah"
-
-#: ui/app/toolkits/gtkmm/Ui.cc:113
-msgid "?"
-msgstr "?"
 
 #: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:166
 msgid "Take rest break now"
@@ -2094,6 +2084,9 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr ""
+
+#~ msgid "?"
+#~ msgstr "?"
 
 #, c-format
 #~ msgid "Break in %s"

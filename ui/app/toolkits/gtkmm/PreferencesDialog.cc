@@ -155,7 +155,7 @@ PreferencesDialog::create_remote_control_page()
 {
   auto page = add_page("remote-control", _("Remote control"), "network-server-symbolic");
   auto *remote_control_panel = Gtk::manage(new RemoteControlPreferencePanel());
-  page->add_panel("grpc", remote_control_panel, _("gRPC"));
+  page->add_panel("grpc", remote_control_panel, "gRPC");
 }
 #endif
 

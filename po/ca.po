@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.10.48\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-04 07:56+0200\n"
+"POT-Creation-Date: 2026-08-04 17:08+0200\n"
 "PO-Revision-Date: 2021-09-17 12:59+0200\n"
 "Last-Translator: Jordi Mallach <jordi@mallach.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -831,12 +831,6 @@ msgstr "Sons"
 msgid "Remote control"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:158
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:35
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:103
-msgid "gRPC"
-msgstr ""
-
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:85
 msgid "No blocking"
@@ -1418,10 +1412,6 @@ msgstr "Final dels exercicis"
 #: ui/app/toolkits/gtkmm/Ui.cc:110
 msgid "Exercise change"
 msgstr "Canvi d'exercici"
-
-#: ui/app/toolkits/gtkmm/Ui.cc:113
-msgid "?"
-msgstr "?"
 
 #: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:166
 msgid "Take rest break now"
@@ -2093,6 +2083,9 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr ""
+
+#~ msgid "?"
+#~ msgstr "?"
 
 #, c-format
 #~ msgid "Break in %s"

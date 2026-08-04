@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-04 07:57+0200\n"
+"POT-Creation-Date: 2026-08-04 17:08+0200\n"
 "PO-Revision-Date: 2020-04-12 13:45+0800\n"
 "Last-Translator: yuenfu <yuenfu.chiu@gmail.com>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -833,12 +833,6 @@ msgstr "音效"
 msgid "Remote control"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:158
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:35
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:103
-msgid "gRPC"
-msgstr ""
-
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:85
 msgid "No blocking"
@@ -1422,10 +1416,6 @@ msgstr "體操停止"
 #: ui/app/toolkits/gtkmm/Ui.cc:110
 msgid "Exercise change"
 msgstr "體操變更"
-
-#: ui/app/toolkits/gtkmm/Ui.cc:113
-msgid "?"
-msgstr ""
 
 #: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:166
 msgid "Take rest break now"

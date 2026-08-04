@@ -32,7 +32,7 @@ Item {
         ]
         if (root.hasGrpc) {
             sections.push({ id: "remote-control", title: qsTr("Remote control"), children: [
-                { id: "grpc", title: qsTr("gRPC") },
+                { id: "grpc", title: "gRPC" },
             ]})
         }
         return sections
@@ -100,7 +100,7 @@ Item {
             }
         }
         if (sec === "remote-control" && pg === "grpc") return {
-            title: qsTr("gRPC"),
+            title: "gRPC",
             lede: qsTr("Allow local applications to inspect and control Workrave."),
             url: "RemoteControlPrefPage.qml"
         }

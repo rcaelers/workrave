@@ -25,7 +25,7 @@ RemoteControlPreferencePanel::RemoteControlPreferencePanel()
 void
 RemoteControlPreferencePanel::create_panel()
 {
-  auto *grpc_panel = Gtk::manage(new HigCategoryPanel(_("gRPC")));
+  auto *grpc_panel = Gtk::manage(new HigCategoryPanel("gRPC"));
 
   auto *grpc_enabled_label = Gtk::manage(GtkUtil::create_label_with_tooltip(
     _("Enable gRPC"),
