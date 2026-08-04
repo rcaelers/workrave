@@ -275,7 +275,7 @@ AutoUpdater::init_menu()
 {
   auto menu_model = context->get_menu_model();
   auto section = menu_model->find_section("workrave.section.tail");
-  auto item = menus::ActionNode::create(CHECK_FOR_UPDATE, N_("Check for _Updates"), [this] { on_check_for_update(); });
+  auto item = menus::ActionNode::create(CHECK_FOR_UPDATE, N_("Check for _updates"), [this] { on_check_for_update(); });
   section->add_before(item, "workrave.about");
   menu_model->update();
 }

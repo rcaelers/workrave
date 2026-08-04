@@ -517,7 +517,7 @@ msgid "Proxy"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
-msgid "Check for _Updates"
+msgid "Check for _updates"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:384
