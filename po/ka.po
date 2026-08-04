@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-04 00:26+0200\n"
+"POT-Creation-Date: 2026-08-04 07:57+0200\n"
 "PO-Revision-Date: 2026-02-20 06:51+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <(nothing)>\n"
@@ -83,6 +83,7 @@ msgstr "Workrave ჩუმ რეჟიმშია. შესვენები
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:21
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 msgid "Micro-break"
 msgstr "მიკროშესვენება"
@@ -355,8 +356,8 @@ msgid "Set operation mode based on Windows Focus Assist"
 msgstr "ოპერაციის რეჟიმის დაყენება Windows Focus Assist-ზე დაყრდნობით"
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:84
-msgid "Operation mode during Focus Assist:"
-msgstr "ოპერაციის რეჟიმი Focus Assist-ის დროს:"
+msgid "Operation mode during Focus Assist"
+msgstr "ოპერაციის რეჟიმი Focus Assist-ის დროს"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:90
 msgid "Software Update"
@@ -559,51 +560,51 @@ msgstr "ამ შესვენებას ვერ გამოტოვე
 msgid "You cannot postpone this break while another non-postponable break is overdue."
 msgstr "ამ შესვენებას ვერ გამოტოვებთ, რადგან გადაცილებულია სხვა არაგამოტოვებადი შესვენება."
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:108
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:107
 msgid "Crash report details"
 msgstr "ავარიის ანგარიშის დეტალები"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:111
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
 #, fuzzy
 msgid "Crash details"
 msgstr "ავარიის დეტალები"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:160
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
 #, fuzzy
 msgid "Crash Info"
 msgstr "ანგარიში ავარიის შესახებ"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:304
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:298
 msgid "(file not found or not readable)"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:337
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:331
 msgid "Crash report"
 msgstr "ანგარიში ავარიის შესახებ"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:342
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:336
 msgid "Workrave crash reporter"
 msgstr "Workrave-ის შეცდომების გამგზავნი"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:379
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:373
 #, fuzzy
 msgid "Workrave encountered a problem and crashed. Please help us diagnose and fix this problem by sending a crash report."
 msgstr "Workrave-მა აღმოაჩინა პრობლემა და ავარიულად დასრულდა. დაგვეხმარეთ ამ პრობლემის დიაგნოსტიკაში და გასწორებაში ავარიის ანგარიშის გამოგზავნით."
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:401
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:395
 msgid "Submit crash report to the Workrave developers"
 msgstr "გაუგზავნეთ ავარიის ანგარიში Workrave-ის პროგრამისტებს"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:410
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:404
 msgid "Details..."
 msgstr "დეტალები..."
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:415
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:409
 msgid "<small><i>Shows the crash information and files that will be submitted.</i></small>"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:422
-msgid "Additional comments (optional):"
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:416
+msgid "Additional comments (optional)"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
@@ -914,8 +915,8 @@ msgid "Workrave can use its GNOME Shell extension to enhance its integration wit
 msgstr "Wayland-ზე მუშაობისას თავისი სამუშაო მაგიდასთან ინტეგრაციის გასაუმჯობესებლად Workrave-ს შეუძლია, თავისი GNOME-ის გარსის გაფართოება გამოიყენოს."
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:243
-msgid "Icon Theme:"
-msgstr "ხატულების თემა:"
+msgid "Icon Theme"
+msgstr "ხატულების თემა"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:248
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:145
@@ -993,12 +994,13 @@ msgid "Volume"
 msgstr "ხმა"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
-msgid "Output device:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:123
+msgid "Output device"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:94
-msgid "Sound:"
-msgstr "ხმა:"
+msgid "Sound"
+msgstr "ხმა"
 
 #. Volume
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:99
@@ -1922,11 +1924,6 @@ msgstr ""
 msgid "Open debug window"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#, fuzzy
-msgid "Micro-break"
-msgstr "მიკროშესვენება"
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:61
 msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
 msgstr ""
@@ -2040,10 +2037,6 @@ msgstr "გამორთე ხმები"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:123
-msgid "Output device"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172

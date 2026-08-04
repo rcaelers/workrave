@@ -81,7 +81,7 @@ WindowsFocusAssist::init()
               << (ui::prefwidgets::Frame::create(N_("Focus Assist"))
                   << ui::prefwidgets::Toggle::create(N_("Set operation mode based on Windows Focus Assist"))
                        ->connect(&GUIConfig::follow_focus_assist_enabled())
-                  << ui::prefwidgets::Choice::create(N_("Operation mode during Focus Assist:"))
+                  << ui::prefwidgets::Choice::create(N_("Operation mode during Focus Assist"))
                        ->connect(&GUIConfig::focus_mode())
                        ->assign(focus_content)
                        ->when(&GUIConfig::follow_focus_assist_enabled()));

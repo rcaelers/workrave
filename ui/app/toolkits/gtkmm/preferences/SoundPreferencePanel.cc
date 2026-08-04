@@ -87,11 +87,11 @@ SoundPreferencePanel::create_panel()
     {
       device_combo = Gtk::manage(new Gtk::ComboBoxText());
       device_combo->signal_changed().connect(sigc::mem_fun(*this, &SoundPreferencePanel::on_device_changed));
-      hig->add_label(_("Output device:"), *device_combo);
+      hig->add_label(std::string(_("Output device")) + ":", *device_combo);
       update_device_selection();
     }
 
-  hig->add_label(_("Sound:"), *sound_button);
+  hig->add_label(std::string(_("Sound")) + ":", *sound_button);
 
   if (sound_theme->capability(workrave::audio::SoundCapability::MUTE))
     {

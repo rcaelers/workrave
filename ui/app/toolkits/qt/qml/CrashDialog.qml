@@ -237,7 +237,7 @@ Item {
             Text {
                 id: commentsLabel
                 anchors { top: contentSep.bottom; left: parent.left; topMargin: 8 }
-                text: qsTr("Additional comments (optional):")
+                text: qsTr("Additional comments (optional)")
                 font.pixelSize: 12; color: tok.ink
             }
 

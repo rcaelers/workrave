@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-03 23:35+0200\n"
+"POT-Creation-Date: 2026-08-04 07:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,9 +78,12 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-#: ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/Ui.cc:38 ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 msgid "Micro-break"
 msgstr ""
 
@@ -355,7 +358,7 @@ msgid "Set operation mode based on Windows Focus Assist"
 msgstr ""
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:84
-msgid "Operation mode during Focus Assist:"
+msgid "Operation mode during Focus Assist"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:90
@@ -458,15 +461,15 @@ msgid "Get updates as soon as they are available"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
-msgid "Release channel:"
+msgid "Release channel"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
-msgid "Proxy Type:"
+msgid "Proxy Type"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
-msgid "Proxy:"
+msgid "Proxy"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
@@ -563,52 +566,52 @@ msgid ""
 "overdue."
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:108
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:107
 msgid "Crash report details"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:111
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
 msgid "Crash details"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:160
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
 msgid "Crash Info"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:304
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:298
 msgid "(file not found or not readable)"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:337
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:331
 msgid "Crash report"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:342
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:336
 msgid "Workrave crash reporter"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:379
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:373
 msgid ""
 "Workrave encountered a problem and crashed. Please help us diagnose and fix "
 "this problem by sending a crash report."
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:401
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:395
 msgid "Submit crash report to the Workrave developers"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:410
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:404
 msgid "Details..."
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:415
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:409
 msgid ""
 "<small><i>Shows the crash information and files that will be submitted.</i></"
 "small>"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:422
-msgid "Additional comments (optional):"
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:416
+msgid "Additional comments (optional)"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
@@ -809,6 +812,8 @@ msgid "Status window"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
 msgid "Applet"
 msgstr ""
 
@@ -920,7 +925,7 @@ msgid ""
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:243
-msgid "Icon Theme:"
+msgid "Icon Theme"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:248
@@ -999,11 +1004,12 @@ msgid "Volume"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
-msgid "Output device:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:123
+msgid "Output device"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:94
-msgid "Sound:"
+msgid "Sound"
 msgstr ""
 
 #. Volume
@@ -1019,7 +1025,8 @@ msgid "Sound Events"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:115
-msgid "Sound Theme:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
+msgid "Sound theme"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:138
@@ -1704,13 +1711,6 @@ msgstr ""
 msgid "Per-timer visibility"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
-msgid "Micro-break"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:152
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
@@ -1965,11 +1965,6 @@ msgstr ""
 msgid "Open debug window"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
-msgid "Status applet"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:61
 msgid ""
 "A short pause to look away, stretch, and reset. Workrave reminds you several "
@@ -2092,16 +2087,8 @@ msgstr ""
 msgid "Play a sound when a break starts or ends."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:123
-msgid "Output device"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172
 msgid "Silences system audio when a rest break or daily limit begins."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
-msgid "Sound theme"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:353

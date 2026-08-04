@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-04 00:26+0200\n"
+"POT-Creation-Date: 2026-08-04 07:57+0200\n"
 "PO-Revision-Date: 2024-10-15 22:20+0530\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: தமிழ்நேரக்குழு\n"
@@ -86,6 +86,7 @@ msgstr "பணிவெறி அமைதியான பயன்முறை�
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:21
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 msgid "Micro-break"
 msgstr "நுண்-இடைவெளி"
@@ -358,8 +359,8 @@ msgid "Set operation mode based on Windows Focus Assist"
 msgstr "சாளரங்கள் கவன உதவியாளரின் அடிப்படையில் செயல்பாட்டு முறையை அமைக்கவும்"
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:84
-msgid "Operation mode during Focus Assist:"
-msgstr "கவன உதவியின் போது இயக்க முறை:"
+msgid "Operation mode during Focus Assist"
+msgstr "கவன உதவியின் போது இயக்க முறை"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:90
 msgid "Software Update"
@@ -565,53 +566,53 @@ msgstr "தவிர்க்க முடியாத மற்றொரு இ
 msgid "You cannot postpone this break while another non-postponable break is overdue."
 msgstr "இந்த இடைவேளையை நீங்கள் ஒத்திவைக்க முடியாது, அதே நேரத்தில் ஒத்திவைக்க முடியாத மற்றொரு இடைவேளை தாமதமாக உள்ளது."
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:108
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:107
 msgid "Crash report details"
 msgstr "விபத்து அறிக்கை விவரங்கள்"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:111
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
 #, fuzzy
 msgid "Crash details"
 msgstr "செயலிழப்பு விவரங்கள்"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:160
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
 #, fuzzy
 msgid "Crash Info"
 msgstr "விபத்து அறிக்கை"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:304
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:298
 msgid "(file not found or not readable)"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:337
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:331
 msgid "Crash report"
 msgstr "விபத்து அறிக்கை"
 
 # msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 # msgstr "பணிவெறியால் விசைபலகை மற்றும் சுட்டியை கண்காணிக்க இயலாது"
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:342
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:336
 msgid "Workrave crash reporter"
 msgstr "பணிவெறி செயலிழப்பு அறிக்கையாளர்"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:379
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:373
 #, fuzzy
 msgid "Workrave encountered a problem and crashed. Please help us diagnose and fix this problem by sending a crash report."
 msgstr "பணிவெறி ஒரு சிக்கலை எதிர்கொண்டது மற்றும் செயலிழந்தது. செயலிழப்பு அறிக்கையை அனுப்புவதன் மூலம் இந்த சிக்கலைக் கண்டறிந்து சரிசெய்ய எங்களுக்கு உதவவும்."
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:401
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:395
 msgid "Submit crash report to the Workrave developers"
 msgstr "பணிவெறி நிரலர்களுக்கு செயலிழப்பு அறிக்கையை சமர்ப்பிக்கவும்"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:410
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:404
 msgid "Details..."
 msgstr "விவரங்கள்..."
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:415
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:409
 msgid "<small><i>Shows the crash information and files that will be submitted.</i></small>"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:422
-msgid "Additional comments (optional):"
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:416
+msgid "Additional comments (optional)"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
@@ -922,8 +923,8 @@ msgid "Workrave can use its GNOME Shell extension to enhance its integration wit
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:243
-msgid "Icon Theme:"
-msgstr "சின்னம் கருப்பொருள்:"
+msgid "Icon Theme"
+msgstr "சின்னம் கருப்பொருள்"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:248
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:145
@@ -1001,12 +1002,13 @@ msgid "Volume"
 msgstr "ஒலிஅளவு"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
-msgid "Output device:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:123
+msgid "Output device"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:94
-msgid "Sound:"
-msgstr "ஒலி:"
+msgid "Sound"
+msgstr "ஒலி"
 
 #. Volume
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:99
@@ -1990,11 +1992,6 @@ msgstr ""
 msgid "Open debug window"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#, fuzzy
-msgid "Micro-break"
-msgstr "நுண்-இடைவெளி"
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:61
 msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
 msgstr ""
@@ -2108,10 +2105,6 @@ msgstr "ஒலிகள் இல்லை"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:123
-msgid "Output device"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172

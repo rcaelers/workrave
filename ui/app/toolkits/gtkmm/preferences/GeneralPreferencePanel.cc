@@ -240,7 +240,7 @@ GeneralPreferencePanel::create_panel()
   update_icon_theme_combo();
   if (icon_theme_button != nullptr)
     {
-      panel->add_label(_("Icon Theme:"), *icon_theme_button);
+      panel->add_label(std::string(_("Icon Theme")) + ":", *icon_theme_button);
     }
 
 #if defined(PLATFORM_OS_WINDOWS)

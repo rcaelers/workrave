@@ -53,7 +53,7 @@ namespace
   Gtk::Image *create_crashed_sheep_image()
   {
     const std::string image_file = workrave::utils::AssetPath::complete_directory("workrave-sheep-crashed.svg",
-                                                                                 workrave::utils::SearchPathId::Images);
+                                                                                  workrave::utils::SearchPathId::Images);
 
     try
       {
@@ -103,8 +103,7 @@ namespace
   }
 } // namespace
 
-CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attachments,
-                                       const crashpad::CrashSummary &summary)
+CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attachments, const crashpad::CrashSummary &summary)
   : Gtk::Dialog(_("Crash report details"), false)
 {
   set_default_size(950, 620);
@@ -120,7 +119,7 @@ CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attach
 
   summary_ = summary;
 
-  for (const auto &p : attachments)
+  for (const auto &p: attachments)
     {
       entries_.push_back({p, true});
     }
@@ -136,17 +135,14 @@ CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attach
 
   // Toggle column — visible only for file attachment rows
   auto *toggle_renderer = Gtk::manage(new Gtk::CellRendererToggle());
-  toggle_renderer->signal_toggled().connect(
-    sigc::mem_fun(*this, &CrashDetailsDialog::on_attachment_toggled));
+  toggle_renderer->signal_toggled().connect(sigc::mem_fun(*this, &CrashDetailsDialog::on_attachment_toggled));
   auto *toggle_col = Gtk::manage(new Gtk::TreeViewColumn("", *toggle_renderer));
-  toggle_col->set_cell_data_func(*toggle_renderer,
-    [this](Gtk::CellRenderer *r, const Gtk::TreeModel::iterator &it)
-    {
-      auto *tr = static_cast<Gtk::CellRendererToggle *>(r);
-      bool is_file = ((*it)[columns_.type] == 2);
-      tr->property_visible() = is_file;
-      tr->property_active() = is_file && static_cast<bool>((*it)[columns_.enabled]);
-    });
+  toggle_col->set_cell_data_func(*toggle_renderer, [this](Gtk::CellRenderer *r, const Gtk::TreeModel::iterator &it) {
+    auto *tr = static_cast<Gtk::CellRendererToggle *>(r);
+    bool is_file = ((*it)[columns_.type] == 2);
+    tr->property_visible() = is_file;
+    tr->property_active() = is_file && static_cast<bool>((*it)[columns_.enabled]);
+  });
   tree_view_->append_column(*toggle_col);
 
   tree_view_->append_column("", columns_.name);
@@ -174,8 +170,7 @@ CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attach
       row[columns_.index] = i;
     }
 
-  tree_view_->get_selection()->signal_changed().connect(
-    sigc::mem_fun(*this, &CrashDetailsDialog::on_selection_changed));
+  tree_view_->get_selection()->signal_changed().connect(sigc::mem_fun(*this, &CrashDetailsDialog::on_selection_changed));
 
   auto *list_sw = Gtk::manage(new Gtk::ScrolledWindow());
   list_sw->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
@@ -244,8 +239,7 @@ CrashDetailsDialog::display_crash_info()
 {
   content_buffer_->set_text("");
 
-  auto append_kv = [this](const std::string &key, const std::string &value)
-  {
+  auto append_kv = [this](const std::string &key, const std::string &value) {
     auto iter = content_buffer_->end();
     content_buffer_->insert_with_tag(iter, key, bold_tag_);
     iter = content_buffer_->end();
@@ -270,7 +264,7 @@ CrashDetailsDialog::display_crash_info()
     else
       {
         int frame_num = 0;
-        for (const auto &[addr, sym] : summary_.stack_frames)
+        for (const auto &[addr, sym]: summary_.stack_frames)
           {
             std::ostringstream line;
             line << "#" << std::setw(2) << std::left << frame_num++ << "  " << format_hex(addr);
@@ -309,7 +303,7 @@ std::vector<base::FilePath>
 CrashDetailsDialog::get_enabled_attachments() const
 {
   std::vector<base::FilePath> result;
-  for (const auto &entry : entries_)
+  for (const auto &entry: entries_)
     {
       if (entry.enabled)
         result.push_back(entry.path);
@@ -419,7 +413,7 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
   auto *sep = Gtk::manage(new Gtk::Separator(Gtk::ORIENTATION_HORIZONTAL));
   ibox->pack_start(*sep, false, false, 2);
 
-  auto *user_text_label = Gtk::manage(new Gtk::Label(_("Additional comments (optional):"), Gtk::ALIGN_START));
+  auto *user_text_label = Gtk::manage(new Gtk::Label(_("Additional comments (optional)"), Gtk::ALIGN_START));
   user_text_label->set_xalign(0);
   ibox->pack_start(*user_text_label, false, false, 0);
 
@@ -520,7 +514,7 @@ UserInteraction::requestUserConsent(const std::map<std::string, std::string> &an
   });
   LOG(INFO) << "Showing user consent dialog.";
   app->hold();
- // dlg->set_keep_above(true);
+  // dlg->set_keep_above(true);
   dlg->show();
   dlg->present();
   LOG(INFO) << "Running main loop.";
@@ -547,8 +541,10 @@ namespace
   int HandlerMainAdaptor(int argc, char *argv[])
   {
     const std::filesystem::path log_dir = workrave::utils::Paths::get_log_directory();
-    auto file_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
-      (log_dir / "workrave-crashhandler.log").string(), 1024 * 1024, 5, true);
+    auto file_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>((log_dir / "workrave-crashhandler.log").string(),
+                                                                            1024 * 1024,
+                                                                            5,
+                                                                            true);
     auto logger = std::make_shared<spdlog::logger>("crashhandler", file_sink);
     logger->flush_on(spdlog::level::critical);
     spdlog::set_default_logger(logger);

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.11.00\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-04 00:26+0200\n"
+"POT-Creation-Date: 2026-08-04 07:57+0200\n"
 "PO-Revision-Date: 2026-07-22 10:02+0800\n"
 "Last-Translator: 大眼仔~旭 <wcxu21@126.com>\n"
 "Language-Team: 大眼仔~旭<wcxu21@126.com>\n"
@@ -78,6 +78,7 @@ msgstr "Workrave 处于静默模式，不会弹出休息窗口。"
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:21
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 msgid "Micro-break"
 msgstr "微型休息"
@@ -350,8 +351,8 @@ msgid "Set operation mode based on Windows Focus Assist"
 msgstr "根据 Windows 专注助手自动切换运行模式"
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:84
-msgid "Operation mode during Focus Assist:"
-msgstr "专注助手启用时的运行模式："
+msgid "Operation mode during Focus Assist"
+msgstr "专注助手启用时的运行模式"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:90
 msgid "Software Update"
@@ -554,51 +555,51 @@ msgstr "存在已超时且不可跳过的休息时段，无法跳过本次休息
 msgid "You cannot postpone this break while another non-postponable break is overdue."
 msgstr "存在已超时且不可延后的休息时段，无法延后本次休息。"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:108
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:107
 msgid "Crash report details"
 msgstr "崩溃报告详情"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:111
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
 #, fuzzy
 msgid "Crash details"
 msgstr "崩溃详细信息"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:160
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
 #, fuzzy
 msgid "Crash Info"
 msgstr "崩溃报告"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:304
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:298
 msgid "(file not found or not readable)"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:337
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:331
 msgid "Crash report"
 msgstr "崩溃报告"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:342
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:336
 msgid "Workrave crash reporter"
 msgstr "Workrave 崩溃上报工具"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:379
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:373
 #, fuzzy
 msgid "Workrave encountered a problem and crashed. Please help us diagnose and fix this problem by sending a crash report."
 msgstr "Workrave 遇到错误并已崩溃。发送崩溃报告以协助开发者排查并修复问题。"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:401
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:395
 msgid "Submit crash report to the Workrave developers"
 msgstr "向 Workrave 开发者提交崩溃报告"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:410
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:404
 msgid "Details..."
 msgstr "详细信息..."
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:415
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:409
 msgid "<small><i>Shows the crash information and files that will be submitted.</i></small>"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:422
-msgid "Additional comments (optional):"
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:416
+msgid "Additional comments (optional)"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
@@ -908,8 +909,8 @@ msgid "Workrave can use its GNOME Shell extension to enhance its integration wit
 msgstr "Workrave 可通过配套 GNOME Shell 扩展提升与 Wayland 桌面环境的兼容性。"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:243
-msgid "Icon Theme:"
-msgstr "图标主题："
+msgid "Icon Theme"
+msgstr "图标主题"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:248
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:145
@@ -987,12 +988,13 @@ msgid "Volume"
 msgstr "音量"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
-msgid "Output device:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:123
+msgid "Output device"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:94
-msgid "Sound:"
-msgstr "声音："
+msgid "Sound"
+msgstr "声音"
 
 #. Volume
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:99
@@ -1915,11 +1917,6 @@ msgstr ""
 msgid "Open debug window"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#, fuzzy
-msgid "Micro-break"
-msgstr "微型休息"
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:61
 msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
 msgstr ""
@@ -2033,10 +2030,6 @@ msgstr "关闭音效"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:123
-msgid "Output device"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172

@@ -110,7 +110,7 @@ Ui::get_sound_event_name(SoundEvent event)
       return _("Exercise change");
 
     default:
-      return _("?");
+      return "?";
     }
 }
 
