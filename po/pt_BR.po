@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-04 17:08+0200\n"
+"POT-Creation-Date: 2026-08-04 19:16+0200\n"
 "PO-Revision-Date: 2011-02-16 19:25+0100\n"
 "Last-Translator:  <Claudio Ferreira Filho <filhocf@yahoo.com.br>, Renato Botelho <renato@galle.com.br>\n"
 "Language-Team: \n"
@@ -379,7 +379,7 @@ msgid "{} {} is now available -- you have {}. Would you like to download it now?
 msgstr "{} {} está disponível agora -- você tem {}. Você gostaria de baixá-lo agora?"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:148
-#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:67
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:74
 msgid "Release notes"
 msgstr "Notas da Versão"
 
@@ -394,18 +394,22 @@ msgid "Version {}\n"
 msgstr "Version {}\n"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:258
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:158
 msgid "_Skip this version"
 msgstr "_Pular esta versão"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:264
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:169
 msgid "_Remind me later"
 msgstr "_Lembre-me mais tarde"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:267
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:174
 msgid "_Install update"
 msgstr "_Instalar atualização"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:274
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:181
 #, fuzzy
 msgid "_Close"
 msgstr "Fechar"
@@ -645,7 +649,6 @@ msgstr "Log de depuração"
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:94
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:136
 #: ui/app/toolkits/qt/qml/AboutDialog.qml:152
-#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:174
 #: ui/app/toolkits/qt/qml/ExercisesDialog.qml:166
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:313
 #: ui/app/toolkits/qt/qml/StatusWindow.qml:96
@@ -1617,21 +1620,6 @@ msgstr ""
 msgid "Translators"
 msgstr "_Tradutores"
 
-#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:151
-#, fuzzy
-msgid "Skip this version"
-msgstr "_Pular esta versão"
-
-#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:162
-#, fuzzy
-msgid "Remind me later"
-msgstr "_Lembre-me mais tarde"
-
-#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:167
-#, fuzzy
-msgid "Install update"
-msgstr "_Instalar atualização"
-
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:26
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:26
 msgid "Visibility"
@@ -2129,6 +2117,18 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Skip this version"
+#~ msgstr "_Pular esta versão"
+
+#, fuzzy
+#~ msgid "Remind me later"
+#~ msgstr "_Lembre-me mais tarde"
+
+#, fuzzy
+#~ msgid "Install update"
+#~ msgstr "_Instalar atualização"
 
 #, c-format
 #~ msgid "Break in %s"

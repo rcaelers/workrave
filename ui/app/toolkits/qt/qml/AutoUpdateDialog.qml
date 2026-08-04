@@ -10,6 +10,13 @@ Item {
 
     signal closeRequested()
 
+    // GTK builds mnemonics ("_Skip this version") into these labels; Qt has no use
+    // for the accelerator, so reuse the same translatable string and drop the "_"
+    // rather than maintaining a second, duplicate string for translators.
+    function noAccel(text) {
+        return text.replace('_', '')
+    }
+
     PrefTokens { id: tok }
 
     Rectangle {
@@ -148,7 +155,7 @@ Item {
             // Left side: Skip this version
             ActionButton {
                 anchors { left: parent.left; verticalCenter: parent.verticalCenter }
-                label: qsTr("Skip this version")
+                label: noAccel(qsTr("_Skip this version"))
                 visible: updateBridge != null && updateBridge.showInstallButtons
                 onClicked: if (updateBridge != null) updateBridge.skip()
             }
@@ -159,19 +166,19 @@ Item {
                 spacing: 8
 
                 ActionButton {
-                    label: qsTr("Remind me later")
+                    label: noAccel(qsTr("_Remind me later"))
                     visible: updateBridge != null && updateBridge.showInstallButtons
                     onClicked: if (updateBridge != null) updateBridge.later()
                 }
                 ActionButton {
-                    label: qsTr("Install update")
+                    label: noAccel(qsTr("_Install update"))
                     highlighted: true
                     enabled: updateBridge != null && updateBridge.installEnabled
                     visible: updateBridge != null && !updateBridge.showClose
                     onClicked: if (updateBridge != null) updateBridge.install()
                 }
                 ActionButton {
-                    label: qsTr("Close")
+                    label: noAccel(qsTr("_Close"))
                     visible: updateBridge != null && updateBridge.showClose
                     onClicked: root.closeRequested()
                 }

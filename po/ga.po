@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-04 17:08+0200\n"
+"POT-Creation-Date: 2026-08-04 19:16+0200\n"
 "PO-Revision-Date: 2020-01-10 15:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -375,7 +375,7 @@ msgid "{} {} is now available -- you have {}. Would you like to download it now?
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:148
-#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:67
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:74
 msgid "Release notes"
 msgstr ""
 
@@ -390,18 +390,22 @@ msgid "Version {}\n"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:258
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:158
 msgid "_Skip this version"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:264
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:169
 msgid "_Remind me later"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:267
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:174
 msgid "_Install update"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:274
+#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:181
 msgid "_Close"
 msgstr ""
 
@@ -629,7 +633,6 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:94
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:136
 #: ui/app/toolkits/qt/qml/AboutDialog.qml:152
-#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:174
 #: ui/app/toolkits/qt/qml/ExercisesDialog.qml:166
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:313
 #: ui/app/toolkits/qt/qml/StatusWindow.qml:96
@@ -1578,18 +1581,6 @@ msgstr ""
 
 #: ui/app/toolkits/qt/qml/AboutDialog.qml:87
 msgid "Translators"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:151
-msgid "Skip this version"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:162
-msgid "Remind me later"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:167
-msgid "Install update"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:26

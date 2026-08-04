@@ -20,7 +20,8 @@ if (GETTEXT_FOUND)
             --join-existing --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES-QML.in -o ${POTFILE}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-  # update-pot: explicitly regenerate the .pot (always re-runs as a custom target).
+  # update-pot: explicitly regenerate the .pot (always re-runs as a custom target),
+  # then keep the committed po/workrave.pot in sync with the regenerated one.
   add_custom_target(update-pot
     COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIRS=${CMAKE_SOURCE_DIR}/po
             ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_ARGS}
@@ -28,22 +29,14 @@ if (GETTEXT_FOUND)
     COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIRS=${CMAKE_SOURCE_DIR}/po
             ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_QML_ARGS}
             --join-existing --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES-QML.in -o ${POTFILE}
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    COMMENT "Regenerating ${POTFILE}"
-  )
-
-  # update-po: regenerate .pot first, then merge into every .po file.
-  add_custom_target(update-po)
-  add_dependencies(update-po update-pot)
-
-  # Keep the committed po/workrave.pot in sync with the regenerated one.
-  add_custom_command(
-    TARGET update-po
-    POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${POTFILE} ${CMAKE_CURRENT_SOURCE_DIR}/workrave.pot
-    COMMENT "Copying ${POTFILE} to ${CMAKE_CURRENT_SOURCE_DIR}/workrave.pot"
-    VERBATIM
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMENT "Regenerating ${POTFILE} and copying it to ${CMAKE_CURRENT_SOURCE_DIR}/workrave.pot"
   )
+
+  # update-po: merge the committed po/workrave.pot into every .po file.
+  # Does not regenerate the .pot — run update-pot first if you want fresh strings.
+  add_custom_target(update-po)
 endif()
 
 foreach (po_file ${POFILES})
@@ -85,7 +78,7 @@ foreach (po_file ${POFILES})
     add_custom_command(
         TARGET update-po
         POST_BUILD
-        COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --no-wrap --backup=none ${po_file} ${POTFILE}
+        COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --no-wrap --backup=none ${po_file} ${CMAKE_CURRENT_SOURCE_DIR}/workrave.pot
         VERBATIM
     )
 
