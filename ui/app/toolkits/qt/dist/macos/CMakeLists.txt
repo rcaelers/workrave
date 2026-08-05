@@ -4,11 +4,6 @@ list(APPEND CPACK_GENERATOR "DragNDrop")
 
 set(CPACK_PACKAGE_ICON ${CMAKE_SOURCE_DIR}/ui/data/images/macos/workrave.icns)
 
-set(CPACK_DMG_VOLUME_NAME "${PROJECT_NAME}_${VERSION}")
-set(CPACK_DMG_DS_STORE "${CMAKE_CURRENT_SOURCE_DIR}/DS_Store")
-set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/dmg_background.png")
-set(CPACK_DMG_FORMAT "UDBZ")
-
 set(CPACK_BUNDLE_ICON ${CMAKE_PACKAGE_ICON})
 set(CPACK_BUNDLE_NAME "${PROJECT_NAME}_${VERSION}")
 set(CPACK_BUNDLE_PLIST "${CMAKE_BINARY_DIR}/Info.plist")
@@ -58,10 +53,10 @@ INSTALL(CODE "
              \"${_deploy_app}/Contents/PlugIns\"
              \"${_deploy_app}/Contents/Resources/qml\"
 	     \"${_deploy_app}/Contents/Resources/lib\"
+	     \"${_deploy_app}/Contents/lib\"
 	     )
         file(REMOVE \"${_deploy_app}/Contents/MacOS/workrave-core-shadow-helper\")
         file(MAKE_DIRECTORY \"${_deploy_app}/Contents/Frameworks\")
-        execute_process(COMMAND ln -sf ./Frameworks \"${_deploy_app}/Contents/lib\")
         execute_process(COMMAND ${MACDEPLOYQT_EXECUTABLE} \"${_deploy_app}\" -verbose=1
                -qmldir=${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/qml
                \"$<$<BOOL:${BOOST_PATH}>:-libpath=${BOOST_PATH}>\"
@@ -73,6 +68,13 @@ INSTALL(CODE "
         if(NOT \${_deploy_result} EQUAL 0)
             message(FATAL_ERROR \"macdeployqt failed with exit code \${_deploy_result}\")
         endif()
+        # Create the lib -> Frameworks alias only *after* macdeployqt has run.
+        # Creating it beforehand made macdeployqt walk into the alias while
+        # resolving dependencies and embed a stray self-referential
+        # Contents/Frameworks/Frameworks -> ./Frameworks symlink, which later
+        # made codesign/notarization fail with ELOOP (\"too many levels of
+        # symbolic links\").
+        execute_process(COMMAND ln -sf ./Frameworks \"${_deploy_app}/Contents/lib\")
 	    if(NOT \"${WORKRAVE_SIGN_IDENTITY}\")
             set(_app ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app)
             message(\"-- Ad-hoc signing app bundle...\")
@@ -147,4 +149,89 @@ if (CMAKE_BUILD_TYPE MATCHES "Debug")
             message(WARNING \"codesign failed with exit code \${_sign_result}\")
         endif()
     ")
+endif()
+
+# Sign ${PROJECT_NAME}.app with a Developer ID identity and submit it to Apple's
+# notary service. Deliberately kept out of "all" / the default install — it needs
+# a Developer ID identity and notarytool credentials that most builds don't have,
+# and it talks to Apple's servers, so it must be invoked explicitly:
+#   cmake --build . --target notarize
+#
+# One-time setup:
+#   -DWORKRAVE_SIGN_IDENTITY="Developer ID Application: ..."   (see `security find-identity -v -p codesigning`)
+#   xcrun notarytool store-credentials <profile> --apple-id <apple-id> --team-id <team-id> --password <app-specific-password>
+#   -DWORKRAVE_NOTARIZE_PROFILE=<profile>
+set(WORKRAVE_NOTARIZE_PROFILE "" CACHE STRING "xcrun notarytool keychain profile used to notarize ${PROJECT_NAME}.app")
+
+add_custom_target(notarize
+    # The install step below only re-runs macdeployqt (and therefore only signs
+    # the bundled Qt frameworks/plugins with WORKRAVE_SIGN_IDENTITY) when this
+    # stamp is missing or stale — see the deploy-stamp logic above. Force it on
+    # every notarize run so a previous ad-hoc-signed (or unsigned) deploy never
+    # leaves nested frameworks without a proper Developer ID + secure timestamp.
+    COMMAND ${CMAKE_COMMAND} -E rm -f "${_deploy_stamp}"
+    COMMAND ${CMAKE_COMMAND} --install "${CMAKE_BINARY_DIR}"
+    COMMAND ${CMAKE_COMMAND}
+            "-DWORKRAVE_APP=${_deploy_app}"
+            "-DWORKRAVE_SIGN_IDENTITY=${WORKRAVE_SIGN_IDENTITY}"
+            "-DWORKRAVE_NOTARIZE_PROFILE=${WORKRAVE_NOTARIZE_PROFILE}"
+            "-DWORKRAVE_NOTARIZE_ZIP=${CMAKE_BINARY_DIR}/${PROJECT_NAME}-notarize.zip"
+            "-DWORKRAVE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
+            -P "${CMAKE_CURRENT_SOURCE_DIR}/notarize.cmake"
+    DEPENDS workrave
+    COMMENT "Signing and notarizing ${PROJECT_NAME}.app with Apple (not part of 'all')"
+    VERBATIM)
+
+# Packages ${PROJECT_NAME}.app into a disk image ready to distribute. Also kept
+# out of "all":
+#   cmake --build . --target dmg
+#
+# Deliberately does not use CPack's DragNDrop generator ("bundle" target,
+# ui/app/toolkits/qt/dist/CMakeLists.txt) — CPack re-installs into its own
+# staging directory from scratch, which would package an unsigned/unnotarized
+# copy instead of the bundle that "notarize" actually signed and stapled. See
+# make-dmg.cmake for the details.
+#
+# With WORKRAVE_SIGN_IDENTITY configured, this depends on "notarize" so the
+# packaged app is always freshly signed, notarized and stapled, and
+# make-dmg.cmake additionally signs/notarizes/staples the dmg itself. Without
+# it (e.g. signing intentionally disabled for a local test build), there's no
+# Developer ID to notarize with, so this instead just installs the (ad-hoc
+# signed, per the plain install rule above) app and make-dmg.cmake skips
+# straight to packaging it — still a fully usable, double-clickable dmg for
+# local testing, just not something to distribute.
+if(WORKRAVE_SIGN_IDENTITY)
+    add_custom_target(dmg
+        COMMAND ${CMAKE_COMMAND}
+                "-DWORKRAVE_APP=${_deploy_app}"
+                "-DWORKRAVE_DMG_STAGING=${CMAKE_BINARY_DIR}/dmg-staging"
+                "-DWORKRAVE_DMG_OUTPUT=${CMAKE_INSTALL_PREFIX}/${CPACK_PACKAGE_FILE_NAME}.dmg"
+                "-DWORKRAVE_DMG_BACKGROUND=${CMAKE_CURRENT_SOURCE_DIR}/dmg_background.png"
+                "-DWORKRAVE_DMG_ICON=${CMAKE_SOURCE_DIR}/ui/data/images/macos/workrave.icns"
+                "-DWORKRAVE_DMG_APPLESCRIPT=${CMAKE_CURRENT_SOURCE_DIR}/dmg.applescript"
+                "-DWORKRAVE_VOLUME_NAME=${PROJECT_NAME}"
+                "-DWORKRAVE_SIGN_IDENTITY=${WORKRAVE_SIGN_IDENTITY}"
+                "-DWORKRAVE_NOTARIZE_PROFILE=${WORKRAVE_NOTARIZE_PROFILE}"
+                -P "${CMAKE_CURRENT_SOURCE_DIR}/make-dmg.cmake"
+        DEPENDS notarize
+        COMMENT "Building a signed, notarized disk image of ${PROJECT_NAME}.app (not part of 'all')"
+        VERBATIM)
+else()
+    add_custom_target(dmg
+        COMMAND ${CMAKE_COMMAND} -E rm -f "${_deploy_stamp}"
+        COMMAND ${CMAKE_COMMAND} --install "${CMAKE_BINARY_DIR}"
+        COMMAND ${CMAKE_COMMAND}
+                "-DWORKRAVE_APP=${_deploy_app}"
+                "-DWORKRAVE_DMG_STAGING=${CMAKE_BINARY_DIR}/dmg-staging"
+                "-DWORKRAVE_DMG_OUTPUT=${CMAKE_INSTALL_PREFIX}/${CPACK_PACKAGE_FILE_NAME}.dmg"
+                "-DWORKRAVE_DMG_BACKGROUND=${CMAKE_CURRENT_SOURCE_DIR}/dmg_background.png"
+                "-DWORKRAVE_DMG_ICON=${CMAKE_SOURCE_DIR}/ui/data/images/macos/workrave.icns"
+                "-DWORKRAVE_DMG_APPLESCRIPT=${CMAKE_CURRENT_SOURCE_DIR}/dmg.applescript"
+                "-DWORKRAVE_VOLUME_NAME=${PROJECT_NAME}"
+                "-DWORKRAVE_SIGN_IDENTITY="
+                "-DWORKRAVE_NOTARIZE_PROFILE="
+                -P "${CMAKE_CURRENT_SOURCE_DIR}/make-dmg.cmake"
+        DEPENDS workrave
+        COMMENT "Building an unsigned disk image of ${PROJECT_NAME}.app for local testing (not part of 'all')"
+        VERBATIM)
 endif()
