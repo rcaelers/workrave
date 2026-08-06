@@ -1,5 +1,40 @@
 ---
 releases:
+  - version: 1.12.0-alpha.1
+    date: 2026-08-06T15:56:13+02:00
+    short: |-
+      Workrave 1.12.0-alpha.1 has been released. This is an early alpha of the 1.12 series,
+      with a completely redesigned look for the Qt version of Workrave. It is being released
+      early to gather feedback on the new look before it is finalized, so please try it out
+      and let us know what you think. Workrave 1.12 has received limited testing and is not
+      yet ready for daily use.
+    changes:
+      - |-
+        Highlights:
+        - The Qt version of Workrave has a completely redesigned look: the break windows,
+          preferences, exercises, about, and update dialogs have all been rebuilt with a
+          cleaner, more modern interface. This work is currently focused on Windows and
+          macOS; on Linux, Gtk remains the main, recommended version of Workrave, with Qt
+          available as an experimental alternative in 1.12
+        - Much better support for macOS: Workrave now has a native menu bar and dock icon,
+          can lock the screen, sleep, or shut down the computer from a break window, and is
+          distributed as a signed disk image that macOS will no longer flag as untrusted
+        - Various improvements to how break windows behave on Linux desktops using Wayland,
+          including better placement across multiple monitors and full-screen windows
+      - |-
+        New features and improvements:
+        - Added initial macOS build support and a native menu bar for the Qt version of
+          Workrave (#697, xichuanxc)
+        - You can now choose which audio device (e.g. speakers instead of headphones) plays
+          break sounds, in Preferences → Sounds (#700, koloved)
+      - |-
+        Translations:
+        - Updated Simplified Chinese translation (#704, wcxu21)
+      - |-
+        This is a very early alpha, released specifically to collect feedback on the new
+        look: expect rough edges, and please share your thoughts and any issues you run into
+        at https://github.com/rcaelers/workrave/discussions before the final 1.12 release.
+
   - version: 1.11.1
     date: 2026-07-23T13:36:14+02:00
     short: |-
