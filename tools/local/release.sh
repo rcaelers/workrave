@@ -1,10 +1,12 @@
 #!/bin/bash -ex
 
+source "$(dirname "${BASH_SOURCE[0]}")/release-common.sh"
+
 run_docker_ppa() {
     if [ -n "$DEBIAN_DIR" ]; then
         DEBVOL="-v $DEBIAN_DIR:/workspace/debian"
     fi
-    if [ -n "$PRERELEASE" ]; then
+    if [ -n "$PRERELEASE" ] || [ "$CHANNEL" != "stable" ]; then
         PRERELEASE_ARG="-P"
     fi
     docker run --rm \
@@ -50,6 +52,129 @@ run_docker_appimage() {
     unset CONF_SOURCE_TARBALL
 }
 
+# Mirrors workrave-dependencies/macos/check-no-homebrew-links.sh: the -M
+# dependencies tree is supposed to be self-contained (universal arm64+x86_64,
+# buildable on a clean machine), so nothing under it may link against or
+# rpath into Homebrew — that would silently make it not actually self-contained.
+check_no_homebrew_links() {
+    local DEPLOYDIR="$1"
+    local BLOCKED='/opt/homebrew|/usr/local/Cellar|/usr/local/opt|/usr/local/lib|/usr/local/bin|/usr/local/share'
+    local FOUND=0
+
+    while IFS= read -r -d '' f; do
+        if ! file "$f" | grep -q "Mach-O"; then
+            continue
+        fi
+
+        local deps
+        deps=$(otool -L "$f" 2>/dev/null | tail -n +2 | awk '{print $1}' | grep -E "${BLOCKED}" || true)
+        if [ -n "${deps}" ]; then
+            while IFS= read -r dep; do
+                echo "!!! $f links against Homebrew: ${dep}" >&2
+            done <<<"${deps}"
+            FOUND=1
+        fi
+
+        local rpaths
+        rpaths=$(otool -l "$f" 2>/dev/null | awk '/LC_RPATH/{getline; getline; print $2}' | grep -E "${BLOCKED}" || true)
+        if [ -n "${rpaths}" ]; then
+            while IFS= read -r rp; do
+                echo "!!! $f has an LC_RPATH into Homebrew: ${rp}" >&2
+            done <<<"${rpaths}"
+            FOUND=1
+        fi
+    done < <(find "${DEPLOYDIR}" -type f \( -name "*.dylib" -o -perm -u+x \) -print0)
+
+    if [ "${FOUND}" -eq 1 ]; then
+        echo "Homebrew linkage detected in ${DEPLOYDIR} — see above." >&2
+        return 1
+    fi
+}
+
+build_macos_dmg() {
+    MACOS_BUILD_DIR=${WORKSPACE_DIR}/build-macos
+    MACOS_OUTPUT_DIR=${WORKSPACE_DIR}/output-macos
+
+    # Unlike SOURCES_DIR, these live outside the git worktree, so setup()'s
+    # git clean -fdx never touches them. Wipe them here instead: a stale
+    # CMakeCache.txt from a previous run (before a script change, or from a
+    # failed configure) must never silently survive into this one.
+    rm -rf "${MACOS_BUILD_DIR}" "${MACOS_OUTPUT_DIR}"
+
+    if [ -z "${WORKRAVE_SIGN_IDENTITY}" ]; then
+        WORKRAVE_SIGN_IDENTITY=$(security find-identity -v -p codesigning | sed -n 's/.*"\(Developer ID Application: [^"]*\)".*/\1/p' | head -n1)
+    fi
+    if [ -z "${WORKRAVE_SIGN_IDENTITY}" ] || [ -z "${WORKRAVE_NOTARIZE_PROFILE}" ]; then
+        echo "WORKRAVE_SIGN_IDENTITY and WORKRAVE_NOTARIZE_PROFILE must be set to build a signed macOS dmg." 1>&2
+        echo "See ui/app/toolkits/qt/dist/macos/CMakeLists.txt for the one-time setup." 1>&2
+        exit 1
+    fi
+
+    # WORKRAVE_DEPENDENCIES_DIR (-M) provides universal (arm64+x86_64) builds of
+    # Qt, sqlite3 and other libs. It's optional: without it, fall back to
+    # whatever CMake finds on its own (e.g. Homebrew's Qt keg), which is
+    # normally arm64-only, so the build is then single-arch.
+    #
+    # Passed as the dependencies root, not .../lib/cmake: CMake's config-mode
+    # search already checks <root>/lib/cmake/<Name>/ (finds Qt6, etc.), but
+    # sqlite3 ships no CMake config package here, only headers/libs, so it's
+    # found via CMake's bundled module-mode FindSQLite3.cmake, which only
+    # searches <root>/include and <root>/lib — narrowing the prefix to
+    # .../lib/cmake would hide those from it.
+    if [ -n "${WORKRAVE_DEPENDENCIES_DIR}" ]; then
+        if [ ! -d "${WORKRAVE_DEPENDENCIES_DIR}" ]; then
+            echo "WORKRAVE_DEPENDENCIES_DIR (${WORKRAVE_DEPENDENCIES_DIR}) does not exist." 1>&2
+            exit 1
+        fi
+
+        MACOS_PATH="${WORKRAVE_DEPENDENCIES_DIR}/bin:${PATH}"
+        MACOS_PREFIX_PATH="${WORKRAVE_DEPENDENCIES_DIR}"
+        MACOS_ARCHITECTURES="arm64;x86_64"
+    else
+        MACOS_PATH="${PATH}"
+        MACOS_PREFIX_PATH=$(brew --prefix qt 2>/dev/null || true)
+        MACOS_ARCHITECTURES=""
+    fi
+
+    PATH="${MACOS_PATH}" \
+        cmake -S ${SOURCES_DIR} -B ${MACOS_BUILD_DIR} -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=${MACOS_OUTPUT_DIR} \
+        -DCMAKE_PREFIX_PATH="${MACOS_PREFIX_PATH}" \
+        -DCMAKE_OSX_ARCHITECTURES="${MACOS_ARCHITECTURES}" \
+        -DWITH_UI=Qt \
+        -DWITH_GRPC=ON \
+        "-DWORKRAVE_SIGN_IDENTITY=${WORKRAVE_SIGN_IDENTITY}" \
+        "-DWORKRAVE_NOTARIZE_PROFILE=${WORKRAVE_NOTARIZE_PROFILE}"
+
+    cmake --build ${MACOS_BUILD_DIR} --target dmg
+
+    # Checked here, not before the build: the dependencies tree itself is
+    # already known clean (that's what workrave-dependencies' own CI verifies).
+    # What matters is whether the build picked up something from Homebrew along
+    # the way (e.g. a tool falling back to it despite -M) — the app bundle is
+    # the actual output that ships, so it's the one to check.
+    if [ -n "${WORKRAVE_DEPENDENCIES_DIR}" ]; then
+        APP_BUNDLE=$(find ${MACOS_OUTPUT_DIR} -maxdepth 1 -name "*.app" | head -n1)
+        if [ -z "${APP_BUNDLE}" ]; then
+            echo "No .app bundle found in ${MACOS_OUTPUT_DIR}" 1>&2
+            exit 1
+        fi
+        check_no_homebrew_links "${APP_BUNDLE}" || exit 1
+    fi
+
+    DMG_FILE=$(find ${MACOS_OUTPUT_DIR} -maxdepth 1 -name "*.dmg" | head -n1)
+    if [ -z "${DMG_FILE}" ]; then
+        echo "No dmg found in ${MACOS_OUTPUT_DIR}" 1>&2
+        exit 1
+    fi
+
+    mkdir -p ${DEPLOY_DIR}/${GIT_TAG}
+    DEPLOY_DMG=${DEPLOY_DIR}/${GIT_TAG}/workrave-macos-${WORKRAVE_VERSION}.dmg
+    cp "${DMG_FILE}" "${DEPLOY_DMG}"
+    run_or_echo ${SCRIPTS_DIR}/local/sign-cosign.sh "${DEPLOY_DMG}"
+}
+
 init_newsgen() {
     source ${SCRIPTS_DIR}/ci/ship.sh
     build_ship
@@ -63,40 +188,8 @@ init() {
         mkdir -p "$DEPLOY_DIR"
     fi
 
-    cd $WORKSPACE_DIR
-
-    if [ ! -d ${SOURCES_DIR} ]; then
-        mkdir -p ${SOURCES_DIR}
-        git clone $REPO source
-        cd source
-        git checkout $COMMIT
-    else
-        cd source
-        git reset --hard HEAD
-        git clean -fdx
-        git fetch
-        git checkout $COMMIT
-
-    fi
-
-    cd $SOURCES_DIR
-
-    if [ -n "$WORKRAVE_OVERRIDE_GIT_VERSION" ]; then
-        GIT_VERSION=$WORKRAVE_OVERRIDE_GIT_VERSION
-        GIT_TAG=$WORKRAVE_OVERRIDE_GIT_VERSION
-    else
-        GIT_TAG=$(git describe --abbrev=0)
-        GIT_VERSION=$(git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//')
-        VERSION=$(echo $GIT_VERSION | sed -e 's/_/./g' | sed -e 's/-.*//g')
-    fi
-
-    if [ $GIT_VERSION = $GIT_TAG ]; then
-        echo "Release build"
-        export WORKRAVE_RELEASE_TAG=$GIT_TAG
-    else
-        echo "Snapshot build ($GIT_VERSION) of release ($GIT_TAG)"
-    fi
-
+    init_workspace
+    init_version
     init_newsgen
 }
 
@@ -130,53 +223,32 @@ setup() {
     git checkout $COMMIT
 }
 
-usage() {
-    echo "Usage: $0 " 1>&2
-    exit 1
-}
+PLATFORM_OPTIONS="bB:D:M:p:P"
 
-parse_arguments() {
-    while getopts "bt:r:C:D:R:S:W:B:p:dP" o; do
-        case "${o}" in
-        p)
-            PPA="${OPTARG}"
-            ;;
-        b)
-            BUILD_DEB=1
-            ;;
-        d)
-            DRYRUN=-d
-            ;;
-        t)
-            COMMIT="${OPTARG}"
-            ;;
-        r)
-            export WORKRAVE_OVERRIDE_GIT_VERSION="${OPTARG}"
-            ;;
-        C)
-            SCRIPTS_DIR="${OPTARG}"
-            ;;
-        P)
-            PRERELEASE=1
-            ;;
-        D)
-            DEBIAN_DIR="${OPTARG}"
-            ;;
-        R)
-            REPO="${OPTARG}"
-            ;;
-        W)
-            WORKSPACE_DIR="${OPTARG}"
-            ;;
-        B)
-            WEBSITE_DIR="${OPTARG}"
-            ;;
-        *)
-            usage
-            ;;
-        esac
-    done
-    shift $((OPTIND - 1))
+parse_platform_argument() {
+    case "${1}" in
+    b)
+        BUILD_DEB=1
+        ;;
+    B)
+        WEBSITE_DIR="${2}"
+        ;;
+    D)
+        DEBIAN_DIR="${2}"
+        ;;
+    M)
+        WORKRAVE_DEPENDENCIES_DIR="${2}"
+        ;;
+    p)
+        PPA="${2}"
+        ;;
+    P)
+        PRERELEASE=1
+        ;;
+    *)
+        usage
+        ;;
+    esac
 }
 
 upload() {
@@ -184,30 +256,29 @@ upload() {
 }
 
 upload_github() {
-    export GH_TOKEN=$(curl -skf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.github_pat" | jq -r .value)
-    gh release upload ${GIT_TAG} ${DEPLOY_DIR}/${GIT_TAG}/*.AppImage
+    fetch_github_token
+    github_create_release
+    for artifact in ${DEPLOY_DIR}/${GIT_TAG}/*.AppImage ${DEPLOY_DIR}/${GIT_TAG}/*.dmg ${DEPLOY_DIR}/${GIT_TAG}/*.dmg.sigstore; do
+        if [ -f "${artifact}" ]; then
+            run_or_echo gh release upload ${GIT_TAG} "${artifact}"
+        fi
+    done
 }
 
-export WORKRAVE_OVERRIDE_GIT_VERSION=
+init_common_defaults
 BUILD_DEB=
 PRERELEASE=
 DEBIAN_DIR=
 WEBSITE_DIR=
-WORKSPACE_DIR=$(pwd)/_workrave_build_workspace
-SCRIPTS_DIR=${WORKSPACE_DIR}/source/tools/
-REPO=https://github.com/rcaelers/workrave.git
-DRYRUN=
+WORKRAVE_DEPENDENCIES_DIR=
 
 parse_arguments $*
-
-SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://studio.local:50051}"
 
 if [ -z $WEBSITE_DIR ]; then
     echo No website directory specified.
     exit 1
 fi
 
-SOURCES_DIR=$WORKSPACE_DIR/source
 DEPLOY_DIR=$WORKSPACE_DIR/deploy
 
 export CONF_CONFIGURATION=Release
@@ -220,12 +291,14 @@ run_docker_appimage
 env
 run_docker_ppa
 
+if [ "$(uname)" = "Darwin" ]; then
+    build_macos_dmg
+fi
+
 if [ -n "$BUILD_DEB" ]; then
     echo Build all debian packages.
     run_docker_deb
 fi
 
 # generate_blog
-if [ -z "${DRYRUN}" ]; then
-    upload
-fi
+upload
