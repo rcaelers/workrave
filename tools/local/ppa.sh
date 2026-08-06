@@ -53,6 +53,13 @@ init_dependencies() {
 }
 
 init_newsgen() {
+    # ship/target lives under the host-bind-mounted SOURCES_DIR/SCRIPTS_DIR, which
+    # persists across separate `docker run` invocations. Reusing it here risks
+    # accumulating build artifacts from different container/toolchain versions
+    # over time, which confuses Cargo's incremental cache (e.g. "found possibly
+    # newer version of crate" errors). Build into a container-local directory
+    # instead, so every run starts from a guaranteed-clean target dir.
+    export CARGO_TARGET_DIR=/tmp/ship-cargo-target
     build_ship
 }
 

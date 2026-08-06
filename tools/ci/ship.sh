@@ -7,10 +7,11 @@ build_ship() {
     cd "${SCRIPTS_DIR}/ship"
     cargo build --release
 
-    if [ -x "${SCRIPTS_DIR}/ship/target/release/ship.exe" ]; then
-        export SHIP="${SCRIPTS_DIR}/ship/target/release/ship.exe"
+    local target_dir="${CARGO_TARGET_DIR:-${SCRIPTS_DIR}/ship/target}"
+    if [ -x "${target_dir}/release/ship.exe" ]; then
+        export SHIP="${target_dir}/release/ship.exe"
     else
-        export SHIP="${SCRIPTS_DIR}/ship/target/release/ship"
+        export SHIP="${target_dir}/release/ship"
     fi
 
     cd "${previous_dir}"
