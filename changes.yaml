@@ -13,8 +13,12 @@ releases:
         Highlights:
         - The Qt version of Workrave has a completely redesigned look: the break windows,
           preferences, exercises, about, and update dialogs have all been rebuilt with a
-          cleaner, more modern interface. This work is currently focused on Windows and
-          macOS; on Linux, Gtk remains the main, recommended version of Workrave, with Qt
+          cleaner, more modern interface. If you prefer the original main window, a toggle
+          in Preferences → General → Use Sanctuary UI switches it back to the classic look;
+          for the break windows, go to Preferences → Status window → Timer layout and
+          select "D · Classic". The preferences and other dialogs are only available in the
+          new layout. This redesign work is currently focused on Windows and macOS;
+          on Linux, Gtk remains the main, recommended version of Workrave, with Qt
           available as an experimental alternative in 1.12
         - Much better support for macOS: Workrave now has a native menu bar and dock icon,
           can lock the screen, sleep, or shut down the computer from a break window, and is
