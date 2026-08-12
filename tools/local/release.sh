@@ -147,6 +147,12 @@ build_macos_dmg() {
         "-DWORKRAVE_SIGN_IDENTITY=${WORKRAVE_SIGN_IDENTITY}" \
         "-DWORKRAVE_NOTARIZE_PROFILE=${WORKRAVE_NOTARIZE_PROFILE}"
 
+    # "translations" (po/*.qm) is an ALL target — only pulled in by a plain
+    # default build. "dmg" depends on "notarize", which depends only on the
+    # "workrave" binary target, so building "dmg" alone never builds
+    # translations, and the install step below fails looking for the .qm
+    # files. Build the default "all" target first so they exist.
+    cmake --build ${MACOS_BUILD_DIR}
     cmake --build ${MACOS_BUILD_DIR} --target dmg
 
     # Checked here, not before the build: the dependencies tree itself is
