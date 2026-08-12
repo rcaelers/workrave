@@ -8,6 +8,7 @@
 #include <atomic>
 #include <array>
 #include <chrono>
+#include <deque>
 #include <map>
 #include <memory>
 #include <mutex>
@@ -48,15 +49,56 @@ namespace workrave::core_shadow
       std::string corenext_detail;
       std::optional<int64_t> core_tick;
       std::optional<int64_t> corenext_tick;
+      std::size_t core_count{0};
+      std::size_t corenext_count{0};
+      std::size_t matched_count{0};
+      std::size_t detail_mismatch_count{0};
+      std::size_t missing_from_core{0};
+      std::size_t missing_from_corenext{0};
+    };
+
+    struct EventComparison
+    {
+      std::string source;
+      int break_id{BREAK_ID_NONE};
+      std::string name;
+      std::string core_detail;
+      std::string corenext_detail;
+      std::optional<int64_t> core_tick;
+      std::optional<int64_t> corenext_tick;
+      std::string result;
+    };
+
+    struct TimerDiscrepancy
+    {
+      bool active{false};
+      int64_t started_at{0};
+      int64_t elapsed_delta{0};
+      int64_t idle_delta{0};
+      int64_t worst_delta{0};
+    };
+
+    struct StateDiscrepancy
+    {
+      bool active{false};
+      int64_t started_at{0};
+      int current_count{0};
+      int worst_count{0};
     };
 
     void record_event_history(const EventObservation &event);
+    void match_and_expire_events(int64_t tick);
+    void record_event_comparison(EventComparison comparison);
 
-    std::vector<EventObservation> live_events;
+    std::vector<EventObservation> pending_events;
     std::map<std::string, EventHistory> event_history;
+    std::deque<EventComparison> recent_event_comparisons;
     mutable std::mutex mutex;
     int64_t max_timer_delta{0};
-    int64_t last_activity_warning_tick{-1};
+    bool activity_differs{false};
+    int64_t activity_difference_started_at{0};
+    std::map<int, TimerDiscrepancy> timer_discrepancies;
+    std::map<int, StateDiscrepancy> state_discrepancies;
   };
 
   class RecordingApp : public workrave::IApp
