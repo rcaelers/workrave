@@ -69,7 +69,7 @@ Core *Core::instance = nullptr;
 workrave::config::IConfigurator::Ptr Core::configurator = nullptr;
 
 const char *WORKRAVESTATE = "WorkRaveState";
-const int SAVESTATETIME = 60;
+const int SAVESTATETIME = 600;
 
 #define DBUS_PATH_WORKRAVE "/org/workrave/Workrave/Core"
 #define DBUS_SERVICE_WORKRAVE "org.workrave.Workrave"
