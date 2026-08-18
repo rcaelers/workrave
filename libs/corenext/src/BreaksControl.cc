@@ -33,7 +33,7 @@
 #include "TimerActivityMonitor.hh"
 
 static const char *WORKRAVESTATE = "WorkRaveState";
-static const int SAVESTATETIME = 60;
+static const int SAVESTATETIME = 600;
 
 using namespace std;
 using namespace workrave;
