@@ -26,53 +26,11 @@ set(APPIMAGE_TOOLS_DIR "${CMAKE_SOURCE_DIR}/_ext/appimage-${CMAKE_SYSTEM_PROCESS
 set(LINUXDEPLOY "${APPIMAGE_TOOLS_DIR}/linuxdeploy-${CMAKE_SYSTEM_PROCESSOR}.AppImage")
 set(LINUXDEPLOY_PLUGIN_GTK "${APPIMAGE_TOOLS_DIR}/linuxdeploy-plugin-gtk.sh")
 
-# These tools are generic (unrelated to this checkout's version), so caching
-# them at configure time, keyed only by architecture, mirrors the FetchContent
-# caching already used for the Windows GTK themes above.
-if (NOT EXISTS "${LINUXDEPLOY}")
-  file(MAKE_DIRECTORY "${APPIMAGE_TOOLS_DIR}")
-  message(STATUS "Downloading linuxdeploy")
-  file(DOWNLOAD
-       "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-${CMAKE_SYSTEM_PROCESSOR}.AppImage"
-       "${LINUXDEPLOY}"
-       STATUS _linuxdeploy_download_status)
-  list(GET _linuxdeploy_download_status 0 _linuxdeploy_download_code)
-  if (NOT _linuxdeploy_download_code EQUAL 0)
-    file(REMOVE "${LINUXDEPLOY}")
-    message(FATAL_ERROR "Failed to download linuxdeploy: ${_linuxdeploy_download_status}")
-  endif()
-
-  # linuxdeploy ships as an AppImage itself, which can't run inside the
-  # containers that build AppImages. Zeroing its embedded AppImage magic
-  # bytes makes it run as a plain extracted ELF instead. See:
-  # https://github.com/AppImage/AppImageKit/issues/965#issuecomment-1333557171
-  find_program(DD_CMD dd REQUIRED)
-  execute_process(COMMAND "${DD_CMD}" if=/dev/zero bs=1 count=3 seek=8 conv=notrunc of=${LINUXDEPLOY}
-                   RESULT_VARIABLE _dd_result)
-  if (NOT _dd_result EQUAL 0)
-    message(FATAL_ERROR "Failed to patch linuxdeploy's AppImage magic bytes")
-  endif()
-
-  file(CHMOD "${LINUXDEPLOY}" PERMISSIONS
-       OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
-endif()
-
-if (NOT EXISTS "${LINUXDEPLOY_PLUGIN_GTK}")
-  file(MAKE_DIRECTORY "${APPIMAGE_TOOLS_DIR}")
-  message(STATUS "Downloading linuxdeploy-plugin-gtk")
-  file(DOWNLOAD
-       "https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-gtk/master/linuxdeploy-plugin-gtk.sh"
-       "${LINUXDEPLOY_PLUGIN_GTK}"
-       STATUS _linuxdeploy_gtk_download_status)
-  list(GET _linuxdeploy_gtk_download_status 0 _linuxdeploy_gtk_download_code)
-  if (NOT _linuxdeploy_gtk_download_code EQUAL 0)
-    file(REMOVE "${LINUXDEPLOY_PLUGIN_GTK}")
-    message(FATAL_ERROR "Failed to download linuxdeploy-plugin-gtk: ${_linuxdeploy_gtk_download_status}")
-  endif()
-
-  file(CHMOD "${LINUXDEPLOY_PLUGIN_GTK}" PERMISSIONS
-       OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
-endif()
+# linuxdeploy and its gtk plugin are only needed to actually produce an
+# AppImage, so they're fetched as a build step of the `appimage` target
+# below (DownloadAppImageTools.cmake) rather than here at configure time.
+# That keeps a plain configure/`ninja` (all) of a GTK Linux build from
+# requiring network access or these packaging-only tools.
 
 # linuxdeploy looks for its plugins on PATH.
 get_filename_component(APPIMAGE_TOOLS_DIR_ABS "${APPIMAGE_TOOLS_DIR}" ABSOLUTE)
@@ -83,6 +41,12 @@ get_filename_component(APPIMAGE_TOOLS_DIR_ABS "${APPIMAGE_TOOLS_DIR}" ABSOLUTE)
 set(APPIMAGE_STAMP "${CMAKE_BINARY_DIR}/appimage.stamp")
 
 add_custom_command(OUTPUT "${APPIMAGE_STAMP}"
+                   COMMAND "${CMAKE_COMMAND}"
+                           "-DAPPIMAGE_TOOLS_DIR=${APPIMAGE_TOOLS_DIR}"
+                           "-DCMAKE_SYSTEM_PROCESSOR=${CMAKE_SYSTEM_PROCESSOR}"
+                           "-DLINUXDEPLOY=${LINUXDEPLOY}"
+                           "-DLINUXDEPLOY_PLUGIN_GTK=${LINUXDEPLOY_PLUGIN_GTK}"
+                           -P "${CMAKE_CURRENT_SOURCE_DIR}/DownloadAppImageTools.cmake"
                    COMMAND "${CMAKE_COMMAND}" -E env
                            "PATH=${APPIMAGE_TOOLS_DIR_ABS}:$ENV{PATH}"
                            "LD_LIBRARY_PATH=${APPIMAGE_APPDIR}/usr/lib:${APPIMAGE_APPDIR}/usr/lib/${CMAKE_SYSTEM_PROCESSOR}-linux-gnu"
