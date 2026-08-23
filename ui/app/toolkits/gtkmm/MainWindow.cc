@@ -199,7 +199,6 @@ MainWindow::init()
 
   realize_if_needed();
   Glib::RefPtr<Gdk::Window> window = get_window();
-  window->set_decorations(Gdk::DECOR_BORDER | Gdk::DECOR_TITLE | Gdk::DECOR_MENU);
 
 #if defined(PLATFORM_OS_WINDOWS)
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
