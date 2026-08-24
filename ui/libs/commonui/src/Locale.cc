@@ -97,8 +97,6 @@ Locale::set_locale(const std::string &code)
     }
   else
     {
-      Platform::unsetenv("LANGUAGE");
-      Platform::unsetenv("LANG");
 #if defined(HAVE_SETLOCALE)
       setlocale(LC_ALL, "");
 #endif
