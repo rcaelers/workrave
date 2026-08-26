@@ -282,7 +282,7 @@ Toolkit::show_about()
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf("workrave.png");
       about_dialog = new Gtk::AboutDialog;
 
-      about_dialog->set_name("Workrave");
+      about_dialog->set_program_name("Workrave");
       std::vector<Glib::ustring> authors;
       for (int index = 0; workrave_authors[index] != nullptr; index++)
         {
