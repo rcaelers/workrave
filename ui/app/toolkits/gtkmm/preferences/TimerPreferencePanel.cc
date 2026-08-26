@@ -52,7 +52,7 @@ TimerPreferencePanel::TimerPreferencePanel(std::shared_ptr<IApplicationContext> 
 {
   break_id = t;
 
-  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 6));
+  Gtk::VBox *box = Gtk::manage(new Gtk::VBox(false, 6));
 
   // Enabled/Disabled checkbox
   Gtk::Label *enabled_lab = Gtk::manage(GtkUtil::create_label(_("Enable timer"), true));
