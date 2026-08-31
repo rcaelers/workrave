@@ -34,7 +34,7 @@
 #if defined(PLATFORM_OS_MACOS)
 #  include "MacOSConfigurator.hh"
 #endif
-#if defined(HAVE_QT)
+#if defined(HAVE_QT) && !defined(PLATFORM_OS_MACOS) && !defined(PLATFORM_OS_WINDOWS)
 #  include "QtSettingsConfigurator.hh"
 #endif
 
