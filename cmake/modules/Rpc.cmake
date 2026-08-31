@@ -369,6 +369,9 @@ macro(rpc_generate_source HEADER DIRECTORY NAME)
       ${NAME}_rpc_source_target ALL
       DEPENDS ${_rpc_adapter_hh} ${_rpc_adapter_cc} ${_rpc_pb_hh} ${_rpc_pb_cc} ${_rpc_grpc_pb_hh} ${_rpc_grpc_pb_cc} ${_rpc_types_pb_hh} ${_rpc_types_pb_cc} ${_rpc_dbus_outputs}
       )
+    if (RPC_CODEGEN_ENABLED)
+      add_dependencies(${NAME}_rpc_source_target clang_rpc_gen_tool)
+    endif()
 
     set_source_files_properties(
       ${_rpc_proto_output} ${_rpc_types_proto_output} ${_rpc_adapter_hh} ${_rpc_adapter_cc} ${_rpc_pb_hh} ${_rpc_pb_cc} ${_rpc_grpc_pb_hh} ${_rpc_grpc_pb_cc} ${_rpc_types_pb_hh} ${_rpc_types_pb_cc} ${_rpc_dbus_outputs}
@@ -506,6 +509,9 @@ macro(rpc_generate_dbus_source HEADER DIRECTORY NAME)
       ${NAME}_rpc_dbus_source_target ALL
       DEPENDS ${_rpc_dbus_hh} ${_rpc_dbus_cc}
       )
+    if (RPC_CODEGEN_ENABLED)
+      add_dependencies(${NAME}_rpc_dbus_source_target clang_rpc_gen_tool)
+    endif()
 
     set_source_files_properties(
       ${_rpc_dbus_proto}
