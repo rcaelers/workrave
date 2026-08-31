@@ -226,7 +226,7 @@ if [ -n "$BUILD_DEB" ]; then
     run_docker_deb
 fi
 
-# generate_blog
+generate_blog
 if [ -z "${DRYRUN}" ]; then
     upload
 fi
