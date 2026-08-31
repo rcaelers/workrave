@@ -70,6 +70,7 @@ public:
 
   auto get_devices() -> std::vector<workrave::audio::SoundDevice>;
   void set_device(const std::string &device_id);
+  auto signal_device_list_changed() -> boost::signals2::signal<void()> &;
 
   static auto events() -> std::list<SoundEvent>
   {

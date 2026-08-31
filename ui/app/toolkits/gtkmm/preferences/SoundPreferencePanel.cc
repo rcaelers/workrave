@@ -41,6 +41,7 @@ SoundPreferencePanel::SoundPreferencePanel(std::shared_ptr<IApplicationContext> 
   , sound_theme(app->get_sound_theme())
 {
   TRACE_ENTRY();
+  connect(sound_theme->signal_device_list_changed(), this, [this]() { update_device_selection(); });
   create_panel();
 }
 

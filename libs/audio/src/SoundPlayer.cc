@@ -170,6 +170,12 @@ SoundPlayer::get_device() const
   return {};
 }
 
+boost::signals2::signal<void()> &
+SoundPlayer::signal_device_list_changed()
+{
+  return device_list_changed_signal;
+}
+
 void
 SoundPlayer::restore_mute()
 {
@@ -190,4 +196,10 @@ SoundPlayer::eos_event()
           must_unmute = true;
         }
     }
+}
+
+void
+SoundPlayer::device_list_changed()
+{
+  device_list_changed_signal();
 }
