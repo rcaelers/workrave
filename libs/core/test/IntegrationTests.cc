@@ -1563,20 +1563,19 @@ TEST_F(IntegrationTest, test_reading_mode_suspend)
   tick(true, 10);
   tick(false, 1400);
 
-  // TODO: restbreak doesn't restart
-  // t = 1680; // Next: 1684
-  // expect(t, "prelude", "break_id=rest_break");
-  // expect(t, "show");
-  // expect(t, "break_event", "break_id=rest_break event=ShowPrelude");
-  // expect(t, "break_event", "break_id=rest_break event=BreakStart");
-  // expect(t + 9, "hide");
-  // expect(t + 9, "break", "break_id=rest_break break_hint=normal");
-  // expect(t + 9, "show");
-  // expect(t + 9, "break_event", "break_id=rest_break event=ShowBreak");
-  // expect(t + 300, "hide");
-  // expect(t + 300, "break_event", "break_id=rest_break event=BreakTaken");
-  // expect(t + 300, "break_event", "break_id=rest_break event=BreakIdle");
-  // expect(t + 300, "break_event", "break_id=rest_break event=BreakStop");
+  t = 1680; // Next: 1684
+  expect(t, "prelude", "break_id=rest_break");
+  expect(t, "show");
+  expect(t, "break_event", "break_id=rest_break event=ShowPrelude");
+  expect(t, "break_event", "break_id=rest_break event=BreakStart");
+  expect(t + 9, "hide");
+  expect(t + 9, "break", "break_id=rest_break break_hint=normal");
+  expect(t + 9, "show");
+  expect(t + 9, "break_event", "break_id=rest_break event=ShowBreak");
+  expect(t + 308, "hide");
+  expect(t + 308, "break_event", "break_id=rest_break event=BreakTaken");
+  expect(t + 308, "break_event", "break_id=rest_break event=BreakIdle");
+  expect(t + 308, "break_event", "break_id=rest_break event=BreakStop");
 
   verify();
 }
