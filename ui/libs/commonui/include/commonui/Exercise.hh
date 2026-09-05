@@ -23,6 +23,8 @@
 #include <utility>
 #include <memory>
 
+#include "utils/Logging.hh"
+
 struct Exercise
 {
 public:
@@ -64,6 +66,7 @@ private:
 private:
   std::list<Exercise> exercises;
   std::string language_code_;
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("ui:exercise")};
 };
 
 #endif // WORKRAVE_UI_EXERCISE_HH

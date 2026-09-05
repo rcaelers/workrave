@@ -22,6 +22,9 @@
 
 #include "commonui/Exercise.hh"
 
+#include <algorithm>
+#include <filesystem>
+#include <list>
 #include <string>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
@@ -115,7 +118,6 @@ ExerciseCollection::parse_exercises(const std::string &file_name)
 
   boost::property_tree::ptree pt;
   read_xml(file_name, pt);
-  exercises.clear();
 
   std::vector<std::string> lang_strings;
   std::vector<const char *> lang_ptrs;
@@ -144,12 +146,14 @@ ExerciseCollection::parse_exercises(const std::string &file_name)
     }
 #endif
 
+  std::list<Exercise> parsed;
+
   for (boost::property_tree::ptree::value_type &v: pt.get_child("exercises"))
     {
       if (v.first == "exercise")
         {
-          exercises.emplace_back();
-          Exercise &exercise = exercises.back();
+          parsed.emplace_back();
+          Exercise &exercise = parsed.back();
 
           int title_lang_rank = -1;
           int description_lang_rank = -1;
@@ -189,7 +193,7 @@ ExerciseCollection::parse_exercises(const std::string &file_name)
     }
 
 #if defined(HAVE_TRACING)
-  for (auto &exercise: exercises)
+  for (auto &exercise: parsed)
     {
       TRACE_MSG("exercise title= {}", exercise.title);
       TRACE_MSG("exercise desc= {}", exercise.description);
@@ -202,6 +206,8 @@ ExerciseCollection::parse_exercises(const std::string &file_name)
       TRACE_MSG("exercise end seq");
     }
 #endif
+
+  exercises.splice(exercises.end(), parsed);
 }
 
 ExerciseCollection::ExerciseCollection()
@@ -213,25 +219,60 @@ ExerciseCollection::ExerciseCollection()
 void
 ExerciseCollection::load()
 {
-  auto main_file = AssetPath::complete_directory("exercises.xml", SearchPathId::Exercises);
+  exercises.clear();
 
-  if (!main_file.empty())
+  std::list<std::filesystem::path> files;
+
+  // The exercises search path and the data directories overlap, so the main
+  // file is normally found twice.
+  auto add_file = [&files](const std::filesystem::path &file) {
+    if (std::find(files.begin(), files.end(), file) == files.end())
+      {
+        files.push_back(file);
+      }
+  };
+
+  // complete_directory returns the bare name when nothing matched, so the result
+  // has to be checked for existence, not for emptiness.
+  auto main_file = std::filesystem::path(AssetPath::complete_directory("exercises.xml", SearchPathId::Exercises));
+  if (std::filesystem::is_regular_file(main_file))
     {
-      parse_exercises(main_file);
+      add_file(main_file);
     }
 
-  for (auto &directory: Paths::get_data_directories())
+  for (const auto &directory: Paths::get_data_directories())
     {
-      auto execises_directory = directory / "exercises";
-      if (std::filesystem::is_directory(execises_directory))
+      auto exercises_directory = directory / "exercises";
+      try
         {
-          for (const auto &file: std::filesystem::directory_iterator(execises_directory))
+          if (!std::filesystem::is_directory(exercises_directory))
+            {
+              continue;
+            }
+
+          for (const auto &file: std::filesystem::directory_iterator(exercises_directory))
             {
               if (file.path().extension() == ".xml")
                 {
-                  parse_exercises(file.path().string());
+                  add_file(file.path());
                 }
             }
+        }
+      catch (std::exception &e)
+        {
+          logger->error("failed to scan {} ({})", exercises_directory.string(), e.what());
+        }
+    }
+
+  for (const auto &file: files)
+    {
+      try
+        {
+          parse_exercises(file.string());
+        }
+      catch (std::exception &e)
+        {
+          logger->error("failed to read exercises from {} ({})", file.string(), e.what());
         }
     }
 }
