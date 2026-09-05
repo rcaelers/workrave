@@ -221,20 +221,23 @@ void
 Break::load_timer_config()
 {
   TRACE_ENTRY();
+  // get_value leaves the target untouched when the key is missing or unparsable.
+  Defaults &def = default_config[break_id];
+
   // Read break limit.
-  int limit;
+  int limit = def.limit;
   config->get_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, limit);
   timer->set_limit(limit);
   timer->set_limit_enabled(limit > 0);
 
   // Read autoreset interval
-  int autoreset;
+  int autoreset = def.auto_reset;
   config->get_value(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, autoreset);
   timer->set_auto_reset(autoreset);
   timer->set_auto_reset_enabled(autoreset > 0);
 
   // Read reset predicate
-  string reset_pred;
+  string reset_pred = def.resetpred;
   config->get_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id, reset_pred);
   if (reset_pred != "")
     {
@@ -242,7 +245,7 @@ Break::load_timer_config()
     }
 
   // Read the snooze time.
-  int snooze;
+  int snooze = def.snooze;
   config->get_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id, snooze);
   timer->set_snooze_interval(snooze);
 
@@ -280,8 +283,10 @@ Break::init_break_control()
 void
 Break::load_break_control_config()
 {
+  Defaults &def = default_config[break_id];
+
   // Maximum number of prelude windows.
-  int max_preludes;
+  int max_preludes = def.max_preludes;
   config->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, max_preludes);
   break_control->set_max_preludes(max_preludes);
 
