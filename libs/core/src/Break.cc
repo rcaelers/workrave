@@ -96,9 +96,9 @@ Break::init(BreakId id, workrave::config::IConfigurator::Ptr config, IApp *app)
   timer = new Timer(break_name);
   break_control = new BreakControl(break_id, break_name, app, timer);
 
+  init_defaults();
   init_timer();
   init_break_control();
-  init_defaults();
 }
 
 //! Destructor.
