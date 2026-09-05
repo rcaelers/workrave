@@ -53,6 +53,7 @@ namespace workrave::utils
   {
   public:
     static const std::list<std::filesystem::path> &get_search_path(SearchPathId type);
+    // Returns path unchanged when no match was found, never an empty string.
     static std::string complete_directory(std::string path, SearchPathId type);
     static bool complete_directory(std::string path, SearchPathId type, std::string &full_path);
 
