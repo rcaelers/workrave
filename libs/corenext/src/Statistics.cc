@@ -22,6 +22,9 @@
 #include "Statistics.hh"
 
 #include <filesystem>
+#include <system_error>
+
+#include <spdlog/spdlog.h>
 
 #if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
@@ -189,8 +192,15 @@ Statistics::day_to_history(DailyStatsImpl *stats)
 
   std::filesystem::path path = Paths::get_state_directory() / "historystats";
 
-  bool exists = std::filesystem::is_regular_file(path);
+  std::error_code ec;
+  bool exists = std::filesystem::is_regular_file(path, ec);
+
   ofstream stats_file(path.string(), ios::app);
+  if (!stats_file)
+    {
+      spdlog::error("failed to open {} for appending history", path.string());
+      return;
+    }
 
   if (!exists)
     {
@@ -198,7 +208,12 @@ Statistics::day_to_history(DailyStatsImpl *stats)
     }
 
   save_day(stats, stats_file);
+
   stats_file.close();
+  if (!stats_file)
+    {
+      spdlog::error("failed to write history to {}", path.string());
+    }
 }
 
 //! Adds the current day to this history.
@@ -234,8 +249,6 @@ Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
       stats_file << misc_stat << " ";
     }
   stats_file << endl;
-
-  stats_file.close();
 }
 
 //! Saves the statistics of the specified day.
@@ -246,12 +259,35 @@ Statistics::save_day(DailyStatsImpl *stats)
   std::filesystem::path tmp_path = std::filesystem::path(path) += ".tmp";
 
   ofstream stats_file(tmp_path.string());
+  if (!stats_file)
+    {
+      spdlog::error("failed to open {} for writing today's statistics", tmp_path.string());
+      return;
+    }
 
   stats_file << WORKRAVESTATS << " " << STATSVERSION << endl;
 
   save_day(stats, stats_file);
 
-  std::filesystem::rename(tmp_path, path);
+  stats_file.close();
+  if (!stats_file)
+    {
+      // Renaming now would replace yesterday's readable statistics with a
+      // truncated file, so leave the old one alone.
+      spdlog::error("failed to write {}; keeping the previous statistics", tmp_path.string());
+      std::error_code ignored;
+      std::filesystem::remove(tmp_path, ignored);
+      return;
+    }
+
+  std::error_code ec;
+  std::filesystem::rename(tmp_path, path, ec);
+  if (ec)
+    {
+      spdlog::error("failed to rename {} to {} ({})", tmp_path.string(), path.string(), ec.message());
+      std::error_code ignored;
+      std::filesystem::remove(tmp_path, ignored);
+    }
 }
 
 //! Add the stats the the history list.
