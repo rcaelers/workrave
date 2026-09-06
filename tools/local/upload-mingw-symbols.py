@@ -19,6 +19,10 @@ keyed on the code id -- the PE timestamp and image size -- which the crash
 server looks up first whenever a module reports a nil debug id. Pass
 --id-source zero for the old behaviour.
 
+That id goes in the MODULE line and becomes the symbol's build_id, the key the
+symbolizer matches. It is not the same thing as --build-id, which records which
+Workrave build shipped the DLL and is stored as the symbol's build_tag.
+
   ./upload-mingw-symbols.py /mingw64/bin -o /tmp/syms
   ./upload-mingw-symbols.py /mingw64/bin --upload \\
       --server https://crashes.workrave.org --product-token <token> --token <bearer>
@@ -103,6 +107,11 @@ class PE:
                     g4 = self.d[draw + 12 : draw + 20]
                     age = struct.unpack_from("<I", self.d, draw + 20)[0]
                     pdb = self.d[draw + 24 : draw + dsize].split(b"\0")[0]
+                    # LLD emits a placeholder record with an empty pdb name and
+                    # "LLD PDB." in the guid. The minidump reports a nil debug id
+                    # for those, so report one here too.
+                    if not pdb:
+                        return NO_DEBUG_ID, None
                     guid = "%08X%04X%04X%s" % (g1, g2, g3, g4.hex().upper())
                     return guid + ("%X" % age), pdb.decode("ascii", "replace")
         return NO_DEBUG_ID, None
@@ -194,11 +203,23 @@ def main():
     ap.add_argument("--channel", default="stable")
     ap.add_argument("--commit", default="msys2", help="provenance recorded with the upload")
     ap.add_argument(
+        "--build-id",
+        help="the build that shipped these DLLs, e.g. 20260723-v1_11_1local; stored as "
+        "the symbol's build_tag. Defaults to the PE code id, which is all an ad-hoc "
+        "run knows.",
+    )
+    ap.add_argument(
         "--id-source",
         choices=("code", "zero"),
         default="code",
         help="what to key a DLL with no CodeView record on: its code id (default) "
         "or the nil debug id the minidump reports",
+    )
+    ap.add_argument(
+        "--include-codeview",
+        action="store_true",
+        help="also emit modules that reference a real pdb; they normally want dump_syms, "
+        "and an export-table file would replace better symbols already uploaded",
     )
     ap.add_argument("--insecure", action="store_true", help="skip TLS verification")
     ap.add_argument("-n", "--dry-run", action="store_true")
@@ -255,12 +276,16 @@ def main():
             print("  skip  %-32s no exports" % name)
             skipped += 1
             continue
+        if debug_id != NO_DEBUG_ID and debug_id != pe.code_id and not args.include_codeview:
+            # A real pdb reference means real symbols exist or can be made. An
+            # export-table file uploaded under that id would replace them.
+            print("  skip  %-32s has a pdb (%s); use dump_syms" % (name, debug_file))
+            skipped += 1
+            continue
+
+        note = "  (code id)" if debug_id == pe.code_id else ""
         if debug_id == NO_DEBUG_ID:
-            note = "  (nil id: every build collides -- use --id-source code)"
-        elif debug_id == pe.code_id:
-            note = "  (code id)"
-        else:
-            note = "  (CodeView; prefer dump_syms)"
+            note = "  (nil id: shared by every build -- use --id-source code)"
         print("  sym   %-32s %5d symbols  id=%-33s%s" % (name, n, debug_id, note))
         generated += 1
 
@@ -275,7 +300,7 @@ def main():
             "version": pe.version() or "0.0.0.0",
             "channel": args.channel,
             "commit": args.commit,
-            "build_id": pe.code_id,
+            "build_id": args.build_id or pe.code_id,
         }
         if args.dry_run:
             print("        would POST %s %s" % (url, fields))
