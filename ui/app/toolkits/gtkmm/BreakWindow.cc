@@ -132,9 +132,12 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
 #if defined(PLATFORM_OS_WINDOWS)
   // Here's the secret: IMMEDIATELY after your window creation, set focus to it
   // THEN position it. So:
-  HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-  SetFocus(hwnd);
-  SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+  HWND hwnd = GtkUtil::get_hwnd(*this, "BreakWindow::BreakWindow");
+  if (hwnd != nullptr)
+    {
+      SetFocus(hwnd);
+      SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    }
 #endif
 
   if (mode == BlockMode::Off)
@@ -730,15 +733,18 @@ BreakWindow::start()
   GtkUtil::set_always_on_top(this, true);
 
 #if defined(PLATFORM_OS_WINDOWS)
-  HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-  if (force_focus_on_break_start && this->head.is_primary())
+  HWND hwnd = GtkUtil::get_hwnd(*this, "BreakWindow::start");
+  if (hwnd != nullptr)
     {
-      TRACE_MSG("Forcing window focus");
-      WindowsForceFocus::ForceWindowFocus(hwnd);
+      if (force_focus_on_break_start && this->head.is_primary())
+        {
+          TRACE_MSG("Forcing window focus");
+          WindowsForceFocus::ForceWindowFocus(hwnd);
+        }
+      // TODO: next two lines taken from original grab() function, which is called after start(). Still needed?
+      SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+      BringWindowToTop(hwnd);
     }
-  // TODO: next two lines taken from original grab() function, which is called after start(). Still needed?
-  SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-  BringWindowToTop(hwnd);
 #endif
 
   // In case the show_all resized the window...
@@ -893,7 +899,7 @@ BreakWindow::refresh_break_window()
   refresh. While the logic here is similar it is adjusted for the specific case of refreshing.
   */
 
-  HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
+  HWND hwnd = GtkUtil::get_hwnd(*this, "BreakWindow::refresh");
   if (hwnd != nullptr)
     {
       // don't enforce topmost while a tooltip is visible, otherwise we could cover the tooltip
