@@ -214,6 +214,7 @@ upload_mingw_symbols() {
         --token "${SYMBOL_UPLOAD_TOKEN}" \
         --channel "${CHANNEL}" \
         --commit "${WORKRAVE_COMMIT_HASH}" \
+        --build-id "${WORKRAVE_BUILD_ID}" \
         || echo "WARNING: MinGW symbol upload failed; crashes in the GTK libraries will not be symbolised"
 }
 
