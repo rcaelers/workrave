@@ -26,6 +26,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 #include <vector>
 #include <ctime>
 #include <cstring>
@@ -134,7 +135,7 @@ private:
 private:
   void save_day(DailyStatsImpl *stats);
   void save_day(DailyStatsImpl *stats, std::ofstream &stats_file);
-  void load(std::ifstream &infile, bool history);
+  void load(std::ifstream &infile, bool history, const std::filesystem::path &path);
 
   void day_to_history(DailyStatsImpl *stats);
   void day_to_remote_history(DailyStatsImpl *stats);

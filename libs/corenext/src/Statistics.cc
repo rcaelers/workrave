@@ -349,7 +349,7 @@ Statistics::load_current_day()
   std::filesystem::path path = Paths::get_state_directory() / "todaystats";
   ifstream stats_file(path.string());
 
-  load(stats_file, false);
+  load(stats_file, false, path);
 
   been_active = true;
 
@@ -365,12 +365,12 @@ Statistics::load_history()
 
   ifstream stats_file(path.string());
 
-  load(stats_file, true);
+  load(stats_file, true, path);
 }
 
 //! Loads the statistics.
 void
-Statistics::load(ifstream &infile, bool history)
+Statistics::load(ifstream &infile, bool history, const std::filesystem::path &path)
 {
   TRACE_ENTRY();
   DailyStatsImpl *stats = nullptr;
@@ -383,6 +383,10 @@ Statistics::load(ifstream &infile, bool history)
       infile >> tag;
 
       ok = (tag == WORKRAVESTATS);
+      if (!ok)
+        {
+          spdlog::error("{} does not look like a statistics file (tag '{}'); ignoring it", path.string(), tag);
+        }
     }
 
   if (ok)
@@ -391,6 +395,10 @@ Statistics::load(ifstream &infile, bool history)
       infile >> version;
 
       ok = (version == STATSVERSION) || (version == 3);
+      if (!ok)
+        {
+          spdlog::error("{} has unsupported statistics version {}; ignoring it", path.string(), version);
+        }
     }
 
   while (ok && !infile.eof())
