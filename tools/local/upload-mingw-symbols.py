@@ -12,11 +12,12 @@ to the nearest preceding export, so a static or inlined function is reported
 under whatever exported symbol sits in front of it. Treat a large +offset in a
 symbolised frame as "this name is wrong", not as a large function.
 
-Because the debug id is all zeros for every build of a given DLL, one symbol
-file serves them all. Regenerate and re-upload whenever the GTK bundle moves,
-or stack traces will be symbolised against the wrong build. The PE timestamp
-and image size are recorded as the upload's build_id so the server keeps a
-record of which build the symbols actually came from.
+A nil debug id is shared by every build of a DLL, so it cannot tell one from
+another: the 2.88.2 glib in the MSYS2 repo and the 2.88.2 our users run report
+different code ids but the same nil debug id. The symbol file is therefore
+keyed on the code id -- the PE timestamp and image size -- which the crash
+server looks up first whenever a module reports a nil debug id. Pass
+--id-source zero for the old behaviour.
 
   ./upload-mingw-symbols.py /mingw64/bin -o /tmp/syms
   ./upload-mingw-symbols.py /mingw64/bin --upload \\
@@ -143,8 +144,12 @@ class PE:
         return sorted(out)
 
 
-def make_sym(pe, name):
+def make_sym(pe, name, id_source="code"):
     debug_id, pdb = pe.debug_id()
+    # A nil debug id is shared by every build of the DLL. The crash server falls
+    # back to the code id for those, so key the file on it instead.
+    if debug_id == NO_DEBUG_ID and id_source == "code":
+        debug_id = pe.code_id
     debug_file = pdb or name
     exports = pe.exports()
     lines = ["MODULE windows %s %s %s" % (pe.arch, debug_id, debug_file)]
@@ -186,6 +191,13 @@ def main():
     ap.add_argument("--token", help="bearer token; also read from GUARDRAIL_SYMBOL_TOKEN")
     ap.add_argument("--channel", default="stable")
     ap.add_argument("--commit", default="msys2", help="provenance recorded with the upload")
+    ap.add_argument(
+        "--id-source",
+        choices=("code", "zero"),
+        default="code",
+        help="what to key a DLL with no CodeView record on: its code id (default) "
+        "or the nil debug id the minidump reports",
+    )
     ap.add_argument("--insecure", action="store_true", help="skip TLS verification")
     ap.add_argument("-n", "--dry-run", action="store_true")
     args = ap.parse_args()
@@ -236,13 +248,18 @@ def main():
             skipped += 1
             continue
 
-        sym, debug_file, debug_id, n = make_sym(pe, name)
+        sym, debug_file, debug_id, n = make_sym(pe, name, args.id_source)
         if n == 0:
             print("  skip  %-32s no exports" % name)
             skipped += 1
             continue
-        note = "" if debug_id == NO_DEBUG_ID else "  (has a CodeView record; prefer dump_syms)"
-        print("  sym   %-32s %5d symbols  id=%s%s" % (name, n, debug_id[:8] + "...", note))
+        if debug_id == NO_DEBUG_ID:
+            note = "  (nil id: every build collides -- use --id-source code)"
+        elif debug_id == pe.code_id:
+            note = "  (code id)"
+        else:
+            note = "  (CodeView; prefer dump_syms)"
+        print("  sym   %-32s %5d symbols  id=%-33s%s" % (name, n, debug_id, note))
         generated += 1
 
         if args.output:
