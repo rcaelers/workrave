@@ -185,6 +185,38 @@ upload_symbols() {
     fi
 }
 
+upload_mingw_symbols() {
+    # The GTK stack we bundle comes from MSYS2 without debug info, so its
+    # symbols are recovered from the export tables instead. Read them from the
+    # staged install tree rather than /mingw64/bin, so they describe the DLLs
+    # this release actually ships.
+    local BIN_DIR=${MINGW_SYMBOLS_DIR:-${SOURCES_DIR}/_output/Release/bin}
+
+    if ! command -v python3 >/dev/null 2>&1; then
+        echo "python3 not found, skipping MinGW symbol upload"
+        return
+    fi
+    if [ ! -d "${BIN_DIR}" ]; then
+        echo "No staged bin directory at ${BIN_DIR}, skipping MinGW symbol upload"
+        return
+    fi
+
+    local SYMBOL_UPLOAD_TOKEN
+    SYMBOL_UPLOAD_TOKEN=$(curl -ksf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.symbol_upload.production" | jq -r .value)
+
+    # Everything else is already published by now, so a symbol upload that fails
+    # is worth shouting about but not worth failing the release over.
+    python3 "${SCRIPTS_DIR}/local/upload-mingw-symbols.py" "${BIN_DIR}" \
+        --upload \
+        --insecure \
+        --server "${SYMBOL_SERVER_URL}" \
+        --product-token hyltb0goi8jblxonczzw3fsi \
+        --token "${SYMBOL_UPLOAD_TOKEN}" \
+        --channel "${CHANNEL}" \
+        --commit "${WORKRAVE_COMMIT_HASH}" \
+        || echo "WARNING: MinGW symbol upload failed; crashes in the GTK libraries will not be symbolised"
+}
+
 appcast_git_push() {
     local APPCAST_REPO_URL=git@github.com:rcaelers/workrave-appcast.git
     local APPCAST_REPO_DIR=${WORKSPACE}/workrave-appcast
@@ -331,4 +363,5 @@ if [ -z "${DRYRUN}" ]; then
     catalog
     appcast
     upload_symbols
+    upload_mingw_symbols
 fi
