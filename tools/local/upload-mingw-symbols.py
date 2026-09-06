@@ -21,7 +21,9 @@ server looks up first whenever a module reports a nil debug id. Pass
 
 That id goes in the MODULE line and becomes the symbol's build_id, the key the
 symbolizer matches. It is not the same thing as --build-id, which records which
-Workrave build shipped the DLL and is stored as the symbol's build_tag.
+Workrave build shipped the DLL and is stored as the symbol's build_tag, nor
+--version, which records the Workrave release rather than the library's own
+version. Where one library build shipped in several releases, name the first.
 
   ./upload-mingw-symbols.py /mingw64/bin -o /tmp/syms
   ./upload-mingw-symbols.py /mingw64/bin --upload \\
@@ -203,6 +205,11 @@ def main():
     ap.add_argument("--channel", default="stable")
     ap.add_argument("--commit", default="msys2", help="provenance recorded with the upload")
     ap.add_argument(
+        "--version",
+        help="the Workrave version these DLLs shipped in, e.g. 1.11.1. Defaults to the "
+        "DLL's own FileVersion, which describes the library rather than the release.",
+    )
+    ap.add_argument(
         "--build-id",
         help="the build that shipped these DLLs, e.g. 20260723-v1_11_1local; stored as "
         "the symbol's build_tag. Defaults to the PE code id, which is all an ad-hoc "
@@ -297,7 +304,7 @@ def main():
             continue
         url = "%s/api/symbols/%s/upload" % (args.server.rstrip("/"), args.product_token)
         fields = {
-            "version": pe.version() or "0.0.0.0",
+            "version": args.version or pe.version() or "0.0.0.0",
             "channel": args.channel,
             "commit": args.commit,
             "build_id": args.build_id or pe.code_id,
