@@ -150,7 +150,9 @@ def make_sym(pe, name, id_source="code"):
     # back to the code id for those, so key the file on it instead.
     if debug_id == NO_DEBUG_ID and id_source == "code":
         debug_id = pe.code_id
-    debug_file = pdb or name
+    # The CodeView record often holds the linker's full path; the minidump
+    # reports only the basename, so key on that.
+    debug_file = os.path.basename(pdb.replace("\\", "/")) if pdb else name
     exports = pe.exports()
     lines = ["MODULE windows %s %s %s" % (pe.arch, debug_id, debug_file)]
     lines.append("INFO CODE_ID %s %s" % (pe.code_id, name))
