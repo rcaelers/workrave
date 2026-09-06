@@ -23,6 +23,9 @@
 #include <list>
 #include <mutex>
 #include <exception>
+#include <atomic>
+#include <cstdlib>
+#include <typeinfo>
 
 #include "crash/CrashReporter.hh"
 
@@ -43,6 +46,56 @@
 #endif
 
 using namespace workrave::crash;
+
+namespace
+{
+  std::terminate_handler previous_terminate_handler{nullptr};
+
+  // Logs the pending exception, which std::terminate would otherwise discard.
+  [[noreturn]] void log_and_terminate()
+  {
+    static std::atomic_flag reported = ATOMIC_FLAG_INIT;
+    if (!reported.test_and_set())
+      {
+        // Nothing here may stop the abort below: that is what triggers the dump.
+        try
+          {
+            try
+              {
+                auto pending = std::current_exception();
+                if (pending)
+                  {
+                    std::rethrow_exception(pending);
+                  }
+                spdlog::critical("terminate called without an active exception");
+              }
+            catch (const std::exception &e)
+              {
+                spdlog::critical("terminate called after throwing {}: {}", typeid(e).name(), e.what());
+              }
+            catch (...)
+              {
+                spdlog::critical("terminate called after throwing an unknown exception");
+              }
+
+            // The log is attached to the report, so it has to reach disk before abort.
+            if (auto logger = spdlog::default_logger())
+              {
+                logger->flush();
+              }
+          }
+        catch (...)
+          {
+          }
+      }
+
+    if (previous_terminate_handler != nullptr && previous_terminate_handler != log_and_terminate)
+      {
+        previous_terminate_handler();
+      }
+    std::abort();
+  }
+} // namespace
 
 class CrashReporter::Pimpl
 {
@@ -236,6 +289,9 @@ CrashReporter::Pimpl::init()
       if (success)
         {
           crashpad::CrashpadClient::SetFirstChanceExceptionHandler(&CrashReporter::Pimpl::crashpad_handler);
+
+          // Only once the handler is up, so terminate always reaches a running dumper.
+          previous_terminate_handler = std::set_terminate(log_and_terminate);
         }
       else
         {
