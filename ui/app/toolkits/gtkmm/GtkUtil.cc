@@ -24,6 +24,8 @@
 
 #include "commonui/nls.h"
 
+#include <spdlog/spdlog.h>
+
 #include "debug.hh"
 
 #include <glib-object.h>
@@ -490,13 +492,32 @@ GtkUtil::create_image(const std::string &name)
   return ret;
 }
 
+#if defined(PLATFORM_OS_WINDOWS)
+HWND
+GtkUtil::get_hwnd(Gtk::Widget &widget, const char *context)
+{
+  GdkWindow *gdk_window = gtk_widget_get_window(widget.Gtk::Widget::gobj());
+  if (gdk_window == nullptr)
+    {
+      // Realized once, so this means the window was unrealized again while we
+      // were still working with it. Log where, and let the caller skip.
+      spdlog::error("{}: widget has no window; it is not realized", context);
+      return nullptr;
+    }
+  return static_cast<HWND>(GDK_WINDOW_HWND(gdk_window));
+}
+#endif
+
 void
 GtkUtil::set_always_on_top(Gtk::Window *window, bool ontop)
 {
 #if defined(PLATFORM_OS_WINDOWS)
 
-  HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET(window->gobj())));
-  WindowsCompat::SetWindowOnTop(hwnd, ontop);
+  HWND hwnd = get_hwnd(*window, "GtkUtil::set_always_on_top");
+  if (hwnd != nullptr)
+    {
+      WindowsCompat::SetWindowOnTop(hwnd, ontop);
+    }
 
 #else
 
