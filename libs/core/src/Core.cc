@@ -635,8 +635,8 @@ Core::update_active_operation_mode()
         }
       else if (previous_mode == OperationMode::Suspended)
         {
-          // stop_all_breaks again will reset insensitive mode (that is good)
           stop_all_breaks();
+          set_insensitive_mode_all_breaks(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
           monitor->resume();
         }
 

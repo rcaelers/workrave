@@ -56,7 +56,7 @@
     "eslint-config-oclif": "^6.0.154",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
-    "mocha": "^11.3.0",
+    "mocha": "^12.0.0",
     "oclif": "^4.22.96",
     "prettier": "^3.8.1",
     "rimraf": "^6.1.3",
