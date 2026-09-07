@@ -302,7 +302,7 @@ PreludeWindow::refresh()
 
 #if defined(PLATFORM_OS_WINDOWS)
   // Vista GTK phantom toplevel parent kludge:
-  HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
+  HWND hwnd = GtkUtil::get_hwnd(*this, "PreludeWindow::refresh");
   if (hwnd != nullptr)
     {
       HWND hAncestor = GetAncestor(hwnd, GA_ROOT);

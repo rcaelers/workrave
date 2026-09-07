@@ -206,7 +206,15 @@ Configurator::get_value(const std::string &key, ConfigType type) const
 
   if (!ret.has_value())
     {
-      ret = backend->get_value(ckey, type);
+      try
+        {
+          ret = backend->get_value(ckey, type);
+        }
+      catch (boost::bad_lexical_cast &e)
+        {
+          // Stored value cannot be converted to the requested type.
+          logger->error("failed to read {} ({})", ckey, e.what());
+        }
     }
 
   return ret;
@@ -225,8 +233,9 @@ Configurator::get_value(const std::string &key, std::string &out) const
           return true;
         }
     }
-  catch (boost::bad_lexical_cast &)
+  catch (boost::bad_lexical_cast &e)
     {
+      logger->error("failed to convert {} ({})", key, e.what());
     }
 
   return false;
@@ -245,8 +254,9 @@ Configurator::get_value(const std::string &key, bool &out) const
           return true;
         }
     }
-  catch (boost::bad_lexical_cast &)
+  catch (boost::bad_lexical_cast &e)
     {
+      logger->error("failed to convert {} ({})", key, e.what());
     }
 
   return false;
@@ -265,8 +275,9 @@ Configurator::get_value(const std::string &key, int32_t &out) const
           return true;
         }
     }
-  catch (boost::bad_lexical_cast &)
+  catch (boost::bad_lexical_cast &e)
     {
+      logger->error("failed to convert {} ({})", key, e.what());
     }
 
   return false;
@@ -285,8 +296,9 @@ Configurator::get_value(const std::string &key, int64_t &out) const
           return true;
         }
     }
-  catch (boost::bad_lexical_cast &)
+  catch (boost::bad_lexical_cast &e)
     {
+      logger->error("failed to convert {} ({})", key, e.what());
     }
 
   return false;
@@ -305,8 +317,9 @@ Configurator::get_value(const std::string &key, double &out) const
           return true;
         }
     }
-  catch (boost::bad_lexical_cast &)
+  catch (boost::bad_lexical_cast &e)
     {
+      logger->error("failed to convert {} ({})", key, e.what());
     }
 
   return false;

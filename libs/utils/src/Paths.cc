@@ -21,6 +21,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <array>
 #include <filesystem>
 
 #include "utils/Paths.hh"

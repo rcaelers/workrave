@@ -22,6 +22,11 @@
 
 #include <string>
 
+#if defined(PLATFORM_OS_WINDOWS)
+struct HWND__;
+using HWND = HWND__ *;
+#endif
+
 #include "core/CoreTypes.hh"
 
 class HeadInfo;
@@ -73,6 +78,15 @@ public:
   static Gtk::Image *create_image(const std::string &name);
 
   static void set_always_on_top(Gtk::Window *window, bool ontop);
+
+#if defined(PLATFORM_OS_WINDOWS)
+  /// The native handle, or nullptr when the widget has no GdkWindow yet.
+  ///
+  /// GDK_WINDOW_HWND dereferences the GdkWindow without checking it, so
+  /// passing the nullptr that gtk_widget_get_window returns for an unrealized
+  /// widget faults inside libgdk. `context` names the caller in the log.
+  static HWND get_hwnd(Gtk::Widget &widget, const char *context);
+#endif
 
   static void override_color(const std::string &color_name, const std::string &widget_name, Gdk::RGBA &color);
   static void override_bg_color(const std::string &color_name, const std::string &widget_name, Gdk::RGBA &color);

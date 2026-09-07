@@ -19,6 +19,9 @@
 #  include "config.h"
 #endif
 
+#include <spdlog/spdlog.h>
+
+#include "GtkUtil.hh"
 #include "ToolkitWindows.hh"
 
 #include <cstddef>
@@ -158,11 +161,20 @@ static GUID GUID_DEVINTERFACE_MONITOR = {0xe6f07b5f, 0xee97, 0x4a90, {0xb0, 0x76
 void
 ToolkitWindows::init_filter()
 {
-  main_window->get_window()->add_filter(static_filter_func, this);
+  if (main_window == nullptr)
+    {
+      spdlog::error("ToolkitWindows::init_filter: no main window");
+      return;
+    }
 
-  auto *window = (GtkWidget *)main_window->gobj();
-  GdkWindow *gdk_window = gtk_widget_get_window(window);
-  HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
+  // Before add_filter below, which dereferences the same window.
+  HWND hwnd = GtkUtil::get_hwnd(*main_window, "ToolkitWindows::init_filter");
+  if (hwnd == nullptr)
+    {
+      return;
+    }
+
+  main_window->get_window()->add_filter(static_filter_func, this);
 
   WTSRegisterSessionNotification(hwnd, NOTIFY_FOR_THIS_SESSION);
   DEV_BROADCAST_DEVICEINTERFACE notification;
@@ -305,7 +317,11 @@ ToolkitWindows::filter_func(MSG *msg)
 HWND
 ToolkitWindows::get_event_hwnd() const
 {
-  return (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(main_window->Gtk::Widget::gobj()));
+  if (main_window == nullptr)
+    {
+      return nullptr;
+    }
+  return GtkUtil::get_hwnd(*main_window, "ToolkitWindows::get_event_hwnd");
 }
 
 std::shared_ptr<Locker>

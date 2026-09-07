@@ -124,25 +124,34 @@ W32Configurator::get_value(const std::string &key, ConfigType type) const
 
   if (rc)
     {
-      switch (type)
+      // A registry value that does not parse is a failed read, as in the other
+      // backends; letting bad_lexical_cast escape terminated the process.
+      try
         {
-        case ConfigType::Int32:
-          return boost::lexical_cast<int32_t>(value);
+          switch (type)
+            {
+            case ConfigType::Int32:
+              return boost::lexical_cast<int32_t>(value);
 
-        case ConfigType::Int64:
-          return boost::lexical_cast<int64_t>(value);
+            case ConfigType::Int64:
+              return boost::lexical_cast<int64_t>(value);
 
-        case ConfigType::Boolean:
-          return boost::lexical_cast<bool>(value);
+            case ConfigType::Boolean:
+              return boost::lexical_cast<bool>(value);
 
-        case ConfigType::Double:
-          return boost::lexical_cast<double>(value);
+            case ConfigType::Double:
+              return boost::lexical_cast<double>(value);
 
-        case ConfigType::Unknown:
-          [[fallthrough]];
+            case ConfigType::Unknown:
+              [[fallthrough]];
 
-        case ConfigType::String:
-          return value;
+            case ConfigType::String:
+              return value;
+            }
+        }
+      catch (boost::bad_lexical_cast &e)
+        {
+          logger->error("failed to read {} = '{}' ({})", key, value, e.what());
         }
     }
   return {};

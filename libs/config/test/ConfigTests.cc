@@ -389,7 +389,6 @@ namespace helper
 
 ::testing::Environment *const config_test_global_fixture = ::testing::AddGlobalTestEnvironment(new GlobalFixture);
 
-
 using backend_types = ::testing::Types<IniConfigurator,
                                        XmlConfigurator
 #if defined(HAVE_GSETTINGS)
@@ -417,19 +416,28 @@ using non_file_backend_types = ::testing::Types<GSettingsConfigurator>;
 using file_backend_types = ::testing::Types<XmlConfigurator, IniConfigurator>;
 
 template<typename T>
-class ConfigTest : public Fixture, public ::testing::Test
-{};
+class ConfigTest
+  : public Fixture
+  , public ::testing::Test
+{
+};
 TYPED_TEST_SUITE(ConfigTest, backend_types);
 
 template<typename T>
-class ConfigFileTest : public Fixture, public ::testing::Test
-{};
+class ConfigFileTest
+  : public Fixture
+  , public ::testing::Test
+{
+};
 TYPED_TEST_SUITE(ConfigFileTest, file_backend_types);
 
 #if defined(HAVE_GSETTINGS)
 template<typename T>
-class ConfigNonFileTest : public Fixture, public ::testing::Test
-{};
+class ConfigNonFileTest
+  : public Fixture
+  , public ::testing::Test
+{
+};
 TYPED_TEST_SUITE(ConfigNonFileTest, non_file_backend_types);
 #endif
 
@@ -514,6 +522,24 @@ TYPED_TEST(ConfigTest, test_configurator_int32)
   EXPECT_EQ(ok, true);
   EXPECT_EQ(value, 22);
 }
+
+#if defined(PLATFORM_OS_WINDOWS)
+TYPED_TEST(ConfigTest, test_configurator_int32_unconvertible)
+{
+  using T = TypeParam;
+  this->template init<T>();
+
+  this->configurator->set_value("test/schema-defaults/int32", "not-a-number");
+
+  int32_t value{4242};
+  bool ok{true};
+  ok = this->configurator->get_value("test/schema-defaults/int32", value);
+  if (!ok)
+    {
+      EXPECT_EQ(value, 4242);
+    }
+}
+#endif
 
 TYPED_TEST(ConfigTest, test_configurator_int64)
 {
@@ -2034,4 +2060,3 @@ TYPED_TEST(ConfigTest, test_settings_group_connect_tracked)
   this->setting_int32().set(1054);
   EXPECT_EQ(fired, 2);
 };
-
