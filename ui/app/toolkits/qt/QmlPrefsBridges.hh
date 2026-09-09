@@ -56,6 +56,7 @@ class MicrobreakPrefBridge : public QObject
   // Break window options
   Q_PROPERTY(bool showPostpone  READ showPostpone  WRITE setShowPostpone  NOTIFY optionsChanged)
   Q_PROPERTY(bool showSkip      READ showSkip      WRITE setShowSkip      NOTIFY optionsChanged)
+  Q_PROPERTY(bool quietMode     READ quietMode     WRITE setQuietMode     NOTIFY optionsChanged)
   Q_PROPERTY(bool preludeEnabled READ preludeEnabled WRITE setPreludeEnabled NOTIFY optionsChanged)
   Q_PROPERTY(bool hasMaxPreludes READ hasMaxPreludes NOTIFY optionsChanged)
   Q_PROPERTY(int  maxPreludes   READ maxPreludes   NOTIFY optionsChanged)
@@ -77,6 +78,8 @@ public:
   Q_INVOKABLE void setShowPostpone(bool v);
   bool showSkip() const;
   Q_INVOKABLE void setShowSkip(bool v);
+  bool quietMode() const;
+  Q_INVOKABLE void setQuietMode(bool v);
   bool preludeEnabled() const;
   Q_INVOKABLE void setPreludeEnabled(bool v);
   bool hasMaxPreludes() const;
