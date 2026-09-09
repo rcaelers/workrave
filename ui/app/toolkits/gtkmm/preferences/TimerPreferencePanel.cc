@@ -138,6 +138,7 @@ TimerPreferencePanel::create_options_panel()
   monitor_cb = nullptr;
   auto_natural_cb = nullptr;
   allow_shutdown_cb = nullptr;
+  quiet_cb = nullptr;
 
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
@@ -164,6 +165,14 @@ TimerPreferencePanel::create_options_panel()
       hig->add_widget(*allow_shutdown_cb);
 
       connector->connect(GUIConfig::break_enable_shutdown(break_id), dc::wrap(allow_shutdown_cb));
+    }
+
+  if (break_id == BREAK_ID_MICRO_BREAK)
+    {
+      quiet_cb = Gtk::manage(new Gtk::CheckButton(_("Break in quiet-mode")));
+      hig->add_widget(*quiet_cb);
+
+      connector->connect(CoreConfig::break_quiet_mode(break_id), dc::wrap(quiet_cb));
     }
 
   connector->connect(GUIConfig::break_ignorable(break_id), dc::wrap(ignorable_cb));
@@ -331,6 +340,10 @@ TimerPreferencePanel::enable_buttons()
   if (allow_shutdown_cb != nullptr)
     {
       allow_shutdown_cb->set_sensitive(on);
+    }
+  if (quiet_cb != nullptr)
+    {
+      quiet_cb->set_sensitive(on);
     }
   // max_prelude_spin->set_sensitive(on);
 }

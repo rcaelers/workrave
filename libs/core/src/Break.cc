@@ -169,6 +169,8 @@ Break::init_defaults()
   config->set_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, def.max_preludes, workrave::config::CONFIG_FLAG_INITIAL);
 
   config->set_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, true, workrave::config::CONFIG_FLAG_INITIAL);
+
+  config->set_value(CoreConfig::CFG_KEY_BREAK_QUIET_MODE % break_id, false, workrave::config::CONFIG_FLAG_INITIAL);
 }
 
 //! Returns the id of the break
@@ -300,6 +302,14 @@ Break::load_break_control_config()
     {
       enabled = new_enabled;
       Diagnostics::instance().report(break_name + ".break.enabled", enabled);
+
+  // If this break is configured to behave as in quiet mode, stop an active
+  // break, just like entering global quiet mode stops all breaks.
+  bool quiet_mode = false;
+  config->get_value_with_default(CoreConfig::CFG_KEY_BREAK_QUIET_MODE % break_id, quiet_mode, false);
+  if (quiet_mode && break_control != nullptr && break_control->is_active())
+    {
+      break_control->stop_break();
     }
 }
 
