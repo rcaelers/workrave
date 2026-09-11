@@ -126,8 +126,15 @@ Statistics::delete_all_history()
 {
   update();
 
+  // Called from a dialog button, a glibmm slot: an exception here is fatal.
+  std::error_code ec;
   std::filesystem::path histpath = Paths::get_state_directory() / "historystats";
-  if (std::filesystem::is_regular_file(histpath) && std::filesystem::remove(histpath))
+  bool history_removed = std::filesystem::is_regular_file(histpath, ec) && std::filesystem::remove(histpath, ec);
+  if (ec)
+    {
+      spdlog::error("failed to delete {} ({})", histpath.string(), ec.message());
+    }
+  if (history_removed)
     {
       return false;
     }
@@ -140,7 +147,13 @@ Statistics::delete_all_history()
   history.clear();
 
   std::filesystem::path todaypath = Paths::get_state_directory() / "todaystats";
-  if (std::filesystem::is_regular_file(todaypath) && std::filesystem::remove(todaypath))
+  ec.clear();
+  bool today_removed = std::filesystem::is_regular_file(todaypath, ec) && std::filesystem::remove(todaypath, ec);
+  if (ec)
+    {
+      spdlog::error("failed to delete {} ({})", todaypath.string(), ec.message());
+    }
+  if (today_removed)
     {
       return false;
     }
