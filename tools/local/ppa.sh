@@ -52,7 +52,26 @@ init_dependencies() {
     apt-get -y -q -V --no-install-recommends install ca-certificates curl dirmngr gnupg libgnome-panel-dev
 }
 
+# Changelog pre-generated on the host by `ship release`, if any.
+pregenerated_changelog() {
+    echo "${DEPLOY_DIR}/newsgen/debian-changelog-$1"
+}
+
 init_newsgen() {
+    # Building ship in the container is slow (cold cargo cache), so skip it
+    # when `ship release` already generated the changelogs for every series.
+    local series
+    local missing=
+    for series in ${WORKRAVE_PPA_SERIES}; do
+        if [ ! -f "$(pregenerated_changelog $series)" ]; then
+            missing=1
+        fi
+    done
+    if [ -z "$missing" ]; then
+        echo "Using pre-generated changelogs from ${DEPLOY_DIR}/newsgen"
+        return
+    fi
+
     # ship/target lives under the host-bind-mounted SOURCES_DIR/SCRIPTS_DIR, which
     # persists across separate `docker run` invocations. Reusing it here risks
     # accumulating build artifacts from different container/toolchain versions
@@ -79,6 +98,12 @@ build_sources() {
 
 build_changelog() {
     series=$1
+    changelog="$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}/debian/changelog"
+
+    if [ -f "$(pregenerated_changelog $series)" ]; then
+        cp "$(pregenerated_changelog $series)" "$changelog"
+        return
+    fi
 
     cd /
     run_ship newsgen \
@@ -86,7 +111,7 @@ build_changelog() {
         --ubuntu $series \
         --increment $PPA \
         --template debian-changelog \
-        --output "$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}/debian/changelog"
+        --output "$changelog"
 }
 
 ensure_gpg_public_key() {
@@ -160,13 +185,14 @@ build_single() {
 }
 
 build_all() {
-    for series in stonking resolute noble jammy; do
+    for series in ${WORKRAVE_PPA_SERIES}; do
         build_single $series
     done
 }
 
 DRYRUN=
 PRERELEASE=
+WORKRAVE_PPA_SERIES="${WORKRAVE_PPA_SERIES:-stonking resolute noble jammy}"
 if [ -z "${SIGNING_SERVICE_URL:-}" ]; then
     echo "error: SIGNING_SERVICE_URL is not set" 1>&2
     exit 1
