@@ -138,6 +138,14 @@ Item {
                 checked: root.bridge ? root.bridge.showSkip : true
                 onToggled: (v) => { if (root.bridge) root.bridge.setShowSkip(v) }
             }
+
+            PrefToggleRow {
+                width: parent.width
+                label: qsTr("Break in quiet-mode")
+                hint:  qsTr("When on, micro-breaks behave as if Workrave were in quiet mode: no break windows will appear.")
+                checked: root.bridge ? root.bridge.quietMode : false
+                onToggled: (v) => { if (root.bridge) root.bridge.setQuietMode(v) }
+            }
         }
     }
 }

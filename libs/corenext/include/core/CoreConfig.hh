@@ -42,6 +42,7 @@ public:
 
   static workrave::config::Setting<int> &break_max_preludes(workrave::BreakId break_id);
   static workrave::config::Setting<bool> &break_enabled(workrave::BreakId break_id);
+  static workrave::config::Setting<bool> &break_quiet_mode(workrave::BreakId break_id);
 
   static workrave::config::Setting<int> &monitor_noise();
   static workrave::config::Setting<int> &monitor_activity();
@@ -78,6 +79,7 @@ private:
   static const std::string CFG_KEY_BREAK;
   static const std::string CFG_KEY_BREAK_MAX_PRELUDES;
   static const std::string CFG_KEY_BREAK_ENABLED;
+  static const std::string CFG_KEY_BREAK_QUIET_MODE;
 
   static const std::string CFG_KEY_MONITOR;
   static const std::string CFG_KEY_MONITOR_NOISE;

@@ -1268,6 +1268,12 @@ Core::timer_action(BreakId id, TimerInfo info)
       return;
     }
 
+  // No break window when this break is configured to behave as in quiet mode.
+  if (info.event == TIMER_EVENT_LIMIT_REACHED && CoreConfig::break_quiet_mode(id)())
+    {
+      return;
+    }
+
   BreakControl *breaker = breaks[id].get_break_control();
 
   assert(breaker != nullptr);

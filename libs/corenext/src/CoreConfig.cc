@@ -48,6 +48,7 @@ const string CoreConfig::CFG_KEY_BREAKS = "breaks";
 const string CoreConfig::CFG_KEY_BREAK = "breaks/%b";
 const string CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES = "breaks/%b/max_preludes";
 const string CoreConfig::CFG_KEY_BREAK_ENABLED = "breaks/%b/enabled";
+const string CoreConfig::CFG_KEY_BREAK_QUIET_MODE = "breaks/%b/quiet_mode";
 const string CoreConfig::CFG_KEY_MONITOR = "monitor";
 const string CoreConfig::CFG_KEY_MONITOR_NOISE = "monitor/noise";
 const string CoreConfig::CFG_KEY_MONITOR_ACTIVITY = "monitor/activity";
@@ -130,6 +131,8 @@ CoreConfig::init(IConfigurator::Ptr config)
       config->set_value(CoreConfig::break_max_preludes(break_id).key(), def.max_preludes, CONFIG_FLAG_INITIAL);
 
       config->set_value(CoreConfig::break_enabled(break_id).key(), true, CONFIG_FLAG_INITIAL);
+
+      config->set_value(CoreConfig::break_quiet_mode(break_id).key(), false, CONFIG_FLAG_INITIAL);
     }
 
   config->set_value(CoreConfig::timer_daily_limit_use_micro_break_activity().key(), false, CONFIG_FLAG_INITIAL);
@@ -233,6 +236,12 @@ Setting<bool> &
 CoreConfig::break_enabled(workrave::BreakId break_id)
 {
   return SettingCache::get<bool>(config, expand(CFG_KEY_BREAK_ENABLED, break_id));
+}
+
+Setting<bool> &
+CoreConfig::break_quiet_mode(workrave::BreakId break_id)
+{
+  return SettingCache::get<bool>(config, expand(CFG_KEY_BREAK_QUIET_MODE, break_id), false);
 }
 
 Setting<int> &

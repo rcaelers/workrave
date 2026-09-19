@@ -49,6 +49,7 @@ const string CoreConfig::CFG_KEY_BREAKS = "breaks";
 const string CoreConfig::CFG_KEY_BREAK = "breaks/%b";
 const string CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES = "breaks/%b/max_preludes";
 const string CoreConfig::CFG_KEY_BREAK_ENABLED = "breaks/%b/enabled";
+const string CoreConfig::CFG_KEY_BREAK_QUIET_MODE = "breaks/%b/quiet_mode";
 const string CoreConfig::CFG_KEY_MONITOR = "monitor";
 const string CoreConfig::CFG_KEY_MONITOR_NOISE = "monitor/noise";
 const string CoreConfig::CFG_KEY_MONITOR_ACTIVITY = "monitor/activity";
@@ -222,6 +223,12 @@ Setting<bool> &
 CoreConfig::break_enabled(workrave::BreakId break_id)
 {
   return SettingCache::get<bool>(config, expand(CFG_KEY_BREAK_ENABLED, break_id));
+}
+
+Setting<bool> &
+CoreConfig::break_quiet_mode(workrave::BreakId break_id)
+{
+  return SettingCache::get<bool>(config, expand(CFG_KEY_BREAK_QUIET_MODE, break_id), false);
 }
 
 Setting<int> &

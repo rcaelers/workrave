@@ -218,7 +218,8 @@ BreaksControl::process_timers(bool user_is_active)
             {
             case TIMER_EVENT_LIMIT_REACHED:
               TRACE_MSG("limit reached {}", break_id);
-              if (!breaks[break_id]->is_active() && modes->get_active_operation_mode() == OperationMode::Normal)
+              if (!breaks[break_id]->is_active() && modes->get_active_operation_mode() == OperationMode::Normal
+                  && !CoreConfig::break_quiet_mode(break_id)())
                 {
                   start_break(break_id);
                 }
