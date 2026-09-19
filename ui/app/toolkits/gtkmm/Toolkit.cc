@@ -75,6 +75,7 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   Glib::set_prgname("org.workrave.Workrave");
   gapp = Gtk::Application::create(argc, argv, "org.workrave.Workrave");
   init_css();
+  gtk_icon_theme_add_resource_path(gtk_icon_theme_get_default(), "/workrave/icons/scalable");
 
   menu_model = app->get_menu_model();
   sound_theme = app->get_sound_theme();
@@ -106,8 +107,6 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
 
   init_multihead();
   init_debug();
-
-  gtk_icon_theme_add_resource_path(gtk_icon_theme_get_default(), "/workrave/icons/scalable");
 }
 
 void

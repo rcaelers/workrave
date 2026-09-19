@@ -22,6 +22,11 @@
 #include "ToolkitMenu.hh"
 #include "commonui/MenuModel.hh"
 
+#if defined(PLATFORM_OS_WINDOWS)
+#  include <map>
+#  include "commonui/MenuDefs.hh"
+#endif
+
 using namespace detail;
 
 ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter)
@@ -221,6 +226,20 @@ ToolkitActionMenuEntry::ToolkitActionMenuEntry(ToolkitMenuContext::Ptr context,
   if (!filter || filter(node))
     {
       auto item = Gio::MenuItem::create(node->get_dynamic_text(), std::string("app.") + node->get_id());
+#if defined(PLATFORM_OS_WINDOWS)
+      // Use bundled symbolic icons so they are available on Windows and follow the light/dark theme.
+      static const std::map<std::string_view, const char *> icons = {
+        {MenuId::OPEN, "workrave-menu-open-symbolic"},
+        {MenuId::PREFERENCES, "workrave-menu-preferences-symbolic"},
+        {MenuId::REST_BREAK, "workrave-menu-rest-break-symbolic"},
+        {MenuId::ABOUT, "workrave-menu-about-symbolic"},
+        {MenuId::QUIT, "workrave-menu-quit-symbolic"},
+      };
+      if (auto icon = icons.find(node->get_id()); icon != icons.end())
+        {
+          item->set_icon(Gio::ThemedIcon::create(icon->second));
+        }
+#endif
       parent->add(item);
     }
 }
