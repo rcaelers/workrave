@@ -128,7 +128,9 @@ build_single() {
     build_changelog $series
 
     cd "$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}"
-    debuild -p"${BASEDIR}/gpg-sign-client.sh" -d -S -sa -k"$WORKRAVE_GPG_KEY_ID" -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
+    # debuild sanitizes the environment; gpg-sign-client.sh needs the signing
+    # service URL, so pass it through explicitly.
+    debuild --preserve-envvar=SIGNING_SERVICE_URL -p"${BASEDIR}/gpg-sign-client.sh" -d -S -sa -k"$WORKRAVE_GPG_KEY_ID" -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
 
     rm -rf "$DEPLOY_DIR/$series"
     mkdir -p "$DEPLOY_DIR/$series"
@@ -165,7 +167,10 @@ build_all() {
 
 DRYRUN=
 PRERELEASE=
-SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://studio.local:50051}"
+if [ -z "${SIGNING_SERVICE_URL:-}" ]; then
+    echo "error: SIGNING_SERVICE_URL is not set" 1>&2
+    exit 1
+fi
 WORKRAVE_GPG_KEY_ID=${WORKRAVE_GPG_KEY_ID:-009D57DD1AEE3280943BF3E4EC02F3CD5A24B1DE}
 WORKRAVE_DEB_VERSION=$(echo ${WORKRAVE_VERSION} | sed -e 's/-/~/g')
 SOURCE_TARFILE="${SOURCES_DIR}/workrave-${WORKRAVE_DEB_VERSION}.tar.gz"

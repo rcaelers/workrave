@@ -6,7 +6,7 @@
 # Usage in debuild:
 #   debuild -p"/path/to/gpg-sign-client.sh" -d -S -sa -kKEYID
 #
-# The signing service must be running at SIGNING_SERVICE_URL (default: https://studio.local:50051).
+# The signing service must be running at SIGNING_SERVICE_URL.
 #
 # debuild/dpkg-buildpackage calls the signing program with gpg-compatible arguments:
 #   <program> --utf8-strings --textmode --armor --status-fd N -u KEYID --output OUTPUT [--detach-sign] INPUT
@@ -14,7 +14,10 @@
 
 set -euo pipefail
 
-SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://studio.local:50051}"
+if [[ -z "${SIGNING_SERVICE_URL:-}" ]]; then
+    echo "Error: SIGNING_SERVICE_URL is not set" >&2
+    exit 1
+fi
 
 # Parse gpg-compatible arguments
 STATUS_FD=""
@@ -77,17 +80,46 @@ if [[ -z "$OUTPUT_FILE" ]]; then
     exit 1
 fi
 
-# Send signing request to the service
-HTTP_CODE=$(curl -sk -o "$OUTPUT_FILE" -w "%{http_code}" \
+# Send signing request to the service.
+# -S: still report curl's own errors (unreachable host, TLS, ...) despite -s.
+# The exit status is captured explicitly so that a failed connection produces
+# a useful message instead of silently aborting under set -e.
+echo "gpg-sign-client: signing $(basename "$INPUT_FILE") (${MODE}) via ${SIGNING_SERVICE_URL}" >&2
+
+CURL_ERR=$(mktemp)
+trap 'rm -f "$CURL_ERR"' EXIT
+
+set +e
+HTTP_CODE=$(curl -sSk -o "$OUTPUT_FILE" -w "%{http_code}" \
+    --connect-timeout 10 \
     -X POST "${SIGNING_SERVICE_URL}/sign/gpg" \
     -F "file=@${INPUT_FILE}" \
-    -F "mode=${MODE}")
+    -F "mode=${MODE}" 2>"$CURL_ERR")
+CURL_STATUS=$?
+set -e
+
+if [[ $CURL_STATUS -ne 0 ]]; then
+    echo "Error: cannot reach signing service at ${SIGNING_SERVICE_URL} (curl exit ${CURL_STATUS}): $(cat "$CURL_ERR")" >&2
+    echo "Is the signing service running, and reachable from where this build runs" >&2
+    echo "(inside the build container, possibly on a remote podman host)?" >&2
+    rm -f "$OUTPUT_FILE"
+    exit 1
+fi
 
 if [[ "$HTTP_CODE" != "200" ]]; then
-    echo "Error: signing service returned HTTP ${HTTP_CODE}" >&2
-    if [[ -f "$OUTPUT_FILE" ]]; then
+    echo "Error: signing service at ${SIGNING_SERVICE_URL} returned HTTP ${HTTP_CODE}" >&2
+    if [[ -s "$OUTPUT_FILE" ]]; then
+        echo "Response:" >&2
         cat "$OUTPUT_FILE" >&2
+        echo >&2
     fi
+    rm -f "$OUTPUT_FILE"
+    exit 1
+fi
+
+if [[ ! -s "$OUTPUT_FILE" ]]; then
+    echo "Error: signing service at ${SIGNING_SERVICE_URL} returned an empty signature for $(basename "$INPUT_FILE")" >&2
+    rm -f "$OUTPUT_FILE"
     exit 1
 fi
 
