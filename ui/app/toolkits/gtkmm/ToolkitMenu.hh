@@ -150,6 +150,10 @@ public:
   std::shared_ptr<Gtk::Menu> get_menu() const;
 
 private:
+#if defined(PLATFORM_OS_WINDOWS)
+  void update_menu();
+#endif
+
   std::shared_ptr<detail::ToolkitMenuContext> context;
   std::shared_ptr<Gtk::Menu> gtk_menu;
   detail::ToolkitSubMenuEntry::Ptr entry;
