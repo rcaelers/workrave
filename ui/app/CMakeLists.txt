@@ -54,8 +54,7 @@ if (PLATFORM_OS_UNIX)
     # protocol's xdg_popup interface, so the generated layer-shell code
     # references xdg_popup_interface without defining it. Generate the
     # xdg-shell bindings too and compile them in so that symbol resolves.
-    pkg_check_modules(WAYLAND_PROTOCOLS QUIET wayland-protocols)
-    pkg_get_variable(WAYLAND_PROTOCOLS_DATADIR wayland-protocols pkgdatadir)
+    # WAYLAND_PROTOCOLS_DATADIR is set by the top-level Wayland detection.
 
     # Generated once here; both toolkit adapters use the same client bindings.
     add_custom_command(
