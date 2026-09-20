@@ -180,6 +180,19 @@ MicrobreakPrefBridge::setShowSkip(bool v)
 }
 
 bool
+MicrobreakPrefBridge::quietMode() const
+{
+  return CoreConfig::break_quiet_mode(BREAK_ID_MICRO_BREAK)();
+}
+
+void
+MicrobreakPrefBridge::setQuietMode(bool v)
+{
+  CoreConfig::break_quiet_mode(BREAK_ID_MICRO_BREAK).set(v);
+  Q_EMIT optionsChanged();
+}
+
+bool
 MicrobreakPrefBridge::preludeEnabled() const
 {
   return CoreConfig::break_max_preludes(BREAK_ID_MICRO_BREAK)() != 0;

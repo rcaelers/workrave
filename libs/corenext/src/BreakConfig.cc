@@ -89,6 +89,13 @@ BreakConfig::load_break_config()
   // Break enabled?
   enabled = CoreConfig::break_enabled(break_id)();
 
+  // If this break is configured to behave as in quiet mode, stop an active
+  // break, just like entering global quiet mode stops all breaks.
+  if (CoreConfig::break_quiet_mode(break_id)() && break_state_model->is_active())
+    {
+      break_state_model->stop_break();
+    }
+
   if (enabled)
     {
       timer->enable();
