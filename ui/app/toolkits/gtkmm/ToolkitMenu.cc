@@ -23,9 +23,7 @@
 #include "commonui/MenuModel.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
-#  include <map>
 #  include <vector>
-#  include "commonui/MenuDefs.hh"
 #endif
 
 using namespace detail;
@@ -333,17 +331,9 @@ ToolkitActionMenuEntry::ToolkitActionMenuEntry(ToolkitMenuContext::Ptr context,
     {
       auto item = Gio::MenuItem::create(node->get_dynamic_text(), std::string("app.") + node->get_id());
 #if defined(PLATFORM_OS_WINDOWS)
-      // Bundle full-color icons instead of relying on the Windows icon theme.
-      static const std::map<std::string_view, const char *> icons = {
-        {MenuId::OPEN, "workrave-menu-open"},
-        {MenuId::PREFERENCES, "workrave-menu-preferences"},
-        {MenuId::REST_BREAK, "workrave-menu-rest-break"},
-        {MenuId::ABOUT, "workrave-menu-about"},
-        {MenuId::QUIT, "workrave-menu-quit"},
-      };
-      if (auto icon = icons.find(node->get_id()); icon != icons.end())
+      if (auto icon = node->get_icon_name(); !icon.empty())
         {
-          item->set_icon(Gio::ThemedIcon::create(icon->second));
+          item->set_icon(Gio::ThemedIcon::create("workrave-menu-" + icon));
         }
 #endif
       parent->add(item);

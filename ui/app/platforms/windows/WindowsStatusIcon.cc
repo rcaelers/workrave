@@ -22,13 +22,11 @@
 #include "ui/windows/WindowsStatusIcon.hh"
 
 #include <string>
-#include <array>
 #include <cstring>
 #include <shellapi.h>
 #include <commctrl.h>
 
 #include "core/CoreTypes.hh"
-#include "commonui/MenuDefs.hh"
 #include "utils/StringUtils.hh"
 #include "ui/GUIConfig.hh"
 
@@ -304,34 +302,14 @@ WindowsStatusIcon::show_menu()
   GetCursorPos(&pt);
 
   HMENU menu = CreatePopupMenu();
-  init_menu(menu, 0, menu_model->get_root());
+  std::vector<HBITMAP> bitmaps;
+  init_menu(menu, 0, menu_model->get_root(), bitmaps);
 
   MENUINFO menu_info{};
   menu_info.cbSize = sizeof(menu_info);
   menu_info.fMask = MIM_STYLE;
   menu_info.dwStyle = MNS_CHECKORBMP;
   SetMenuInfo(menu, &menu_info);
-
-  static const std::array<std::pair<std::string_view, const wchar_t *>, 5> icons = {{
-    {MenuId::OPEN, L"menu_open"},
-    {MenuId::PREFERENCES, L"menu_preferences"},
-    {MenuId::REST_BREAK, L"menu_rest_break"},
-    {MenuId::ABOUT, L"menu_about"},
-    {MenuId::QUIT, L"menu_quit"},
-  }};
-  std::array<HBITMAP, icons.size()> bitmaps{};
-  for (size_t i = 0; i < icons.size(); ++i)
-    {
-      bitmaps[i] = load_menu_bitmap(icons[i].second);
-      if (bitmaps[i] != nullptr)
-        {
-          MENUITEMINFOW item{};
-          item.cbSize = sizeof(item);
-          item.fMask = MIIM_BITMAP;
-          item.hbmpItem = bitmaps[i];
-          SetMenuItemInfoW(menu, menu_helper.allocate_command(std::string(icons[i].first)), FALSE, &item);
-        }
-    }
 
   SetForegroundWindow(nid.hWnd);
   UINT command = TrackPopupMenu(menu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, nid.hWnd, nullptr);
@@ -352,7 +330,7 @@ WindowsStatusIcon::show_menu()
 }
 
 void
-WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr node)
+WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr node, std::vector<HBITMAP> &bitmaps)
 {
   uint32_t command = menu_helper.allocate_command(node->get_id());
 
@@ -376,7 +354,7 @@ WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr nod
 
       for (auto &menu_to_add: n->get_children())
         {
-          init_menu(popup, level + 1, menu_to_add);
+          init_menu(popup, level + 1, menu_to_add, bitmaps);
         }
     }
 
@@ -384,7 +362,7 @@ WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr nod
     {
       for (auto &menu_to_add: n->get_children())
         {
-          init_menu(current_menu, level, menu_to_add);
+          init_menu(current_menu, level, menu_to_add, bitmaps);
         }
     }
 
@@ -392,13 +370,28 @@ WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr nod
     {
       for (auto &menu_to_add: n->get_children())
         {
-          init_menu(current_menu, level, menu_to_add);
+          init_menu(current_menu, level, menu_to_add, bitmaps);
         }
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::ActionNode>(node); n)
     {
       InsertMenuW(current_menu, -1, flags, (UINT_PTR)(command), text.c_str());
+      if (auto icon = node->get_icon_name(); !icon.empty())
+        {
+          // Resource identifiers use underscores instead of hyphens.
+          auto resource = workrave::utils::utf8_to_utf16("menu_" + icon);
+          std::replace(resource.begin(), resource.end(), L'-', L'_');
+          if (auto bitmap = load_menu_bitmap(resource.c_str()); bitmap != nullptr)
+            {
+              bitmaps.push_back(bitmap);
+              MENUITEMINFOW item{};
+              item.cbSize = sizeof(item);
+              item.fMask = MIIM_BITMAP;
+              item.hbmpItem = bitmap;
+              SetMenuItemInfoW(current_menu, command, FALSE, &item);
+            }
+        }
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::ToggleNode>(node); n)

@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <string>
+#include <vector>
 
 #include <windows.h>
 #include <commctrl.h>
@@ -50,7 +51,7 @@ private:
   void init();
   void cleanup();
   void show_menu();
-  void init_menu(HMENU current_menu, int level, menus::Node::Ptr node);
+  void init_menu(HMENU current_menu, int level, menus::Node::Ptr node, std::vector<HBITMAP> &bitmaps);
 
   static LRESULT CALLBACK window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
   void set_operation_mode(workrave::OperationMode m);
