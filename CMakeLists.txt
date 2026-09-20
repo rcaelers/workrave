@@ -925,8 +925,7 @@ if (WIN32)
     else()
       include(FindMsys)
     endif()
-    set(MSYS64_CMD ${MSYS_CMD} -here -mingw64 -no-start -defterm -c)
-    set(MSYS32_CMD ${MSYS_CMD} -here -mingw32 -no-start -defterm -c)
+    set(MSYS64_CMD ${MSYS_CMD} -here -clang64 -no-start -defterm -c)
   endif()
 
   find_library(SSP_LIBRARY libssp)
@@ -1124,7 +1123,7 @@ if (WITH_CRASHPAD)
   FetchContent_Declare(
     dump_syms
     GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
-    GIT_TAG v2.3.7
+    GIT_TAG v2.3.9
   )
   FetchContent_MakeAvailable(dump_syms)
 
@@ -1132,7 +1131,7 @@ if (WITH_CRASHPAD)
   add_custom_target(dump_syms ALL DEPENDS ${DUMP_SYMS})
   add_custom_command(
     OUTPUT ${DUMP_SYMS}
-    COMMAND ${MSYS_CMD} -here -mingw64 -no-start -defterm -c "cargo build --release"
+    COMMAND ${MSYS_CMD} -here -clang64 -no-start -defterm -c "cargo build --release"
     WORKING_DIRECTORY ${dump_syms_SOURCE_DIR}
     )
 
