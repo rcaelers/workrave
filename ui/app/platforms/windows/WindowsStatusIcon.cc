@@ -379,8 +379,7 @@ WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr nod
       InsertMenuW(current_menu, -1, flags, (UINT_PTR)(command), text.c_str());
       if (auto icon = node->get_icon_name(); !icon.empty())
         {
-          // Resource identifiers use underscores instead of hyphens.
-          auto resource = workrave::utils::utf8_to_utf16("menu_" + icon);
+          auto resource = workrave::utils::utf8_to_utf16("workrave_menu_" + icon);
           std::replace(resource.begin(), resource.end(), L'-', L'_');
           if (auto bitmap = load_menu_bitmap(resource.c_str()); bitmap != nullptr)
             {

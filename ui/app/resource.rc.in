@@ -33,10 +33,10 @@ workrave    	ICON    DISCARDABLE     "@WR_TOP_SOURCE_DIR@/ui/data/images/windows
 workravequiet	ICON    DISCARDABLE     "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/workrave-quiet.ico"
 workravesusp	ICON    DISCARDABLE     "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/workrave-suspended.ico"
 
-menu_open        ICON "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/menu-open.ico"
-menu_preferences ICON "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/menu-preferences.ico"
-menu_rest_break  ICON "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/menu-rest-break.ico"
-menu_about       ICON "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/menu-about.ico"
-menu_quit        ICON "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/menu-quit.ico"
+workrave_menu_open        ICON "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/menu-open.ico"
+workrave_menu_preferences ICON "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/menu-preferences.ico"
+workrave_menu_rest_break  ICON "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/menu-rest-break.ico"
+workrave_menu_about       ICON "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/menu-about.ico"
+workrave_menu_quit        ICON "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/menu-quit.ico"
 
 1 24 "@WR_CURRENT_BIN_DIR@/workrave.manifest"
