@@ -30,6 +30,9 @@
 #include <cstring>
 #include <sstream>
 #include <filesystem>
+#include <system_error>
+
+#include <spdlog/spdlog.h>
 
 #include "debug.hh"
 
@@ -116,8 +119,14 @@ Statistics::delete_all_history()
 {
   update();
 
+  std::error_code ec;
   std::filesystem::path histpath = Paths::get_state_directory() / "historystats";
-  if (std::filesystem::is_regular_file(histpath) && std::filesystem::remove(histpath))
+  bool history_removed = std::filesystem::is_regular_file(histpath, ec) && std::filesystem::remove(histpath, ec);
+  if (ec)
+    {
+      spdlog::error("failed to delete {} ({})", histpath.string(), ec.message());
+    }
+  if (history_removed)
     {
       return false;
     }
@@ -130,7 +139,13 @@ Statistics::delete_all_history()
     }
 
   std::filesystem::path todaypath = Paths::get_state_directory() / "todaystats";
-  if (std::filesystem::is_regular_file(todaypath) && std::filesystem::remove(todaypath))
+  ec.clear();
+  bool today_removed = std::filesystem::is_regular_file(todaypath, ec) && std::filesystem::remove(todaypath, ec);
+  if (ec)
+    {
+      spdlog::error("failed to delete {} ({})", todaypath.string(), ec.message());
+    }
+  if (today_removed)
     {
       return false;
     }
@@ -183,8 +198,15 @@ Statistics::day_to_history(DailyStatsImpl *stats)
 
   std::filesystem::path path = Paths::get_state_directory() / "historystats";
 
-  bool exists = std::filesystem::is_regular_file(path);
+  std::error_code ec;
+  bool exists = std::filesystem::is_regular_file(path, ec);
+
   ofstream stats_file(path.string(), ios::app);
+  if (!stats_file)
+    {
+      spdlog::error("failed to open {} for appending history", path.string());
+      return;
+    }
 
   if (!exists)
     {
@@ -192,7 +214,12 @@ Statistics::day_to_history(DailyStatsImpl *stats)
     }
 
   save_day(stats, stats_file);
+
   stats_file.close();
+  if (!stats_file)
+    {
+      spdlog::error("failed to write history to {}", path.string());
+    }
 }
 
 //! Saves the current day to the specified stream.
@@ -221,8 +248,6 @@ Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
       stats_file << stats->misc_stats[j] << " ";
     }
   stats_file << endl;
-
-  stats_file.close();
 }
 
 //! Saves the statistics of the specified day.
@@ -233,12 +258,35 @@ Statistics::save_day(DailyStatsImpl *stats)
   std::filesystem::path tmp_path = std::filesystem::path(path) += ".tmp";
 
   ofstream stats_file(tmp_path.string());
+  if (!stats_file)
+    {
+      spdlog::error("failed to open {} for writing today's statistics", tmp_path.string());
+      return;
+    }
 
   stats_file << WORKRAVESTATS << " " << STATSVERSION << endl;
 
   save_day(stats, stats_file);
 
-  std::filesystem::rename(tmp_path, path);
+  stats_file.close();
+  if (!stats_file)
+    {
+      // Renaming now would replace yesterday's readable statistics with a
+      // truncated file, so leave the old one alone.
+      spdlog::error("failed to write {}; keeping the previous statistics", tmp_path.string());
+      std::error_code ignored;
+      std::filesystem::remove(tmp_path, ignored);
+      return;
+    }
+
+  std::error_code ec;
+  std::filesystem::rename(tmp_path, path, ec);
+  if (ec)
+    {
+      spdlog::error("failed to rename {} to {} ({})", tmp_path.string(), path.string(), ec.message());
+      std::error_code ignored;
+      std::filesystem::remove(tmp_path, ignored);
+    }
 }
 
 //! Add the stats the the history list.
@@ -299,8 +347,17 @@ Statistics::load_current_day()
   TRACE_ENTRY();
   std::filesystem::path path = Paths::get_state_directory() / "todaystats";
   ifstream stats_file(path.string());
+  if (!stats_file)
+    {
+      std::error_code ec;
+      // Absent on a first run; anything else is worth knowing about.
+      if (std::filesystem::exists(path, ec))
+        {
+          spdlog::error("failed to read today's statistics from {}", path.string());
+        }
+    }
 
-  load(stats_file, false);
+  load(stats_file, false, path);
 
   been_active = true;
 
@@ -315,13 +372,21 @@ Statistics::load_history()
   std::filesystem::path path = Paths::get_state_directory() / "historystats";
 
   ifstream stats_file(path.string());
+  if (!stats_file)
+    {
+      std::error_code ec;
+      if (std::filesystem::exists(path, ec))
+        {
+          spdlog::error("failed to read statistics history from {}", path.string());
+        }
+    }
 
-  load(stats_file, true);
+  load(stats_file, true, path);
 }
 
 //! Loads the statistics.
 void
-Statistics::load(ifstream &infile, bool history)
+Statistics::load(ifstream &infile, bool history, const std::filesystem::path &path)
 {
   TRACE_ENTRY();
   DailyStatsImpl *stats = nullptr;
@@ -334,6 +399,10 @@ Statistics::load(ifstream &infile, bool history)
       infile >> tag;
 
       ok = (tag == WORKRAVESTATS);
+      if (!ok)
+        {
+          spdlog::error("{} does not look like a statistics file (tag '{}'); ignoring it", path.string(), tag);
+        }
     }
 
   if (ok)
@@ -342,6 +411,10 @@ Statistics::load(ifstream &infile, bool history)
       infile >> version;
 
       ok = (version == STATSVERSION) || (version == 3);
+      if (!ok)
+        {
+          spdlog::error("{} has unsupported statistics version {}; ignoring it", path.string(), version);
+        }
     }
 
   while (ok && !infile.eof())

@@ -106,7 +106,7 @@ MacOSConfigurator::get_value(const std::string &key, ConfigType type) const
           }
         }
     }
-  logger->warn("unknown setting: {}", key);
+  logger->debug("unknown setting: {}", key);
   return {};
 }
 

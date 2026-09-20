@@ -514,6 +514,26 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_int32, T, backend_types)
   BOOST_CHECK_EQUAL(value, 22);
 }
 
+#if defined(PLATFORM_OS_WINDOWS)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_int32_unconvertible, T, backend_types)
+{
+  init<T>();
+
+  // A value that cannot be converted to the requested type must never escape as
+  // an exception; backends that report the failure must leave the target alone.
+  // MacOSConfigurator coerces instead of failing, so only the throw is universal.
+  configurator->set_value("test/schema-defaults/int32", "not-a-number");
+
+  int32_t value{4242};
+  bool ok{true};
+  BOOST_CHECK_NO_THROW(ok = configurator->get_value("test/schema-defaults/int32", value));
+  if (!ok)
+    {
+      BOOST_CHECK_EQUAL(value, 4242);
+    }
+}
+#endif
+
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_int64, T, backend_types)
 {
   init<T>();

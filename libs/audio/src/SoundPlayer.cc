@@ -141,6 +141,41 @@ SoundPlayer::capability(SoundCapability cap)
   return ret;
 }
 
+std::vector<workrave::audio::SoundDevice>
+SoundPlayer::get_devices()
+{
+  if (driver != nullptr)
+    {
+      return driver->get_devices();
+    }
+  return {};
+}
+
+void
+SoundPlayer::set_device(const std::string &device_id)
+{
+  if (driver != nullptr)
+    {
+      driver->set_device(device_id);
+    }
+}
+
+std::string
+SoundPlayer::get_device() const
+{
+  if (driver != nullptr)
+    {
+      return driver->get_device();
+    }
+  return {};
+}
+
+boost::signals2::signal<void()> &
+SoundPlayer::signal_device_list_changed()
+{
+  return device_list_changed_signal;
+}
+
 void
 SoundPlayer::restore_mute()
 {
@@ -161,4 +196,10 @@ SoundPlayer::eos_event()
           must_unmute = true;
         }
     }
+}
+
+void
+SoundPlayer::device_list_changed()
+{
+  device_list_changed_signal();
 }

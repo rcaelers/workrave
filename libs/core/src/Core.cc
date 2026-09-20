@@ -1375,6 +1375,11 @@ Core::save_state() const
   std::filesystem::path path = Paths::get_state_directory() / "state";
   std::filesystem::path tmp_path = std::filesystem::path(path) += ".tmp";
   ofstream stateFile(tmp_path.string());
+  if (!stateFile)
+    {
+      spdlog::error("failed to open {} for writing the timer state", tmp_path.string());
+      return;
+    }
 
   int64_t current_time = TimeSource::get_real_time_sec();
   stateFile << "WorkRaveState 3" << endl << current_time << endl;
@@ -1387,7 +1392,24 @@ Core::save_state() const
     }
 
   stateFile.close();
-  std::filesystem::rename(tmp_path, path);
+  if (!stateFile)
+    {
+      spdlog::error("failed to write {}; keeping the previous timer state", tmp_path.string());
+      std::error_code ignored;
+      std::filesystem::remove(tmp_path, ignored);
+      return;
+    }
+
+  // This runs from the heartbeat, inside a glibmm timeout: an exception here
+  // is fatal for the whole process, so the rename must not throw.
+  std::error_code ec;
+  std::filesystem::rename(tmp_path, path, ec);
+  if (ec)
+    {
+      spdlog::error("failed to rename {} to {} ({})", tmp_path.string(), path.string(), ec.message());
+      std::error_code ignored;
+      std::filesystem::remove(tmp_path, ignored);
+    }
 }
 
 //! Loads miscellaneous

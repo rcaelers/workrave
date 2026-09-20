@@ -23,8 +23,10 @@ if (PLATFORM_OS_WINDOWS)
 endif()
 
 if (PLATFORM_OS_MACOS)
+  find_library(COREAUDIO_LIBRARY CoreAudio REQUIRED)
   target_sources(workrave-libs-audio PRIVATE macos/MACOSSoundPlayer.cc)
   target_include_directories(workrave-libs-audio PRIVATE ${CMAKE_SOURCE_DIR}/libs/audio/src/macos)
+  target_link_libraries(workrave-libs-audio PRIVATE ${COCOA_LIBRARY} ${COREAUDIO_LIBRARY})
   set_source_files_properties(macos/MacOSSoundPlayer.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 endif()
 

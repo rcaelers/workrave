@@ -88,17 +88,6 @@ public:
   static const std::string CFG_KEY_OPERATION_MODE_RESET_TIME;
   static const std::string CFG_KEY_USAGE_MODE;
 
-  static const std::string CFG_KEY_DISTRIBUTION;
-  static const std::string CFG_KEY_DISTRIBUTION_ENABLED;
-  static const std::string CFG_KEY_DISTRIBUTION_LISTENING;
-  static const std::string CFG_KEY_DISTRIBUTION_PEERS;
-  static const std::string CFG_KEY_DISTRIBUTION_TCP;
-  static const std::string CFG_KEY_DISTRIBUTION_TCP_PORT;
-  static const std::string CFG_KEY_DISTRIBUTION_TCP_USERNAME;
-  static const std::string CFG_KEY_DISTRIBUTION_TCP_PASSWORD;
-  static const std::string CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS;
-  static const std::string CFG_KEY_DISTRIBUTION_TCP_INTERVAL;
-
 private:
   static workrave::config::IConfigurator::Ptr config;
   static std::string expand(const std::string &key, workrave::BreakId id);

@@ -35,13 +35,20 @@ public:
   void restore_mute() override;
   void play_sound(const std::string &wavfile, bool mute_after_playback, int volume) override;
 
+  std::vector<workrave::audio::SoundDevice> get_devices() override;
+  void set_device(const std::string &device_id) override;
+  std::string get_device() const override;
+  boost::signals2::signal<void()> &signal_device_list_changed() override;
+
   void eos_event() override;
+  void device_list_changed() override;
 
 private:
   ISoundDriver *driver{nullptr};
   IMixer *mixer{nullptr};
   bool delayed_mute{false};
   bool must_unmute{false};
+  boost::signals2::signal<void()> device_list_changed_signal;
 };
 
 #endif // SOUNDPLAYER_HH

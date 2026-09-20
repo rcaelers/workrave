@@ -124,7 +124,6 @@ SoundTheme::sound_mute()
 {
   return SettingCache::get<bool>(config, CFG_KEY_SOUND_MUTE, false);
 }
-
 workrave::config::Setting<bool> &
 SoundTheme::sound_event_enabled(const std::string &event)
 {
@@ -195,6 +194,7 @@ void
 SoundTheme::init()
 {
   player->init();
+  set_device(sound_device()());
   load_themes();
   register_sound_events();
 }
@@ -389,6 +389,27 @@ bool
 SoundTheme::capability(workrave::audio::SoundCapability cap)
 {
   return player->capability(cap);
+}
+
+auto
+SoundTheme::get_devices() -> std::vector<workrave::audio::SoundDevice>
+{
+  return player->get_devices();
+}
+
+void
+SoundTheme::set_device(const std::string &device_id)
+{
+  if (player->capability(workrave::audio::SoundCapability::DEVICE))
+    {
+      player->set_device(device_id);
+    }
+}
+
+auto
+SoundTheme::signal_device_list_changed() -> boost::signals2::signal<void()> &
+{
+  return player->signal_device_list_changed();
 }
 
 #if defined(PLATFORM_OS_WINDOWS)

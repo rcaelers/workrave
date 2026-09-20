@@ -27,17 +27,25 @@
 class W32DirectSoundPlayer : public ISoundDriver
 {
 public:
-  W32DirectSoundPlayer() = default;
-  virtual ~W32DirectSoundPlayer() = default;
+  W32DirectSoundPlayer();
+  virtual ~W32DirectSoundPlayer();
 
-  void init(ISoundPlayerEvents *events);
-  bool capability(workrave::audio::SoundCapability cap);
-  void play_sound(std::string wavfile, int volume);
+  void init(ISoundPlayerEvents *events) override;
+  bool capability(workrave::audio::SoundCapability cap) override;
+  void play_sound(std::string wavfile, int volume) override;
+
+  std::vector<workrave::audio::SoundDevice> get_devices() override;
+  void set_device(const std::string &device_id) override;
+  std::string get_device() const override;
 
 private:
   static DWORD WINAPI play_thread(LPVOID);
+  static BOOL CALLBACK ds_enum_callback(LPGUID lpGuid, LPCWSTR lpcstrDescription, LPCWSTR lpcstrModule, LPVOID lpContext);
 
   void play();
+
+  std::string current_device;
+  std::vector<workrave::audio::SoundDevice> devices_cache;
 
 private:
   ISoundPlayerEvents *events;
@@ -72,7 +80,7 @@ private:
 class SoundClip
 {
 public:
-  SoundClip(const std::string &filename, ISoundPlayerEvents *events, int volume);
+  SoundClip(const std::string &filename, ISoundPlayerEvents *events, int volume, const std::string &device_id = std::string());
   virtual ~SoundClip();
 
   void init();
@@ -94,6 +102,7 @@ private:
   HANDLE stop_event;
   ISoundPlayerEvents *events;
   int volume;
+  std::string device_id;
 };
 
 #endif // W32DIRECTSOUNDPLAYER_HH

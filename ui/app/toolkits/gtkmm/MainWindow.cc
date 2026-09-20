@@ -202,8 +202,11 @@ MainWindow::init()
   window->set_decorations(Gdk::DECOR_BORDER | Gdk::DECOR_TITLE | Gdk::DECOR_MENU);
 
 #if defined(PLATFORM_OS_WINDOWS)
-  HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-  SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~(WS_MINIMIZEBOX | WS_MAXIMIZEBOX));
+  HWND hwnd = GtkUtil::get_hwnd(*this, "MainWindow::init_gui");
+  if (hwnd != nullptr)
+    {
+      SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~(WS_MINIMIZEBOX | WS_MAXIMIZEBOX));
+    }
 #endif
 
 #if defined(PLATFORM_OS_UNIX)

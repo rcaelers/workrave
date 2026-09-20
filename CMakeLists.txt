@@ -11,6 +11,23 @@ if(POLICY CMP0167)
   cmake_policy(SET CMP0167 NEW)
 endif()
 
+#----------------------------------------------------------------------------------------------------
+# Compiler cache
+#
+# Must be set before project() so CMAKE_<LANG>_COMPILER_LAUNCHER is picked up
+# the first time each language's compiler is configured.
+
+option(WITH_CCACHE "Use ccache to speed up recompilation, if found" ON)
+set(HAVE_CCACHE OFF)
+if (WITH_CCACHE)
+  find_program(CCACHE_PROGRAM ccache)
+  if (CCACHE_PROGRAM)
+    set(HAVE_CCACHE ON)
+    set(CMAKE_C_COMPILER_LAUNCHER "${CCACHE_PROGRAM}" CACHE STRING "")
+    set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}" CACHE STRING "")
+  endif()
+endif()
+
 project(Workrave)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -25,7 +42,7 @@ macro_ensure_out_of_source_build(
 # Set Workrave version
 set (WORKRAVE_VERSION "1.11.1" )
 set (WORKRAVE_RESOURCE_VERSION "1,11,1,0" )
-set (WORKRAVE_CHANNEL "release" )
+set (WORKRAVE_CHANNEL "stable" )
 
 set (CMAKE_BUILD_TYPE_INIT "Release")
 set (CMAKE_INCLUDE_CURRENT_DIR OFF)
@@ -161,6 +178,18 @@ macro(pkgconfig_get_var OUT PKG VARNAME)
     set (${OUT} ${_result} CACHE INTERNAL "")
   endif()
 endmacro()
+
+function(make_install_destination_relative PATH_VAR PREFIX)
+  if (DEFINED ${PATH_VAR} AND NOT "${${PATH_VAR}}" STREQUAL "" AND IS_ABSOLUTE "${${PATH_VAR}}" AND IS_ABSOLUTE "${PREFIX}")
+    string(REGEX REPLACE "/+$" "" _prefix "${PREFIX}")
+    string(FIND "${${PATH_VAR}}" "${_prefix}/" _prefix_pos)
+    if (_prefix_pos EQUAL 0)
+      string(LENGTH "${_prefix}/" _prefix_len)
+      string(SUBSTRING "${${PATH_VAR}}" ${_prefix_len} -1 _relative_path)
+      set(${PATH_VAR} "${_relative_path}" PARENT_SCOPE)
+    endif()
+  endif()
+endfunction()
 
 macro(pkgconfig_get_requires OUT PKG)
   if (LOCALINSTALL)
@@ -672,12 +701,23 @@ if (UNIX AND NOT APPLE)
       set (INDICATORICONSDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/libindicate/icons")
     else()
       if (HAVE_INDICATOR_AYATANA)
+        set(INDICATOR_PKG ayatana-indicator3-0.4)
+      else()
+        set(INDICATOR_PKG indicator3-0.4)
+      endif()
+
+      pkgconfig_get_var(INDICATORPREFIX ${INDICATOR_PKG} prefix)
+
+      if (HAVE_INDICATOR_AYATANA)
         pkgconfig_get_var(INDICATORDIR ayatana-indicator3-0.4 indicatordir)
         pkgconfig_get_var(INDICATORICONSDIR ayatana-indicator3-0.4 iconsdir)
       else()
         pkgconfig_get_var(INDICATORDIR indicator3-0.4 indicatordir)
         pkgconfig_get_var(INDICATORICONSDIR indicator3-0.4 iconsdir)
       endif()
+
+      make_install_destination_relative(INDICATORDIR "${INDICATORPREFIX}")
+      make_install_destination_relative(INDICATORICONSDIR "${INDICATORPREFIX}")
     endif()
   endif()
 endif()
@@ -818,14 +858,18 @@ if (UNIX AND NOT APPLE)
   if (WITH_WAYLAND)
     message(STATUS "Checking for: Wayland")
 
-    pkg_check_modules(WAYLAND_CLIENT wayland-client)
+    pkg_check_modules(WAYLAND_CLIENT IMPORTED_TARGET wayland-client)
 
     find_program(WAYLAND_SCANNER wayland-scanner)
     if (NOT WAYLAND_SCANNER)
-      message(ERROR "wayland-scanner not found")
+      message(WARNING "wayland-scanner not found")
     endif()
 
     if (WAYLAND_CLIENT_FOUND AND WAYLAND_SCANNER)
+      if (NOT TARGET Wayland::Client AND TARGET PkgConfig::WAYLAND_CLIENT)
+        add_library(Wayland::Client INTERFACE IMPORTED)
+        set_property(TARGET Wayland::Client PROPERTY INTERFACE_LINK_LIBRARIES PkgConfig::WAYLAND_CLIENT)
+      endif()
       set (HAVE_WAYLAND ON)
     else()
       set (WITH_WAYLAND OFF)
@@ -1058,9 +1102,9 @@ endif()
 
 include(FetchContent)
 
-find_package(fmt 6.1.2 CONFIG QUIET)
+find_package(fmt 9.1.0 CONFIG QUIET)
 if(${fmt_FOUND})
-  find_package(spdlog 1.5.0 CONFIG QUIET)
+  find_package(spdlog 1.12.0 CONFIG QUIET)
 else()
   FetchContent_Declare_Logged(
       fmt
@@ -1068,7 +1112,7 @@ else()
       "MIT"
       GIT_REPOSITORY https://github.com/fmtlib/fmt.git
       GIT_SHALLOW TRUE
-      GIT_TAG 10.0.0
+      GIT_TAG 12.1.0
     )
   FetchContent_MakeAvailable(fmt)
   target_compile_definitions(fmt INTERFACE FMT_HEADER_ONLY=1)
@@ -1081,7 +1125,7 @@ if((NOT ${spdlog_FOUND}) OR (NOT ${fmt_FOUND}))
       "MIT"
       GIT_REPOSITORY https://github.com/gabime/spdlog.git
       GIT_SHALLOW TRUE
-      GIT_TAG v1.12.0
+      GIT_TAG v1.17.0
     )
   if (WIN32)
     set(SPDLOG_INSTALL ON)
@@ -1111,6 +1155,7 @@ if (WITH_CRASHPAD)
     GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
     # GIT_SHALLOW TRUE
     GIT_TAG 2ee3985352352c4ad302635877561f7a6101da99
+    EXCLUDE_FROM_ALL
   )
   set(CRASHPAD_ENABLE_STACKTRACE ON CACHE BOOL "Enable stack traces in crashpad" FORCE)
   FetchContent_MakeAvailable(crashpad)
@@ -1264,6 +1309,7 @@ feature_text("Workrave" WORKRAVE_VERSION)
 feature_text("Install prefix" CMAKE_INSTALL_PREFIX)
 feature_text("OS" PLATFORM_OS_NAME)
 feature_text("UI" WITH_UI)
+feature_bool("ccache" HAVE_CCACHE)
 message(STATUS "")
 feature_bool("GSettings configuration" HAVE_GSETTINGS)
 if (PLATFORM_OS_UNIX)

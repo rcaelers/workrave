@@ -42,6 +42,9 @@
 #define SAMPLE_BITS (8)
 #define WAVE_BUFFER_SIZE (4096)
 
+#include <string>
+#include <vector>
+
 using namespace workrave;
 using namespace workrave::utils;
 using namespace workrave::audio;
@@ -56,6 +59,14 @@ extern "C"
   }
 }
 #endif
+
+W32DirectSoundPlayer::W32DirectSoundPlayer()
+{
+}
+
+W32DirectSoundPlayer::~W32DirectSoundPlayer()
+{
+}
 
 //!
 void
@@ -75,6 +86,10 @@ W32DirectSoundPlayer::capability(SoundCapability cap)
     {
       return true;
     }
+  if (cap == workrave::audio::SoundCapability::DEVICE)
+    {
+      return true;
+    }
   return false;
 }
 
@@ -87,9 +102,59 @@ W32DirectSoundPlayer::play_sound(std::string wavfile, int volume)
     {
       DWORD id;
 
-      SoundClip *clip = new SoundClip(wavfile, events, volume);
+      SoundClip *clip = new SoundClip(wavfile, events, volume, current_device);
       CloseHandle(CreateThread(NULL, 0, play_thread, clip, 0, &id));
     }
+}
+
+std::vector<workrave::audio::SoundDevice>
+W32DirectSoundPlayer::get_devices()
+{
+  if (!devices_cache.empty())
+    {
+      return devices_cache;
+    }
+
+  devices_cache.push_back({"default", "System Default", true});
+
+  DirectSoundEnumerateW(ds_enum_callback, &devices_cache);
+
+  return devices_cache;
+}
+
+BOOL CALLBACK
+W32DirectSoundPlayer::ds_enum_callback(LPGUID lpGuid, LPCWSTR lpcstrDescription, LPCWSTR /*lpcstrModule*/, LPVOID lpContext)
+{
+  auto *devices = static_cast<std::vector<workrave::audio::SoundDevice> *>(lpContext);
+
+  std::string id = "default";
+  if (lpGuid != nullptr)
+    {
+      // Convert GUID to string format {XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}
+      wchar_t guid_str[40];
+      StringFromGUID2(*lpGuid, guid_str, 40);
+      char guid_mb[40];
+      WideCharToMultiByte(CP_UTF8, 0, guid_str, -1, guid_mb, sizeof(guid_mb), nullptr, nullptr);
+      id = guid_mb;
+    }
+
+  char name_mb[256];
+  WideCharToMultiByte(CP_UTF8, 0, lpcstrDescription, -1, name_mb, sizeof(name_mb), nullptr, nullptr);
+
+  devices->push_back({id, name_mb, lpGuid == nullptr});
+  return TRUE;
+}
+
+void
+W32DirectSoundPlayer::set_device(const std::string &device_id)
+{
+  current_device = device_id;
+}
+
+std::string
+W32DirectSoundPlayer::get_device() const
+{
+  return current_device;
 }
 
 DWORD WINAPI
@@ -118,13 +183,14 @@ W32DirectSoundPlayer::play_thread(LPVOID lpParam)
   return (DWORD)0;
 }
 
-SoundClip::SoundClip(const std::string &filename, ISoundPlayerEvents *events, int volume)
+SoundClip::SoundClip(const std::string &filename, ISoundPlayerEvents *events, int volume, const std::string &device_id)
 {
   TRACE_ENTRY();
   this->direct_sound = NULL;
   this->filename = filename;
   this->events = events;
   this->volume = volume;
+  this->device_id = device_id;
 
   wave_file = NULL;
   sound_buffer = NULL;
@@ -189,7 +255,21 @@ SoundClip::init()
   HRESULT hr = S_OK;
 
   TRACE_ENTRY();
-  hr = DirectSoundCreate8(NULL, &direct_sound, NULL);
+
+  LPGUID device_guid = nullptr;
+  GUID guid;
+  if (!device_id.empty() && device_id != "default")
+    {
+      // Parse GUID from string format {XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}
+      wchar_t guid_wstr[40];
+      MultiByteToWideChar(CP_UTF8, 0, device_id.c_str(), -1, guid_wstr, 40);
+      if (SUCCEEDED(CLSIDFromString(guid_wstr, &guid)))
+        {
+          device_guid = &guid;
+        }
+    }
+
+  hr = DirectSoundCreate8(device_guid, &direct_sound, NULL);
   if (FAILED(hr) || direct_sound == NULL)
     {
       throw Exception(std::string("DirectSoundCreate8") + get_error_string(hr));

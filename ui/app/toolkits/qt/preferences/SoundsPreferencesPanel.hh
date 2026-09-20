@@ -39,8 +39,10 @@ private:
   void on_play_sound();
   void on_sound_selected(const QString &filename);
   void on_sound_item_changed(QStandardItem *item);
+  void on_device_changed(int index);
 
   void update_theme_selection();
+  void update_device_selection();
 
   auto currentEvent() const -> SoundEvent;
 
@@ -53,6 +55,7 @@ private:
   QStandardItemModel *sound_theme_model{nullptr};
   QTreeView *sounds_view{nullptr};
   QStandardItemModel *sounds_model{nullptr};
+  QComboBox *device_combo{nullptr};
 };
 
 #endif // SOUNDSPREFERENCESPANEL_HH
