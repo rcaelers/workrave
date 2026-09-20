@@ -22,6 +22,8 @@
 #include "ui/windows/WindowsStatusIcon.hh"
 
 #include <string>
+#include <array>
+#include <cstring>
 #include <shellapi.h>
 #include <commctrl.h>
 
@@ -35,6 +37,55 @@
 const UINT MYWM_TRAY_MESSAGE = WM_USER + 0x100;
 
 #define NUM_ELEMENTS(x) (sizeof(x) / sizeof((x)[0]))
+
+namespace
+{
+  HBITMAP load_menu_bitmap(const wchar_t *resource)
+  {
+    const int width = GetSystemMetrics(SM_CXSMICON);
+    const int height = GetSystemMetrics(SM_CYSMICON);
+    HICON icon = nullptr;
+    if (FAILED(LoadIconWithScaleDown(GetModuleHandle(nullptr), resource, width, height, &icon)))
+      {
+        return nullptr;
+      }
+
+    // Native menus need a premultiplied-alpha bitmap. Draw the 32-bit icon
+    // onto a transparent DIB so the background works with any menu theme.
+    BITMAPINFO info{};
+    info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    info.bmiHeader.biWidth = width;
+    info.bmiHeader.biHeight = -height;
+    info.bmiHeader.biPlanes = 1;
+    info.bmiHeader.biBitCount = 32;
+    info.bmiHeader.biCompression = BI_RGB;
+    void *pixels = nullptr;
+    HBITMAP bitmap = CreateDIBSection(nullptr, &info, DIB_RGB_COLORS, &pixels, nullptr, 0);
+    HDC dc = CreateCompatibleDC(nullptr);
+    BOOL drawn = FALSE;
+    if (bitmap != nullptr && dc != nullptr)
+      {
+        std::memset(pixels, 0, width * height * 4);
+        HGDIOBJ previous = SelectObject(dc, bitmap);
+        if (previous != nullptr && previous != HGDI_ERROR)
+          {
+            drawn = DrawIconEx(dc, 0, 0, icon, width, height, 0, nullptr, DI_NORMAL);
+            SelectObject(dc, previous);
+          }
+      }
+    if (dc != nullptr)
+      {
+        DeleteDC(dc);
+      }
+    DestroyIcon(icon);
+    if (!drawn && bitmap != nullptr)
+      {
+        DeleteObject(bitmap);
+        bitmap = nullptr;
+      }
+    return bitmap;
+  }
+} // namespace
 
 WindowsStatusIcon::WindowsStatusIcon(std::shared_ptr<IApplicationContext> app)
   : app(app)
@@ -255,9 +306,44 @@ WindowsStatusIcon::show_menu()
   HMENU menu = CreatePopupMenu();
   init_menu(menu, 0, menu_model->get_root());
 
+  MENUINFO menu_info{};
+  menu_info.cbSize = sizeof(menu_info);
+  menu_info.fMask = MIM_STYLE;
+  menu_info.dwStyle = MNS_CHECKORBMP;
+  SetMenuInfo(menu, &menu_info);
+
+  static const std::array<std::pair<std::string_view, const wchar_t *>, 5> icons = {{
+    {MenuId::OPEN, L"menu_open"},
+    {MenuId::PREFERENCES, L"menu_preferences"},
+    {MenuId::REST_BREAK, L"menu_rest_break"},
+    {MenuId::ABOUT, L"menu_about"},
+    {MenuId::QUIT, L"menu_quit"},
+  }};
+  std::array<HBITMAP, icons.size()> bitmaps{};
+  for (size_t i = 0; i < icons.size(); ++i)
+    {
+      bitmaps[i] = load_menu_bitmap(icons[i].second);
+      if (bitmaps[i] != nullptr)
+        {
+          MENUITEMINFOW item{};
+          item.cbSize = sizeof(item);
+          item.fMask = MIIM_BITMAP;
+          item.hbmpItem = bitmaps[i];
+          SetMenuItemInfoW(menu, menu_helper.allocate_command(std::string(icons[i].first)), FALSE, &item);
+        }
+    }
+
   SetForegroundWindow(nid.hWnd);
   UINT command = TrackPopupMenu(menu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, nid.hWnd, nullptr);
   DestroyMenu(menu);
+  // DestroyMenu does not release the bitmaps, which must stay alive until it closes.
+  for (auto bitmap: bitmaps)
+    {
+      if (bitmap != nullptr)
+        {
+          DeleteObject(bitmap);
+        }
+    }
   auto node = menu_helper.find_node(command);
   if (node)
     {
