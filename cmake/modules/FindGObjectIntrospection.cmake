@@ -47,6 +47,21 @@ if(PKG_CONFIG_FOUND)
     _gir_get_pkgconfig_var(INTROSPECTION_TYPELIBDIR "typelibdir")
     set(INTROSPECTION_CFLAGS "${_pc_gir_CFLAGS}")
     set(INTROSPECTION_LIBS "${_pc_gir_LIBS}")
+
+    # Newer gobject-introspection (1.8x, glib-based) no longer necessarily
+    # exports the tool paths from the .pc file; look them up on PATH then.
+    if(NOT INTROSPECTION_SCANNER)
+      find_program(INTROSPECTION_SCANNER g-ir-scanner)
+    endif()
+    if(NOT INTROSPECTION_COMPILER)
+      find_program(INTROSPECTION_COMPILER g-ir-compiler)
+    endif()
+    if(NOT INTROSPECTION_GENERATE)
+      find_program(INTROSPECTION_GENERATE g-ir-generate)
+    endif()
+    if(NOT INTROSPECTION_SCANNER OR NOT INTROSPECTION_COMPILER)
+      message(FATAL_ERROR "gobject-introspection found, but g-ir-scanner/g-ir-compiler are not installed (package gobject-introspection-bin or gobject-introspection)")
+    endif()
   endif()
 endif()
 
