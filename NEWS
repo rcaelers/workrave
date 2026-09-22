@@ -1,9 +1,32 @@
-Workrave NEWS -- history of user-visible changes. 23 July 2026
+Workrave NEWS -- history of user-visible changes. 22 September 2026
 Copyright (C) 2001-2026 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.11.2
+
+** New features and improvements:
+   - You can now choose which speakers or headphones Workrave uses in the sound
+     preferences on Windows, Linux, and macOS. For example, you can play break
+     reminders through your speakers while other sounds use your headphones
+     (#700, koloved)
+   - Improved error reports to help us investigate problems
+** Bug fixes:
+   - Fixed incorrect break timer settings when using Workrave for the first time
+   - Workrave now uses the default timer settings if saved settings are missing
+     or damaged
+   - Fixed a problem that could prevent Workrave from starting on Windows if
+     saved settings were damaged
+   - Fixed problems starting Workrave when exercise files were missing or damaged
+   - Fixed crashes when Workrave could not save timer progress or statistics, or
+     delete statistics history, for example because another program was using the
+     files
+   - Workrave now keeps the previously saved timer progress and statistics if
+     saving new data fails
+   - Fixed a crash that could occur when a break reminder appeared on Windows
+   - Restored missing icons in the tray and timer-window menus on Windows (#736)
 
 * Workrave 1.11.1
 
