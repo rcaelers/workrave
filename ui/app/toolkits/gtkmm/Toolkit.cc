@@ -73,6 +73,7 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   this->app = app;
 
   Glib::set_prgname("org.workrave.Workrave");
+  Glib::set_application_name("Workrave");
   gapp = Gtk::Application::create(argc, argv, "org.workrave.Workrave");
   init_css();
   gtk_icon_theme_add_resource_path(gtk_icon_theme_get_default(), "/workrave/icons/scalable");
