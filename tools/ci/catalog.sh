@@ -31,10 +31,12 @@ else
   CHANNEL=${CHANNEL:-dev}
 fi
 
-cd ${SCRIPTS_DIR}/citool
-npm ci
-npm run build
-cd ${SOURCES_DIR}
+cd "${SCRIPTS_DIR}/citool"
+if [[ "${WORKRAVE_CITOOL_PREPARED_DIR}" != "$(pwd -P)" || ! -f dist/citool.js ]]; then
+  npm ci
+  npm run build
+fi
+cd "${SOURCES_DIR}"
 node ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
   --input "${SOURCES_DIR}/changes.yaml" \
   --template github \

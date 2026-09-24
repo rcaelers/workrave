@@ -43,10 +43,15 @@ init_version() {
 }
 
 init_citool() {
-    cd ${SCRIPTS_DIR}/citool
-    npm ci
+    cd "${SCRIPTS_DIR}/citool"
+    if [[ "${REUSE_CITOOL_DEPS}" == 1 && -d node_modules ]]; then
+        echo "Reusing citool dependencies from ${SCRIPTS_DIR}/citool/node_modules"
+    else
+        npm ci
+    fi
     npm run build
-    cd ${SOURCES_DIR}
+    export WORKRAVE_CITOOL_PREPARED_DIR="$(pwd -P)"
+    cd "${SOURCES_DIR}"
 }
 
 init_tools() {
@@ -277,6 +282,8 @@ parse_arguments() {
 
     export CHANNEL=stable
     export SCRIPTS_DIR=${WORKSPACE}/source/tools/
+    REUSE_CITOOL_DEPS=
+    unset WORKRAVE_CITOOL_PREPARED_DIR
     export DOSBOM=
     export DODEBUG=
     export DRYRUN=
@@ -298,6 +305,7 @@ parse_arguments() {
         C)
             pwd
             SCRIPTS_DIR=$(realpath "${OPTARG}")
+            REUSE_CITOOL_DEPS=1
             ;;
         D)
             DODEBUG=1
