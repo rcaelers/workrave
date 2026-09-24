@@ -1,7 +1,7 @@
 ---
 releases:
   - version: 1.11.2
-    date: 2026-09-22T17:14:00+02:00
+    date: 2026-09-24T20:19:00+02:00
     short: |-
       Workrave 1.11.2 has been released. You can now choose which speakers or headphones
       play your break reminders. This release also fixes several problems that could
