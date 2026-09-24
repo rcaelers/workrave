@@ -243,10 +243,12 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
     PORTABLE_DIR=${BUILD_DIR}/portable
     portableFilename=${baseWindowsFilename}-portable.zip
 
-    mkdir -p ${PORTABLE_DIR}/Workrave
+    mkdir -p "${PORTABLE_DIR}/Workrave"
     for d in ${OUTPUT_DIR}/bin ${OUTPUT_DIR}/bin32 ${OUTPUT_DIR}/lib ${OUTPUT_DIR}/etc/ ${OUTPUT_DIR}/share; do
-        if [ -d $d ]; then
-            cp -a $d ${PORTABLE_DIR}/Workrave
+        if [ -d "$d" ]; then
+            # Theme archives contain symlinked assets. Ship their contents so
+            # portable Windows packages do not require symbolic links.
+            cp -aL "$d" "${PORTABLE_DIR}/Workrave"
         fi
     done
     cp -a ${OUTPUT_DIR}/*.txt ${PORTABLE_DIR}/Workrave
