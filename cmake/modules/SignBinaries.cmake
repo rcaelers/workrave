@@ -8,15 +8,14 @@
 #
 # Expects (via install(CODE "set(...)")):
 #   WITH_SIGN    whether signing is enabled
-#   SIGNTOOLSH   path to the authenticode-signing script (only set when WITH_SIGN is ON)
+#   SIGN_TOOL    path to the ship binary (only set when WITH_SIGN is ON)
 
 if (WITH_SIGN)
-  find_program(BASH_CMD bash REQUIRED)
   file(GLOB_RECURSE exe_files "${CMAKE_INSTALL_PREFIX}/*[Ww]orkrave*.exe")
   if (exe_files)
     message(STATUS "Authenticode-signing: ${exe_files}")
     execute_process(
-      COMMAND "${BASH_CMD}" "${SIGNTOOLSH}" ${exe_files}
+      COMMAND "${SIGN_TOOL}" sign authenticode ${exe_files}
       RESULT_VARIABLE sign_result
     )
     if (NOT sign_result EQUAL 0)

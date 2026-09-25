@@ -1,0 +1,22 @@
+#!/bin/bash -e
+#
+# Builds tools/ship if needed and runs it with the Workrave release pipeline
+# (tools/local/release.yaml) and configuration (tools/local/ship.yaml), so
+# that a release is just
+#
+#   tools/local/ship release --commit <sha> --version v1_12_0 --dry-run
+#
+# `release` is the default: `tools/local/ship --commit ...` works too.
+# See tools/ship/README.md and tools/local/ship.example.yaml.
+
+SCRIPTS_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+source "${SCRIPTS_DIR}/ci/ship.sh"
+
+export SHIP_PIPELINE="${SHIP_PIPELINE:-${SCRIPTS_DIR}/local/release.yaml}"
+build_ship 1>&2
+
+# No command given (first argument is an option, or nothing): release.
+case "${1:-}" in
+-* | "") set -- release "$@" ;;
+esac
+exec "${SHIP}" "$@"

@@ -113,8 +113,13 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~
         echo Building on MSYS2
 
         if [[ -n "$DOSIGN" ]]; then
+            # Signing is done by `ship sign`; SHIP is set by build_ship in ci/ship.sh.
+            if [[ ! -x "${SHIP:-}" ]]; then
+                echo "DOSIGN is set but SHIP does not point to the ship binary" 1>&2
+                exit 1
+            fi
             CMAKE_FLAGS+=("-DWITH_SIGN=ON")
-            CMAKE_FLAGS+=("-DWITH_SIGN_SCRIPTS_ROOT=${SCRIPTS_DIR}/local")
+            CMAKE_FLAGS+=("-DWITH_SIGN_TOOL=${SHIP}")
         fi
     else
         TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/${CONF_SYSTEM}-${CONF_COMPILER}.cmake

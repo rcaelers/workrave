@@ -1,9 +1,0 @@
-{% for entry in releases.releases -%}
-workrave ({{ entry['version'] | replace('-', '~') }}-ppa{{ increment }}~{{ series }}) {{ series }}; urgency=medium
-{% for change in entry['changes'] %}
-  * {{ change | text | replace('\n', '\n    ') }}
-{%- endfor %}
-
- -- Rob Caelers <robc@krandor.org>  {{ entry['date'] | data_format('ddd, DD MMM YYYY hh:mm:ss ZZ') }}
-
-{% endfor -%}

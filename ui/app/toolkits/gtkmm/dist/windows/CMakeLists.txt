@@ -131,7 +131,7 @@ install(CODE "set(SOURCE_DIR \"${CMAKE_SOURCE_DIR}\")")
 
 install(CODE "set(WITH_SIGN ${WITH_SIGN})")
 if (WITH_SIGN)
-  install(CODE "set(SIGNTOOLSH \"${SIGNTOOLSH}\")")
+  install(CODE "set(SIGN_TOOL \"${SIGN_TOOL}\")")
 endif()
 
 if (HAVE_SBOM)
@@ -168,7 +168,7 @@ set(ISCC_FILENAME_FLAGS "/F${INSTALLER_NAME}")
 # itself via the "Certum" SignTool it invokes for every file it produces.
 set(ISCC_FLAGS "")
 if (WITH_SIGN)
-  set(ISCC_FLAGS "/DSignTool=Certum" "/SCertum=${SIGNTOOLPS1} $f")
+  set(ISCC_FLAGS "/DSignTool=Certum" "/SCertum=${SIGN_TOOL_ISCC}")
 endif()
 
 set(INSTALLER_BUILD_COMMANDS
@@ -176,9 +176,8 @@ set(INSTALLER_BUILD_COMMANDS
 
 # Sigstore-sign the resulting installer.exe, producing "<exe>.sigstore".
 if (WITH_SIGN)
-  find_program(BASH_CMD bash REQUIRED)
   list(APPEND INSTALLER_BUILD_COMMANDS
-       COMMAND "${BASH_CMD}" "${SIGNCOSIGNSH}" "${CMAKE_INSTALL_PREFIX}/${INSTALLER_TARGET}")
+       COMMAND "${SIGN_TOOL}" sign cosign "${CMAKE_INSTALL_PREFIX}/${INSTALLER_TARGET}")
 endif()
 
 add_custom_command(OUTPUT ${INSTALLER_TARGET}
@@ -199,7 +198,7 @@ add_custom_command(OUTPUT "${PORTABLE_ZIP}"
                            "-DPORTABLE_NAME=${PORTABLE_NAME}"
                            "-DOUTPUT_ZIP=${PORTABLE_ZIP}"
                            "-DWITH_SIGN=${WITH_SIGN}"
-                           "-DSIGNCOSIGNSH=${SIGNCOSIGNSH}"
+                           "-DSIGN_TOOL=${SIGN_TOOL}"
                            -P "${CMAKE_CURRENT_SOURCE_DIR}/MakePortable.cmake"
                    DEPENDS workrave "${CMAKE_CURRENT_SOURCE_DIR}/MakePortable.cmake"
                    VERBATIM)

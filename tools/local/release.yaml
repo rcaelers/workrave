@@ -1,0 +1,690 @@
+# The Workrave release pipeline, run by `ship release` (tools/ship, see its README).
+#
+# Machine-specific values come from tools/local/ship.yaml (git-ignored) as
+# {{ config.* }}; tools/local/ship.example.yaml documents every key. Each
+# target starts with a check-config job that lists the keys it needs and
+# reports missing ones. Every string here is a Jinja template rendered when
+# the step runs; `ship pipeline show` prints the rendered commands without
+# running anything.
+#
+# Context: config, options.* (the command line options declared below, and
+# --set values), dry_run, host.os, ship.exe, env.*, vars.*, matrix.*, item,
+# plus what steps set through `outputs` (the workspace job sets version.*).
+# Functions: secret(name), exists(path), glob(pattern), today(format).
+# Filters: msys.
+
+settings:
+  # Used by secret() and the sign action.
+  signing_service_url: "{{ config.signing_service_url }}"
+
+# Command line options of `ship release` / `ship pipeline show`. An option
+# with `config:` overrides that configuration key for the run; the others
+# are {{ options.<name> }}.
+options:
+  commit:
+    short: t
+    help: "Commit or tag to check out (default: the workspace's current HEAD)"
+  version:
+    short: r
+    help: "Use this tag as the version instead of `git describe`, e.g. v1_12_0_alpha_1"
+  staging:
+    short: S
+    flag: true
+    help: Deploy to the staging environment (Windows, appcast)
+  prerelease:
+    short: P
+    flag: true
+    config: prerelease
+    help: Mark the GitHub release as pre-release and upload to the testing PPA
+  ppa:
+    config: linux.ppa_increment
+    help: PPA package increment
+  build-deb:
+    short: b
+    flag: true
+    config: linux.build_deb
+    help: Also build binary .deb packages with pbuilder
+  sign:
+    short: s
+    flag: true
+    config: windows.sign
+    help: "Windows: authenticode/sigstore-sign the artifacts"
+  no-sign:
+    flag: true
+    config: windows.sign
+    value: false
+    help: "Windows: do not sign the artifacts"
+  sbom:
+    short: B
+    flag: true
+    config: windows.sbom
+    help: "Windows: generate the SBOM"
+  no-sbom:
+    flag: true
+    config: windows.sbom
+    value: false
+    help: "Windows: skip the SBOM"
+  debug:
+    short: D
+    flag: true
+    config: windows.debug
+    help: "Windows: also produce a Debug build"
+
+# Values derived from the configuration and the command line.
+vars:
+  source: "{{ config.workspace_dir }}/source"
+  deploy: "{{ config.workspace_dir }}/deploy"
+  # The tools/ directory to run the build scripts from: a development
+  # checkout (config.scripts_dir), or the one of the commit being released.
+  scripts: "{{ config.scripts_dir | default(vars.source ~ '/tools') }}"
+  # Where this release's artifacts are collected.
+  release_dir: "{{ vars.deploy }}/{{ version.tag }}"
+  appcast_repo_dir: "{{ config.workspace_dir }}/workrave-appcast"
+  # Pre-releases go to the testing PPA and are marked as such on GitHub.
+  prerelease: "{{ config.prerelease or config.channel != 'stable' }}"
+  # Artifact directory in the snapshots bucket, and the matching secret set.
+  s3_dir: "{{ 'staging/' if options.staging }}{{ config.snapshots.branch }}"
+  environment: "{{ 'staging' if options.staging else 'production' }}"
+  s3_secret_key: "{{ secret('secrets.tokens.s3_access_key.' ~ vars.environment) }}"
+  # Windows builds are identified by date and full git version, as ci/config.sh does.
+  build_id: "{{ today('%Y%m%d') }}-{{ version.long }}local"
+  win_deploy_dir: "{{ vars.source }}/_deploy/{{ vars.build_id }}"
+
+environments:
+  # Linux builds run in the workrave-build images; with a remote podman the
+  # mounted directories are mirrored there first (sync).
+  ubuntu:
+    type: container
+    engine: "{{ config.container.engine }}"
+    sync: "{{ config.container.sync }}"
+    remote-dir: "{{ config.container.remote_dir }}"
+    image: "{{ config.container.image_repository }}:{{ config.linux.image }}"
+    # The image tags exist for amd64 and aarch64 (the AppImage matrix pulls
+    # both), so the platform is always explicit: the host's native one from
+    # the configuration; steps may override it.
+    platform: "{{ config.container.platform }}"
+    mounts:
+      "{{ vars.source }}": /workspace/source
+      "{{ vars.deploy }}": /workspace/deploy
+      "{{ vars.scripts }}": /workspace/scripts
+    env:
+      WORKRAVE_ENV: local
+      # The scripts build.sh calls (artifact.sh, sbom.sh, ...) come from the
+      # mounted dev checkout too, not from tools/ in the source tree at the
+      # released commit (config.sh's default).
+      SCRIPTS_DIR: /workspace/scripts
+      CONF_CONFIGURATION: Release
+      DOCKER_IMAGE: "{{ config.linux.image }}"
+      WORKRAVE_OVERRIDE_GIT_VERSION: "{{ options.version }}"
+      WORKRAVE_RELEASE_TAG: "{{ version.release_tag }}"
+      WORKRAVE_PPA_SERIES: "{{ config.linux.ppa_series | join(' ') }}"
+
+  pbuilder:
+    type: container
+    engine: "{{ config.container.engine }}"
+    sync: "{{ config.container.sync }}"
+    remote-dir: "{{ config.container.remote_dir }}"
+    image: "{{ config.container.image_repository }}:ubuntu-pbuilder"
+    platform: "{{ config.container.platform }}"
+    options:
+      - --privileged
+    mounts:
+      "{{ vars.deploy }}": /workspace/deploy
+      "{{ vars.scripts }}": /workspace/scripts
+
+  # Windows builds run natively in an MSYS2 login shell, in the checkout.
+  msys2:
+    type: msys2
+    bash: "{{ config.windows.msys2_bash }}"
+    msystem: CLANG64
+    cwd: "{{ vars.source }}"
+    env:
+      WORKRAVE_ENV: local-windows-msys2
+      WORKSPACE: "{{ config.workspace_dir | msys }}"
+      SOURCES_DIR: "{{ vars.source | msys }}"
+      SCRIPTS_DIR: "{{ vars.scripts | msys }}"
+      WORKRAVE_BUILD_ID_SUFFIX: local
+      WORKRAVE_BUILD_DATE: "{{ today('%Y%m%d') }}"
+      WORKRAVE_BUILD_DATETIME: "{{ today('%Y-%m-%dT%H:%M:%S%:z') }}"
+      WORKRAVE_UPLOAD_DIR: "{{ config.snapshots.bucket }}/{{ vars.s3_dir }}/{{ vars.build_id }}"
+      WORKRAVE_OVERRIDE_GIT_VERSION: "{{ options.version }}"
+      SIGNING_SERVICE_URL: "{{ config.signing_service_url }}"
+      # The CMake signing hook (WITH_SIGN_TOOL) is this very binary.
+      SHIP: "{{ ship.exe | msys }}"
+
+targets:
+  linux:
+    - check-config-linux
+    - workspace
+    - changelogs
+    - appimage
+    - ppa
+    - deb
+    - blog
+    - github
+  macos:
+    - check-config-macos
+    - workspace
+    - dmg
+    - blog
+    - github
+  windows:
+    - check-config-windows
+    - workspace
+    - win-build
+    - win-sign
+    - win-upload
+    - github-windows
+    - win-catalog
+    - win-appcast
+    - win-symbols
+  publish-appcast:
+    - check-config-appcast
+    - publish-appcast
+
+jobs:
+  # ---------------------------------------------------------- configuration
+
+  check-config-linux:
+    always: true
+    steps:
+      - uses: check-config
+        with:
+          hint: tools/local/ship.example.yaml
+          required:
+            - signing_service_url
+            - workspace_dir
+            - repo
+            - channel
+            - container.engine
+            - container.sync
+            - container.remote_dir
+            - container.image_repository
+            - container.platform
+            - linux.image
+            - linux.ppa_series
+            - linux.ppa_increment
+          optional:
+            - scripts_dir
+            - website_dir
+            - prerelease
+            - linux.debian_dir
+            - linux.build_deb
+
+  check-config-macos:
+    always: true
+    steps:
+      - uses: check-config
+        with:
+          hint: tools/local/ship.example.yaml
+          required:
+            - signing_service_url
+            - workspace_dir
+            - repo
+            - channel
+            - macos.notarize_profile
+          optional:
+            - scripts_dir
+            - website_dir
+            - prerelease
+            - macos.dependencies_dir
+            - macos.sign_identity
+
+  check-config-windows:
+    always: true
+    steps:
+      - uses: check-config
+        with:
+          hint: tools/local/ship.example.yaml
+          required:
+            - signing_service_url
+            - workspace_dir
+            - repo
+            - channel
+            - windows.msys2_bash
+            - snapshots.endpoint
+            - snapshots.bucket
+            - snapshots.access_key
+            - snapshots.branch
+            - appcast.repo
+            - appcast.staging_branch
+            - symbols.server
+            - symbols.product_token
+          optional:
+            - scripts_dir
+            - prerelease
+            - windows.sign
+            - windows.sbom
+            - windows.debug
+
+  check-config-appcast:
+    always: true
+    steps:
+      - uses: check-config
+        with:
+          hint: tools/local/ship.example.yaml
+          required:
+            - signing_service_url
+            - workspace_dir
+            - snapshots.endpoint
+            - snapshots.bucket
+            - snapshots.access_key
+            - snapshots.branch
+            - appcast.repo
+            - appcast.staging_branch
+
+  # ---------------------------------------------------------------- common
+
+  workspace:
+    always: true
+    steps:
+      - name: clean checkout of the commit to release
+        run: |
+          set -e
+          SOURCE="{{ vars.source }}"
+          if [ ! -d "$SOURCE/.git" ]; then
+              git clone {{ config.repo }} "$SOURCE"
+          else
+              rm -rf "$SOURCE/_build" "$SOURCE/_deploy" "$SOURCE/_output"
+              git -C "$SOURCE" fetch
+          fi
+          git -C "$SOURCE" reset --hard HEAD
+          git -C "$SOURCE" clean -fdx
+          {% if options.commit %}git -C "$SOURCE" checkout {{ options.commit }}{% endif %}
+      # The same derivation as ci/config.sh: the nearest tag, `git describe`
+      # without the hash, and the human version (v1_12_0_alpha_1-5 ->
+      # 1.12.0-alpha.1). A release build is a checkout exactly at a tag.
+      - name: derive the version from git, or from --version
+        run: |
+          set -e
+          cd "{{ vars.source }}"
+          if [ -n "{{ options.version }}" ]; then
+              TAG="{{ options.version }}"
+              GIT_VERSION="$TAG"
+              LONG="$TAG"
+          else
+              TAG=$(git describe --abbrev=0)
+              LONG=$(git describe --tags --abbrev=10)
+              GIT_VERSION=$(echo "$LONG" | sed -e 's/-g.*//')
+          fi
+          WORKRAVE=$(echo "$GIT_VERSION" | sed -e 's/_\([0-9]\)/.\1/g' | sed -E -e 's/-[0-9]+//g' | sed -e 's/_/-/g' | sed -e 's/^v//g')
+          if [ "$TAG" = "$GIT_VERSION" ]; then
+              IS_RELEASE=true
+              RELEASE_TAG="$TAG"
+              echo "Release build $TAG ($WORKRAVE)"
+          else
+              IS_RELEASE=false
+              RELEASE_TAG=""
+              echo "Snapshot build $GIT_VERSION of release $TAG ($WORKRAVE)"
+          fi
+          {
+              echo "version.tag=$TAG"
+              echo "version.git_version=$GIT_VERSION"
+              echo "version.long=$LONG"
+              echo "version.workrave=$WORKRAVE"
+              echo "version.is_release=$IS_RELEASE"
+              echo "version.release_tag=$RELEASE_TAG"
+          } >> "$SHIP_OUTPUT"
+        outputs:
+          - version.tag
+          - version.git_version
+          - version.long
+          - version.workrave
+          - version.is_release
+          - version.release_tag
+      - run: mkdir -p {{ vars.release_dir }}
+
+  blog:
+    needs: [workspace]
+    if: "{{ config.website_dir }}"
+    steps:
+      - name: release announcement for the website
+        if: "{{ not exists(config.website_dir ~ '/content/en/blog/' ~ today('%Y_%m_%d') ~ '_workrave-' ~ version.git_version[1:] ~ '-released') }}"
+        uses: newsgen
+        with:
+          input: "{{ vars.source }}/changes.yaml"
+          template: blog
+          single: true
+          release: "{{ version.workrave }}"
+          output: "{{ config.website_dir }}/content/en/blog/{{ today('%Y_%m_%d') }}_workrave-{{ version.git_version[1:] }}-released/index.md"
+
+  github:
+    needs: [appimage, dmg]
+    steps:
+      - uses: newsgen
+        with:
+          input: "{{ vars.source }}/changes.yaml"
+          template: github
+          single: true
+          release: "{{ version.workrave | replace('-test', '') }}"
+          output: "{{ vars.release_dir }}/github-release-news"
+      - name: draft release with the AppImages and the dmg
+        uses: github-release
+        with:
+          repo: "{{ config.repo }}"
+          token: "{{ secret('secrets.tokens.github_pat') }}"
+          tag: "{{ version.tag }}"
+          title: "{{ version.workrave }}"
+          notes: "{{ vars.release_dir }}/github-release-news"
+          prerelease: "{{ vars.prerelease }}"
+          assets:
+            - "{{ vars.release_dir }}/*.AppImage"
+            - "{{ vars.release_dir }}/*.dmg"
+            - "{{ vars.release_dir }}/*.dmg.sigstore"
+
+  # ----------------------------------------------------------------- linux
+
+  changelogs:
+    needs: [workspace]
+    steps:
+      - name: Debian changelogs for ppa.sh, one per series
+        run: rm -rf {{ vars.deploy }}/newsgen && mkdir -p {{ vars.deploy }}/newsgen
+      - uses: newsgen
+        foreach: "{{ config.linux.ppa_series }}"
+        with:
+          input: "{{ vars.source }}/changes.yaml"
+          template: debian-changelog
+          series: "{{ item }}"
+          increment: "{{ config.linux.ppa_increment }}"
+          output: "{{ vars.deploy }}/newsgen/debian-changelog-{{ item }}"
+
+  appimage:
+    needs: [workspace]
+    runs-in: ubuntu
+    strategy:
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/aarch64
+    steps:
+      - run: /workspace/scripts/ci/build.sh
+        platform: "{{ matrix.platform }}"
+        env:
+          CONF_APPIMAGE: "1"
+        mounts:
+          "{{ vars.release_dir }}": /workspace/deploy/
+        options:
+          - --cap-add
+          - SYS_ADMIN
+          - --device
+          - /dev/fuse
+          - --security-opt
+          - apparmor:unconfined
+
+  ppa:
+    needs: [changelogs]
+    runs-in: ubuntu
+    steps:
+      - name: the packages are signed through the signing service, which must be reachable from the container
+        run: curl --insecure --fail --silent --show-error {{ config.signing_service_url }}/health >/dev/null
+      - name: source packages for every series; uploaded to the PPA unless dry run
+        run: /workspace/scripts/local/ppa.sh -p {{ config.linux.ppa_increment }} {{ '-d' if dry_run }} {{ '-P' if vars.prerelease }}
+        env:
+          SIGNING_SERVICE_URL: "{{ config.signing_service_url }}"
+        mounts:
+          "{{ config.linux.debian_dir }}": /workspace/debian
+
+  deb:
+    if: "{{ config.linux.build_deb }}"
+    needs: [ppa]
+    runs-in: pbuilder
+    steps:
+      - name: binary packages with pbuilder
+        run: /workspace/scripts/local/pbuild.sh
+        env:
+          GIT_TAG: "{{ version.tag }}"
+
+  # ----------------------------------------------------------------- macos
+
+  dmg:
+    if: "{{ host.os == 'macos' }}"
+    needs: [workspace]
+    env:
+      BUILD_DIR: "{{ config.workspace_dir }}/build-macos"
+      OUTPUT_DIR: "{{ config.workspace_dir }}/output-macos"
+      # Universal (arm64+x86_64) Qt, sqlite3, ... from workrave-dependencies.
+      # Without it CMake uses what it finds (Homebrew's Qt): single-arch.
+      DEPENDENCIES_DIR: "{{ config.macos.dependencies_dir }}"
+    steps:
+      - name: configure and build the signed, notarized dmg
+        run: |
+          set -e
+          # These live outside the git worktree, so the workspace reset never
+          # touches them: a stale CMakeCache.txt must not survive into this run.
+          rm -rf "$BUILD_DIR" "$OUTPUT_DIR"
+
+          SIGN_IDENTITY="{{ config.macos.sign_identity }}"
+          if [ -z "$SIGN_IDENTITY" ]; then
+              SIGN_IDENTITY=$(security find-identity -v -p codesigning | sed -n 's/.*"\(Developer ID Application: [^"]*\)".*/\1/p' | head -n1)
+          fi
+          NOTARIZE_PROFILE="{{ config.macos.notarize_profile }}"
+          if [ -z "$SIGN_IDENTITY" ] || [ -z "$NOTARIZE_PROFILE" ]; then
+              echo "macos.sign_identity and macos.notarize_profile must be set to build a signed dmg." >&2
+              echo "See ui/app/toolkits/qt/dist/macos/CMakeLists.txt for the one-time setup." >&2
+              exit 1
+          fi
+
+          if [ -n "$DEPENDENCIES_DIR" ]; then
+              export PATH="$DEPENDENCIES_DIR/bin:$PATH"
+              PREFIX_PATH="$DEPENDENCIES_DIR"
+              ARCHITECTURES="arm64;x86_64"
+          else
+              PREFIX_PATH=$(brew --prefix qt 2>/dev/null || true)
+              ARCHITECTURES=""
+          fi
+
+          cmake -S "{{ vars.source }}" -B "$BUILD_DIR" -G Ninja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX="$OUTPUT_DIR" \
+              -DCMAKE_PREFIX_PATH="$PREFIX_PATH" \
+              -DCMAKE_OSX_ARCHITECTURES="$ARCHITECTURES" \
+              -DWITH_UI=Qt -DWITH_GRPC=ON \
+              -DWORKRAVE_SIGN_IDENTITY="$SIGN_IDENTITY" \
+              -DWORKRAVE_NOTARIZE_PROFILE="$NOTARIZE_PROFILE"
+          # "translations" is an ALL target that "dmg" does not depend on, but
+          # the install step needs the .qm files: build the default target first.
+          cmake --build "$BUILD_DIR"
+          cmake --build "$BUILD_DIR" --target dmg
+      - name: the app bundle must not link against Homebrew when built from the dependencies tree
+        if: "{{ config.macos.dependencies_dir }}"
+        uses: check-no-homebrew-links
+        with:
+          dir: "{{ config.workspace_dir }}/output-macos"
+      - run: cp "$OUTPUT_DIR"/*.dmg "{{ vars.release_dir }}/workrave-macos-{{ version.workrave }}.dmg"
+      - uses: sign
+        with:
+          kind: cosign
+          files: "{{ vars.release_dir }}/workrave-macos-{{ version.workrave }}.dmg"
+
+  # --------------------------------------------------------------- windows
+
+  win-build:
+    needs: [workspace]
+    runs-in: msys2
+    steps:
+      - name: build catalog entry for this build
+        run: "{{ vars.scripts | msys }}/ci/catalog.sh -c {{ config.channel }}"
+        env:
+          WORKRAVE_JOB_INDEX: "0"
+      - name: Release build (installer, portable zip, source tarball)
+        run: "{{ vars.scripts | msys }}/ci/build.sh"
+        env:
+          CONF_CONFIGURATION: Release
+          WORKRAVE_JOB_INDEX: "1"
+          CONF_SOURCE_TARBALL: "1"
+          CONF_ENABLE: "TESTS,AUTO_UPDATE,CRASHPAD{{ ',SBOM' if config.windows.sbom }}{{ ',UPDATER_STAGING,CRASHPAD_STAGING' if options.staging }}"
+          DOSIGN: "{{ '1' if config.windows.sign }}"
+      - name: Debug build
+        if: "{{ config.windows.debug }}"
+        run: "{{ vars.scripts | msys }}/ci/build.sh"
+        env:
+          CONF_CONFIGURATION: Debug
+          WORKRAVE_JOB_INDEX: "2"
+          CONF_ENABLE: "TESTS,AUTO_UPDATE"
+          DOSIGN: "{{ '1' if config.windows.sign }}"
+
+  win-sign:
+    needs: [win-build]
+    steps:
+      - name: ed25519 signatures of the artifacts in the build catalog
+        uses: sign
+        with:
+          kind: catalog
+          files: "{{ vars.source }}/_deploy"
+      - name: sigstore bundles
+        if: "{{ config.windows.sign }}"
+        uses: sign
+        with:
+          kind: cosign
+          files:
+            - "{{ vars.win_deploy_dir }}/*.exe"
+            - "{{ vars.win_deploy_dir }}/*.zip"
+            - "{{ vars.win_deploy_dir }}/*.xz"
+
+  win-upload:
+    needs: [win-sign]
+    steps:
+      - uses: s3-upload
+        with:
+          files: "{{ vars.source }}/_deploy"
+          prefix: "{{ vars.s3_dir }}"
+          endpoint: "{{ config.snapshots.endpoint }}"
+          bucket: "{{ config.snapshots.bucket }}"
+          access-key: "{{ config.snapshots.access_key }}"
+          secret-key: "{{ vars.s3_secret_key }}"
+
+  github-windows:
+    if: "{{ not options.staging }}"
+    needs: [win-sign]
+    steps:
+      - uses: newsgen
+        with:
+          input: "{{ vars.source }}/changes.yaml"
+          template: github
+          single: true
+          release: "{{ version.workrave | replace('-test', '') }}"
+          output: "{{ vars.source }}/_deploy/github-release-news"
+      - uses: github-release
+        with:
+          repo: "{{ config.repo }}"
+          token: "{{ secret('secrets.tokens.github_pat') }}"
+          tag: "{{ version.tag }}"
+          title: "{{ version.workrave }}"
+          notes: "{{ vars.source }}/_deploy/github-release-news"
+          prerelease: "{{ vars.prerelease }}"
+          assets:
+            - "{{ vars.win_deploy_dir }}/*.exe"
+            - "{{ vars.win_deploy_dir }}/*.zip"
+            - "{{ vars.win_deploy_dir }}/*.xz"
+            - "{{ vars.win_deploy_dir }}/*.sigstore"
+
+  win-catalog:
+    needs: [win-upload]
+    steps:
+      - name: merge this build into the catalog in the snapshots bucket
+        uses: catalog
+        with:
+          branch: "{{ vars.s3_dir }}"
+          workspace: "{{ vars.source }}"
+          endpoint: "{{ config.snapshots.endpoint }}"
+          bucket: "{{ config.snapshots.bucket }}"
+          access-key: "{{ config.snapshots.access_key }}"
+          secret-key: "{{ vars.s3_secret_key }}"
+
+  win-appcast:
+    needs: [win-catalog]
+    runs-in: msys2
+    steps:
+      - uses: appcast
+        with:
+          branch: "{{ vars.s3_dir }}"
+          environment: "{{ vars.environment }}"
+          output: "{{ vars.source }}/appcast.xml"
+          endpoint: "{{ config.snapshots.endpoint }}"
+          bucket: "{{ config.snapshots.bucket }}"
+          access-key: "{{ config.snapshots.access_key }}"
+          secret-key: "{{ vars.s3_secret_key }}"
+      - if: "{{ config.windows.sign }}"
+        uses: sign
+        with:
+          kind: cosign
+          files: "{{ vars.source }}/appcast.xml"
+      # Only staged in git: uploading now would make clients update before the
+      # (still draft) GitHub release and the AppImage are ready. `ship release
+      # --target publish-appcast` merges staging into main and uploads.
+      - name: stage the appcast on the staging branch, rebuilt from main
+        run: |
+          set -e
+          REPO="{{ vars.appcast_repo_dir | msys }}"
+          [ -d "$REPO/.git" ] || git clone {{ config.appcast.repo }} "$REPO"
+          git -C "$REPO" fetch origin
+          git -C "$REPO" checkout -B {{ config.appcast.staging_branch }} origin/main
+          mkdir -p "$REPO/{{ vars.s3_dir }}"
+          cp appcast.xml "$REPO/{{ vars.s3_dir }}/appcast.xml"
+          [ ! -f appcast.xml.sigstore ] || cp appcast.xml.sigstore "$REPO/{{ vars.s3_dir }}/appcast.xml.sigstore"
+          git -C "$REPO" add -A
+          git -C "$REPO" diff --cached --quiet || git -C "$REPO" commit -m "Update appcast for {{ version.workrave }}"
+      - run: git -C "{{ vars.appcast_repo_dir | msys }}" push --force-with-lease origin {{ config.appcast.staging_branch }}
+        dry-run: echo
+
+  win-symbols:
+    needs: [win-build]
+    runs-in: msys2
+    steps:
+      - name: crashpad symbols of our own binaries
+        foreach: "{{ glob(vars.source ~ '/_build/Release/*.sym') }}"
+        run: |
+          curl --insecure -X POST "{{ config.symbols.server }}/api/symbols/{{ config.symbols.product_token }}/upload" \
+              -H "Authorization: Bearer {{ secret('secrets.tokens.symbol_upload.production') }}" \
+              -F upload_file_symbols=@"{{ item | msys }}" \
+              -F version="{{ version.workrave }}" \
+              -F channel="{{ config.channel }}" \
+              -F commit="$(git rev-parse HEAD)" \
+              -F build_id="{{ vars.build_id }}"
+        dry-run: echo
+      # The bundled GTK stack from MSYS2 has no debug info; its symbols are
+      # recovered from the export tables of the DLLs this release ships. A
+      # failure here is not worth failing the release over.
+      - name: symbols of the bundled MinGW DLLs
+        if: "{{ exists(vars.source ~ '/_output/Release/bin') }}"
+        run: |
+          python3 "{{ vars.scripts | msys }}/local/upload-mingw-symbols.py" \
+              "{{ vars.source | msys }}/_output/Release/bin" \
+              --upload \
+              --insecure \
+              --server "{{ config.symbols.server }}" \
+              --product-token "{{ config.symbols.product_token }}" \
+              --token "{{ secret('secrets.tokens.symbol_upload.production') }}" \
+              --channel "{{ config.channel }}" \
+              --version "{{ version.workrave }}" \
+              --commit "$(git rev-parse HEAD)" \
+              --build-id "{{ vars.build_id }}" \
+              || echo "WARNING: MinGW symbol upload failed; crashes in the GTK libraries will not be symbolised"
+        dry-run: echo
+
+  # ------------------------------------------------------- publish-appcast
+
+  # Run once the GitHub release is finalized and every platform's artifacts
+  # (including the AppImage) are uploaded: from here on clients see the update.
+  publish-appcast:
+    steps:
+      - name: fast-forward main to the staged appcast
+        run: |
+          set -e
+          REPO="{{ vars.appcast_repo_dir }}"
+          [ -d "$REPO/.git" ] || git clone {{ config.appcast.repo }} "$REPO"
+          git -C "$REPO" fetch origin
+          git -C "$REPO" checkout -B main origin/main
+          git -C "$REPO" merge --ff-only origin/{{ config.appcast.staging_branch }}
+      - run: git -C "{{ vars.appcast_repo_dir }}" push origin main
+        dry-run: echo
+      - uses: s3-upload
+        with:
+          files:
+            - "{{ vars.appcast_repo_dir }}/{{ vars.s3_dir }}/appcast.xml"
+            - "{{ vars.appcast_repo_dir }}/{{ vars.s3_dir }}/appcast.xml.sigstore"
+          prefix: "{{ vars.s3_dir }}"
+          endpoint: "{{ config.snapshots.endpoint }}"
+          bucket: "{{ config.snapshots.bucket }}"
+          access-key: "{{ config.snapshots.access_key }}"
+          secret-key: "{{ vars.s3_secret_key }}"

@@ -1,0 +1,98 @@
+# Machine configuration for `ship release`, `ship sign`, ...
+#
+# Copy to tools/local/ship.yaml (git-ignored; a symlink to a file elsewhere
+# works too), or pass --config. A leading ~ in
+# values is expanded. The file is free-form: `ship` does not define its keys.
+# The release pipeline (tools/local/release.yaml) refers to them as
+# {{ config.* }}, and each of its targets starts with a check-config job that
+# lists the keys it needs and reports missing ones. Per-run choices
+# (--commit, --version, --dry-run, --target, --staging) are command line
+# options. `signing_service_url` is also used by `ship sign` and `ship secret`.
+
+# Base URL of the workrave signing service. Must be reachable from wherever
+# containers run (a remote podman host cannot resolve mDNS .local names).
+signing_service_url: https://signing.example.org:50051
+
+# Holds the source checkout (source/), deploy/ and other build state.
+workspace_dir: ~/tmp/builds/workrave-release
+
+# Optional: the tools/ directory to run the build scripts from. Defaults to
+# <workspace_dir>/source/tools, i.e. the scripts of the commit being
+# released; point it at a development checkout to use newer scripts.
+scripts_dir: ~/src/workrave/tools
+
+# Git repository to release from, and the GitHub repository for releases.
+repo: https://github.com/rcaelers/workrave.git
+
+# Optional: checkout of the workrave website, for the release blog post.
+website_dir: ~/src/workrave-website
+
+# Releases on a non-stable channel are pre-releases; `prerelease: true`
+# makes every release one (as does --prerelease).
+channel: stable
+prerelease: false
+
+container:
+  engine: podman # podman | docker
+  # When podman talks to a remote service, bind mounts refer to paths on that
+  # host. auto: rsync the local directories there when they are not visible;
+  # rsync: always; none: never (fail instead).
+  sync: auto
+  # Where local directories are mirrored on the remote host, relative to $HOME.
+  remote_dir: .cache/workrave-build
+  image_repository: ghcr.io/rcaelers/workrave-build
+  # The container host's native platform: linux/amd64 or linux/arm64. The
+  # images exist for both; builds for the other one are explicit (AppImage).
+  platform: linux/amd64
+
+linux:
+  image: ubuntu-resolute
+  ppa_series: [stonking, resolute, noble, jammy]
+  ppa_increment: 1
+  # Optional: checkout of workrave-debian-packaging (cloned in the container
+  # if unset).
+  debian_dir: ~/src/workrave-debian
+  # Optional: also build binary .deb packages with pbuilder.
+  build_deb: false
+
+macos:
+  # notarytool keychain profile name; required for a signed dmg.
+  notarize_profile: workrave
+  # Optional: self-contained universal (arm64+x86_64) Qt, sqlite3, ... tree
+  # from workrave-dependencies. Without it CMake uses what it finds
+  # (Homebrew's Qt), giving a single-architecture build.
+  dependencies_dir: ~/src/workrave-dependencies/macos/_deploy/dependencies
+  # Optional: "Developer ID Application: ..." identity; found with `security`
+  # if unset.
+  sign_identity: null
+
+windows:
+  msys2_bash: C:/msys64/usr/bin/bash.exe
+  # Optional flags, all false by default.
+  sign: true
+  sbom: true
+  debug: false
+
+# The snapshots bucket: artifacts, the update catalog and the appcast.
+snapshots:
+  endpoint: https://snapshots.workrave.org/
+  bucket: snapshots
+  access_key: github
+  branch: v1.12
+
+appcast:
+  repo: git@github.com:rcaelers/workrave-appcast.git
+  staging_branch: staging
+
+symbols:
+  server: https://crashes.workrave.org
+  product_token: hyltb0goi8jblxonczzw3fsi
+
+# Overrides applied with --profile <name>; mappings are merged key by key.
+profiles:
+  # Local docker on an Apple Silicon Mac.
+  docker:
+    container:
+      engine: docker
+      platform: linux/arm64
+    signing_service_url: https://signing.local:50051

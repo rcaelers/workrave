@@ -60,4 +60,4 @@ jq -n ' {
 ' >$CATALOG_NAME
 
 ls -la ${CATALOG_DIR}
-chmod 644 ${CATALOG_DIR}/*
+find ${CATALOG_DIR} -maxdepth 1 -type f -exec chmod 644 {} +

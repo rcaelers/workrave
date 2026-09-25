@@ -70,5 +70,7 @@ for dir in $DIST_DIRS; do
     echo Running build for $dist
     DIST=$dist pbuilder --build "${opts[@]}" workrave*.dsc
     mkdir -p /workspace/deploy/$GIT_TAG/$dist
-    cp -a /var/cache/pbuilder/result/*$dist*.deb /var/cache/pbuilder/result/*$dist*.ddeb /workspace/deploy/$GIT_TAG/$dist
+    # The results are owned by pbuilder's build user; keep them owned by the
+    # container user, which maps to the host user when running rootless.
+    cp --no-preserve=ownership /var/cache/pbuilder/result/*$dist*.deb /var/cache/pbuilder/result/*$dist*.ddeb /workspace/deploy/$GIT_TAG/$dist
 done

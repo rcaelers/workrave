@@ -386,21 +386,20 @@ add_compile_definitions(
 
 if (WIN32)
   option(WITH_SIGN "Sign Windows binaries, installers and portable packages during the build" OFF)
-  set(WITH_SIGN_SCRIPTS_ROOT "${CMAKE_SOURCE_DIR}/tools/local" CACHE PATH
-      "Directory containing the sign-authenticode(.sh/.ps1)/sign-cosign.sh scripts")
+  set(WITH_SIGN_TOOL "" CACHE FILEPATH
+      "Path to the ship binary (tools/ship) that performs the signing: ship sign <kind> <file>")
 
   if (WITH_SIGN)
-    foreach(script sign-authenticode.sh sign-authenticode.ps1 sign-cosign.sh)
-      if (NOT EXISTS "${WITH_SIGN_SCRIPTS_ROOT}/${script}")
-        message(FATAL_ERROR "WITH_SIGN is ON but ${WITH_SIGN_SCRIPTS_ROOT}/${script} does not exist. "
-                             "Set WITH_SIGN_SCRIPTS_ROOT to the directory containing the signing scripts.")
-      endif()
-    endforeach()
+    if (NOT WITH_SIGN_TOOL OR NOT EXISTS "${WITH_SIGN_TOOL}")
+      message(FATAL_ERROR "WITH_SIGN is ON but WITH_SIGN_TOOL (\"${WITH_SIGN_TOOL}\") does not point to the ship binary. "
+                          "Build tools/ship and set WITH_SIGN_TOOL to the resulting ship executable.")
+    endif()
 
-    set(SIGNTOOLSH "${WITH_SIGN_SCRIPTS_ROOT}/sign-authenticode.sh")
-    set(SIGNCOSIGNSH "${WITH_SIGN_SCRIPTS_ROOT}/sign-cosign.sh")
-    file(TO_NATIVE_PATH "${WITH_SIGN_SCRIPTS_ROOT}/sign-authenticode.ps1" SIGNTOOLPS1_SCRIPT_WIN)
-    set(SIGNTOOLPS1 "powershell.exe -ExecutionPolicy Bypass -File ${SIGNTOOLPS1_SCRIPT_WIN}")
+    # Used as "${SIGN_TOOL}" sign cosign|authenticode <file> ...
+    set(SIGN_TOOL "${WITH_SIGN_TOOL}")
+    # Inno Setup's SignTool command line: $q is a double quote, $f the file.
+    file(TO_NATIVE_PATH "${WITH_SIGN_TOOL}" SIGN_TOOL_WIN)
+    set(SIGN_TOOL_ISCC "$q${SIGN_TOOL_WIN}$q sign authenticode $f")
   endif()
 endif()
 
@@ -1005,6 +1004,9 @@ if (UNIX AND (NOT APPLE))
     pkg_check_modules(WAYLAND_PROTOCOLS wayland-protocols)
     if (WAYLAND_PROTOCOLS_FOUND)
       pkg_get_variable(WAYLAND_PROTOCOLS_DATADIR wayland-protocols pkgdatadir)
+      # pkgconf >= 2.5 expands the ${pc_sysrootdir} in wayland-protocols.pc to "/",
+      # giving "//usr/share/wayland-protocols".
+      string(REGEX REPLACE "^//+" "/" WAYLAND_PROTOCOLS_DATADIR "${WAYLAND_PROTOCOLS_DATADIR}")
     endif()
     if (NOT WAYLAND_PROTOCOLS_DATADIR OR NOT EXISTS "${WAYLAND_PROTOCOLS_DATADIR}/stable/xdg-shell/xdg-shell.xml")
       message(WARNING "wayland-protocols (stable/xdg-shell/xdg-shell.xml) not found")
