@@ -91,7 +91,9 @@ if(MINGW OR VCPKG_TOOLCHAIN)
   endif()
 
   foreach(size 16x16 24x24 32x32 48x48 64x64 96x96 128x128 scalable)
-    foreach(icon places/user* places/folder* places/drive*)
+    foreach(icon places/user* places/folder* places/drive*
+                 actions/window-close* actions/edit-redo* actions/edit-delete*
+                 actions/go-first* actions/go-last* actions/go-previous* actions/go-next*)
       file(GLOB globs RELATIVE "${ADWAITA_DIR}" "${ADWAITA_DIR}/${size}/${icon}.*")
       foreach(icon_file ${globs})
         get_filename_component(dir ${icon_file} DIRECTORY)
