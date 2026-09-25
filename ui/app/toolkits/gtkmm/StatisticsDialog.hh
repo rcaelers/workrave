@@ -45,7 +45,11 @@ private:
   std::shared_ptr<IApplicationContext> app;
 
   /** Stats */
+#if defined(HAVE_CORE_NEXT)
+  workrave::stats::IStatistics::Ptr statistics;
+#else
   workrave::stats::IStatistics *statistics{nullptr};
+#endif
 
   /** Labels for break stats. */
   Gtk::Label *break_labels[workrave::BREAK_ID_SIZEOF][9]{};
