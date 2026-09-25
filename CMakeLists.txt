@@ -40,8 +40,8 @@ macro_ensure_out_of_source_build(
  )
 
 # Set Workrave version
-set (WORKRAVE_VERSION "1.11.2" )
-set (WORKRAVE_RESOURCE_VERSION "1,11,2,0" )
+set (WORKRAVE_VERSION "1.11.4" )
+set (WORKRAVE_RESOURCE_VERSION "1,11,4,0" )
 set (WORKRAVE_CHANNEL "stable" )
 
 set (CMAKE_BUILD_TYPE_INIT "Release")
