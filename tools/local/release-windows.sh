@@ -127,6 +127,11 @@ newsgen() {
 }
 
 github_create_release() {
+    if "${GH}" release view "${WORKRAVE_GIT_TAG}" >/dev/null 2>&1; then
+        echo "GitHub release ${WORKRAVE_GIT_TAG} already exists."
+        return
+    fi
+
     newsgen
     PRE_RELEASE=""
     if [ ${CHANNEL} != "stable" ]; then
@@ -138,7 +143,7 @@ github_create_release() {
         --title "${WORKRAVE_VERSION}" \
         --notes-file="${SOURCES_DIR}/_deploy/github-release-news" \
         ${PRE_RELEASE} \
-        ${WORKRAVE_GIT_TAG}
+        "${WORKRAVE_GIT_TAG}"
 
     #      --verify-tag
 }

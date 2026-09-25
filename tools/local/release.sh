@@ -184,9 +184,39 @@ upload() {
     upload_github
 }
 
+github_create_release() {
+    cd "${SOURCES_DIR}"
+
+    if gh release view "${GIT_TAG}" >/dev/null 2>&1; then
+        echo "GitHub release ${GIT_TAG} already exists."
+        return
+    fi
+
+    local release_notes="${DEPLOY_DIR}/${GIT_TAG}/github-release-news"
+    node "${SCRIPTS_DIR}/citool/dist/citool.js" newsgen \
+        --input changes.yaml \
+        --template github \
+        --single \
+        --release "${WORKRAVE_VERSION}" \
+        --output "${release_notes}"
+
+    local prerelease_arg=()
+    if [ -n "${PRERELEASE}" ]; then
+        prerelease_arg+=(--prerelease)
+    fi
+
+    gh release create \
+        --draft \
+        --title "${WORKRAVE_VERSION}" \
+        --notes-file="${release_notes}" \
+        "${prerelease_arg[@]}" \
+        "${GIT_TAG}"
+}
+
 upload_github() {
     export GH_TOKEN=$(curl -skf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.github_pat" | jq -r .value)
-    gh release upload ${GIT_TAG} ${DEPLOY_DIR}/${GIT_TAG}/*.AppImage
+    github_create_release
+    gh release upload "${GIT_TAG}" ${DEPLOY_DIR}/${GIT_TAG}/*.AppImage
 }
 
 export WORKRAVE_OVERRIDE_GIT_VERSION=
