@@ -22,6 +22,7 @@
 #include "ui/windows/WindowsStatusIcon.hh"
 
 #include <string>
+#include <cstring>
 #include <shellapi.h>
 #include <commctrl.h>
 
@@ -34,6 +35,55 @@
 const UINT MYWM_TRAY_MESSAGE = WM_USER + 0x100;
 
 #define NUM_ELEMENTS(x) (sizeof(x) / sizeof((x)[0]))
+
+namespace
+{
+  HBITMAP load_menu_bitmap(const wchar_t *resource)
+  {
+    const int width = GetSystemMetrics(SM_CXSMICON);
+    const int height = GetSystemMetrics(SM_CYSMICON);
+    HICON icon = nullptr;
+    if (FAILED(LoadIconWithScaleDown(GetModuleHandle(nullptr), resource, width, height, &icon)))
+      {
+        return nullptr;
+      }
+
+    // Native menus need a premultiplied-alpha bitmap. Draw the 32-bit icon
+    // onto a transparent DIB so the background works with any menu theme.
+    BITMAPINFO info{};
+    info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    info.bmiHeader.biWidth = width;
+    info.bmiHeader.biHeight = -height;
+    info.bmiHeader.biPlanes = 1;
+    info.bmiHeader.biBitCount = 32;
+    info.bmiHeader.biCompression = BI_RGB;
+    void *pixels = nullptr;
+    HBITMAP bitmap = CreateDIBSection(nullptr, &info, DIB_RGB_COLORS, &pixels, nullptr, 0);
+    HDC dc = CreateCompatibleDC(nullptr);
+    BOOL drawn = FALSE;
+    if (bitmap != nullptr && dc != nullptr)
+      {
+        std::memset(pixels, 0, width * height * 4);
+        HGDIOBJ previous = SelectObject(dc, bitmap);
+        if (previous != nullptr && previous != HGDI_ERROR)
+          {
+            drawn = DrawIconEx(dc, 0, 0, icon, width, height, 0, nullptr, DI_NORMAL);
+            SelectObject(dc, previous);
+          }
+      }
+    if (dc != nullptr)
+      {
+        DeleteDC(dc);
+      }
+    DestroyIcon(icon);
+    if (!drawn && bitmap != nullptr)
+      {
+        DeleteObject(bitmap);
+        bitmap = nullptr;
+      }
+    return bitmap;
+  }
+} // namespace
 
 WindowsStatusIcon::WindowsStatusIcon(std::shared_ptr<IApplicationContext> app)
   : app(app)
@@ -252,11 +302,26 @@ WindowsStatusIcon::show_menu()
   GetCursorPos(&pt);
 
   HMENU menu = CreatePopupMenu();
-  init_menu(menu, 0, menu_model->get_root());
+  std::vector<HBITMAP> bitmaps;
+  init_menu(menu, 0, menu_model->get_root(), bitmaps);
+
+  MENUINFO menu_info{};
+  menu_info.cbSize = sizeof(menu_info);
+  menu_info.fMask = MIM_STYLE;
+  menu_info.dwStyle = MNS_CHECKORBMP;
+  SetMenuInfo(menu, &menu_info);
 
   SetForegroundWindow(nid.hWnd);
   UINT command = TrackPopupMenu(menu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, nid.hWnd, nullptr);
   DestroyMenu(menu);
+  // DestroyMenu does not release the bitmaps, which must stay alive until it closes.
+  for (auto bitmap: bitmaps)
+    {
+      if (bitmap != nullptr)
+        {
+          DeleteObject(bitmap);
+        }
+    }
   auto node = menu_helper.find_node(command);
   if (node)
     {
@@ -265,7 +330,7 @@ WindowsStatusIcon::show_menu()
 }
 
 void
-WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr node)
+WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr node, std::vector<HBITMAP> &bitmaps)
 {
   uint32_t command = menu_helper.allocate_command(node->get_id());
 
@@ -289,7 +354,7 @@ WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr nod
 
       for (auto &menu_to_add: n->get_children())
         {
-          init_menu(popup, level + 1, menu_to_add);
+          init_menu(popup, level + 1, menu_to_add, bitmaps);
         }
     }
 
@@ -297,7 +362,7 @@ WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr nod
     {
       for (auto &menu_to_add: n->get_children())
         {
-          init_menu(current_menu, level, menu_to_add);
+          init_menu(current_menu, level, menu_to_add, bitmaps);
         }
     }
 
@@ -305,13 +370,27 @@ WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr nod
     {
       for (auto &menu_to_add: n->get_children())
         {
-          init_menu(current_menu, level, menu_to_add);
+          init_menu(current_menu, level, menu_to_add, bitmaps);
         }
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::ActionNode>(node); n)
     {
       InsertMenuW(current_menu, -1, flags, (UINT_PTR)(command), text.c_str());
+      if (auto icon = node->get_icon_name(); !icon.empty())
+        {
+          auto resource = workrave::utils::utf8_to_utf16("workrave_menu_" + icon);
+          std::replace(resource.begin(), resource.end(), L'-', L'_');
+          if (auto bitmap = load_menu_bitmap(resource.c_str()); bitmap != nullptr)
+            {
+              bitmaps.push_back(bitmap);
+              MENUITEMINFOW item{};
+              item.cbSize = sizeof(item);
+              item.fMask = MIIM_BITMAP;
+              item.hbmpItem = bitmap;
+              SetMenuItemInfoW(current_menu, command, FALSE, &item);
+            }
+        }
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::ToggleNode>(node); n)

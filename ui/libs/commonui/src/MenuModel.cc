@@ -82,6 +82,22 @@ menus::Node::get_id() const -> std::string
 }
 
 auto
+menus::Node::get_icon_name() const -> std::string
+{
+  return icon_name;
+}
+
+void
+menus::Node::set_icon_name(std::string icon_name)
+{
+  if (this->icon_name != icon_name)
+    {
+      this->icon_name = std::move(icon_name);
+      changed_signal();
+    }
+}
+
+auto
 menus::Node::get_text() const -> std::string
 {
   return Locale::lookup(text);

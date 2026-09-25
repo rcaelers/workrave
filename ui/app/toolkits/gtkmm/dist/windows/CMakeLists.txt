@@ -33,24 +33,24 @@ include(FetchContent)
   WindowsTheme
   "Windows 10 Light GTK theme"
   "GPL-3.0"
-  GIT_REPOSITORY https://github.com/B00merang-Project/Windows-10.git
-  GIT_TAG        3a4116603b66a9adcb78f3987d7ea6f01de1cbce
+  URL https://github.com/B00merang-Project/Windows-10/archive/3a4116603b66a9adcb78f3987d7ea6f01de1cbce.tar.gz
+  URL_HASH SHA256=10acbbfdd26f8f4973708a1fcb0036ba1decb8a684ea2747b64cc2ec8d57df3f
   )
 
   FetchContent_Declare_Logged(
   WindowsArtwork
   "Windows 10 Icon theme"
   "Unknown"
-  GIT_REPOSITORY https://github.com/B00merang-Artwork/Windows-10.git
-  GIT_TAG        9f199c6b7c6050f36d0d15aaa6e9f4847e8b9066
+  URL https://github.com/B00merang-Artwork/Windows-10/archive/9f199c6b7c6050f36d0d15aaa6e9f4847e8b9066.tar.gz
+  URL_HASH SHA256=33775825b2f2facbeaeb19d8ead0af444f3c02fad62208e91877312b89f52de6
   )
 
   FetchContent_Declare_Logged(
   FluentGtkTheme
   "Fluent Windows 11 GTK theme"
   "GPL-3.0"
-  GIT_REPOSITORY https://github.com/vinceliuice/Fluent-gtk-theme.git
-  GIT_TAG        9fc52910aeda73804c41bfcebf2bbd29205a4756
+  URL https://github.com/vinceliuice/Fluent-gtk-theme/archive/9fc52910aeda73804c41bfcebf2bbd29205a4756.tar.gz
+  URL_HASH SHA256=09f6dbcbe25175b207ff94b174edbb3f98a199174609d43576803eab4a1ebbef
   )
 
 FetchContent_GetProperties(WindowsTheme)

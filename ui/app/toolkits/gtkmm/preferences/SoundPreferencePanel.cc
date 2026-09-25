@@ -83,6 +83,8 @@ SoundPreferencePanel::create_panel()
       hig->add_label(std::string(_("Volume")) + ":", *sound_volume_scale, true, true);
     }
 
+  hig->add_label(std::string(_("Sound")) + ":", *sound_button);
+
   if (sound_theme->capability(workrave::audio::SoundCapability::DEVICE))
     {
       device_combo = Gtk::manage(new Gtk::ComboBoxText());
@@ -90,8 +92,6 @@ SoundPreferencePanel::create_panel()
       hig->add_label(std::string(_("Output device")) + ":", *device_combo);
       update_device_selection();
     }
-
-  hig->add_label(std::string(_("Sound")) + ":", *sound_button);
 
   if (sound_theme->capability(workrave::audio::SoundCapability::MUTE))
     {
@@ -228,6 +228,10 @@ SoundPreferencePanel::update_senstives()
   if (fsbutton != nullptr)
     {
       fsbutton->set_sensitive(idx > 0);
+    }
+  if (device_combo != nullptr)
+    {
+      device_combo->set_sensitive(idx > 0);
     }
 }
 

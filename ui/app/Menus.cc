@@ -66,15 +66,18 @@ Menus::init()
   root->add(section_main);
 
   menus::Node::Ptr item = menus::ActionNode::create(OPEN, N_("_Open"), [this] { on_menu_open_main_window(); });
+  item->set_icon_name("open");
   section_main->add(item);
 
   auto separator = menus::SeparatorNode::create();
   section_main->add(separator);
 
   item = menus::ActionNode::create(PREFERENCES, N_("_Preferences"), [this] { on_menu_preferences(); });
+  item->set_icon_name("preferences");
   section_main->add(item);
 
   item = menus::ActionNode::create(REST_BREAK, N_("_Rest break"), [this] { on_menu_restbreak_now(); });
+  item->set_icon_name("rest-break");
   section_main->add(item);
 
   item = menus::ActionNode::create(EXERCISES, N_("_Exercises"), [this] { on_menu_exercises(); });
@@ -137,9 +140,11 @@ Menus::init()
   root->add(section_tail);
 
   item = menus::ActionNode::create(ABOUT, N_("_About"), [this] { on_menu_about(); });
+  item->set_icon_name("about");
   section_tail->add(item);
 
   item = menus::ActionNode::create(QUIT, N_("_Quit"), [this] { on_menu_quit(); });
+  item->set_icon_name("quit");
   section_tail->add(item);
   menu_model->update();
 

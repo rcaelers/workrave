@@ -44,8 +44,10 @@ namespace menus
     [[nodiscard]] auto get_dynamic_text() const -> std::string;
     [[nodiscard]] auto get_dynamic_text_no_accel() const -> std::string;
     [[nodiscard]] auto get_id() const -> std::string;
+    [[nodiscard]] auto get_icon_name() const -> std::string;
     [[nodiscard]] auto is_visible() const -> bool;
 
+    void set_icon_name(std::string icon_name);
     void set_text(std::string text);
     void set_dynamic_text(std::string text);
     void unset_dynamic_text();
@@ -59,6 +61,7 @@ namespace menus
     const std::string id;
     std::string text;
     std::optional<std::string> text_dynamic;
+    std::string icon_name;
     bool visible{true};
     Activated activated;
     boost::signals2::signal<void()> changed_signal;

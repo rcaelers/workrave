@@ -7,6 +7,11 @@
     <file alias="icons/scalable/workrave-sound-symbolic.svg">images/sound.svg</file>
     <file alias="icons/scalable/workrave-timer-symbolic.svg">images/timer.svg</file>
     <file alias="icons/scalable/workrave-update-symbolic.svg">images/update.svg</file>
+    <file alias="icons/scalable/workrave-menu-open.png">images/adwaita/32x32/document-open.png</file>
+    <file alias="icons/scalable/workrave-menu-preferences.png">images/adwaita/32x32/preferences-system.png</file>
+    <file alias="icons/scalable/workrave-menu-rest-break.png">images/timer-rest-break-large.png</file>
+    <file alias="icons/scalable/workrave-menu-about.png">images/adwaita/32x32/help-about.png</file>
+    <file alias="icons/scalable/workrave-menu-quit.png">images/adwaita/32x32/application-exit.png</file>
     <file alias="ui/default.css">default.css</file>
   </gresource>
 </gresources>

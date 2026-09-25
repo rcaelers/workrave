@@ -22,7 +22,90 @@
 #include "ToolkitMenu.hh"
 #include "commonui/MenuModel.hh"
 
+#if defined(PLATFORM_OS_WINDOWS)
+#  include <vector>
+#endif
+
 using namespace detail;
+
+#if defined(PLATFORM_OS_WINDOWS)
+namespace
+{
+  // Gtk::Menu(model) puts icons inside the label area. ImageMenuItem keeps them
+  // in the shared check/icon column, so all labels line up, including submenus.
+  std::vector<Gtk::MenuItem *> create_menu_items(const Glib::RefPtr<Gio::MenuModel> &model,
+                                                 const Glib::RefPtr<Gio::SimpleActionGroup> &actions)
+  {
+    std::vector<Gtk::MenuItem *> items;
+    for (int i = 0; i < model->get_n_items(); ++i)
+      {
+        if (auto section = model->get_item_link(i, Gio::MENU_LINK_SECTION))
+          {
+            auto children = create_menu_items(section, actions);
+            if (!children.empty())
+              {
+                if (!items.empty())
+                  {
+                    items.push_back(Gtk::manage(new Gtk::SeparatorMenuItem()));
+                  }
+                items.insert(items.end(), children.begin(), children.end());
+              }
+            continue;
+          }
+
+        auto label_value = model->get_item_attribute(i, Gio::MENU_ATTRIBUTE_LABEL, Glib::VARIANT_TYPE_STRING);
+        Glib::ustring label = label_value ? g_variant_get_string(label_value.gobj(), nullptr) : "";
+        Gtk::MenuItem *item = nullptr;
+        if (auto submenu_model = model->get_item_link(i, Gio::MENU_LINK_SUBMENU))
+          {
+            auto submenu = Gtk::manage(new Gtk::Menu());
+            for (auto child: create_menu_items(submenu_model, actions))
+              {
+                submenu->append(*child);
+              }
+            item = Gtk::manage(new Gtk::MenuItem(label, true));
+            item->set_submenu(*submenu);
+          }
+        else
+          {
+            auto action_value = model->get_item_attribute(i, Gio::MENU_ATTRIBUTE_ACTION, Glib::VARIANT_TYPE_STRING);
+            Glib::ustring action_name = action_value ? g_variant_get_string(action_value.gobj(), nullptr) : "";
+            Glib::VariantBase target(g_menu_model_get_item_attribute_value(model->gobj(), i, "target", nullptr), false);
+            auto action = action_name.empty() ? Glib::RefPtr<Gio::Action>() : actions->lookup_action(action_name.substr(4));
+            if (action && g_action_get_state_type(action->gobj()) != nullptr)
+              {
+                auto check = Gtk::manage(new Gtk::CheckMenuItem(label, true));
+                check->set_draw_as_radio(bool(target));
+                item = check;
+              }
+            else
+              {
+                auto image_item = Gtk::manage(new Gtk::ImageMenuItem(label, true));
+                Glib::VariantBase icon_value(g_menu_model_get_item_attribute_value(model->gobj(), i, "icon", nullptr), false);
+                if (icon_value)
+                  {
+                    auto image = Gtk::manage(new Gtk::Image(Gio::Icon::deserialize(icon_value), Gtk::ICON_SIZE_MENU));
+                    image->set_pixel_size(16);
+                    image_item->set_image(*image);
+                    image_item->set_always_show_image(true);
+                  }
+                item = image_item;
+              }
+            if (target)
+              {
+                gtk_actionable_set_action_target_value(GTK_ACTIONABLE(item->gobj()), target.gobj());
+              }
+            if (!action_name.empty())
+              {
+                gtk_actionable_set_action_name(GTK_ACTIONABLE(item->gobj()), action_name.c_str());
+              }
+          }
+        items.push_back(item);
+      }
+    return items;
+  }
+} // namespace
+#endif
 
 ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter)
 {
@@ -34,9 +117,35 @@ ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter)
 
   entry = std::make_shared<ToolkitSubMenuEntry>(context, nullptr, root);
 
-  workrave::utils::connect(menu_model->signal_update(), this, [this]() { entry->init(); });
+#if defined(PLATFORM_OS_WINDOWS)
+  gtk_menu = std::make_shared<Gtk::Menu>();
+  update_menu();
+#else
   gtk_menu = std::make_shared<Gtk::Menu>(entry->get_menu());
+#endif
+  workrave::utils::connect(menu_model->signal_update(), this, [this]() {
+    entry->init();
+#if defined(PLATFORM_OS_WINDOWS)
+    update_menu();
+#endif
+  });
 }
+
+#if defined(PLATFORM_OS_WINDOWS)
+void
+ToolkitMenu::update_menu()
+{
+  for (auto child: gtk_menu->get_children())
+    {
+      gtk_menu->remove(*child);
+    }
+  for (auto item: create_menu_items(entry->get_menu(), context->get_action_group()))
+    {
+      gtk_menu->append(*item);
+      item->show_all();
+    }
+}
+#endif
 
 std::shared_ptr<Gtk::Menu>
 ToolkitMenu::get_menu() const
@@ -221,6 +330,12 @@ ToolkitActionMenuEntry::ToolkitActionMenuEntry(ToolkitMenuContext::Ptr context,
   if (!filter || filter(node))
     {
       auto item = Gio::MenuItem::create(node->get_dynamic_text(), std::string("app.") + node->get_id());
+#if defined(PLATFORM_OS_WINDOWS)
+      if (auto icon = node->get_icon_name(); !icon.empty())
+        {
+          item->set_icon(Gio::ThemedIcon::create("workrave-menu-" + icon));
+        }
+#endif
       parent->add(item);
     }
 }

@@ -1120,8 +1120,7 @@ if (WIN32)
     else()
       include(FindMsys)
     endif()
-    set(MSYS64_CMD ${MSYS_CMD} -here -mingw64 -no-start -defterm -c)
-    set(MSYS32_CMD ${MSYS_CMD} -here -mingw32 -no-start -defterm -c)
+    set(MSYS64_CMD ${MSYS_CMD} -here -clang64 -no-start -defterm -c)
   endif()
 
   find_library(SSP_LIBRARY libssp)
@@ -1322,26 +1321,21 @@ if (WITH_CRASHPAD)
   set(CRASHPAD_ENABLE_STACKTRACE ON CACHE BOOL "Enable stack traces in crashpad" FORCE)
   FetchContent_MakeAvailable(crashpad)
 
-  find_program(CARGO "cargo")
-  if (NOT CARGO)
-    message(FATAL_ERROR "Could not find cargo. Please install rust and cargo.")
+  # dump_syms is a host tool. Prefer an installed copy (or -DDUMP_SYMS=...),
+  # otherwise use Mozilla's Windows binary instead of rebuilding it with Cargo.
+  find_program(DUMP_SYMS NAMES dump_syms NO_CMAKE_FIND_ROOT_PATH)
+  if (NOT DUMP_SYMS)
+    FetchContent_Declare(
+      dump_syms
+      URL https://github.com/mozilla/dump_syms/releases/download/v2.3.9/dump_syms-x86_64-pc-windows-msvc.zip
+      URL_HASH SHA256=bdf48486220708808a3e00aec78856ee1cce096189d47a1e2cb1c635f93bacc7
+    )
+    FetchContent_MakeAvailable(dump_syms)
+    set(DUMP_SYMS "${dump_syms_SOURCE_DIR}/dump_syms.exe")
   endif()
 
-  FetchContent_Declare(
-    dump_syms
-    GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
-    GIT_TAG v2.3.7
-  )
-  FetchContent_MakeAvailable(dump_syms)
-
-
-  set(DUMP_SYMS ${dump_syms_SOURCE_DIR}/target/release/dump_syms.exe)
+  message(STATUS "Using dump_syms: ${DUMP_SYMS}")
   add_custom_target(dump_syms ALL DEPENDS ${DUMP_SYMS})
-  add_custom_command(
-    OUTPUT ${DUMP_SYMS}
-    COMMAND ${MSYS_CMD} -here -mingw64 -no-start -defterm -c "cargo build --release"
-    WORKING_DIRECTORY ${dump_syms_SOURCE_DIR}
-    )
 
   set(HAVE_CRASHPAD ON)
   set(HAVE_CRASH_REPORT ON)
