@@ -1,9 +1,14 @@
-Workrave NEWS -- history of user-visible changes. 24 September 2026
+Workrave NEWS -- history of user-visible changes. 25 September 2026
 Copyright (C) 2001-2026 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.11.3
+
+** Bug fixes:
+   - Fixed a crash when selecting an audio device on Linux.
 
 * Workrave 1.11.2
 

@@ -1,5 +1,14 @@
 ---
 releases:
+  - version: 1.11.3
+    date: 2026-09-25T11:45:00+02:00
+    short: |-
+      Workrave 1.11.3 fixes a crash with the new audio device selection support on Linux.
+    changes:
+      - |-
+        Bug fixes:
+        - Fixed a crash when selecting an audio device on Linux.
+
   - version: 1.11.2
     date: 2026-09-24T20:19:00+02:00
     short: |-
