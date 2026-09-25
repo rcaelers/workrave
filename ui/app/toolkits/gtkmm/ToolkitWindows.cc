@@ -268,8 +268,10 @@ ToolkitWindows::filter_func(MSG *msg)
     case WM_TIMECHANGE:
       {
         TRACE_MSG("WM_TIMECHANGE {} {}", msg->wParam, msg->lParam);
+#if !defined(HAVE_CORE_NEXT)
         auto core = app->get_core();
         core->time_changed();
+#endif
       }
       break;
 
