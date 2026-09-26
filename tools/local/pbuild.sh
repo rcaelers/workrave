@@ -52,12 +52,14 @@ prepare_basetgz() {
     rm -rf "$tmp"
 }
 
-# One directory per Ubuntu series, recognised by the source package in it
-# (deploy/ also holds the release directory, newsgen/ and the like).
-DIST_DIRS=$(find /workspace/deploy -mindepth 2 -maxdepth 2 -name 'workrave_*.dsc' -print | xargs -n1 dirname | sort -ru)
-for dir in $DIST_DIRS; do
-    dist=$(basename $dir)
-    cd $dir
+# Only build selected series with a source package. Old deploy directories
+# may still contain packages for series that are no longer supported.
+for dist in ${WORKRAVE_PPA_SERIES:-stonking resolute noble}; do
+    dir=/workspace/deploy/$dist
+    if ! compgen -G "$dir/workrave_*.dsc" >/dev/null; then
+        continue
+    fi
+    cd "$dir"
     prepare_basetgz /var/cache/pbuilder/base-$dist.tgz
     # pbuilder ignores every option that follows the .dsc, and --bindmounts
     # takes all its directories as one argument.

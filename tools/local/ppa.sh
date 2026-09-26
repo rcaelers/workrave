@@ -192,7 +192,7 @@ build_all() {
 
 DRYRUN=
 PRERELEASE=
-WORKRAVE_PPA_SERIES="${WORKRAVE_PPA_SERIES:-stonking resolute noble jammy}"
+WORKRAVE_PPA_SERIES="${WORKRAVE_PPA_SERIES:-stonking resolute noble}"
 if [ -z "${SIGNING_SERVICE_URL:-}" ]; then
     echo "error: SIGNING_SERVICE_URL is not set" 1>&2
     exit 1

@@ -437,6 +437,7 @@ jobs:
         run: /workspace/scripts/local/pbuild.sh
         env:
           GIT_TAG: "{{ version.tag }}"
+          WORKRAVE_PPA_SERIES: "{{ config.linux.ppa_series | join(' ') }}"
 
   # ----------------------------------------------------------------- macos
 

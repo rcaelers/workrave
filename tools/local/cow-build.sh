@@ -18,10 +18,13 @@ parse_arguments() {
 
 parse_arguments $*
 
-DIST_DIRS=$(find /workspace/deploy -mindepth 1 -type d -print | grep -v "v1_12" | sort -r)
-for dir in $DIST_DIRS; do
-    dist=$(basename $dir)
-    cd $dir
+# Ignore old deploy directories for series that are no longer selected.
+for dist in ${WORKRAVE_PPA_SERIES:-stonking resolute noble}; do
+    dir=/workspace/deploy/$dist
+    if ! compgen -G "$dir/workrave_*.dsc" >/dev/null; then
+        continue
+    fi
+    cd "$dir"
     echo Updating $dist builder
     DIST=$dist cowbuilder --update --basepath /var/cache/pbuilder/base-$dist.cow
     echo Running build for $dist
