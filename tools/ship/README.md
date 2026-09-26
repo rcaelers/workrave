@@ -121,11 +121,16 @@ second Ctrl-C aborts immediately.
 
 At the end of `ship release`, a build report on stderr lists each job and
 step's status and elapsed wall-clock time, followed by the total time.
-Matrix jobs and `foreach` iterations appear separately; conditional skips
-and empty loops are marked `skipped`, with no execution time. The report
+Matrix jobs and `foreach` iterations appear separately, including the matrix
+or item values in their labels; conditional skips and empty loops are marked
+`skipped`, with no execution time. The report
 also appears after a failure or a graceful Ctrl-C, covering the work reached
-before stopping. Job and overall totals include container preparation and
-syncing results back, so they may exceed the sum of the step times.
+before stopping. Job rows are subtotals: each includes its steps plus a job
+overhead row for container preparation, syncing results back and bookkeeping.
+A pipeline overhead row accounts for time outside the jobs. Add the step
+and overhead rows to get the overall total; do not also add the job subtotals.
+All durations retain millisecond precision, so rounding may cause a small
+difference when adding the displayed values.
 Dry runs produce a report marked `(dry run)`: shell steps with `dry-run: echo`
 are marked `echoed`, and action timings reflect their dry-run behavior.
 `pipeline show` does not produce a timing report.
@@ -135,6 +140,11 @@ A container job prepares its mounts once: with a remote podman
 rsync before the first step and synced back after the last, also on failure;
 git-ignored paths are not uploaded, so the remote build tree persists between
 runs.
+
+The `ppa` and `deb` jobs iterate over `linux.ppa_series` in the pipeline, so
+each Ubuntu series gets separate source- and binary-package timing entries.
+Their `ppa.sh` and `pbuild.sh` helpers build only the series named by `DIST`;
+packaging, signing and the rootless pbuilder setup stay in shell code.
 
 ### Workrave AppImage builds
 

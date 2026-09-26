@@ -1,11 +1,14 @@
 #!/bin/bash -ex
 
+# release.yaml selects the series and records each build separately.
+: "${DIST:?Set DIST to the Ubuntu series to build}"
+
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/../ci/config.sh
 source ${SCRIPTS_DIR}/ci/ship.sh
 
 usage() {
-    echo "Usage: $0 " 1>&2
+    echo "Usage: DIST=<series> $0 [-p increment] [-d] [-P]" 1>&2
     exit 1
 }
 
@@ -59,16 +62,10 @@ pregenerated_changelog() {
 
 init_newsgen() {
     # Building ship in the container is slow (cold cargo cache), so skip it
-    # when `ship release` already generated the changelogs for every series.
-    local series
-    local missing=
-    for series in ${WORKRAVE_PPA_SERIES}; do
-        if [ ! -f "$(pregenerated_changelog $series)" ]; then
-            missing=1
-        fi
-    done
-    if [ -z "$missing" ]; then
-        echo "Using pre-generated changelogs from ${DEPLOY_DIR}/newsgen"
+    # when `ship release` already generated this series' changelog.
+    local series=$1
+    if [ -f "$(pregenerated_changelog "$series")" ]; then
+        echo "Using pre-generated changelog for $series from ${DEPLOY_DIR}/newsgen"
         return
     fi
 
@@ -184,15 +181,8 @@ build_single() {
     fi
 }
 
-build_all() {
-    for series in ${WORKRAVE_PPA_SERIES}; do
-        build_single $series
-    done
-}
-
 DRYRUN=
 PRERELEASE=
-WORKRAVE_PPA_SERIES="${WORKRAVE_PPA_SERIES:-stonking resolute noble}"
 if [ -z "${SIGNING_SERVICE_URL:-}" ]; then
     echo "error: SIGNING_SERVICE_URL is not set" 1>&2
     exit 1
@@ -207,12 +197,12 @@ parse_arguments $*
 init_builddir
 init_debian_packaging
 init_dependencies
-init_newsgen
+init_newsgen "$DIST"
 
 build_tarball
 build_sources
-build_all
+build_single "$DIST"
 
-if [ -n ${WORKRAVE_OVERRIDE_GIT_VERSION} ]; then
+if [ -n "${WORKRAVE_OVERRIDE_GIT_VERSION:-}" ]; then
     rm -rf ${DEPLOY_TARFILE}
 fi

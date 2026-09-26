@@ -550,10 +550,13 @@ impl Runner<'_> {
                 timings.push(Timing::skipped(report_label.clone()));
             }
             for (iteration, item) in items.into_iter().enumerate() {
-                let label = if step.foreach.is_some() {
-                    format!("{report_label} [item {}]", iteration + 1)
-                } else {
-                    report_label.clone()
+                let label = match &item {
+                    Some(item) => format!(
+                        "{report_label} [item {}: {}]",
+                        iteration + 1,
+                        value_text(item)
+                    ),
+                    None => report_label.clone(),
                 };
                 let step_vars = match item {
                     Some(item) => vars.with_item(item),

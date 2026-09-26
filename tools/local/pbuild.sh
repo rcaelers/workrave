@@ -1,22 +1,13 @@
 #!/bin/bash -ex
 
-usage() {
-    echo "Usage: $0 " 1>&2
-    exit 1
-}
-
-parse_arguments() {
-    while getopts "p:d" o; do
-        case "${o}" in
-        *)
-            usage
-            ;;
-        esac
-    done
-    shift $((OPTIND - 1))
-}
-
-parse_arguments $*
+# release.yaml selects the series and records each build separately.
+dist=${DIST:?Set DIST to the Ubuntu series to build}
+dir=/workspace/deploy/$dist
+if ! compgen -G "$dir/workrave_*.dsc" >/dev/null; then
+    echo "No source package for $dist; skipping binary build"
+    exit 0
+fi
+cd "$dir"
 
 # In a rootless container (podman without root) device nodes cannot be
 # created, so the device nodes in the base tarballs cannot be extracted.
@@ -52,27 +43,18 @@ prepare_basetgz() {
     rm -rf "$tmp"
 }
 
-# Only build selected series with a source package. Old deploy directories
-# may still contain packages for series that are no longer supported.
-for dist in ${WORKRAVE_PPA_SERIES:-stonking resolute noble}; do
-    dir=/workspace/deploy/$dist
-    if ! compgen -G "$dir/workrave_*.dsc" >/dev/null; then
-        continue
-    fi
-    cd "$dir"
-    prepare_basetgz /var/cache/pbuilder/base-$dist.tgz
-    # pbuilder ignores every option that follows the .dsc, and --bindmounts
-    # takes all its directories as one argument.
-    opts=(--basetgz /var/cache/pbuilder/base-$dist.tgz)
-    if [ -n "$BINDMOUNTS" ]; then
-        opts+=(--bindmounts "$BINDMOUNTS")
-    fi
-    echo Updating $dist builder
-    DIST=$dist pbuilder --update "${opts[@]}"
-    echo Running build for $dist
-    DIST=$dist pbuilder --build "${opts[@]}" workrave*.dsc
-    mkdir -p /workspace/deploy/$GIT_TAG/$dist
-    # The results are owned by pbuilder's build user; keep them owned by the
-    # container user, which maps to the host user when running rootless.
-    cp --no-preserve=ownership /var/cache/pbuilder/result/*$dist*.deb /var/cache/pbuilder/result/*$dist*.ddeb /workspace/deploy/$GIT_TAG/$dist
-done
+prepare_basetgz /var/cache/pbuilder/base-$dist.tgz
+# pbuilder ignores every option that follows the .dsc, and --bindmounts
+# takes all its directories as one argument.
+opts=(--basetgz /var/cache/pbuilder/base-$dist.tgz)
+if [ -n "$BINDMOUNTS" ]; then
+    opts+=(--bindmounts "$BINDMOUNTS")
+fi
+echo Updating $dist builder
+DIST=$dist pbuilder --update "${opts[@]}"
+echo Running build for $dist
+DIST=$dist pbuilder --build "${opts[@]}" workrave*.dsc
+mkdir -p /workspace/deploy/$GIT_TAG/$dist
+# The results are owned by pbuilder's build user; keep them owned by the
+# container user, which maps to the host user when running rootless.
+cp --no-preserve=ownership /var/cache/pbuilder/result/*$dist*.deb /var/cache/pbuilder/result/*$dist*.ddeb /workspace/deploy/$GIT_TAG/$dist

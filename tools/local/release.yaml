@@ -116,7 +116,6 @@ environments:
       DOCKER_IMAGE: "{{ config.linux.image }}"
       WORKRAVE_OVERRIDE_GIT_VERSION: "{{ options.version }}"
       WORKRAVE_RELEASE_TAG: "{{ version.release_tag }}"
-      WORKRAVE_PPA_SERIES: "{{ config.linux.ppa_series | join(' ') }}"
 
   appimage:
     type: container
@@ -421,9 +420,11 @@ jobs:
     steps:
       - name: the packages are signed through the signing service, which must be reachable from the container
         run: curl --insecure --fail --silent --show-error {{ config.signing_service_url }}/health >/dev/null
-      - name: source packages for every series; uploaded to the PPA unless dry run
+      - name: source package; uploaded to the PPA unless dry run
+        foreach: "{{ config.linux.ppa_series }}"
         run: /workspace/scripts/local/ppa.sh -p {{ config.linux.ppa_increment }} {{ '-d' if dry_run }} {{ '-P' if vars.prerelease }}
         env:
+          DIST: "{{ item }}"
           SIGNING_SERVICE_URL: "{{ config.signing_service_url }}"
         mounts:
           "{{ config.linux.debian_dir }}": /workspace/debian
@@ -434,10 +435,11 @@ jobs:
     runs-in: pbuilder
     steps:
       - name: binary packages with pbuilder
+        foreach: "{{ config.linux.ppa_series }}"
         run: /workspace/scripts/local/pbuild.sh
         env:
+          DIST: "{{ item }}"
           GIT_TAG: "{{ version.tag }}"
-          WORKRAVE_PPA_SERIES: "{{ config.linux.ppa_series | join(' ') }}"
 
   # ----------------------------------------------------------------- macos
 
