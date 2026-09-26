@@ -119,6 +119,17 @@ podman client stops the container too), removes the container if one is
 still there, syncs mirrored directories back, and exits with an error; a
 second Ctrl-C aborts immediately.
 
+At the end of `ship release`, a build report on stderr lists each job and
+step's status and elapsed wall-clock time, followed by the total time.
+Matrix jobs and `foreach` iterations appear separately; conditional skips
+and empty loops are marked `skipped`, with no execution time. The report
+also appears after a failure or a graceful Ctrl-C, covering the work reached
+before stopping. Job and overall totals include container preparation and
+syncing results back, so they may exceed the sum of the step times.
+Dry runs produce a report marked `(dry run)`: shell steps with `dry-run: echo`
+are marked `echoed`, and action timings reflect their dry-run behavior.
+`pipeline show` does not produce a timing report.
+
 A container job prepares its mounts once: with a remote podman
 (`podman system connection`), the mounted directories are mirrored there with
 rsync before the first step and synced back after the last, also on failure;

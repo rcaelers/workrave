@@ -4,12 +4,14 @@
 
 use std::collections::HashMap;
 use std::path::PathBuf;
+use std::time::Instant;
 
 use anyhow::{anyhow, bail, Context, Result};
 use indexmap::IndexMap;
 
 use super::actions::{self, ActionEnv};
 use super::context::{insert_dotted, parse_outputs, HostVars, Renderer, Secrets, ShipVars, Vars};
+use super::report::{JobReport, Report, Status, Timing};
 use super::schema::{DryRunMode, Environment, EnvironmentKind, Job, Pipeline, Step};
 use crate::config::Config;
 use crate::services::signing::SigningService;
@@ -85,7 +87,29 @@ fn select_jobs(pipeline: &Pipeline, opts: &RunOptions) -> Result<Vec<String>> {
 }
 
 pub async fn run(config: Config, pipeline: Pipeline, opts: RunOptions) -> Result<()> {
-    let ordered = select_jobs(&pipeline, &opts)?;
+    let started = Instant::now();
+    let mut report = Report::default();
+    let result = run_pipeline(config, pipeline, &opts, &mut report).await;
+    if !opts.show {
+        eprint!(
+            "{}",
+            report.render(
+                started.elapsed(),
+                Status::from_result(&result),
+                opts.dry_run
+            )
+        );
+    }
+    result
+}
+
+async fn run_pipeline(
+    config: Config,
+    pipeline: Pipeline,
+    opts: &RunOptions,
+    report: &mut Report,
+) -> Result<()> {
+    let ordered = select_jobs(&pipeline, opts)?;
     if ordered.is_empty() {
         bail!("no jobs selected");
     }
@@ -155,7 +179,7 @@ pub async fn run(config: Config, pipeline: Pipeline, opts: RunOptions) -> Result
     let runner = Runner {
         pipeline: &pipeline,
         renderer,
-        opts: &opts,
+        opts,
         signing_service_url,
     };
 
@@ -165,6 +189,10 @@ pub async fn run(config: Config, pipeline: Pipeline, opts: RunOptions) -> Result
         if let Some(condition) = &job.condition {
             if !runner.renderer.condition(condition, &vars)? {
                 runner.say(&format!("== {name}: skipped ({condition})"));
+                report.jobs.push(JobReport {
+                    timing: Timing::skipped(name.clone()),
+                    steps: Vec::new(),
+                });
                 continue;
             }
         }
@@ -182,13 +210,28 @@ pub async fn run(config: Config, pipeline: Pipeline, opts: RunOptions) -> Result
                 )
             };
             let job_vars = vars.with_matrix(matrix);
-            let outputs = runner
-                .run_job(name, job, &label, job_vars)
-                .await
-                .with_context(|| format!("in job {label}"))?;
-            for (key, value) in outputs {
-                vars.set_output(&key, value)?;
+            let started = Instant::now();
+            let mut steps = Vec::new();
+            let result = async {
+                let outputs = runner
+                    .run_job(name, job, &label, job_vars, &mut steps)
+                    .await?;
+                for (key, value) in outputs {
+                    vars.set_output(&key, value)?;
+                }
+                Ok::<(), anyhow::Error>(())
             }
+            .await
+            .with_context(|| format!("in job {label}"));
+            report.jobs.push(JobReport {
+                timing: Timing {
+                    label,
+                    status: Status::from_result(&result),
+                    elapsed: Some(started.elapsed()),
+                },
+                steps,
+            });
+            result?;
         }
     }
     runner.say("Done");
@@ -388,7 +431,14 @@ impl Runner<'_> {
         })
     }
 
-    async fn run_job(&self, name: &str, job: &Job, label: &str, mut vars: Vars) -> Result<Outputs> {
+    async fn run_job(
+        &self,
+        name: &str,
+        job: &Job,
+        label: &str,
+        mut vars: Vars,
+        timings: &mut Vec<Timing>,
+    ) -> Result<Outputs> {
         let environment = self.resolve_environment(job, &vars)?;
         self.say(&format!("== {label} ({})", environment.name));
 
@@ -449,7 +499,7 @@ impl Runner<'_> {
         };
 
         let result = self
-            .run_steps(name, job, &environment, mounts.as_ref(), &mut vars)
+            .run_steps(name, job, &environment, mounts.as_ref(), &mut vars, timings)
             .await;
         // Bring results back, also after a failure (logs, partial output).
         let finish = match &mounts {
@@ -468,6 +518,7 @@ impl Runner<'_> {
         environment: &ResolvedEnvironment,
         mounts: Option<&Mounts>,
         vars: &mut Vars,
+        timings: &mut Vec<Timing>,
     ) -> Result<Outputs> {
         let mut all_outputs: Outputs = Vec::new();
         for (index, step) in job.steps.iter().enumerate() {
@@ -475,46 +526,97 @@ impl Runner<'_> {
                 .name
                 .clone()
                 .unwrap_or_else(|| format!("step {}", index + 1));
-            if let Some(condition) = &step.condition {
-                if !self.renderer.condition(condition, vars)? {
-                    self.say(&format!("-- {step_label}: skipped ({condition})"));
-                    continue;
+            let report_label = match &step.name {
+                Some(name) => format!("{}. {name}", index + 1),
+                None => match &step.uses {
+                    Some(action) => format!("{step_label}: {action}"),
+                    None => step_label.clone(),
+                },
+            };
+            let started = Instant::now();
+            let items = match self.step_items(step, &step_label, vars) {
+                Ok(items) => items,
+                Err(error) => {
+                    timings.push(Timing {
+                        label: report_label,
+                        status: Status::Failed,
+                        elapsed: Some(started.elapsed()),
+                    });
+                    return Err(error)
+                        .with_context(|| format!("in {step_label} of job {job_name}"));
                 }
-            }
-            let items: Vec<Option<serde_json::Value>> = match &step.foreach {
-                Some(list) => self
-                    .renderer
-                    .render_list(list, vars)?
-                    .into_iter()
-                    .map(Some)
-                    .collect(),
-                None => vec![None],
             };
             if items.is_empty() {
-                self.say(&format!(
-                    "-- {step_label}: nothing to do ({})",
-                    step.foreach.as_deref().unwrap_or_default()
-                ));
+                timings.push(Timing::skipped(report_label.clone()));
             }
-            for item in items {
+            for (iteration, item) in items.into_iter().enumerate() {
+                let label = if step.foreach.is_some() {
+                    format!("{report_label} [item {}]", iteration + 1)
+                } else {
+                    report_label.clone()
+                };
                 let step_vars = match item {
                     Some(item) => vars.with_item(item),
                     None => vars.clone(),
                 };
-                let outputs = self
-                    .run_step(step, &step_label, environment, mounts, &step_vars)
-                    .await
-                    .with_context(|| format!("in {step_label} of job {job_name}"))?;
-                if !outputs.is_empty() {
-                    for (key, value) in &outputs {
-                        vars.set_output(key, value.clone())?;
+                let started = Instant::now();
+                let result = async {
+                    let outputs = self
+                        .run_step(step, &step_label, environment, mounts, &step_vars)
+                        .await?;
+                    if !outputs.is_empty() {
+                        for (key, value) in &outputs {
+                            vars.set_output(key, value.clone())?;
+                        }
+                        self.refresh_vars(vars);
+                        all_outputs.extend(outputs);
                     }
-                    self.refresh_vars(vars);
-                    all_outputs.extend(outputs);
+                    Ok::<(), anyhow::Error>(())
                 }
+                .await
+                .with_context(|| format!("in {step_label} of job {job_name}"));
+                let status = if result.is_ok()
+                    && self.opts.dry_run
+                    && step.run.is_some()
+                    && step.dry_run == DryRunMode::Echo
+                {
+                    Status::Echoed
+                } else {
+                    Status::from_result(&result)
+                };
+                timings.push(Timing {
+                    label,
+                    status,
+                    elapsed: Some(started.elapsed()),
+                });
+                result?;
             }
         }
         Ok(all_outputs)
+    }
+
+    fn step_items(
+        &self,
+        step: &Step,
+        label: &str,
+        vars: &Vars,
+    ) -> Result<Vec<Option<serde_json::Value>>> {
+        if let Some(condition) = &step.condition {
+            if !self.renderer.condition(condition, vars)? {
+                self.say(&format!("-- {label}: skipped ({condition})"));
+                return Ok(Vec::new());
+            }
+        }
+        match &step.foreach {
+            Some(list) => {
+                let items = self.renderer.render_list(list, vars)?;
+                if items.is_empty() {
+                    self.say(&format!("-- {label}: nothing to do ({list})"));
+                }
+                Ok(items.into_iter().map(Some).collect())
+            }
+            None => Ok(vec![None]),
+        }
     }
 
     async fn run_step(

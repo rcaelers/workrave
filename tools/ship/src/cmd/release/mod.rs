@@ -11,6 +11,7 @@
 
 pub mod actions;
 pub mod context;
+mod report;
 pub mod runner;
 pub mod schema;
 
