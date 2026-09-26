@@ -35,18 +35,19 @@ build() {
 
     if [ -z "${rel_dir}" ]; then
         if [ -n "${CONF_APPIMAGE}" ]; then
-            cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DAPPIMAGE_APPDIR=${OUTPUT_DIR}/AppData ${cmake_args[@]}
+            cmake "${SOURCES_DIR}" -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DAPPIMAGE_APPDIR="${OUTPUT_DIR}/AppData" "${cmake_args[@]}"
         else
             cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} "${cmake_args[@]}"
         fi
     fi
 
-    ninja ${MAKE_FLAGS[@]}
+    ninja "${MAKE_FLAGS[@]}"
 
     if [ -n "${CONF_APPIMAGE}" ]; then
-        DESTDIR=${OUTPUT_DIR}/AppData ninja ${MAKE_FLAGS[@]} install
+        # Use the compiler toolchain's strip, including when cross compiling.
+        DESTDIR=${OUTPUT_DIR}/AppData ninja "${MAKE_FLAGS[@]}" install/strip
     else
-        ninja ${MAKE_FLAGS[@]} install
+        ninja "${MAKE_FLAGS[@]}" install
     fi
 
     ctest
@@ -75,7 +76,21 @@ parse_arguments() {
     shift $((OPTIND - 1))
 }
 
-parse_arguments $*
+parse_arguments "$@"
+
+# Keep target selection separate from the architecture executing this script.
+# The cross image sets both values; native builds default to the running CPU.
+if [ -n "${CONF_APPIMAGE}" ]; then
+    APPIMAGE_ARCH=${CONF_TARGET_ARCH:-$(uname -m)}
+    case "$APPIMAGE_ARCH" in
+        amd64|x86_64) APPIMAGE_ARCH=x86_64 ;;
+        arm64|aarch64) APPIMAGE_ARCH=aarch64 ;;
+        *) echo "Unsupported AppImage architecture: $APPIMAGE_ARCH" >&2; exit 1 ;;
+    esac
+    BUILD_DIR=${BUILD_DIR}/appimage-${APPIMAGE_ARCH}
+    OUTPUT_DIR=${OUTPUT_DIR}/appimage-${APPIMAGE_ARCH}
+    CMAKE_FLAGS+=("-DAPPIMAGE_TARGET_ARCH=${APPIMAGE_ARCH}")
+fi
 
 if [[ ${CONF_ENABLE} ]]; then
     for i in ${CONF_ENABLE//,/ }; do
@@ -102,7 +117,9 @@ if [ "$(uname)" == "Darwin" ]; then
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt)")
 fi
 
-if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~ "-msys2" ]]; then
+if [ -n "${CONF_TOOLCHAIN_FILE}" ]; then
+    CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${CONF_TOOLCHAIN_FILE}")
+elif [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~ "-msys2" ]]; then
     OUT_DIR=""
 
     MSYSTEM="CLANG64"
@@ -179,19 +196,17 @@ if [ -n "${CONF_SOURCE_TARBALL}" ]; then
 fi
 
 # AppImage
-if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
-    if [ -n "${CONF_APPIMAGE}" ]; then
-        ninja ${MAKE_FLAGS[@]} appimage
+if [ -n "${CONF_APPIMAGE}" ]; then
+    ninja "${MAKE_FLAGS[@]}" appimage
 
-        appImageFile=$(find "${BUILD_DIR}" -maxdepth 1 -name "Workrave*.AppImage" | head -n1)
-        if [ -n "$appImageFile" ]; then
-            baseLinuxFilename=workrave-linux-${baseFilenamePostfix}
-            filename=${baseLinuxFilename}.AppImage
-
-            cp "$appImageFile" ${DEPLOY_DIR}/${filename}
-            ${SCRIPTS_DIR}/ci/artifact.sh -f ${filename} -k appimage -c ${CONFIG} -p linux
-        fi
+    appImageFile=${BUILD_DIR}/${OUT_DIR}/Workrave-${APPIMAGE_ARCH}.AppImage
+    if [ ! -f "$appImageFile" ]; then
+        echo "AppImage target did not produce $appImageFile" >&2
+        exit 1
     fi
+    filename=workrave-linux-${APPIMAGE_ARCH}-${baseFilenamePostfix}.AppImage
+    cp "$appImageFile" "${DEPLOY_DIR}/${filename}"
+    "${SCRIPTS_DIR}/ci/artifact.sh" -f "$filename" -k appimage -c "${CONFIG}" -p linux
 fi
 
 if [[ $MSYSTEM == "CLANG64" ]]; then
@@ -215,7 +230,7 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
 
     portableFilename=${baseWindowsFilename}-portable.zip
 
-    ninja ${MAKE_FLAGS[@]} portable
+    ninja "${MAKE_FLAGS[@]}" portable
 
     if [[ -e ${OUTPUT_DIR}/${portableBaseName}.zip ]]; then
         cp ${OUTPUT_DIR}/${portableBaseName}.zip ${DEPLOY_DIR}/${portableFilename}
@@ -224,7 +239,7 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
 
     # Installer
 
-    ninja ${MAKE_FLAGS[@]} installer
+    ninja "${MAKE_FLAGS[@]}" installer
 
     if [[ -e ${OUTPUT_DIR}/${installerBaseName}.exe ]]; then
 

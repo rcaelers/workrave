@@ -99,15 +99,14 @@ environments:
     sync: "{{ config.container.sync }}"
     remote-dir: "{{ config.container.remote_dir }}"
     image: "{{ config.container.image_repository }}:{{ config.linux.image }}"
-    # The image tags exist for amd64 and aarch64 (the AppImage matrix pulls
-    # both), so the platform is always explicit: the host's native one from
-    # the configuration; steps may override it.
+    # The image tags exist for amd64 and arm64. Use the container host's
+    # native architecture unless a job explicitly selects another one.
     platform: "{{ config.container.platform }}"
-    mounts:
+    mounts: &linux-mounts
       "{{ vars.source }}": /workspace/source
       "{{ vars.deploy }}": /workspace/deploy
       "{{ vars.scripts }}": /workspace/scripts
-    env:
+    env: &linux-env
       WORKRAVE_ENV: local
       # The scripts build.sh calls (artifact.sh, sbom.sh, ...) come from the
       # mounted dev checkout too, not from tools/ in the source tree at the
@@ -118,6 +117,18 @@ environments:
       WORKRAVE_OVERRIDE_GIT_VERSION: "{{ options.version }}"
       WORKRAVE_RELEASE_TAG: "{{ version.release_tag }}"
       WORKRAVE_PPA_SERIES: "{{ config.linux.ppa_series | join(' ') }}"
+
+  appimage:
+    type: container
+    engine: "{{ config.container.engine }}"
+    sync: "{{ config.container.sync }}"
+    remote-dir: "{{ config.container.remote_dir }}"
+    mounts: *linux-mounts
+    env: *linux-env
+    # ARM64 on amd64 uses a native cross-compiler. On an ARM64 host keep
+    # the native ARM64 image; the x86_64 build uses the regular amd64 image.
+    image: "{{ config.container.image_repository }}:{{ config.linux.cross_image | default('ubuntu-cross-aarch64') if matrix.arch == 'aarch64' and config.container.platform == 'linux/amd64' else config.linux.image }}"
+    platform: "{{ 'linux/amd64' if matrix.arch == 'x86_64' or config.container.platform == 'linux/amd64' else 'linux/arm64' }}"
 
   pbuilder:
     type: container
@@ -210,6 +221,7 @@ jobs:
             - prerelease
             - linux.debian_dir
             - linux.build_deb
+            - linux.cross_image
 
   check-config-macos:
     always: true
@@ -390,26 +402,18 @@ jobs:
 
   appimage:
     needs: [workspace]
-    runs-in: ubuntu
+    runs-in: appimage
     strategy:
       matrix:
-        platform:
-          - linux/amd64
-          - linux/aarch64
+        arch: [x86_64, aarch64]
     steps:
-      - run: /workspace/scripts/ci/build.sh
-        platform: "{{ matrix.platform }}"
+      - name: build AppImage
+        run: /workspace/scripts/ci/build.sh
         env:
           CONF_APPIMAGE: "1"
+          CONF_TARGET_ARCH: "{{ matrix.arch }}"
         mounts:
           "{{ vars.release_dir }}": /workspace/deploy/
-        options:
-          - --cap-add
-          - SYS_ADMIN
-          - --device
-          - /dev/fuse
-          - --security-opt
-          - apparmor:unconfined
 
   ppa:
     needs: [changelogs]

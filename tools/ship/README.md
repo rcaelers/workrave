@@ -136,6 +136,26 @@ rsync before the first step and synced back after the last, also on failure;
 git-ignored paths are not uploaded, so the remote build tree persists between
 runs.
 
+### Workrave AppImage builds
+
+The Workrave release pipeline builds separate `x86_64` and `aarch64`
+AppImages. On an amd64 container host, the ARM64 build uses the amd64 image
+`ubuntu-cross-aarch64` from `workrave-build-containers`; override its tag
+with `linux.cross_image` if needed. The image tag stays the same as its
+Ubuntu base advances. ARM64 hosts continue using the regular native image
+for the ARM64 build.
+
+The cross image supplies `CONF_TOOLCHAIN_FILE` and `CONF_TARGET_ARCH` to
+`tools/ci/build.sh`. Compilation, RPC generation and AppImage compression
+run natively; QEMU is limited to helpers that inspect target libraries.
+Packaging extracts its tools without FUSE, so no extra container
+capabilities are needed. The source revision must contain the matching
+CMake support as well as the updated scripts.
+
+AppImage build/output directories are separated by architecture, and the
+deployed names are `workrave-linux-x86_64-<version>.AppImage` and
+`workrave-linux-aarch64-<version>.AppImage`.
+
 ## Other commands
 
 | command | what it does |

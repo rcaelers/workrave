@@ -47,6 +47,9 @@ container:
 
 linux:
   image: ubuntu-resolute
+  # amd64 hosts cross-compile the ARM64 AppImage with this image. Its tag
+  # stays the same when the Ubuntu release used to build it is updated.
+  cross_image: ubuntu-cross-aarch64
   ppa_series: [stonking, resolute, noble, jammy]
   ppa_increment: 1
   # Optional: checkout of workrave-debian-packaging (cloned in the container

@@ -49,8 +49,17 @@ macro(gir_add_introspections introspections_girs)
     # Reuse the LIBTOOL variable from by automake if it's set
     set(_gir_libtool "--no-libtool")
 
+    # The scanner itself runs on the build host. Its temporary executable
+    # must use the target compiler. The cross image supplies the target
+    # scanner wrapper, which launches that executable through QEMU.
+    set(_gir_scanner_command ${INTROSPECTION_SCANNER})
+    if(CMAKE_CROSSCOMPILING)
+      set(_gir_scanner_command ${CMAKE_COMMAND} -E env
+          "CC=${CMAKE_C_COMPILER}" ${INTROSPECTION_SCANNER})
+    endif()
+
     add_custom_command(
-      COMMAND ${INTROSPECTION_SCANNER}
+      COMMAND ${_gir_scanner_command}
               ${INTROSPECTION_SCANNER_ARGS}
               --namespace=${_gir_namespace}
               --nsversion=${_gir_version}
