@@ -9,6 +9,7 @@ target_sources(workrave-toolkit-gtkmm PRIVATE
   ExercisesPanel.cc
   GnomeSession.cc
   GtkUtil.cc
+  GlibLogging.cc
   HeadInfo.cc
   Hig.cc
   MainWindow.cc

@@ -122,7 +122,6 @@ private:
   void show_statistics();
 
   void init_multihead();
-  void init_debug();
   void init_css();
 
   std::vector<Glib::RefPtr<Gdk::Monitor>> get_unique_monitors() const;
