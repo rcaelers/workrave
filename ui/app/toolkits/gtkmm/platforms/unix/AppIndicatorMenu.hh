@@ -22,7 +22,6 @@
 #include <sigc++/trackable.h>
 #include <gtkmm.h>
 
-#include "DbusMenu.hh"
 #include "utils/Signals.hh"
 
 #include "ui/Plugin.hh"
@@ -40,10 +39,10 @@
 
 class AppIndicatorMenu
   : public sigc::trackable
-  , public Plugin<AppIndicatorMenu, DbusMenu>
+  , public Plugin<AppIndicatorMenu>
 {
 public:
-  explicit AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std::shared_ptr<DbusMenu> dbus_menu);
+  explicit AppIndicatorMenu(std::shared_ptr<IPluginContext> context);
   ~AppIndicatorMenu() override;
 
   std::string get_plugin_id() const override
@@ -53,16 +52,14 @@ public:
 
 private:
   void on_operation_mode_changed(workrave::OperationMode m);
-  void update_dbus_menu_root();
   static void on_appindicator_connection_changed(gpointer appindicator, gboolean connected, gpointer user_data);
   static gboolean apphold_release(gpointer user_data);
 
 private:
   std::shared_ptr<IPluginContext> context;
   AppHold apphold;
-  bool connected;
+  bool connected{false};
   guint apphold_release_timer_id{0};
-  std::weak_ptr<DbusMenu> dbus_menu;
   std::shared_ptr<ToolkitMenu> menu;
   AppIndicator *indicator{};
 

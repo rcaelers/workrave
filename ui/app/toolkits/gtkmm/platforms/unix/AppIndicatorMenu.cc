@@ -29,16 +29,19 @@
 #include "utils/Signals.hh"
 #include "ui/GUIConfig.hh"
 #include "GtkUtil.hh"
-#include "DbusMenu.hh"
 
-AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std::shared_ptr<DbusMenu> dbus_menu)
+AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context)
   : context(context)
   , apphold(context->get_toolkit())
 {
   indicator = app_indicator_new("workrave", "workrave", APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
 
-  GtkWidget *menu_widget = gtk_menu_new();
-  app_indicator_set_menu(indicator, GTK_MENU(menu_widget));
+  // AppIndicator exports this menu over D-Bus and also uses it for its XEmbed fallback.
+  menu = std::make_shared<ToolkitMenu>(context->get_menu_model());
+  auto gtk_menu = menu->get_menu();
+  gtk_menu->insert_action_group("app", menu->get_action_group());
+  gtk_menu->show_all();
+  app_indicator_set_menu(indicator, gtk_menu->gobj());
   app_indicator_set_status(indicator, APP_INDICATOR_STATUS_ACTIVE);
   app_indicator_set_attention_icon(indicator, "workrave");
 
@@ -47,14 +50,9 @@ AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std:
                    G_CALLBACK(&AppIndicatorMenu::on_appindicator_connection_changed),
                    this);
 
-  this->dbus_menu = dbus_menu;
   auto core = context->get_core();
   workrave::utils::connect(core->signal_operation_mode_changed(), tracker, [this](auto mode) {
     on_operation_mode_changed(mode);
-  });
-  auto menu_model = context->get_menu_model();
-  workrave::utils::connect(menu_model->signal_update(), tracker, [this]() {
-    update_dbus_menu_root();
   });
   workrave::OperationMode mode = core->get_regular_operation_mode();
   on_operation_mode_changed(mode);
@@ -67,7 +65,12 @@ AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std:
 AppIndicatorMenu::~AppIndicatorMenu()
 {
   // The timer belongs to the main context and could trigger, when this object is already destroyed.
-  g_source_remove(apphold_release_timer_id);
+  if (apphold_release_timer_id != 0)
+    {
+      g_source_remove(apphold_release_timer_id);
+    }
+  g_signal_handlers_disconnect_by_data(indicator, this);
+  g_object_unref(indicator);
 }
 
 void
@@ -99,19 +102,6 @@ AppIndicatorMenu::on_operation_mode_changed(workrave::OperationMode mode)
       app_indicator_set_icon_theme_path(indicator, directory.c_str());
       app_indicator_set_icon(indicator, filename.c_str());
     }
-
-  update_dbus_menu_root();
-}
-
-void
-AppIndicatorMenu::update_dbus_menu_root()
-{
-  DbusmenuServer *server{};
-  g_object_get(indicator, "dbus-menu-server", &server, NULL);
-  auto dbus_menu = this->dbus_menu.lock();
-  auto *root_menu_item = dbus_menu->get_root_menu_item();
-  g_object_ref(root_menu_item);
-  dbusmenu_server_set_root(server, root_menu_item);
 }
 
 gboolean
