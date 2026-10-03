@@ -53,11 +53,13 @@ private:
   void on_display_changed(int break_id);
   void on_cycle_time_changed();
   void on_always_on_top_toggled();
+  void on_hide_from_taskbar_toggled();
 
   std::shared_ptr<IApplicationContext> app;
   std::string name;
 
   Gtk::CheckButton *ontop_cb{nullptr};
+  Gtk::CheckButton *hide_from_taskbar_cb{nullptr};
   Gtk::CheckButton *enabled_cb{nullptr};
   Gtk::ComboBoxText *place_button{nullptr};
   Gtk::ComboBoxText *timer_display_button[workrave::BREAK_ID_SIZEOF] = {

@@ -79,6 +79,7 @@ public:
   static workrave::config::Setting<bool> &use_gnome_shell_preludes();
 #endif
   static workrave::config::Setting<bool> &main_window_always_on_top();
+  static workrave::config::Setting<bool> &main_window_hide_from_taskbar();
   static workrave::config::Setting<bool> &main_window_start_in_tray();
   static workrave::config::Setting<int> &main_window_x();
   static workrave::config::Setting<int> &main_window_y();
@@ -124,6 +125,7 @@ private:
 
   static const std::string CFG_KEY_MAIN_WINDOW;
   static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
+  static const std::string CFG_KEY_MAIN_WINDOW_HIDE_FROM_TASKBAR;
   static const std::string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
   static const std::string CFG_KEY_MAIN_WINDOW_X;
   static const std::string CFG_KEY_MAIN_WINDOW_Y;

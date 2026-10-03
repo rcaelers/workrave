@@ -108,6 +108,15 @@ TimerBoxPreferencePanel::create_page()
           ontop_cb->set_active(GUIConfig::main_window_always_on_top()());
         }
 
+#if !defined(PLATFORM_OS_MACOS)
+#if defined(PLATFORM_OS_UNIX)
+      if (!workrave::utils::Platform::running_on_wayland())
+#endif
+        {
+          hide_from_taskbar_cb = Gtk::manage(new Gtk::CheckButton(_("Hide from taskbar and Alt+Tab")));
+        }
+#endif
+
       Gtk::Widget *enabled_lab = Gtk::manage(
         GtkUtil::create_label_with_tooltip(_("Show status window"),
                                            _("Note that the status window is only hidden if "
@@ -122,6 +131,10 @@ TimerBoxPreferencePanel::create_page()
   if (ontop_cb != nullptr)
     {
       hig->add_widget(*ontop_cb);
+    }
+  if (hide_from_taskbar_cb != nullptr)
+    {
+      hig->add_widget(*hide_from_taskbar_cb);
     }
 
   hig->add_label(_("Placement:"), *place_button);
@@ -202,6 +215,10 @@ TimerBoxPreferencePanel::init_page_values()
     {
       enabled_cb->set_active(GUIConfig::timerbox_enabled(name)());
     }
+  if (hide_from_taskbar_cb != nullptr)
+    {
+      hide_from_taskbar_cb->set_active(GUIConfig::main_window_hide_from_taskbar()());
+    }
 
   if (name == "applet")
     {
@@ -220,6 +237,10 @@ TimerBoxPreferencePanel::init_page_callbacks()
   if (enabled_cb != nullptr)
     {
       enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePanel::on_enabled_toggled));
+    }
+  if (hide_from_taskbar_cb != nullptr)
+    {
+      hide_from_taskbar_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePanel::on_hide_from_taskbar_toggled));
     }
 
   if (applet_fallback_enabled_cb != nullptr)
@@ -378,6 +399,10 @@ TimerBoxPreferencePanel::enable_buttons()
         {
           ontop_cb->set_sensitive(count != 3);
         }
+      if (hide_from_taskbar_cb != nullptr)
+        {
+          hide_from_taskbar_cb->set_sensitive(count != 3);
+        }
     }
 }
 
@@ -393,4 +418,10 @@ void
 TimerBoxPreferencePanel::on_always_on_top_toggled()
 {
   GUIConfig::main_window_always_on_top().set(ontop_cb->get_active());
+}
+
+void
+TimerBoxPreferencePanel::on_hide_from_taskbar_toggled()
+{
+  GUIConfig::main_window_hide_from_taskbar().set(hide_from_taskbar_cb->get_active());
 }

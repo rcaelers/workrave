@@ -59,6 +59,7 @@ private:
 
   bool on_timer_view_button_press_event(const GdkEventButton *event);
   void on_enabled_changed();
+  void on_hide_from_taskbar_changed(bool hidden);
 
   // UI Events.
   bool on_delete_event(GdkEventAny * /*any_event*/) override;
