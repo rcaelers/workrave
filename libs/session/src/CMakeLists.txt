@@ -19,6 +19,7 @@ if (WIN32)
   target_include_directories(workrave-libs-session PRIVATE
     ${CMAKE_SOURCE_DIR}/libs/session/src/windows/
     ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
+  target_link_libraries(workrave-libs-session PRIVATE advapi32 powrprof user32)
 endif()
 
 if (HAVE_GLIB)

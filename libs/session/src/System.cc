@@ -331,6 +331,15 @@ void
 System::init_windows_system_state_commands()
 {
   TRACE_ENTRY();
+  auto *method = new W32Shutdown();
+  if (method->canDoAnything())
+    {
+      system_state_commands.push_back(method);
+    }
+  else
+    {
+      delete method;
+    }
 }
 
 #endif // PLATFORM_OS_WINDOWS

@@ -21,87 +21,175 @@
 
 #include "W32Shutdown.hh"
 
-#include "W32LockScreen.hh"
+#include <spdlog/spdlog.h>
+#include <windows.h>
+#include <powrprof.h>
 
-#include <shlobj.h>
-#include <shldisp.h>
-
-#if defined(HAVE_HARPOON)
-#  include "harpoon.h"
-#endif
-
-#if !defined(HAVE_ISHELLDISPATCH)
-#  undef INTERFACE
-#  define INTERFACE IShellDispatch
-DECLARE_INTERFACE_(IShellDispatch, IUnknown)
+namespace
 {
-  STDMETHOD(QueryInterface)(THIS_ REFIID, PVOID *) PURE;
-  STDMETHOD_(ULONG, AddRef)(THIS) PURE;
-  STDMETHOD_(ULONG, Release)(THIS) PURE;
-  STDMETHOD_(ULONG, dummy1)(THIS) PURE;
-  STDMETHOD_(ULONG, dummy2)(THIS) PURE;
-  STDMETHOD_(ULONG, dummy3)(THIS) PURE;
-  STDMETHOD_(ULONG, dummy4)(THIS) PURE;
-  STDMETHOD_(ULONG, dummy5)(THIS) PURE;
-  STDMETHOD_(ULONG, dummy6)(THIS) PURE;
-  STDMETHOD_(ULONG, dummy7)(THIS) PURE;
-  STDMETHOD_(ULONG, dummy8)(THIS) PURE;
-  STDMETHOD_(ULONG, dummy9)(THIS) PURE;
-  STDMETHOD_(ULONG, dummya)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyb)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyc)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyd)(THIS) PURE;
-  STDMETHOD_(ULONG, dummye)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyf)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyg)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyh)(THIS) PURE;
-  STDMETHOD(ShutdownWindows)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyi)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyj)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyk)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyl)(THIS) PURE;
-  STDMETHOD_(ULONG, dummym)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyn)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyo)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyp)(THIS) PURE;
-  STDMETHOD_(ULONG, dummyq)(THIS) PURE;
-  END_INTERFACE
-};
-typedef IShellDispatch *LPSHELLDISPATCH;
-#endif
+  // All three power operations require SeShutdownPrivilege. Restore its previous
+  // state afterwards, including when probing support without performing an action.
+  class ShutdownPrivilege
+  {
+  public:
+    ShutdownPrivilege()
+    {
+      if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &token))
+        {
+          spdlog::warn("Cannot open Windows process token for power operations: error {}", GetLastError());
+          return;
+        }
 
-// uuid(D8F015C0-C278-11CE-A49E-444553540000);
-const GUID IID_IShellDispatch = {0xD8F015C0, 0xc278, 0x11ce, {0xa4, 0x9e, 0x44, 0x45, 0x53, 0x54}};
-// 13709620-C279-11CE-A49E-444553540000
-const GUID CLSID_Shell = {0x13709620, 0xc279, 0x11ce, {0xa4, 0x9e, 0x44, 0x45, 0x53, 0x54}};
+      TOKEN_PRIVILEGES requested{};
+      requested.PrivilegeCount = 1;
+      requested.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+      if (!LookupPrivilegeValue(nullptr, SE_SHUTDOWN_NAME, &requested.Privileges[0].Luid))
+        {
+          spdlog::warn("Cannot look up Windows shutdown privilege: error {}", GetLastError());
+          return;
+        }
+
+      DWORD previous_size = sizeof(previous);
+      SetLastError(ERROR_SUCCESS);
+      bool adjusted = AdjustTokenPrivileges(token, FALSE, &requested, sizeof(previous), &previous, &previous_size) != FALSE;
+      DWORD error = GetLastError();
+      // AdjustTokenPrivileges may succeed even when the token lacks the privilege.
+      enabled = adjusted && error == ERROR_SUCCESS;
+      if (!enabled)
+        {
+          spdlog::warn("Cannot enable Windows shutdown privilege: error {}", error);
+        }
+    }
+
+    ~ShutdownPrivilege()
+    {
+      if (enabled && !AdjustTokenPrivileges(token, FALSE, &previous, 0, nullptr, nullptr))
+        {
+          spdlog::warn("Cannot restore Windows shutdown privilege: error {}", GetLastError());
+        }
+      if (token != nullptr)
+        {
+          CloseHandle(token);
+        }
+    }
+
+    ShutdownPrivilege(const ShutdownPrivilege &) = delete;
+    ShutdownPrivilege &operator=(const ShutdownPrivilege &) = delete;
+
+    bool is_enabled() const
+    {
+      return enabled;
+    }
+
+  private:
+    HANDLE token{nullptr};
+    TOKEN_PRIVILEGES previous{};
+    bool enabled{false};
+  };
+} // namespace
 
 W32Shutdown::W32Shutdown()
 {
-  shutdown_supported = shutdown_helper(false);
+  ShutdownPrivilege privilege;
+  shutdown_supported = privilege.is_enabled();
 }
 
 bool
-W32Shutdown::shutdown_helper(bool for_real)
+W32Shutdown::canSuspend()
 {
-  bool ret = false;
-  IShellDispatch *pShellDispatch = NULL;
-  if (SUCCEEDED(::CoCreateInstance(CLSID_Shell, NULL, CLSCTX_SERVER, IID_IShellDispatch, (LPVOID *)&pShellDispatch)))
+  SYSTEM_POWER_CAPABILITIES capabilities{};
+  if (!shutdown_supported)
     {
-      ret = true;
-      if (for_real)
-        {
-#if defined(HAVE_HARPOON)
-          harpoon_unblock_input();
-#endif
-          pShellDispatch->ShutdownWindows();
-        }
-      pShellDispatch->Release();
+      return false;
     }
-  return ret;
+  if (!GetPwrCapabilities(&capabilities))
+    {
+      spdlog::warn("Cannot query Windows sleep support: error {}", GetLastError());
+      return false;
+    }
+
+  if (capabilities.SystemS1 || capabilities.SystemS2 || capabilities.SystemS3)
+    {
+      return true;
+    }
+
+  // Modern Standby uses S0 low power idle. Query it separately because MinGW's
+  // SYSTEM_POWER_CAPABILITIES declaration does not expose the AoAc member.
+  POWER_PLATFORM_INFORMATION platform{};
+  auto status = CallNtPowerInformation(PlatformInformation, nullptr, 0, &platform, sizeof(platform));
+  if (status != 0)
+    {
+      spdlog::warn("Cannot query Windows Modern Standby support: status {}", status);
+      return false;
+    }
+  return platform.AoAc;
+}
+
+bool
+W32Shutdown::canHibernate()
+{
+  SYSTEM_POWER_CAPABILITIES capabilities{};
+  if (!shutdown_supported)
+    {
+      return false;
+    }
+  if (!GetPwrCapabilities(&capabilities))
+    {
+      spdlog::warn("Cannot query Windows hibernation support: error {}", GetLastError());
+      return false;
+    }
+
+  return capabilities.SystemS4 && capabilities.HiberFilePresent;
 }
 
 bool
 W32Shutdown::shutdown()
 {
-  return shutdown_helper(true);
+  ShutdownPrivilege privilege;
+  if (!privilege.is_enabled())
+    {
+      return false;
+    }
+
+  // Allow Windows and other applications to cancel shutdown for unsaved work.
+  if (!ExitWindowsEx(EWX_POWEROFF, SHTDN_REASON_MAJOR_OTHER | SHTDN_REASON_MINOR_OTHER | SHTDN_REASON_FLAG_PLANNED))
+    {
+      spdlog::error("Cannot shut down Windows: error {}", GetLastError());
+      return false;
+    }
+  return true;
+}
+
+bool
+W32Shutdown::suspend_helper(bool hibernate)
+{
+  // Recheck availability: hibernation or sleep support can change after startup.
+  if (hibernate ? !canHibernate() : !canSuspend())
+    {
+      return false;
+    }
+
+  ShutdownPrivilege privilege;
+  if (!privilege.is_enabled())
+    {
+      return false;
+    }
+  if (!SetSuspendState(hibernate ? TRUE : FALSE, FALSE, FALSE))
+    {
+      spdlog::error("Cannot {} Windows: error {}", hibernate ? "hibernate" : "put to sleep", GetLastError());
+      return false;
+    }
+  return true;
+}
+
+bool
+W32Shutdown::suspend()
+{
+  return suspend_helper(false);
+}
+
+bool
+W32Shutdown::hibernate()
+{
+  return suspend_helper(true);
 }

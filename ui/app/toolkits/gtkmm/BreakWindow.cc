@@ -923,7 +923,7 @@ BreakWindow::refresh_break_window()
       if (WindowsForceFocus::GetForceFocusValue() && (head.is_primary()))
         {
           WindowsForceFocus::ForceWindowFocus(hwnd, 0); // try without blocking
-       }
+        }
     }
 }
 #endif
