@@ -102,6 +102,12 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
       set_skip_taskbar_hint(true);
       set_skip_pager_hint(true);
 
+#if defined(PLATFORM_OS_WINDOWS)
+      // GTK's Win32 backend ignores the skip-taskbar hint. Utility windows
+      // use WS_EX_TOOLWINDOW to stay out of both the taskbar and Alt+Tab.
+      set_type_hint(Gdk::WINDOW_TYPE_HINT_UTILITY);
+#endif
+
       if (fullscreen_grab)
         {
           TRACE_MSG("Fullscreen grab");
@@ -713,9 +719,9 @@ BreakWindow::start()
     }
 #endif
 
-  // Set some window hints.
-  set_skip_pager_hint(true);
-  set_skip_taskbar_hint(true);
+  // Blocking breaks should stay out of the taskbar and window switcher.
+  set_skip_pager_hint(block_mode != BlockMode::Off);
+  set_skip_taskbar_hint(block_mode != BlockMode::Off);
 
   GtkUtil::set_always_on_top(this, true);
 
