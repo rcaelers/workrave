@@ -313,6 +313,7 @@ WindowsStatusIcon::show_menu()
 
   SetForegroundWindow(nid.hWnd);
   UINT command = TrackPopupMenu(menu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, nid.hWnd, nullptr);
+  PostMessage(nid.hWnd, WM_NULL, 0, 0);
   DestroyMenu(menu);
   // DestroyMenu does not release the bitmaps, which must stay alive until it closes.
   for (auto bitmap: bitmaps)
@@ -322,17 +323,22 @@ WindowsStatusIcon::show_menu()
           DeleteObject(bitmap);
         }
     }
-  auto node = menu_helper.find_node(command);
-  if (node)
+  if (command != 0)
     {
-      node->activate();
+      auto node = menu_helper.find_node(command - 1);
+      if (node)
+        {
+          node->activate();
+        }
     }
 }
 
 void
 WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr node, std::vector<HBITMAP> &bitmaps)
 {
-  uint32_t command = menu_helper.allocate_command(node->get_id());
+  // Zero means cancellation in TrackPopupMenu, but is a valid legacy command
+  // (Preferences). Keep the shared command IDs unchanged and offset native IDs.
+  uint32_t command = menu_helper.allocate_command(node->get_id()) + 1;
 
   std::wstring text = workrave::utils::utf8_to_utf16(node->get_dynamic_text());
   std::replace(text.begin(), text.end(), '_', '&');
