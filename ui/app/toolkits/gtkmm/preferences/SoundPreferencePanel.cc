@@ -344,6 +344,11 @@ void
 SoundPreferencePanel::on_sound_theme_changed()
 {
   TRACE_ENTRY();
+  if (inhibit_events != 0)
+    {
+      return;
+    }
+
   int idx = sound_theme_button->get_active_row_number();
 
   SoundTheme::ThemeInfos themes = sound_theme->get_themes();
@@ -382,9 +387,10 @@ SoundPreferencePanel::update_sound_theme_selection()
   TRACE_ENTRY();
   SoundTheme::ThemeInfo::Ptr active_theme = sound_theme->get_active_theme();
 
+  inhibit_events++;
   sound_theme_button->remove_all();
 
-  int active_index = -1;
+  int active_index = 0;
   for (SoundTheme::ThemeInfo::Ptr theme: sound_theme->get_themes())
     {
       sound_theme_button->append(theme->description);
@@ -395,6 +401,7 @@ SoundPreferencePanel::update_sound_theme_selection()
         }
       active_index++;
     }
+  inhibit_events--;
 }
 
 void
