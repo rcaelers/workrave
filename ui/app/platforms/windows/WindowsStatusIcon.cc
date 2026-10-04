@@ -21,6 +21,7 @@
 
 #include "ui/windows/WindowsStatusIcon.hh"
 
+#include <bit>
 #include <string>
 #include <cstring>
 #include <shellapi.h>
@@ -38,6 +39,99 @@ const UINT MYWM_TRAY_MESSAGE = WM_USER + 0x100;
 
 namespace
 {
+  class NativeMenuTheme
+  {
+  public:
+    NativeMenuTheme()
+    {
+      // These UxTheme entry points are undocumented. Ordinal 135 had a
+      // different signature before Windows 10 1903, so check the real OS
+      // version before resolving it and leave unsupported systems unchanged.
+      using RtlGetVersion = LONG(WINAPI *)(OSVERSIONINFOW *);
+      auto get_version = std::bit_cast<RtlGetVersion>(GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "RtlGetVersion"));
+      OSVERSIONINFOW version{};
+      version.dwOSVersionInfoSize = sizeof(version);
+      if (get_version == nullptr || get_version(&version) != 0 || version.dwMajorVersion < 10
+          || (version.dwMajorVersion == 10 && version.dwBuildNumber < 18362))
+        {
+          return;
+        }
+
+      uxtheme = LoadLibraryExW(L"uxtheme.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32);
+      if (uxtheme != nullptr)
+        {
+          refresh_color_policy = std::bit_cast<RefreshColorPolicy>(GetProcAddress(uxtheme, MAKEINTRESOURCEA(104)));
+          allow_dark_mode_for_window = std::bit_cast<AllowDarkModeForWindow>(GetProcAddress(uxtheme, MAKEINTRESOURCEA(133)));
+          set_preferred_app_mode = std::bit_cast<SetPreferredAppMode>(GetProcAddress(uxtheme, MAKEINTRESOURCEA(135)));
+          flush_menu_themes = std::bit_cast<FlushMenuThemes>(GetProcAddress(uxtheme, MAKEINTRESOURCEA(136)));
+        }
+    }
+
+    ~NativeMenuTheme()
+    {
+      if (uxtheme != nullptr)
+        {
+          FreeLibrary(uxtheme);
+        }
+    }
+
+    void apply(HWND hwnd, LightDarkTheme theme) const
+    {
+      if (hwnd == nullptr || refresh_color_policy == nullptr || allow_dark_mode_for_window == nullptr
+          || set_preferred_app_mode == nullptr || flush_menu_themes == nullptr)
+        {
+          return;
+        }
+
+      PreferredAppMode mode = PreferredAppMode::Default;
+      HIGHCONTRASTW contrast{};
+      contrast.cbSize = sizeof(contrast);
+      if (SystemParametersInfoW(SPI_GETHIGHCONTRAST, sizeof(contrast), &contrast, 0)
+          && (contrast.dwFlags & HCF_HIGHCONTRASTON) == 0)
+        {
+          switch (theme)
+            {
+            case LightDarkTheme::Light:
+              mode = PreferredAppMode::ForceLight;
+              break;
+            case LightDarkTheme::Dark:
+              mode = PreferredAppMode::ForceDark;
+              break;
+            case LightDarkTheme::Auto:
+              mode = PreferredAppMode::AllowDark;
+              break;
+            }
+        }
+
+      // Refresh on every opening so Auto also follows changes made while the
+      // application is running. Flush cached menu colours when switching mode.
+      refresh_color_policy();
+      set_preferred_app_mode(mode);
+      allow_dark_mode_for_window(hwnd, mode == PreferredAppMode::AllowDark || mode == PreferredAppMode::ForceDark);
+      flush_menu_themes();
+    }
+
+  private:
+    enum class PreferredAppMode
+    {
+      Default,
+      AllowDark,
+      ForceDark,
+      ForceLight
+    };
+
+    using RefreshColorPolicy = void(WINAPI *)();
+    using AllowDarkModeForWindow = bool(WINAPI *)(HWND, bool);
+    using SetPreferredAppMode = PreferredAppMode(WINAPI *)(PreferredAppMode);
+    using FlushMenuThemes = void(WINAPI *)();
+
+    HMODULE uxtheme{nullptr};
+    RefreshColorPolicy refresh_color_policy{nullptr};
+    AllowDarkModeForWindow allow_dark_mode_for_window{nullptr};
+    SetPreferredAppMode set_preferred_app_mode{nullptr};
+    FlushMenuThemes flush_menu_themes{nullptr};
+  };
+
   HBITMAP load_menu_bitmap(const wchar_t *resource)
   {
     const int width = GetSystemMetrics(SM_CXSMICON);
@@ -298,6 +392,9 @@ WindowsStatusIcon::cleanup()
 void
 WindowsStatusIcon::show_menu()
 {
+  static NativeMenuTheme theme;
+  theme.apply(nid.hWnd, GUIConfig::light_dark_mode()());
+
   POINT pt = {0};
   GetCursorPos(&pt);
 
