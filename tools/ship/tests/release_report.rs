@@ -183,7 +183,12 @@ jobs:
         .find(|line| line.contains("2. compile"))
         .unwrap();
     assert!(compile.starts_with("failed"), "{report}");
-    assert!(!report.contains("unreached"), "{report}");
+    assert!(
+        report
+            .lines()
+            .any(|line| line.starts_with("skipped") && line.contains("unreached")),
+        "{report}"
+    );
     assert!(report.contains("(failed)"), "{report}");
     assert!(report.contains("in compile of job build"), "{report}");
     assert!(report.contains("exit status: 7"), "{report}");

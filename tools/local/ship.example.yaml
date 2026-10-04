@@ -1,5 +1,6 @@
 # Machine access can be kept in a separate configuration file.
-include: ship.environments.example.yaml
+# For local use, copy the example to ship.runners.yaml and update this include.
+include: ship.runners.example.yaml
 
 # Machine configuration for `ship release`, `ship sign`, ...
 #
@@ -7,7 +8,7 @@ include: ship.environments.example.yaml
 # works too), or pass --config. A leading ~ in
 # values is expanded. The file is free-form: `ship` does not define its keys.
 # The release pipeline (tools/local/release.yaml) refers to them as
-# {{ config.* }}, and each of its targets starts with a check-config job that
+# ${{ config.* }}, and each of its targets starts with a check-config job that
 # lists the keys it needs and reports missing ones. Per-run choices
 # (--commit, --version, --dry-run, --target, --staging) are command line
 # options. `signing_service_url` is also used by `ship sign` and `ship secret`.

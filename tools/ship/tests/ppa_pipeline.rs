@@ -27,9 +27,15 @@ fn ppa_commands(series: Option<&str>, flags: &[&str]) -> Vec<String> {
         String::from_utf8_lossy(&output.stderr)
     );
     let plan = String::from_utf8(output.stdout).unwrap();
+    assert!(plan.contains(":/workspace/debian"), "{plan}");
+    assert_eq!(
+        plan.matches("job container: podman run").count(),
+        1,
+        "{plan}"
+    );
     let commands: Vec<_> = plan
         .lines()
-        .filter(|line| line.contains("$ podman run"))
+        .filter(|line| line.contains("$ podman exec"))
         .collect();
     assert_eq!(
         commands
@@ -52,7 +58,6 @@ fn assert_series(commands: &[String], expected: &[&str]) {
         assert!(command.contains(&format!("DIST={series} ")), "{command}");
         assert!(!command.contains("WORKRAVE_PPA_SERIES"));
         assert!(command.contains("SIGNING_SERVICE_URL="));
-        assert!(command.contains(":/workspace/debian"));
         assert!(command.contains("/ppa.sh -p 3"));
     }
 }

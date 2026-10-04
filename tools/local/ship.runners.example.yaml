@@ -1,4 +1,5 @@
-# Include this file from ship.yaml, then adjust the SSH destination.
+# Copy to ship.runners.yaml, include it from ship.yaml, and adjust the SSH destination.
+# These private settings supply the runner definitions in runners.yaml.
 # No lifecycle commands are needed for an already running Windows machine.
 execution:
   windows:

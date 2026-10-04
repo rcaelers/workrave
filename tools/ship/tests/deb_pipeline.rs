@@ -32,7 +32,9 @@ fn deb_plan(series: Option<&str>, enabled: bool) -> String {
 fn assert_series(plan: &str, expected: &[&str]) {
     let commands: Vec<_> = plan
         .lines()
-        .filter(|line| line.contains("$ podman run"))
+        .filter(|line| {
+            line.contains("$ podman exec") && line.contains("/workspace/scripts/local/pbuild.sh")
+        })
         .collect();
     assert_eq!(commands.len(), expected.len(), "{plan}");
     for (command, series) in commands.iter().zip(expected) {

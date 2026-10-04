@@ -20,4 +20,6 @@
 .DS_Store
 
 # Private builder access and VM lifecycle commands.
+/tools/local/ship.runners.yaml
+# Legacy filename, still supported by existing config includes.
 /tools/local/ship.environments.yaml

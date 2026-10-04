@@ -10,13 +10,20 @@ use crate::system::windows_container::{self, Session as WindowsSession};
 use anyhow::{anyhow, bail, Context, Result};
 use indexmap::IndexMap;
 
-use super::actions::{self, ActionEnv};
-use super::context::{insert_dotted, parse_outputs, HostVars, Renderer, Secrets, ShipVars, Vars};
+use super::commands::{self, Commands, Files};
+use super::context::{insert_dotted, HostVars, Renderer, Secrets, ShipVars, Vars};
+use super::expressions;
 use super::report::{JobReport, Report, Status, Timing};
-use super::schema::{DryRunMode, Environment, EnvironmentKind, Job, Pipeline, Step};
+use super::schema::{
+    ContainerSpec, DryRunMode, Environment, EnvironmentKind, Job, JobContainer, Pipeline,
+    RunnerKind, Step,
+};
 use crate::config::Config;
+use crate::services::actions::{self, ActionEnv};
 use crate::services::signing::SigningService;
-use crate::system::container::{ContainerRun, ContainerSettings, Mounts};
+use crate::system::container::{
+    session::Session as LinuxSession, ContainerRun, ContainerSettings, Mounts,
+};
 use crate::system::process::Cmd;
 
 pub struct RunOptions {
@@ -29,7 +36,7 @@ pub struct RunOptions {
     pub dry_run: bool,
     /// Print the resolved plan instead of running it.
     pub show: bool,
-    /// The pipeline's options as given (`{{ options.* }}`), including
+    /// The pipeline's options as given (`${{ inputs.* }}`), including
     /// `--set` values; missing ones get their declared defaults.
     pub options: serde_json::Map<String, serde_json::Value>,
     /// `--set config.<key>=<value>` overrides of the configuration.
@@ -136,6 +143,7 @@ async fn run_pipeline(
 
     let mut vars = Vars {
         config: config_value,
+        status: Default::default(),
         options,
         dry_run: opts.dry_run,
         host: HostVars {
@@ -143,11 +151,23 @@ async fn run_pipeline(
         },
         ship: ShipVars {
             exe: std::env::current_exe().unwrap_or_else(|_| PathBuf::from("ship")),
+            workflow_dir: pipeline.directory.clone(),
+            targets: opts
+                .target
+                .clone()
+                .map(|t| vec![t])
+                .unwrap_or_else(|| match host_os() {
+                    "windows" => vec!["windows".into()],
+                    "macos" => vec!["linux".into(), "macos".into()],
+                    _ => vec!["linux".into()],
+                }),
         },
         env: std::env::vars().collect(),
         vars: HashMap::new(),
         vars_errors: HashMap::new(),
         matrix: HashMap::new(),
+        steps: Default::default(),
+        needs: Default::default(),
         item: None,
         outputs: Default::default(),
     };
@@ -184,57 +204,146 @@ async fn run_pipeline(
         signing_service_url,
     };
 
+    let mut completed = serde_json::Map::new();
+    let mut failed_ancestors = std::collections::HashSet::<String>::new();
+    let mut first_error = None;
     for name in &ordered {
+        if crate::system::process::interrupted() {
+            bail!("release interrupted");
+        }
         let job = &pipeline.jobs[name];
+        vars.needs = job
+            .needs
+            .iter()
+            .filter_map(|name| {
+                completed
+                    .get(name)
+                    .map(|value: &serde_json::Value| (name.clone(), value.clone()))
+            })
+            .collect();
+        let upstream_failure = job.needs.iter().any(|name| failed_ancestors.contains(name));
+        vars.status = expressions::Status {
+            success: vars.needs.values().all(|need| need["result"] == "success"),
+            failure: upstream_failure,
+            cancelled: false,
+        };
+        if upstream_failure {
+            failed_ancestors.insert(name.clone());
+        }
         runner.refresh_vars(&mut vars);
-        for matrix in expand_matrix(job, &runner.renderer, &vars)? {
+        // Job conditions run before expanding the matrix, as on GitHub.
+        let ready = if opts.skip_jobs.contains(name) {
+            Ok(false)
+        } else {
+            runner
+                .renderer
+                .condition(job.condition.as_deref().unwrap_or("success()"), &vars)
+        };
+        let matrix = ready.and_then(|ready| {
+            if ready {
+                expand_matrix(job, &runner.renderer, &vars)
+            } else {
+                Ok(Vec::new())
+            }
+        });
+        let matrix = match matrix {
+            Ok(matrix) => matrix,
+            Err(error) => {
+                completed.insert(
+                    name.clone(),
+                    serde_json::json!({"outputs": {}, "result": "failure"}),
+                );
+                failed_ancestors.insert(name.clone());
+                report.jobs.push(JobReport {
+                    timing: Timing {
+                        label: name.clone(),
+                        status: Status::Failed,
+                        elapsed: Some(std::time::Duration::ZERO),
+                    },
+                    steps: Vec::new(),
+                });
+                let error = error.context(format!("preparing job {name}"));
+                tracing::error!("{error:#}");
+                first_error.get_or_insert(error);
+                continue;
+            }
+        };
+        if matrix.is_empty() {
+            runner.say(&format!("== {name}: skipped"));
+            completed.insert(
+                name.clone(),
+                serde_json::json!({"outputs": {}, "result": "skipped"}),
+            );
+            report.jobs.push(JobReport {
+                timing: Timing::skipped(name.clone()),
+                steps: Vec::new(),
+            });
+            continue;
+        }
+        let mut job_failed = false;
+        let mut named_outputs = serde_json::Map::new();
+        for matrix in matrix {
             let label = if matrix.is_empty() {
                 name.clone()
             } else {
-                format!(
-                    "{name} [{}]",
-                    matrix
-                        .iter()
-                        .map(|(k, v)| format!("{k}={}", value_text(v)))
-                        .collect::<Vec<_>>()
-                        .join(", ")
-                )
+                let mut values: Vec<_> = matrix
+                    .iter()
+                    .map(|(k, v)| format!("{k}={}", value_text(v)))
+                    .collect();
+                values.sort();
+                format!("{name} [{}]", values.join(", "))
             };
-            let job_vars = vars.with_matrix(matrix);
-            if let Some(condition) = &job.condition {
-                if !runner.renderer.condition(condition, &job_vars)? {
-                    runner.say(&format!("== {label}: skipped ({condition})"));
-                    report.jobs.push(JobReport {
-                        timing: Timing::skipped(label.clone()),
-                        steps: Vec::new(),
-                    });
-                    continue;
-                }
+            if job_failed && job.strategy.as_ref().is_some_and(|s| s.fail_fast) {
+                report.jobs.push(JobReport {
+                    timing: Timing::skipped(label),
+                    steps: Vec::new(),
+                });
+                continue;
             }
-
+            let mut job_vars = vars.with_matrix(matrix);
+            job_vars.status = Default::default();
             let started = Instant::now();
             let mut steps = Vec::new();
-            let result = async {
-                let outputs = runner
-                    .run_job(name, job, &label, job_vars, &mut steps)
-                    .await?;
-                for (key, value) in outputs {
-                    vars.set_output(&key, value)?;
-                }
-                Ok::<(), anyhow::Error>(())
-            }
-            .await
-            .with_context(|| format!("in job {label}"));
+            let result = runner
+                .run_job(name, job, &label, job_vars, &mut steps)
+                .await
+                .context(format!("in job {label}"));
             report.jobs.push(JobReport {
                 timing: Timing {
                     label,
-                    status: Status::from_result(&result),
+                    status: if result.as_ref().is_ok_and(|outputs| outputs.error.is_none()) {
+                        Status::Ok
+                    } else {
+                        Status::Failed
+                    },
                     elapsed: Some(started.elapsed()),
                 },
                 steps,
             });
-            result?;
+            match result {
+                Ok(outputs) => {
+                    if let Some(error) = outputs.error {
+                        job_failed = true;
+                        failed_ancestors.insert(name.clone());
+                        first_error.get_or_insert(error.context(format!("in job {name}")));
+                    }
+                    named_outputs.extend(outputs.named);
+                    for (key, value) in outputs.legacy {
+                        vars.set_output(&key, value)?;
+                    }
+                }
+                Err(error) => {
+                    tracing::error!("{error:#}");
+                    job_failed = true;
+                    failed_ancestors.insert(name.clone());
+                    first_error.get_or_insert(error);
+                }
+            }
         }
+        completed.insert(name.clone(), serde_json::json!({"outputs": named_outputs, "result": if job_failed {"failure"} else {"success"}}));
+    }
+    if let Some(error) = first_error {
+        return Err(error);
     }
     runner.say("Done");
     Ok(())
@@ -247,8 +356,8 @@ fn value_text(value: &serde_json::Value) -> String {
     }
 }
 
-/// All combinations of a job's matrix, in declaration order (empty when the
-/// job has no matrix: a single run).
+/// Matrix axes and include/exclude follow GitHub's merge rules. The executor
+/// remains serial, which also satisfies every positive max-parallel bound.
 fn expand_matrix(
     job: &Job,
     renderer: &Renderer,
@@ -257,25 +366,96 @@ fn expand_matrix(
     let Some(strategy) = &job.strategy else {
         return Ok(vec![HashMap::new()]);
     };
-    let mut combos: Vec<HashMap<String, serde_json::Value>> = vec![HashMap::new()];
-    for (key, values) in &strategy.matrix {
+    let rendered = renderer.render_yaml(&strategy.matrix, vars)?;
+    let matrix: IndexMap<String, serde_json::Value> =
+        serde_yaml::from_value(rendered).context("strategy.matrix must be an object")?;
+    let mut original = vec![HashMap::new()];
+    let mut axes = 0;
+    for (key, values) in &matrix {
+        if matches!(key.as_str(), "include" | "exclude") {
+            continue;
+        }
+        axes += 1;
+        let values = values
+            .as_array()
+            .with_context(|| format!("matrix axis '{key}' must be an array"))?;
         let mut next = Vec::new();
-        for combo in &combos {
+        for combination in original {
             for value in values {
-                let rendered = renderer.render_yaml(value, vars)?;
-                let json: serde_json::Value = serde_json::to_value(&rendered)?;
-                let mut c = combo.clone();
-                c.insert(key.clone(), json);
-                next.push(c);
+                let mut combination = combination.clone();
+                combination.insert(key.clone(), value.clone());
+                next.push(combination);
             }
         }
-        combos = next;
+        original = next;
     }
-    Ok(combos)
+    let entries = |name: &str| -> Result<Vec<serde_json::Map<String, serde_json::Value>>> {
+        match matrix.get(name) {
+            None => Ok(Vec::new()),
+            Some(value) => value
+                .as_array()
+                .with_context(|| format!("matrix {name} must be an array"))?
+                .iter()
+                .map(|entry| {
+                    entry
+                        .as_object()
+                        .cloned()
+                        .with_context(|| format!("matrix {name} entries must be objects"))
+                })
+                .collect(),
+        }
+    };
+    for excluded in entries("exclude")? {
+        if excluded
+            .keys()
+            .any(|key| !matrix.contains_key(key) || matches!(key.as_str(), "include" | "exclude"))
+        {
+            bail!("matrix exclude contains an unknown axis");
+        }
+        original.retain(|c| {
+            !excluded
+                .iter()
+                .all(|(key, value)| c.get(key) == Some(value))
+        });
+    }
+    if axes == 0 {
+        original.clear();
+    }
+    let mut combinations = original.clone();
+    for included in entries("include")? {
+        let mut merged = false;
+        for (base, combination) in original.iter().zip(&mut combinations) {
+            if included
+                .iter()
+                .all(|(key, value)| base.get(key).is_none_or(|base| base == value))
+            {
+                combination.extend(included.clone());
+                merged = true;
+            }
+        }
+        if !merged {
+            combinations.push(included.into_iter().collect());
+        }
+    }
+    Ok(combinations)
 }
 
 /// Values set by steps, in order.
 type Outputs = Vec<(String, serde_json::Value)>;
+
+#[derive(Default)]
+struct JobOutputs {
+    legacy: Outputs,
+    named: serde_json::Map<String, serde_json::Value>,
+    error: Option<anyhow::Error>,
+}
+
+#[derive(Default)]
+struct StepResult {
+    error: Option<anyhow::Error>,
+    legacy: Outputs,
+    commands: Commands,
+}
 
 struct Runner<'a> {
     pipeline: &'a Pipeline,
@@ -292,6 +472,7 @@ struct ResolvedEnvironment {
     container: ContainerSettings,
     platform: Option<String>,
     cwd: Option<PathBuf>,
+    shell: Option<String>,
     mounts: Vec<(PathBuf, String)>,
     env: Vec<(String, String)>,
     options: Vec<String>,
@@ -308,10 +489,14 @@ impl Runner<'_> {
         vars.vars.clear();
         vars.vars_errors.clear();
         for (name, template) in &self.pipeline.vars {
-            match self.renderer.render(template, vars) {
+            match self.renderer.render_native(template, vars) {
                 Ok(value) => {
-                    vars.vars
-                        .insert(name.clone(), super::context::parse_output_value(&value));
+                    let value = if template.contains("${{") {
+                        value
+                    } else {
+                        super::context::parse_output_value(value.as_str().unwrap_or_default())
+                    };
+                    vars.vars.insert(name.clone(), value);
                 }
                 Err(e) => {
                     vars.vars_errors.insert(name.clone(), format!("{e:#}"));
@@ -386,7 +571,7 @@ impl Runner<'_> {
             collect: IndexMap::new(),
             init: None,
         };
-        let (name, environment) = match &job.runs_in {
+        let (name, mut environment) = match &job.runs_in {
             Some(name) => {
                 let name = self.renderer.render(name, vars)?;
                 let environment = self
@@ -394,12 +579,111 @@ impl Runner<'_> {
                     .environments
                     .get(&name)
                     .ok_or_else(|| anyhow!("unknown environment '{name}'"))?;
-                (name, environment)
+                (name, environment.clone())
             }
-            None => ("host".to_string(), &host),
+            None => (
+                self.renderer
+                    .render(job.runs_on.as_deref().unwrap_or("host"), vars)?,
+                host,
+            ),
         };
-        let mut env = self.render_map(&environment.env, vars)?;
-        env.extend(self.render_map(&job.env, vars)?);
+        if job.runs_in.is_none() {
+            if name != "host" {
+                let runner = self
+                    .pipeline
+                    .runners
+                    .get(&name)
+                    .ok_or_else(|| anyhow!("unknown runner '{name}'"))?;
+                environment.kind = match runner.kind {
+                    RunnerKind::Host => EnvironmentKind::Host,
+                    RunnerKind::LinuxContainerHost => EnvironmentKind::Container,
+                    RunnerKind::WindowsContainerHost => EnvironmentKind::WindowsContainer,
+                };
+                environment.engine = runner.engine.clone();
+                environment.sync = runner.sync.clone();
+                environment.remote_dir = runner.remote_dir.clone();
+                environment.ssh = runner.ssh.clone();
+                environment.start = runner.start.clone();
+                environment.stop = runner.stop.clone();
+            }
+            if let Some(container) = &job.container {
+                let spec = match container {
+                    JobContainer::Image(image) => ContainerSpec {
+                        image: image.clone(),
+                        ..Default::default()
+                    },
+                    JobContainer::Definition(spec) => spec.clone(),
+                };
+                if environment.kind == EnvironmentKind::Host {
+                    environment.kind = if cfg!(windows) {
+                        EnvironmentKind::WindowsContainer
+                    } else {
+                        EnvironmentKind::Container
+                    };
+                }
+                if environment.kind != EnvironmentKind::WindowsContainer
+                    && (spec.image_context.is_some()
+                        || !spec.copy.is_empty()
+                        || !spec.collect.is_empty()
+                        || spec.init.is_some())
+                {
+                    bail!("container image-context/copy/collect/init currently require a Windows container runner");
+                }
+                if environment.kind == EnvironmentKind::WindowsContainer
+                    && (spec.platform.is_some() || !spec.mounts.is_empty())
+                {
+                    bail!("Windows job containers use volumes or copy/collect; platform and synchronized mounts are only supported on Linux");
+                }
+                environment.image = Some(spec.image);
+                environment.env = spec.env;
+                environment.platform = spec.platform;
+                environment.mounts = spec.mounts;
+                environment.image_context = spec.image_context;
+                environment.copy = spec.copy;
+                environment.collect = spec.collect;
+                environment.init = spec.init;
+                if let Some(options) = spec.options {
+                    // Tokenize after interpolation, preserving quoted option values.
+                    environment.options = shlex::split(&self.renderer.render(&options, vars)?)
+                        .context("invalid quoting in container.options")?;
+                    if environment.options.iter().any(|o| {
+                        matches!(
+                            o.split('=').next().unwrap_or_default(),
+                            "--entrypoint" | "--name" | "--rm" | "--detach" | "-d"
+                        )
+                    }) {
+                        bail!("container.options cannot override the job container lifecycle or entrypoint");
+                    }
+                }
+                for volume in spec.volumes {
+                    environment
+                        .options
+                        .push(format!("--volume={}", self.renderer.render(&volume, vars)?));
+                }
+            } else if matches!(
+                environment.kind,
+                EnvironmentKind::Container | EnvironmentKind::WindowsContainer
+            ) {
+                bail!("runner '{name}' requires a job container");
+            }
+            if matches!(
+                environment.kind,
+                EnvironmentKind::Container | EnvironmentKind::WindowsContainer
+            ) && environment
+                .image
+                .as_ref()
+                .is_none_or(|image| image.trim().is_empty())
+            {
+                bail!("job container requires a nonempty image");
+            }
+        }
+        let mut env_context = vars.clone();
+        let mut env = self.render_map(&self.pipeline.env, &env_context)?;
+        env_context.env.extend(env.iter().cloned());
+        let environment_env = self.render_map(&environment.env, &env_context)?;
+        env_context.env.extend(environment_env.iter().cloned());
+        env.extend(environment_env);
+        env.extend(self.render_map(&job.env, &env_context)?);
         let render_opt = |value: &Option<String>| -> Result<Option<String>> {
             match value {
                 Some(v) => Ok(Some(self.renderer.render(v, vars)?)),
@@ -424,8 +708,12 @@ impl Runner<'_> {
                     .unwrap_or(defaults.remote_dir),
             }
         };
-        // Working directory: step > job > environment > current directory.
-        let cwd = match render_opt(&job.cwd)?.or(render_opt(&environment.cwd)?) {
+        // The legacy job cwd remains an alias during workflow migration.
+        let cwd = match render_opt(&job.defaults.run.working_directory)?
+            .or(render_opt(&job.cwd)?)
+            .or(render_opt(&self.pipeline.defaults.run.working_directory)?)
+            .or(render_opt(&environment.cwd)?)
+        {
             Some(dir) if !dir.is_empty() => Some(PathBuf::from(dir)),
             _ => None,
         };
@@ -436,12 +724,21 @@ impl Runner<'_> {
             container,
             platform: render_opt(&environment.platform)?,
             cwd,
+            shell: render_opt(&job.defaults.run.shell)?
+                .or(render_opt(&self.pipeline.defaults.run.shell)?)
+                .or(render_opt(&environment.shell)?),
             mounts: self.render_mounts(&environment.mounts, vars)?,
             env,
             options: environment
                 .options
                 .iter()
-                .map(|o| self.renderer.render(o, vars))
+                .map(|o| {
+                    if job.container.is_some() {
+                        Ok(o.clone())
+                    } else {
+                        self.renderer.render(o, vars)
+                    }
+                })
                 .collect::<Result<_>>()?,
             bash: PathBuf::from(match &environment.bash {
                 Some(b) => self.renderer.render(b, vars)?,
@@ -455,12 +752,17 @@ impl Runner<'_> {
                     docker: render_opt(&environment.engine)?.unwrap_or_else(|| "docker.exe".into()),
                     image: render_opt(&environment.image)?.unwrap_or_default(),
                     context: render_opt(&environment.image_context)?.map(PathBuf::from),
-                    shell: render_opt(&environment.shell)?.unwrap_or_else(|| "powershell".into()),
                     init: render_opt(&environment.init)?.unwrap_or_default(),
                     options: environment
                         .options
                         .iter()
-                        .map(|o| self.renderer.render(o, vars))
+                        .map(|o| {
+                            if job.container.is_some() {
+                                Ok(o.clone())
+                            } else {
+                                self.renderer.render(o, vars)
+                            }
+                        })
                         .collect::<Result<_>>()?,
                     copy: self.render_mounts(&environment.copy, vars)?,
                     collect: environment
@@ -491,7 +793,7 @@ impl Runner<'_> {
         label: &str,
         mut vars: Vars,
         timings: &mut Vec<Timing>,
-    ) -> Result<Outputs> {
+    ) -> Result<JobOutputs> {
         self.refresh_vars(&mut vars);
         let environment = self.resolve_environment(job, &vars)?;
         if environment.kind == EnvironmentKind::WindowsContainer
@@ -559,6 +861,20 @@ impl Runner<'_> {
             None
         };
 
+        let linux = if environment.kind == EnvironmentKind::Container && job.container.is_some() {
+            let mut run = ContainerRun::new(&environment.image)
+                .flags(environment.options.clone())
+                .envs(environment.env.clone());
+            for (local, guest) in &environment.mounts {
+                run = run.mount(local, guest);
+            }
+            if let Some(platform) = &environment.platform {
+                run = run.platform(platform);
+            }
+            Some(LinuxSession::new(environment.container.engine, run))
+        } else {
+            None
+        };
         let mut windows = match &environment.windows {
             Some(settings) if !self.opts.show => Some(WindowsSession::new(settings.clone())?),
             Some(settings) => {
@@ -567,9 +883,12 @@ impl Runner<'_> {
             }
             None => None,
         };
-        let prepare = match &mut windows {
-            Some(session) => session.prepare(),
-            None => Ok(()),
+        let prepare = match (&mut windows, &linux) {
+            (Some(session), _) => session.prepare(),
+            (_, Some(session)) => {
+                session.prepare(mounts.as_ref().expect("container mounts"), self.opts.show)
+            }
+            _ => Ok(()),
         };
         let result = match prepare {
             Ok(()) => {
@@ -579,6 +898,7 @@ impl Runner<'_> {
                     &environment,
                     mounts.as_ref(),
                     windows.as_ref(),
+                    linux.as_ref(),
                     &mut vars,
                     timings,
                 )
@@ -590,20 +910,43 @@ impl Runner<'_> {
             Some(session) => session.finish(),
             None => Ok(()),
         };
+        let linux_finish = match &linux {
+            Some(session) if !self.opts.show => session.finish(),
+            _ => Ok(()),
+        };
         // Bring results back, also after a failure (logs, partial output).
         let finish = match &mounts {
             Some(m) if !self.opts.show => m.finish(),
             _ => Ok(()),
         };
-        if result.is_err() {
+        if result.is_err() || result.as_ref().is_ok_and(|outputs| outputs.error.is_some()) {
+            if let Err(error) = &finish {
+                tracing::warn!("Container mount collection: {error:#}");
+            }
+            if let Err(error) = &linux_finish {
+                tracing::warn!("Linux job cleanup: {error:#}");
+            }
             if let Err(error) = &windows_finish {
                 tracing::warn!("Windows job cleanup: {error:#}");
             }
         }
-        let outputs = result?;
-        finish?;
-        windows_finish?;
-        Ok(outputs)
+        let mut outputs = result?;
+        for cleanup in [finish, windows_finish, linux_finish] {
+            if let Err(error) = cleanup {
+                outputs.error.get_or_insert(error);
+            }
+        }
+        let named = job
+            .outputs
+            .iter()
+            .map(|(name, template)| {
+                Ok((
+                    name.clone(),
+                    serde_json::Value::String(self.renderer.render(template, &vars)?),
+                ))
+            })
+            .collect::<Result<_>>()?;
+        Ok(JobOutputs { named, ..outputs })
     }
 
     async fn run_steps(
@@ -613,23 +956,34 @@ impl Runner<'_> {
         environment: &ResolvedEnvironment,
         mounts: Option<&Mounts>,
         windows: Option<&WindowsSession>,
+        linux: Option<&LinuxSession>,
         vars: &mut Vars,
         timings: &mut Vec<Timing>,
-    ) -> Result<Outputs> {
+    ) -> Result<JobOutputs> {
         let mut all_outputs: Outputs = Vec::new();
+        let mut job_env = IndexMap::<String, String>::new();
+        let mut paths = Vec::new();
+        let mut first_error = None;
+        vars.env.extend(environment.env.iter().cloned());
         for (index, step) in job.steps.iter().enumerate() {
+            if crate::system::process::interrupted() {
+                bail!("release interrupted");
+            }
             let step_label = step
                 .name
                 .clone()
                 .unwrap_or_else(|| format!("step {}", index + 1));
             let report_label = match &step.name {
                 Some(name) => format!("{}. {name}", index + 1),
-                None => match &step.uses {
-                    Some(action) => format!("{step_label}: {action}"),
-                    None => step_label.clone(),
-                },
+                None => step
+                    .uses
+                    .as_ref()
+                    .map(|action| format!("{step_label}: {action}"))
+                    .unwrap_or_else(|| step_label.clone()),
             };
             let started = Instant::now();
+            // Foreach is a Ship extension. Evaluate its condition per item so
+            // conditions can actually refer to item (e.g. symbol directories).
             let items = match self.step_items(step, &step_label, vars) {
                 Ok(items) => items,
                 Err(error) => {
@@ -638,81 +992,166 @@ impl Runner<'_> {
                         status: Status::Failed,
                         elapsed: Some(started.elapsed()),
                     });
-                    return Err(error)
-                        .with_context(|| format!("in {step_label} of job {job_name}"));
+                    vars.status.success = false;
+                    vars.status.failure = true;
+                    if let Some(id) = &step.id {
+                        record_step(vars, id, "failure", Default::default());
+                    }
+                    first_error
+                        .get_or_insert(error.context(format!("in {step_label} of job {job_name}")));
+                    continue;
                 }
             };
             if items.is_empty() {
                 timings.push(Timing::skipped(report_label.clone()));
+                if let Some(id) = &step.id {
+                    record_step(vars, id, "skipped", Default::default());
+                }
             }
             for (iteration, item) in items.into_iter().enumerate() {
-                let label = match &item {
-                    Some(item) => format!(
-                        "{report_label} [item {}: {}]",
-                        iteration + 1,
-                        value_text(item)
-                    ),
-                    None => report_label.clone(),
-                };
-                let step_vars = match item {
-                    Some(item) => vars.with_item(item),
-                    None => vars.clone(),
-                };
+                let label = item
+                    .as_ref()
+                    .map(|item| {
+                        format!(
+                            "{report_label} [item {}: {}]",
+                            iteration + 1,
+                            value_text(item)
+                        )
+                    })
+                    .unwrap_or_else(|| report_label.clone());
+                let step_vars = item
+                    .map(|item| vars.with_item(item))
+                    .unwrap_or_else(|| vars.clone());
                 let started = Instant::now();
                 let result = async {
-                    let outputs = self
-                        .run_step(step, &step_label, environment, mounts, windows, &step_vars)
-                        .await?;
-                    if !outputs.is_empty() {
-                        for (key, value) in &outputs {
-                            vars.set_output(key, value.clone())?;
-                        }
-                        self.refresh_vars(vars);
-                        all_outputs.extend(outputs);
+                    if !self
+                        .renderer
+                        .condition(step.condition.as_deref().unwrap_or("success()"), &step_vars)?
+                    {
+                        return Ok(None);
                     }
-                    Ok::<(), anyhow::Error>(())
+                    self.run_step(
+                        step,
+                        &step_label,
+                        environment,
+                        mounts,
+                        windows,
+                        linux,
+                        &step_vars,
+                        &job_env,
+                        &paths,
+                    )
+                    .await
+                    .map(Some)
                 }
                 .await
-                .with_context(|| format!("in {step_label} of job {job_name}"));
-                let status = if result.is_ok()
-                    && self.opts.dry_run
-                    && step.run.is_some()
-                    && step.dry_run == DryRunMode::Echo
-                {
-                    Status::Echoed
-                } else {
-                    Status::from_result(&result)
-                };
-                timings.push(Timing {
-                    label,
-                    status,
-                    elapsed: Some(started.elapsed()),
-                });
-                result?;
+                .context(format!("in {step_label} of job {job_name}"));
+                match result {
+                    Ok(None) => {
+                        timings.push(Timing::skipped(label));
+                        if let Some(id) = &step.id {
+                            record_step(vars, id, "skipped", Default::default());
+                        }
+                    }
+                    Ok(Some(output)) => {
+                        let failed = output.error.is_some();
+                        if let Some(id) = &step.id {
+                            record_step(
+                                vars,
+                                id,
+                                if failed { "failure" } else { "success" },
+                                output.commands.outputs,
+                            );
+                        }
+                        if let Some(error) = output.error {
+                            vars.status.success = false;
+                            vars.status.failure = true;
+                            first_error.get_or_insert(
+                                error.context(format!("in {step_label} of job {job_name}")),
+                            );
+                        }
+                        for (key, value) in output.commands.env {
+                            vars.env.insert(key.clone(), value.clone());
+                            job_env.insert(key, value);
+                        }
+                        for path in output.commands.paths {
+                            paths.retain(|p| p != &path);
+                            paths.push(path);
+                        }
+                        for (key, value) in &output.legacy {
+                            vars.set_output(key, value.clone())?;
+                        }
+                        all_outputs.extend(output.legacy);
+                        self.refresh_vars(vars);
+                        timings.push(Timing {
+                            label,
+                            status: if failed {
+                                Status::Failed
+                            } else if self.opts.dry_run
+                                && step.run.is_some()
+                                && step.dry_run == DryRunMode::Echo
+                            {
+                                Status::Echoed
+                            } else {
+                                Status::Ok
+                            },
+                            elapsed: Some(started.elapsed()),
+                        });
+                    }
+                    Err(error) => {
+                        vars.status.success = false;
+                        vars.status.failure = true;
+                        if let Some(id) = &step.id {
+                            record_step(vars, id, "failure", Default::default());
+                        }
+                        timings.push(Timing {
+                            label,
+                            status: Status::Failed,
+                            elapsed: Some(started.elapsed()),
+                        });
+                        tracing::error!("{error:#}");
+                        first_error.get_or_insert(error);
+                    }
+                }
             }
         }
-        Ok(all_outputs)
+        Ok(JobOutputs {
+            legacy: all_outputs,
+            error: first_error,
+            ..Default::default()
+        })
     }
 
     fn step_items(
         &self,
         step: &Step,
-        label: &str,
+        _label: &str,
         vars: &Vars,
     ) -> Result<Vec<Option<serde_json::Value>>> {
-        if let Some(condition) = &step.condition {
-            if !self.renderer.condition(condition, vars)? {
-                self.say(&format!("-- {label}: skipped ({condition})"));
-                return Ok(Vec::new());
-            }
-        }
         match &step.foreach {
             Some(list) => {
-                let items = self.renderer.render_list(list, vars)?;
-                if items.is_empty() {
-                    self.say(&format!("-- {label}: nothing to do ({list})"));
+                // Do not expand a loop's unavailable inputs after an earlier
+                // failure unless its condition explicitly requests recovery.
+                if !vars.status.success {
+                    let condition = step.condition.as_deref().unwrap_or("success()");
+                    let per_item_recovery =
+                        if condition.contains("{{") && !condition.contains("${{") {
+                            false
+                        } else {
+                            let expression =
+                                expressions::parse(super::context::condition_source(condition)?)?;
+                            expression.has_status_check() && expression.references("item")
+                        };
+                    if !per_item_recovery && !self.renderer.condition(condition, vars)? {
+                        return Ok(Vec::new());
+                    }
                 }
-                Ok(items.into_iter().map(Some).collect())
+                Ok(self
+                    .renderer
+                    .render_list(list, vars)?
+                    .into_iter()
+                    .map(Some)
+                    .collect())
             }
             None => Ok(vec![None]),
         }
@@ -725,8 +1164,15 @@ impl Runner<'_> {
         environment: &ResolvedEnvironment,
         mounts: Option<&Mounts>,
         windows: Option<&WindowsSession>,
+        linux: Option<&LinuxSession>,
         vars: &Vars,
-    ) -> Result<Outputs> {
+        job_env: &IndexMap<String, String>,
+        paths: &[String],
+    ) -> Result<StepResult> {
+        let step_env = self.render_map(&step.env, vars)?;
+        let mut step_context = vars.clone();
+        step_context.env.extend(step_env.iter().cloned());
+        let vars = &step_context;
         if let Some(action) = &step.uses {
             let with = self.renderer.render_yaml(&step.with, vars)?;
             let env = ActionEnv {
@@ -736,118 +1182,143 @@ impl Runner<'_> {
             };
             if self.opts.show {
                 println!("   uses {action}: {}", yaml_inline(&with));
-                if actions::find(action)?.runs_in_show() {
-                    actions::run(action, &with, &env).await?;
-                }
-                return Ok(Vec::new());
+            } else {
+                tracing::info!("-- {label}: {action}");
             }
-            tracing::info!("-- {label}: {action}");
-            return Ok(actions::run(action, &with, &env).await?.outputs);
+            let outputs = if !self.opts.show || actions::find(action)?.runs_in_show() {
+                actions::run(action, &with, &env).await?.outputs
+            } else {
+                Vec::new()
+            };
+            return if step.id.is_some() {
+                Ok(StepResult {
+                    commands: Commands {
+                        outputs: outputs
+                            .into_iter()
+                            .map(|(key, value)| (key, value_text(&value)))
+                            .collect(),
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                })
+            } else {
+                Ok(StepResult {
+                    legacy: outputs,
+                    ..Default::default()
+                })
+            };
         }
 
+        let shell = step
+            .shell
+            .as_ref()
+            .map(|s| self.renderer.render(s, vars))
+            .transpose()?
+            .or(environment.shell.clone());
+        let default_shell = match environment.kind {
+            EnvironmentKind::WindowsContainer => "powershell",
+            EnvironmentKind::Container => "sh",
+            _ => "bash",
+        };
+        let shell_name = shell.as_deref().unwrap_or(default_shell);
+        if !matches!(shell_name, "bash" | "sh" | "powershell" | "pwsh") {
+            bail!("unsupported shell '{shell_name}' (supported: bash, sh, powershell, pwsh)");
+        }
         let script = self
             .renderer
             .render(step.run.as_deref().unwrap_or_default(), vars)?;
-        let script = script.trim().to_string();
+        let script = commands::prepend_path(
+            script.trim(),
+            shell_name,
+            paths,
+            matches!(
+                environment.kind,
+                EnvironmentKind::WindowsContainer | EnvironmentKind::Msys2
+            ) || (environment.kind == EnvironmentKind::Host && cfg!(windows)),
+        );
         let mut env = environment.env.clone();
-        env.extend(self.render_map(&step.env, vars)?);
-        let cwd = match &step.cwd {
-            Some(cwd) => PathBuf::from(self.renderer.render(cwd, vars)?),
-            None => environment
-                .cwd
-                .clone()
-                .unwrap_or_else(|| std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."))),
+        env.extend(job_env.iter().map(|(k, v)| (k.clone(), v.clone())));
+        env.extend(step_env);
+        let cwd = step
+            .cwd
+            .as_ref()
+            .map(|cwd| self.renderer.render(cwd, vars).map(PathBuf::from))
+            .transpose()?
+            .or(environment.cwd.clone());
+        let root = match environment.kind {
+            EnvironmentKind::Container => Some("/tmp"),
+            EnvironmentKind::WindowsContainer => Some("C:/"),
+            _ => None,
         };
+        let files = Files::new(root)?;
+        let msys = environment.kind == EnvironmentKind::Msys2
+            || (environment.kind == EnvironmentKind::WindowsContainer
+                && matches!(shell_name, "bash" | "sh"));
+        env.extend(files.env(msys));
+        let echo_only = self.opts.dry_run && step.dry_run == DryRunMode::Echo;
 
         if environment.kind == EnvironmentKind::WindowsContainer {
-            if !step.outputs.is_empty() {
-                env.push(("SHIP_OUTPUT".into(), "C:/ship-output.txt".into()));
-            }
             if self.opts.show {
-                windows_container::show_step(
-                    &script,
-                    &env,
-                    &environment.windows.as_ref().unwrap().shell,
-                );
-                return Ok(step
-                    .outputs
-                    .iter()
-                    .map(|key| (key.clone(), serde_json::Value::String(format!("<{key}>"))))
-                    .collect());
+                windows_container::show_step(&script, &env, shell_name);
+                return Ok(preview_outputs(step));
             }
             tracing::info!("-- {label}");
-            let cwd = step
-                .cwd
-                .as_ref()
-                .map(|cwd| self.renderer.render(cwd, vars))
-                .transpose()?
-                .map(PathBuf::from)
-                .or(environment.cwd.clone());
             let session = windows.expect("Windows job session");
-            session.run(
-                &script,
-                &env,
-                cwd.as_deref(),
-                self.opts.dry_run && step.dry_run == DryRunMode::Echo,
-            )?;
-            if step.outputs.is_empty() {
-                return Ok(Vec::new());
+            if !echo_only {
+                session.prepare_command_files(&files.guest)?;
             }
-            let outputs = parse_outputs(&session.outputs()?)?;
-            for declared in &step.outputs {
-                if !outputs.iter().any(|(key, _)| key == declared) {
-                    bail!("{label} did not write declared output '{declared}'");
-                }
+            let result = session.run(&script, &env, cwd.as_deref(), shell_name, echo_only);
+            if echo_only {
+                return Ok(StepResult::default());
             }
-            if outputs.iter().any(|(key, _)| !step.outputs.contains(key)) {
-                bail!("{label} wrote undeclared outputs");
-            }
-            return Ok(outputs);
+            let commands = session
+                .command_files(&files.guest)
+                .and_then(|texts| Commands::parse(&texts["output"], &texts["env"], &texts["path"]));
+            return completed_step(step, label, result, commands);
         }
 
-        // Where a step writes its `outputs` (name=value lines).
-        let output_file = (!step.outputs.is_empty()).then(|| {
-            std::env::temp_dir().join(format!(
-                "ship-output-{}-{}",
-                std::process::id(),
-                std::time::SystemTime::now()
-                    .duration_since(std::time::UNIX_EPOCH)
-                    .map(|d| d.as_nanos())
-                    .unwrap_or(0)
-            ))
-        });
-        if let Some(file) = &output_file {
-            let path = match environment.kind {
-                EnvironmentKind::Container => "/tmp/ship-output.txt".into(),
-                EnvironmentKind::Msys2 => super::context::msys_path(&file.to_string_lossy()),
-                _ => file.to_string_lossy().into_owned(),
-            };
-            env.push(("SHIP_OUTPUT".to_string(), path));
-        }
-
-        // Containers are named so an interrupted one can be removed.
         static CONTAINERS: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
         let container_name = format!(
             "ship-{}-{}",
             std::process::id(),
             CONTAINERS.fetch_add(1, std::sync::atomic::Ordering::SeqCst) + 1
         );
+        let script = if environment.kind == EnvironmentKind::Container {
+            if !matches!(shell_name, "bash" | "sh") {
+                bail!("Linux container steps currently support bash and sh");
+            }
+            format!("{}{script}", files.initialize_sh())
+        } else {
+            script
+        };
+        let mut command = shell_command(shell_name, &script, shell.is_some());
+        if environment.kind == EnvironmentKind::Msys2 && shell_name == "bash" {
+            command[0] = environment.bash.to_string_lossy().into_owned();
+            if shell.is_none() {
+                command.insert(1, "-l".into());
+            }
+        }
         let cmd = match environment.kind {
             EnvironmentKind::WindowsContainer => unreachable!("handled above"),
-            EnvironmentKind::Host => Cmd::new("bash")
-                .args(["-c", &script])
-                .envs(env.clone())
-                .cwd(&cwd),
-            EnvironmentKind::Msys2 => Cmd::new(&environment.bash)
-                .args(["-l", "-c", &script])
-                .env("MSYSTEM", &environment.msystem)
-                .env("CHERE_INVOKING", "1")
-                .envs(env.clone())
-                .cwd(&cwd),
+            EnvironmentKind::Host | EnvironmentKind::Msys2 => {
+                let mut cmd = Cmd::new(&command[0]).args(&command[1..]).envs(env.clone());
+                if environment.kind == EnvironmentKind::Msys2 {
+                    cmd = cmd
+                        .env("MSYSTEM", &environment.msystem)
+                        .env("CHERE_INVOKING", "1");
+                }
+                if let Some(cwd) = &cwd {
+                    cmd = cmd.cwd(cwd);
+                }
+                cmd
+            }
+            EnvironmentKind::Container if linux.is_some() => {
+                linux.unwrap().command(&command, &env, cwd.as_deref())
+            }
             EnvironmentKind::Container => {
                 let mounts = mounts.expect("container job has mounts");
                 let mut run = ContainerRun::new(&environment.image)
-                    .remove_on_exit(step.outputs.is_empty())
+                    .remove_on_exit(false)
                     .name(&container_name)
                     .flags(environment.options.clone())
                     .flags(
@@ -857,25 +1328,28 @@ impl Runner<'_> {
                             .collect::<Result<Vec<_>>>()?,
                     )
                     .envs(env.clone());
+                if let Some(cwd) = &cwd {
+                    run = run.flags(["--workdir".to_owned(), cwd.to_string_lossy().into_owned()]);
+                }
                 for (local, guest) in merge_mounts(
                     &environment.mounts,
                     &self.render_mounts(&step.mounts, vars)?,
                 ) {
                     run = run.mount(local, guest);
                 }
-                let platform = match &step.platform {
-                    Some(p) => Some(self.renderer.render(p, vars)?),
-                    None => environment.platform.clone(),
-                };
-                if let Some(platform) = platform {
+                if let Some(platform) = step
+                    .platform
+                    .as_ref()
+                    .map(|p| self.renderer.render(p, vars))
+                    .transpose()?
+                    .or(environment.platform.clone())
+                {
                     run = run.platform(platform);
                 }
-                run.command(["sh", "-c", &script])
+                run.command(command)
                     .to_cmd(environment.container.engine, mounts)
             }
         };
-
-        let echo_only = self.opts.dry_run && step.dry_run == DryRunMode::Echo;
         if self.opts.show {
             let prefix = if step.dry_run == DryRunMode::Echo {
                 "   $ (echo in dry run) "
@@ -883,76 +1357,133 @@ impl Runner<'_> {
                 "   $ "
             };
             println!("{prefix}{}", cmd.display());
-            // Container commands carry their -e flags; show the others' env.
-            if environment.kind != EnvironmentKind::Container && !env.is_empty() {
+            if environment.kind != EnvironmentKind::Container {
                 for (key, value) in &env {
-                    if key != "SHIP_OUTPUT" {
+                    if !key.starts_with("SHIP_") && !key.starts_with("GITHUB_") {
                         println!("       {key}={}", crate::system::process::redacted(value));
                     }
                 }
             }
-            if !step.outputs.is_empty() {
-                println!("       sets {}", step.outputs.join(", "));
-            }
-            // Placeholders, so later templates render.
-            return Ok(step
-                .outputs
-                .iter()
-                .map(|k| (k.clone(), serde_json::Value::String(format!("<{k}>"))))
-                .collect());
+            return Ok(preview_outputs(step));
         }
         tracing::info!("-- {label}");
         let mut result = cmd.run_or_echo(echo_only);
         if environment.kind == EnvironmentKind::Container && !echo_only {
-            if let Some(file) = &output_file {
+            if !crate::system::process::interrupted() {
+                // Copying command files also works with remote engines, without
+                // binding a controller temporary directory into the container.
+                let copied = match linux {
+                    Some(session) => session.collect_commands(&files.guest, &files.local),
+                    None => Cmd::new(environment.container.engine.program())
+                        .args(["cp", &format!("{container_name}:{}/.", files.guest)])
+                        .arg(&files.local)
+                        .run(),
+                };
                 if result.is_ok() {
-                    // Engine cp also works with remote Podman: no temporary
-                    // host bind mount or full workspace synchronization needed.
-                    result = Cmd::new(environment.container.engine.program())
-                        .args(["cp", &format!("{container_name}:/tmp/ship-output.txt")])
-                        .arg(file)
-                        .run();
+                    result = copied;
                 }
+            }
+            if linux.is_none() {
                 crate::system::container::remove_container(
                     environment.container.engine,
                     &container_name,
                 );
             }
         }
-        if result.is_err()
-            && crate::system::process::interrupted()
-            && environment.kind == EnvironmentKind::Container
-        {
-            crate::system::container::remove_container(
-                environment.container.engine,
-                &container_name,
-            );
+        if echo_only {
+            result?;
+            return Ok(StepResult::default());
         }
-        let outputs = match &output_file {
-            Some(file) => {
-                let text = std::fs::read_to_string(file).unwrap_or_default();
-                let _ = std::fs::remove_file(file);
-                result?;
-                let outputs = parse_outputs(&text)?;
-                for declared in &step.outputs {
-                    if !outputs.iter().any(|(k, _)| k == declared) {
-                        bail!("{label} declares output '{declared}' but did not write it to $SHIP_OUTPUT");
-                    }
-                }
-                for (key, _) in &outputs {
-                    if !step.outputs.contains(key) {
-                        bail!("{label} wrote output '{key}' without declaring it in `outputs`");
-                    }
-                }
-                outputs
-            }
-            None => {
-                result?;
-                Vec::new()
-            }
-        };
-        Ok(outputs)
+        completed_step(step, label, result, files.read())
     }
+}
+
+fn record_step(
+    vars: &mut Vars,
+    id: &str,
+    status: &str,
+    outputs: std::collections::BTreeMap<String, String>,
+) {
+    vars.steps.insert(
+        id.into(),
+        serde_json::json!({"outputs": outputs, "outcome": status, "conclusion": status}),
+    );
+}
+
+fn shell_command(shell: &str, script: &str, explicit: bool) -> Vec<String> {
+    match shell {
+        "bash" if explicit => vec![
+            "bash".into(),
+            "--noprofile".into(),
+            "--norc".into(),
+            "-e".into(),
+            "-o".into(),
+            "pipefail".into(),
+            "-c".into(),
+            script.into(),
+        ],
+        "bash" | "sh" => vec![shell.into(), "-e".into(), "-c".into(), script.into()],
+        "powershell" | "pwsh" => {
+            let script = format!("$ErrorActionPreference='Stop'\n$LASTEXITCODE=0\n{script}\nif ($LASTEXITCODE) {{ exit $LASTEXITCODE }}");
+            vec![
+                shell.into(),
+                "-NoProfile".into(),
+                "-NonInteractive".into(),
+                "-EncodedCommand".into(),
+                windows_container::encode(&script),
+            ]
+        }
+        _ => unreachable!("validated shell"),
+    }
+}
+
+fn preview_outputs(step: &Step) -> StepResult {
+    StepResult {
+        legacy: step
+            .outputs
+            .iter()
+            .map(|key| (key.clone(), serde_json::Value::String(format!("<{key}>"))))
+            .collect(),
+        ..Default::default()
+    }
+}
+
+fn completed_step(
+    step: &Step,
+    label: &str,
+    result: Result<()>,
+    commands: Result<Commands>,
+) -> Result<StepResult> {
+    match result {
+        Ok(()) => step_result(step, label, commands?),
+        Err(error) => Ok(StepResult {
+            commands: commands.unwrap_or_default(),
+            error: Some(error),
+            ..Default::default()
+        }),
+    }
+}
+
+fn step_result(step: &Step, label: &str, commands: Commands) -> Result<StepResult> {
+    let mut legacy = Vec::new();
+    if !step.outputs.is_empty() {
+        for declared in &step.outputs {
+            let value = commands.outputs.get(declared).ok_or_else(|| {
+                anyhow!("{label} did not write declared output '{declared}' to SHIP_OUTPUT")
+            })?;
+            legacy.push((declared.clone(), super::context::parse_output_value(value)));
+        }
+        for name in commands.outputs.keys() {
+            if !step.outputs.contains(name) {
+                bail!("{label} wrote undeclared output '{name}'");
+            }
+        }
+    }
+    Ok(StepResult {
+        legacy,
+        commands,
+        error: None,
+    })
 }
 
 /// The environment's mounts plus the step's; a step mount replaces an
@@ -1049,7 +1580,7 @@ mod tests {
             target: Some("linux".to_string()),
             ..only
         };
-        assert_eq!(select_jobs(&pipeline, &only_skip).unwrap(), vec!["b"]);
+        assert_eq!(select_jobs(&pipeline, &only_skip).unwrap(), vec!["a", "b"]);
         let only = RunOptions {
             jobs: vec!["b".to_string()],
             skip_jobs: vec![],
@@ -1062,7 +1593,7 @@ mod tests {
             target: Some("linux".to_string()),
             ..only
         };
-        assert_eq!(select_jobs(&pipeline, &skip).unwrap(), vec!["b", "c"]);
+        assert_eq!(select_jobs(&pipeline, &skip).unwrap(), vec!["a", "b", "c"]);
         let bad = RunOptions {
             target: Some("nope".to_string()),
             ..skip

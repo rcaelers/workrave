@@ -28,8 +28,8 @@ fn appimage_commands(platform: &str, cross_image: Option<&str>) -> Vec<String> {
     );
     let plan = String::from_utf8(output.stdout).unwrap();
     let commands: Vec<_> = plan
-        .lines()
-        .filter(|line| line.contains("$ podman run"))
+        .split("== appimage [")
+        .skip(1)
         .map(str::to_owned)
         .collect();
     assert_eq!(commands.len(), 2, "{plan}");

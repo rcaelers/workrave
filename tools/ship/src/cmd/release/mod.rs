@@ -3,14 +3,15 @@
 //!
 //! The pipeline file is given with --pipeline; see `schema.rs` for the
 //! file format, `context.rs` for the template context, `runner.rs` for the
-//! execution and `actions/` for the builtin actions.
+//! execution and `services/actions/` for the builtin actions.
 //!
 //! The command line is parsed in two passes: the options selecting the
 //! configuration and pipeline files first, then — with the pipeline loaded —
 //! everything, including the options the pipeline declares itself.
 
-pub mod actions;
+mod commands;
 pub mod context;
+mod expressions;
 mod report;
 pub mod runner;
 pub mod schema;
@@ -94,7 +95,9 @@ fn command(name: &'static str, pipeline: Option<&Pipeline>) -> Command {
                 .short('T')
                 .long("target")
                 .value_name("NAME")
-                .help("Target from the pipeline file (default: linux [+ macos on a Mac], or windows)"),
+                .help(
+                    "Target from the pipeline file (default: linux [+ macos on a Mac], or windows)",
+                ),
         )
         .arg(
             Arg::new("job")
@@ -124,7 +127,9 @@ fn command(name: &'static str, pipeline: Option<&Pipeline>) -> Command {
                 .value_name("KEY=VALUE")
                 .action(ArgAction::Append)
                 .value_delimiter(',')
-                .help("Set an option ({{ options.KEY }}), or config.KEY to override the configuration"),
+                .help(
+                    "Set an input (${{ inputs.KEY }}), or config.KEY to override the configuration",
+                ),
         );
 
     if let Some(pipeline) = pipeline {

@@ -28,20 +28,24 @@ if args[0] == 'run':
     container.mkdir()
     env = os.environ.copy()
     for index, arg in enumerate(args):
-        if arg == '-e':
+        if arg == '-e' and '=' in args[index+1]:
             key, value = args[index+1].split('=', 1)
-            env[key] = str(container/'output') if key == 'SHIP_OUTPUT' else value
-    result = subprocess.run(['sh', '-c', args[-1]], env=env)
+            env[key] = value
+    guest = str(pathlib.PurePosixPath(env['SHIP_OUTPUT']).parent)
+    for key in ('SHIP_OUTPUT', 'GITHUB_OUTPUT', 'SHIP_ENV', 'GITHUB_ENV', 'SHIP_PATH', 'GITHUB_PATH'):
+        env[key] = env[key].replace(guest, str(container))
+    command = args[-1].replace(guest, str(container))
+    result = subprocess.run(['sh', '-e', '-c', command], env=env)
     if '--rm' in args:
         shutil.rmtree(container)
     sys.exit(result.returncode)
 elif args[0] == 'cp':
     if os.environ['FAILURE'] == 'copy':
         sys.exit(23)
-    source = root/'containers'/args[1].split(':')[0]/'output'
+    source = root/'containers'/args[1].split(':')[0]
     if not source.exists():
         sys.exit(24)
-    shutil.copyfile(source, args[2])
+    shutil.copytree(source, args[2], dirs_exist_ok=True)
 elif args[0] == 'rm':
     shutil.rmtree(root/'containers'/args[-1], ignore_errors=True)
 else:

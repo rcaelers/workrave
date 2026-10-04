@@ -42,8 +42,8 @@ if match:
         inner=base64.b64decode(native.rsplit(' ',1)[1].strip('"')).decode('utf-16le')
         if "Write-Output 'directory'" in inner:
             print('directory')
-        if 'Get-Content C:/ship-output.txt' in inner:
-            print('token=remembered')
+        if 'ConvertTo-Json -Compress' in inner and '[IO.File]::ReadAllText' in inner:
+            print(json.dumps({'output': 'token=remembered\n', 'env': '', 'path': ''}))
         if "Write-Output 'remembered'" in inner:
             (root/'output_used').write_text('yes')
         if 'exit 37' in inner: sys.exit(37)
@@ -65,21 +65,22 @@ else:
     fs::write(dir.join("config.yaml"), "{}").unwrap();
     let pipeline = format!(
         r#"
-environments:
+runners:
   windows:
-    type: windows-container
-    image: test-compiler
+    type: windows-container-host
     ssh: fake-windows
     start: echo start >> '{0}/hooks'
     stop: echo stop >> '{0}/hooks'
-    copy:
-      '{0}/input': C:/input
-    collect:
-      C:/logs: '{0}/recovered'
 targets: {{test: [build]}}
 jobs:
   build:
-    runs-in: windows
+    runs-on: windows
+    container:
+      image: test-compiler
+      copy:
+        '{0}/input': C:/input
+      collect:
+        C:/logs: '{0}/recovered'
     steps:
       - run: Add-Content $env:SHIP_OUTPUT 'token=remembered'
         outputs: [token]

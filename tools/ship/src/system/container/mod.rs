@@ -7,6 +7,7 @@
 //! the local directories and ask it for the host-side path of each mount.
 
 pub mod remote;
+pub mod session;
 
 use std::path::{Path, PathBuf};
 

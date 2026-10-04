@@ -1,24 +1,17 @@
-# The Workrave release pipeline, run by `ship release` (tools/ship, see its README).
-#
-# Machine-specific values come from tools/local/ship.yaml (git-ignored) as
-# {{ config.* }}; tools/local/ship.example.yaml documents every key. Each
-# target starts with a check-config job that lists the keys it needs and
-# reports missing ones. Every string here is a Jinja template rendered when
-# the step runs; `ship pipeline show` prints the rendered commands without
-# running anything.
-#
-# Context: config, options.* (the command line options declared below, and
-# --set values), dry_run, host.os, ship.exe, env.*, vars.*, matrix.*, item,
-# plus what steps set through `outputs` (the workspace job sets version.*).
-# Functions: secret(name), exists(path), glob(pattern), today(format).
+# Workrave release workflow, run by tools/local/ship.
+# Expressions use the supported GitHub Actions syntax: ${{ ... }}.
+# config and computed vars are Ship extensions; machine access stays in
+# runners.yaml and the user's Ship configuration.
+# inputs contains the command-line options below. ship.* functions are
+# local helpers; steps/needs carry explicitly declared outputs.
 
 settings:
-  # Used by secret() and the sign action.
-  signing_service_url: "{{ config.signing_service_url | default('') }}"
+  # Used by ship.secret() and the sign action.
+  signing_service_url: "${{ (config.signing_service_url || '') }}"
 
 # Command line options of `ship release` / `ship pipeline show`. An option
 # with `config:` overrides that configuration key for the run; the others
-# are {{ options.<name> }}.
+# are available as inputs.<name>.
 options:
   commit:
     short: t
@@ -71,36 +64,38 @@ options:
 
 # Values derived from the configuration and the command line.
 vars:
-  source: "{{ config.workspace_dir }}/source"
-  deploy: "{{ config.workspace_dir }}/deploy"
+  version: "${{ fromJSON(steps.version.outputs.json || needs.workspace.outputs.version) }}"
+  source: "${{ config.workspace_dir }}/source"
+  deploy: "${{ config.workspace_dir }}/deploy"
   # The tools/ directory to run the build scripts from: a development
   # checkout (config.scripts_dir), or the one of the commit being released.
-  scripts: "{{ config.scripts_dir | default(vars.source ~ '/tools') }}"
+  scripts: "${{ (config.scripts_dir || format('{0}/tools', vars.source)) }}"
   # Where this release's artifacts are collected.
-  release_dir: "{{ vars.deploy }}/{{ version.tag }}"
-  appcast_repo_dir: "{{ config.workspace_dir }}/workrave-appcast"
+  release_dir: "${{ vars.deploy }}/${{ vars.version.tag }}"
+  appcast_repo_dir: "${{ config.workspace_dir }}/workrave-appcast"
   # Pre-releases go to the testing PPA and are marked as such on GitHub.
-  prerelease: "{{ config.prerelease or config.channel != 'stable' }}"
+  prerelease: "${{ (config.prerelease || config.channel != 'stable') }}"
   # Artifact directory in the snapshots bucket, and the matching secret set.
-  s3_dir: "{{ 'staging/' if options.staging }}{{ config.snapshots.branch }}"
-  environment: "{{ 'staging' if options.staging else 'production' }}"
-  s3_secret_key: "{{ secret('secrets.tokens.s3_access_key.' ~ vars.environment) }}"
+  s3_dir: "${{ (inputs.staging && 'staging/' || '') }}${{ config.snapshots.branch }}"
+  environment: "${{ (inputs.staging && 'staging' || 'production') }}"
+  s3_secret_key: "${{ ship.secret(format('secrets.tokens.s3_access_key.{0}', vars.environment)) }}"
   # Windows builds are identified by date and full git version, as ci/config.sh does.
-  build_id: "{{ today('%Y%m%d') }}-{{ version.long }}local"
-  win_deploy_dir: "{{ vars.source }}/_deploy/{{ vars.build_id }}"
-  windows_dependencies: "{{ config.windows.dependencies_dir | default(vars.scripts ~ '/../../workrave-dependencies') }}"
-  windows_containers: "{{ config.windows.containers_dir | default(vars.scripts ~ '/../../workrave-build-containers') }}"
-  windows_qt_sdk: "{{ config.workspace_dir }}/windows-qt-sdk/sdk.tar.gz"
-  windows_qt_sdk_root: "C:/cache/qt/{{ sha256(vars.windows_qt_sdk)[:24] }}-{{ sha256(vars.windows_containers ~ '/windows-conan/init-sdk.py')[:16] }}"
-  windows_build_name: "{{ 'qt' if matrix.ui == 'Qt' else 'gtk3' }}"
-  windows_build_dir: "C:/workspace/source/_build/{{ vars.windows_build_name }}/{{ matrix.configuration }}"
-  windows_output_dir: "C:/workspace/source/_output/{{ vars.windows_build_name }}/{{ matrix.configuration }}"
-  windows_ship: "{{ 'C:/cache/target/llvm-mingw' if matrix.ui == 'Qt' else 'C:/cache/target' }}/release/ship.exe"
-  windows_postfix: "{{ version.workrave if version.is_release else version.long ~ '-' ~ today('%Y%m%d') }}{{ '-Debug' if matrix.configuration == 'Debug' }}"
+  build_id: "${{ ship.today('%Y%m%d') }}-${{ vars.version.long }}local"
+  win_deploy_dir: "${{ vars.source }}/_deploy/${{ vars.build_id }}"
+  sdk_scripts: "${{ config.scripts_dir || format('{0}/..', ship.workflow_dir) }}"
+  windows_dependencies: "${{ (config.windows.dependencies_dir || format('{0}/../../workrave-dependencies', vars.sdk_scripts)) }}"
+  windows_containers: "${{ (config.windows.containers_dir || format('{0}/../../workrave-build-containers', vars.sdk_scripts)) }}"
+  windows_qt_sdk: "${{ config.workspace_dir }}/windows-qt-sdk/sdk.tar.gz"
+  windows_qt_sdk_root: "C:/cache/qt/${{ ship.slice(ship.sha256(vars.windows_qt_sdk), 0, 24) }}-${{ ship.slice(ship.sha256(format('{0}/windows-conan/init-sdk.py', vars.windows_containers)), 0, 16) }}"
+  windows_build_name: "${{ (matrix.ui == 'Qt' && 'qt' || 'gtk3') }}"
+  windows_build_dir: "C:/workspace/source/_build/${{ vars.windows_build_name }}/${{ matrix.configuration }}"
+  windows_output_dir: "C:/workspace/source/_output/${{ vars.windows_build_name }}/${{ matrix.configuration }}"
+  windows_ship: "${{ (matrix.ui == 'Qt' && 'C:/cache/target/llvm-mingw' || 'C:/cache/target') }}/release/ship.exe"
+  windows_postfix: "${{ (vars.version.is_release && vars.version.workrave || format('{0}-{1}', vars.version.long, ship.today('%Y%m%d'))) }}${{ (matrix.configuration == 'Debug' && '-Debug' || '') }}"
 
 
 
-environment-files: [environments.yaml]
+runner-files: [runners.yaml]
 
 targets:
   linux:
@@ -143,7 +138,8 @@ jobs:
   # ---------------------------------------------------------- configuration
 
   check-config-linux:
-    always: true
+    runs-on: host
+    if: "${{ contains(ship.targets, 'linux') }}"
     steps:
       - uses: check-config
         with:
@@ -170,7 +166,8 @@ jobs:
             - linux.cross_image
 
   check-config-macos:
-    always: true
+    runs-on: host
+    if: "${{ contains(ship.targets, 'macos') }}"
     steps:
       - uses: check-config
         with:
@@ -189,7 +186,8 @@ jobs:
             - macos.sign_identity
 
   check-config-windows:
-    always: true
+    runs-on: host
+    if: "${{ contains(ship.targets, 'windows') }}"
     steps:
       - uses: check-config
         with:
@@ -227,7 +225,7 @@ jobs:
             - windows.jobs
 
   check-config-windows-dependencies:
-    always: true
+    runs-on: host
     steps:
       - uses: check-config
         with:
@@ -253,7 +251,7 @@ jobs:
             - windows.jobs
 
   check-config-appcast:
-    always: true
+    runs-on: host
     steps:
       - uses: check-config
         with:
@@ -271,30 +269,35 @@ jobs:
   # ---------------------------------------------------------------- common
 
   workspace:
-    always: true
+    runs-on: host
+    needs: [check-config-linux, check-config-macos, check-config-windows]
+    if: "${{ !failure() && !cancelled() }}"
+    outputs:
+      version: "${{ steps.version.outputs.json }}"
     steps:
       - name: clean checkout of the commit to release
         run: |
           set -e
-          SOURCE="{{ vars.source }}"
+          SOURCE="${{ vars.source }}"
           if [ ! -d "$SOURCE/.git" ]; then
-              git clone {{ config.repo }} "$SOURCE"
+              git clone ${{ config.repo }} "$SOURCE"
           else
               rm -rf "$SOURCE/_build" "$SOURCE/_deploy" "$SOURCE/_output"
               git -C "$SOURCE" fetch
           fi
           git -C "$SOURCE" reset --hard HEAD
           git -C "$SOURCE" clean -fdx
-          {% if options.commit %}git -C "$SOURCE" checkout {{ options.commit }}{% endif %}
+          if [ -n "${{ inputs.commit }}" ]; then git -C "$SOURCE" checkout "${{ inputs.commit }}"; fi
       # The same derivation as ci/config.sh: the nearest tag, `git describe`
       # without the hash, and the human version (v1_12_0_alpha_1-5 ->
       # 1.12.0-alpha.1). A release build is a checkout exactly at a tag.
       - name: derive the version from git, or from --version
+        id: version
         run: |
           set -e
-          cd "{{ vars.source }}"
-          if [ -n "{{ options.version }}" ]; then
-              TAG="{{ options.version }}"
+          cd "${{ vars.source }}"
+          if [ -n "${{ inputs.version }}" ]; then
+              TAG="${{ inputs.version }}"
               GIT_VERSION="$TAG"
               LONG="$TAG"
           else
@@ -312,80 +315,101 @@ jobs:
               RELEASE_TAG=""
               echo "Snapshot build $GIT_VERSION of release $TAG ($WORKRAVE)"
           fi
-          {
-              echo "version.tag=$TAG"
-              echo "version.git_version=$GIT_VERSION"
-              echo "version.long=$LONG"
-              echo "version.workrave=$WORKRAVE"
-              echo "version.is_release=$IS_RELEASE"
-              echo "version.release_tag=$RELEASE_TAG"
-          } >> "$SHIP_OUTPUT"
-        outputs:
-          - version.tag
-          - version.git_version
-          - version.long
-          - version.workrave
-          - version.is_release
-          - version.release_tag
-      - run: mkdir -p {{ vars.release_dir }}
+          metadata=$(jq -cn --arg tag "$TAG" --arg git_version "$GIT_VERSION" \
+              --arg long "$LONG" --arg workrave "$WORKRAVE" \
+              --argjson is_release "$IS_RELEASE" --arg release_tag "$RELEASE_TAG" \
+              '{tag: $tag, git_version: $git_version, long: $long, workrave: $workrave,
+                is_release: $is_release, release_tag: $release_tag}')
+          printf 'json=%s\n' "$metadata" >> "$SHIP_OUTPUT"
+      - run: mkdir -p ${{ vars.release_dir }}
 
   blog:
+    runs-on: host
     needs: [workspace]
-    if: "{{ config.website_dir }}"
+    if: "${{ config.website_dir }}"
     steps:
       - name: release announcement for the website
-        if: "{{ not exists(config.website_dir ~ '/content/en/blog/' ~ today('%Y_%m_%d') ~ '_workrave-' ~ version.git_version[1:] ~ '-released') }}"
-        uses: newsgen
-        with:
-          input: "{{ vars.source }}/changes.yaml"
-          template: blog
-          single: true
-          release: "{{ version.workrave }}"
-          output: "{{ config.website_dir }}/content/en/blog/{{ today('%Y_%m_%d') }}_workrave-{{ version.git_version[1:] }}-released/index.md"
+        if: ${{ !(ship.exists(format('{0}/content/en/blog/{1}_workrave-{2}-released', config.website_dir, ship.today('%Y_%m_%d'), ship.slice(vars.version.git_version, 1)))) }}
+        run: >-
+          "${{ ship.exe }}" action newsgen --params-env SHIP_ACTION_PARAMS
+        env:
+          SHIP_ACTION_PARAMS: |
+            input: ${{ toJSON(format('{0}/changes.yaml', vars.source)) }}
+            template: "blog"
+            single: true
+            release: ${{ toJSON(vars.version.workrave) }}
+            output: ${{ toJSON(format('{0}/content/en/blog/{1}_workrave-{2}-released/index.md', config.website_dir, ship.today('%Y_%m_%d'), ship.slice(vars.version.git_version, 1))) }}
 
   github:
-    needs: [appimage, dmg]
+    runs-on: host
+    # Each target may intentionally skip the other platform; failures still block publishing.
+    if: "${{ !failure() && !cancelled() }}"
+    needs: [workspace, appimage, dmg]
     steps:
-      - uses: newsgen
-        with:
-          input: "{{ vars.source }}/changes.yaml"
-          template: github
-          single: true
-          release: "{{ version.workrave | replace('-test', '') }}"
-          output: "{{ vars.release_dir }}/github-release-news"
+      - name: newsgen
+        run: >-
+          "${{ ship.exe }}" action newsgen --params-env SHIP_ACTION_PARAMS
+        env:
+          SHIP_ACTION_PARAMS: |
+            input: ${{ toJSON(format('{0}/changes.yaml', vars.source)) }}
+            template: "github"
+            single: true
+            release: ${{ toJSON(ship.replace(vars.version.workrave, '-test', '')) }}
+            output: ${{ toJSON(format('{0}/github-release-news', vars.release_dir)) }}
       - name: draft release with the AppImages and the dmg
-        uses: github-release
-        with:
-          repo: "{{ config.repo }}"
-          token: "{{ secret('secrets.tokens.github_pat') }}"
-          tag: "{{ version.tag }}"
-          title: "{{ version.workrave }}"
-          notes: "{{ vars.release_dir }}/github-release-news"
-          prerelease: "{{ vars.prerelease }}"
-          assets:
-            - "{{ vars.release_dir }}/*.AppImage"
-            - "{{ vars.release_dir }}/*.dmg"
-            - "{{ vars.release_dir }}/*.dmg.sigstore"
+        run: >-
+          "${{ ship.exe }}" action github-release --params-env SHIP_ACTION_PARAMS ${{ dry_run && '--dry-run' || '' }}
+        env:
+          SHIP_ACTION_PARAMS: |
+            repo: ${{ toJSON(config.repo) }}
+            token: ${{ toJSON(ship.secret('secrets.tokens.github_pat')) }}
+            tag: ${{ toJSON(vars.version.tag) }}
+            title: ${{ toJSON(vars.version.workrave) }}
+            notes: ${{ toJSON(format('{0}/github-release-news', vars.release_dir)) }}
+            prerelease: ${{ toJSON(vars.prerelease) }}
+            assets:
+              - ${{ toJSON(format('{0}/*.AppImage', vars.release_dir)) }}
+              - ${{ toJSON(format('{0}/*.dmg', vars.release_dir)) }}
+              - ${{ toJSON(format('{0}/*.dmg.sigstore', vars.release_dir)) }}
 
   # ----------------------------------------------------------------- linux
 
   changelogs:
+    runs-on: host
     needs: [workspace]
     steps:
       - name: Debian changelogs for ppa.sh, one per series
-        run: rm -rf {{ vars.deploy }}/newsgen && mkdir -p {{ vars.deploy }}/newsgen
-      - uses: newsgen
-        foreach: "{{ config.linux.ppa_series }}"
-        with:
-          input: "{{ vars.source }}/changes.yaml"
-          template: debian-changelog
-          series: "{{ item }}"
-          increment: "{{ config.linux.ppa_increment }}"
-          output: "{{ vars.deploy }}/newsgen/debian-changelog-{{ item }}"
+        run: rm -rf ${{ vars.deploy }}/newsgen && mkdir -p ${{ vars.deploy }}/newsgen
+      - foreach: ${{ config.linux.ppa_series }}
+        name: newsgen
+        run: >-
+          "${{ ship.exe }}" action newsgen --params-env SHIP_ACTION_PARAMS
+        env:
+          SHIP_ACTION_PARAMS: |
+            input: ${{ toJSON(format('{0}/changes.yaml', vars.source)) }}
+            template: "debian-changelog"
+            series: ${{ toJSON(item) }}
+            increment: ${{ toJSON(config.linux.ppa_increment) }}
+            output: ${{ toJSON(format('{0}/newsgen/debian-changelog-{1}', vars.deploy, item)) }}
 
   appimage:
+    if: "${{ contains(ship.targets, 'linux') }}"
     needs: [workspace]
-    runs-in: appimage
+    runs-on: linux
+    container:
+      image: ${{ config.container.image_repository }}:${{ ((matrix.arch == 'aarch64' && config.container.platform == 'linux/amd64') && (config.linux.cross_image || 'ubuntu-cross-aarch64') || config.linux.image) }}
+      platform: ${{ ((matrix.arch == 'x86_64' || config.container.platform == 'linux/amd64') && 'linux/amd64' || 'linux/arm64') }}
+      env:
+        WORKRAVE_ENV: local
+        SCRIPTS_DIR: /workspace/scripts
+        CONF_CONFIGURATION: Release
+        DOCKER_IMAGE: ${{ config.linux.image }}
+        WORKRAVE_OVERRIDE_GIT_VERSION: ${{ inputs.version }}
+        WORKRAVE_RELEASE_TAG: ${{ vars.version.release_tag }}
+      mounts:
+        ${{ vars.source }}: /workspace/source
+        ${{ vars.scripts }}: /workspace/scripts
+        ${{ vars.release_dir }}: /workspace/deploy/
     strategy:
       matrix:
         arch: [x86_64, aarch64]
@@ -394,48 +418,67 @@ jobs:
         run: /workspace/scripts/ci/build.sh
         env:
           CONF_APPIMAGE: "1"
-          CONF_TARGET_ARCH: "{{ matrix.arch }}"
-        mounts:
-          "{{ vars.release_dir }}": /workspace/deploy/
+          CONF_TARGET_ARCH: "${{ matrix.arch }}"
 
   ppa:
-    needs: [changelogs]
-    runs-in: ubuntu
+    needs: [workspace, changelogs]
+    runs-on: linux
+    container:
+      image: ${{ config.container.image_repository }}:${{ config.linux.image }}
+      platform: ${{ config.container.platform }}
+      env:
+        WORKRAVE_ENV: local
+        SCRIPTS_DIR: /workspace/scripts
+        CONF_CONFIGURATION: Release
+        DOCKER_IMAGE: ${{ config.linux.image }}
+        WORKRAVE_OVERRIDE_GIT_VERSION: ${{ inputs.version }}
+        WORKRAVE_RELEASE_TAG: ${{ vars.version.release_tag }}
+      mounts:
+        ${{ vars.source }}: /workspace/source
+        ${{ vars.deploy }}: /workspace/deploy
+        ${{ vars.scripts }}: /workspace/scripts
+        ${{ config.linux.debian_dir }}: /workspace/debian
     steps:
       - name: the packages are signed through the signing service, which must be reachable from the container
-        run: curl --insecure --fail --silent --show-error {{ config.signing_service_url }}/health >/dev/null
+        run: curl --insecure --fail --silent --show-error ${{ config.signing_service_url }}/health >/dev/null
       - name: source package; uploaded to the PPA unless dry run
-        foreach: "{{ config.linux.ppa_series }}"
-        run: /workspace/scripts/local/ppa.sh -p {{ config.linux.ppa_increment }} {{ '-d' if dry_run }} {{ '-P' if vars.prerelease }}
+        foreach: "${{ config.linux.ppa_series }}"
+        run: /workspace/scripts/local/ppa.sh -p ${{ config.linux.ppa_increment }} ${{ (dry_run && '-d' || '') }} ${{ (vars.prerelease && '-P' || '') }}
         env:
-          DIST: "{{ item }}"
-          SIGNING_SERVICE_URL: "{{ config.signing_service_url }}"
-        mounts:
-          "{{ config.linux.debian_dir }}": /workspace/debian
+          DIST: "${{ item }}"
+          SIGNING_SERVICE_URL: "${{ config.signing_service_url }}"
 
   deb:
-    if: "{{ config.linux.build_deb }}"
-    needs: [ppa]
-    runs-in: pbuilder
+    if: "${{ config.linux.build_deb }}"
+    needs: [workspace, ppa]
+    runs-on: linux
+    container:
+      image: ${{ config.container.image_repository }}:ubuntu-pbuilder
+      platform: ${{ config.container.platform }}
+      mounts:
+        ${{ vars.deploy }}: /workspace/deploy
+        ${{ vars.scripts }}: /workspace/scripts
+      options: --privileged
     steps:
       - name: binary packages with pbuilder
-        foreach: "{{ config.linux.ppa_series }}"
+        foreach: "${{ config.linux.ppa_series }}"
         run: /workspace/scripts/local/pbuild.sh
         env:
-          DIST: "{{ item }}"
-          GIT_TAG: "{{ version.tag }}"
+          DIST: "${{ item }}"
+          GIT_TAG: "${{ vars.version.tag }}"
 
   # ----------------------------------------------------------------- macos
 
   dmg:
-    if: "{{ host.os == 'macos' }}"
+    runs-on: host
+    if: "${{ contains(ship.targets, 'macos') && host.os == 'macos' }}"
     needs: [workspace]
     env:
-      BUILD_DIR: "{{ config.workspace_dir }}/build-macos"
-      OUTPUT_DIR: "{{ config.workspace_dir }}/output-macos"
+      BUILD_DIR: "${{ config.workspace_dir }}/build-macos"
+      OUTPUT_DIR: "${{ config.workspace_dir }}/output-macos"
       # Universal (arm64+x86_64) Qt, sqlite3, ... from workrave-dependencies.
       # Without it CMake uses what it finds (Homebrew's Qt): single-arch.
-      DEPENDENCIES_DIR: "{{ config.macos.dependencies_dir }}"
+      DEPENDENCIES_DIR: "${{ config.macos.dependencies_dir }}"
     steps:
       - name: configure and build the signed, notarized dmg
         run: |
@@ -444,11 +487,11 @@ jobs:
           # touches them: a stale CMakeCache.txt must not survive into this run.
           rm -rf "$BUILD_DIR" "$OUTPUT_DIR"
 
-          SIGN_IDENTITY="{{ config.macos.sign_identity }}"
+          SIGN_IDENTITY="${{ config.macos.sign_identity }}"
           if [ -z "$SIGN_IDENTITY" ]; then
               SIGN_IDENTITY=$(security find-identity -v -p codesigning | sed -n 's/.*"\(Developer ID Application: [^"]*\)".*/\1/p' | head -n1)
           fi
-          NOTARIZE_PROFILE="{{ config.macos.notarize_profile }}"
+          NOTARIZE_PROFILE="${{ config.macos.notarize_profile }}"
           if [ -z "$SIGN_IDENTITY" ] || [ -z "$NOTARIZE_PROFILE" ]; then
               echo "macos.sign_identity and macos.notarize_profile must be set to build a signed dmg." >&2
               echo "See ui/app/toolkits/qt/dist/macos/CMakeLists.txt for the one-time setup." >&2
@@ -464,7 +507,7 @@ jobs:
               ARCHITECTURES=""
           fi
 
-          cmake -S "{{ vars.source }}" -B "$BUILD_DIR" -G Ninja \
+          cmake -S "${{ vars.source }}" -B "$BUILD_DIR" -G Ninja \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX="$OUTPUT_DIR" \
               -DCMAKE_PREFIX_PATH="$PREFIX_PATH" \
@@ -477,46 +520,64 @@ jobs:
           cmake --build "$BUILD_DIR"
           cmake --build "$BUILD_DIR" --target dmg
       - name: the app bundle must not link against Homebrew when built from the dependencies tree
-        if: "{{ config.macos.dependencies_dir }}"
-        uses: check-no-homebrew-links
-        with:
-          dir: "{{ config.workspace_dir }}/output-macos"
-      - run: cp "$OUTPUT_DIR"/*.dmg "{{ vars.release_dir }}/workrave-macos-{{ version.workrave }}.dmg"
-      - uses: sign
-        with:
-          kind: cosign
-          files: "{{ vars.release_dir }}/workrave-macos-{{ version.workrave }}.dmg"
+        if: ${{ config.macos.dependencies_dir }}
+        run: >-
+          "${{ ship.exe }}" action check-no-homebrew-links --params-env SHIP_ACTION_PARAMS
+        env:
+          SHIP_ACTION_PARAMS: |
+            dir: ${{ toJSON(format('{0}/output-macos', config.workspace_dir)) }}
+      - run: cp "$OUTPUT_DIR"/*.dmg "${{ vars.release_dir }}/workrave-macos-${{ vars.version.workrave }}.dmg"
+      - name: sign
+        run: >-
+          "${{ ship.exe }}" action sign --params-env SHIP_ACTION_PARAMS ${{ dry_run && '--dry-run' || '' }}
+        env:
+          SHIP_ACTION_PARAMS: |
+            kind: "cosign"
+            files: ${{ toJSON(format('{0}/workrave-macos-{1}.dmg', vars.release_dir, vars.version.workrave)) }}
+          SIGNING_SERVICE_URL: ${{ config.signing_service_url }}
 
   # --------------------------------------------------------------- windows
 
   win-prepare:
+    runs-on: host
     needs: [workspace]
     steps:
       - name: release notes for the Windows build catalog
         run: >-
-          mkdir -p "{{ vars.win_deploy_dir }}" &&
-          "{{ ship.exe }}" newsgen --input "{{ vars.source }}/changes.yaml"
+          mkdir -p "${{ vars.win_deploy_dir }}" &&
+          "${{ ship.exe }}" newsgen --input "${{ vars.source }}/changes.yaml"
           --template github --single
-          {{ '--release ' ~ version.workrave if version.is_release else '--latest' }}
-          --output "{{ vars.win_deploy_dir }}/release-notes.md"
+          ${{ (vars.version.is_release && format('--release {0}', vars.version.workrave) || '--latest') }}
+          --output "${{ vars.win_deploy_dir }}/release-notes.md"
       - name: root Windows build catalog
         run: |
-          mkdir -p "{{ vars.win_deploy_dir }}"
-          jq -n --arg id "{{ vars.build_id }}" --arg tag "{{ version.tag }}" \
-            --arg hash "$(git -C "{{ vars.source }}" rev-parse HEAD)" \
-            --arg increment "{{ '0' if options.version else '$(git -C \"' ~ vars.source ~ '\" rev-list \"' ~ version.tag ~ '..HEAD\" --count)' }}" \
-            --arg date "{{ today('%Y-%m-%dT%H:%M:%S%:z') }}" --arg channel "{{ config.channel }}" \
-            --rawfile notes "{{ vars.win_deploy_dir }}/release-notes.md" \
+          mkdir -p "${{ vars.win_deploy_dir }}"
+          jq -n --arg id "${{ vars.build_id }}" --arg tag "${{ vars.version.tag }}" \
+            --arg hash "$(git -C "${{ vars.source }}" rev-parse HEAD)" \
+            --arg increment "${{ (inputs.version && '0' || format('$(git -C "{0}" rev-list "{1}..HEAD" --count)', vars.source, vars.version.tag)) }}" \
+            --arg date "${{ ship.today('%Y-%m-%dT%H:%M:%S%:z') }}" --arg channel "${{ config.channel }}" \
+            --rawfile notes "${{ vars.win_deploy_dir }}/release-notes.md" \
             '{version: "2", builds: [{id: $id, tag: $tag, hash: $hash, increment: $increment, date: $date, channel: $channel, notes: $notes, artifacts: []}]}' \
-            > "{{ vars.win_deploy_dir }}/job-catalog-root-{{ vars.build_id }}.0.json"
+            > "${{ vars.win_deploy_dir }}/job-catalog-root-${{ vars.build_id }}.0.json"
 
   win-qt-sdk:
-    needs: [workspace]
-    runs-in: windows-qt-dependencies
+    needs: [check-config-windows-dependencies]
+    runs-on: linux
+    container:
+      image: ${{ (config.windows.dependencies_image || 'ghcr.io/rcaelers/workrave-build:llvm-mingw') }}
+      platform: linux/amd64
+      mounts:
+        ${{ vars.windows_dependencies }}: /workspace/dependencies
+        ${{ vars.sdk_scripts }}: /workspace/scripts
+        ${{ config.workspace_dir }}/windows-qt-sdk: /workspace/sdk
+      volumes:
+        - ${{ (config.windows.conan_cache || 'workrave-conan') }}:/cache
     steps:
       - name: check the exported SDK cache
+        id: cache
+        shell: bash
         run: |
-          bash -euo pipefail <<'SH'
+          set -u
           cd /workspace/dependencies/conan
           fingerprint=$(mktemp)
           trap 'rm -f "$fingerprint"' EXIT
@@ -532,254 +593,334 @@ jobs:
               cached=true
               echo "Reusing cached Windows Qt SDK: $key"
           fi
-          printf 'qt_sdk.key=%s\nqt_sdk.cached=%s\n' "$key" "$cached" >> "$SHIP_OUTPUT"
-          SH
-        outputs: [qt_sdk.key, qt_sdk.cached]
+          printf 'key=%s\ncached=%s\n' "$key" "$cached" >> "$SHIP_OUTPUT"
       - name: install the pinned Conan configuration and recipe overlays
-        if: "{{ qt_sdk.cached != true }}"
+        if: "${{ steps.cache.outputs.cached != 'true' }}"
         run: python3 /workspace/dependencies/conan/setup.py
       - name: build missing locked Conan dependencies
-        if: "{{ qt_sdk.cached != true }}"
+        if: "${{ steps.cache.outputs.cached != 'true' }}"
         run: |
           conan install /workspace/dependencies/conan \
             -pr:b=linux-x86_64 -pr:h=windows-x86_64 \
             --lockfile=/workspace/dependencies/conan/windows.lock --build=missing \
             -of=/workspace/dependencies/conan/_build/windows-x86_64 \
             -c:a tools.graph:skip_binaries=False \
-            -c:a tools.build:jobs={{ config.windows.jobs | default(16) }} \
+            -c:a tools.build:jobs=${{ (config.windows.jobs || 16) }} \
             --format=json --out-file=/workspace/dependencies/conan/_build/windows-x86_64/graph.json
       - name: build the Qt dependency smoke test
-        if: "{{ qt_sdk.cached != true }}"
+        if: "${{ steps.cache.outputs.cached != 'true' }}"
         run: |
           set -eu
           build=/workspace/dependencies/conan/_build/windows-x86_64
           cmake --fresh -S /workspace/dependencies/conan/smoke -B "$build/smoke" -G Ninja \
             -DCMAKE_TOOLCHAIN_FILE="$build/build/RelWithDebInfo/generators/conan_toolchain.cmake" \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          cmake --build "$build/smoke" --parallel {{ config.windows.jobs | default(16) }}
+          cmake --build "$build/smoke" --parallel ${{ (config.windows.jobs || 16) }}
           cmake --install "$build/smoke" --prefix "$build/smoke/package"
       - name: validate dependency architectures, checksums and PDBs
-        if: "{{ qt_sdk.cached != true }}"
+        if: "${{ steps.cache.outputs.cached != 'true' }}"
         run: python3 /workspace/dependencies/conan/build.py --arch x86_64 --validate
       - name: export the relocatable Windows SDK
-        if: "{{ qt_sdk.cached != true }}"
+        if: "${{ steps.cache.outputs.cached != 'true' }}"
         run: |
           set -eu
-          rm -rf "/workspace/sdk/export-{{ qt_sdk.key }}"
+          rm -rf "/workspace/sdk/export-${{ steps.cache.outputs.key }}"
           python3 /workspace/dependencies/conan/export-sdk.py \
-            --output "/workspace/sdk/export-{{ qt_sdk.key }}" --cache-key "{{ qt_sdk.key }}"
+            --output "/workspace/sdk/export-${{ steps.cache.outputs.key }}" --cache-key "${{ steps.cache.outputs.key }}"
       - name: archive and cache the validated SDK
-        if: "{{ qt_sdk.cached != true }}"
+        if: "${{ steps.cache.outputs.cached != 'true' }}"
         run: |
           set -eu
-          cache="/cache/workrave-sdks/{{ qt_sdk.key }}"
+          cache="/cache/workrave-sdks/${{ steps.cache.outputs.key }}"
           mkdir -p "$cache"
           pending=$(mktemp "$cache/sdk.XXXXXX")
           trap 'rm -f "$pending"' EXIT
-          tar --dereference -I 'gzip -1' -cf "$pending" -C "/workspace/sdk/export-{{ qt_sdk.key }}" .
+          tar --dereference -I 'gzip -1' -cf "$pending" -C "/workspace/sdk/export-${{ steps.cache.outputs.key }}" .
           mv "$pending" "$cache/sdk.tar.gz"
-          rm -rf "/workspace/sdk/export-{{ qt_sdk.key }}"
+          rm -rf "/workspace/sdk/export-${{ steps.cache.outputs.key }}"
       - name: stage the cached SDK for Windows
         run: |
           set -eu
-          cp "/cache/workrave-sdks/{{ qt_sdk.key }}/sdk.tar.gz" /workspace/sdk/sdk.tar.gz.tmp
+          cp "/cache/workrave-sdks/${{ steps.cache.outputs.key }}/sdk.tar.gz" /workspace/sdk/sdk.tar.gz.tmp
           mv /workspace/sdk/sdk.tar.gz.tmp /workspace/sdk/sdk.tar.gz
 
   win-qt-sdk-install:
     needs: [win-qt-sdk]
-    runs-in: windows-sdk
+    runs-on: windows
+    container:
+      image: ${{ (config.windows.qt_image || 'workrave-build:windows-conan') }}
+      image-context: ${{ vars.windows_containers }}/windows-conan
+      copy:
+        ${{ vars.windows_qt_sdk }}: C:/input/sdk.tar.gz
+      volumes:
+        - ${{ (config.windows.qt_sdk_cache || 'workrave-qt-sdk') }}:C:/cache/qt
+    defaults:
+      run:
+        shell: powershell
     steps:
       - name: install cached Conan Qt SDK into the Windows volume
         run: >-
-          python C:/image/init-sdk.py C:/input/sdk.tar.gz "{{ vars.windows_qt_sdk_root }}"
+          python C:/image/init-sdk.py C:/input/sdk.tar.gz "${{ vars.windows_qt_sdk_root }}"
 
   win-build:
-    needs: [win-prepare, win-qt-sdk-install]
-    runs-in: "{{ 'windows-qt' if matrix.ui == 'Qt' else 'windows-gtk' }}"
-    if: "{{ matrix.configuration == 'Release' or config.windows.debug }}"
+    needs: [workspace, win-prepare, win-qt-sdk-install]
+    runs-on: windows
+    container:
+      image: ${{ matrix.ui == 'Qt' && (config.windows.qt_image || 'workrave-build:windows-conan') || (config.windows.image || 'workrave-build:windows-msys2') }}
+      env:
+        WORKRAVE_BUILD_JOBS: ${{ (config.windows.jobs || 16) }}
+        WORKRAVE_BUILD_DATE: ${{ ship.today('%Y%m%d') }}
+        WORKRAVE_BUILD_DATETIME: ${{ ship.today('%Y-%m-%dT%H:%M:%S%:z') }}
+        WORKRAVE_BUILD_ID: ${{ vars.build_id }}
+        WORKRAVE_GIT_VERSION: ${{ vars.version.git_version }}
+        SIGNING_SERVICE_URL: ${{ config.signing_service_url }}
+        SOURCES_DIR: C:/workspace/source
+        SCRIPTS_DIR: C:/workspace/scripts
+        GIT_CONFIG_GLOBAL: C:/workspace/gitconfig
+        XDG_CONFIG_HOME: C:/workspace/config
+        CARGO_HOME: C:/cache/cargo
+        CARGO_TARGET_DIR: ${{ matrix.ui == 'Qt' && 'C:/cache/target/llvm-mingw' || 'C:/cache/target' }}
+        WORKRAVE_SDK_DIR: ${{ matrix.ui == 'Qt' && vars.windows_qt_sdk_root || '' }}
+      image-context: ${{ matrix.ui == 'Qt' && format('{0}/windows-conan', vars.windows_containers) || format('{0}/windows-msys2', vars.windows_containers) }}
+      copy:
+        ${{ vars.source }}: C:/workspace/source
+        ${{ vars.scripts }}: C:/workspace/scripts
+      collect:
+        C:/workspace/source/_deploy: ${{ vars.source }}/_deploy
+        C:/workspace/source/_output: ${{ vars.source }}/_output
+        C:/workspace/source/_build/${{ vars.windows_build_name }}/${{ matrix.configuration }}/symbols: ${{ vars.source }}/_build/${{ vars.windows_build_name }}/${{ matrix.configuration }}/symbols
+      init: |
+        if ('${{ matrix.ui }}' -eq 'Qt') {
+            $sdk = $env:WORKRAVE_SDK_DIR
+            if (-not (Test-Path "$sdk/.ready")) { throw 'Run the windows-dependencies target to initialize the Qt SDK' }
+            $bins = Get-ChildItem "$sdk/packages" -Directory | ForEach-Object { "$($_.FullName)/bin" }
+            $env:PATH = ($bins -join ';') + ';' + $env:PATH
+        } else {
+            $env:MINGW_ROOT = 'C:/msys64/clang64'
+            $env:MSYSTEM = 'CLANG64'
+            $env:PATH = 'C:/msys64/clang64/bin;C:/msys64/usr/bin;' + $env:PATH
+        }
+      volumes:
+        - workrave-ship-target:C:/cache/target
+        - workrave-cargo:C:/cache/cargo
+        - ${{ (config.windows.qt_sdk_cache || 'workrave-qt-sdk') }}:C:/cache/qt
+    defaults:
+      run:
+        shell: powershell
     strategy:
       matrix:
         ui: [Gtk+3, Qt]
-        configuration: [Release, Debug]
+        configuration: ${{ fromJSON(config.windows.debug && '["Release","Debug"]' || '["Release"]') }}
     env:
-      BUILD_DIR: "{{ vars.windows_build_dir }}"
-      OUTPUT_DIR: "{{ vars.windows_output_dir }}"
+      BUILD_DIR: "${{ vars.windows_build_dir }}"
+      OUTPUT_DIR: "${{ vars.windows_output_dir }}"
     steps:
       - name: validate the native Qt compiler and cached SDK
-        if: "{{ matrix.ui == 'Qt' }}"
+        if: "${{ matrix.ui == 'Qt' }}"
         run: |
           $manifest = Get-Content "$env:WORKRAVE_SDK_DIR/manifest.json" -Raw | ConvertFrom-Json
           $compiler = & x86_64-w64-mingw32-clang --version
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           if ($compiler[0] -ne $manifest.compiler.Split("`n")[0]) { throw 'Native compiler does not match the Conan SDK' }
       - name: build Ship for signing and SBOM generation
-        if: "{{ config.windows.sign or (matrix.configuration == 'Release' and config.windows.sbom) }}"
+        if: "${{ (config.windows.sign || (matrix.configuration == 'Release' && config.windows.sbom)) }}"
         run: cargo build --release --manifest-path C:/workspace/scripts/ship/Cargo.toml
       - name: configure Workrave
         run: |
           git config --global --add safe.directory C:/workspace/source
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           cmake -S C:/workspace/source -B "$env:BUILD_DIR" -G Ninja `
-            "-DCMAKE_BUILD_TYPE={{ matrix.configuration }}" `
+            "-DCMAKE_BUILD_TYPE=${{ matrix.configuration }}" `
             "-DCMAKE_INSTALL_PREFIX=$env:OUTPUT_DIR" -DCMAKE_FIND_USE_INSTALL_PREFIX=OFF `
-            "-DCMAKE_PREFIX_PATH={{ 'C:/llvm-mingw/x86_64-w64-mingw32' if matrix.ui == 'Qt' else 'C:/msys64/clang64' }}" `
-            "-DCMAKE_TOOLCHAIN_FILE={{ vars.windows_qt_sdk_root ~ '/toolchain.cmake' if matrix.ui == 'Qt' else 'C:/workspace/source/cmake/toolchains/msys2.cmake' }}" `
-            "-DWITH_UI={{ matrix.ui }}" -DWITH_GRPC=OFF -DWITH_DBUS=OFF `
+            "-DCMAKE_PREFIX_PATH=${{ (matrix.ui == 'Qt' && 'C:/llvm-mingw/x86_64-w64-mingw32' || 'C:/msys64/clang64') }}" `
+            "-DCMAKE_TOOLCHAIN_FILE=${{ (matrix.ui == 'Qt' && format('{0}/toolchain.cmake', vars.windows_qt_sdk_root) || 'C:/workspace/source/cmake/toolchains/msys2.cmake') }}" `
+            "-DWITH_UI=${{ matrix.ui }}" -DWITH_GRPC=OFF -DWITH_DBUS=OFF `
             -DWITH_TESTS=ON -DWITH_AUTO_UPDATE=ON `
-            "-DWITH_CRASHPAD={{ 'ON' if matrix.configuration == 'Release' else 'OFF' }}" `
-            "-DWITH_SBOM={{ 'ON' if matrix.configuration == 'Release' and config.windows.sbom else 'OFF' }}" `
-            "-DWITH_SIGN={{ 'ON' if config.windows.sign else 'OFF' }}" `
-            "-DWITH_SIGN_TOOL={{ vars.windows_ship }}" `
-            "-DSHIP_EXECUTABLE={{ vars.windows_ship }}" `
-            "-DWITH_UPDATER_STAGING={{ 'ON' if options.staging and matrix.configuration == 'Release' else 'OFF' }}" `
-            "-DWITH_CRASHPAD_STAGING={{ 'ON' if options.staging and matrix.configuration == 'Release' else 'OFF' }}" `
+            "-DWITH_CRASHPAD=${{ (matrix.configuration == 'Release' && 'ON' || 'OFF') }}" `
+            "-DWITH_SBOM=${{ ((matrix.configuration == 'Release' && config.windows.sbom) && 'ON' || 'OFF') }}" `
+            "-DWITH_SIGN=${{ (config.windows.sign && 'ON' || 'OFF') }}" `
+            "-DWITH_SIGN_TOOL=${{ vars.windows_ship }}" `
+            "-DSHIP_EXECUTABLE=${{ vars.windows_ship }}" `
+            "-DWITH_UPDATER_STAGING=${{ ((inputs.staging && matrix.configuration == 'Release') && 'ON' || 'OFF') }}" `
+            "-DWITH_CRASHPAD_STAGING=${{ ((inputs.staging && matrix.configuration == 'Release') && 'ON' || 'OFF') }}" `
             -DISCC=C:/inno/ISCC.exe -DCMAKE_CXX_SCAN_FOR_MODULES=OFF `
             "-DCMAKE_C_FLAGS_RELEASE=-O3 -DNDEBUG -g -gcodeview" `
             "-DCMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG -g -gcodeview" `
             -DCMAKE_PROJECT_Workrave_INCLUDE=C:/workspace/scripts/local/windows-precompile/precompile.cmake
       - name: compile Workrave and its external libraries
-        run: cmake --build "$env:BUILD_DIR" --parallel "{{ config.windows.jobs | default(16) }}"
+        run: cmake --build "$env:BUILD_DIR" --parallel "${{ (config.windows.jobs || 16) }}"
       - name: run tests
         run: ctest --test-dir "$env:BUILD_DIR" --output-on-failure
       - name: install Workrave and its runtime dependencies
         run: cmake --install "$env:BUILD_DIR"
       - name: generate the SBOM from dependency metadata
-        if: "{{ matrix.configuration == 'Release' and config.windows.sbom }}"
+        if: "${{ (matrix.configuration == 'Release' && config.windows.sbom) }}"
         run: cmake --install "$env:BUILD_DIR" --component SBOM
       - name: create the portable archive
         run: cmake --build "$env:BUILD_DIR" --target portable
       - name: create the installer
         run: cmake --build "$env:BUILD_DIR" --target installer
       - name: collect Crashpad symbols
-        if: "{{ matrix.configuration == 'Release' }}"
+        if: "${{ matrix.configuration == 'Release' }}"
         run: >-
           python C:/workspace/scripts/local/windows-symbols.py "$env:BUILD_DIR"
-          {{ '--sdk ' ~ vars.windows_qt_sdk_root if matrix.ui == 'Qt' }}
+          ${{ (matrix.ui == 'Qt' && format('--sdk {0}', vars.windows_qt_sdk_root) || '') }}
       - name: source archive
-        if: "{{ matrix.ui != 'Qt' and matrix.configuration == 'Release' }}"
+        if: "${{ (matrix.ui != 'Qt' && matrix.configuration == 'Release') }}"
         run: |
-          $destination = 'C:/workspace/source/_deploy/{{ vars.build_id }}'
+          $destination = 'C:/workspace/source/_deploy/${{ vars.build_id }}'
           New-Item -ItemType Directory -Force $destination | Out-Null
-          git -C C:/workspace/source archive --format=tar --prefix="{{ vars.windows_postfix }}/" --output="$destination/workrave-{{ vars.windows_postfix }}.tar" HEAD
+          git -C C:/workspace/source archive --format=tar --prefix="${{ vars.windows_postfix }}/" --output="$destination/workrave-${{ vars.windows_postfix }}.tar" HEAD
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          xz -f "$destination/workrave-{{ vars.windows_postfix }}.tar"
+          xz -f "$destination/workrave-${{ vars.windows_postfix }}.tar"
       - name: stage artifacts and record their hashes
         run: |
-          $destination = 'C:/workspace/source/_deploy/{{ vars.build_id }}'
+          $destination = 'C:/workspace/source/_deploy/${{ vars.build_id }}'
           New-Item -ItemType Directory -Force $destination | Out-Null
-          $base = '{{ 'workrave-next-windows' if matrix.ui == 'Qt' else 'workrave-windows' }}-{{ vars.windows_postfix }}'
+          $base = '${{ (matrix.ui == 'Qt' && 'workrave-next-windows' || 'workrave-windows') }}-${{ vars.windows_postfix }}'
           $artifacts = @(
-            @{ source = '{{ 'workrave-next' if matrix.ui == 'Qt' else 'workrave' }}-installer.exe'; name = "$base.exe"; kind = 'installer' },
-            @{ source = '{{ 'workrave-next' if matrix.ui == 'Qt' else 'workrave' }}-portable.zip'; name = "$base-portable.zip"; kind = 'portable' }
+            @{ source = '${{ (matrix.ui == 'Qt' && 'workrave-next' || 'workrave') }}-installer.exe'; name = "$base.exe"; kind = 'installer' },
+            @{ source = '${{ (matrix.ui == 'Qt' && 'workrave-next' || 'workrave') }}-portable.zip'; name = "$base-portable.zip"; kind = 'portable' }
           )
-          {{ "$artifacts += @{ source = ''; name = 'workrave-" ~ vars.windows_postfix ~ ".tar.xz'; kind = 'source' }" if matrix.ui != 'Qt' and matrix.configuration == 'Release' }}
+          ${{ ((matrix.ui != 'Qt' && matrix.configuration == 'Release') && format('$artifacts += @{{ source = ''''; name = ''workrave-{0}.tar.xz''; kind = ''source'' }}', vars.windows_postfix) || '') }}
           $entries = foreach ($artifact in $artifacts) {
             $file = "$destination/$($artifact.name)"
             if ($artifact.source) {
               Copy-Item "$env:OUTPUT_DIR/$($artifact.source)" $file
               if (Test-Path "$env:OUTPUT_DIR/$($artifact.source).sigstore") { Copy-Item "$env:OUTPUT_DIR/$($artifact.source).sigstore" "$file.sigstore" }
             }
-            @{ url = '{{ config.snapshots.bucket }}/{{ vars.s3_dir }}/{{ vars.build_id }}/' + $artifact.name;
-               path = '{{ config.snapshots.bucket }}/{{ vars.s3_dir }}/{{ vars.build_id }}'; filename = $artifact.name;
+            @{ url = '${{ config.snapshots.bucket }}/${{ vars.s3_dir }}/${{ vars.build_id }}/' + $artifact.name;
+               path = '${{ config.snapshots.bucket }}/${{ vars.s3_dir }}/${{ vars.build_id }}'; filename = $artifact.name;
                size = (Get-Item $file).Length.ToString(); sha256 = (Get-FileHash $file -Algorithm SHA256).Hash.ToLower();
                sha512 = (Get-FileHash $file -Algorithm SHA512).Hash.ToLower(); lastmod = (Get-Item $file).LastWriteTime.ToString('yyyy-MM-dd HH:mm:ss');
-               platform = $(if ($artifact.kind -eq 'source') { 'all' } else { 'windows' }); edition = '{{ vars.windows_build_name }}';
-               kind = $artifact.kind; configuration = $(if ($artifact.kind -eq 'source') { 'none' } else { '{{ matrix.configuration | lower }}' }) }
+               platform = $(if ($artifact.kind -eq 'source') { 'all' } else { 'windows' }); edition = '${{ vars.windows_build_name }}';
+               kind = $artifact.kind; configuration = $(if ($artifact.kind -eq 'source') { 'none' } else { '${{ ship.lower(matrix.configuration) }}' }) }
           }
-          @{ version = '2'; builds = @(@{ id = '{{ vars.build_id }}'; artifacts = @($entries) }) } |
+          @{ version = '2'; builds = @(@{ id = '${{ vars.build_id }}'; artifacts = @($entries) }) } |
             ConvertTo-Json -Depth 8 | ForEach-Object {
-              [IO.File]::WriteAllText("$destination/job-catalog-{{ vars.build_id }}.{{ vars.windows_build_name }}-{{ matrix.configuration | lower }}.json", $_, (New-Object Text.UTF8Encoding $false))
+              [IO.File]::WriteAllText("$destination/job-catalog-${{ vars.build_id }}.${{ vars.windows_build_name }}-${{ ship.lower(matrix.configuration) }}.json", $_, (New-Object Text.UTF8Encoding $false))
             }
 
   win-sign:
-    needs: [win-build]
+    runs-on: host
+    needs: [workspace, win-build]
     steps:
       - name: ed25519 signatures of the artifacts in the build catalog
-        uses: sign
-        with:
-          kind: catalog
-          files: "{{ vars.source }}/_deploy"
+        run: >-
+          "${{ ship.exe }}" action sign --params-env SHIP_ACTION_PARAMS ${{ dry_run && '--dry-run' || '' }}
+        env:
+          SHIP_ACTION_PARAMS: |
+            kind: "catalog"
+            files: ${{ toJSON(format('{0}/_deploy', vars.source)) }}
+          SIGNING_SERVICE_URL: ${{ config.signing_service_url }}
       - name: sigstore bundles
-        if: "{{ config.windows.sign }}"
-        uses: sign
-        with:
-          kind: cosign
-          files:
-            - "{{ vars.win_deploy_dir }}/*.exe"
-            - "{{ vars.win_deploy_dir }}/*.zip"
-            - "{{ vars.win_deploy_dir }}/*.xz"
+        if: ${{ config.windows.sign }}
+        run: >-
+          "${{ ship.exe }}" action sign --params-env SHIP_ACTION_PARAMS ${{ dry_run && '--dry-run' || '' }}
+        env:
+          SHIP_ACTION_PARAMS: |
+            kind: "cosign"
+            files:
+              - ${{ toJSON(format('{0}/*.exe', vars.win_deploy_dir)) }}
+              - ${{ toJSON(format('{0}/*.zip', vars.win_deploy_dir)) }}
+              - ${{ toJSON(format('{0}/*.xz', vars.win_deploy_dir)) }}
+          SIGNING_SERVICE_URL: ${{ config.signing_service_url }}
 
   win-upload:
-    needs: [win-sign]
+    runs-on: host
+    needs: [workspace, win-sign]
     steps:
-      - uses: s3-upload
-        with:
-          files: "{{ vars.source }}/_deploy"
-          prefix: "{{ vars.s3_dir }}"
-          endpoint: "{{ config.snapshots.endpoint }}"
-          bucket: "{{ config.snapshots.bucket }}"
-          access-key: "{{ config.snapshots.access_key }}"
-          secret-key: "{{ vars.s3_secret_key }}"
+      - name: s3-upload
+        run: >-
+          "${{ ship.exe }}" action s3-upload --params-env SHIP_ACTION_PARAMS ${{ dry_run && '--dry-run' || '' }}
+        env:
+          SHIP_ACTION_PARAMS: |
+            files: ${{ toJSON(format('{0}/_deploy', vars.source)) }}
+            prefix: ${{ toJSON(vars.s3_dir) }}
+            endpoint: ${{ toJSON(config.snapshots.endpoint) }}
+            bucket: ${{ toJSON(config.snapshots.bucket) }}
+            access-key: ${{ toJSON(config.snapshots.access_key) }}
+            secret-key: ${{ toJSON(vars.s3_secret_key) }}
 
   github-windows:
-    if: "{{ not options.staging }}"
-    needs: [win-sign]
+    runs-on: host
+    if: "${{ !(inputs.staging) }}"
+    needs: [workspace, win-sign]
     steps:
-      - uses: newsgen
-        with:
-          input: "{{ vars.source }}/changes.yaml"
-          template: github
-          single: true
-          release: "{{ version.workrave | replace('-test', '') }}"
-          output: "{{ vars.source }}/_deploy/github-release-news"
-      - uses: github-release
-        with:
-          repo: "{{ config.repo }}"
-          token: "{{ secret('secrets.tokens.github_pat') }}"
-          tag: "{{ version.tag }}"
-          title: "{{ version.workrave }}"
-          notes: "{{ vars.source }}/_deploy/github-release-news"
-          prerelease: "{{ vars.prerelease }}"
-          assets:
-            - "{{ vars.win_deploy_dir }}/*.exe"
-            - "{{ vars.win_deploy_dir }}/*.zip"
-            - "{{ vars.win_deploy_dir }}/*.xz"
-            - "{{ vars.win_deploy_dir }}/*.sigstore"
+      - name: newsgen
+        run: >-
+          "${{ ship.exe }}" action newsgen --params-env SHIP_ACTION_PARAMS
+        env:
+          SHIP_ACTION_PARAMS: |
+            input: ${{ toJSON(format('{0}/changes.yaml', vars.source)) }}
+            template: "github"
+            single: true
+            release: ${{ toJSON(ship.replace(vars.version.workrave, '-test', '')) }}
+            output: ${{ toJSON(format('{0}/_deploy/github-release-news', vars.source)) }}
+      - name: github-release
+        run: >-
+          "${{ ship.exe }}" action github-release --params-env SHIP_ACTION_PARAMS ${{ dry_run && '--dry-run' || '' }}
+        env:
+          SHIP_ACTION_PARAMS: |
+            repo: ${{ toJSON(config.repo) }}
+            token: ${{ toJSON(ship.secret('secrets.tokens.github_pat')) }}
+            tag: ${{ toJSON(vars.version.tag) }}
+            title: ${{ toJSON(vars.version.workrave) }}
+            notes: ${{ toJSON(format('{0}/_deploy/github-release-news', vars.source)) }}
+            prerelease: ${{ toJSON(vars.prerelease) }}
+            assets:
+              - ${{ toJSON(format('{0}/*.exe', vars.win_deploy_dir)) }}
+              - ${{ toJSON(format('{0}/*.zip', vars.win_deploy_dir)) }}
+              - ${{ toJSON(format('{0}/*.xz', vars.win_deploy_dir)) }}
+              - ${{ toJSON(format('{0}/*.sigstore', vars.win_deploy_dir)) }}
 
   win-catalog:
-    needs: [win-upload]
+    runs-on: host
+    needs: [workspace, win-upload]
     steps:
       - name: merge this build into the catalog in the snapshots bucket
-        uses: catalog
-        with:
-          branch: "{{ vars.s3_dir }}"
-          workspace: "{{ vars.source }}"
-          endpoint: "{{ config.snapshots.endpoint }}"
-          bucket: "{{ config.snapshots.bucket }}"
-          access-key: "{{ config.snapshots.access_key }}"
-          secret-key: "{{ vars.s3_secret_key }}"
+        run: >-
+          "${{ ship.exe }}" action catalog --params-env SHIP_ACTION_PARAMS ${{ dry_run && '--dry-run' || '' }}
+        env:
+          SHIP_ACTION_PARAMS: |
+            branch: ${{ toJSON(vars.s3_dir) }}
+            workspace: ${{ toJSON(vars.source) }}
+            endpoint: ${{ toJSON(config.snapshots.endpoint) }}
+            bucket: ${{ toJSON(config.snapshots.bucket) }}
+            access-key: ${{ toJSON(config.snapshots.access_key) }}
+            secret-key: ${{ toJSON(vars.s3_secret_key) }}
 
   win-appcast:
-    needs: [win-catalog]
-    cwd: "{{ vars.source }}"
+    runs-on: host
+    needs: [workspace, win-catalog]
+    defaults:
+      run:
+        working-directory: "${{ vars.source }}"
     steps:
-      - run: mkdir -p "{{ vars.source }}/_appcasts/gtk3" "{{ vars.source }}/_appcasts/qt"
-      - uses: appcast
-        foreach: "{{ ['gtk3', 'qt'] }}"
-        with:
-          branch: "{{ vars.s3_dir }}"
-          environment: "{{ vars.environment }}"
-          edition: "{{ item }}"
-          output: "{{ vars.source }}/_appcasts/{{ item }}/appcast.xml"
-          endpoint: "{{ config.snapshots.endpoint }}"
-          bucket: "{{ config.snapshots.bucket }}"
-          access-key: "{{ config.snapshots.access_key }}"
-          secret-key: "{{ vars.s3_secret_key }}"
-      - if: "{{ config.windows.sign }}"
-        uses: sign
-        with:
-          kind: cosign
-          files: "{{ vars.source }}/_appcasts/*/appcast.xml"
+      - run: mkdir -p "${{ vars.source }}/_appcasts/gtk3" "${{ vars.source }}/_appcasts/qt"
+      - foreach: ${{ fromJSON('["gtk3","qt"]') }}
+        name: appcast
+        run: >-
+          "${{ ship.exe }}" action appcast --params-env SHIP_ACTION_PARAMS ${{ dry_run && '--dry-run' || '' }}
+        env:
+          SHIP_ACTION_PARAMS: |
+            branch: ${{ toJSON(vars.s3_dir) }}
+            environment: ${{ toJSON(vars.environment) }}
+            edition: ${{ toJSON(item) }}
+            output: ${{ toJSON(format('{0}/_appcasts/{1}/appcast.xml', vars.source, item)) }}
+            endpoint: ${{ toJSON(config.snapshots.endpoint) }}
+            bucket: ${{ toJSON(config.snapshots.bucket) }}
+            access-key: ${{ toJSON(config.snapshots.access_key) }}
+            secret-key: ${{ toJSON(vars.s3_secret_key) }}
+      - if: ${{ config.windows.sign }}
+        name: sign
+        run: >-
+          "${{ ship.exe }}" action sign --params-env SHIP_ACTION_PARAMS ${{ dry_run && '--dry-run' || '' }}
+        env:
+          SHIP_ACTION_PARAMS: |
+            kind: "cosign"
+            files: ${{ toJSON(format('{0}/_appcasts/*/appcast.xml', vars.source)) }}
+          SIGNING_SERVICE_URL: ${{ config.signing_service_url }}
       # Only staged in git: uploading now would make clients update before the
       # (still draft) GitHub release and the AppImage are ready. `ship release
       # --target publish-appcast` merges staging into main and uploads.
@@ -787,52 +928,53 @@ jobs:
         dry-run: echo
         run: |
           set -e
-          REPO="{{ vars.appcast_repo_dir }}"
-          [ -d "$REPO/.git" ] || git clone {{ config.appcast.repo }} "$REPO"
+          REPO="${{ vars.appcast_repo_dir }}"
+          [ -d "$REPO/.git" ] || git clone ${{ config.appcast.repo }} "$REPO"
           git -C "$REPO" fetch origin
-          git -C "$REPO" checkout -B {{ config.appcast.staging_branch }} origin/main
-          mkdir -p "$REPO/{{ vars.s3_dir }}"
-          mkdir -p "$REPO/{{ vars.s3_dir }}-qt"
-          cp _appcasts/gtk3/appcast.xml "$REPO/{{ vars.s3_dir }}/appcast.xml"
-          cp _appcasts/qt/appcast.xml "$REPO/{{ vars.s3_dir }}-qt/appcast.xml"
-          [ ! -f _appcasts/gtk3/appcast.xml.sigstore ] || cp _appcasts/gtk3/appcast.xml.sigstore "$REPO/{{ vars.s3_dir }}/appcast.xml.sigstore"
-          [ ! -f _appcasts/qt/appcast.xml.sigstore ] || cp _appcasts/qt/appcast.xml.sigstore "$REPO/{{ vars.s3_dir }}-qt/appcast.xml.sigstore"
+          git -C "$REPO" checkout -B ${{ config.appcast.staging_branch }} origin/main
+          mkdir -p "$REPO/${{ vars.s3_dir }}"
+          mkdir -p "$REPO/${{ vars.s3_dir }}-qt"
+          cp _appcasts/gtk3/appcast.xml "$REPO/${{ vars.s3_dir }}/appcast.xml"
+          cp _appcasts/qt/appcast.xml "$REPO/${{ vars.s3_dir }}-qt/appcast.xml"
+          [ ! -f _appcasts/gtk3/appcast.xml.sigstore ] || cp _appcasts/gtk3/appcast.xml.sigstore "$REPO/${{ vars.s3_dir }}/appcast.xml.sigstore"
+          [ ! -f _appcasts/qt/appcast.xml.sigstore ] || cp _appcasts/qt/appcast.xml.sigstore "$REPO/${{ vars.s3_dir }}-qt/appcast.xml.sigstore"
           git -C "$REPO" add -A
-          git -C "$REPO" diff --cached --quiet || git -C "$REPO" commit -m "Update appcast for {{ version.workrave }}"
-      - run: git -C "{{ vars.appcast_repo_dir }}" push --force-with-lease origin {{ config.appcast.staging_branch }}
+          git -C "$REPO" diff --cached --quiet || git -C "$REPO" commit -m "Update appcast for ${{ vars.version.workrave }}"
+      - run: git -C "${{ vars.appcast_repo_dir }}" push --force-with-lease origin ${{ config.appcast.staging_branch }}
         dry-run: echo
 
   win-symbols:
-    needs: [win-build]
+    runs-on: host
+    needs: [workspace, win-build]
     steps:
       - name: Crashpad symbols of Workrave and its dependencies
-        foreach: "{{ glob(vars.source ~ '/_build/*/Release/symbols/**/*.sym') }}"
+        foreach: "${{ ship.glob(format('{0}/_build/*/Release/symbols/**/*.sym', vars.source)) }}"
         run: |
-          curl --insecure -X POST "{{ config.symbols.server }}/api/symbols/{{ config.symbols.product_token }}/upload" \
-              -H "Authorization: Bearer {{ secret('secrets.tokens.symbol_upload.production') }}" \
-              -F upload_file_symbols=@"{{ item }}" \
-              -F version="{{ version.workrave }}" \
-              -F channel="{{ config.channel }}" \
-              -F commit="$(git -C "{{ vars.source }}" rev-parse HEAD)" \
-              -F build_id="{{ vars.build_id }}"
+          curl --insecure -X POST "${{ config.symbols.server }}/api/symbols/${{ config.symbols.product_token }}/upload" \
+              -H "Authorization: Bearer ${{ ship.secret('secrets.tokens.symbol_upload.production') }}" \
+              -F upload_file_symbols=@"${{ item }}" \
+              -F version="${{ vars.version.workrave }}" \
+              -F channel="${{ config.channel }}" \
+              -F commit="$(git -C "${{ vars.source }}" rev-parse HEAD)" \
+              -F build_id="${{ vars.build_id }}"
         dry-run: echo
       # Upstream runtime DLLs without PDBs use export-table symbols from
       # the exact binaries this release ships. A failure here is not worth
       # failing the release over.
       - name: symbols of the bundled MinGW DLLs
-        foreach: "{{ ['gtk3', 'qt'] }}"
-        if: "{{ exists(vars.source ~ '/_output/' ~ item ~ '/Release/bin') }}"
+        foreach: "${{ fromJSON('[\"gtk3\",\"qt\"]') }}"
+        if: "${{ ship.exists(format('{0}/_output/{1}/Release/bin', vars.source, item)) }}"
         run: |
-          python3 "{{ vars.scripts }}/local/upload-mingw-symbols.py" \
-              "{{ vars.source }}/_output/{{ item }}/Release/bin" \
+          python3 "${{ vars.scripts }}/local/upload-mingw-symbols.py" \
+              "${{ vars.source }}/_output/${{ item }}/Release/bin" \
               --upload --insecure \
-              --server "{{ config.symbols.server }}" \
-              --product-token "{{ config.symbols.product_token }}" \
-              --token "{{ secret('secrets.tokens.symbol_upload.production') }}" \
-              --channel "{{ config.channel }}" \
-              --version "{{ version.workrave }}" \
-              --commit "$(git -C "{{ vars.source }}" rev-parse HEAD)" \
-              --build-id "{{ vars.build_id }}" \
+              --server "${{ config.symbols.server }}" \
+              --product-token "${{ config.symbols.product_token }}" \
+              --token "${{ ship.secret('secrets.tokens.symbol_upload.production') }}" \
+              --channel "${{ config.channel }}" \
+              --version "${{ vars.version.workrave }}" \
+              --commit "$(git -C "${{ vars.source }}" rev-parse HEAD)" \
+              --build-id "${{ vars.build_id }}" \
               || echo "WARNING: MinGW symbol upload failed; crashes in these runtime libraries will not be symbolised"
         dry-run: echo
 
@@ -841,25 +983,30 @@ jobs:
   # Run once the GitHub release is finalized and every platform's artifacts
   # (including the AppImage) are uploaded: from here on clients see the update.
   publish-appcast:
+    runs-on: host
+    needs: [check-config-appcast]
     steps:
       - name: fast-forward main to the staged appcast
         run: |
           set -e
-          REPO="{{ vars.appcast_repo_dir }}"
-          [ -d "$REPO/.git" ] || git clone {{ config.appcast.repo }} "$REPO"
+          REPO="${{ vars.appcast_repo_dir }}"
+          [ -d "$REPO/.git" ] || git clone ${{ config.appcast.repo }} "$REPO"
           git -C "$REPO" fetch origin
           git -C "$REPO" checkout -B main origin/main
-          git -C "$REPO" merge --ff-only origin/{{ config.appcast.staging_branch }}
-      - run: git -C "{{ vars.appcast_repo_dir }}" push origin main
+          git -C "$REPO" merge --ff-only origin/${{ config.appcast.staging_branch }}
+      - run: git -C "${{ vars.appcast_repo_dir }}" push origin main
         dry-run: echo
-      - uses: s3-upload
-        foreach: "{{ ['', '-qt'] }}"
-        with:
-          files:
-            - "{{ vars.appcast_repo_dir }}/{{ vars.s3_dir }}{{ item }}/appcast.xml"
-            - "{{ vars.appcast_repo_dir }}/{{ vars.s3_dir }}{{ item }}/appcast.xml.sigstore"
-          prefix: "{{ vars.s3_dir }}{{ item }}"
-          endpoint: "{{ config.snapshots.endpoint }}"
-          bucket: "{{ config.snapshots.bucket }}"
-          access-key: "{{ config.snapshots.access_key }}"
-          secret-key: "{{ vars.s3_secret_key }}"
+      - foreach: ${{ fromJSON('["","-qt"]') }}
+        name: s3-upload
+        run: >-
+          "${{ ship.exe }}" action s3-upload --params-env SHIP_ACTION_PARAMS ${{ dry_run && '--dry-run' || '' }}
+        env:
+          SHIP_ACTION_PARAMS: |
+            files:
+              - ${{ toJSON(format('{0}/{1}{2}/appcast.xml', vars.appcast_repo_dir, vars.s3_dir, item)) }}
+              - ${{ toJSON(format('{0}/{1}{2}/appcast.xml.sigstore', vars.appcast_repo_dir, vars.s3_dir, item)) }}
+            prefix: ${{ toJSON(format('{0}{1}', vars.s3_dir, item)) }}
+            endpoint: ${{ toJSON(config.snapshots.endpoint) }}
+            bucket: ${{ toJSON(config.snapshots.bucket) }}
+            access-key: ${{ toJSON(config.snapshots.access_key) }}
+            secret-key: ${{ toJSON(vars.s3_secret_key) }}

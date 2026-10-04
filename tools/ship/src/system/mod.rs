@@ -4,3 +4,5 @@
 pub mod container;
 pub mod process;
 pub mod windows_container;
+
+pub mod files;

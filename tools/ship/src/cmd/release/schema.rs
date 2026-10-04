@@ -3,7 +3,7 @@
 //! Its structure follows GitHub Actions: `targets` name lists of `jobs`, a
 //! job runs its `steps` in an execution environment, `needs` orders jobs,
 //! `strategy.matrix` repeats a job, `if` conditions skip jobs and steps.
-//! Every string value is a Jinja template, rendered when the step runs (see
+//! Strings support expressions, rendered when the step runs (see
 //! [`super::context`]).
 
 use std::path::Path;
@@ -12,12 +12,23 @@ use anyhow::{bail, Context, Result};
 use indexmap::IndexMap;
 use serde::Deserialize;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, serde::Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Pipeline {
+    #[serde(skip)]
+    pub directory: std::path::PathBuf,
+    #[serde(default)]
+    pub env: IndexMap<String, String>,
+    #[serde(default)]
+    pub defaults: Defaults,
     /// Files containing environment definitions, relative to this pipeline.
     #[serde(rename = "environment-files", default)]
     pub environment_files: Vec<String>,
+    /// Machine definitions, separate from the images selected by jobs.
+    #[serde(rename = "runner-files", default)]
+    pub runner_files: Vec<String>,
+    #[serde(default)]
+    pub runners: IndexMap<String, RunnerSpec>,
     /// What the engine itself needs; templates over `config` and `options`.
     #[serde(default)]
     pub settings: Settings,
@@ -37,7 +48,22 @@ pub struct Pipeline {
     pub jobs: IndexMap<String, Job>,
 }
 
-#[derive(Debug, Clone, Default, Deserialize)]
+#[derive(Debug, Clone, Default, Deserialize, serde::Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct Defaults {
+    #[serde(default)]
+    pub run: RunDefaults,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, serde::Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct RunDefaults {
+    pub shell: Option<String>,
+    #[serde(rename = "working-directory")]
+    pub working_directory: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, serde::Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct OptionSpec {
     /// One-letter alias, e.g. `t` for `-t`.
@@ -58,14 +84,14 @@ pub struct OptionSpec {
     pub value: Option<serde_yaml::Value>,
 }
 
-#[derive(Debug, Clone, Default, Deserialize)]
+#[derive(Debug, Clone, Default, Deserialize, serde::Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Settings {
     /// The signing service used by `secret()` and the `sign` action.
     pub signing_service_url: Option<String>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, serde::Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum EnvironmentKind {
     /// Commands run on this machine with `bash -c`.
@@ -79,7 +105,7 @@ pub enum EnvironmentKind {
     WindowsContainer,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, serde::Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Environment {
     #[serde(rename = "type")]
@@ -97,7 +123,8 @@ pub struct Environment {
     pub remote_dir: Option<String>,
     /// container: default `--platform`.
     pub platform: Option<String>,
-    /// host/msys2: working directory of the commands.
+    /// Default working directory on the execution machine.
+    #[serde(rename = "working-directory", alias = "cwd")]
     pub cwd: Option<String>,
     /// container: local directory -> path in the container. An entry whose
     /// key renders empty is dropped (optional directories).
@@ -133,15 +160,75 @@ pub struct Environment {
     pub init: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+/// Ship's machine binding for a runs-on label. It never selects a build image.
+#[derive(Debug, Clone, Deserialize, serde::Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct RunnerSpec {
+    #[serde(rename = "type")]
+    pub kind: RunnerKind,
+    pub engine: Option<String>,
+    pub sync: Option<String>,
+    #[serde(rename = "remote-dir")]
+    pub remote_dir: Option<String>,
+    pub ssh: Option<String>,
+    pub start: Option<String>,
+    pub stop: Option<String>,
+}
+
+#[derive(Debug, Clone, Copy, Deserialize, serde::Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum RunnerKind {
+    Host,
+    LinuxContainerHost,
+    WindowsContainerHost,
+}
+
+#[derive(Debug, Clone, Deserialize, serde::Serialize)]
+#[serde(untagged)]
+pub enum JobContainer {
+    Image(String),
+    Definition(ContainerSpec),
+}
+
+#[derive(Debug, Clone, Default, Deserialize, serde::Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct ContainerSpec {
+    pub image: String,
+    #[serde(default)]
+    pub env: IndexMap<String, String>,
+    #[serde(default)]
+    pub volumes: Vec<String>,
+    pub options: Option<String>,
+    // Ship extensions: synchronization, native Windows image preparation and
+    // copying files between the controller and the container's local layer.
+    pub platform: Option<String>,
+    #[serde(default)]
+    pub mounts: IndexMap<String, String>,
+    #[serde(rename = "image-context")]
+    pub image_context: Option<String>,
+    #[serde(default)]
+    pub copy: IndexMap<String, String>,
+    #[serde(default)]
+    pub collect: IndexMap<String, String>,
+    pub init: Option<String>,
+}
+
+#[derive(Debug, Clone, Deserialize, serde::Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Job {
     /// Environment name; `host` by default.
     #[serde(rename = "runs-in")]
     pub runs_in: Option<String>,
-    #[serde(default)]
+    #[serde(rename = "runs-on")]
+    pub runs_on: Option<String>,
+    pub container: Option<JobContainer>,
+    #[serde(default, deserialize_with = "one_or_many")]
     pub needs: Vec<String>,
-    #[serde(rename = "if")]
+    #[serde(default)]
+    pub outputs: IndexMap<String, String>,
+    #[serde(default)]
+    pub defaults: Defaults,
+    #[serde(rename = "if", default, deserialize_with = "condition")]
     pub condition: Option<String>,
     /// Runs even when `--job` selects other jobs (unless `--skip-job`ed):
     /// for cheap prerequisites such as the workspace job that sets the
@@ -157,13 +244,17 @@ pub struct Job {
     pub steps: Vec<Step>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, serde::Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Strategy {
-    pub matrix: IndexMap<String, Vec<serde_yaml::Value>>,
+    pub matrix: serde_yaml::Value,
+    #[serde(rename = "fail-fast", default = "default_true")]
+    pub fail_fast: bool,
+    #[serde(rename = "max-parallel")]
+    pub max_parallel: Option<usize>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Deserialize, serde::Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum DryRunMode {
     /// The step runs in a dry run too (builds, local file handling).
@@ -173,11 +264,12 @@ pub enum DryRunMode {
     Echo,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, serde::Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Step {
+    pub id: Option<String>,
     pub name: Option<String>,
-    #[serde(rename = "if")]
+    #[serde(rename = "if", default, deserialize_with = "condition")]
     pub condition: Option<String>,
     /// A shell command to run in the job's environment.
     pub run: Option<String>,
@@ -190,7 +282,9 @@ pub struct Step {
     pub foreach: Option<String>,
     #[serde(default)]
     pub env: IndexMap<String, String>,
+    #[serde(rename = "working-directory", alias = "cwd")]
     pub cwd: Option<String>,
+    pub shell: Option<String>,
     /// container: `--platform` for this step.
     pub platform: Option<String>,
     /// container: extra mounts for this step; one with the same destination
@@ -202,12 +296,76 @@ pub struct Step {
     pub options: Vec<String>,
     #[serde(rename = "dry-run", default)]
     pub dry_run: DryRunMode,
-    /// Names the step sets for later steps and jobs, by writing `name=value`
-    /// lines to the file in `$SHIP_OUTPUT`. Dotted names nest:
+    /// Legacy global outputs. New workflows use `id` and scoped outputs.
+    /// Dotted names nest:
     /// `version.tag=v1` is `{{ version.tag }}`. `true`/`false` become
-    /// booleans. Host, msys2 and Windows container steps.
+    /// booleans. Supported in every execution environment.
     #[serde(default)]
     pub outputs: Vec<String>,
+}
+
+fn default_true() -> bool {
+    true
+}
+
+fn condition<'de, D: serde::Deserializer<'de>>(
+    deserializer: D,
+) -> Result<Option<String>, D::Error> {
+    let value = Option::<serde_yaml::Value>::deserialize(deserializer)?;
+    match value {
+        None => Ok(None),
+        Some(serde_yaml::Value::String(value)) => Ok(Some(value)),
+        Some(serde_yaml::Value::Bool(value)) => Ok(Some(value.to_string())),
+        _ => Err(serde::de::Error::custom(
+            "if must be a boolean or expression string",
+        )),
+    }
+}
+
+fn valid_id(id: &str) -> bool {
+    let mut chars = id.chars();
+    matches!(chars.next(), Some(c) if c.is_ascii_alphabetic() || c == '_')
+        && chars.all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-')
+}
+
+fn one_or_many<'de, D: serde::Deserializer<'de>>(deserializer: D) -> Result<Vec<String>, D::Error> {
+    #[derive(Deserialize, serde::Serialize)]
+    #[serde(untagged)]
+    enum Names {
+        One(String),
+        Many(Vec<String>),
+    }
+    Ok(match Names::deserialize(deserializer)? {
+        Names::One(name) => vec![name],
+        Names::Many(names) => names,
+    })
+}
+
+fn validate_expressions(value: &serde_yaml::Value, path: &str) -> Result<()> {
+    match value {
+        serde_yaml::Value::String(value) => {
+            let mut rest = value.as_str();
+            while let Some(start) = rest.find("${{") {
+                rest = &rest[start + 3..];
+                let end = super::expressions::end(rest).with_context(|| format!("in {path}"))?;
+                super::expressions::parse(&rest[..end]).with_context(|| format!("in {path}"))?;
+                rest = &rest[end + 2..];
+            }
+        }
+        serde_yaml::Value::Mapping(values) => {
+            for (key, value) in values {
+                validate_expressions(key, path)?;
+                validate_expressions(value, &format!("{path}.{}", key.as_str().unwrap_or("?")))?;
+            }
+        }
+        serde_yaml::Value::Sequence(values) => {
+            for (index, value) in values.iter().enumerate() {
+                validate_expressions(value, &format!("{path}[{index}]"))?;
+            }
+        }
+        _ => (),
+    }
+    Ok(())
 }
 
 impl Pipeline {
@@ -215,8 +373,13 @@ impl Pipeline {
         let raw = std::fs::read_to_string(path)
             .with_context(|| format!("reading pipeline file {}", path.display()))?;
         let mut pipeline: Pipeline = serde_yaml::from_str(&raw).context("parsing YAML")?;
+        pipeline.directory = path
+            .canonicalize()?
+            .parent()
+            .unwrap_or(Path::new("."))
+            .to_owned();
         for file in &pipeline.environment_files {
-            #[derive(Deserialize)]
+            #[derive(Deserialize, serde::Serialize)]
             #[serde(deny_unknown_fields)]
             struct Environments {
                 environments: IndexMap<String, Environment>,
@@ -236,6 +399,23 @@ impl Pipeline {
                 }
             }
         }
+        for file in &pipeline.runner_files {
+            #[derive(Deserialize)]
+            #[serde(deny_unknown_fields)]
+            struct Runners {
+                runners: IndexMap<String, RunnerSpec>,
+            }
+            let file = pipeline.directory.join(file);
+            let definitions: Runners = serde_yaml::from_str(
+                &std::fs::read_to_string(&file)
+                    .with_context(|| format!("reading runners {}", file.display()))?,
+            )?;
+            for (name, runner) in definitions.runners {
+                if pipeline.runners.insert(name.clone(), runner).is_some() {
+                    bail!("duplicate runner '{name}' in {}", file.display());
+                }
+            }
+        }
         pipeline
             .validate()
             .with_context(|| format!("in pipeline file {}", path.display()))?;
@@ -250,10 +430,26 @@ impl Pipeline {
     }
 
     fn validate(&self) -> Result<()> {
+        validate_expressions(&serde_yaml::to_value(self)?, "workflow")?;
         const ENGINE_OPTIONS: [&str; 8] = [
             "target", "job", "skip-job", "dry-run", "set", "config", "profile", "pipeline",
         ];
         const ENGINE_SHORTS: [char; 5] = ['T', 'j', 'd', 'f', 'p'];
+        for (name, runner) in &self.runners {
+            if name == "host" {
+                bail!("runner name 'host' is reserved for the machine running Ship");
+            }
+            if !matches!(runner.kind, RunnerKind::WindowsContainerHost)
+                && (runner.ssh.is_some() || runner.start.is_some() || runner.stop.is_some())
+            {
+                bail!("runner '{name}': ssh/start/stop require windows-container-host; Linux transport uses the configured Podman connection");
+            }
+            if matches!(runner.kind, RunnerKind::WindowsContainerHost)
+                && (runner.sync.is_some() || runner.remote_dir.is_some())
+            {
+                bail!("runner '{name}': sync/remote-dir require linux-container-host; Windows uses container copy/collect");
+            }
+        }
         for (name, spec) in &self.options {
             if ENGINE_OPTIONS.contains(&name.as_str()) {
                 bail!("option '{name}' is reserved for ship itself");
@@ -282,6 +478,47 @@ impl Pipeline {
             }
         }
         for (name, job) in &self.jobs {
+            if job.runs_in.is_some() && (job.runs_on.is_some() || job.container.is_some()) {
+                bail!("job '{name}': runs-in cannot be combined with runs-on or container");
+            }
+            if let Some(runner) = job.runs_on.as_ref().filter(|r| !r.contains("{{")) {
+                if runner != "host" && !self.runners.contains_key(runner) {
+                    bail!("job '{name}' selects unknown runner '{runner}'");
+                }
+            }
+            if job.container.is_some()
+                && job
+                    .steps
+                    .iter()
+                    .any(|s| s.platform.is_some() || !s.mounts.is_empty() || !s.options.is_empty())
+            {
+                bail!("job '{name}': a job container is shared by every step; put platform, mounts and options in container");
+            }
+            if job.container.is_some() && job.steps.iter().any(|s| s.uses.is_some()) {
+                bail!("job '{name}': legacy built-in uses steps run on the controller; use run: ship action inside a job container");
+            }
+            if job
+                .strategy
+                .as_ref()
+                .is_some_and(|s| s.max_parallel == Some(0))
+            {
+                bail!("job '{name}': max-parallel must be positive");
+            }
+            if let Some(condition) = &job.condition {
+                if condition.contains("{{")
+                    && !condition.contains("${{")
+                    && condition.contains("matrix.")
+                {
+                    bail!("job '{name}': job if is evaluated before matrix expansion");
+                }
+                if !condition.contains("{{") || condition.contains("${{") {
+                    let expression =
+                        super::expressions::parse(super::context::condition_source(condition)?)?;
+                    if expression.references("matrix") {
+                        bail!("job '{name}': job if is evaluated before matrix expansion; move matrix filtering into strategy.matrix");
+                    }
+                }
+            }
             if let Some(env) = job.runs_in.as_ref().filter(|name| !name.contains("{{")) {
                 let environment = self.environments.get(env).ok_or_else(|| {
                     anyhow::anyhow!("job '{name}' runs in unknown environment '{env}'")
@@ -302,8 +539,26 @@ impl Pipeline {
                     bail!("job '{name}' needs unknown job '{need}'");
                 }
             }
+            let mut ids = std::collections::HashSet::new();
             for (i, step) in job.steps.iter().enumerate() {
                 let what = format!("step {} of job '{name}'", i + 1);
+                if let Some(condition) = &step.condition {
+                    if !condition.contains("{{") || condition.contains("${{") {
+                        super::expressions::parse(super::context::condition_source(condition)?)
+                            .with_context(|| format!("in if of {what}"))?;
+                    }
+                }
+                if let Some(id) = &step.id {
+                    if !valid_id(id) {
+                        bail!("{what} has invalid id '{id}' (start with a letter or _, then letters, digits, - or _)");
+                    }
+                    if !ids.insert(id) {
+                        bail!("duplicate step id '{id}' in job '{name}'");
+                    }
+                    if step.foreach.is_some() || !step.outputs.is_empty() {
+                        bail!("{what}: `id` cannot be combined with legacy `outputs` or `foreach`");
+                    }
+                }
                 if !step.outputs.is_empty() {
                     if step.run.is_none() {
                         bail!("{what} has `outputs` but is not a `run` step");
@@ -318,13 +573,15 @@ impl Pipeline {
                         }
                     }
                     (None, Some(action)) => {
-                        super::actions::validate(action, &step.with)
+                        crate::services::actions::validate(action, &step.with)
                             .with_context(|| format!("in {what}"))?;
                         if step.platform.is_some()
                             || !step.mounts.is_empty()
                             || !step.options.is_empty()
+                            || step.shell.is_some()
+                            || step.cwd.is_some()
                         {
-                            bail!("{what} is a `uses` step; platform/mounts/options only apply to `run` steps");
+                            bail!("{what} is a `uses` step; platform/mounts/options/shell/working-directory only apply to `run` steps");
                         }
                     }
                 }
@@ -334,8 +591,8 @@ impl Pipeline {
     }
 
     /// The selected jobs in execution order: every job after the jobs it
-    /// needs (only those that are part of the selection count), otherwise in
-    /// the order they were selected in (the target's list).
+    /// needs, including dependencies outside the initial selection. Independent
+    /// jobs retain selection order; the executor currently runs serially.
     pub fn ordered_jobs(&self, selected: &[String]) -> Result<Vec<String>> {
         let mut ordered: Vec<String> = Vec::new();
         let mut visiting: Vec<String> = Vec::new();
@@ -355,9 +612,7 @@ impl Pipeline {
             }
             visiting.push(name.to_string());
             for need in &pipeline.jobs[name].needs {
-                if selected.iter().any(|j| j == need) {
-                    visit(pipeline, selected, need, ordered, visiting)?;
-                }
+                visit(pipeline, selected, need, ordered, visiting)?;
             }
             visiting.pop();
             ordered.push(name.to_string());
@@ -415,10 +670,10 @@ jobs:
     fn parses_and_orders() {
         let p = Pipeline::parse(SAMPLE).unwrap();
         let selected: Vec<String> = p.targets["linux"].clone();
-        // changelogs is needed by ppa but not selected: not pulled in.
+        // Dependencies are included even when omitted from the selected roots.
         assert_eq!(
             p.ordered_jobs(&selected).unwrap(),
-            vec!["workspace", "appimage", "ppa", "github"]
+            vec!["workspace", "appimage", "changelogs", "ppa", "github"]
         );
         let all: Vec<String> = p.jobs.keys().cloned().collect();
         assert_eq!(

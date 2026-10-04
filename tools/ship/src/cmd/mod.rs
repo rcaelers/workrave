@@ -2,6 +2,7 @@
 //! in this file and the library modules of the crate; a command never uses
 //! a sibling command.
 
+pub mod action;
 pub mod appcast;
 pub mod catalog;
 pub mod newsgen;
@@ -20,6 +21,8 @@ use crate::services::signing::SigningService;
 
 #[derive(Subcommand, Debug)]
 pub enum Command {
+    /// Run a release operation without a workflow or runner
+    Action(action::ActionCommand),
     /// generate appcast
     Appcast(appcast::AppcastCommand),
     /// update artifacts catalog in S3 storage
@@ -40,6 +43,7 @@ pub enum Command {
 
 pub async fn run(command: Command) -> Result<()> {
     match command {
+        Command::Action(args) => action::run(args).await,
         Command::Appcast(args) => appcast::run(args).await,
         Command::Catalog(args) => catalog::run(args).await,
         Command::Newsgen(args) => newsgen::run(args).await,

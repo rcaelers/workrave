@@ -39,7 +39,7 @@ impl ActionEnv<'_> {
     pub fn signing(&self) -> Result<SigningService> {
         match self.signing_service_url {
             Some(url) => SigningService::new(url),
-            None => bail!("settings.signing_service_url is not set in the pipeline file"),
+            None => bail!("signing service URL is required: use --url or SIGNING_SERVICE_URL (settings.signing_service_url in a workflow)"),
         }
     }
 }

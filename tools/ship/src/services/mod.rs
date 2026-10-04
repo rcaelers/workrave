@@ -7,3 +7,5 @@ pub mod catalog;
 pub mod github;
 pub mod s3;
 pub mod signing;
+
+pub mod actions;

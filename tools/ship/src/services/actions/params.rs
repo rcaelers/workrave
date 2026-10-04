@@ -5,7 +5,7 @@ use std::path::{Path, PathBuf};
 use anyhow::{anyhow, Result};
 use serde::Deserialize;
 
-use crate::cmd::release::context::{glob_paths, truthy};
+use crate::system::files::{glob_paths, truthy};
 
 /// Deserializes `with` into the action's parameter struct. A missing `with`
 /// is an empty mapping.

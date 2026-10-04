@@ -1,0 +1,14 @@
+# Machine bindings for runs-on. Images and build inputs belong to each job.
+# Access and optional VM lifecycle commands come from the private config file.
+runners:
+  linux:
+    type: linux-container-host
+    engine: "${{ config.container.engine }}"
+    sync: "${{ config.container.sync }}"
+    remote-dir: "${{ config.container.remote_dir }}"
+  windows:
+    type: windows-container-host
+    ssh: "${{ config.execution.windows.ssh || '' }}"
+    start: "${{ config.execution.windows.start || '' }}"
+    stop: "${{ config.execution.windows.stop || '' }}"
+    engine: "${{ config.execution.windows.docker || 'docker.exe' }}"

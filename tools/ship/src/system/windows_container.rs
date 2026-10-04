@@ -24,7 +24,6 @@ pub struct Settings {
     pub docker: String,
     pub image: String,
     pub context: Option<PathBuf>,
-    pub shell: String,
     pub init: String,
     pub options: Vec<String>,
     pub copy: Vec<(PathBuf, String)>,
@@ -204,6 +203,7 @@ impl Session {
         script: &str,
         env: &[(String, String)],
         cwd: Option<&Path>,
+        shell: &str,
         cleanup: bool,
     ) -> Result<Cmd> {
         let mut args = vec!["exec".into()];
@@ -214,13 +214,17 @@ impl Session {
             args.extend(["--workdir".into(), cwd.to_string_lossy().replace('\\', "/")]);
         }
         args.push(self.name.clone());
-        match self.settings.shell.as_str() {
-            "bash" => args.extend([
-                "C:/msys64/usr/bin/bash.exe".into(),
+        match shell {
+            "bash" | "sh" => args.extend([
+                format!("C:/msys64/usr/bin/{shell}.exe"),
                 "-lc".into(),
-                format!("set -eo pipefail\n{}\n{script}", self.settings.init),
+                format!(
+                    "set -e{}\n{}\n{script}",
+                    if shell == "bash" { "o pipefail" } else { "" },
+                    self.settings.init
+                ),
             ]),
-            "powershell" => {
+            "powershell" | "pwsh" => {
                 let assignments = env
                     .iter()
                     .map(|(key, value)| {
@@ -235,7 +239,7 @@ impl Session {
                 let script = format!("$ErrorActionPreference='Stop'\n$LASTEXITCODE=0\n{assignments}\n{}\n{script}\nif ($LASTEXITCODE) {{ exit $LASTEXITCODE }}", self.settings.init);
                 let encoded = encode(&script);
                 args.extend([
-                    "powershell.exe".into(),
+                    format!("{shell}.exe"),
                     "-NoProfile".into(),
                     "-NonInteractive".into(),
                 ]);
@@ -292,13 +296,24 @@ impl Session {
         script: &str,
         env: &[(String, String)],
         cwd: Option<&Path>,
+        shell: &str,
         echo: bool,
     ) -> Result<()> {
-        self.exec(script, env, cwd, false)?.run_or_echo(echo)
+        self.exec(script, env, cwd, shell, false)?.run_or_echo(echo)
     }
 
-    pub fn outputs(&self) -> Result<String> {
-        self.container_powershell("if (Test-Path C:/ship-output.txt) { Get-Content C:/ship-output.txt; Remove-Item C:/ship-output.txt }", false)?.output_quiet()
+    pub fn prepare_command_files(&self, directory: &str) -> Result<()> {
+        let directory = ps_quote(directory);
+        self.container_powershell(&format!("$ErrorActionPreference='Stop'; New-Item -ItemType Directory -Force {directory} | Out-Null; foreach ($name in @('output', 'env', 'path')) {{ [IO.File]::WriteAllText(({directory} + '/' + $name), '', (New-Object Text.UTF8Encoding $false)) }}"), false)?.run()
+    }
+
+    pub fn command_files(
+        &self,
+        directory: &str,
+    ) -> Result<std::collections::BTreeMap<String, String>> {
+        let directory = ps_quote(directory);
+        let json = self.container_powershell(&format!("$ErrorActionPreference='Stop'; [Console]::OutputEncoding=New-Object Text.UTF8Encoding $false; $files=@{{}}; foreach ($name in @('output', 'env', 'path')) {{ $files[$name]=[IO.File]::ReadAllText(({directory} + '/' + $name)) }}; $files | ConvertTo-Json -Compress; Remove-Item -Recurse -Force {directory}"), false)?.output_quiet()?;
+        serde_json::from_str(&json).context("reading Windows step command files")
     }
 
     fn prepare_image(&self) -> Result<()> {
