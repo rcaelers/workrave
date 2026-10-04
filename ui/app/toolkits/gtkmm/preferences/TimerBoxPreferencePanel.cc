@@ -117,14 +117,11 @@ TimerBoxPreferencePanel::create_page()
         }
 #endif
 
-      Gtk::Widget *enabled_lab = Gtk::manage(
-        GtkUtil::create_label_with_tooltip(_("Show status window"),
-                                           _("Note that the status window is only hidden if "
-                                             "the status icon, or an applet is shown. Some desktop environments "
-                                             "do not support, or have disabled status icons.")));
-
-      enabled_cb = Gtk::manage(new Gtk::CheckButton());
-      enabled_cb->add(*enabled_lab);
+      enabled_cb = Gtk::manage(new Gtk::CheckButton(_("Show status window")));
+      enabled_cb->set_tooltip_text(
+        _("Note that the status window is only hidden if "
+          "the status icon, or an applet is shown. Some desktop environments "
+          "do not support, or have disabled status icons."));
       hig->add_widget(*enabled_cb);
     }
 
