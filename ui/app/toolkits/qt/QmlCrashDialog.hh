@@ -17,6 +17,7 @@
 #ifndef QML_CRASH_DIALOG_HH
 #define QML_CRASH_DIALOG_HH
 
+#ifndef Q_MOC_RUN
 #include <map>
 #include <string>
 #include <vector>
@@ -28,6 +29,7 @@
 
 #include "base/files/file_path.h"
 #include "handler/user_hook.h"
+#endif
 
 // ── CrashBridge ───────────────────────────────────────────────────────────────
 // Exposes the main crash dialog state and user actions to QML.

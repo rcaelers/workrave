@@ -17,9 +17,11 @@
 #ifndef QML_ABOUT_DIALOG_HH
 #define QML_ABOUT_DIALOG_HH
 
+#ifndef Q_MOC_RUN
 #include <QObject>
 #include <QQuickView>
 #include <QWindow>
+#endif
 
 class QmlAboutDialog : public QObject
 {

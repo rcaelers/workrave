@@ -15,6 +15,9 @@ use serde::Deserialize;
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Pipeline {
+    /// Files containing environment definitions, relative to this pipeline.
+    #[serde(rename = "environment-files", default)]
+    pub environment_files: Vec<String>,
     /// What the engine itself needs; templates over `config` and `options`.
     #[serde(default)]
     pub settings: Settings,
@@ -71,6 +74,9 @@ pub enum EnvironmentKind {
     Container,
     /// Commands run in an MSYS2 login shell (Windows).
     Msys2,
+    /// A persistent Windows Docker container, locally or through SSH.
+    #[serde(rename = "windows-container")]
+    WindowsContainer,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -106,6 +112,25 @@ pub struct Environment {
     pub bash: Option<String>,
     /// msys2: MSYSTEM, e.g. CLANG64.
     pub msystem: Option<String>,
+    /// Windows container: SSH destination. Empty means local Docker on Windows.
+    pub ssh: Option<String>,
+    /// Windows container: optional commands on the machine running Ship,
+    /// before/after the job.
+    pub start: Option<String>,
+    pub stop: Option<String>,
+    /// Windows container: powershell (default) or bash.
+    pub shell: Option<String>,
+    /// Windows container: optional build context, rebuilt when contents change.
+    #[serde(rename = "image-context")]
+    pub image_context: Option<String>,
+    /// Windows container: local inputs -> paths in the container's local layer.
+    #[serde(default)]
+    pub copy: IndexMap<String, String>,
+    /// Windows container: output directories -> local directories, even on failure.
+    #[serde(default)]
+    pub collect: IndexMap<String, String>,
+    /// Windows container: shell initialization before each step.
+    pub init: Option<String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -180,7 +205,7 @@ pub struct Step {
     /// Names the step sets for later steps and jobs, by writing `name=value`
     /// lines to the file in `$SHIP_OUTPUT`. Dotted names nest:
     /// `version.tag=v1` is `{{ version.tag }}`. `true`/`false` become
-    /// booleans. Host and msys2 steps only.
+    /// booleans. Host, msys2 and Windows container steps.
     #[serde(default)]
     pub outputs: Vec<String>,
 }
@@ -189,9 +214,35 @@ impl Pipeline {
     pub fn load(path: &Path) -> Result<Pipeline> {
         let raw = std::fs::read_to_string(path)
             .with_context(|| format!("reading pipeline file {}", path.display()))?;
-        Pipeline::parse(&raw).with_context(|| format!("in pipeline file {}", path.display()))
+        let mut pipeline: Pipeline = serde_yaml::from_str(&raw).context("parsing YAML")?;
+        for file in &pipeline.environment_files {
+            #[derive(Deserialize)]
+            #[serde(deny_unknown_fields)]
+            struct Environments {
+                environments: IndexMap<String, Environment>,
+            }
+            let file = path.parent().unwrap_or(Path::new(".")).join(file);
+            let definitions: Environments = serde_yaml::from_str(
+                &std::fs::read_to_string(&file)
+                    .with_context(|| format!("reading environments {}", file.display()))?,
+            )?;
+            for (name, environment) in definitions.environments {
+                if pipeline
+                    .environments
+                    .insert(name.clone(), environment)
+                    .is_some()
+                {
+                    bail!("duplicate environment '{name}' in {}", file.display());
+                }
+            }
+        }
+        pipeline
+            .validate()
+            .with_context(|| format!("in pipeline file {}", path.display()))?;
+        Ok(pipeline)
     }
 
+    #[cfg(test)]
     pub fn parse(raw: &str) -> Result<Pipeline> {
         let pipeline: Pipeline = serde_yaml::from_str(raw).context("parsing YAML")?;
         pipeline.validate()?;
@@ -231,11 +282,15 @@ impl Pipeline {
             }
         }
         for (name, job) in &self.jobs {
-            if let Some(env) = &job.runs_in {
+            if let Some(env) = job.runs_in.as_ref().filter(|name| !name.contains("{{")) {
                 let environment = self.environments.get(env).ok_or_else(|| {
                     anyhow::anyhow!("job '{name}' runs in unknown environment '{env}'")
                 })?;
-                if environment.kind == EnvironmentKind::Container && environment.image.is_none() {
+                if matches!(
+                    environment.kind,
+                    EnvironmentKind::Container | EnvironmentKind::WindowsContainer
+                ) && environment.image.is_none()
+                {
                     bail!("environment '{env}' is a container but has no image");
                 }
                 if environment.kind == EnvironmentKind::Msys2 && environment.bash.is_none() {
@@ -247,19 +302,11 @@ impl Pipeline {
                     bail!("job '{name}' needs unknown job '{need}'");
                 }
             }
-            let in_container = job
-                .runs_in
-                .as_ref()
-                .and_then(|env| self.environments.get(env))
-                .is_some_and(|env| env.kind == EnvironmentKind::Container);
             for (i, step) in job.steps.iter().enumerate() {
                 let what = format!("step {} of job '{name}'", i + 1);
                 if !step.outputs.is_empty() {
                     if step.run.is_none() {
                         bail!("{what} has `outputs` but is not a `run` step");
-                    }
-                    if in_container {
-                        bail!("{what} has `outputs`, which container steps cannot set");
                     }
                 }
                 match (&step.run, &step.uses) {
@@ -424,7 +471,6 @@ jobs:
             ("jobs:\n  a:\n    steps: [{run: x, bogus: 1}]\n", "unknown field `bogus`"),
             ("environments:\n  c:\n    type: container\njobs:\n  a:\n    runs-in: c\n    steps: [{run: x}]\n", "no image"),
             ("jobs:\n  a:\n    steps: [{uses: newsgen, with: {input: i, template: t, output: o}, outputs: [x]}]\n", "not a `run` step"),
-            ("environments:\n  c:\n    type: container\n    image: i\njobs:\n  a:\n    runs-in: c\n    steps: [{run: x, outputs: [y]}]\n", "container steps cannot set"),
         ] {
             let err = format!("{:#}", Pipeline::parse(yaml).unwrap_err());
             assert!(err.contains(expected), "{yaml}: {err}");

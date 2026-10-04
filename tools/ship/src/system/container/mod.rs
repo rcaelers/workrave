@@ -87,6 +87,7 @@ use crate::system::process::Cmd;
 #[derive(Debug, Clone)]
 pub struct ContainerRun {
     image: String,
+    remove_on_exit: bool,
     platform: Option<String>,
     /// Local directory -> path inside the container.
     mounts: Vec<(PathBuf, String)>,
@@ -100,6 +101,7 @@ impl ContainerRun {
     pub fn new(image: impl Into<String>) -> Self {
         Self {
             image: image.into(),
+            remove_on_exit: true,
             platform: None,
             mounts: Vec::new(),
             env: Vec::new(),
@@ -110,6 +112,12 @@ impl ContainerRun {
 
     pub fn platform(mut self, platform: impl Into<String>) -> Self {
         self.platform = Some(platform.into());
+        self
+    }
+
+    /// Keep the stopped container long enough to collect step outputs.
+    pub fn remove_on_exit(mut self, remove: bool) -> Self {
+        self.remove_on_exit = remove;
         self
     }
 
@@ -163,7 +171,10 @@ impl ContainerRun {
     /// The command line to run this container, with local mount sources
     /// translated by `mounts`.
     pub fn to_cmd(&self, engine: Engine, mounts: &Mounts) -> Cmd {
-        let mut cmd = Cmd::new(engine.program()).args(["run", "--rm"]);
+        let mut cmd = Cmd::new(engine.program()).arg("run");
+        if self.remove_on_exit {
+            cmd = cmd.arg("--rm");
+        }
         if let Some(platform) = &self.platform {
             cmd = cmd.arg("--platform").arg(platform);
         }

@@ -18,6 +18,7 @@
 #ifndef STATUSICON_HH
 #define STATUSICON_HH
 
+#ifndef Q_MOC_RUN
 #include <string>
 #include <memory>
 #include <boost/signals2.hpp>
@@ -30,6 +31,7 @@
 
 #include "ui/AppHold.hh"
 #include "ui/IApplicationContext.hh"
+#endif
 
 class ToolkitMenu;
 

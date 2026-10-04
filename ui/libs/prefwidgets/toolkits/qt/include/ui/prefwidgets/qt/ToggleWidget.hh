@@ -18,12 +18,14 @@
 #ifndef WORKRAVE_UI_PREFWIDGETS_QT_TOGGLEWIDGET_HH
 #define WORKRAVE_UI_PREFWIDGETS_QT_TOGGLEWIDGET_HH
 
+#ifndef Q_MOC_RUN
 #include <memory>
 
 #include <QCheckBox>
 
 #include "ui/prefwidgets/Toggle.hh"
 #include "ContainerWidget.hh"
+#endif
 
 namespace ui::prefwidgets::qt
 {

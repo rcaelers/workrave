@@ -18,12 +18,14 @@
 #ifndef WORKRAVE_UI_PREFWIDGETS_QT_FRAMEWIDGET_HH
 #define WORKRAVE_UI_PREFWIDGETS_QT_FRAMEWIDGET_HH
 
+#ifndef Q_MOC_RUN
 #include <memory>
 
 #include "ui/prefwidgets/Widgets.hh"
 
 #include "Widget.hh"
 #include "ContainerWidget.hh"
+#endif
 
 namespace ui::prefwidgets::qt
 {

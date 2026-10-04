@@ -17,6 +17,7 @@
 #ifndef QMLEXERCISESDIALOG_HH
 #define QMLEXERCISESDIALOG_HH
 
+#ifndef Q_MOC_RUN
 #include <functional>
 #include <list>
 #include <memory>
@@ -31,6 +32,7 @@
 #include "commonui/Exercise.hh"
 #include "ui/IApplicationContext.hh"
 #include "utils/Signals.hh"
+#endif
 
 // Data bridge exposed to ExercisesDialog.qml as "exercisesBridge" context property.
 class ExercisesBridge

@@ -60,6 +60,12 @@ if(txt_files)
   file(COPY ${txt_files} DESTINATION "${app_dir}")
 endif()
 
+foreach(sbom sbom.spdx.json sbom.csv)
+  if(EXISTS "${INSTALL_PATH}/${sbom}")
+    file(COPY "${INSTALL_PATH}/${sbom}" DESTINATION "${app_dir}")
+  endif()
+endforeach()
+
 file(COPY "${DIST_SOURCE_DIR}/Workrave.lnk" DESTINATION "${app_dir}")
 file(COPY "${DIST_SOURCE_DIR}/workrave.ini" DESTINATION "${app_dir}/etc")
 

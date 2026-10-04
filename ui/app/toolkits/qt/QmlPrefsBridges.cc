@@ -38,11 +38,7 @@
 #include "utils/Ui.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
-#  include <windows.h>
-namespace
-{
-  constexpr auto RUNKEY = R"(Software\Microsoft\Windows\CurrentVersion\Run)";
-}
+#  include "utils/Platform.hh"
 #endif
 
 using namespace workrave;
@@ -1427,13 +1423,20 @@ GeneralPrefBridge::setTrayIconEnabled(bool v)
 bool
 GeneralPrefBridge::autostartEnabled() const
 {
+#if defined(PLATFORM_OS_WINDOWS)
+  return workrave::utils::Platform::autostart_enabled();
+#else
   return GUIConfig::autostart_enabled()();
+#endif
 }
 
 void
 GeneralPrefBridge::setAutostartEnabled(bool v)
 {
   GUIConfig::autostart_enabled().set(v);
+#if defined(PLATFORM_OS_WINDOWS)
+  workrave::utils::Platform::set_autostart_enabled(v);
+#endif
   Q_EMIT systemChanged();
 }
 

@@ -6,6 +6,7 @@ pub mod appcast;
 pub mod catalog;
 pub mod newsgen;
 pub mod release;
+pub mod sbom;
 pub mod secret;
 pub mod sign;
 
@@ -33,6 +34,8 @@ pub enum Command {
     Sign(sign::SignCommand),
     /// fetch a secret from the signing service
     Secret(secret::SecretCommand),
+    /// generate SPDX and CSV from dependency metadata
+    Sbom(sbom::SbomCommand),
 }
 
 pub async fn run(command: Command) -> Result<()> {
@@ -44,6 +47,7 @@ pub async fn run(command: Command) -> Result<()> {
         Command::Pipeline(args) => release::run_pipeline(args).await,
         Command::Sign(args) => sign::run(args).await,
         Command::Secret(args) => secret::run(args).await,
+        Command::Sbom(args) => sbom::run(args),
     }
 }
 

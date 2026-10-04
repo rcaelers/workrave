@@ -20,6 +20,7 @@
 #endif
 
 #include "utils/Platform.hh"
+#include <array>
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
@@ -102,6 +103,46 @@ Platform::get_application_name()
   // app_dir_name == c:\program files\workrave\lib\workrave.exe
   char *s = strrchr(app_dir_name, '\\');
   return string(s);
+}
+
+namespace
+{
+  constexpr const char *run_key = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
+
+  std::string autostart_command()
+  {
+    std::array<char, 32768> executable{};
+    auto length = GetModuleFileNameA(nullptr, executable.data(), static_cast<DWORD>(executable.size()));
+    if (length == 0 || length >= executable.size())
+      {
+        return {};
+      }
+    return "\"" + std::string(executable.data(), length) + "\"";
+  }
+}
+
+bool
+Platform::autostart_enabled()
+{
+  auto command = autostart_command();
+  auto value = registry_get_value(run_key, "Workrave");
+  return !command.empty() && value && _stricmp(value->c_str(), command.c_str()) == 0;
+}
+
+bool
+Platform::set_autostart_enabled(bool enabled)
+{
+  auto command = autostart_command();
+  if (command.empty())
+    {
+      return false;
+    }
+  if (enabled)
+    {
+      return registry_set_value(run_key, "Workrave", command.c_str());
+    }
+  // Disabling Classic must not remove a startup entry owned by Qt, or vice versa.
+  return !autostart_enabled() || registry_set_value(run_key, "Workrave", nullptr);
 }
 
 std::wstring

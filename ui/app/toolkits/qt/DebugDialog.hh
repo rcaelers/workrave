@@ -18,12 +18,14 @@
 #ifndef DEBUGDIALOG_HH
 #define DEBUGDIALOG_HH
 
+#ifndef Q_MOC_RUN
 #include <QtGui>
 #include <QtWidgets>
 
 #include "ui/IApplicationContext.hh"
 #include "ui/IBreakWindow.hh"
 #include "ui/IPreludeWindow.hh"
+#endif
 
 class QPushButton;
 class QTextBrowser;

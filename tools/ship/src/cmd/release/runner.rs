@@ -6,6 +6,7 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 use std::time::Instant;
 
+use crate::system::windows_container::{self, Session as WindowsSession};
 use anyhow::{anyhow, bail, Context, Result};
 use indexmap::IndexMap;
 
@@ -186,16 +187,6 @@ async fn run_pipeline(
     for name in &ordered {
         let job = &pipeline.jobs[name];
         runner.refresh_vars(&mut vars);
-        if let Some(condition) = &job.condition {
-            if !runner.renderer.condition(condition, &vars)? {
-                runner.say(&format!("== {name}: skipped ({condition})"));
-                report.jobs.push(JobReport {
-                    timing: Timing::skipped(name.clone()),
-                    steps: Vec::new(),
-                });
-                continue;
-            }
-        }
         for matrix in expand_matrix(job, &runner.renderer, &vars)? {
             let label = if matrix.is_empty() {
                 name.clone()
@@ -210,6 +201,17 @@ async fn run_pipeline(
                 )
             };
             let job_vars = vars.with_matrix(matrix);
+            if let Some(condition) = &job.condition {
+                if !runner.renderer.condition(condition, &job_vars)? {
+                    runner.say(&format!("== {label}: skipped ({condition})"));
+                    report.jobs.push(JobReport {
+                        timing: Timing::skipped(label.clone()),
+                        steps: Vec::new(),
+                    });
+                    continue;
+                }
+            }
+
             let started = Instant::now();
             let mut steps = Vec::new();
             let result = async {
@@ -295,6 +297,7 @@ struct ResolvedEnvironment {
     options: Vec<String>,
     bash: PathBuf,
     msystem: String,
+    windows: Option<windows_container::Settings>,
 }
 
 impl Runner<'_> {
@@ -374,9 +377,25 @@ impl Runner<'_> {
             options: Vec::new(),
             bash: None,
             msystem: None,
+            ssh: None,
+            start: None,
+            stop: None,
+            shell: None,
+            image_context: None,
+            copy: IndexMap::new(),
+            collect: IndexMap::new(),
+            init: None,
         };
         let (name, environment) = match &job.runs_in {
-            Some(name) => (name.clone(), &self.pipeline.environments[name]),
+            Some(name) => {
+                let name = self.renderer.render(name, vars)?;
+                let environment = self
+                    .pipeline
+                    .environments
+                    .get(&name)
+                    .ok_or_else(|| anyhow!("unknown environment '{name}'"))?;
+                (name, environment)
+            }
             None => ("host".to_string(), &host),
         };
         let mut env = self.render_map(&environment.env, vars)?;
@@ -388,18 +407,22 @@ impl Runner<'_> {
             }
         };
         let defaults = ContainerSettings::default();
-        let container = ContainerSettings {
-            engine: render_opt(&environment.engine)?
-                .unwrap_or_default()
-                .parse()
-                .with_context(|| format!("in environment '{name}'"))?,
-            sync: render_opt(&environment.sync)?
-                .unwrap_or_default()
-                .parse()
-                .with_context(|| format!("in environment '{name}'"))?,
-            remote_dir: render_opt(&environment.remote_dir)?
-                .filter(|d| !d.is_empty())
-                .unwrap_or(defaults.remote_dir),
+        let container = if environment.kind == EnvironmentKind::WindowsContainer {
+            defaults.clone()
+        } else {
+            ContainerSettings {
+                engine: render_opt(&environment.engine)?
+                    .unwrap_or_default()
+                    .parse()
+                    .with_context(|| format!("in environment '{name}'"))?,
+                sync: render_opt(&environment.sync)?
+                    .unwrap_or_default()
+                    .parse()
+                    .with_context(|| format!("in environment '{name}'"))?,
+                remote_dir: render_opt(&environment.remote_dir)?
+                    .filter(|d| !d.is_empty())
+                    .unwrap_or(defaults.remote_dir),
+            }
         };
         // Working directory: step > job > environment > current directory.
         let cwd = match render_opt(&job.cwd)?.or(render_opt(&environment.cwd)?) {
@@ -424,6 +447,36 @@ impl Runner<'_> {
                 Some(b) => self.renderer.render(b, vars)?,
                 None => "bash".to_string(),
             }),
+            windows: if environment.kind == EnvironmentKind::WindowsContainer {
+                Some(windows_container::Settings {
+                    ssh: render_opt(&environment.ssh)?.unwrap_or_default(),
+                    start: render_opt(&environment.start)?.unwrap_or_default(),
+                    stop: render_opt(&environment.stop)?.unwrap_or_default(),
+                    docker: render_opt(&environment.engine)?.unwrap_or_else(|| "docker.exe".into()),
+                    image: render_opt(&environment.image)?.unwrap_or_default(),
+                    context: render_opt(&environment.image_context)?.map(PathBuf::from),
+                    shell: render_opt(&environment.shell)?.unwrap_or_else(|| "powershell".into()),
+                    init: render_opt(&environment.init)?.unwrap_or_default(),
+                    options: environment
+                        .options
+                        .iter()
+                        .map(|o| self.renderer.render(o, vars))
+                        .collect::<Result<_>>()?,
+                    copy: self.render_mounts(&environment.copy, vars)?,
+                    collect: environment
+                        .collect
+                        .iter()
+                        .map(|(guest, local)| {
+                            Ok((
+                                self.renderer.render(guest, vars)?,
+                                PathBuf::from(self.renderer.render(local, vars)?),
+                            ))
+                        })
+                        .collect::<Result<_>>()?,
+                })
+            } else {
+                None
+            },
             msystem: match &environment.msystem {
                 Some(m) => self.renderer.render(m, vars)?,
                 None => "CLANG64".to_string(),
@@ -439,7 +492,15 @@ impl Runner<'_> {
         mut vars: Vars,
         timings: &mut Vec<Timing>,
     ) -> Result<Outputs> {
+        self.refresh_vars(&mut vars);
         let environment = self.resolve_environment(job, &vars)?;
+        if environment.kind == EnvironmentKind::WindowsContainer
+            && job.steps.iter().any(|step| {
+                step.platform.is_some() || !step.mounts.is_empty() || !step.options.is_empty()
+            })
+        {
+            bail!("Windows job '{name}' shares one container; put mounts and options in its environment");
+        }
         self.say(&format!("== {label} ({})", environment.name));
 
         // Container mounts are prepared once per job: the environment's plus
@@ -498,16 +559,50 @@ impl Runner<'_> {
             None
         };
 
-        let result = self
-            .run_steps(name, job, &environment, mounts.as_ref(), &mut vars, timings)
-            .await;
+        let mut windows = match &environment.windows {
+            Some(settings) if !self.opts.show => Some(WindowsSession::new(settings.clone())?),
+            Some(settings) => {
+                windows_container::show(settings);
+                None
+            }
+            None => None,
+        };
+        let prepare = match &mut windows {
+            Some(session) => session.prepare(),
+            None => Ok(()),
+        };
+        let result = match prepare {
+            Ok(()) => {
+                self.run_steps(
+                    name,
+                    job,
+                    &environment,
+                    mounts.as_ref(),
+                    windows.as_ref(),
+                    &mut vars,
+                    timings,
+                )
+                .await
+            }
+            Err(error) => Err(error),
+        };
+        let windows_finish = match &windows {
+            Some(session) => session.finish(),
+            None => Ok(()),
+        };
         // Bring results back, also after a failure (logs, partial output).
         let finish = match &mounts {
             Some(m) if !self.opts.show => m.finish(),
             _ => Ok(()),
         };
+        if result.is_err() {
+            if let Err(error) = &windows_finish {
+                tracing::warn!("Windows job cleanup: {error:#}");
+            }
+        }
         let outputs = result?;
         finish?;
+        windows_finish?;
         Ok(outputs)
     }
 
@@ -517,6 +612,7 @@ impl Runner<'_> {
         job: &Job,
         environment: &ResolvedEnvironment,
         mounts: Option<&Mounts>,
+        windows: Option<&WindowsSession>,
         vars: &mut Vars,
         timings: &mut Vec<Timing>,
     ) -> Result<Outputs> {
@@ -565,7 +661,7 @@ impl Runner<'_> {
                 let started = Instant::now();
                 let result = async {
                     let outputs = self
-                        .run_step(step, &step_label, environment, mounts, &step_vars)
+                        .run_step(step, &step_label, environment, mounts, windows, &step_vars)
                         .await?;
                     if !outputs.is_empty() {
                         for (key, value) in &outputs {
@@ -628,6 +724,7 @@ impl Runner<'_> {
         label: &str,
         environment: &ResolvedEnvironment,
         mounts: Option<&Mounts>,
+        windows: Option<&WindowsSession>,
         vars: &Vars,
     ) -> Result<Outputs> {
         if let Some(action) = &step.uses {
@@ -662,6 +759,52 @@ impl Runner<'_> {
                 .unwrap_or_else(|| std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."))),
         };
 
+        if environment.kind == EnvironmentKind::WindowsContainer {
+            if !step.outputs.is_empty() {
+                env.push(("SHIP_OUTPUT".into(), "C:/ship-output.txt".into()));
+            }
+            if self.opts.show {
+                windows_container::show_step(
+                    &script,
+                    &env,
+                    &environment.windows.as_ref().unwrap().shell,
+                );
+                return Ok(step
+                    .outputs
+                    .iter()
+                    .map(|key| (key.clone(), serde_json::Value::String(format!("<{key}>"))))
+                    .collect());
+            }
+            tracing::info!("-- {label}");
+            let cwd = step
+                .cwd
+                .as_ref()
+                .map(|cwd| self.renderer.render(cwd, vars))
+                .transpose()?
+                .map(PathBuf::from)
+                .or(environment.cwd.clone());
+            let session = windows.expect("Windows job session");
+            session.run(
+                &script,
+                &env,
+                cwd.as_deref(),
+                self.opts.dry_run && step.dry_run == DryRunMode::Echo,
+            )?;
+            if step.outputs.is_empty() {
+                return Ok(Vec::new());
+            }
+            let outputs = parse_outputs(&session.outputs()?)?;
+            for declared in &step.outputs {
+                if !outputs.iter().any(|(key, _)| key == declared) {
+                    bail!("{label} did not write declared output '{declared}'");
+                }
+            }
+            if outputs.iter().any(|(key, _)| !step.outputs.contains(key)) {
+                bail!("{label} wrote undeclared outputs");
+            }
+            return Ok(outputs);
+        }
+
         // Where a step writes its `outputs` (name=value lines).
         let output_file = (!step.outputs.is_empty()).then(|| {
             std::env::temp_dir().join(format!(
@@ -675,6 +818,7 @@ impl Runner<'_> {
         });
         if let Some(file) = &output_file {
             let path = match environment.kind {
+                EnvironmentKind::Container => "/tmp/ship-output.txt".into(),
                 EnvironmentKind::Msys2 => super::context::msys_path(&file.to_string_lossy()),
                 _ => file.to_string_lossy().into_owned(),
             };
@@ -689,6 +833,7 @@ impl Runner<'_> {
             CONTAINERS.fetch_add(1, std::sync::atomic::Ordering::SeqCst) + 1
         );
         let cmd = match environment.kind {
+            EnvironmentKind::WindowsContainer => unreachable!("handled above"),
             EnvironmentKind::Host => Cmd::new("bash")
                 .args(["-c", &script])
                 .envs(env.clone())
@@ -702,6 +847,7 @@ impl Runner<'_> {
             EnvironmentKind::Container => {
                 let mounts = mounts.expect("container job has mounts");
                 let mut run = ContainerRun::new(&environment.image)
+                    .remove_on_exit(step.outputs.is_empty())
                     .name(&container_name)
                     .flags(environment.options.clone())
                     .flags(
@@ -756,7 +902,23 @@ impl Runner<'_> {
                 .collect());
         }
         tracing::info!("-- {label}");
-        let result = cmd.run_or_echo(echo_only);
+        let mut result = cmd.run_or_echo(echo_only);
+        if environment.kind == EnvironmentKind::Container && !echo_only {
+            if let Some(file) = &output_file {
+                if result.is_ok() {
+                    // Engine cp also works with remote Podman: no temporary
+                    // host bind mount or full workspace synchronization needed.
+                    result = Cmd::new(environment.container.engine.program())
+                        .args(["cp", &format!("{container_name}:/tmp/ship-output.txt")])
+                        .arg(file)
+                        .run();
+                }
+                crate::system::container::remove_container(
+                    environment.container.engine,
+                    &container_name,
+                );
+            }
+        }
         if result.is_err()
             && crate::system::process::interrupted()
             && environment.kind == EnvironmentKind::Container

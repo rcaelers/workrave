@@ -18,6 +18,7 @@
 #ifndef TOOLKITMENU_HH
 #define TOOLKITMENU_HH
 
+#ifndef Q_MOC_RUN
 #include "commonui/MenuModel.hh"
 
 #include <boost/signals2.hpp>
@@ -26,6 +27,7 @@
 #include <QMenu>
 
 #include "utils/Signals.hh"
+#endif
 
 using MenuNodeFilter = std::function<bool(menus::Node::Ptr)>;
 

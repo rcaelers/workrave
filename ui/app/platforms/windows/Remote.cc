@@ -98,7 +98,7 @@ Remote::enum_windows_cb(HWND hwnd, LPARAM lParam)
           auto base = process_name.substr(process_name.find_last_of("/\\") + 1);
           boost::algorithm::to_lower(base);
 
-          if (base == "workrave.exe" || base == "workraveqt.exe")
+          if (base == "workrave.exe" || base == "workraveclassic.exe" || base == "workraveqt.exe" || base == "workravenext.exe")
             {
               self->hwnd = hwnd;
               return FALSE;

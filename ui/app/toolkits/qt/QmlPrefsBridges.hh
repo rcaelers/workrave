@@ -17,6 +17,7 @@
 #ifndef QMLPREFSBRIDGES_HH
 #define QMLPREFSBRIDGES_HH
 
+#ifndef Q_MOC_RUN
 #include <memory>
 #include <QObject>
 #include <QString>
@@ -24,6 +25,7 @@
 
 #include "core/CoreTypes.hh"
 #include "ui/IApplicationContext.hh"
+#endif
 
 // ── Shared utility ─────────────────────────────────────────────────────────────
 

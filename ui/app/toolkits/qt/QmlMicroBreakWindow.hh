@@ -17,6 +17,7 @@
 #ifndef QMLMICROBREAKWINDOW_HH
 #define QMLMICROBREAKWINDOW_HH
 
+#ifndef Q_MOC_RUN
 #include <functional>
 #include <memory>
 #include <QObject>
@@ -29,9 +30,12 @@
 #include "ui/UiTypes.hh"
 #include "ui/IApplicationContext.hh"
 #include "utils/Signals.hh"
+#endif
 
 #if defined(HAVE_WAYLAND)
+#ifndef Q_MOC_RUN
 #  include "WaylandWindowManager.hh"
+#endif
 #endif
 
 // Data bridge exposed to the QML scene as the "bridge" context property.

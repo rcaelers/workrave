@@ -298,10 +298,6 @@ elseif (HAVE_APP_QT)
 endif()
 
 If (PLATFORM_OS_WINDOWS)
-  if (CMAKE_CROSSCOMPILING)
-    target_link_directories(workrave PRIVATE "${SYS_ROOT}")
-  endif()
-
   set(WR_VERSION ${WORKRAVE_VERSION})
   set(WR_RESOURCE_VERSION ${WORKRAVE_RESOURCE_VERSION})
   set(WR_TOP_SOURCE_DIR ${CMAKE_SOURCE_DIR})
@@ -321,25 +317,29 @@ If (PLATFORM_OS_WINDOWS)
 endif()
 
 if (MINGW)
-  add_custom_command(TARGET workrave POST_BUILD
-      # COMMAND ${CMAKE_NM} -nosC --line-numbers $<TARGET_FILE:workrave> > ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug
-      COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:workrave>" workrave-debug.exe
-      COMMAND ${CMAKE_OBJCOPY} --only-keep-debug
-          $<TARGET_FILE:workrave> ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug
-      COMMAND ${CMAKE_OBJCOPY} --strip-debug --strip-unneeded
-          $<TARGET_FILE:workrave>
-      COMMAND ${CMAKE_OBJCOPY} --add-gnu-debuglink=workrave.debug
-          $<TARGET_FILE:workrave>
-  )
+  if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    add_custom_command(TARGET workrave POST_BUILD
+        # COMMAND ${CMAKE_NM} -nosC --line-numbers $<TARGET_FILE:workrave> > ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug
+        COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:workrave>" workrave-debug.exe
+        COMMAND ${CMAKE_OBJCOPY} --only-keep-debug
+            $<TARGET_FILE:workrave> ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug
+        COMMAND ${CMAKE_OBJCOPY} --strip-debug --strip-unneeded
+            $<TARGET_FILE:workrave>
+        COMMAND ${CMAKE_OBJCOPY} --add-gnu-debuglink=workrave.debug
+            $<TARGET_FILE:workrave>
+    )
+  endif()
 
   if (DUMP_SYMS)
     add_custom_command(TARGET workrave POST_BUILD
                        COMMAND "${DUMP_SYMS}" "$<TARGET_FILE:workrave>" -o "${CMAKE_BINARY_DIR}/workrave.sym"
                        VERBATIM)
-    add_dependencies(workrave dump_syms)
+    if(TARGET dump_syms)
+      add_dependencies(workrave dump_syms)
+    endif()
   endif()
 
-  if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+  if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug" AND NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug DESTINATION ${BINDIR})
   endif()
 endif()

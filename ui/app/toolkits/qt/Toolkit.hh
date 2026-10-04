@@ -18,6 +18,7 @@
 #ifndef TOOLKIT_HH
 #define TOOLKIT_HH
 
+#ifndef Q_MOC_RUN
 #include <memory>
 #include <map>
 #include <optional>
@@ -42,6 +43,7 @@
 #include "ui/IToolkit.hh"
 #include "utils/Logging.hh"
 #include "utils/Signals.hh"
+#endif
 
 class Toolkit
   : public QApplication

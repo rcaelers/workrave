@@ -18,6 +18,7 @@
 #ifndef WORKRAVE_UI_PREFWIDGETS_QT_BOXWIDGET_HH
 #define WORKRAVE_UI_PREFWIDGETS_QT_BOXWIDGET_HH
 
+#ifndef Q_MOC_RUN
 #include <memory>
 #include <string>
 #include <list>
@@ -26,6 +27,7 @@
 
 #include "ui/prefwidgets/Box.hh"
 #include "ContainerWidget.hh"
+#endif
 
 namespace ui::prefwidgets::qt
 {

@@ -45,11 +45,18 @@ install(CODE "
   " COMPONENT Runtime)
 
 install(CODE "set(SYS_ROOT ${SYS_ROOT})")
+install(CODE "set(STRICT_WINDOWS_DEPENDENCIES ON)")
 install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)")
 install(CODE "set(BINARY_DIR \"${CMAKE_BINARY_DIR}\")")
 install(CODE "set(DIST_PATH \"${CMAKE_CURRENT_BINARY_DIR}\")")
 install(CODE "set(INSTALL_PATH \"${CMAKE_INSTALL_PREFIX}\")")
-install(CODE "set(DEP_DIRS \"${CMAKE_INSTALL_PREFIX}/bin;${SYS_ROOT}/bin;${spdlog_BINARY_DIR}\")")
+set(DEP_DIRS "${CMAKE_INSTALL_PREFIX}/bin;${CMAKE_BINARY_DIR}/bin;${SYS_ROOT}/bin;${spdlog_BINARY_DIR}")
+foreach(prefix IN LISTS CMAKE_PREFIX_PATH)
+  if (IS_DIRECTORY "${prefix}/bin")
+    list(APPEND DEP_DIRS "${prefix}/bin")
+  endif()
+endforeach()
+install(CODE "set(DEP_DIRS \"${DEP_DIRS}\")")
 install(CODE "set(BINDIR \"${BINDIR}\")")
 install(CODE "set(BINDIR32 \"${BINDIR32}\")")
 install(CODE "set(HAVE_CRASHPAD \"${HAVE_CRASHPAD}\")")
@@ -62,9 +69,15 @@ if (WITH_SIGN)
 endif()
 
 if (HAVE_SBOM)
-  find_program(BASH_CMD bash REQUIRED)
-  install(CODE "set(BASH_CMD \"${BASH_CMD}\")")
+  if (WORKRAVE_SDK_DIR)
+    find_program(SHIP_EXECUTABLE NAMES ship HINTS "$ENV{CARGO_TARGET_DIR}/release" REQUIRED)
+  else()
+    find_program(BASH_CMD bash REQUIRED)
+  endif()
 endif()
+
+configure_file("${CMAKE_SOURCE_DIR}/cmake/win32/GenerateSBOM.cmake.in"
+               "${CMAKE_CURRENT_BINARY_DIR}/GenerateSBOM.cmake" @ONLY)
 
 if (MSVC)
   install(CODE "set(MSVC ${MSVC})")
@@ -76,7 +89,7 @@ endif()
 
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/InstallDependencies.cmake")
 install(SCRIPT "${CMAKE_SOURCE_DIR}/cmake/modules/SignBinaries.cmake")
-install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/GenerateSBOM.cmake")
+install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/GenerateSBOM.cmake" COMPONENT SBOM EXCLUDE_FROM_ALL)
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
 
 string(REPLACE "/" "\\" INSTALL_WIN_PATH "${CMAKE_INSTALL_PREFIX}")
@@ -87,7 +100,7 @@ configure_file(
   @ONLY
 )
 
-set(INSTALLER_NAME "workrave-qt-installer")
+set(INSTALLER_NAME "workrave-next-installer")
 set(INSTALLER_TARGET "${INSTALLER_NAME}.exe")
 set(ISCC_FILENAME_FLAGS "/F${INSTALLER_NAME}")
 set(PREPARE_INNO_SETUP_COMMAND
@@ -125,8 +138,8 @@ add_custom_command(OUTPUT ${INSTALLER_TARGET}
 
 add_custom_target(installer DEPENDS ${INSTALLER_TARGET})
 
-set(PORTABLE_NAME "WorkraveQt")
-set(PORTABLE_ZIP "${CMAKE_INSTALL_PREFIX}/workrave-qt-portable.zip")
+set(PORTABLE_NAME "WorkraveNext")
+set(PORTABLE_ZIP "${CMAKE_INSTALL_PREFIX}/workrave-next-portable.zip")
 
 add_custom_command(OUTPUT "${PORTABLE_ZIP}"
                    COMMAND "${CMAKE_COMMAND}"

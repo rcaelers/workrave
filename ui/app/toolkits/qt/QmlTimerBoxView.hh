@@ -17,6 +17,7 @@
 #ifndef QMLTIMERBOXVIEW_HH
 #define QMLTIMERBOXVIEW_HH
 
+#ifndef Q_MOC_RUN
 #include <array>
 #include <memory>
 #include <QObject>
@@ -29,6 +30,7 @@
 #include "ui/UiTypes.hh"
 #include "ui/GUIConfig.hh"
 #include "utils/Signals.hh"
+#endif
 
 // Per-timer data snapshot kept in the bridge.
 struct TimerData

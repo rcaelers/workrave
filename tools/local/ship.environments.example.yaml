@@ -1,0 +1,39 @@
+# Include this file from ship.yaml, then adjust the SSH destination.
+# No lifecycle commands are needed for an already running Windows machine.
+execution:
+  windows:
+    ssh: windows-builder
+    docker: docker.exe
+    start: ''
+    stop: ''
+
+# Optional examples: select with --profile incus or --profile proxmox.
+# The start command runs on the machine running Ship and must return with
+# Windows SSH ready. Stop is opt-in: leave it empty for a shared VM.
+profiles:
+  incus:
+    execution:
+      windows:
+        start: |
+          ssh hypervisor 'test "$(incus list build-vm -c s --format csv)" = RUNNING || incus start build-vm'
+          for attempt in $(seq 1 90); do
+            ssh -o BatchMode=yes -o ConnectTimeout=2 windows-builder exit && exit 0
+            sleep 2
+          done
+          exit 1
+        # stop: ssh hypervisor incus stop build-vm
+  proxmox:
+    execution:
+      windows:
+        start: |
+          ssh hypervisor 'test "$(qm status 100)" = "status: running" || qm start 100'
+          for attempt in $(seq 1 90); do
+            ssh -o BatchMode=yes -o ConnectTimeout=2 windows-builder exit && exit 0
+            sleep 2
+          done
+          exit 1
+        # stop: ssh hypervisor qm shutdown 100
+  local-windows:
+    execution:
+      windows:
+        ssh: ''

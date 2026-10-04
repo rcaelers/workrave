@@ -17,6 +17,7 @@
 #ifndef QMLDAILYLIMITWINDOW_HH
 #define QMLDAILYLIMITWINDOW_HH
 
+#ifndef Q_MOC_RUN
 #include <functional>
 #include <memory>
 #include <QObject>
@@ -29,9 +30,12 @@
 #include "ui/UiTypes.hh"
 #include "ui/IApplicationContext.hh"
 #include "utils/Signals.hh"
+#endif
 
 #if defined(HAVE_WAYLAND)
+#ifndef Q_MOC_RUN
 #  include "WaylandWindowManager.hh"
+#endif
 #endif
 
 // Data bridge exposed to DailyLimitOverlay.qml as "bridge" context property.

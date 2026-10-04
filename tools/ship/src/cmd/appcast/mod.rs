@@ -9,6 +9,9 @@ use crate::services::appcast::{run_appcast, AppcastOptions};
 
 #[derive(clap::Args, Debug)]
 pub struct AppcastCommand {
+    /// Limit installers to this edition (gtk3 or qt).
+    #[arg(long, value_parser = ["gtk3", "qt"])]
+    edition: Option<String>,
     #[arg(short = 'b', long, default_value = "v1.12")]
     branch: String,
     #[arg(short = 'B', long, default_value = "snapshots")]
@@ -39,6 +42,7 @@ pub struct AppcastCommand {
 
 pub async fn run(a: AppcastCommand) -> Result<()> {
     run_appcast(AppcastOptions {
+        edition: a.edition,
         branch: a.branch,
         bucket: a.bucket,
         environment: a.environment,
@@ -61,6 +65,7 @@ mod tests {
     #[tokio::test]
     async fn errors_propagate() {
         let args = AppcastCommand {
+            edition: None,
             branch: "v1.12".to_string(),
             bucket: "snapshots".to_string(),
             environment: String::new(),

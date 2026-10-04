@@ -78,7 +78,10 @@ if(MINGW OR VCPKG_TOOLCHAIN)
   install (DIRECTORY ${SYS_ROOT}/etc/gtk-3.0 DESTINATION etc)
   install (DIRECTORY ${SYS_ROOT}/lib/gdk-pixbuf-2.0/2.10.0 DESTINATION lib/gdk-pixbuf-2.0/ FILES_MATCHING PATTERN "*.dll" PATTERN "*.cache")
 
-  install (DIRECTORY ${SYS_ROOT}/lib/pango/1.8.0/modules DESTINATION lib/pango/1.8.0/modules FILES_MATCHING PATTERN "*.dll")
+  # Current Pango builds no longer ship the old dynamically loaded modules.
+  if (EXISTS "${SYS_ROOT}/lib/pango/1.8.0/modules")
+    install (DIRECTORY ${SYS_ROOT}/lib/pango/1.8.0/modules DESTINATION lib/pango/1.8.0/modules FILES_MATCHING PATTERN "*.dll")
+  endif()
   install (DIRECTORY ${SYS_ROOT}/etc/fonts DESTINATION etc)
   install (DIRECTORY ${SYS_ROOT}/share/glib-2.0/schemas/ DESTINATION share/glib-2.0/schemas/ FILES_MATCHING PATTERN "org.gtk*.xml")
   install (FILES ${SYS_ROOT}/share/glib-2.0/schemas/gschema.dtd DESTINATION share/glib-2.0/schemas/)
@@ -119,11 +122,12 @@ endif()
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/settings.ini DESTINATION etc/gtk-3.0)
 
 install(CODE "set(SYS_ROOT ${SYS_ROOT})")
+install(CODE "set(STRICT_WINDOWS_DEPENDENCIES ON)")
 install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)")
 install(CODE "set(BINARY_DIR \"${CMAKE_BINARY_DIR}\")")
 install(CODE "set(DIST_PATH \"${CMAKE_CURRENT_BINARY_DIR}\")")
 install(CODE "set(INSTALL_PATH \"${CMAKE_INSTALL_PREFIX}\")")
-install(CODE "set(DEP_DIRS \"${SYS_ROOT}/bin;${spdlog_BINARY_DIR};${CMAKE_INSTALL_PREFIX}/bin\")")
+install(CODE "set(DEP_DIRS \"${CMAKE_INSTALL_PREFIX}/bin;${CMAKE_BINARY_DIR}/bin;${SYS_ROOT}/bin;${spdlog_BINARY_DIR}\")")
 install(CODE "set(BINDIR \"${BINDIR}\")")
 install(CODE "set(BINDIR32 \"${BINDIR32}\")")
 install(CODE "set(HAVE_CRASHPAD \"${HAVE_CRASHPAD}\")")
@@ -138,8 +142,10 @@ endif()
 
 if (HAVE_SBOM)
   find_program(BASH_CMD bash REQUIRED)
-  install(CODE "set(BASH_CMD \"${BASH_CMD}\")")
 endif()
+
+configure_file("${CMAKE_SOURCE_DIR}/cmake/win32/GenerateSBOM.cmake.in"
+               "${CMAKE_CURRENT_BINARY_DIR}/GenerateSBOM.cmake" @ONLY)
 
 if (MSVC)
   install(CODE "set(MSVC ${MSVC})")
@@ -151,7 +157,7 @@ endif()
 
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/InstallDependencies.cmake")
 install(SCRIPT "${CMAKE_SOURCE_DIR}/cmake/modules/SignBinaries.cmake")
-install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/GenerateSBOM.cmake")
+install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/GenerateSBOM.cmake" COMPONENT SBOM EXCLUDE_FROM_ALL)
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
 
 string(REPLACE "/" "\\" INSTALL_WIN_PATH "${CMAKE_INSTALL_PREFIX}")
@@ -207,15 +213,7 @@ add_custom_command(OUTPUT "${PORTABLE_ZIP}"
 
 add_custom_target(portable DEPENDS "${PORTABLE_ZIP}")
 
-if (CMAKE_CROSSCOMPILING)
-  ExternalProject_Add(Zapper32Bit
-    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src
-    BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/.32
-    CMAKE_CACHE_ARGS
-      -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_SOURCE_DIR}/cmake/toolchains/mingw32-gcc.cmake
-      -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
-  )
-elseif (MSVC)
+if (MSVC)
   ExternalProject_Add(Zapper32Bit
     SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src
     BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/.32

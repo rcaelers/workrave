@@ -1,0 +1,161 @@
+# Execution environments for the release workflow.
+# Machine access and optional VM lifecycle commands come from ship configuration.
+
+environments:
+  # Linux builds run in the workrave-build images; with a remote podman the
+  # mounted directories are mirrored there first (sync).
+  ubuntu:
+    type: container
+    engine: "{{ config.container.engine }}"
+    sync: "{{ config.container.sync }}"
+    remote-dir: "{{ config.container.remote_dir }}"
+    image: "{{ config.container.image_repository }}:{{ config.linux.image }}"
+    # The image tags exist for amd64 and arm64. Use the container host's
+    # native architecture unless a job explicitly selects another one.
+    platform: "{{ config.container.platform }}"
+    mounts: &linux-mounts
+      "{{ vars.source }}": /workspace/source
+      "{{ vars.deploy }}": /workspace/deploy
+      "{{ vars.scripts }}": /workspace/scripts
+    env: &linux-env
+      WORKRAVE_ENV: local
+      # The scripts build.sh calls (artifact.sh, sbom.sh, ...) come from the
+      # mounted dev checkout too, not from tools/ in the source tree at the
+      # released commit (config.sh's default).
+      SCRIPTS_DIR: /workspace/scripts
+      CONF_CONFIGURATION: Release
+      DOCKER_IMAGE: "{{ config.linux.image }}"
+      WORKRAVE_OVERRIDE_GIT_VERSION: "{{ options.version }}"
+      WORKRAVE_RELEASE_TAG: "{{ version.release_tag }}"
+
+  appimage:
+    type: container
+    engine: "{{ config.container.engine }}"
+    sync: "{{ config.container.sync }}"
+    remote-dir: "{{ config.container.remote_dir }}"
+    mounts: *linux-mounts
+    env: *linux-env
+    # ARM64 on amd64 uses a native cross-compiler. On an ARM64 host keep
+    # the native ARM64 image; the x86_64 build uses the regular amd64 image.
+    image: "{{ config.container.image_repository }}:{{ config.linux.cross_image | default('ubuntu-cross-aarch64') if matrix.arch == 'aarch64' and config.container.platform == 'linux/amd64' else config.linux.image }}"
+    platform: "{{ 'linux/amd64' if matrix.arch == 'x86_64' or config.container.platform == 'linux/amd64' else 'linux/arm64' }}"
+
+  pbuilder:
+    type: container
+    engine: "{{ config.container.engine }}"
+    sync: "{{ config.container.sync }}"
+    remote-dir: "{{ config.container.remote_dir }}"
+    image: "{{ config.container.image_repository }}:ubuntu-pbuilder"
+    platform: "{{ config.container.platform }}"
+    options:
+      - --privileged
+    mounts:
+      "{{ vars.deploy }}": /workspace/deploy
+      "{{ vars.scripts }}": /workspace/scripts
+
+  windows-qt-dependencies:
+    type: container
+    engine: "{{ config.container.engine }}"
+    sync: "{{ config.container.sync }}"
+    remote-dir: "{{ config.container.remote_dir }}"
+    image: "{{ config.windows.dependencies_image | default('ghcr.io/rcaelers/workrave-build:llvm-mingw') }}"
+    platform: linux/amd64
+    options:
+      - "--volume={{ config.windows.conan_cache | default('workrave-conan') }}:/cache"
+    mounts:
+      "{{ vars.windows_dependencies }}": /workspace/dependencies
+      "{{ vars.scripts }}": /workspace/scripts
+      "{{ config.workspace_dir }}/windows-qt-sdk": /workspace/sdk
+
+  # Both editions use native CMake commands. GTK gets MSYS2's CLANG64
+  # compiler and libraries; Qt gets the llvm-mingw/Conan SDK.
+  windows-gtk:
+    type: windows-container
+    ssh: "{{ ((config.execution | default({})).windows | default({})).ssh | default('') }}"
+    start: "{{ ((config.execution | default({})).windows | default({})).start | default('') }}"
+    stop: "{{ ((config.execution | default({})).windows | default({})).stop | default('') }}"
+    engine: "{{ ((config.execution | default({})).windows | default({})).docker | default('docker.exe') }}"
+    shell: powershell
+    image: "{{ config.windows.image | default('workrave-build:windows-msys2') }}"
+    image-context: "{{ vars.windows_containers }}/windows-msys2"
+    options:
+      - --volume=workrave-ship-target:C:/cache/target
+      - --volume=workrave-cargo:C:/cache/cargo
+    init: |
+      $env:PATH = 'C:/msys64/clang64/bin;C:/msys64/usr/bin;' + $env:PATH
+    env:
+      WORKRAVE_BUILD_JOBS: "{{ config.windows.jobs | default(16) }}"
+      WORKRAVE_BUILD_DATE: "{{ today('%Y%m%d') }}"
+      WORKRAVE_BUILD_DATETIME: "{{ today('%Y-%m-%dT%H:%M:%S%:z') }}"
+      WORKRAVE_BUILD_ID: "{{ vars.build_id }}"
+      WORKRAVE_GIT_VERSION: "{{ version.git_version }}"
+      SIGNING_SERVICE_URL: "{{ config.signing_service_url }}"
+      SOURCES_DIR: C:/workspace/source
+      SCRIPTS_DIR: C:/workspace/scripts
+      GIT_CONFIG_GLOBAL: C:/workspace/gitconfig
+      XDG_CONFIG_HOME: C:/workspace/config
+      CARGO_HOME: C:/cache/cargo
+      CARGO_TARGET_DIR: C:/cache/target
+      MINGW_ROOT: C:/msys64/clang64
+      MSYSTEM: CLANG64
+    copy:
+      "{{ vars.source }}": C:/workspace/source
+      "{{ vars.scripts }}": C:/workspace/scripts
+    collect:
+      C:/workspace/source/_deploy: "{{ vars.source }}/_deploy"
+      C:/workspace/source/_output: "{{ vars.source }}/_output"
+      "C:/workspace/source/_build/{{ vars.windows_build_name }}/{{ matrix.configuration }}/symbols": "{{ vars.source }}/_build/{{ vars.windows_build_name }}/{{ matrix.configuration }}/symbols"
+
+  windows-qt:
+    type: windows-container
+    ssh: "{{ ((config.execution | default({})).windows | default({})).ssh | default('') }}"
+    start: "{{ ((config.execution | default({})).windows | default({})).start | default('') }}"
+    stop: "{{ ((config.execution | default({})).windows | default({})).stop | default('') }}"
+    engine: "{{ ((config.execution | default({})).windows | default({})).docker | default('docker.exe') }}"
+    shell: powershell
+    image: "{{ config.windows.qt_image | default('workrave-build:windows-conan') }}"
+    image-context: "{{ vars.windows_containers }}/windows-conan"
+    options:
+      - --volume=workrave-ship-target:C:/cache/target
+      - --volume=workrave-cargo:C:/cache/cargo
+      - "--volume={{ config.windows.qt_sdk_cache | default('workrave-qt-sdk') }}:C:/cache/qt"
+    init: |
+      $sdk = $env:WORKRAVE_SDK_DIR
+      if (-not (Test-Path "$sdk/.ready")) { throw 'Run the windows-dependencies target to initialize the Qt SDK' }
+      $bins = Get-ChildItem "$sdk/packages" -Directory | ForEach-Object { "$($_.FullName)/bin" }
+      $env:PATH = ($bins -join ';') + ';' + $env:PATH
+    env:
+      WORKRAVE_BUILD_JOBS: "{{ config.windows.jobs | default(16) }}"
+      WORKRAVE_BUILD_DATE: "{{ today('%Y%m%d') }}"
+      WORKRAVE_BUILD_DATETIME: "{{ today('%Y-%m-%dT%H:%M:%S%:z') }}"
+      WORKRAVE_BUILD_ID: "{{ vars.build_id }}"
+      WORKRAVE_GIT_VERSION: "{{ version.git_version }}"
+      SIGNING_SERVICE_URL: "{{ config.signing_service_url }}"
+      SOURCES_DIR: C:/workspace/source
+      SCRIPTS_DIR: C:/workspace/scripts
+      GIT_CONFIG_GLOBAL: C:/workspace/gitconfig
+      XDG_CONFIG_HOME: C:/workspace/config
+      CARGO_HOME: C:/cache/cargo
+      CARGO_TARGET_DIR: C:/cache/target/llvm-mingw
+      WORKRAVE_SDK_DIR: "{{ vars.windows_qt_sdk_root }}"
+    copy:
+      "{{ vars.source }}": C:/workspace/source
+      "{{ vars.scripts }}": C:/workspace/scripts
+    collect:
+      C:/workspace/source/_deploy: "{{ vars.source }}/_deploy"
+      C:/workspace/source/_output: "{{ vars.source }}/_output"
+      "C:/workspace/source/_build/{{ vars.windows_build_name }}/{{ matrix.configuration }}/symbols": "{{ vars.source }}/_build/{{ vars.windows_build_name }}/{{ matrix.configuration }}/symbols"
+
+  windows-sdk:
+    type: windows-container
+    ssh: "{{ ((config.execution | default({})).windows | default({})).ssh | default('') }}"
+    start: "{{ ((config.execution | default({})).windows | default({})).start | default('') }}"
+    stop: "{{ ((config.execution | default({})).windows | default({})).stop | default('') }}"
+    engine: "{{ ((config.execution | default({})).windows | default({})).docker | default('docker.exe') }}"
+    shell: powershell
+    image: "{{ config.windows.qt_image | default('workrave-build:windows-conan') }}"
+    image-context: "{{ vars.windows_containers }}/windows-conan"
+    options:
+      - "--volume={{ config.windows.qt_sdk_cache | default('workrave-qt-sdk') }}:C:/cache/qt"
+    copy:
+      "{{ vars.windows_qt_sdk }}": C:/input/sdk.tar.gz

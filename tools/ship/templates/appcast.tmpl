@@ -9,7 +9,7 @@
 {% for entry in builds %}
 {%- set ns = namespace(valid=false) -%}
 {%- for enclosure in entry.artifacts -%}
-{%- if enclosure.platform == 'windows' and enclosure.kind == 'installer' and enclosure.configuration == 'release' -%}
+{%- if enclosure.platform == 'windows' and enclosure.kind == 'installer' and enclosure.configuration == 'release' and (not edition or enclosure.edition | default('gtk3', true) == edition) -%}
 {%- set ns.valid = true -%}
 {%- endif -%}
 {%- endfor -%}
@@ -36,7 +36,7 @@ Date: {{ commit.commit.author.timestamp | data_format_from_unix }}
             <sparkle:channel>{{ entry.channel }}</sparkle:channel>
             <pubDate>{{ entry.date | data_format('%a, %d %b %Y %I:%M:%S %z') }}</pubDate>
 {%- for enclosure in entry.artifacts %}
-{%- if enclosure.platform == 'windows' and enclosure.kind == 'installer' and enclosure.configuration == 'release' %}
+{%- if enclosure.platform == 'windows' and enclosure.kind == 'installer' and enclosure.configuration == 'release' and (not edition or enclosure.edition | default('gtk3', true) == edition) %}
 {%- if entry.channel == 'dev' or environment != '' %}
             <enclosure os="{{ enclosure.platform }}" url="https://snapshots.workrave.org/{{ enclosure.url }}" sparkle:installerArguments="/SILENT /SP- /NOICONS" sparkle:edSignature="{{ enclosure.ed25519 }}" length="{{ enclosure.size }}" type="application/octet-stream" />
 {%- else -%}

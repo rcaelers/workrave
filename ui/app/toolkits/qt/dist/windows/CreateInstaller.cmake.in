@@ -18,24 +18,11 @@ function(gp_resolved_file_type_overridexx resolved_file type_var)
   endif()
 endfunction()
 
-if (@CMAKE_CROSSCOMPILING@)
+set(APPS "${CMAKE_INSTALL_PREFIX}/bin/Workrave.exe")
+set(PLUGINS "")
+set(DIRS "@Boost_LIBRARY_DIRS@;@QT_BIN_DIR@")
 
-  set(CMAKE_OBJDUMP "@CMAKE_OBJDUMP@")
-  include(Win32ResolveDependencies)
-  resolve_dependencies("@CMAKE_CURRENT_BINARY_DIR@/../../src/Workrave.exe" dependencies resolved_dependencies "@SYS_ROOT@/bin")
-
-  foreach(dependency ${resolved_dependencies})
-    file (INSTALL ${dependency} DESTINATION "@CMAKE_INSTALL_PREFIX@/dist/lib")
-  endforeach()
-
-else()
-
-  set(APPS "${CMAKE_INSTALL_PREFIX}/bin/Workrave.exe")
-  set(PLUGINS "")
-  set(DIRS "@Boost_LIBRARY_DIRS@;@QT_BIN_DIR@")
-
-  file(GLOB_RECURSE PLUGINS "${CMAKE_INSTALL_PREFIX}/lib/plugins/*")
-  include(BundleUtilities)
-  set(BU_CHMOD_BUNDLE_ITEMS ON)
-  fixup_bundle("${APPS}"  "${PLUGINS}"  "${DIRS}")
-endif()
+file(GLOB_RECURSE PLUGINS "${CMAKE_INSTALL_PREFIX}/lib/plugins/*")
+include(BundleUtilities)
+set(BU_CHMOD_BUNDLE_ITEMS ON)
+fixup_bundle("${APPS}"  "${PLUGINS}"  "${DIRS}")

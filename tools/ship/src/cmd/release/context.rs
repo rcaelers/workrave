@@ -131,6 +131,7 @@ impl Renderer {
         env.set_undefined_behavior(UndefinedBehavior::Lenient);
         env.set_keep_trailing_newline(true);
 
+        let preview = matches!(secrets, Secrets::Placeholder);
         let cache: Arc<Mutex<HashMap<String, String>>> = Arc::new(Mutex::new(HashMap::new()));
         env.add_function("secret", move |name: String| -> Result<String, Error> {
             match &secrets {
@@ -161,6 +162,29 @@ impl Renderer {
             }
         });
         env.add_function("exists", |path: String| Path::new(&path).exists());
+        let hashes = Arc::new(Mutex::new(HashMap::<
+            String,
+            (std::time::SystemTime, u64, String),
+        >::new()));
+        env.add_function("sha256", move |path: String| -> Result<String, Error> {
+            let result = (|| -> anyhow::Result<String> {
+                let metadata = std::fs::metadata(&path)?;
+                let modified = metadata.modified()?;
+                let mut hashes = hashes.lock().unwrap();
+                if let Some((time, size, hash)) = hashes.get(&path) {
+                    if *time == modified && *size == metadata.len() {
+                        return Ok(hash.clone());
+                    }
+                }
+                let hash = crate::system::windows_container::file_hash(Path::new(&path))?;
+                hashes.insert(path, (modified, metadata.len(), hash.clone()));
+                Ok(hash)
+            })();
+            if preview && result.is_err() {
+                return Ok("<file-sha256>".into());
+            }
+            result.map_err(|e| Error::new(ErrorKind::InvalidOperation, format!("{e:#}")))
+        });
         env.add_function("glob", |pattern: String| -> Result<Vec<String>, Error> {
             glob_paths(&pattern)
                 .map_err(|e| Error::new(ErrorKind::InvalidOperation, format!("{e:#}")))

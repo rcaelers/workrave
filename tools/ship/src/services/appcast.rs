@@ -14,6 +14,7 @@ pub struct AppcastGenerator {
     catalog: Value,
     news: Option<Value>,
     environment: String,
+    edition: Option<String>,
 }
 
 impl AppcastGenerator {
@@ -22,7 +23,13 @@ impl AppcastGenerator {
             catalog,
             news,
             environment,
+            edition: None,
         }
+    }
+
+    pub fn with_edition(mut self, edition: Option<String>) -> Self {
+        self.edition = edition;
+        self
     }
 
     pub fn tag_to_version(tag: &str, increment: &str) -> String {
@@ -150,12 +157,14 @@ impl AppcastGenerator {
         let out = tmpl.render(context! {
             builds => builds_jvalue,
             environment => self.environment,
+            edition => self.edition,
         })?;
         Ok(out)
     }
 }
 
 pub struct AppcastOptions {
+    pub edition: Option<String>,
     pub branch: String,
     pub bucket: String,
     pub environment: String,
@@ -193,7 +202,8 @@ pub async fn run_appcast(opts: AppcastOptions) -> Result<()> {
 
     let _ = opts.release; // present for CLI parity; current generator ignores it.
 
-    let generator = AppcastGenerator::new(catalog, news, opts.environment.clone());
+    let generator =
+        AppcastGenerator::new(catalog, news, opts.environment.clone()).with_edition(opts.edition);
     let content = generator.generate()?;
 
     if opts.dry {
@@ -215,6 +225,36 @@ pub async fn run_appcast(opts: AppcastOptions) -> Result<()> {
 mod tests {
     use super::*;
     use serde_json::json;
+
+    #[test]
+    fn editions_never_update_to_the_other_installer() {
+        let catalog = json!({"builds": [{
+            "tag": "v1_12_0", "increment": "0", "channel": "stable",
+            "date": "2026-10-03T12:00:00Z", "notes": "Two editions", "commits": [],
+            "artifacts": [
+                {"platform": "windows", "kind": "installer", "configuration": "release",
+                 "edition": "gtk3", "filename": "classic.exe", "url": "classic.exe", "ed25519": "a", "size": 1},
+                {"platform": "windows", "kind": "installer", "configuration": "release",
+                 "edition": "qt", "filename": "qt.exe", "url": "qt.exe", "ed25519": "b", "size": 2},
+                {"platform": "windows", "kind": "installer", "configuration": "release",
+                 "filename": "legacy.exe", "url": "legacy.exe", "ed25519": "c", "size": 3}
+            ]
+        }]});
+        for (edition, expected, excluded) in [
+            ("gtk3", "classic.exe", "qt.exe"),
+            ("qt", "qt.exe", "classic.exe"),
+        ] {
+            let output = AppcastGenerator::new(catalog.clone(), None, String::new())
+                .with_edition(Some(edition.to_string()))
+                .generate()
+                .unwrap();
+            assert!(output.contains(expected));
+            assert!(!output.contains(excluded));
+            assert_eq!(output.contains("legacy.exe"), edition == "gtk3");
+            assert!(output.contains("<title>Workrave</title>"));
+            assert!(output.contains("<title>Workrave 1.12.0</title>"));
+        }
+    }
 
     #[test]
     fn renders_appcast_fixture_like_typescript_template() {

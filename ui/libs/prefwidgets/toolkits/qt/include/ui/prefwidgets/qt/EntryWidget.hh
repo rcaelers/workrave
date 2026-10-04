@@ -18,12 +18,14 @@
 #ifndef WORKRAVE_UI_PREFWIDGETS_QT_ENTRYWIDGET_HH
 #define WORKRAVE_UI_PREFWIDGETS_QT_ENTRYWIDGET_HH
 
+#ifndef Q_MOC_RUN
 #include <memory>
 
 #include <QLineEdit>
 
 #include "ui/prefwidgets/Entry.hh"
 #include "ContainerWidget.hh"
+#endif
 
 namespace ui::prefwidgets::qt
 {

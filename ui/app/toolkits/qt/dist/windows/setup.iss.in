@@ -20,18 +20,18 @@
 ;
 
 [Setup]
-AppId=WorkraveQt
-AppName=WorkraveQt
+AppId=WorkraveNext
+AppName=WorkraveNext
 AppVersion=@WORKRAVE_VERSION@
-AppVerName=WorkraveQt @WORKRAVE_VERSION@
+AppVerName=WorkraveNext @WORKRAVE_VERSION@
 AppPublisher=Rob Caelers & Raymond Penners
 AppPublisherURL=https://www.workrave.org
 AppSupportURL=https://www.workrave.org
 AppUpdatesURL=https://www.workrave.org
-DefaultDirName={autopf}\WorkraveQt
-DefaultGroupName=Workrave
+DefaultDirName={autopf}\WorkraveNext
+DefaultGroupName=WorkraveNext
 LicenseFile=@INSTALL_WIN_PATH@\COPYING.txt
-AppMutex=WorkraveQtMutex
+AppMutex=WorkraveMutex
 WizardImageFile=@INSTALL_WIN_PATH@\dist\WizModernImage.bmp
 WizardSmallImageFile=@INSTALL_WIN_PATH@\dist\WizModernSmall.bmp
 PrivilegesRequired=lowest
@@ -46,14 +46,15 @@ SignedUninstaller=yes
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional tasks:"
-Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDescription: "Additional tasks:"
+Name: "startupmenu"; Description: "Start WorkraveNext when Windows starts"; GroupDescription: "Additional tasks:"
 Name: "autoupdate"; Description: "Automatically check for updates"; GroupDescription: "Additional tasks:"
 
 [Files]
 ;TODO;Source: "@INSTALL_WIN_PATH@\bin\harpoon64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
-Source: "@INSTALL_WIN_PATH@\bin\workrave.exe"; DestDir: "{app}\bin"; DestName: "WorkraveQt.exe"; Flags: ignoreversion;
+Source: "@INSTALL_WIN_PATH@\bin\workrave.exe"; DestDir: "{app}\bin"; DestName: "WorkraveNext.exe"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\bin\qt.conf"; DestDir: "{app}\bin"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\lib\plugins\*.*"; DestDir: "{app}\lib\plugins"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+Source: "@INSTALL_WIN_PATH@\qml\*.*"; DestDir: "{app}\qml"; Flags: ignoreversion recursesubdirs;
 Source: "@INSTALL_WIN_PATH@\share\*.*"; DestDir: "{app}\share"; Flags: ignoreversion recursesubdirs;
 Source: "@INSTALL_WIN_PATH@\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; Flags: ignoreversion;
@@ -63,65 +64,23 @@ Source: "@INSTALL_WIN_PATH@\README.txt"; DestDir: "{app}"; DestName: "README.txt
 #include "libraries.iss"
 
 [Registry]
-Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "WorkraveQt"; ValueData: "{app}\bin\WorkraveQt.exe"; Flags: uninsdeletevalue; Tasks: startupmenu
+Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Workrave"; ValueData: """{app}\bin\WorkraveNext.exe"""; Tasks: startupmenu
 
 [Icons]
-Name: "{group}\WorkraveQt"; Filename: "{app}\bin\WorkraveQt.exe"
+Name: "{group}\WorkraveNext"; Filename: "{app}\bin\WorkraveNext.exe"
 Name: "{group}\News"; Filename: "{app}\NEWS.txt"
 Name: "{group}\Read me"; Filename: "{app}\README.txt"
 Name: "{group}\License"; Filename: "{app}\COPYING.txt"
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\WorkraveQt"; Filename: "{app}\bin\WorkraveQt.exe"; MinVersion: 4,4; Tasks: desktopicon
-Name: "{app}\WorkraveQt"; Filename: "{app}\bin\WorkraveQt.exe"
+Name: "{autodesktop}\WorkraveNext"; Filename: "{app}\bin\WorkraveNext.exe"; MinVersion: 4,4; Tasks: desktopicon
+Name: "{app}\WorkraveNext"; Filename: "{app}\bin\WorkraveNext.exe"
 
 [Run]
-Filename: "{app}\bin\WorkraveQt.exe"; Description: "Launch WorkraveQt"; Flags: nowait postinstall shellexec;
-
-[InstallDelete]
-Type: files; Name: "{autostartup}\WorkraveQt.lnk"
-Type: files; Name: "{app}\share\sounds\*.wav"
+Filename: "{app}\bin\WorkraveNext.exe"; Description: "Launch WorkraveNext"; Flags: nowait postinstall shellexec;
 
 [Code]
 Var
   taskPageShown: boolean;
-
-function GetInstallLocation(): String; forward;
-function GetLegacyInstallLocation(): String; forward;
-
-function ShouldUninstall(): Boolean;
-var
-  versionMS, versionLS: Cardinal;
-  major, minor: Integer;
-  executableNames: array[0..1] of String;
-  i: Integer;
-  executablePath: String;
-  installLocation: String;
-begin
-  executableNames[0] := 'WorkraveQt.exe';
-  executableNames[1] := 'workrave.exe';
-  installLocation := GetLegacyInstallLocation();
-
-  if installLocation <> '' then
-  begin
-    for i := 0 to High(executableNames) do
-    begin
-      executablePath := ExpandConstant(AddBackslash(installLocation) + 'bin\' + executableNames[i]);
-      if FileExists(executablePath) and GetVersionNumbers(executablePath, versionMS, versionLS) then
-      begin
-        major := versionMS shr 16;
-        minor := versionMS and $FFFF;
-
-        if (major < 1) or ((major = 1) and (minor < 11)) then
-          Result := True
-        else
-          Result := False;
-        Exit;
-      end;
-    end;
-  end;
-
-  Result := False;
-end;
 
 procedure InitializeWizard();
 begin
@@ -141,16 +100,6 @@ Function InitializeSetup() : Boolean;
 begin
     taskPageShown := False;
     Result := True;
-end;
-
-function GetAppPath(S: String): String;
-begin
-  Result := WizardDirValue + '\bin';
-end;
-
-function IsX64: Boolean;
-begin
-  Result := (ProcessorArchitecture = paX64);
 end;
 
 Procedure UpdateAutoInstallTask();
@@ -191,66 +140,6 @@ begin
 #endif
 end;
 
-function GetInstallLocation(): String;
-var
-  uninstallPath: String;
-  installLocation: String;
-begin
-  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\WorkraveQt_is1');
-  installLocation := '';
-
-  if not RegQueryStringValue(HKLM, uninstallPath, 'InstallLocation', installLocation) then
-    if not RegQueryStringValue(HKLM32, uninstallPath, 'InstallLocation', installLocation) then
-      if not RegQueryStringValue(HKCU, uninstallPath, 'InstallLocation', installLocation) then
-        RegQueryStringValue(HKCU32, uninstallPath, 'InstallLocation', installLocation);
-  Result := installLocation;
-end;
-
-// Workrave 1.11 and up is always installed in 64-bit (native) mode, so any
-// pre-1.11 install can only be registered in the 32-bit registry view. Unlike
-// GetInstallLocation (which is used to find whichever Workrave is currently
-// installed/running), these must not fall back to the native view: on a
-// machine that already has 1.11+ installed, that fallback would just find
-// the current install again and hide a leftover legacy one.
-function GetLegacyUninstallCommand(): String;
-var
-  uninstallPath: String;
-  uninstallCommand: String;
-begin
-  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
-  uninstallCommand := '';
-
-  if not RegQueryStringValue(HKLM32, uninstallPath, 'UninstallString', uninstallCommand) then
-    RegQueryStringValue(HKCU32, uninstallPath, 'UninstallString', uninstallCommand);
-  Result := uninstallCommand;
-end;
-
-function GetLegacyInstallLocation(): String;
-var
-  uninstallPath: String;
-  installLocation: String;
-begin
-  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
-  installLocation := '';
-
-  if not RegQueryStringValue(HKLM32, uninstallPath, 'InstallLocation', installLocation) then
-    RegQueryStringValue(HKCU32, uninstallPath, 'InstallLocation', installLocation);
-  Result := installLocation;
-end;
-
-Procedure UninstallPreviousVersion();
-var
-  uninstallCommand: String;
-  iResultCode: Integer;
-begin
-  uninstallCommand := GetLegacyUninstallCommand();
-
-  if uninstallCommand <> '' then begin
-    uninstallCommand := RemoveQuotes(uninstallCommand);
-    Exec(uninstallCommand, '/VERYSILENT /NORESTART /SUPPRESSMSGBOXES','', SW_HIDE, ewWaitUntilTerminated, iResultCode);
-  end
-end;
-
 Procedure CurPageChanged(CurPageID: Integer);
 begin
   if (CurPageID = wpSelectTasks) and not taskPageShown then
@@ -263,16 +152,20 @@ end;
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
   case CurStep of
-    ssInstall:
-      begin
-         if ShouldUninstall() then
-         begin
-           UninstallPreviousVersion();
-         end;
-      end;
     ssDone:
       begin
         UpdateAutoInstallSetting();
       end
   end;
+end;
+
+// The editions share one startup selection. Only remove our own entry.
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+var
+  command: String;
+begin
+  if CurUninstallStep = usUninstall then
+    if RegQueryStringValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Run', 'Workrave', command) then
+      if CompareText(command, '"' + ExpandConstant('{app}\bin\WorkraveNext.exe') + '"') = 0 then
+        RegDeleteValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Run', 'Workrave');
 end;

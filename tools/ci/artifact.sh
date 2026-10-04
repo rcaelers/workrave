@@ -42,6 +42,14 @@ if [ ! -f $CATALOG_NAME ]; then
 ' >$CATALOG_NAME
 fi
 
+export EDITION=
+if [ "$PLATFORM" = windows ]; then
+    EDITION=gtk3
+    if [ "${CONF_UI:-}" = Qt ]; then
+        EDITION=qt
+    fi
+fi
+
 export SIZE=$(stat --printf="%s" ${DEPLOY_DIR}/$FILENAME)
 export SHA256=$(sha256sum ${DEPLOY_DIR}/$FILENAME | cut -d' ' -f1)
 export SHA512=$(sha512sum ${DEPLOY_DIR}/$FILENAME | cut -d' ' -f1)
@@ -60,6 +68,7 @@ cat $CATALOG_NAME | jq '.builds[-1].artifacts +=
             "lastmod": env.LASTMOD,
             "filename": env.FILENAME,
             "platform": env.PLATFORM,
+            "edition": env.EDITION,
             "kind": env.KIND,
             "configuration": env.CONFIG
         }

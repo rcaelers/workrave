@@ -22,6 +22,8 @@ if (NOT MSVC)
   endif()
 
   file(GLOB_RECURSE PLUGINS "${INSTALL_PATH}/lib/plugins/*.dll")
+  file(GLOB_RECURSE QML_PLUGINS "${INSTALL_PATH}/qml/*.dll")
+  list(APPEND PLUGINS ${QML_PLUGINS})
   foreach(plugin ${PLUGINS})
     resolve_dependencies("${plugin}" dependencies resolved_dependencies "${DEP_DIRS}")
   endforeach()

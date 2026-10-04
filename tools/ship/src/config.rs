@@ -39,10 +39,10 @@ impl Config {
                 anyhow!("cannot determine the home directory for the config file")
             })?,
         };
-        let raw = std::fs::read_to_string(&path)
-            .with_context(|| format!("reading config file {}", path.display()))?;
         tracing::info!("Using config file {}", path.display());
-        Config::parse(&raw, profile).with_context(|| format!("in config file {}", path.display()))
+        let value = load_includes(&path, &mut Vec::new())?;
+        Config::parse(&serde_yaml::to_string(&value)?, profile)
+            .with_context(|| format!("in config file {}", path.display()))
     }
 
     pub fn parse(raw: &str, profile: Option<&str>) -> Result<Config> {
@@ -93,6 +93,43 @@ impl Config {
             .filter(|s| !s.is_empty())
             .ok_or_else(|| anyhow!("signing_service_url is not set in the config file"))
     }
+}
+
+/// Environment-specific settings can live beside the main configuration.
+/// Includes are relative to their containing file; the containing file wins.
+fn load_includes(path: &Path, stack: &mut Vec<PathBuf>) -> Result<Value> {
+    let path = path
+        .canonicalize()
+        .with_context(|| format!("reading config file {}", path.display()))?;
+    if stack.contains(&path) {
+        bail!("configuration include cycle at {}", path.display());
+    }
+    stack.push(path.clone());
+    let raw = std::fs::read_to_string(&path)?;
+    let mut value: Value = serde_yaml::from_str(&raw)?;
+    if value.is_null() {
+        value = Value::Mapping(Default::default());
+    }
+    let map = value
+        .as_mapping_mut()
+        .ok_or_else(|| anyhow!("configuration {} must be a mapping", path.display()))?;
+    let includes = map.remove(Value::String("include".into()));
+    let files: Vec<String> = match includes {
+        None => Vec::new(),
+        Some(Value::String(file)) => vec![file],
+        Some(value) => serde_yaml::from_value(value)
+            .context("include must be a filename or list of filenames")?,
+    };
+    let mut base = Value::Mapping(Default::default());
+    for file in files {
+        let mut file = Value::String(file);
+        expand_tilde(&mut file, home_dir().as_deref());
+        let included = path.parent().unwrap().join(file.as_str().unwrap());
+        merge(&mut base, load_includes(&included, stack)?);
+    }
+    merge(&mut base, value);
+    stack.pop();
+    Ok(base)
 }
 
 fn home_dir() -> Option<PathBuf> {

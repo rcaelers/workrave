@@ -124,6 +124,11 @@ acquire_single_instance()
   static HANDLE mtx = nullptr;
 
   mtx = CreateMutexA(nullptr, FALSE, "WorkraveMutex");
+  if (mtx == nullptr)
+    {
+      // Never run a second state writer when the shared instance lock fails.
+      return false;
+    }
   if (mtx != nullptr && GetLastError() == ERROR_ALREADY_EXISTS)
     {
       Remote remote;

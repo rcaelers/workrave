@@ -38,7 +38,6 @@
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
-#  define RUNKEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 #endif
 
 using namespace workrave;
@@ -196,8 +195,7 @@ GeneralPreferencePanel::create_panel()
       connector->connect(GUIConfig::autostart_enabled(), dc::wrap(autostart_cb));
 
 #if defined(PLATFORM_OS_WINDOWS)
-      auto value = Platform::registry_get_value(RUNKEY, "Workrave");
-      autostart_cb->set_active(value.has_value());
+      autostart_cb->set_active(Platform::autostart_enabled());
 #endif
     }
 
@@ -376,16 +374,7 @@ GeneralPreferencePanel::on_autostart_toggled()
 #if defined(PLATFORM_OS_WINDOWS)
   bool on = autostart_cb->get_active();
 
-  if (on)
-    {
-      auto exe = Paths::get_application_directory() / "bin" / "workrave.exe";
-
-      Platform::registry_set_value(RUNKEY, "Workrave", exe.string().c_str());
-    }
-  else
-    {
-      Platform::registry_set_value(RUNKEY, "Workrave", nullptr);
-    }
+  Platform::set_autostart_enabled(on);
 #endif
 }
 

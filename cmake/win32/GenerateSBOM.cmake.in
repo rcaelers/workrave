@@ -1,0 +1,33 @@
+# Installed explicitly with --component SBOM by the release workflow.
+if (NOT "@HAVE_SBOM@")
+  return()
+endif()
+
+if (NOT "@WORKRAVE_SDK_DIR@" STREQUAL "")
+  execute_process(
+    COMMAND "@SHIP_EXECUTABLE@" sbom
+            --sdk "@WORKRAVE_SDK_DIR@"
+            --external "@CMAKE_BINARY_DIR@/external-sbom.csv"
+            --source "@CMAKE_SOURCE_DIR@"
+            --output "${CMAKE_INSTALL_PREFIX}"
+    RESULT_VARIABLE sbom_result)
+else()
+  set(sbom_script "$ENV{SCRIPTS_DIR}/local/sbom.sh")
+  if (NOT EXISTS "${sbom_script}")
+    set(sbom_script "@CMAKE_SOURCE_DIR@/tools/local/sbom.sh")
+  endif()
+  if (NOT "@SHIP_EXECUTABLE@" STREQUAL "")
+    set(ENV{SHIP} "@SHIP_EXECUTABLE@")
+  endif()
+  execute_process(
+    COMMAND "@CMAKE_COMMAND@" -E env
+            "BUILD_DIR=@CMAKE_BINARY_DIR@"
+            "OUTPUT_DIR=${CMAKE_INSTALL_PREFIX}"
+            "SOURCES_DIR=@CMAKE_SOURCE_DIR@"
+            "@BASH_CMD@" "${sbom_script}"
+    RESULT_VARIABLE sbom_result)
+endif()
+
+if (NOT sbom_result EQUAL 0)
+  message(FATAL_ERROR "SBOM generation failed with exit code ${sbom_result}")
+endif()

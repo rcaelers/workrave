@@ -1,9 +1,9 @@
 #!/bin/bash -ex
 
-set -x
+set -exo pipefail
 
 if [[ ! $DOCKER_IMAGE =~ "windows" ]]; then
-    git config --global --add safe.directory /workspace/source
+    git config --global --add safe.directory "${SOURCES_DIR:-/workspace/source}"
 fi
 
 BASEDIR=$(dirname "$0")
@@ -41,7 +41,7 @@ build() {
         fi
     fi
 
-    ninja "${MAKE_FLAGS[@]}"
+    ninja -j "${WORKRAVE_BUILD_JOBS:-8}" "${MAKE_FLAGS[@]}"
 
     if [ -n "${CONF_APPIMAGE}" ]; then
         # Use the compiler toolchain's strip, including when cross compiling.
@@ -50,7 +50,7 @@ build() {
         ninja "${MAKE_FLAGS[@]}" install
     fi
 
-    ctest
+    ctest --output-on-failure
 }
 
 parse_arguments() {
@@ -119,29 +119,21 @@ fi
 
 if [ -n "${CONF_TOOLCHAIN_FILE}" ]; then
     CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${CONF_TOOLCHAIN_FILE}")
-elif [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~ "-msys2" ]]; then
+elif [[ $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~ "-msys2" ]]; then
     OUT_DIR=""
 
     MSYSTEM="CLANG64"
-    CONF_SYSTEM=mingw64
+    TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/msys2.cmake
+    echo Building on MSYS2
 
-    if [[ $WORKRAVE_ENV =~ "-msys2" || $WORKRAVE_ENV == "docker-windows-msys2" ]]; then
-        TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/msys2.cmake
-        echo Building on MSYS2
-
-        if [[ -n "$DOSIGN" ]]; then
-            # Signing is done by `ship sign`; SHIP is set by build_ship in ci/ship.sh.
-            if [[ ! -x "${SHIP:-}" ]]; then
-                echo "DOSIGN is set but SHIP does not point to the ship binary" 1>&2
-                exit 1
-            fi
-            CMAKE_FLAGS+=("-DWITH_SIGN=ON")
-            CMAKE_FLAGS+=("-DWITH_SIGN_TOOL=${SHIP}")
+    if [[ -n "$DOSIGN" ]]; then
+        # Signing is done by `ship sign`; SHIP is set by build_ship in ci/ship.sh.
+        if [[ ! -x "${SHIP:-}" ]]; then
+            echo "DOSIGN is set but SHIP does not point to the ship binary" 1>&2
+            exit 1
         fi
-    else
-        TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/${CONF_SYSTEM}-${CONF_COMPILER}.cmake
-        echo Building on Linux cross compile environment
-        CMAKE_FLAGS+=("-DISCC=/workspace/inno/app/ISCC.exe")
+        CMAKE_FLAGS+=("-DWITH_SIGN=ON")
+        CMAKE_FLAGS+=("-DWITH_SIGN_TOOL=${SHIP}")
     fi
     CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE}")
 else
@@ -212,15 +204,18 @@ fi
 if [[ $MSYSTEM == "CLANG64" ]]; then
     echo Deploying
     baseWindowsFilename=workrave-windows-${baseFilenamePostfix}
+    if [[ "$CONF_UI" == "Qt" ]]; then
+        baseWindowsFilename=workrave-next-windows-${baseFilenamePostfix}
+    fi
 
     # The gtkmm and Qt toolkits' dist/windows/CMakeLists.txt name their
     # installer/portable targets differently (workrave-installer.exe vs
-    # workrave-qt-installer.exe, etc.) so the same build can carry both
+    # workrave-next-installer.exe, etc.) so the same build can carry both
     # side by side; pick the names matching whichever toolkit this build
     # was configured with (CONF_UI, defaults to Gtk+3 like WITH_UI itself).
     if [[ "$CONF_UI" == "Qt" ]]; then
-        installerBaseName=workrave-qt-installer
-        portableBaseName=workrave-qt-portable
+        installerBaseName=workrave-next-installer
+        portableBaseName=workrave-next-portable
     else
         installerBaseName=workrave-installer
         portableBaseName=workrave-portable
@@ -242,20 +237,6 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
     ninja "${MAKE_FLAGS[@]}" installer
 
     if [[ -e ${OUTPUT_DIR}/${installerBaseName}.exe ]]; then
-
-        # if [[ $WORKRAVE_ENV != "local-windows-msys2" ]]; then
-        #
-        #     deployFilename=baseFilename=workrave-deploy-${baseFilenamePostfix}.tar.zst
-        #
-        #     issdir=${BUILD_DIR}/${config}/ui/app/toolkits/gtkmm/dist/windows/
-        #     prefix="$(grep ^LicenseFile ${issdir}/setup.iss | sed -e 's/LicenseFile=\(.*\)/\1/' | rev | cut -d\\ -f2- | rev)\\"
-        #     for iss in ${issdir}/*.iss; do
-        #         cat $iss | sed -e "s|${prefix//\\/\\\\}||" >${OUTPUT_DIR}/$(basename $iss)
-        #     done
-        #
-        #     tar cavf ${DEPLOY_DIR}/${deployFilename} -C $(dirname ${OUTPUT_DIR}) --exclude "**/workrave-installer.exe" ${OUTPUT_DIR}
-        #     ${SCRIPTS_DIR}/ci/artifact.sh -f ${deployFilename} -k deploy -c $CONFIG -p windows
-        # fi
 
         filename=${baseWindowsFilename}.exe
         symbolsFilename=${baseWindowsFilename}.sym

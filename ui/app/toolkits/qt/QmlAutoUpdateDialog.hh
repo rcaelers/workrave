@@ -17,6 +17,7 @@
 #ifndef QML_AUTO_UPDATE_DIALOG_HH
 #define QML_AUTO_UPDATE_DIALOG_HH
 
+#ifndef Q_MOC_RUN
 #include <functional>
 #include <memory>
 #include <optional>
@@ -28,6 +29,7 @@
 #include <QWindow>
 
 #include "unfold/Unfold.hh"
+#endif
 
 // ── AutoUpdateBridge ──────────────────────────────────────────────────────────
 // QObject bridge exposing update info and install state to the QML layer.

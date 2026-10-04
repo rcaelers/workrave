@@ -17,6 +17,7 @@
 #ifndef QMLPRELUDEWINDOW_HH
 #define QMLPRELUDEWINDOW_HH
 
+#ifndef Q_MOC_RUN
 #include <memory>
 #include <QObject>
 #include <QScreen>
@@ -30,12 +31,17 @@
 #include "ui/GUIConfig.hh"
 #include "utils/Signals.hh"
 #include "UiUtil.hh"
+#endif
 
 #if defined(HAVE_WAYLAND)
+#ifndef Q_MOC_RUN
 #  include "WaylandWindowManager.hh"
 #endif
+#endif
 #if defined(PLATFORM_OS_MACOS)
+#ifndef Q_MOC_RUN
 #  include "MouseMonitor.hh"
+#endif
 #endif
 
 class QTimer;

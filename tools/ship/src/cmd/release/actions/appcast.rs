@@ -18,6 +18,8 @@ struct Params {
     environment: String,
     /// The appcast.xml to write.
     output: String,
+    /// Windows edition: gtk3 or qt. Omitted for older catalogs/pipelines.
+    edition: Option<String>,
     #[serde(flatten)]
     bucket: BucketParams,
 }
@@ -41,6 +43,7 @@ impl Action for Appcast {
                 return Ok(Outcome::default());
             }
             appcast::run_appcast(appcast::AppcastOptions {
+                edition: p.edition,
                 branch: p.branch,
                 bucket: p.bucket.bucket.clone(),
                 environment: if p.environment == "production" {

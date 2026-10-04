@@ -283,24 +283,6 @@ jobs:
             enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
-          # - image: mingw-fedora-rawhide
-          #   os: ubuntu-24.04
-          #   compiler: clang
-          #   ui: Gtk+3
-          #   configuration: Release
-          #   enable:
-          #   disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
-          #   upload: false
-
-          # - image: mingw-fedora-rawhide
-          #   os: ubuntu-24.04
-          #   compiler: clang
-          #   ui: Gtk+3
-          #   configuration: Debug
-          #   enable: TRACING
-          #   disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE
-          #   upload: false
-
           - os: macos-latest
             compiler: clang
             ui: Qt

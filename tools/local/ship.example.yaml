@@ -1,3 +1,6 @@
+# Machine access can be kept in a separate configuration file.
+include: ship.environments.example.yaml
+
 # Machine configuration for `ship release`, `ship sign`, ...
 #
 # Copy to tools/local/ship.yaml (git-ignored; a symlink to a file elsewhere
@@ -70,13 +73,24 @@ macos:
   sign_identity: null
 
 windows:
-  msys2_bash: C:/msys64/usr/bin/bash.exe
-  # Optional flags, all false by default.
+  # The existing Forge SSH connection and Windows Incus guest agent.
+  # Docker runs Windows Server Core 2025 containers with process isolation.
+  # Built on the VM from workrave-build-containers/windows-msys2.
+  image: workrave-build:windows-msys2
+  # Qt uses llvm-mingw and Conan, without MSYS2. Dependencies are built once
+  # on Linux and exported to a persistent SDK cache in the Windows VM.
+  qt_image: workrave-build:windows-conan
+  # Container recipes and Conan package configuration live in separate repos.
+  containers_dir: ~/src/workrave/workrave-build-containers
+  dependencies_dir: ~/src/workrave/workrave-dependencies
+  dependencies_image: ghcr.io/rcaelers/workrave-build:llvm-mingw
+  conan_cache: workrave-conan
+  qt_sdk_cache: workrave-qt-sdk
+  jobs: 16
   sign: true
   sbom: true
   debug: false
 
-# The snapshots bucket: artifacts, the update catalog and the appcast.
 snapshots:
   endpoint: https://snapshots.workrave.org/
   bucket: snapshots

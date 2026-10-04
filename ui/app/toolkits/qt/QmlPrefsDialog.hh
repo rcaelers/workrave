@@ -17,12 +17,14 @@
 #ifndef QMLPREFSDIALOG_HH
 #define QMLPREFSDIALOG_HH
 
+#ifndef Q_MOC_RUN
 #include <map>
 #include <memory>
 #include <string>
 #include <QObject>
 #include <QPointer>
 #include <QString>
+#endif
 
 class QQuickView;
 class MicrobreakPrefBridge;
@@ -37,7 +39,9 @@ class SoundsPrefBridge;
 class ActivePluginPageBridge;
 class PluginPageBridge;
 
+#ifndef Q_MOC_RUN
 #include "ui/IApplicationContext.hh"
+#endif
 
 class QmlPrefsDialog : public QObject
 {

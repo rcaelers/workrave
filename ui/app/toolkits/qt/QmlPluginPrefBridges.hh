@@ -17,6 +17,7 @@
 #ifndef QMLPLUGINPREFBRIDGES_HH
 #define QMLPLUGINPREFBRIDGES_HH
 
+#ifndef Q_MOC_RUN
 #include <memory>
 
 #include <QObject>
@@ -30,6 +31,7 @@
 #include "ui/prefwidgets/Choice.hh"
 #include "ui/prefwidgets/Entry.hh"
 #include "ui/prefwidgets/Def.hh"
+#endif
 
 // ── PrefRowBridge ─────────────────────────────────────────────────────────────
 // Wraps one leaf prefwidget.  QML checks `kind` then reads the relevant props.

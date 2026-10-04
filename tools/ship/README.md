@@ -33,6 +33,124 @@ engine itself needs only what the pipeline's `settings:` gives it (the
 signing service URL) and what each container environment declares
 (`engine`, `sync`, `remote-dir`).
 
+## Windows container builds
+
+`tools/local/ship release --target windows` builds both Windows editions in
+process-isolated Docker containers: Workrave (GTK) and WorkraveNext (Qt).
+GTK uses MSYS2 CLANG64; Qt uses native
+llvm-mingw and the cached Conan SDK, without MSYS2. Configure, compile, test,
+install, SBOM, portable archive, installer, symbols and artifact recording are
+separate steps in `tools/local/release.yaml` and in the build report. Each
+edition/configuration keeps one container for the entire job.
+
+Workrave keeps the existing installer identity, including upgrades from 32-bit
+1.10 installations. WorkraveNext installs alongside it with separate shortcuts
+and an independent uninstaller. Both use the same settings and state, with one
+running instance and one shared startup selection. WorkraveNext names the Qt
+package, executable and shortcuts; the application itself displays Workrave.
+
+Execution definitions live in `tools/local/environments.yaml`. Machine access
+and VM management belong in a private config file, rather than the workflow or
+runner. Add this to `ship.yaml`:
+
+```yaml
+include: ship.environments.yaml
+```
+
+Then create `ship.environments.yaml` (git-ignored):
+
+```yaml
+execution:
+  windows:
+    ssh: build@windows-builder
+    docker: docker.exe
+    start: ''
+    stop: ''
+```
+
+Use an SSH destination or alias with working key authentication, and Docker in
+Windows-container mode on the Windows machine. Ship runs PowerShell and copies
+files through SSH/SCP; it does not use a hypervisor's guest agent. Optional
+`start`/`stop` commands run on the machine running Ship. `start` must return with
+SSH ready. `stop` runs after output collection and container cleanup, including
+on failure; leave it empty for a shared VM. Start and stop hooks belong to each
+job's environment lifetime. The example config contains Incus and Proxmox
+profiles. These are ordinary commands in config, not built-in providers.
+
+For Docker on the machine running Ship itself, run Ship on Windows and set
+`execution.windows.ssh: ''`, or select the example `local-windows` profile.
+Linux/macOS users need an SSH-accessible Windows host. Microsoft documents
+[Windows OpenSSH installation](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse)
+and [key authentication](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement).
+
+Config `include` accepts a filename or a list, relative to the containing file.
+Includes can be nested; cycles are rejected. The containing file overrides its
+includes, then the selected profile is applied. Pipeline `environment-files`
+loads environment definitions relative to the pipeline file.
+
+Both Windows image definitions live in `workrave-build-containers`. Set
+`windows.containers_dir` to that checkout. Ship rebuilds an image only when
+its context changes. Source and script inputs are copied into the container
+layer; declared output directories and symbols are collected after the job,
+also when a step fails. Compiler objects remain local to the job's container.
+Cargo and SDK volumes persist between jobs.
+
+The `win-qt-sdk` job builds locked Conan dependencies on Linux in the
+`workrave-build:llvm-mingw` image. Set `windows.dependencies_dir`,
+`windows.dependencies_image` and `windows.conan_cache` for this job. An
+unchanged dependency configuration reuses the exported SDK. Windows initializes
+that SDK and its native `windeployqt` in `windows.qt_sdk_cache`.
+
+The Linux job exposes cache lookup, Conan configuration, dependency compilation,
+the Qt smoke build, PDB validation, SDK export, archive caching and staging as
+separate steps. Package relocation lives in `workrave-dependencies/conan/export-sdk.py`,
+with regular CMake files under `conan/sdk`. The cache key includes dependency
+inputs, this release workflow and the compiler/Conan versions. A cache hit skips
+all preparation steps and stages the existing archive.
+
+To create or restore both dependency volumes without building Workrave:
+
+```sh
+tools/local/ship release --target windows-dependencies
+```
+
+This target needs `scripts_dir`, `workspace_dir`, Linux container settings and
+the Windows connection settings. It needs no release checkout, version,
+signing service or upload configuration. Missing volumes are created
+automatically. The locked dependencies, Qt smoke build and matching PDBs are
+checked before the SDK is exported. Repeated runs reuse both caches.
+
+The Linux volume defaults to `workrave-conan`; the Windows volume defaults to
+`workrave-qt-sdk`. Separate recovery caches can be selected with:
+
+```sh
+tools/local/ship release --target windows-dependencies \
+  --set config.windows.conan_cache=workrave-conan-recovery \
+  --set config.windows.qt_sdk_cache=workrave-qt-sdk-recovery
+```
+
+Keep the Conan checkout, committed `windows.lock` and pinned compiler image to
+rebuild the same dependency versions. Source checksums are verified and the
+lockfile is not updated. This does not promise byte-identical binaries.
+
+## SBOM generation
+
+`ship sbom` is the shared SPDX/CSV writer. `tools/local/sbom.sh` discovers
+MSYS2 packages; the Conan build supplies its SDK manifest. Both feed the same
+writer alongside CMake's FetchContent inventory. The duplicate Python Workrave
+build, remote runner and SBOM helpers have been removed. The SDK exporter and
+symbol processing remain specialized helpers.
+
+For a standalone Windows build with SBOM enabled, build Ship first and set
+`SHIP_EXECUTABLE` if it is not on PATH. Both editions generate the inventory
+explicitly after installing:
+
+```sh
+cmake --install <build-directory> --component SBOM
+```
+
+The release workflow includes this as a named step before packaging.
+
 ## The pipeline file
 
 ```yaml
@@ -105,7 +223,9 @@ it declares them in `outputs:` and writes `name=value` lines to the file in
 `echo "version.tag=$TAG" >> "$SHIP_OUTPUT"` is `{{ version.tag }}`
 everywhere after it; `true`/`false` become booleans. A declared output that
 is not written, or a written one that is not declared, is an error.
-(Host and msys2 steps only.)
+This works in host, MSYS2, Linux container and Windows container steps. Linux
+container outputs are collected through the container engine, including when
+it runs on a remote host.
 
 Builtin actions: `check-config`, `newsgen`, `sign` (cosign, ed25519,
 authenticode, catalog), `github-release`, `s3-upload`, `catalog`, `appcast`,

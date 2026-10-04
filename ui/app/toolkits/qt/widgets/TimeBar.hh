@@ -18,9 +18,11 @@
 #ifndef TIMEBAR_HH
 #define TIMEBAR_HH
 
+#ifndef Q_MOC_RUN
 #include "ui/UiTypes.hh"
 
 #include <QWidget>
+#endif
 
 class TimeBar : public QWidget
 {

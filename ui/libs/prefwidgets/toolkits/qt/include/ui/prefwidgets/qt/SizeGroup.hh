@@ -18,10 +18,12 @@
 #ifndef WORKRAVE_UI_PREFWIDGETS_QT_SIZEGROUP_HH
 #define WORKRAVE_UI_PREFWIDGETS_QT_SIZEGROUP_HH
 
+#ifndef Q_MOC_RUN
 #include <QtGui>
 #include <QtWidgets>
 
 #include "ui/prefwidgets/SizeGroup.hh"
+#endif
 
 namespace ui::prefwidgets::qt
 {

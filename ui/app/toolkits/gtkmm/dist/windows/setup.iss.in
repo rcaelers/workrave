@@ -20,6 +20,7 @@
 ;
 
 [Setup]
+AppId=Workrave
 AppName=Workrave
 AppVersion=@WORKRAVE_VERSION@
 AppVerName=Workrave @WORKRAVE_VERSION@
@@ -30,6 +31,7 @@ AppUpdatesURL=https://www.workrave.org
 DefaultDirName={autopf}\Workrave
 DefaultGroupName=Workrave
 LicenseFile=@INSTALL_WIN_PATH@\COPYING.txt
+; Zapper handles shutdown in InitializeSetup and InitializeUninstall.
 ;AppMutex=WorkraveMutex
 WizardImageFile=@INSTALL_WIN_PATH@\dist\WizModernImage.bmp
 WizardSmallImageFile=@INSTALL_WIN_PATH@\dist\WizModernSmall.bmp
@@ -71,9 +73,7 @@ Source: "@INSTALL_WIN_PATH@\README.txt"; DestDir: "{app}"; DestName: "README.txt
 #include "libraries.iss"
 
 [Registry]
-Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\bin\Workrave.exe"; Flags: uninsdeletekeyifempty
-Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueName: "Path"; ValueType: string; ValueData: "{code:GetAppPath}"; Flags: uninsdeletekeyifempty
-Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Workrave"; ValueData: "{app}\bin\Workrave.exe"; Flags: uninsdeletevalue; Tasks: startupmenu
+Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Workrave"; ValueData: """{app}\bin\Workrave.exe"""; Tasks: startupmenu
 
 [Icons]
 Name: "{group}\Workrave"; Filename: "{app}\bin\Workrave.exe"
@@ -221,7 +221,7 @@ begin
   begin
     for i := 0 to High(directories) do
     begin
-      executablePath := ExpandConstant(installLocation + directories[i] + '\workrave.exe');
+      executablePath := AddBackslash(installLocation) + directories[i] + '\workrave.exe';
       if FileExists(executablePath) and GetVersionNumbers(executablePath, versionMS, versionLS) then
       begin
         major := versionMS shr 16;
@@ -264,11 +264,6 @@ Function InitializeUninstall() : Boolean;
 begin
     CopyFile(ExpandConstant('{app}\libzapper-0.dll'), ExpandConstant('{tmp}\libzapper-0.dll'), False);
     Result := EnsureWorkraveIsNotRunning(UninstallSilent());
-end;
-
-function GetAppPath(S: String): String;
-begin
-  Result := WizardDirValue + '\bin';
 end;
 
 function IsX64: Boolean;
@@ -365,12 +360,25 @@ Procedure UninstallPreviousVersion();
 var
   uninstallCommand: String;
   iResultCode: Integer;
+  legacyLocation: String;
+  startupCommand: String;
+  preserveStartup: Boolean;
 begin
   uninstallCommand := GetLegacyUninstallCommand();
 
   if uninstallCommand <> '' then begin
+    // The 1.10 uninstaller deletes the shared Run value unconditionally.
+    // Keep a startup selection that now belongs to another installation.
+    legacyLocation := GetLegacyInstallLocation();
+    preserveStartup := (legacyLocation <> '') and
+      RegQueryStringValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Run', 'Workrave', startupCommand) and
+      (Pos(Lowercase(AddBackslash(legacyLocation)), Lowercase(startupCommand)) = 0);
+
     uninstallCommand := RemoveQuotes(uninstallCommand);
     Exec(uninstallCommand, '/VERYSILENT /NORESTART /SUPPRESSMSGBOXES','', SW_HIDE, ewWaitUntilTerminated, iResultCode);
+
+    if preserveStartup then
+      RegWriteStringValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Run', 'Workrave', startupCommand);
   end
 end;
 
@@ -398,4 +406,15 @@ begin
         UpdateAutoInstallSetting();
       end
   end;
+end;
+
+// The editions share one startup selection. Only remove our own entry.
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+var
+  command: String;
+begin
+  if CurUninstallStep = usUninstall then
+    if RegQueryStringValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Run', 'Workrave', command) then
+      if CompareText(command, '"' + ExpandConstant('{app}\bin\Workrave.exe') + '"') = 0 then
+        RegDeleteValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Run', 'Workrave');
 end;

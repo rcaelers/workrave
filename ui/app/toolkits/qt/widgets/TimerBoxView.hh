@@ -18,6 +18,7 @@
 #ifndef TIMERBOXVIEW_HH
 #define TIMERBOXVIEW_HH
 
+#ifndef Q_MOC_RUN
 #include <QWidget>
 #include <QLabel>
 #include <QGridLayout>
@@ -32,6 +33,7 @@
 #include "utils/Signals.hh"
 
 #include "TimeBar.hh"
+#endif
 
 class TimerBoxView
   : public QWidget

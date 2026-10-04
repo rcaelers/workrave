@@ -18,6 +18,7 @@
 #ifndef MAINWINDOW_HH
 #define MAINWINDOW_HH
 
+#ifndef Q_MOC_RUN
 #include <boost/signals2.hpp>
 
 #include "ui/TimerBoxControl.hh"
@@ -28,6 +29,7 @@
 #include "TimerBoxView.hh"
 #include "QmlTimerBoxView.hh"
 #include "ToolkitMenu.hh"
+#endif
 
 class MainWindow
   : public QWidget

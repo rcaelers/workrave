@@ -18,10 +18,12 @@
 #ifndef WORKRAVE_UI_PREFWIDGETS_QT_CHOICEWIDGET_HH
 #define WORKRAVE_UI_PREFWIDGETS_QT_CHOICEWIDGET_HH
 
+#ifndef Q_MOC_RUN
 #include <memory>
 
 #include "ui/prefwidgets/Choice.hh"
 #include "ContainerWidget.hh"
+#endif
 
 namespace ui::prefwidgets::qt
 {

@@ -11,9 +11,9 @@
 #
 # Expected variables (passed via -D):
 #   INSTALL_PATH     CMAKE_INSTALL_PREFIX of the build to package
-#   DIST_SOURCE_DIR  this dist/windows source directory (Workrave.lnk)
+#   DIST_SOURCE_DIR  this dist/windows source directory (WorkraveNext.lnk)
 #   STAGING_DIR      scratch directory to assemble the portable tree in
-#   PORTABLE_NAME    name of the top-level folder inside the zip (e.g. WorkraveQt)
+#   PORTABLE_NAME    name of the top-level folder inside the zip (WorkraveNext)
 #   OUTPUT_ZIP       path of the zip file to produce
 #   WITH_SIGN        whether to sigstore-sign OUTPUT_ZIP (mirrors the top-level WITH_SIGN option)
 #   SIGN_TOOL        path to the ship binary (only required when WITH_SIGN is ON)
@@ -36,6 +36,7 @@ if(EXISTS "${INSTALL_PATH}/bin")
   file(COPY "${INSTALL_PATH}/bin" DESTINATION "${app_dir}"
        PATTERN "*.debug" EXCLUDE
        PATTERN "*.pdb" EXCLUDE)
+  file(RENAME "${app_dir}/bin/workrave.exe" "${app_dir}/bin/WorkraveNext.exe")
 endif()
 
 # share/locale carries workrave's gettext (.mo) translations, used by the
@@ -57,14 +58,23 @@ if(EXISTS "${INSTALL_PATH}/lib/plugins")
        PATTERN "qmltooling" EXCLUDE)
 endif()
 
+if(EXISTS "${INSTALL_PATH}/qml")
+  file(COPY "${INSTALL_PATH}/qml" DESTINATION "${app_dir}"
+       PATTERN "*.pdb" EXCLUDE PATTERN "*.a" EXCLUDE)
+endif()
+
 file(GLOB txt_files "${INSTALL_PATH}/*.txt")
 if(txt_files)
   file(COPY ${txt_files} DESTINATION "${app_dir}")
 endif()
 
-if(EXISTS "${DIST_SOURCE_DIR}/Workrave.lnk")
-  file(COPY "${DIST_SOURCE_DIR}/Workrave.lnk" DESTINATION "${app_dir}")
-endif()
+foreach(sbom sbom.spdx.json sbom.csv)
+  if(EXISTS "${INSTALL_PATH}/${sbom}")
+    file(COPY "${INSTALL_PATH}/${sbom}" DESTINATION "${app_dir}")
+  endif()
+endforeach()
+
+file(COPY "${DIST_SOURCE_DIR}/WorkraveNext.lnk" DESTINATION "${app_dir}")
 
 # The staged executables were already authenticode-signed at `ninja install`
 # time (see SignBinaries.cmake), so there's nothing left to sign here besides

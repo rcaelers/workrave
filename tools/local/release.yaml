@@ -11,11 +11,10 @@
 # --set values), dry_run, host.os, ship.exe, env.*, vars.*, matrix.*, item,
 # plus what steps set through `outputs` (the workspace job sets version.*).
 # Functions: secret(name), exists(path), glob(pattern), today(format).
-# Filters: msys.
 
 settings:
   # Used by secret() and the sign action.
-  signing_service_url: "{{ config.signing_service_url }}"
+  signing_service_url: "{{ config.signing_service_url | default('') }}"
 
 # Command line options of `ship release` / `ship pipeline show`. An option
 # with `config:` overrides that configuration key for the run; the others
@@ -89,78 +88,19 @@ vars:
   # Windows builds are identified by date and full git version, as ci/config.sh does.
   build_id: "{{ today('%Y%m%d') }}-{{ version.long }}local"
   win_deploy_dir: "{{ vars.source }}/_deploy/{{ vars.build_id }}"
+  windows_dependencies: "{{ config.windows.dependencies_dir | default(vars.scripts ~ '/../../workrave-dependencies') }}"
+  windows_containers: "{{ config.windows.containers_dir | default(vars.scripts ~ '/../../workrave-build-containers') }}"
+  windows_qt_sdk: "{{ config.workspace_dir }}/windows-qt-sdk/sdk.tar.gz"
+  windows_qt_sdk_root: "C:/cache/qt/{{ sha256(vars.windows_qt_sdk)[:24] }}-{{ sha256(vars.windows_containers ~ '/windows-conan/init-sdk.py')[:16] }}"
+  windows_build_name: "{{ 'qt' if matrix.ui == 'Qt' else 'gtk3' }}"
+  windows_build_dir: "C:/workspace/source/_build/{{ vars.windows_build_name }}/{{ matrix.configuration }}"
+  windows_output_dir: "C:/workspace/source/_output/{{ vars.windows_build_name }}/{{ matrix.configuration }}"
+  windows_ship: "{{ 'C:/cache/target/llvm-mingw' if matrix.ui == 'Qt' else 'C:/cache/target' }}/release/ship.exe"
+  windows_postfix: "{{ version.workrave if version.is_release else version.long ~ '-' ~ today('%Y%m%d') }}{{ '-Debug' if matrix.configuration == 'Debug' }}"
 
-environments:
-  # Linux builds run in the workrave-build images; with a remote podman the
-  # mounted directories are mirrored there first (sync).
-  ubuntu:
-    type: container
-    engine: "{{ config.container.engine }}"
-    sync: "{{ config.container.sync }}"
-    remote-dir: "{{ config.container.remote_dir }}"
-    image: "{{ config.container.image_repository }}:{{ config.linux.image }}"
-    # The image tags exist for amd64 and arm64. Use the container host's
-    # native architecture unless a job explicitly selects another one.
-    platform: "{{ config.container.platform }}"
-    mounts: &linux-mounts
-      "{{ vars.source }}": /workspace/source
-      "{{ vars.deploy }}": /workspace/deploy
-      "{{ vars.scripts }}": /workspace/scripts
-    env: &linux-env
-      WORKRAVE_ENV: local
-      # The scripts build.sh calls (artifact.sh, sbom.sh, ...) come from the
-      # mounted dev checkout too, not from tools/ in the source tree at the
-      # released commit (config.sh's default).
-      SCRIPTS_DIR: /workspace/scripts
-      CONF_CONFIGURATION: Release
-      DOCKER_IMAGE: "{{ config.linux.image }}"
-      WORKRAVE_OVERRIDE_GIT_VERSION: "{{ options.version }}"
-      WORKRAVE_RELEASE_TAG: "{{ version.release_tag }}"
 
-  appimage:
-    type: container
-    engine: "{{ config.container.engine }}"
-    sync: "{{ config.container.sync }}"
-    remote-dir: "{{ config.container.remote_dir }}"
-    mounts: *linux-mounts
-    env: *linux-env
-    # ARM64 on amd64 uses a native cross-compiler. On an ARM64 host keep
-    # the native ARM64 image; the x86_64 build uses the regular amd64 image.
-    image: "{{ config.container.image_repository }}:{{ config.linux.cross_image | default('ubuntu-cross-aarch64') if matrix.arch == 'aarch64' and config.container.platform == 'linux/amd64' else config.linux.image }}"
-    platform: "{{ 'linux/amd64' if matrix.arch == 'x86_64' or config.container.platform == 'linux/amd64' else 'linux/arm64' }}"
 
-  pbuilder:
-    type: container
-    engine: "{{ config.container.engine }}"
-    sync: "{{ config.container.sync }}"
-    remote-dir: "{{ config.container.remote_dir }}"
-    image: "{{ config.container.image_repository }}:ubuntu-pbuilder"
-    platform: "{{ config.container.platform }}"
-    options:
-      - --privileged
-    mounts:
-      "{{ vars.deploy }}": /workspace/deploy
-      "{{ vars.scripts }}": /workspace/scripts
-
-  # Windows builds run natively in an MSYS2 login shell, in the checkout.
-  msys2:
-    type: msys2
-    bash: "{{ config.windows.msys2_bash }}"
-    msystem: CLANG64
-    cwd: "{{ vars.source }}"
-    env:
-      WORKRAVE_ENV: local-windows-msys2
-      WORKSPACE: "{{ config.workspace_dir | msys }}"
-      SOURCES_DIR: "{{ vars.source | msys }}"
-      SCRIPTS_DIR: "{{ vars.scripts | msys }}"
-      WORKRAVE_BUILD_ID_SUFFIX: local
-      WORKRAVE_BUILD_DATE: "{{ today('%Y%m%d') }}"
-      WORKRAVE_BUILD_DATETIME: "{{ today('%Y-%m-%dT%H:%M:%S%:z') }}"
-      WORKRAVE_UPLOAD_DIR: "{{ config.snapshots.bucket }}/{{ vars.s3_dir }}/{{ vars.build_id }}"
-      WORKRAVE_OVERRIDE_GIT_VERSION: "{{ options.version }}"
-      SIGNING_SERVICE_URL: "{{ config.signing_service_url }}"
-      # The CMake signing hook (WITH_SIGN_TOOL) is this very binary.
-      SHIP: "{{ ship.exe | msys }}"
+environment-files: [environments.yaml]
 
 targets:
   linux:
@@ -181,6 +121,9 @@ targets:
   windows:
     - check-config-windows
     - workspace
+    - win-prepare
+    - win-qt-sdk
+    - win-qt-sdk-install
     - win-build
     - win-sign
     - win-upload
@@ -188,6 +131,10 @@ targets:
     - win-catalog
     - win-appcast
     - win-symbols
+  windows-dependencies:
+    - check-config-windows-dependencies
+    - win-qt-sdk
+    - win-qt-sdk-install
   publish-appcast:
     - check-config-appcast
     - publish-appcast
@@ -252,7 +199,6 @@ jobs:
             - workspace_dir
             - repo
             - channel
-            - windows.msys2_bash
             - snapshots.endpoint
             - snapshots.bucket
             - snapshots.access_key
@@ -267,6 +213,44 @@ jobs:
             - windows.sign
             - windows.sbom
             - windows.debug
+            - windows.image
+            - windows.qt_image
+            - windows.containers_dir
+            - windows.dependencies_dir
+            - windows.dependencies_image
+            - windows.conan_cache
+            - windows.qt_sdk_cache
+            - execution.windows.ssh
+            - execution.windows.start
+            - execution.windows.stop
+            - execution.windows.docker
+            - windows.jobs
+
+  check-config-windows-dependencies:
+    always: true
+    steps:
+      - uses: check-config
+        with:
+          hint: tools/local/ship.example.yaml
+          required:
+            - workspace_dir
+            # Use the development scripts without creating a release checkout.
+            - scripts_dir
+            - container.engine
+            - container.sync
+            - container.remote_dir
+          optional:
+            - windows.containers_dir
+            - windows.dependencies_dir
+            - windows.dependencies_image
+            - windows.qt_image
+            - windows.conan_cache
+            - windows.qt_sdk_cache
+            - execution.windows.ssh
+            - execution.windows.start
+            - execution.windows.stop
+            - execution.windows.docker
+            - windows.jobs
 
   check-config-appcast:
     always: true
@@ -505,30 +489,207 @@ jobs:
 
   # --------------------------------------------------------------- windows
 
-  win-build:
+  win-prepare:
     needs: [workspace]
-    runs-in: msys2
     steps:
-      - name: build catalog entry for this build
-        run: "{{ vars.scripts | msys }}/ci/catalog.sh -c {{ config.channel }}"
-        env:
-          WORKRAVE_JOB_INDEX: "0"
-      - name: Release build (installer, portable zip, source tarball)
-        run: "{{ vars.scripts | msys }}/ci/build.sh"
-        env:
-          CONF_CONFIGURATION: Release
-          WORKRAVE_JOB_INDEX: "1"
-          CONF_SOURCE_TARBALL: "1"
-          CONF_ENABLE: "TESTS,AUTO_UPDATE,CRASHPAD{{ ',SBOM' if config.windows.sbom }}{{ ',UPDATER_STAGING,CRASHPAD_STAGING' if options.staging }}"
-          DOSIGN: "{{ '1' if config.windows.sign }}"
-      - name: Debug build
-        if: "{{ config.windows.debug }}"
-        run: "{{ vars.scripts | msys }}/ci/build.sh"
-        env:
-          CONF_CONFIGURATION: Debug
-          WORKRAVE_JOB_INDEX: "2"
-          CONF_ENABLE: "TESTS,AUTO_UPDATE"
-          DOSIGN: "{{ '1' if config.windows.sign }}"
+      - name: release notes for the Windows build catalog
+        run: >-
+          mkdir -p "{{ vars.win_deploy_dir }}" &&
+          "{{ ship.exe }}" newsgen --input "{{ vars.source }}/changes.yaml"
+          --template github --single
+          {{ '--release ' ~ version.workrave if version.is_release else '--latest' }}
+          --output "{{ vars.win_deploy_dir }}/release-notes.md"
+      - name: root Windows build catalog
+        run: |
+          mkdir -p "{{ vars.win_deploy_dir }}"
+          jq -n --arg id "{{ vars.build_id }}" --arg tag "{{ version.tag }}" \
+            --arg hash "$(git -C "{{ vars.source }}" rev-parse HEAD)" \
+            --arg increment "{{ '0' if options.version else '$(git -C \"' ~ vars.source ~ '\" rev-list \"' ~ version.tag ~ '..HEAD\" --count)' }}" \
+            --arg date "{{ today('%Y-%m-%dT%H:%M:%S%:z') }}" --arg channel "{{ config.channel }}" \
+            --rawfile notes "{{ vars.win_deploy_dir }}/release-notes.md" \
+            '{version: "2", builds: [{id: $id, tag: $tag, hash: $hash, increment: $increment, date: $date, channel: $channel, notes: $notes, artifacts: []}]}' \
+            > "{{ vars.win_deploy_dir }}/job-catalog-root-{{ vars.build_id }}.0.json"
+
+  win-qt-sdk:
+    needs: [workspace]
+    runs-in: windows-qt-dependencies
+    steps:
+      - name: check the exported SDK cache
+        run: |
+          bash -euo pipefail <<'SH'
+          cd /workspace/dependencies/conan
+          fingerprint=$(mktemp)
+          trap 'rm -f "$fingerprint"' EXIT
+          # Include recipes, profiles, patches and SDK templates, but not build outputs.
+          find . -type d ! -path . \( -name '_*' -o -name '.*' \) -prune -o -type f -print0 \
+            | LC_ALL=C sort -z | xargs -0 sha256sum > "$fingerprint"
+          sha256sum /workspace/scripts/local/release.yaml >> "$fingerprint"
+          x86_64-w64-mingw32-clang --version >> "$fingerprint"
+          conan --version >> "$fingerprint"
+          key=$(sha256sum "$fingerprint" | cut -d' ' -f1)
+          cached=false
+          if test -f "/cache/workrave-sdks/$key/sdk.tar.gz"; then
+              cached=true
+              echo "Reusing cached Windows Qt SDK: $key"
+          fi
+          printf 'qt_sdk.key=%s\nqt_sdk.cached=%s\n' "$key" "$cached" >> "$SHIP_OUTPUT"
+          SH
+        outputs: [qt_sdk.key, qt_sdk.cached]
+      - name: install the pinned Conan configuration and recipe overlays
+        if: "{{ qt_sdk.cached != true }}"
+        run: python3 /workspace/dependencies/conan/setup.py
+      - name: build missing locked Conan dependencies
+        if: "{{ qt_sdk.cached != true }}"
+        run: |
+          conan install /workspace/dependencies/conan \
+            -pr:b=linux-x86_64 -pr:h=windows-x86_64 \
+            --lockfile=/workspace/dependencies/conan/windows.lock --build=missing \
+            -of=/workspace/dependencies/conan/_build/windows-x86_64 \
+            -c:a tools.graph:skip_binaries=False \
+            -c:a tools.build:jobs={{ config.windows.jobs | default(16) }} \
+            --format=json --out-file=/workspace/dependencies/conan/_build/windows-x86_64/graph.json
+      - name: build the Qt dependency smoke test
+        if: "{{ qt_sdk.cached != true }}"
+        run: |
+          set -eu
+          build=/workspace/dependencies/conan/_build/windows-x86_64
+          cmake --fresh -S /workspace/dependencies/conan/smoke -B "$build/smoke" -G Ninja \
+            -DCMAKE_TOOLCHAIN_FILE="$build/build/RelWithDebInfo/generators/conan_toolchain.cmake" \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          cmake --build "$build/smoke" --parallel {{ config.windows.jobs | default(16) }}
+          cmake --install "$build/smoke" --prefix "$build/smoke/package"
+      - name: validate dependency architectures, checksums and PDBs
+        if: "{{ qt_sdk.cached != true }}"
+        run: python3 /workspace/dependencies/conan/build.py --arch x86_64 --validate
+      - name: export the relocatable Windows SDK
+        if: "{{ qt_sdk.cached != true }}"
+        run: |
+          set -eu
+          rm -rf "/workspace/sdk/export-{{ qt_sdk.key }}"
+          python3 /workspace/dependencies/conan/export-sdk.py \
+            --output "/workspace/sdk/export-{{ qt_sdk.key }}" --cache-key "{{ qt_sdk.key }}"
+      - name: archive and cache the validated SDK
+        if: "{{ qt_sdk.cached != true }}"
+        run: |
+          set -eu
+          cache="/cache/workrave-sdks/{{ qt_sdk.key }}"
+          mkdir -p "$cache"
+          pending=$(mktemp "$cache/sdk.XXXXXX")
+          trap 'rm -f "$pending"' EXIT
+          tar --dereference -I 'gzip -1' -cf "$pending" -C "/workspace/sdk/export-{{ qt_sdk.key }}" .
+          mv "$pending" "$cache/sdk.tar.gz"
+          rm -rf "/workspace/sdk/export-{{ qt_sdk.key }}"
+      - name: stage the cached SDK for Windows
+        run: |
+          set -eu
+          cp "/cache/workrave-sdks/{{ qt_sdk.key }}/sdk.tar.gz" /workspace/sdk/sdk.tar.gz.tmp
+          mv /workspace/sdk/sdk.tar.gz.tmp /workspace/sdk/sdk.tar.gz
+
+  win-qt-sdk-install:
+    needs: [win-qt-sdk]
+    runs-in: windows-sdk
+    steps:
+      - name: install cached Conan Qt SDK into the Windows volume
+        run: >-
+          python C:/image/init-sdk.py C:/input/sdk.tar.gz "{{ vars.windows_qt_sdk_root }}"
+
+  win-build:
+    needs: [win-prepare, win-qt-sdk-install]
+    runs-in: "{{ 'windows-qt' if matrix.ui == 'Qt' else 'windows-gtk' }}"
+    if: "{{ matrix.configuration == 'Release' or config.windows.debug }}"
+    strategy:
+      matrix:
+        ui: [Gtk+3, Qt]
+        configuration: [Release, Debug]
+    env:
+      BUILD_DIR: "{{ vars.windows_build_dir }}"
+      OUTPUT_DIR: "{{ vars.windows_output_dir }}"
+    steps:
+      - name: validate the native Qt compiler and cached SDK
+        if: "{{ matrix.ui == 'Qt' }}"
+        run: |
+          $manifest = Get-Content "$env:WORKRAVE_SDK_DIR/manifest.json" -Raw | ConvertFrom-Json
+          $compiler = & x86_64-w64-mingw32-clang --version
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          if ($compiler[0] -ne $manifest.compiler.Split("`n")[0]) { throw 'Native compiler does not match the Conan SDK' }
+      - name: build Ship for signing and SBOM generation
+        if: "{{ config.windows.sign or (matrix.configuration == 'Release' and config.windows.sbom) }}"
+        run: cargo build --release --manifest-path C:/workspace/scripts/ship/Cargo.toml
+      - name: configure Workrave
+        run: |
+          git config --global --add safe.directory C:/workspace/source
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cmake -S C:/workspace/source -B "$env:BUILD_DIR" -G Ninja `
+            "-DCMAKE_BUILD_TYPE={{ matrix.configuration }}" `
+            "-DCMAKE_INSTALL_PREFIX=$env:OUTPUT_DIR" -DCMAKE_FIND_USE_INSTALL_PREFIX=OFF `
+            "-DCMAKE_PREFIX_PATH={{ 'C:/llvm-mingw/x86_64-w64-mingw32' if matrix.ui == 'Qt' else 'C:/msys64/clang64' }}" `
+            "-DCMAKE_TOOLCHAIN_FILE={{ vars.windows_qt_sdk_root ~ '/toolchain.cmake' if matrix.ui == 'Qt' else 'C:/workspace/source/cmake/toolchains/msys2.cmake' }}" `
+            "-DWITH_UI={{ matrix.ui }}" -DWITH_GRPC=OFF -DWITH_DBUS=OFF `
+            -DWITH_TESTS=ON -DWITH_AUTO_UPDATE=ON `
+            "-DWITH_CRASHPAD={{ 'ON' if matrix.configuration == 'Release' else 'OFF' }}" `
+            "-DWITH_SBOM={{ 'ON' if matrix.configuration == 'Release' and config.windows.sbom else 'OFF' }}" `
+            "-DWITH_SIGN={{ 'ON' if config.windows.sign else 'OFF' }}" `
+            "-DWITH_SIGN_TOOL={{ vars.windows_ship }}" `
+            "-DSHIP_EXECUTABLE={{ vars.windows_ship }}" `
+            "-DWITH_UPDATER_STAGING={{ 'ON' if options.staging and matrix.configuration == 'Release' else 'OFF' }}" `
+            "-DWITH_CRASHPAD_STAGING={{ 'ON' if options.staging and matrix.configuration == 'Release' else 'OFF' }}" `
+            -DISCC=C:/inno/ISCC.exe -DCMAKE_CXX_SCAN_FOR_MODULES=OFF `
+            "-DCMAKE_C_FLAGS_RELEASE=-O3 -DNDEBUG -g -gcodeview" `
+            "-DCMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG -g -gcodeview" `
+            -DCMAKE_PROJECT_Workrave_INCLUDE=C:/workspace/scripts/local/windows-precompile/precompile.cmake
+      - name: compile Workrave and its external libraries
+        run: cmake --build "$env:BUILD_DIR" --parallel "{{ config.windows.jobs | default(16) }}"
+      - name: run tests
+        run: ctest --test-dir "$env:BUILD_DIR" --output-on-failure
+      - name: install Workrave and its runtime dependencies
+        run: cmake --install "$env:BUILD_DIR"
+      - name: generate the SBOM from dependency metadata
+        if: "{{ matrix.configuration == 'Release' and config.windows.sbom }}"
+        run: cmake --install "$env:BUILD_DIR" --component SBOM
+      - name: create the portable archive
+        run: cmake --build "$env:BUILD_DIR" --target portable
+      - name: create the installer
+        run: cmake --build "$env:BUILD_DIR" --target installer
+      - name: collect Crashpad symbols
+        if: "{{ matrix.configuration == 'Release' }}"
+        run: >-
+          python C:/workspace/scripts/local/windows-symbols.py "$env:BUILD_DIR"
+          {{ '--sdk ' ~ vars.windows_qt_sdk_root if matrix.ui == 'Qt' }}
+      - name: source archive
+        if: "{{ matrix.ui != 'Qt' and matrix.configuration == 'Release' }}"
+        run: |
+          $destination = 'C:/workspace/source/_deploy/{{ vars.build_id }}'
+          New-Item -ItemType Directory -Force $destination | Out-Null
+          git -C C:/workspace/source archive --format=tar --prefix="{{ vars.windows_postfix }}/" --output="$destination/workrave-{{ vars.windows_postfix }}.tar" HEAD
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          xz -f "$destination/workrave-{{ vars.windows_postfix }}.tar"
+      - name: stage artifacts and record their hashes
+        run: |
+          $destination = 'C:/workspace/source/_deploy/{{ vars.build_id }}'
+          New-Item -ItemType Directory -Force $destination | Out-Null
+          $base = '{{ 'workrave-next-windows' if matrix.ui == 'Qt' else 'workrave-windows' }}-{{ vars.windows_postfix }}'
+          $artifacts = @(
+            @{ source = '{{ 'workrave-next' if matrix.ui == 'Qt' else 'workrave' }}-installer.exe'; name = "$base.exe"; kind = 'installer' },
+            @{ source = '{{ 'workrave-next' if matrix.ui == 'Qt' else 'workrave' }}-portable.zip'; name = "$base-portable.zip"; kind = 'portable' }
+          )
+          {{ "$artifacts += @{ source = ''; name = 'workrave-" ~ vars.windows_postfix ~ ".tar.xz'; kind = 'source' }" if matrix.ui != 'Qt' and matrix.configuration == 'Release' }}
+          $entries = foreach ($artifact in $artifacts) {
+            $file = "$destination/$($artifact.name)"
+            if ($artifact.source) {
+              Copy-Item "$env:OUTPUT_DIR/$($artifact.source)" $file
+              if (Test-Path "$env:OUTPUT_DIR/$($artifact.source).sigstore") { Copy-Item "$env:OUTPUT_DIR/$($artifact.source).sigstore" "$file.sigstore" }
+            }
+            @{ url = '{{ config.snapshots.bucket }}/{{ vars.s3_dir }}/{{ vars.build_id }}/' + $artifact.name;
+               path = '{{ config.snapshots.bucket }}/{{ vars.s3_dir }}/{{ vars.build_id }}'; filename = $artifact.name;
+               size = (Get-Item $file).Length.ToString(); sha256 = (Get-FileHash $file -Algorithm SHA256).Hash.ToLower();
+               sha512 = (Get-FileHash $file -Algorithm SHA512).Hash.ToLower(); lastmod = (Get-Item $file).LastWriteTime.ToString('yyyy-MM-dd HH:mm:ss');
+               platform = $(if ($artifact.kind -eq 'source') { 'all' } else { 'windows' }); edition = '{{ vars.windows_build_name }}';
+               kind = $artifact.kind; configuration = $(if ($artifact.kind -eq 'source') { 'none' } else { '{{ matrix.configuration | lower }}' }) }
+          }
+          @{ version = '2'; builds = @(@{ id = '{{ vars.build_id }}'; artifacts = @($entries) }) } |
+            ConvertTo-Json -Depth 8 | ForEach-Object {
+              [IO.File]::WriteAllText("$destination/job-catalog-{{ vars.build_id }}.{{ vars.windows_build_name }}-{{ matrix.configuration | lower }}.json", $_, (New-Object Text.UTF8Encoding $false))
+            }
 
   win-sign:
     needs: [win-build]
@@ -600,13 +761,16 @@ jobs:
 
   win-appcast:
     needs: [win-catalog]
-    runs-in: msys2
+    cwd: "{{ vars.source }}"
     steps:
+      - run: mkdir -p "{{ vars.source }}/_appcasts/gtk3" "{{ vars.source }}/_appcasts/qt"
       - uses: appcast
+        foreach: "{{ ['gtk3', 'qt'] }}"
         with:
           branch: "{{ vars.s3_dir }}"
           environment: "{{ vars.environment }}"
-          output: "{{ vars.source }}/appcast.xml"
+          edition: "{{ item }}"
+          output: "{{ vars.source }}/_appcasts/{{ item }}/appcast.xml"
           endpoint: "{{ config.snapshots.endpoint }}"
           bucket: "{{ config.snapshots.bucket }}"
           access-key: "{{ config.snapshots.access_key }}"
@@ -615,58 +779,61 @@ jobs:
         uses: sign
         with:
           kind: cosign
-          files: "{{ vars.source }}/appcast.xml"
+          files: "{{ vars.source }}/_appcasts/*/appcast.xml"
       # Only staged in git: uploading now would make clients update before the
       # (still draft) GitHub release and the AppImage are ready. `ship release
       # --target publish-appcast` merges staging into main and uploads.
       - name: stage the appcast on the staging branch, rebuilt from main
+        dry-run: echo
         run: |
           set -e
-          REPO="{{ vars.appcast_repo_dir | msys }}"
+          REPO="{{ vars.appcast_repo_dir }}"
           [ -d "$REPO/.git" ] || git clone {{ config.appcast.repo }} "$REPO"
           git -C "$REPO" fetch origin
           git -C "$REPO" checkout -B {{ config.appcast.staging_branch }} origin/main
           mkdir -p "$REPO/{{ vars.s3_dir }}"
-          cp appcast.xml "$REPO/{{ vars.s3_dir }}/appcast.xml"
-          [ ! -f appcast.xml.sigstore ] || cp appcast.xml.sigstore "$REPO/{{ vars.s3_dir }}/appcast.xml.sigstore"
+          mkdir -p "$REPO/{{ vars.s3_dir }}-qt"
+          cp _appcasts/gtk3/appcast.xml "$REPO/{{ vars.s3_dir }}/appcast.xml"
+          cp _appcasts/qt/appcast.xml "$REPO/{{ vars.s3_dir }}-qt/appcast.xml"
+          [ ! -f _appcasts/gtk3/appcast.xml.sigstore ] || cp _appcasts/gtk3/appcast.xml.sigstore "$REPO/{{ vars.s3_dir }}/appcast.xml.sigstore"
+          [ ! -f _appcasts/qt/appcast.xml.sigstore ] || cp _appcasts/qt/appcast.xml.sigstore "$REPO/{{ vars.s3_dir }}-qt/appcast.xml.sigstore"
           git -C "$REPO" add -A
           git -C "$REPO" diff --cached --quiet || git -C "$REPO" commit -m "Update appcast for {{ version.workrave }}"
-      - run: git -C "{{ vars.appcast_repo_dir | msys }}" push --force-with-lease origin {{ config.appcast.staging_branch }}
+      - run: git -C "{{ vars.appcast_repo_dir }}" push --force-with-lease origin {{ config.appcast.staging_branch }}
         dry-run: echo
 
   win-symbols:
     needs: [win-build]
-    runs-in: msys2
     steps:
-      - name: crashpad symbols of our own binaries
-        foreach: "{{ glob(vars.source ~ '/_build/Release/*.sym') }}"
+      - name: Crashpad symbols of Workrave and its dependencies
+        foreach: "{{ glob(vars.source ~ '/_build/*/Release/symbols/**/*.sym') }}"
         run: |
           curl --insecure -X POST "{{ config.symbols.server }}/api/symbols/{{ config.symbols.product_token }}/upload" \
               -H "Authorization: Bearer {{ secret('secrets.tokens.symbol_upload.production') }}" \
-              -F upload_file_symbols=@"{{ item | msys }}" \
+              -F upload_file_symbols=@"{{ item }}" \
               -F version="{{ version.workrave }}" \
               -F channel="{{ config.channel }}" \
-              -F commit="$(git rev-parse HEAD)" \
+              -F commit="$(git -C "{{ vars.source }}" rev-parse HEAD)" \
               -F build_id="{{ vars.build_id }}"
         dry-run: echo
-      # The bundled GTK stack from MSYS2 has no debug info; its symbols are
-      # recovered from the export tables of the DLLs this release ships. A
-      # failure here is not worth failing the release over.
+      # Upstream runtime DLLs without PDBs use export-table symbols from
+      # the exact binaries this release ships. A failure here is not worth
+      # failing the release over.
       - name: symbols of the bundled MinGW DLLs
-        if: "{{ exists(vars.source ~ '/_output/Release/bin') }}"
+        foreach: "{{ ['gtk3', 'qt'] }}"
+        if: "{{ exists(vars.source ~ '/_output/' ~ item ~ '/Release/bin') }}"
         run: |
-          python3 "{{ vars.scripts | msys }}/local/upload-mingw-symbols.py" \
-              "{{ vars.source | msys }}/_output/Release/bin" \
-              --upload \
-              --insecure \
+          python3 "{{ vars.scripts }}/local/upload-mingw-symbols.py" \
+              "{{ vars.source }}/_output/{{ item }}/Release/bin" \
+              --upload --insecure \
               --server "{{ config.symbols.server }}" \
               --product-token "{{ config.symbols.product_token }}" \
               --token "{{ secret('secrets.tokens.symbol_upload.production') }}" \
               --channel "{{ config.channel }}" \
               --version "{{ version.workrave }}" \
-              --commit "$(git rev-parse HEAD)" \
+              --commit "$(git -C "{{ vars.source }}" rev-parse HEAD)" \
               --build-id "{{ vars.build_id }}" \
-              || echo "WARNING: MinGW symbol upload failed; crashes in the GTK libraries will not be symbolised"
+              || echo "WARNING: MinGW symbol upload failed; crashes in these runtime libraries will not be symbolised"
         dry-run: echo
 
   # ------------------------------------------------------- publish-appcast
@@ -686,11 +853,12 @@ jobs:
       - run: git -C "{{ vars.appcast_repo_dir }}" push origin main
         dry-run: echo
       - uses: s3-upload
+        foreach: "{{ ['', '-qt'] }}"
         with:
           files:
-            - "{{ vars.appcast_repo_dir }}/{{ vars.s3_dir }}/appcast.xml"
-            - "{{ vars.appcast_repo_dir }}/{{ vars.s3_dir }}/appcast.xml.sigstore"
-          prefix: "{{ vars.s3_dir }}"
+            - "{{ vars.appcast_repo_dir }}/{{ vars.s3_dir }}{{ item }}/appcast.xml"
+            - "{{ vars.appcast_repo_dir }}/{{ vars.s3_dir }}{{ item }}/appcast.xml.sigstore"
+          prefix: "{{ vars.s3_dir }}{{ item }}"
           endpoint: "{{ config.snapshots.endpoint }}"
           bucket: "{{ config.snapshots.bucket }}"
           access-key: "{{ config.snapshots.access_key }}"

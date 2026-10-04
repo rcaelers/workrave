@@ -17,6 +17,7 @@
 #ifndef QML_STATISTICS_DIALOG_HH
 #define QML_STATISTICS_DIALOG_HH
 
+#ifndef Q_MOC_RUN
 #include <cstdint>
 #include <memory>
 
@@ -29,6 +30,7 @@
 
 #include "stats/IStatistics.hh"
 #include "ui/IApplicationContext.hh"
+#endif
 
 // ── StatisticsBridge ──────────────────────────────────────────────────────────
 // QObject bridge exposing statistics data and navigation state to the QML layer.

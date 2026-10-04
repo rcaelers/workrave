@@ -18,9 +18,11 @@
 #ifndef WORKRAVE_UI_PREFWIDGETS_QT_WIDGET_HH
 #define WORKRAVE_UI_PREFWIDGETS_QT_WIDGET_HH
 
+#ifndef Q_MOC_RUN
 #include "BuilderRegistry.hh"
 
 #include <QWidget>
+#endif
 
 namespace ui::prefwidgets::qt
 {

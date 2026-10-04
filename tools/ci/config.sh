@@ -15,6 +15,10 @@ local-windows-msys2)
     OUTPUT_DIR=${SOURCES_DIR}/_output/${CONF_CONFIGURATION}
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_build/${CONF_CONFIGURATION}
+    if [ -n "${CONF_BUILD_NAME:-}" ]; then
+        BUILD_DIR=${SOURCES_DIR}/_build/${CONF_BUILD_NAME}/${CONF_CONFIGURATION}
+        OUTPUT_DIR=${SOURCES_DIR}/_output/${CONF_BUILD_NAME}/${CONF_CONFIGURATION}
+    fi
     ;;
 
 docker-linux)

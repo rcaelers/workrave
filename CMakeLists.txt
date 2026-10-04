@@ -89,6 +89,7 @@ if(NOT DEFINED ENV{WORKRAVE_GIT_VERSION})
   endif()
 else()
   # Use environment variable
+  set(WORKRAVE_GIT_VERSION "$ENV{WORKRAVE_GIT_VERSION}")
   message(STATUS "Using WORKRAVE_GIT_VERSION from environment: ${WORKRAVE_GIT_VERSION}")
 endif()
 
@@ -433,7 +434,7 @@ endif()
 include(SBOM)
 
 if (WIN32)
-  option(WITH_SBOM "Enable generation of BSOM when using MSYS2/MinGW" OFF)
+  option(WITH_SBOM "Enable generation of a Windows dependency SBOM" OFF)
   file(WRITE "${EXTERNAL_SBOM_FILE}" "")
   if (WITH_SBOM)
     set (HAVE_SBOM ON)
@@ -443,7 +444,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Pkg-config
 
-if ("${WITH_UI_QT}" AND (NOT VCPKG_TOOLCHAIN))
+if (WITH_UI_QT AND NOT WIN32 AND NOT VCPKG_TOOLCHAIN)
   find_package(PkgConfig REQUIRED)
 endif()
 
@@ -512,14 +513,16 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # GTK
 
-pkg_check_modules(GTK3 gtk+-3.0>=3.24.0)
-if (GTK3_FOUND)
-  set (HAVE_GTK3 ON)
-endif()
+if (PKG_CONFIG_FOUND)
+  pkg_check_modules(GTK3 gtk+-3.0>=3.24.0)
+  if (GTK3_FOUND)
+    set (HAVE_GTK3 ON)
+  endif()
 
-pkg_check_modules(GTK4 gtk4>=4.10.0)
-if (GTK4_FOUND)
-  set (HAVE_GTK4 ON)
+  pkg_check_modules(GTK4 gtk4>=4.10.0)
+  if (GTK4_FOUND)
+    set (HAVE_GTK4 ON)
+  endif()
 endif()
 
 if ("${WITH_UI}" STREQUAL "Gtk+3")
@@ -654,10 +657,13 @@ if ("${WITH_UI}" STREQUAL "Qt")
     message(FATAL_ERROR "The clang-generated DBus bindings require Qt6DBus")
   endif()
 
-  get_target_property(QtCore_location_Release Qt${QT_VERSION_MAJOR}::Core LOCATION_Release)
-  get_filename_component(QT_BIN_DIR "${QtCore_location_Release}" DIRECTORY)
+  execute_process(COMMAND ${QT_QTPATHS_EXECUTABLE} --query QT_INSTALL_BINS
+                  OUTPUT_VARIABLE QT_BIN_DIR OUTPUT_STRIP_TRAILING_WHITESPACE
+                  COMMAND_ERROR_IS_FATAL ANY)
   if (APPLE)
-    get_filename_component(QT_INSTALL_PREFIX "${QT_BIN_DIR}/../../../" REALPATH)
+    execute_process(COMMAND ${QT_QTPATHS_EXECUTABLE} --query QT_INSTALL_PREFIX
+                    OUTPUT_VARIABLE QT_INSTALL_PREFIX OUTPUT_STRIP_TRAILING_WHITESPACE
+                    COMMAND_ERROR_IS_FATAL ANY)
   endif()
 
   find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${QT_BIN_DIR}")
@@ -1112,7 +1118,7 @@ if (WIN32)
     set (HAVE_HARPOON ON)
   endif()
 
-  if (NOT MSVC)
+  if (NOT MSVC AND HAVE_HARPOON)
     find_program(MSYS2_SHELL
                 NAMES msys2_shell.cmd
                 PATHS
@@ -1306,8 +1312,8 @@ set(HAVE_CRASHPAD OFF)
 
 if (WITH_CRASHPAD)
   if (MINGW)
-    if (NOT "$ENV{MSYSTEM}" STREQUAL "CLANG64")
-      message(FATAL_ERROR "Crashpad requires MINGW Clang64")
+    if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+      message(FATAL_ERROR "Crashpad requires a Clang MinGW toolchain")
     endif()
   endif()
 
@@ -1415,6 +1421,8 @@ if(HAVE_SBOM)
   sbom_set_license("sigstore" "MIT")
   sbom_set_license("sigstore_protos" "Apache-2.0")
   sbom_set_license("googleapis_protos" "Apache-2.0")
+  sbom_set_license("abseil" "Apache-2.0")
+  sbom_set_license("protobuf" "BSD-3-Clause")
 
   # Crashpad submodules
   sbom_set_license("mini_chromium" "BSD-3-Clause")

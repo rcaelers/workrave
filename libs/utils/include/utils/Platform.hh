@@ -43,6 +43,8 @@ namespace workrave::utils
     static bool registry_set_value(const char *path, const char *name, const char *value);
     static std::optional<std::string> registry_get_value(const char *path, const char *name);
     static std::string get_application_name();
+    static bool autostart_enabled();
+    static bool set_autostart_enabled(bool enabled);
     static bool is_arm64();
 
   private:
