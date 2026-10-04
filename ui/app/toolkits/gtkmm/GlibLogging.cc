@@ -33,7 +33,20 @@ namespace
       }
 
     auto logger = spdlog::default_logger();
-    logger->log(level, "[{}] {}", domain, message);
+    // Each record gets its own timestamp, severity and domain prefix. Accept
+    // Unix and Windows line endings without adding a record for a trailing one.
+    do
+      {
+        auto end = message.find_first_of("\r\n");
+        logger->log(level, "[{}] {}", domain, message.substr(0, end));
+        if (end == std::string_view::npos)
+          {
+            break;
+          }
+        bool crlf = message[end] == '\r' && end + 1 < message.size() && message[end + 1] == '\n';
+        message.remove_prefix(end + (crlf ? 2 : 1));
+      }
+    while (!message.empty());
     // GLib may abort as soon as the callback returns, including for warnings
     // made fatal by G_DEBUG. Do not rely on normal shutdown or flush_on().
     logger->flush();
