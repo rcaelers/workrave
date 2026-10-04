@@ -113,7 +113,7 @@ TimerBoxPreferencePanel::create_page()
       if (!workrave::utils::Platform::running_on_wayland())
 #endif
         {
-          hide_from_taskbar_cb = Gtk::manage(new Gtk::CheckButton(_("Hide from taskbar and Alt+Tab")));
+          hide_from_taskbar_cb = Gtk::manage(new Gtk::CheckButton(_("Hide from taskbar and window switcher")));
         }
 #endif
 

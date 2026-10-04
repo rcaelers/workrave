@@ -251,7 +251,7 @@ GUIConfig::main_window_always_on_top() -> Setting<bool> &
 auto
 GUIConfig::main_window_hide_from_taskbar() -> Setting<bool> &
 {
-  return SettingCache::get<bool>(config, CFG_KEY_MAIN_WINDOW_HIDE_FROM_TASKBAR, false);
+  return SettingCache::get<bool>(config, CFG_KEY_MAIN_WINDOW_HIDE_FROM_TASKBAR, true);
 }
 
 auto
