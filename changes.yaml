@@ -1,5 +1,29 @@
 ---
 releases:
+  # Unreleased; update the date when preparing the release.
+  - version: 1.11.5
+    date: 2026-10-04T00:00:00+02:00
+    short: |-
+      Workrave 1.11.5 improves tray menus and window visibility, adds Windows power
+      options during breaks, and fixes a problem with the sound preferences.
+    changes:
+      - |-
+        New features and improvements:
+        - Added an option to hide the status window from the taskbar and window switcher
+          on Windows and Linux/X11. This option is enabled by default (#701, #747)
+        - Added shutdown, sleep, and hibernate options to the rest-break window on Windows (#735)
+        - The Windows installer now supports `/NOLAUNCH` to skip starting Workrave after installation
+      - |-
+        Bug fixes:
+        - Fixed empty tray menus on Linux, including when using i3 with Polybar (#750)
+        - Fixed the GNOME Shell menu not appearing after choosing "Open Workrave" (#750)
+        - Fixed registry permission errors when installing Workrave for the current Windows user (#749)
+        - Fixed blocking break windows appearing in the taskbar and window switcher on
+          Windows and Linux/X11 (#747)
+        - Fixed the preferences window opening when dismissing the Windows tray menu (#720)
+        - The Windows tray menu now follows the selected light or dark appearance (#715)
+        - Fixed the selected sound theme being shown incorrectly when reopening sound preferences (#702)
+
   - version: 1.11.4
     date: 2026-09-25T11:45:00+02:00
     short: |-
