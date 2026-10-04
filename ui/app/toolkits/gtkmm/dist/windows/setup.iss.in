@@ -1,4 +1,4 @@
-; setup.iss --- Inno setup file
+﻿; setup.iss --- Inno setup file
 ; (Important: *MUST* be DOS encoded)
 ;
 ; Copyright (C) 2002 - 2011, 2013 Raymond Penners <raymond@dotsphinx.com>
@@ -73,7 +73,7 @@ Source: "@INSTALL_WIN_PATH@\README.txt"; DestDir: "{app}"; DestName: "README.txt
 #include "libraries.iss"
 
 [Registry]
-Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Workrave"; ValueData: """{app}\bin\Workrave.exe"""; Tasks: startupmenu
+Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Workrave"; ValueData: "{app}\bin\Workrave.exe"; Flags: uninsdeletevalue; Tasks: startupmenu
 
 [Icons]
 Name: "{group}\Workrave"; Filename: "{app}\bin\Workrave.exe"
@@ -85,7 +85,7 @@ Name: "{autodesktop}\Workrave"; Filename: "{app}\bin\Workrave.exe"; MinVersion: 
 Name: "{app}\Workrave"; Filename: "{app}\bin\Workrave.exe"
 
 [Run]
-Filename: "{app}\bin\Workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall shellexec;
+Filename: "{app}\bin\Workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall shellexec; Check: not CmdLineParamExists('/NOLAUNCH')
 
 [InstallDelete]
 Type: files; Name: "{autostartup}\Workrave.lnk"
@@ -417,4 +417,16 @@ begin
     if RegQueryStringValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Run', 'Workrave', command) then
       if CompareText(command, '"' + ExpandConstant('{app}\bin\Workrave.exe') + '"') = 0 then
         RegDeleteValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Run', 'Workrave');
+end;
+
+function CmdLineParamExists(const Value: string): Boolean;
+var I: Integer;
+begin
+  Result := False;
+  for I := 1 to ParamCount do
+    if CompareText(ParamStr(I), Value) = 0 then
+    begin
+      Result := True;
+      Exit;
+    end;
 end;

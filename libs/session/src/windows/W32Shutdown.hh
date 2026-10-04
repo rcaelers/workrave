@@ -24,17 +24,22 @@ class W32Shutdown : public ISystemStateChangeMethod
 {
 public:
   W32Shutdown();
-  virtual ~W32Shutdown(){};
+  ~W32Shutdown() override = default;
 
-  virtual bool shutdown();
-  virtual bool canShutdown()
+  bool shutdown() override;
+  bool suspend() override;
+  bool hibernate() override;
+
+  bool canShutdown() override
   {
     return shutdown_supported;
   }
+  bool canSuspend() override;
+  bool canHibernate() override;
 
 private:
-  bool shutdown_helper(bool for_real);
-  bool shutdown_supported;
+  bool suspend_helper(bool hibernate);
+  bool shutdown_supported{false};
 };
 
 #endif /* W32SHUTDOWN_HH_ */

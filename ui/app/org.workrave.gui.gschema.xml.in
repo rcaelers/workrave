@@ -292,6 +292,11 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="b" name="hide-from-taskbar">
+      <default>false</default>
+      <summary>Hide the status window from the taskbar</summary>
+      <description>Hide the status window from the taskbar and window switcher.</description>
+    </key>
     <key type="b" name="start-in-tray">
       <default>false</default>
       <summary></summary>

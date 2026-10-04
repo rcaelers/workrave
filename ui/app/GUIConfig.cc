@@ -55,6 +55,7 @@ const std::string GUIConfig::CFG_KEY_SANCTUARY_UI_ENABLED = "gui/sanctuary_ui_en
 const std::string GUIConfig::CFG_KEY_DISPLAY_STYLE = "gui/display_style";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW = "gui/main_window";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
+const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_HIDE_FROM_TASKBAR = "gui/main_window/hide_from_taskbar";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_START_IN_TRAY = "gui/main_window/start_in_tray";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_X = "gui/main_window/x";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_Y = "gui/main_window/y";
@@ -280,6 +281,12 @@ auto
 GUIConfig::main_window_always_on_top() -> Setting<bool> &
 {
   return SettingCache::get<bool>(config, CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, false);
+}
+
+auto
+GUIConfig::main_window_hide_from_taskbar() -> Setting<bool> &
+{
+  return SettingCache::get<bool>(config, CFG_KEY_MAIN_WINDOW_HIDE_FROM_TASKBAR, false);
 }
 
 auto

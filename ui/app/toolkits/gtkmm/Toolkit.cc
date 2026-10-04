@@ -25,6 +25,7 @@
 
 #include "DailyLimitWindow.hh"
 #include "GtkUtil.hh"
+#include "GlibLogging.hh"
 #include "MicroBreakWindow.hh"
 #include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
@@ -43,6 +44,7 @@ Toolkit::Toolkit(int &argc, char **argv)
   : argc(argc)
   , argv(argv)
 {
+  init_glib_logging();
   TRACE_ENTRY();
 }
 
@@ -107,7 +109,6 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   Glib::signal_timeout().connect(sigc::mem_fun(*this, &Toolkit::on_timer), 1000);
 
   init_multihead();
-  init_debug();
 }
 
 void
@@ -489,29 +490,6 @@ Toolkit::init_multihead()
   TRACE_ENTRY();
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   Glib::RefPtr<Gdk::Screen> screen = display->get_default_screen();
-}
-
-#if defined(NDEBUG)
-static void
-my_log_handler(const gchar *log_domain, GLogLevelFlags log_level, const gchar *message, gpointer user_data)
-{
-}
-#endif
-
-void
-Toolkit::init_debug()
-{
-#if defined(NDEBUG)
-  TRACE_ENTRY();
-  const char *domains[] = {NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject"};
-  for (unsigned int i = 0; i < sizeof(domains) / sizeof(char *); i++)
-    {
-      g_log_set_handler(domains[i],
-                        (GLogLevelFlags)(G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
-                        my_log_handler,
-                        NULL);
-    }
-#endif
 }
 
 void

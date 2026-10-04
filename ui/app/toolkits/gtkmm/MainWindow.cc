@@ -197,6 +197,8 @@ MainWindow::init()
   eventbox->add(*timer_box_view);
   add(*eventbox);
 
+  GUIConfig::main_window_hide_from_taskbar().attach(this, [this](bool hidden) { on_hide_from_taskbar_changed(hidden); });
+
   realize_if_needed();
   Glib::RefPtr<Gdk::Window> window = get_window();
 
@@ -238,6 +240,36 @@ MainWindow::init()
     }
 
   GUIConfig::main_window_always_on_top().attach(this, [&](bool enabled) { GtkUtil::set_always_on_top(this, enabled); });
+}
+
+void
+MainWindow::on_hide_from_taskbar_changed(bool hidden)
+{
+  if (get_skip_taskbar_hint() == hidden)
+    {
+      return;
+    }
+
+  // Remap after changing the hints so window managers refresh the taskbar.
+  const bool visible = get_visible();
+  if (visible)
+    {
+      hide();
+    }
+#if defined(PLATFORM_OS_WINDOWS)
+  set_type_hint(hidden ? Gdk::WINDOW_TYPE_HINT_UTILITY : Gdk::WINDOW_TYPE_HINT_NORMAL);
+#endif
+
+  set_skip_taskbar_hint(hidden);
+  set_skip_pager_hint(hidden);
+
+  if (visible)
+    {
+      const bool focus_on_map = get_focus_on_map();
+      set_focus_on_map(false);
+      show();
+      set_focus_on_map(focus_on_map);
+    }
 }
 
 void

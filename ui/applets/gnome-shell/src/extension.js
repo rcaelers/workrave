@@ -437,8 +437,12 @@ const WorkraveButton = GObject.registerClass(
       this._area.queue_repaint();
     }
 
-    _onGetMenuReply([menuitems], excp) {
-      this._updateMenu(menuitems);
+    _onGetMenuReply(result, excp) {
+      if (excp != null) {
+        global.log("workrave-applet: failed to get menu (" + excp + ")");
+        return;
+      }
+      this._updateMenu(result[0]);
     }
 
     _onGetTrayIconEnabledReply([enabled], excp) {
@@ -475,7 +479,7 @@ const WorkraveButton = GObject.registerClass(
     }
 
     _onMenuOpenCommand(item, event) {
-      this._ui_proxy.GetMenuRemote(); // A dummy method call to re-activate the service
+      this._ui_proxy.GetMenuRemote(Lang.bind(this, this._onGetMenuReply));
     }
 
     _updateTrayIcon(enabled) {

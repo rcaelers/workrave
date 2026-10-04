@@ -35,68 +35,20 @@
 #include "utils/AssetPath.hh"
 #include "utils/Signals.hh"
 #include "ui/GUIConfig.hh"
+#include "GtkUtil.hh"
 
-using namespace workrave::utils;
-
-namespace
-{
-  //! Resolves an image name against the configured icon theme.
-  /*!
-   *  Equivalent to GtkUtil::get_image_filename(), but without the toolkit
-   *  dependency, so this plugin can be shared by the gtkmm and Qt toolkits.
-   */
-  std::string
-  get_image_filename(const std::string &image)
-  {
-    std::string theme = GUIConfig::icon_theme()();
-    if (!theme.empty())
-      {
-        theme += G_DIR_SEPARATOR_S;
-      }
-
-    std::string path;
-    if (!AssetPath::complete_directory(theme + image, SearchPathId::Images, path))
-      {
-        AssetPath::complete_directory(image, SearchPathId::Images, path);
-      }
-
-    return path;
-  }
-} // namespace
-
-#if defined(HAVE_APPINDICATOR_GLIB)
 AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context)
   : context(context)
   , apphold(context->get_toolkit())
 {
   indicator = app_indicator_new("workrave", "workrave", APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
 
-  menu = std::make_unique<GioMenu>(context->get_menu_model());
-
-  app_indicator_set_actions(indicator, menu->get_actions());
-  app_indicator_set_menu(indicator, menu->get_menu());
-
-  app_indicator_set_status(indicator, APP_INDICATOR_STATUS_ACTIVE);
-  app_indicator_set_attention_icon(indicator, "workrave", "workrave-icon");
-#else
-AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std::shared_ptr<DbusMenu> dbus_menu)
-  : context(context)
-  , apphold(context->get_toolkit())
-{
-  indicator = app_indicator_new("workrave", "workrave", APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
-
-  // The classic library requires a GtkMenu for set_menu(), but the menu content
-  // is actually served over DBus: attach the shared menu model's root item to
-  // the indicator's own DBus Menu server, same as the panel indicator applet.
-  GtkWidget *menu_widget = gtk_menu_new();
-  app_indicator_set_menu(indicator, GTK_MENU(menu_widget));
-
-  DbusmenuServer *server{};
-  g_object_get(indicator, "dbus-menu-server", &server, NULL);
-  auto *root_menu_item = dbus_menu->get_root_menu_item();
-  g_object_ref(root_menu_item);
-  dbusmenu_server_set_root(server, root_menu_item);
-
+  // AppIndicator exports this menu over D-Bus and also uses it for its XEmbed fallback.
+  menu = std::make_shared<ToolkitMenu>(context->get_menu_model());
+  auto gtk_menu = menu->get_menu();
+  gtk_menu->insert_action_group("app", menu->get_action_group());
+  gtk_menu->show_all();
+  app_indicator_set_menu(indicator, gtk_menu->gobj());
   app_indicator_set_status(indicator, APP_INDICATOR_STATUS_ACTIVE);
   app_indicator_set_attention_icon_full(indicator, "workrave", "workrave-icon");
 #endif
@@ -121,7 +73,12 @@ AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std:
 AppIndicatorMenu::~AppIndicatorMenu()
 {
   // The timer belongs to the main context and could trigger, when this object is already destroyed.
-  g_source_remove(apphold_release_timer_id);
+  if (apphold_release_timer_id != 0)
+    {
+      g_source_remove(apphold_release_timer_id);
+    }
+  g_signal_handlers_disconnect_by_data(indicator, this);
+  g_object_unref(indicator);
 }
 
 void
@@ -157,10 +114,6 @@ AppIndicatorMenu::on_operation_mode_changed(workrave::OperationMode mode)
       app_indicator_set_icon_full(indicator, filename.c_str(), "workrave-icon");
 #endif
     }
-
-#if defined(HAVE_APPINDICATOR_GLIB)
-  menu->update();
-#endif
 }
 
 gboolean

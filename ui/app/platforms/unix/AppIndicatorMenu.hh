@@ -36,18 +36,14 @@
 #  include "DbusMenu.hh"
 #endif
 
-#if defined(HAVE_APPINDICATOR_GLIB)
-class AppIndicatorMenu : public Plugin<AppIndicatorMenu>
-#else
-class AppIndicatorMenu : public Plugin<AppIndicatorMenu, DbusMenu>
-#endif
+#include <gtk/gtk.h>
+
+class AppIndicatorMenu
+  : public sigc::trackable
+  , public Plugin<AppIndicatorMenu>
 {
 public:
-#if defined(HAVE_APPINDICATOR_GLIB)
   explicit AppIndicatorMenu(std::shared_ptr<IPluginContext> context);
-#else
-  explicit AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std::shared_ptr<DbusMenu> dbus_menu);
-#endif
   ~AppIndicatorMenu() override;
 
   std::string get_plugin_id() const override
@@ -65,9 +61,7 @@ private:
   AppHold apphold;
   bool connected{false};
   guint apphold_release_timer_id{0};
-#if defined(HAVE_APPINDICATOR_GLIB)
-  std::unique_ptr<GioMenu> menu;
-#endif
+  std::shared_ptr<ToolkitMenu> menu;
   AppIndicator *indicator{};
 
   workrave::utils::Trackable tracker;
