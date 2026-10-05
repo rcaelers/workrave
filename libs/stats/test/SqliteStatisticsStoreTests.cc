@@ -21,6 +21,8 @@
 
 #include <gtest/gtest.h>
 
+#include <chrono>
+#include <filesystem>
 #include <string>
 
 #include "StatisticsStoreTestFixture.hh"
@@ -310,11 +312,15 @@ namespace
   TEST_F(MigrationTest, import_picks_up_new_data_after_downgrade)
   {
     file_store()->append_history(make_record(12));
+    const auto history_path = directory / "historystats";
+    const auto initial_mtime = std::filesystem::last_write_time(history_path);
 
     EXPECT_EQ(sqlite_store()->load_history().size(), 1U);
 
     // As if an older Workrave had run again after the upgrade.
     file_store()->append_history(make_record(13));
+    // Rapid writes can share the same filesystem timestamp.
+    std::filesystem::last_write_time(history_path, initial_mtime + std::chrono::seconds{1});
 
     auto store = sqlite_store();
     EXPECT_EQ(store->load_history().size(), 2U);
@@ -326,6 +332,8 @@ namespace
   TEST_F(MigrationTest, reimport_does_not_overwrite_existing_days)
   {
     file_store()->append_history(make_record(12));
+    const auto history_path = directory / "historystats";
+    const auto initial_mtime = std::filesystem::last_write_time(history_path);
 
     auto store = sqlite_store();
     ASSERT_EQ(store->load_history().size(), 1U);
@@ -338,6 +346,8 @@ namespace
 
     // As if an older Workrave had appended to the text file again.
     file_store()->append_history(make_record(13));
+    // Rapid writes can share the same filesystem timestamp.
+    std::filesystem::last_write_time(history_path, initial_mtime + std::chrono::seconds{1});
 
     auto reopened = sqlite_store();
     auto history = reopened->load_history();
