@@ -27,20 +27,15 @@
 #include "ui/Plugin.hh"
 #include "ui/IPluginContext.hh"
 #include "ui/AppHold.hh"
+#include "GioMenu.hh"
 
 #if defined(HAVE_APPINDICATOR_GLIB)
 #  include <ayatana-appindicator.h>
-#  include "GioMenu.hh"
 #else
 #  include <libayatana-appindicator/app-indicator.h>
-#  include "DbusMenu.hh"
 #endif
 
-#include <gtk/gtk.h>
-
-class AppIndicatorMenu
-  : public sigc::trackable
-  , public Plugin<AppIndicatorMenu>
+class AppIndicatorMenu : public Plugin<AppIndicatorMenu>
 {
 public:
   explicit AppIndicatorMenu(std::shared_ptr<IPluginContext> context);
@@ -61,7 +56,7 @@ private:
   AppHold apphold;
   bool connected{false};
   guint apphold_release_timer_id{0};
-  std::shared_ptr<ToolkitMenu> menu;
+  std::unique_ptr<GioMenu> menu;
   AppIndicator *indicator{};
 
   workrave::utils::Trackable tracker;

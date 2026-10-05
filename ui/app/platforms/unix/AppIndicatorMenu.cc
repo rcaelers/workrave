@@ -35,7 +35,28 @@
 #include "utils/AssetPath.hh"
 #include "utils/Signals.hh"
 #include "ui/GUIConfig.hh"
-#include "GtkUtil.hh"
+
+using namespace workrave::utils;
+
+namespace
+{
+  std::string
+  get_image_filename(const std::string &image)
+  {
+    std::string theme = GUIConfig::icon_theme()();
+    if (!theme.empty())
+      {
+        theme += G_DIR_SEPARATOR_S;
+      }
+
+    std::string path;
+    if (!AssetPath::complete_directory(theme + image, SearchPathId::Images, path))
+      {
+        AssetPath::complete_directory(image, SearchPathId::Images, path);
+      }
+    return path;
+  }
+} // namespace
 
 AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context)
   : context(context)
@@ -43,12 +64,18 @@ AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context)
 {
   indicator = app_indicator_new("workrave", "workrave", APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
 
+  menu = std::make_unique<GioMenu>(context->get_menu_model());
+#if defined(HAVE_APPINDICATOR_GLIB)
+  app_indicator_set_actions(indicator, menu->get_actions());
+  app_indicator_set_menu(indicator, menu->get_menu());
+  app_indicator_set_status(indicator, APP_INDICATOR_STATUS_ACTIVE);
+  app_indicator_set_attention_icon(indicator, "workrave", "workrave-icon");
+#else
   // AppIndicator exports this menu over D-Bus and also uses it for its XEmbed fallback.
-  menu = std::make_shared<ToolkitMenu>(context->get_menu_model());
-  auto gtk_menu = menu->get_menu();
-  gtk_menu->insert_action_group("app", menu->get_action_group());
-  gtk_menu->show_all();
-  app_indicator_set_menu(indicator, gtk_menu->gobj());
+  GtkWidget *gtk_menu = gtk_menu_new_from_model(G_MENU_MODEL(menu->get_menu()));
+  gtk_widget_insert_action_group(gtk_menu, "indicator", G_ACTION_GROUP(menu->get_actions()));
+  gtk_widget_show_all(gtk_menu);
+  app_indicator_set_menu(indicator, GTK_MENU(gtk_menu));
   app_indicator_set_status(indicator, APP_INDICATOR_STATUS_ACTIVE);
   app_indicator_set_attention_icon_full(indicator, "workrave", "workrave-icon");
 #endif
