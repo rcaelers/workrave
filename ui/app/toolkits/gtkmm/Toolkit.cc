@@ -552,8 +552,27 @@ Toolkit::init_css()
 bool
 Toolkit::on_timer()
 {
-  timer_signal();
-  main_window->update();
+  const char *stage = "application timer signal";
+  try
+    {
+      timer_signal();
+      stage = "main window update";
+      main_window->update();
+    }
+  catch (...)
+    {
+      // Keep the original exception handling (including GLib's diagnostics).
+      try
+        {
+          spdlog::error("GTK heartbeat failed: stage={}", stage);
+          spdlog::default_logger()->flush();
+        }
+      catch (...)
+        {
+          // Preserve the original exception even if diagnostic logging fails.
+        }
+      throw;
+    }
   return true;
 }
 

@@ -859,50 +859,84 @@ Core::heartbeat()
   TRACE_ENTRY();
   assert(application != nullptr);
 
-  TimeSource::sync();
-
-  check_operation_mode_auto_reset();
-
-  // Performs timewarp checking.
-  bool warped = process_timewarp();
-
-  // Process configuration
-  configurator->heartbeat();
-
-  // Perform distribution processing.
-  process_distribution();
-
-  if (!warped)
+  const char *stage = "time sync";
+  int break_id = -1;
+  try
     {
-      // Perform state computation.
-      process_state();
-    }
+      TimeSource::sync();
 
-  // Perform timer processing.
-  process_timers();
+      stage = "operation mode";
+      check_operation_mode_auto_reset();
 
-  // Send heartbeats to other components.
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      BreakControl *bc = breaks[i].get_break_control();
-      if (bc != nullptr && bc->need_heartbeat())
+      // Performs timewarp checking.
+      stage = "time warp";
+      bool warped = process_timewarp();
+
+      // Process configuration
+      stage = "configuration";
+      configurator->heartbeat();
+
+      // Perform distribution processing.
+      stage = "distribution";
+      process_distribution();
+
+      if (!warped)
         {
-          bc->heartbeat();
+          // Perform state computation.
+          stage = "activity state";
+          process_state();
         }
+
+      // Perform timer processing.
+      stage = "timers";
+      process_timers();
+
+      // Send heartbeats to other components.
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
+          stage = "break heartbeat";
+          break_id = i;
+          BreakControl *bc = breaks[i].get_break_control();
+          if (bc != nullptr && bc->need_heartbeat())
+            {
+              bc->heartbeat();
+            }
+        }
+
+      break_id = -1;
+
+      // Set current time.
+      int64_t current_time = TimeSource::get_real_time_sec();
+
+      // Make state persistent.
+      if (current_time % SAVESTATETIME == 0)
+        {
+          stage = "statistics";
+          statistics->update();
+          stage = "save state";
+          save_state();
+        }
+
+      // Done.
+      last_process_time = current_time;
     }
-
-  // Set current time.
-  int64_t current_time = TimeSource::get_real_time_sec();
-
-  // Make state persistent.
-  if (current_time % SAVESTATETIME == 0)
+  catch (...)
     {
-      statistics->update();
-      save_state();
+      // Diagnostics must not replace the exception or change callback recovery.
+      try
+        {
+          spdlog::error("Core heartbeat failed: stage={} break_id={} last_completed_wall_time={}",
+                        stage,
+                        break_id,
+                        last_process_time);
+          spdlog::default_logger()->flush();
+        }
+      catch (...)
+        {
+          // Preserve the original exception even if diagnostic logging fails.
+        }
+      throw;
     }
-
-  // Done.
-  last_process_time = current_time;
 }
 
 //! Performs all distribution processing.
