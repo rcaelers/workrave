@@ -160,8 +160,15 @@ message(STATUS "WORKRAVE_BUILD_DATETIME: ${WORKRAVE_BUILD_DATETIME}")
 #----------------------------------------------------------------------------------------------------
 # Macros
 
+option(WITH_LOCALINSTALL "Install files under CMAKE_INSTALL_PREFIX instead of system locations" OFF)
+option(LOCALINSTALL "Legacy alias for WITH_LOCALINSTALL" OFF)
+if (LOCALINSTALL)
+  set(WITH_LOCALINSTALL ON)
+endif()
+
 macro(pkgconfig_get_var OUT PKG VARNAME)
-  if (LOCALINSTALL)
+  unset(NEWPREFIX)
+  if (WITH_LOCALINSTALL)
     set(NEWPREFIX "--define-variable=prefix=${CMAKE_INSTALL_PREFIX}")
   endif()
 
@@ -193,7 +200,8 @@ function(make_install_destination_relative PATH_VAR PREFIX)
 endfunction()
 
 macro(pkgconfig_get_requires OUT PKG)
-  if (LOCALINSTALL)
+  unset(NEWPREFIX)
+  if (WITH_LOCALINSTALL)
     set(NEWPREFIX "--define-variable=prefix=/")
   endif()
 
@@ -786,6 +794,23 @@ if (WITH_GNOME_CLASSIC_PANEL AND HAVE_GTK)
   endif()
 endif()
 
+if (HAVE_GNOME3_PANEL_APPLET)
+  if (HAVE_LIBGNOME_PANEL)
+    if (WITH_LOCALINSTALL)
+      set(APPLET_DIR "${LIBDIR}/gnome-panel/modules")
+    else()
+      pkgconfig_get_var(APPLET_DIR libgnome-panel modulesdir)
+    endif()
+  elseif (HAVE_LIBPANEL_APPLET)
+    set(APPLET_DIR "${LIBDIR}/gnome-applets")
+    if (WITH_LOCALINSTALL)
+      set(CONFIG_DIR "${DATADIR}/gnome-panel/applets")
+    else()
+      pkgconfig_get_var(CONFIG_DIR libpanel-applet libpanel_applet_dir)
+    endif()
+  endif()
+endif()
+
 #----------------------------------------------------------------------------------------------------
 # DBus Menu
 
@@ -811,7 +836,6 @@ endif()
 
 if (UNIX AND NOT APPLE)
   option(WITH_INDICATOR "Enable Ayatana indicator support" ON)
-  option(LOCALINSTALL "Install file locally instead of to system location" OFF)
 
   if (WITH_INDICATOR AND HAVE_DBUSMENU)
     message(STATUS "Checking for: Ayatana Indicators")
@@ -839,9 +863,9 @@ if (UNIX AND NOT APPLE)
   endif()
 
   if (HAVE_INDICATOR)
-    if (LOCALINSTALL)
-      set (INDICATORDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/indicators3/7")
-      set (INDICATORICONSDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/libindicate/icons")
+    if (WITH_LOCALINSTALL)
+      set (INDICATORDIR "${LIBDIR}/indicators3/7")
+      set (INDICATORICONSDIR "${LIBDIR}/libindicate/icons")
     else()
       if (HAVE_INDICATOR_AYATANA)
         set(INDICATOR_PKG ayatana-indicator3-0.4)
@@ -932,6 +956,11 @@ if (UNIX AND NOT APPLE)
 
     if (XFCE4_FOUND)
       set (HAVE_XFCE4 ON)
+      if (WITH_LOCALINSTALL)
+        set(XFCE4LIBDIR "${LIBDIR}")
+      else()
+        pkgconfig_get_var(XFCE4LIBDIR libxfce4panel-2.0 libdir)
+      endif()
     else()
       set (WITH_XFCE4 OFF)
     endif()

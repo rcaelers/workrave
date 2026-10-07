@@ -1,7 +1,5 @@
 if (HAVE_XFCE4)
 
-  pkgconfig_get_var(XFCE4LIBDIR libxfce4panel-2.0 libdir)
-
   intltool_merge_desktop(
     ${CMAKE_CURRENT_SOURCE_DIR}/workrave-xfce-applet-2.0.desktop.in.in
     ${CMAKE_CURRENT_BINARY_DIR}/workrave-xfce-applet.desktop)
