@@ -18,6 +18,9 @@
 #ifndef IACTIVITYMONITORLISTENER_HH
 #define IACTIVITYMONITORLISTENER_HH
 
+#include <memory>
+#include <string>
+
 //! Listener for user activity from the Activity Monitor
 class IActivityMonitorListener
 {
@@ -25,6 +28,11 @@ public:
   using Ptr = std::shared_ptr<IActivityMonitorListener>;
 
   virtual ~IActivityMonitorListener() = default;
+
+  virtual std::string get_diagnostic_name() const
+  {
+    return "activity-listener";
+  }
 
   // Notification that the user is currently active.
   virtual bool action_notify() = 0;

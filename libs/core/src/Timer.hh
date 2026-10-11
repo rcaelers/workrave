@@ -215,25 +215,25 @@ private:
   TracedField<TimerState> timer_state;
 
   //! Default snooze time
-  int64_t snooze_interval{60};
+  TracedField<int64_t> snooze_interval;
 
   //! Snooze on active time instead of on actual time.
-  bool snooze_on_active{true};
+  TracedField<bool> snooze_on_active;
 
   //! Don't snooze til next reset or changes.
-  bool snooze_inhibited{false};
+  TracedField<bool> snooze_inhibited;
 
   //! Is the timer limit enabled?
-  bool limit_enabled{true};
+  TracedField<bool> limit_enabled;
 
   //! Timer limit interval.
-  int64_t limit_interval{600};
+  TracedField<int64_t> limit_interval;
 
   //! Is the timer auto reset enabled?
-  bool autoreset_enabled{true};
+  TracedField<bool> autoreset_enabled;
 
   //! Automatic reset time interval.
-  int64_t autoreset_interval{120};
+  TracedField<int64_t> autoreset_interval;
 
   //! Auto reset time predicate. (or NULL if not used)
   TimePred *autoreset_interval_predicate{nullptr};
@@ -260,16 +260,16 @@ private:
   int64_t last_stop_time{0};
 
   //! Next automatic reset time.
-  int64_t next_reset_time{0};
+  TracedField<int64_t> next_reset_time;
 
   //! Time when the timer was last reset because of a predicate.
   int64_t last_pred_reset_time{0};
 
   //! Next automatic predicate reset time.
-  int64_t next_pred_reset_time{0};
+  TracedField<int64_t> next_pred_reset_time;
 
   //! Next limit time.
-  int64_t next_limit_time{0};
+  TracedField<int64_t> next_limit_time;
 
   //! Total overdue time.
   int64_t total_overdue_time{0};
@@ -283,7 +283,16 @@ private:
   //!
   TracedField<InsensitiveMode> insensitive_mode;
 
+  TracedField<ActivityState> input_activity;
+  TracedField<ActivityState> effective_activity;
+  TracedField<std::string> activity_source;
+  TracedField<std::string> reset_predicate;
+
 private:
+  // Timing values are sampled at transitions, not traced on every tick.
+  void report_timing(const std::string &reason) const;
+  void update_activity_source();
+  void publish_deadlines();
   void compute_next_limit_time();
   void compute_next_reset_time();
   void compute_next_predicate_reset_time();

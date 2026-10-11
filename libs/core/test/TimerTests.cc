@@ -31,6 +31,7 @@
 #include "Timer.hh"
 #include "TimePred.hh"
 #include "SimulatedTime.hh"
+#include "DiagnosticsCapture.hh"
 
 using namespace std;
 using namespace workrave::utils;
@@ -175,6 +176,95 @@ public:
 };
 
 BOOST_FIXTURE_TEST_SUITE(timer, Fixture)
+
+BOOST_AUTO_TEST_CASE(test_diagnostics_snapshot_and_stable_ticks)
+{
+  init();
+  tick(true);
+  DiagnosticsCapture capture;
+  BOOST_CHECK(capture.contains("test.timer.limit_interval_seconds -> 100"));
+  BOOST_CHECK(capture.contains("test.timer.autoreset_interval_seconds -> 20"));
+  BOOST_CHECK(capture.contains("test.timer.snooze_interval_seconds -> 50"));
+  BOOST_CHECK(capture.contains("test.timer.activity_source -> core"));
+  BOOST_CHECK(capture.contains("test.timer.timing -> reason=snapshot"));
+  BOOST_CHECK(capture.contains("elapsed_seconds=0"));
+  BOOST_CHECK(capture.contains("last_start_wall_seconds="));
+  capture.lines.clear();
+  tick(true, 10, [](int) {});
+  BOOST_CHECK(capture.lines.empty());
+
+  timer->set_limit(200);
+  BOOST_CHECK(capture.contains("test.timer.limit_interval_seconds -> 200"));
+  BOOST_CHECK_EQUAL(capture.count("test.timer.next_limit_wall_seconds ->"), 1);
+  BOOST_CHECK(!capture.contains("test.timer.next_limit_wall_seconds -> 0"));
+  capture.lines.clear();
+  timer->set_limit(200);
+  BOOST_CHECK(capture.lines.empty());
+
+  Diagnostics::instance().disable();
+  timer->set_limit(300);
+  tick(false);
+  BOOST_CHECK(capture.lines.empty());
+}
+
+BOOST_AUTO_TEST_CASE(test_diagnostics_reading_activity)
+{
+  init();
+  tick(true, 5, [](int) {});
+  timer->set_activity_sensitive(false);
+  DiagnosticsCapture capture;
+  BOOST_CHECK(capture.contains("test.timer.activity_source -> reading"));
+  capture.lines.clear();
+  tick(false);
+  BOOST_CHECK(capture.contains("test.timer.input_activity -> idle"));
+  BOOST_CHECK(capture.contains("effective_activity=active"));
+  BOOST_CHECK_EQUAL(timer->get_state(), STATE_RUNNING);
+
+  capture.lines.clear();
+  timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
+  tick(true);
+  BOOST_CHECK(capture.contains("test.timer.input_activity -> active"));
+  BOOST_CHECK(capture.contains("test.timer.effective_activity -> idle"));
+  BOOST_CHECK(capture.contains("state=stopped activity=idle effective_activity=idle"));
+  BOOST_CHECK(capture.contains("next_limit_wall_seconds=0"));
+}
+
+BOOST_AUTO_TEST_CASE(test_diagnostics_repeated_limit_events)
+{
+  init();
+  timer->set_limit(2);
+  timer->set_snooze_interval(3);
+  DiagnosticsCapture capture;
+  capture.lines.clear();
+  tick(true, 9, [](int) {});
+  BOOST_CHECK_EQUAL(capture.count("test.timer.event -> limit-reached"), 3);
+  BOOST_CHECK_EQUAL(capture.count("test.timer.timing -> reason=limit-reached"), 3);
+  timer->snooze_timer();
+  timer->snooze_timer();
+  BOOST_CHECK_EQUAL(capture.count("test.timer.event -> snooze"), 2);
+}
+
+BOOST_AUTO_TEST_CASE(test_diagnostics_reset_reasons_and_lifetime)
+{
+  init();
+  DiagnosticsCapture capture;
+  capture.lines.clear();
+  tick(true, 3, [](int) {});
+  tick(false, 21, [](int) {});
+  BOOST_CHECK_EQUAL(capture.count("test.timer.event -> natural-reset"), 1);
+  auto *pred = new TestTimePred;
+  pred->set(TimeSource::get_real_time_sec_sync() + 5);
+  timer->set_auto_reset(pred);
+  BOOST_CHECK(capture.contains("test.timer.reset_predicate -> xx"));
+  tick(false, 6, [](int) {});
+  BOOST_CHECK_EQUAL(capture.count("test.timer.event -> predicate-reset"), 1);
+
+  timer.reset();
+  capture.lines.clear();
+  Diagnostics::instance().disable();
+  Diagnostics::instance().enable(&capture);
+  BOOST_CHECK(!capture.contains("test.timer."));
+}
 
 BOOST_AUTO_TEST_CASE(test_timer_get_id)
 {

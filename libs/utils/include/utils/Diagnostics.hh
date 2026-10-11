@@ -179,6 +179,12 @@ public:
   void report()
   {
     Diagnostics::instance().report(_name, _value);
+    if (debug && _manual)
+      {
+        // The initial snapshot is also the baseline for manual publication.
+        _last_published_value = _value;
+        _last_published_value_valid = true;
+      }
   }
 
   void publish()

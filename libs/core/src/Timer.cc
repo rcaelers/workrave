@@ -49,14 +49,30 @@ Timer::Timer(const std::string &timer_id)
   , timer_frozen{timer_id + ".timer.frozen", false}
   , activity_state{timer_id + ".timer.activity_state", ACTIVITY_UNKNOWN}
   , timer_state{timer_id + ".timer.state", STATE_INVALID}
+  , snooze_interval{timer_id + ".timer.snooze_interval_seconds", 60}
+  , snooze_on_active{timer_id + ".timer.snooze_on_active", true}
+  , snooze_inhibited{timer_id + ".timer.snooze_inhibited", false}
+  , limit_enabled{timer_id + ".timer.limit_enabled", true}
+  , limit_interval{timer_id + ".timer.limit_interval_seconds", 600}
+  , autoreset_enabled{timer_id + ".timer.autoreset_enabled", true}
+  , autoreset_interval{timer_id + ".timer.autoreset_interval_seconds", 120}
+  , next_reset_time{timer_id + ".timer.next_reset_wall_seconds", 0, true}
+  , next_pred_reset_time{timer_id + ".timer.next_predicate_reset_wall_seconds", 0, true}
+  , next_limit_time{timer_id + ".timer.next_limit_wall_seconds", 0, true}
   , activity_sensitive{timer_id + ".timer.activity_sensitive", true}
   , insensitive_mode{timer_id + ".timer.insensitive_mode", INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED}
+  , input_activity{timer_id + ".timer.input_activity", ACTIVITY_UNKNOWN}
+  , effective_activity{timer_id + ".timer.effective_activity", ACTIVITY_UNKNOWN}
+  , activity_source{timer_id + ".timer.activity_source", "core"}
+  , reset_predicate{timer_id + ".timer.reset_predicate", "none"}
 {
+  Diagnostics::instance().register_topic(timer_id + ".timer.timing", [this]() { report_timing("snapshot"); });
 }
 
 //! Destructor
 Timer::~Timer()
 {
+  Diagnostics::instance().unregister_topic(timer_id + ".timer.timing");
   delete autoreset_interval_predicate;
   delete activity_monitor;
 }
@@ -110,6 +126,7 @@ Timer::disable()
       next_reset_time = 0;
 
       timer_state = STATE_INVALID;
+      publish_deadlines();
     }
 }
 
@@ -186,6 +203,7 @@ Timer::set_auto_reset(string predicate)
 {
   delete autoreset_interval_predicate;
   autoreset_interval_predicate = TimePredFactory::create_time_pred(predicate);
+  reset_predicate = autoreset_interval_predicate != nullptr ? autoreset_interval_predicate->to_string() : "none";
   compute_next_predicate_reset_time();
 }
 
@@ -194,6 +212,7 @@ Timer::set_auto_reset(TimePred *pred)
 {
   delete autoreset_interval_predicate;
   autoreset_interval_predicate = pred;
+  reset_predicate = pred != nullptr ? pred->to_string() : "none";
   compute_next_predicate_reset_time();
 }
 
@@ -218,6 +237,7 @@ Timer::set_activity_sensitive(bool a)
   TRACE_ENTRY_PAR(a);
 
   activity_sensitive = a;
+  update_activity_source();
   activity_state = ACTIVITY_UNKNOWN;
 
   if (!activity_sensitive)
@@ -309,6 +329,7 @@ Timer::compute_next_limit_time()
             }
         }
     }
+  next_limit_time.publish();
 }
 
 //! Computes the time the auto-reset must take place.
@@ -331,6 +352,7 @@ Timer::compute_next_reset_time()
           next_reset_time = 0;
         }
     }
+  next_reset_time.publish();
 }
 
 void
@@ -348,6 +370,7 @@ Timer::compute_next_predicate_reset_time()
 
       next_pred_reset_time = autoreset_interval_predicate->get_next(last_pred_reset_time);
     }
+  next_pred_reset_time.publish();
 }
 
 //! Daily Reset.
@@ -404,6 +427,7 @@ Timer::reset_timer()
 
   next_pred_reset_time = 0;
   compute_next_predicate_reset_time();
+  publish_deadlines();
 }
 
 //! Starts the timer.
@@ -507,6 +531,8 @@ Timer::snooze_timer()
           // Start the clock in case of insensitive timer.
           activity_state = ACTIVITY_ACTIVE;
         }
+      Diagnostics::instance().report(timer_id + ".timer.event", "snooze");
+      report_timing("snooze");
     }
 }
 
@@ -551,7 +577,12 @@ Timer::freeze_timer(bool freeze)
       compute_next_limit_time();
     }
 
+  const bool changed = timer_frozen != freeze;
   timer_frozen = freeze;
+  if (changed)
+    {
+      report_timing(freeze ? "freeze" : "unfreeze");
+    }
 }
 
 //! Returns the elapsed idle time.
@@ -653,6 +684,13 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
 
   int64_t current_time = TimeSource::get_real_time_sec_sync();
 
+  const TimerState previous_state = timer_state;
+  const ActivityState previous_activity = activity_state;
+  const ActivityState previous_input = input_activity;
+  const ActivityState previous_effective = effective_activity;
+  input_activity = new_activity_state;
+  const char *event_reason = "none";
+
   // Default event to return.
   info.event = TIMER_EVENT_NONE;
   info.idle_time = get_elapsed_idle_time();
@@ -714,6 +752,8 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
         }
     }
 
+  effective_activity = new_activity_state;
+
   // Start or stop timer.
   if (timer_enabled)
     {
@@ -747,6 +787,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
 
       compute_next_predicate_reset_time();
       info.event = TIMER_EVENT_RESET;
+      event_reason = "predicate-reset";
 
       if (!activity_sensitive)
         {
@@ -767,6 +808,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
       compute_next_limit_time();
 
       info.event = TIMER_EVENT_LIMIT_REACHED;
+      event_reason = "limit-reached";
       // Its very unlikely (but not impossible) that this will overrule
       // the EventStarted. Hey, shit happens.
 
@@ -787,6 +829,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
       reset_timer();
 
       info.event = natural ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_RESET;
+      event_reason = natural ? "natural-reset" : "overdue-reset";
       // Idem, may overrule the EventStopped.
 
       if (!activity_sensitive)
@@ -795,6 +838,53 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
           activity_state = ACTIVITY_IDLE;
         }
     }
+
+  publish_deadlines();
+  if (info.event != TIMER_EVENT_NONE)
+    {
+      // Repeated events matter even when their value has not changed.
+      Diagnostics::instance().report(timer_id + ".timer.event", event_reason);
+    }
+  if (info.event != TIMER_EVENT_NONE || previous_state != timer_state || previous_activity != activity_state
+      || previous_input != input_activity || previous_effective != effective_activity)
+    {
+      report_timing(info.event != TIMER_EVENT_NONE ? event_reason : "activity-transition");
+    }
+}
+
+void
+Timer::publish_deadlines()
+{
+  next_limit_time.publish();
+  next_reset_time.publish();
+  next_pred_reset_time.publish();
+}
+
+void
+Timer::update_activity_source()
+{
+  // Core input combines local monitoring and externally reported activity.
+  activity_source = activity_monitor != nullptr ? activity_monitor->get_diagnostic_name()
+                                                : (activity_sensitive ? "core" : "reading");
+}
+
+void
+Timer::report_timing(const std::string &reason) const
+{
+  if (!TracedFieldBase::debug)
+    {
+      return;
+    }
+  std::ostringstream ss;
+  ss << "reason=" << reason << " wall_seconds=" << TimeSource::get_real_time_sec_sync() << " state=" << timer_state
+     << " activity=" << activity_state << " effective_activity=" << effective_activity
+     << " elapsed_seconds=" << get_elapsed_time() << " idle_seconds=" << get_elapsed_idle_time()
+     << " overdue_seconds=" << get_total_overdue_time() << " last_start_wall_seconds=" << last_start_time
+     << " last_stop_wall_seconds=" << last_stop_time << " last_reset_wall_seconds=" << last_reset_time
+     << " last_limit_wall_seconds=" << last_limit_time << " last_predicate_reset_wall_seconds=" << last_pred_reset_time
+     << " next_limit_wall_seconds=" << next_limit_time << " next_reset_wall_seconds=" << next_reset_time
+     << " next_predicate_reset_wall_seconds=" << next_pred_reset_time;
+  Diagnostics::instance().report(timer_id + ".timer.timing", ss.str());
 }
 
 std::string

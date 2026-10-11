@@ -60,6 +60,10 @@ public:
 
 private:
   void call_listener();
+  void publish_activity();
+  void report_timing();
+  void report_listener();
+  ActivityState reported_activity{ACTIVITY_UNKNOWN};
 
 private:
   //! The actual monitoring driver.

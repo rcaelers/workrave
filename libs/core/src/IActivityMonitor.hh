@@ -54,6 +54,12 @@ public:
 public:
   virtual ~IActivityMonitor() = default;
 
+  // Identifies the activity source in opt-in monitoring logs.
+  virtual std::string get_diagnostic_name() const
+  {
+    return "local";
+  }
+
   virtual void terminate() = 0;
   virtual void suspend() = 0;
   virtual void resume() = 0;

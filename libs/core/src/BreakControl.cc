@@ -23,6 +23,7 @@
 
 #include <cassert>
 #include <string>
+#include <sstream>
 
 #include "BreakControl.hh"
 
@@ -56,16 +57,38 @@ BreakControl::BreakControl(BreakId id, const std::string &break_name, IApp *app,
   , application(app)
   , break_timer(timer)
   , break_stage{break_name + ".break.state", BreakStage::None}
+  , reached_max_prelude{break_name + ".break.reached_max_prelude", false}
   , prelude_count{break_name + ".break.prelude_count", 0}
   , forced_break{break_name + ".break.forced", false}
+  , max_number_of_preludes{break_name + ".break.max_preludes", 2}
   , fake_break{break_name + ".break.fake", false}
   , user_abort{break_name + ".break.user_abort", false}
   , delayed_abort{break_name + ".break.delayed_abort", false}
+  , break_hint{break_name + ".break.hint", BreakHint::Normal}
 {
   assert(break_timer != nullptr);
   assert(application != nullptr);
 
   core = Core::get_instance();
+}
+
+std::string
+BreakControl::get_diagnostic_name() const
+{
+  return break_name + ".break";
+}
+
+void
+BreakControl::emit_break_event(workrave::BreakEvent event)
+{
+  if (TracedFieldBase::debug)
+    {
+      std::ostringstream ss;
+      ss << "event=" << event << " stage=" << break_stage << " prelude_seconds=" << prelude_time
+         << " fake_remaining_seconds=" << fake_break_count;
+      Diagnostics::instance().report(break_name + ".break.event", ss.str());
+    }
+  break_event_signal(event);
 }
 
 //! Destructor.
@@ -224,7 +247,7 @@ BreakControl::goto_stage(BreakStage stage)
           {
             if (!forced_break)
               {
-                break_event_signal(BreakEvent::BreakIgnored);
+                emit_break_event(BreakEvent::BreakIgnored);
               }
           }
 
@@ -257,10 +280,10 @@ BreakControl::goto_stage(BreakStage stage)
                   }
 
                 // Breaks end without user skip/postponing it.
-                break_event_signal(BreakEvent::BreakTaken);
+                emit_break_event(BreakEvent::BreakTaken);
               }
           }
-        break_event_signal(BreakEvent::BreakIdle);
+        emit_break_event(BreakEvent::BreakIdle);
       }
       break;
 
@@ -270,9 +293,9 @@ BreakControl::goto_stage(BreakStage stage)
         if (!forced_break)
           {
             post_event(CORE_EVENT_SOUND_BREAK_IGNORED);
-            break_event_signal(BreakEvent::BreakIgnored);
+            emit_break_event(BreakEvent::BreakIgnored);
           }
-        break_event_signal(BreakEvent::BreakIdle);
+        emit_break_event(BreakEvent::BreakIdle);
         core->defrost();
       }
       break;
@@ -428,7 +451,7 @@ BreakControl::force_start_break(workrave::utils::Flags<BreakHint> hint)
   TRACE_ENTRY_PAR(break_id);
 
   break_hint = hint;
-  forced_break = (break_hint & (BreakHint::UserInitiated | BreakHint::NaturalBreak)).get() != 0;
+  forced_break = (break_hint.get() & (BreakHint::UserInitiated | BreakHint::NaturalBreak)).get() != 0;
   fake_break = false;
   prelude_time = 0;
   user_abort = false;
@@ -473,7 +496,7 @@ BreakControl::stop_break(bool reset_count)
       prelude_count = 0;
     }
 
-  break_event_signal(BreakEvent::BreakStop);
+  emit_break_event(BreakEvent::BreakStop);
 }
 
 //! Suspend the break.
@@ -560,7 +583,7 @@ BreakControl::postpone_break()
           Statistics *stats = core->get_statistics();
           stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_POSTPONED);
 
-          break_event_signal(BreakEvent::BreakPostponed);
+          emit_break_event(BreakEvent::BreakPostponed);
         }
 
       // This is to avoid a skip sound...
@@ -600,7 +623,7 @@ BreakControl::skip_break()
       Statistics *stats = core->get_statistics();
       stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
 
-      break_event_signal(BreakEvent::BreakSkipped);
+      emit_break_event(BreakEvent::BreakSkipped);
 
       // and stop the break.
       stop_break();
@@ -637,7 +660,7 @@ BreakControl::break_window_start()
   application->show_break_window();
 
   // Report state change.
-  break_event_signal(forced_break ? BreakEvent::ShowBreakForced : BreakEvent::ShowBreak);
+  emit_break_event(forced_break ? BreakEvent::ShowBreakForced : BreakEvent::ShowBreak);
 }
 
 //! Creates and shows the prelude window.
@@ -665,10 +688,10 @@ BreakControl::prelude_window_start()
 
   if (prelude_count == 1)
     {
-      break_event_signal(BreakEvent::BreakStart);
+      emit_break_event(BreakEvent::BreakStart);
     }
 
-  break_event_signal(BreakEvent::ShowPrelude);
+  emit_break_event(BreakEvent::ShowPrelude);
 }
 
 bool

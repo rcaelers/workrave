@@ -103,11 +103,13 @@ Core::Core()
 
   assert(!instance);
   instance = this;
+  Diagnostics::instance().register_topic("core.operation_mode_overrides", [this]() { report_operation_mode_overrides(); });
 }
 
 //! Destructor.
 Core::~Core()
 {
+  Diagnostics::instance().unregister_topic("core.operation_mode_overrides");
   TRACE_ENTRY();
   save_state();
 
@@ -304,6 +306,11 @@ Core::config_changed_notify(const string &key)
       set_operation_mode_internal(OperationMode(mode));
     }
 
+  if (key == CoreConfig::CFG_KEY_OPERATION_MODE_RESET_DURATION || key == CoreConfig::CFG_KEY_OPERATION_MODE_RESET_TIME)
+    {
+      update_operation_mode_reset_diagnostics();
+    }
+
   if (key == CoreConfig::CFG_KEY_USAGE_MODE)
     {
       int mode;
@@ -482,7 +489,13 @@ Core::set_operation_mode_override(OperationMode mode, const std::string &id)
 {
   if (!id.empty())
     {
+      auto previous = operation_mode_overrides.find(id);
+      const bool changed = previous == operation_mode_overrides.end() || previous->second != mode;
       operation_mode_overrides[id] = mode;
+      if (changed)
+        {
+          report_operation_mode_overrides();
+        }
       update_active_operation_mode();
     }
 }
@@ -493,7 +506,10 @@ Core::remove_operation_mode_override(const std::string &id)
 {
   if (!id.empty() && !operation_mode_overrides.empty())
     {
-      operation_mode_overrides.erase(id);
+      if (operation_mode_overrides.erase(id) != 0)
+        {
+          report_operation_mode_overrides();
+        }
       update_active_operation_mode();
     }
 }
@@ -582,6 +598,39 @@ Core::update_active_operation_mode()
 }
 
 void
+Core::report_operation_mode_overrides() const
+{
+  if (!TracedFieldBase::debug)
+    {
+      return;
+    }
+  std::ostringstream ss;
+  for (const auto &entry: operation_mode_overrides)
+    {
+      ss << entry.first << "=" << entry.second << " ";
+    }
+  Diagnostics::instance().report("core.operation_mode_overrides", operation_mode_overrides.empty() ? "none" : ss.str());
+}
+
+void
+Core::update_operation_mode_reset_diagnostics()
+{
+  operation_mode_reset_duration = CoreConfig::operation_mode_auto_reset_duration()().count();
+  operation_mode_reset_time = std::chrono::duration_cast<std::chrono::seconds>(
+                                CoreConfig::operation_mode_auto_reset_time()().time_since_epoch())
+                                .count();
+}
+
+void
+Core::report_break_decision(BreakId id, const std::string &decision) const
+{
+  if (TracedFieldBase::debug)
+    {
+      Diagnostics::instance().report(breaks[id].get_name() + ".break.decision", decision);
+    }
+}
+
+void
 Core::check_operation_mode_auto_reset()
 {
   auto next_reset_time = CoreConfig::operation_mode_auto_reset_time()();
@@ -589,6 +638,7 @@ Core::check_operation_mode_auto_reset()
   if ((next_reset_time.time_since_epoch().count() > 0) && (workrave::utils::TimeSource::get_real_time() >= next_reset_time)
       && (CoreConfig::operation_mode()() != OperationMode::Normal))
     {
+      Diagnostics::instance().report("core.operation_mode.event", "auto-reset-deadline");
       spdlog::debug("Resetting operation mode");
       set_operation_mode(OperationMode::Normal);
     }
@@ -667,6 +717,7 @@ Core::do_force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint)
       TRACE_MSG("Resuming Micro break");
     }
 
+  report_break_decision(id, "start:forced-request");
   breaker->force_start_break(break_hint);
 }
 
@@ -1224,6 +1275,7 @@ Core::timer_action(BreakId id, TimerInfo info)
   // No breaks when mode is quiet,
   if (operation_mode_active == OperationMode::Quiet && info.event == TIMER_EVENT_LIMIT_REACHED)
     {
+      report_break_decision(id, "suppressed:quiet-mode");
       return;
     }
 
@@ -1237,6 +1289,10 @@ Core::timer_action(BreakId id, TimerInfo info)
       if (breaker->get_break_state() == BreakControl::BREAK_INACTIVE)
         {
           start_break(id);
+        }
+      else
+        {
+          report_break_decision(id, "suppressed:break-already-active-or-suspended");
         }
       break;
 
@@ -1268,6 +1324,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
     {
       if (breaks[bi].get_break_control()->get_break_state() == BreakControl::BREAK_ACTIVE)
         {
+          report_break_decision(break_id, "suppressed:active-break=" + breaks[bi].get_name());
           return;
         }
     }
@@ -1297,6 +1354,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
 
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
+              report_break_decision(break_id, "advanced:rest_break-within-30-seconds-after-microbreak");
               breaks[BREAK_ID_REST_BREAK].override(BREAK_ID_MICRO_BREAK);
 
               start_break(BREAK_ID_REST_BREAK, BREAK_ID_MICRO_BREAK);
@@ -1324,6 +1382,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
   resume_break = resume_this_break;
 
   BreakControl *breaker = breaks[break_id].get_break_control();
+  report_break_decision(break_id, "start:timer-limit");
   breaker->start_break();
 }
 
@@ -1393,6 +1452,7 @@ Core::daily_reset()
     {
       using namespace std::chrono_literals;
 
+      Diagnostics::instance().report("core.operation_mode.event", "auto-reset-daily");
       spdlog::debug("Resetting operation mode");
       set_operation_mode(OperationMode::Normal);
       CoreConfig::operation_mode_auto_reset_duration().set(0min);
@@ -1452,6 +1512,9 @@ Core::load_misc()
 {
   configurator->add_listener(CoreConfig::CFG_KEY_OPERATION_MODE, this);
   configurator->add_listener(CoreConfig::CFG_KEY_USAGE_MODE, this);
+  configurator->add_listener(CoreConfig::CFG_KEY_OPERATION_MODE_RESET_DURATION, this);
+  configurator->add_listener(CoreConfig::CFG_KEY_OPERATION_MODE_RESET_TIME, this);
+  update_operation_mode_reset_diagnostics();
 
   int mode;
   if (!configurator->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
