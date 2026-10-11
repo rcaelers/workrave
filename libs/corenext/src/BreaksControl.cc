@@ -49,8 +49,8 @@ BreaksControl::BreaksControl(IApp *app,
   , modes(modes)
   , statistics(statistics)
   , hooks(hooks)
-  , insist_policy(InsistPolicy::Halt)
-  , active_insist_policy(InsistPolicy::Invalid)
+  , insist_policy{"core.insist_policy", InsistPolicy::Halt}
+  , active_insist_policy{"core.active_insist_policy", InsistPolicy::Invalid}
 {
 }
 

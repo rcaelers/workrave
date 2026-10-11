@@ -27,9 +27,9 @@
 ReadingActivityMonitor::ReadingActivityMonitor(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes)
   : monitor(monitor)
   , modes(modes)
-  , suspended(false)
-  , forced_idle(false)
-  , state(Idle)
+  , suspended{"monitor.reading.suspended", false}
+  , forced_idle{"monitor.reading.forced_idle", false}
+  , state{"monitor.reading.state", Idle}
 {
 }
 

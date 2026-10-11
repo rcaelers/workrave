@@ -19,6 +19,7 @@
 #define BREAKSCONTROL_HH
 
 #include "config/Config.hh"
+#include "utils/Diagnostics.hh"
 
 #include "Break.hh"
 #include "Timer.hh"
@@ -100,8 +101,8 @@ private:
   rpc::InstanceRegistry<workrave::BreakId, Break> break_registry;
 #endif
 
-  workrave::InsistPolicy insist_policy;
-  workrave::InsistPolicy active_insist_policy;
+  TracedField<workrave::InsistPolicy> insist_policy;
+  TracedField<workrave::InsistPolicy> active_insist_policy;
 };
 
 #endif // BREAKSCONTROL_HH

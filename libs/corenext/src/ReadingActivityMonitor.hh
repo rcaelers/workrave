@@ -26,6 +26,7 @@
 #include "Timer.hh"
 
 #include "utils/Signals.hh"
+#include "utils/Diagnostics.hh"
 
 class ReadingActivityMonitor
   : public IActivityMonitorListener
@@ -63,9 +64,21 @@ private:
 
   IActivityMonitor::Ptr monitor;
   CoreModes::Ptr modes;
-  bool suspended;
-  bool forced_idle;
-  State state;
+  TracedField<bool> suspended;
+  TracedField<bool> forced_idle;
+  TracedField<State> state;
+
+  friend struct workrave::utils::enum_traits<State>;
+};
+
+template<>
+struct workrave::utils::enum_traits<ReadingActivityMonitor::State>
+{
+  static constexpr std::array<std::pair<std::string_view, ReadingActivityMonitor::State>, 4> names{
+    {{"idle", ReadingActivityMonitor::Idle},
+     {"active", ReadingActivityMonitor::Active},
+     {"prelude", ReadingActivityMonitor::Prelude},
+     {"taking", ReadingActivityMonitor::Taking}}};
 };
 
 #endif // READINGACTIVITYMONITOR_HH

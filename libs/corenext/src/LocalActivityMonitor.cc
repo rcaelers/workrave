@@ -81,6 +81,7 @@ LocalActivityMonitor::suspend()
   lock.lock();
   state = ACTIVITY_MONITOR_SUSPENDED;
   lock.unlock();
+  state.publish();
   TRACE_VAR(state);
 }
 
@@ -92,6 +93,7 @@ LocalActivityMonitor::resume()
   lock.lock();
   state = ACTIVITY_MONITOR_IDLE;
   lock.unlock();
+  state.publish();
   TRACE_VAR(state);
 }
 
@@ -107,6 +109,7 @@ LocalActivityMonitor::force_idle()
       last_action_time = 0;
     }
   lock.unlock();
+  state.publish();
   TRACE_VAR(state);
 }
 
@@ -137,6 +140,7 @@ LocalActivityMonitor::process_state()
     }
 
   lock.unlock();
+  state.publish();
   TRACE_VAR(state);
 }
 

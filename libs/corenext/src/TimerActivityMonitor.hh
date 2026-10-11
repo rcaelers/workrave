@@ -22,6 +22,7 @@
 
 #include "IActivityMonitor.hh"
 #include "Timer.hh"
+#include "utils/Diagnostics.hh"
 
 class TimerActivityMonitor
 {
@@ -40,8 +41,8 @@ public:
 private:
   IActivityMonitor::Ptr monitor;
   Timer::Ptr timer;
-  bool suspended;
-  bool forced_idle;
+  TracedField<bool> suspended;
+  TracedField<bool> forced_idle;
 };
 
 #endif // TIMERACTIVITYMONITOR_HH

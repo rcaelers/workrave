@@ -38,9 +38,9 @@ using namespace std;
 using namespace workrave::utils;
 
 Timer::Timer(std::string id)
-  : timer_enabled(false)
-  , timer_frozen(false)
-  , timer_state(STATE_INVALID)
+  : timer_enabled{id + ".timer.enabled", false}
+  , timer_frozen{id + ".timer.frozen", false}
+  , timer_state{id + ".timer.state", STATE_INVALID}
   , snooze_interval(60)
   , snooze_inhibited(false)
   , limit_enabled(true)

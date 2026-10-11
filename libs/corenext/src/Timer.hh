@@ -23,6 +23,7 @@
 #include <string>
 
 #include "utils/Enum.hh"
+#include "utils/Diagnostics.hh"
 
 class TimePred;
 
@@ -140,13 +141,13 @@ private:
 
 private:
   //! Is this timer enabled ?
-  bool timer_enabled;
+  TracedField<bool> timer_enabled;
 
   //! Is the timer frozen? A frozen timer only counts idle time.
-  bool timer_frozen;
+  TracedField<bool> timer_frozen;
 
   //! State of the timer.
-  TimerState timer_state;
+  TracedField<TimerState> timer_state;
 
   //! Default snooze time
   int64_t snooze_interval;

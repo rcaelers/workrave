@@ -22,6 +22,7 @@
 
 #include "config/IConfigurator.hh"
 #include "utils/Signals.hh"
+#include "utils/Diagnostics.hh"
 
 #include "core/ICore.hh"
 #include "LocalActivityMonitor.hh"
@@ -131,7 +132,7 @@ private:
   workrave::stats::IStatistics::Ptr statistics;
 
   //! Did the OS announce a powersave?
-  bool powersave{false};
+  TracedField<bool> powersave{"core.powersave", false};
 
 #if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
   std::string rpc_listen_address;

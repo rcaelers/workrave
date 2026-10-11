@@ -22,6 +22,7 @@
 #include <boost/signals2.hpp>
 
 #include "config/IConfigurator.hh"
+#include "utils/Diagnostics.hh"
 
 #include "core/IBreak.hh"
 #include "core/CoreTypes.hh"
@@ -126,31 +127,31 @@ private:
   CoreHooks::Ptr hooks;
 
   //! Current stage in the break.
-  BreakStage break_stage;
+  TracedField<BreakStage> break_stage;
 
   //! How long is the prelude active.
   int prelude_time;
 
   //! forced break (i.e. RestBreak now, or screenlock)
-  bool forced_break;
+  TracedField<bool> forced_break;
 
   //! How many times have we preluded (since the limit was reached)
-  int prelude_count;
+  TracedField<int> prelude_count;
 
   //! After how many preludes do we force a break or give up?
   int max_number_of_preludes;
 
   //! Is this a break that is not controlled by the timer.
-  bool fake_break;
+  TracedField<bool> fake_break;
 
   //! Fake break counter.
   int64_t fake_break_count;
 
   //! Break will be stopped because the user pressed postpone/skip.
-  bool user_abort;
+  TracedField<bool> user_abort;
 
   //! User became active during delayed break.
-  bool delayed_abort;
+  TracedField<bool> delayed_abort;
 
   //! Break hint if break has been started.
   workrave::utils::Flags<workrave::BreakHint> break_hint;

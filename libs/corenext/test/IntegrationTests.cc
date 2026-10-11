@@ -33,6 +33,7 @@
 
 #include <algorithm>
 #include <filesystem>
+#include <vector>
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -51,6 +52,7 @@ using namespace std::chrono_literals;
 
 #include "utils/Paths.hh"
 #include "utils/TimeSource.hh"
+#include "utils/Diagnostics.hh"
 #include "debug.hh"
 
 #include "Timer.hh"
@@ -59,6 +61,7 @@ using namespace std::chrono_literals;
 #include "IStatisticsStore.hh"
 #include "SimulatedTime.hh"
 #include "ActivityMonitorStub.hh"
+#include "LocalActivityMonitor.hh"
 
 using namespace workrave::config;
 
@@ -798,6 +801,144 @@ public:
 
 class IntegrationTest : public ::testing::Test, public Backend
 {};
+
+class MonitoringDiagnostics : public DiagnosticsSink
+{
+public:
+  ~MonitoringDiagnostics() override
+  {
+    Diagnostics::instance().disable();
+  }
+
+  void diagnostics_log(const std::string &log) override
+  {
+    entries.push_back(log);
+  }
+
+  bool contains(const std::string &message) const
+  {
+    return std::any_of(entries.begin(), entries.end(), [&](const auto &entry) { return entry.ends_with(message); });
+  }
+
+  std::vector<std::string> entries;
+};
+
+TEST_F(IntegrationTest, test_monitoring_diagnostics)
+{
+  init();
+  MonitoringDiagnostics sink;
+  Diagnostics::instance().enable(&sink);
+
+  EXPECT_TRUE(sink.contains("core.operation_mode_active -> normal"));
+  EXPECT_TRUE(sink.contains("core.operation_mode_regular -> normal"));
+  EXPECT_TRUE(sink.contains("core.usage_mode -> normal"));
+  EXPECT_TRUE(sink.contains("core.powersave -> 0"));
+  EXPECT_TRUE(sink.contains("core.insist_policy -> halt"));
+  EXPECT_TRUE(sink.contains("core.active_insist_policy -> invalid"));
+  EXPECT_TRUE(sink.contains("rest_break.timer.enabled -> 1"));
+  EXPECT_TRUE(sink.contains("rest_break.timer.frozen -> 0"));
+  EXPECT_TRUE(sink.contains("rest_break.timer.state -> stopped"));
+  EXPECT_TRUE(sink.contains("rest_break.break.state -> none"));
+  EXPECT_TRUE(sink.contains("rest_break.break.forced -> 0"));
+  EXPECT_TRUE(sink.contains("rest_break.break.prelude_count -> 0"));
+  EXPECT_TRUE(sink.contains("rest_break.break.fake -> 0"));
+  EXPECT_TRUE(sink.contains("rest_break.break.user_abort -> 0"));
+  EXPECT_TRUE(sink.contains("rest_break.break.delayed_abort -> 0"));
+  EXPECT_TRUE(sink.contains("monitor.reading.state -> idle"));
+  EXPECT_TRUE(sink.contains("monitor.reading.suspended -> 0"));
+  EXPECT_TRUE(sink.contains("monitor.reading.forced_idle -> 0"));
+  EXPECT_TRUE(sink.contains("micro_pause.monitor.suspended -> 0"));
+  EXPECT_TRUE(sink.contains("micro_pause.monitor.forced_idle -> 0"));
+
+  sink.entries.clear();
+  tick(false, 10);
+  EXPECT_TRUE(sink.entries.empty());
+
+  core->set_usage_mode(workrave::UsageMode::Reading);
+  core->set_powersave(true);
+  EXPECT_TRUE(sink.contains("core.usage_mode -> reading"));
+  EXPECT_TRUE(sink.contains("core.powersave -> 1"));
+  EXPECT_TRUE(sink.contains("core.operation_mode_active -> suspended"));
+
+  core->set_powersave(false);
+  EXPECT_TRUE(sink.contains("core.powersave -> 0"));
+  EXPECT_TRUE(sink.contains("core.operation_mode_active -> normal"));
+
+  core->set_operation_mode(workrave::OperationMode::Suspended);
+  EXPECT_TRUE(sink.contains("monitor.reading.suspended -> 1"));
+  core->set_operation_mode(workrave::OperationMode::Normal);
+  EXPECT_TRUE(sink.contains("monitor.reading.suspended -> 0"));
+
+  monitor->notify();
+  tick(true, 1);
+  EXPECT_TRUE(sink.contains("monitor.reading.state -> active"));
+  EXPECT_TRUE(sink.contains("rest_break.timer.state -> running"));
+
+  forced_break = true;
+  core->force_break(workrave::BREAK_ID_REST_BREAK, workrave::BreakHint::UserInitiated);
+  EXPECT_TRUE(sink.contains("rest_break.break.forced -> 1"));
+  EXPECT_TRUE(sink.contains("rest_break.break.state -> taking"));
+  EXPECT_TRUE(sink.contains("micro_pause.monitor.forced_idle -> 1"));
+
+  Diagnostics::instance().disable();
+  sink.entries.clear();
+  core->set_powersave(true);
+  core->set_usage_mode(workrave::UsageMode::Normal);
+  EXPECT_TRUE(sink.entries.empty());
+}
+
+TEST_F(IntegrationTest, test_monitoring_diagnostics_lifetime)
+{
+  MonitoringDiagnostics sink;
+  init();
+  Diagnostics::instance().enable(&sink);
+  EXPECT_TRUE(sink.contains("core.usage_mode -> normal"));
+  monitor->set_listener(nullptr);
+  core.reset();
+  sink.entries.clear();
+  Diagnostics::instance().enable(&sink);
+  EXPECT_TRUE(sink.entries.empty());
+}
+
+TEST_F(IntegrationTest, test_input_monitoring_diagnostics)
+{
+  init();
+  LocalActivityMonitor local_monitor(create_configurator(), "");
+  MonitoringDiagnostics sink;
+  Diagnostics::instance().enable(&sink);
+  EXPECT_TRUE(sink.contains("monitor.activity_state -> idle"));
+  EXPECT_TRUE(sink.contains("monitor.noise_threshold -> 1000000"));
+  EXPECT_TRUE(sink.contains("monitor.activity_threshold -> 2000000"));
+  EXPECT_TRUE(sink.contains("monitor.idle_threshold -> 5000000"));
+  EXPECT_TRUE(sink.contains("monitor.sensitivity -> 3"));
+
+  sink.entries.clear();
+  local_monitor.is_active();
+  sink.entries.clear();
+  local_monitor.is_active();
+  EXPECT_TRUE(sink.entries.empty());
+
+  local_monitor.suspend();
+  EXPECT_TRUE(sink.contains("monitor.activity_state -> suspended"));
+  local_monitor.resume();
+  EXPECT_TRUE(sink.contains("monitor.activity_state -> idle"));
+  local_monitor.force_idle();
+  EXPECT_TRUE(sink.contains("monitor.activity_state -> forced-idle"));
+
+  local_monitor.action_notify();
+  local_monitor.is_active();
+  EXPECT_TRUE(sink.contains("monitor.activity_state -> noise"));
+  for (int i = 0; i < 4; ++i)
+    {
+      sim->current_time += 500000;
+      local_monitor.action_notify();
+    }
+  EXPECT_TRUE(local_monitor.is_active());
+  EXPECT_TRUE(sink.contains("monitor.activity_state -> active"));
+  sim->current_time += 6000000;
+  EXPECT_FALSE(local_monitor.is_active());
+  EXPECT_TRUE(sink.contains("monitor.activity_state -> idle"));
+}
 
 TEST_F(IntegrationTest, test_grpc_preferences)
 {

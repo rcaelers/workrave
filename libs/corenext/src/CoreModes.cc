@@ -35,9 +35,9 @@ using namespace std;
 using namespace workrave;
 
 CoreModes::CoreModes(IActivityMonitor::Ptr monitor)
-  : operation_mode_active(OperationMode::Normal)
-  , operation_mode_regular(OperationMode::Normal)
-  , usage_mode(UsageMode::Normal)
+  : operation_mode_active{"core.operation_mode_active", OperationMode::Normal}
+  , operation_mode_regular{"core.operation_mode_regular", OperationMode::Normal}
+  , usage_mode{"core.usage_mode", UsageMode::Normal}
   , monitor(monitor)
 {
   TRACE_ENTRY();

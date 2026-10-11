@@ -29,8 +29,8 @@
 TimerActivityMonitor::TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer::Ptr timer)
   : monitor(std::move(monitor))
   , timer(std::move(timer))
-  , suspended(false)
-  , forced_idle(false)
+  , suspended{this->timer->get_id() + ".monitor.suspended", false}
+  , forced_idle{this->timer->get_id() + ".monitor.forced_idle", false}
 {
 }
 

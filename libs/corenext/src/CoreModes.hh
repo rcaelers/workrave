@@ -29,6 +29,7 @@
 
 #include "core/CoreTypes.hh"
 #include "utils/Signals.hh"
+#include "utils/Diagnostics.hh"
 
 class CoreModes : public workrave::utils::Trackable
 {
@@ -62,16 +63,16 @@ private:
 
 private:
   //! Current operation mode.
-  workrave::OperationMode operation_mode_active;
+  TracedField<workrave::OperationMode> operation_mode_active;
 
   //! The same as operation_mode unless operation_mode is an override mode.
-  workrave::OperationMode operation_mode_regular;
+  TracedField<workrave::OperationMode> operation_mode_regular;
 
   //! Active operation mode overrides.
   std::map<std::string, workrave::OperationMode> operation_mode_overrides;
 
   //! Current usage mode.
-  workrave::UsageMode usage_mode;
+  TracedField<workrave::UsageMode> usage_mode;
 
   //!
   IActivityMonitor::Ptr monitor;

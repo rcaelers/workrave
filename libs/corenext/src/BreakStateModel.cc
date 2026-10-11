@@ -46,14 +46,15 @@ BreakStateModel::BreakStateModel(BreakId id,
   , timer(timer)
   , activity_monitor(activity_monitor)
   , hooks(hooks)
-  , break_stage(BreakStage::None)
+  , break_stage{timer->get_id() + ".break.state", BreakStage::None}
   , prelude_time(0)
-  , prelude_count(0)
+  , forced_break{timer->get_id() + ".break.forced", false}
+  , prelude_count{timer->get_id() + ".break.prelude_count", 0}
   , max_number_of_preludes(2)
-  , fake_break(false)
+  , fake_break{timer->get_id() + ".break.fake", false}
   , fake_break_count(0)
-  , user_abort(false)
-  , delayed_abort(false)
+  , user_abort{timer->get_id() + ".break.user_abort", false}
+  , delayed_abort{timer->get_id() + ".break.delayed_abort", false}
   , break_hint(BreakHint::Normal)
 {
 }

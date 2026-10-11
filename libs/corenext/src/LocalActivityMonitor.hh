@@ -27,6 +27,7 @@
 #include "utils/TimeSource.hh"
 #include "utils/Signals.hh"
 #include "utils/Enum.hh"
+#include "utils/Diagnostics.hh"
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 
@@ -83,7 +84,7 @@ private:
   workrave::input_monitor::IInputMonitor::Ptr input_monitor;
 
   //! the current state.
-  LocalActivityMonitorState state{ACTIVITY_MONITOR_IDLE};
+  TracedField<LocalActivityMonitorState> state{"monitor.activity_state", ACTIVITY_MONITOR_IDLE, true};
 
   //! Internal locking
   std::recursive_mutex lock;
@@ -104,16 +105,16 @@ private:
   int64_t first_action_time{0};
 
   //! The noise threshold
-  int64_t noise_threshold{1 * workrave::utils::TimeSource::TIME_USEC_PER_SEC};
+  TracedField<int64_t> noise_threshold{"monitor.noise_threshold", 1 * workrave::utils::TimeSource::TIME_USEC_PER_SEC};
 
   //! The activity threshold.
-  int64_t activity_threshold{2 * workrave::utils::TimeSource::TIME_USEC_PER_SEC};
+  TracedField<int64_t> activity_threshold{"monitor.activity_threshold", 2 * workrave::utils::TimeSource::TIME_USEC_PER_SEC};
 
   //! The idle threshold.
-  int64_t idle_threshold{5 * workrave::utils::TimeSource::TIME_USEC_PER_SEC};
+  TracedField<int64_t> idle_threshold{"monitor.idle_threshold", 5 * workrave::utils::TimeSource::TIME_USEC_PER_SEC};
 
   //! Mouse sensitivity
-  int sensitivity{3};
+  TracedField<int> sensitivity{"monitor.sensitivity", 3};
 
   //! Activity listener.
   IActivityMonitorListener::Ptr listener;
