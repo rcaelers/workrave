@@ -15,6 +15,7 @@ releases:
         - The Windows installer now supports `/NOLAUNCH` to skip starting Workrave after installation
       - |-
         Bug fixes:
+        - Fixed reading-mode timers staying paused after leaving suspended mode (#724, #727, #739)
         - Fixed empty tray menus on Linux, including when using i3 with Polybar (#750)
         - Fixed the GNOME Shell menu not appearing after choosing "Open Workrave" (#750)
         - Fixed registry permission errors when installing Workrave for the current Windows user (#749)
