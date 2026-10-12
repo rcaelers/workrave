@@ -287,6 +287,7 @@ public:
 
   [[nodiscard]] auto get_root() const -> menus::SubMenuNode::Ptr;
   [[nodiscard]] auto find_section(std::string id) const -> menus::SectionNode::Ptr;
+  [[nodiscard]] auto find_submenu(const std::string &id) const -> menus::SubMenuNode::Ptr;
   void update();
 
   auto signal_update() -> boost::signals2::signal<void()> &;

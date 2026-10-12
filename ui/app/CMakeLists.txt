@@ -405,3 +405,5 @@ endif()
 install(TARGETS workrave RUNTIME DESTINATION ${BINDIR} BUNDLE DESTINATION .)
 
 add_subdirectory(toolkits)
+
+add_subdirectory(devel)

@@ -457,3 +457,9 @@ MainWindow::signal_closed()
 {
   return closed_signal;
 }
+
+void
+MainWindow::refresh()
+{
+  timer_box_control->refresh();
+}

@@ -73,6 +73,10 @@ Frame::set_frame_width(guint width)
 void
 Frame::set_frame_flashing(int delay)
 {
+  if (!flashing_enabled)
+    {
+      delay = 0;
+    }
   if (delay != 0)
     {
       if (flash_delay != delay)
@@ -226,4 +230,14 @@ Frame::flash_signal_t &
 Frame::signal_flash()
 {
   return flash_signal_src;
+}
+
+void
+Frame::set_flashing_enabled(bool enabled)
+{
+  flashing_enabled = enabled;
+  if (!enabled)
+    {
+      set_frame_flashing(0);
+    }
 }

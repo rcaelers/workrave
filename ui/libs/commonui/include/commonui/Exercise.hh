@@ -56,6 +56,7 @@ public:
   ~ExerciseCollection() = default;
 
   std::list<Exercise> get_exercises();
+  void set_exercises(const std::list<Exercise> &items);
   bool has_exercises();
   void load();
   void set_language(const std::string &locale);

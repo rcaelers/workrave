@@ -371,3 +371,46 @@ ExercisesPanel::set_exercise_count(int num)
 {
   exercise_count = num;
 }
+
+void
+ExercisesPanel::seek(int elapsed)
+{
+  if (shuffled_exercises.empty())
+    {
+      return;
+    }
+  const auto &exercise = *exercise_iterator;
+  exercise_time = std::clamp(elapsed, 0, std::max(0, exercise.duration - 1));
+  seq_time = 0;
+  for (image_iterator = exercise.sequence.begin(); image_iterator != exercise.sequence.end(); ++image_iterator)
+    {
+      if (seq_time + image_iterator->duration > exercise_time)
+        {
+          break;
+        }
+      seq_time += image_iterator->duration;
+    }
+  if (!exercise.sequence.empty())
+    {
+      if (image_iterator == exercise.sequence.end())
+        {
+          --image_iterator;
+          seq_time -= image_iterator->duration;
+        }
+      show_image();
+    }
+  refresh_progress();
+}
+
+void
+ExercisesPanel::set_auto_advance(bool enabled)
+{
+  if (!enabled)
+    {
+      heartbeat_signal.disconnect();
+    }
+  else if (!heartbeat_signal.connected())
+    {
+      heartbeat_signal = Glib::signal_timeout().connect(sigc::mem_fun(*this, &ExercisesPanel::heartbeat), 1000);
+    }
+}

@@ -52,6 +52,8 @@ class RestBreakBridge
 {
   Q_OBJECT
 
+  Q_PROPERTY(bool animationsEnabled MEMBER animations_enabled NOTIFY animationsEnabledChanged STORED false)
+
   // CONSTANT properties
   Q_PROPERTY(int blockMode READ blockMode CONSTANT)
   Q_PROPERTY(bool lockable READ lockable CONSTANT)
@@ -165,6 +167,7 @@ public:
   void updateUserActivity();
 
 Q_SIGNALS:
+  void animationsEnabledChanged();
   void lockStateChanged();
   void breakProgressChanged();
   void exerciseChanged();
@@ -183,6 +186,8 @@ public Q_SLOTS:
   void nextExercise();
   void prevExercise();
   void togglePause();
+  void seek(int elapsed);
+  void setAutoAdvance(bool enabled);
   void endExercises();
 
 private Q_SLOTS:
@@ -216,6 +221,7 @@ private:
 
   bool user_active_{false};
   bool classic_{false};
+  bool animations_enabled{true};
 };
 
 // IBreakWindow implementation that hosts a QQuickView with RestBreakOverlay.qml.

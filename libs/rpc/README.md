@@ -296,3 +296,105 @@ state directory is created `0700`, owner-only. Windows AF_UNIX access control is
 provided by Windows and the per-user path. If you override `WORKRAVE_RPC_ADDRESS`
 with a TCP address, you are opting into network exposure and need an
 authentication plan—none is built in.
+
+## Window previews for screenshots (GTK and Qt)
+
+Configure Workrave 1.12 with `-DWITH_GRPC=ON -DWITH_WINDOW_PREVIEW=ON`,
+then build the `workrave-window-preview` target. The option defaults to OFF.
+The driver is a separate development executable with no install rule; the normal
+Workrave executable never includes the preview controller or RPC service.
+
+All handwritten preview code, including the fake core, UI dispatch, backdrop,
+window ownership and RPC implementation, lives in `ui/app/devel/WindowPreview.cc`.
+The windows use their normal core interface and ordinary controls for animations,
+exercise seeking/automatic advancement, preference navigation and menu selection. The production
+Application, Toolkit, core and action handlers are unchanged.
+
+The driver uses an isolated INI profile and fixed timer/activity values. Set
+`WORKRAVE_PREVIEW_DIRECTORY` to choose the profile; the default is
+`workrave-window-preview` in the system temporary directory. Preferences changes
+apply only to this profile. Normal Workrave can remain running. The driver does
+not initialize a real core, activity monitoring or the normal D-Bus interfaces.
+Its lock/sleep/shutdown buttons retain their normal behavior; use RPC and the
+capture helper to control the windows.
+
+```sh
+cmake -S . -B BUILD -DWITH_GRPC=ON -DWITH_WINDOW_PREVIEW=ON
+cmake --build BUILD --target workrave-window-preview
+WORKRAVE_RPC_ADDRESS=127.0.0.1:50055 /path/to/workrave-window-preview
+
+python3 -m pip install grpcio grpcio-tools
+python3 tools/window-preview.py list
+python3 tools/window-preview.py show prelude-microbreak
+python3 tools/window-preview.py show restbreak-exercise
+python3 tools/window-preview.py show preferences-timers-restbreak
+python3 tools/window-preview.py show menu-temporarily-quiet
+python3 tools/window-preview.py call Hide
+python3 tools/window-preview.py quit
+```
+
+The helper reads the checked-in protobuf definitions in `ui/app/devel/gen`. If you
+are working on the interface, pass `--proto-dir BUILD/ui/app/devel` to use newly
+generated definitions. `--endpoint` selects a different socket or address.
+Presets are in [`tools/window-preview-scenes.json`](../../tools/window-preview-scenes.json).
+Copy or edit a preset to record a repeatable screenshot state.
+
+| Request | Controls |
+|---|---|
+| `ShowWindow` | Timer window, preferences page/panel, statistics, exercises, About, or Debug |
+| `ShowBreak` / `ShowPrelude` | Break type, fixed progress, reminder stage/text, available buttons |
+| `SetTimer` | Elapsed/idle seconds, limit, rest duration and whether each timer is enabled |
+| `SetAppearance` | Blocking appearance, active-user warning and exercise index/frame time; `-1` disables exercises |
+| `SetButtonLock` | Skip/Postpone availability and fixed lock progress |
+| `SetModes` | Simulated operation and reading mode, including menu check marks |
+| `SetBoolSetting` / `SetIntSetting` / `SetStringSetting` | Typed preferences on the UI thread, for example theme or layout |
+| `ShowMenu` | Main or tray menu, optional submenu ID and screen position |
+| `SetBackdrop` | Solid `#RRGGBB` background; an empty string removes it |
+| `Hide` | Close preview windows and menus |
+| `Quit` | Shut down the development driver normally |
+
+`ShowWindow`, `ShowBreak` and `ShowPrelude` replace the visible preview.
+`ShowMenu` can also be shown over the timer window. GTK on Windows uses the
+native Windows tray popup; GTK main menus and Qt menus use their usual toolkit.
+Submenu IDs include `workrave.mode_menu`, `workrave.mode_timed_quiet_menu` and
+`workrave.mode_timed_suspended_menu`. OS-owned tray overflow panels must still
+be opened through Windows. Plugin preferences and the Debug window depend on
+which features were built.
+
+Each mutation returns a sequence number. The helper pipelines preset commands
+and uses `WaitForAppliedSequence` to wait for the UI and collect errors across
+the whole sequence range. It falls back to `GetAppliedSequence`/`GetLastError`
+on older preview builds. Requests run
+on the UI event loop; invalid enum values, timer ranges or unknown preferences
+pages are reported without closing the app. Duration must be at least 2 seconds and
+`0 <= progress < duration` for break/reminder progress.
+
+### Transparent Windows captures
+
+Keep the Windows desktop/RDP session connected and run both Workrave and the
+capture helper in that interactive session. The helper captures only windows
+owned by the supplied Workrave PID. It uses the current Windows font/DPI
+settings and saves PNGs at their native pixel size.
+Dismiss desktop notifications before capturing; Windows can display them above
+the screenshot backdrop.
+
+```powershell
+$env:WORKRAVE_RPC_ADDRESS = "127.0.0.1:50055"
+$app = Start-Process "C:\path\to\workrave-window-preview.exe" -PassThru
+python -m pip install grpcio grpcio-tools pillow numpy
+python tools/window-preview.py capture all --pid $app.Id --output screenshots
+```
+
+The capture command takes each scene over green and magenta backdrops, then
+solves for foreground color and alpha. This preserves green timer bars and
+antialiasing without redrawing controls. Cast shadows are removed by default;
+`--keep-shadows` retains them. PNGs and JSON provenance are saved together.
+Capture completes pending paint messages and synchronizes with the Windows
+compositor instead of using fixed delays. GTK and Qt preview animations are disabled.
+Use `--settle SECONDS` to add a delay for a slow theme. Each capture prints its
+elapsed time and records it in the JSON file. Optional scenes unavailable in the build are reported and
+skipped. `show` and `call` also work on Linux and macOS; automatic capture uses
+Windows APIs.
+
+The alpha recovery and shadow-removal checks run with
+`python tools/test-window-preview.py` (Pillow and NumPy required).

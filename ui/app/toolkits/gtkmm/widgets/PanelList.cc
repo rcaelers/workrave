@@ -75,3 +75,17 @@ PanelList::signal_activated()
 {
   return activated_signal;
 }
+
+void
+PanelList::select_row(const std::string &id)
+{
+  for (auto *child: list_box->get_children())
+    {
+      if (auto *row = dynamic_cast<Gtk::ListBoxRow *>(child);
+          (row != nullptr) && id == static_cast<const char *>(row->get_data("id")))
+        {
+          list_box->select_row(*row);
+          return;
+        }
+    }
+}

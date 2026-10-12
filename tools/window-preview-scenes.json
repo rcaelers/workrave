@@ -1,0 +1,1514 @@
+{
+  "main": {
+    "description": "Timer window with fixed active/idle/overdue values",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "SetTimer",
+        {
+          "id": 0,
+          "elapsed": 120,
+          "limit": 270,
+          "idle": 0,
+          "duration": 30,
+          "enabled": true
+        }
+      ],
+      [
+        "SetTimer",
+        {
+          "id": 1,
+          "elapsed": 600,
+          "limit": 2700,
+          "idle": 0,
+          "duration": 600,
+          "enabled": true
+        }
+      ],
+      [
+        "SetTimer",
+        {
+          "id": 2,
+          "elapsed": 3600,
+          "limit": 14400,
+          "idle": 0,
+          "duration": 0,
+          "enabled": true
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 0
+        }
+      ]
+    ]
+  },
+  "main-mixed": {
+    "description": "Timer window with fixed active/idle/overdue values",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "SetTimer",
+        {
+          "id": 0,
+          "elapsed": 120,
+          "limit": 270,
+          "idle": 12,
+          "duration": 30,
+          "enabled": true
+        }
+      ],
+      [
+        "SetTimer",
+        {
+          "id": 1,
+          "elapsed": 600,
+          "limit": 2700,
+          "idle": 120,
+          "duration": 600,
+          "enabled": true
+        }
+      ],
+      [
+        "SetTimer",
+        {
+          "id": 2,
+          "elapsed": 3600,
+          "limit": 14400,
+          "idle": 0,
+          "duration": 0,
+          "enabled": true
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 0
+        }
+      ]
+    ]
+  },
+  "main-rested": {
+    "description": "Timer window with fixed active/idle/overdue values",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "SetTimer",
+        {
+          "id": 0,
+          "elapsed": 0,
+          "limit": 270,
+          "idle": 30,
+          "duration": 30,
+          "enabled": true
+        }
+      ],
+      [
+        "SetTimer",
+        {
+          "id": 1,
+          "elapsed": 600,
+          "limit": 2700,
+          "idle": 300,
+          "duration": 600,
+          "enabled": true
+        }
+      ],
+      [
+        "SetTimer",
+        {
+          "id": 2,
+          "elapsed": 3600,
+          "limit": 14400,
+          "idle": 0,
+          "duration": 0,
+          "enabled": true
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 0
+        }
+      ]
+    ]
+  },
+  "main-overdue": {
+    "description": "Timer window with fixed active/idle/overdue values",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "SetTimer",
+        {
+          "id": 0,
+          "elapsed": 308,
+          "limit": 270,
+          "idle": 0,
+          "duration": 30,
+          "enabled": true
+        }
+      ],
+      [
+        "SetTimer",
+        {
+          "id": 1,
+          "elapsed": 600,
+          "limit": 2700,
+          "idle": 0,
+          "duration": 600,
+          "enabled": true
+        }
+      ],
+      [
+        "SetTimer",
+        {
+          "id": 2,
+          "elapsed": 3600,
+          "limit": 14400,
+          "idle": 0,
+          "duration": 0,
+          "enabled": true
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 0
+        }
+      ]
+    ]
+  },
+  "microbreak": {
+    "description": "Break window, fixed progress and no exercises",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowBreak",
+        {
+          "id": 0,
+          "progress": 10,
+          "duration": 30,
+          "skippable": true,
+          "postponable": true
+        }
+      ]
+    ]
+  },
+  "restbreak": {
+    "description": "Break window, fixed progress and no exercises",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowBreak",
+        {
+          "id": 1,
+          "progress": 10,
+          "duration": 600,
+          "skippable": true,
+          "postponable": true
+        }
+      ]
+    ]
+  },
+  "daily": {
+    "description": "Break window, fixed progress and no exercises",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowBreak",
+        {
+          "id": 2,
+          "progress": 10,
+          "duration": 600,
+          "skippable": true,
+          "postponable": true
+        }
+      ]
+    ]
+  },
+  "microbreak-warn": {
+    "description": "Micro-break with a steady orange activity warning",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": true,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "ShowBreak",
+        {
+          "id": 0,
+          "progress": 10,
+          "duration": 30,
+          "skippable": true,
+          "postponable": true
+        }
+      ]
+    ]
+  },
+  "restbreak-exercise": {
+    "description": "Rest break showing Finger stretch, matching the 1.10 guide",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": 1,
+          "exercise_elapsed": 1
+        }
+      ],
+      [
+        "ShowBreak",
+        {
+          "id": 1,
+          "progress": 30,
+          "duration": 600,
+          "skippable": true,
+          "postponable": true
+        }
+      ]
+    ]
+  },
+  "restbreak-locked-skip": {
+    "description": "Rest break with fixed button lock progress",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": false,
+          "can_postpone": false,
+          "value": 10,
+          "maximum": 30
+        }
+      ],
+      [
+        "ShowBreak",
+        {
+          "id": 1,
+          "progress": 10,
+          "duration": 600,
+          "skippable": true,
+          "postponable": true
+        }
+      ]
+    ]
+  },
+  "prelude-microbreak": {
+    "description": "Prelude with a fixed countdown and warning stage",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowPrelude",
+        {
+          "id": 0,
+          "stage": 0,
+          "text": 0,
+          "progress": 10,
+          "duration": 30
+        }
+      ]
+    ]
+  },
+  "prelude-microbreak-warn": {
+    "description": "Prelude with a fixed countdown and warning stage",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowPrelude",
+        {
+          "id": 0,
+          "stage": 2,
+          "text": 1,
+          "progress": 10,
+          "duration": 30
+        }
+      ]
+    ]
+  },
+  "prelude-microbreak-warn-red": {
+    "description": "Prelude with a fixed countdown and warning stage",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowPrelude",
+        {
+          "id": 0,
+          "stage": 3,
+          "text": 1,
+          "progress": 10,
+          "duration": 30
+        }
+      ]
+    ]
+  },
+  "prelude-restbreak": {
+    "description": "Prelude with a fixed countdown and warning stage",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowPrelude",
+        {
+          "id": 1,
+          "stage": 0,
+          "text": 0,
+          "progress": 10,
+          "duration": 30
+        }
+      ]
+    ]
+  },
+  "prelude-daily": {
+    "description": "Prelude with a fixed countdown and warning stage",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowPrelude",
+        {
+          "id": 2,
+          "stage": 0,
+          "text": 0,
+          "progress": 10,
+          "duration": 30
+        }
+      ]
+    ]
+  },
+  "preferences-timers-micro": {
+    "description": "Preferences page timer/microbreak",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 1,
+          "page": "timer",
+          "panel": "microbreak"
+        }
+      ]
+    ]
+  },
+  "preferences-timers-restbreak": {
+    "description": "Preferences page timer/restbreak",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 1,
+          "page": "timer",
+          "panel": "restbreak"
+        }
+      ]
+    ]
+  },
+  "preferences-timers-daily": {
+    "description": "Preferences page timer/dailylimit",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 1,
+          "page": "timer",
+          "panel": "dailylimit"
+        }
+      ]
+    ]
+  },
+  "preferences-ui-general": {
+    "description": "Preferences page ui/general",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 1,
+          "page": "ui",
+          "panel": "general"
+        }
+      ]
+    ]
+  },
+  "preferences-ui-status-window": {
+    "description": "Preferences page ui/mainwindow",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 1,
+          "page": "ui",
+          "panel": "mainwindow"
+        }
+      ]
+    ]
+  },
+  "preferences-ui-status-applet": {
+    "description": "Preferences page ui/applet",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 1,
+          "page": "ui",
+          "panel": "applet"
+        }
+      ]
+    ]
+  },
+  "preferences-monitoring": {
+    "description": "Preferences page monitoring/monitoring",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 1,
+          "page": "monitoring",
+          "panel": "monitoring"
+        }
+      ]
+    ]
+  },
+  "preferences-sounds": {
+    "description": "Preferences page sounds/sounds",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 1,
+          "page": "sounds",
+          "panel": "sounds"
+        }
+      ]
+    ]
+  },
+  "preferences-focus-assist": {
+    "description": "Preferences page focus_assist/focus_assist",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 1,
+          "page": "monitoring",
+          "panel": "focus-assist"
+        }
+      ]
+    ],
+    "optional": true
+  },
+  "preferences-updates": {
+    "description": "Preferences page update/update",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 1,
+          "page": "auto-update",
+          "panel": "auto-update"
+        }
+      ]
+    ],
+    "optional": true
+  },
+  "preferences-remote-control": {
+    "description": "Preferences page remote-control/grpc",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 1,
+          "page": "remote-control",
+          "panel": "grpc"
+        }
+      ]
+    ]
+  },
+  "exercises": {
+    "description": "Standalone exercise player showing Move the eyes, matching the 1.10 guide",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": 4,
+          "exercise_elapsed": 4
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 3
+        }
+      ]
+    ]
+  },
+  "statistics": {
+    "description": "Statistics window with deterministic sample counts",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 2
+        }
+      ]
+    ]
+  },
+  "about": {
+    "description": "About Workrave window",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 4
+        }
+      ]
+    ]
+  },
+  "debug": {
+    "description": "Toolkit debug window",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowWindow",
+        {
+          "window": 5
+        }
+      ]
+    ],
+    "optional": true
+  },
+  "menu-main": {
+    "description": "Workrave menu main",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowMenu",
+        {
+          "tray": false,
+          "submenu": "",
+          "x": 500,
+          "y": 350
+        }
+      ]
+    ]
+  },
+  "menu-main-operation-mode": {
+    "description": "Workrave menu workrave.mode_menu",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowMenu",
+        {
+          "tray": false,
+          "submenu": "workrave.mode_menu",
+          "x": 500,
+          "y": 350
+        }
+      ]
+    ]
+  },
+  "menu-temporarily-quiet": {
+    "description": "Workrave menu workrave.mode_timed_quiet_menu",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowMenu",
+        {
+          "tray": false,
+          "submenu": "workrave.mode_timed_quiet_menu",
+          "x": 500,
+          "y": 350
+        }
+      ]
+    ]
+  },
+  "menu-temporarily-suspended": {
+    "description": "Workrave menu workrave.mode_timed_suspended_menu",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowMenu",
+        {
+          "tray": false,
+          "submenu": "workrave.mode_timed_suspended_menu",
+          "x": 500,
+          "y": 350
+        }
+      ]
+    ]
+  },
+  "win32-trayicon-menu": {
+    "description": "Workrave menu tray",
+    "calls": [
+      [
+        "SetModes",
+        {
+          "operation_mode": 0,
+          "usage_mode": 0
+        }
+      ],
+      [
+        "SetAppearance",
+        {
+          "block_mode": "PREVIEW_BLOCK_MODE_INPUT",
+          "user_active": false,
+          "exercise_index": -1,
+          "exercise_elapsed": 5
+        }
+      ],
+      [
+        "SetButtonLock",
+        {
+          "can_skip": true,
+          "can_postpone": true,
+          "value": 0,
+          "maximum": 0
+        }
+      ],
+      [
+        "ShowMenu",
+        {
+          "tray": true,
+          "submenu": "",
+          "x": 500,
+          "y": 350
+        }
+      ]
+    ]
+  }
+}

@@ -15,21 +15,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include <utility>
-
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
 #include "ToolkitMenu.hh"
+
+#include <utility>
+
 #include "commonui/MenuModel.hh"
 
 using namespace detail;
 
-ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter, QWidget *parent_widget)
+ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter, QWidget *parent_widget, const std::string &submenu)
 {
   context = std::make_shared<detail::ToolkitMenuContext>(filter);
-  entry = std::make_shared<ToolkitSubMenuEntry>(context, nullptr, menu_model->get_root(), parent_widget);
+  auto root = menu_model->find_submenu(submenu);
+  if (!root)
+    {
+      root = menu_model->get_root();
+    }
+  entry = std::make_shared<ToolkitSubMenuEntry>(context, nullptr, root, parent_widget);
   workrave::utils::connect(menu_model->signal_update(), this, [this]() { entry->init(); });
 }
 

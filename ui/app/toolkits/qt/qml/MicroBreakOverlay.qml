@@ -43,7 +43,7 @@ Item {
 
         border.color: root.userActive ? tok.warn : tok.edge
         border.width: root.userActive ? 1.5 : 1
-        Behavior on border.color { ColorAnimation { duration: 300 } }
+        Behavior on border.color { enabled: bridge.animationsEnabled; ColorAnimation { duration: 300 } }
 
         x: (root.width  - width)  / 2
         y: (root.height - height) / 2
@@ -188,7 +188,7 @@ Item {
                         font.pixelSize: 11
                         color: tok.warn
                         opacity: root.userActive ? 1.0 : 0.0
-                        Behavior on opacity { NumberAnimation { duration: 300 } }
+                        Behavior on opacity { enabled: bridge.animationsEnabled; NumberAnimation { duration: 300 } }
                     }
 
                     // Idle hint — visible in blocking modes when user is resting
@@ -347,7 +347,7 @@ Item {
                 height: root.isLocked ? lockCol.implicitHeight + 8 : 0
                 clip: true
 
-                Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                Behavior on height { enabled: bridge.animationsEnabled; NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
 
                 Column {
                     id: lockCol
@@ -374,7 +374,7 @@ Item {
                             width: Math.max(4, parent.width * root.lockProgress)
                             radius: 2
                             color: tok.sage
-                            Behavior on width { NumberAnimation { duration: 500 } }
+                            Behavior on width { enabled: bridge.animationsEnabled; NumberAnimation { duration: 500 } }
                         }
                     }
                 }
@@ -394,8 +394,8 @@ Item {
     SequentialAnimation {
         id: enterAnim
         ParallelAnimation {
-            NumberAnimation { target: card; property: "scale";   to: 1.0; duration: 240; easing.type: Easing.OutCubic }
-            NumberAnimation { target: card; property: "opacity"; to: 1.0; duration: 240; easing.type: Easing.OutCubic }
+            NumberAnimation { target: card; property: "scale";   to: 1.0; duration: !bridge.animationsEnabled ? 0 : 240; easing.type: Easing.OutCubic }
+            NumberAnimation { target: card; property: "opacity"; to: 1.0; duration: !bridge.animationsEnabled ? 0 : 240; easing.type: Easing.OutCubic }
         }
     }
 }

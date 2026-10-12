@@ -22,6 +22,8 @@
 #include "PreferencesDialog.hh"
 
 #include <memory>
+#include <stdexcept>
+
 #include <boost/algorithm/string/split.hpp>
 #include <gtkmm.h>
 
@@ -278,4 +280,38 @@ PreferencesPage::add_panel(const std::string &id, Gtk::Widget *widget, Gtk::Widg
 
   notebook->append_page(*widget, *label);
   notebook->set_show_tabs(notebook->get_n_pages() > 1);
+}
+
+void
+PreferencesPage::select_panel(const std::string &panel)
+{
+  if (panel.empty())
+    {
+      return;
+    }
+  auto it = panels.find(panel);
+  if (it == panels.end())
+    {
+      throw std::invalid_argument("Unknown preferences panel: " + panel);
+    }
+  notebook->set_current_page(notebook->page_num(*it->second));
+}
+
+// Page and panel are distinct positional identifiers in the preferences API.
+void
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
+PreferencesDialog::select_page(const std::string &page, const std::string &panel)
+{
+  if (page.empty())
+    {
+      return;
+    }
+  auto it = pages.find(page);
+  if (it == pages.end())
+    {
+      throw std::invalid_argument("Unknown preferences page: " + page);
+    }
+  it->second->select_panel(panel);
+  panel_list.select_row(page);
+  stack.set_visible_child(page);
 }

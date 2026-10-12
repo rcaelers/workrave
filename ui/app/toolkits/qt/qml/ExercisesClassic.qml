@@ -56,7 +56,7 @@ Item {
                     height: parent.height * root.exProgress
                     anchors.top: parent.top
                     color: colBar
-                    Behavior on height { NumberAnimation { duration: 500 } }
+                    Behavior on height { enabled: exercisesBridge.animationsEnabled; NumberAnimation { duration: 500 } }
                 }
             }
 

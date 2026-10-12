@@ -32,6 +32,7 @@ public:
 
   void add_row(const std::string &id, const std::string &label, const std::string &image);
   activated_signal_t &signal_activated();
+  void select_row(const std::string &id);
 
 private:
   Gtk::ListBox *list_box{nullptr};

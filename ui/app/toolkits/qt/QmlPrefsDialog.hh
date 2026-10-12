@@ -51,6 +51,7 @@ public:
   explicit QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
   ~QmlPrefsDialog() override;
 
+  void select_page(const std::string &section, const std::string &page);
   void show();
   void hide();
   void retranslate();

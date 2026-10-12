@@ -45,6 +45,8 @@ class DailyLimitBridge
 {
   Q_OBJECT
 
+  Q_PROPERTY(bool animationsEnabled MEMBER animations_enabled NOTIFY animationsEnabledChanged STORED false)
+
   Q_PROPERTY(int blockMode READ blockMode CONSTANT)
   Q_PROPERTY(bool lockable READ lockable CONSTANT)
   Q_PROPERTY(bool shutdownable READ shutdownable CONSTANT)
@@ -87,6 +89,7 @@ public:
   void updateUserActivity();
 
 Q_SIGNALS:
+  void animationsEnabledChanged();
   void lockStateChanged();
   void userActivityChanged();
   void classicChanged();
@@ -110,6 +113,7 @@ private:
   double lock_progress_val{0.0};
   bool user_active_{false};
   bool classic_{false};
+  bool animations_enabled{true};
 };
 
 // IBreakWindow implementation that hosts a QQuickView with DailyLimitOverlay.qml.

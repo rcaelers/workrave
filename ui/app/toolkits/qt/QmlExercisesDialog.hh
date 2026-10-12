@@ -41,6 +41,8 @@ class ExercisesBridge
 {
   Q_OBJECT
 
+  Q_PROPERTY(bool animationsEnabled MEMBER animations_enabled NOTIFY animationsEnabledChanged STORED false)
+
   Q_PROPERTY(QString exerciseName        READ exerciseName        NOTIFY exerciseChanged)
   Q_PROPERTY(QString exerciseDescription READ exerciseDescription NOTIFY exerciseChanged)
   Q_PROPERTY(QString exerciseImage       READ exerciseImage       NOTIFY exerciseImageChanged)
@@ -67,6 +69,7 @@ public:
   void setCloseHandler(std::function<void()> fn) { on_close_ = std::move(fn); }
 
 Q_SIGNALS:
+  void animationsEnabledChanged();
   void exerciseChanged();
   void exerciseImageChanged();
   void exerciseTimerChanged();
@@ -77,6 +80,8 @@ public Q_SLOTS:
   void prevExercise();
   void nextExercise();
   void togglePause();
+  void seek(int elapsed);
+  void setAutoAdvance(bool enabled);
   void stopExercises();
 
 private Q_SLOTS:
@@ -98,6 +103,7 @@ private:
   int  ex_seq_time{0};
   bool ex_paused{false};
   bool classic_{false};
+  bool animations_enabled{true};
 
   QTimer *ex_timer{nullptr};
 };

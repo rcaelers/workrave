@@ -189,7 +189,6 @@ GeneralPreferencePanel::create_panel()
       Gtk::Label *autostart_lab = Gtk::manage(GtkUtil::create_label(_("Start Workrave on logon"), false));
       autostart_cb = Gtk::manage(new Gtk::CheckButton());
       autostart_cb->add(*autostart_lab);
-      autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &GeneralPreferencePanel::on_autostart_toggled));
       panel->add_widget(*autostart_cb);
 
       connector->connect(GUIConfig::autostart_enabled(), dc::wrap(autostart_cb));
@@ -197,6 +196,8 @@ GeneralPreferencePanel::create_panel()
 #if defined(PLATFORM_OS_WINDOWS)
       autostart_cb->set_active(Platform::autostart_enabled());
 #endif
+      // Initial values must not be treated as user changes.
+      autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &GeneralPreferencePanel::on_autostart_toggled));
     }
 
   Gtk::Widget *trayicon_lab = Gtk::manage(

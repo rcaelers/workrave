@@ -33,6 +33,7 @@ public:
 
   void init();
   void update();
+  void refresh();
   void force_cycle();
   void set_force_empty(bool s);
 

@@ -156,7 +156,7 @@ Item {
                     width: parent.width
                     height: root.isLocked ? cardLockCol.implicitHeight + 16 : 0
                     clip: true
-                    Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                    Behavior on height { enabled: bridge.animationsEnabled; NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
 
                     Column {
                         id: cardLockCol
@@ -177,7 +177,7 @@ Item {
                                 anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                                 width: Math.max(4, parent.width * root.lockProgress)
                                 radius: 2; color: tok.sage
-                                Behavior on width { NumberAnimation { duration: 500 } }
+                                Behavior on width { enabled: bridge.animationsEnabled; NumberAnimation { duration: 500 } }
                             }
                         }
                     }
@@ -238,7 +238,7 @@ Item {
                                         width: parent.width * root.exerciseProgress
                                         height: parent.height; radius: parent.radius
                                         color: root.isPaused ? tok.warn : tok.sage
-                                        Behavior on width { NumberAnimation { duration: 500 } }
+                                        Behavior on width { enabled: bridge.animationsEnabled; NumberAnimation { duration: 500 } }
                                     }
                                 }
                             }
@@ -480,7 +480,7 @@ Item {
                                 anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                                 width: parent.width * root.breakProgress
                                 radius: parent.radius; color: tok.sage
-                                Behavior on width { NumberAnimation { duration: 500 } }
+                                Behavior on width { enabled: bridge.animationsEnabled; NumberAnimation { duration: 500 } }
                             }
                         }
                     }
@@ -538,8 +538,8 @@ Item {
         SequentialAnimation {
             id: cardEnterAnim
             ParallelAnimation {
-                NumberAnimation { target: card; property: "opacity"; to: 1.0; duration: 260; easing.type: Easing.OutCubic }
-                NumberAnimation { target: card; property: "scale";   to: 1.0; duration: 260; easing.type: Easing.OutCubic }
+                NumberAnimation { target: card; property: "opacity"; to: 1.0; duration: !bridge.animationsEnabled ? 0 : 260; easing.type: Easing.OutCubic }
+                NumberAnimation { target: card; property: "scale";   to: 1.0; duration: !bridge.animationsEnabled ? 0 : 260; easing.type: Easing.OutCubic }
             }
         }
     }
@@ -660,7 +660,7 @@ Item {
                 anchors { top: headerStrip.bottom; left: parent.left; right: parent.right }
                 height: root.isLocked ? lockStripCol.implicitHeight + 12 : 0
                 clip: true
-                Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                Behavior on height { enabled: bridge.animationsEnabled; NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
 
                 Column {
                     id: lockStripCol
@@ -677,7 +677,7 @@ Item {
                             anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                             width: Math.max(4, parent.width * root.lockProgress)
                             radius: 2; color: tok.sage
-                            Behavior on width { NumberAnimation { duration: 500 } }
+                            Behavior on width { enabled: bridge.animationsEnabled; NumberAnimation { duration: 500 } }
                         }
                     }
                 }
@@ -901,7 +901,7 @@ Item {
                                                 width: parent.width * root.exerciseProgress
                                                 height: parent.height; radius: parent.radius
                                                 color: root.isPaused ? tok.warn : tok.sage
-                                                Behavior on width { NumberAnimation { duration: 500 } }
+                                                Behavior on width { enabled: bridge.animationsEnabled; NumberAnimation { duration: 500 } }
                                             }
                                         }
                                     }
@@ -995,8 +995,8 @@ Item {
         SequentialAnimation {
             id: fsEnterAnim
             ParallelAnimation {
-                NumberAnimation { target: contentArea; property: "opacity"; to: 1.0; duration: 260; easing.type: Easing.OutCubic }
-                NumberAnimation { target: contentArea; property: "scale";   to: 1.0; duration: 260; easing.type: Easing.OutCubic }
+                NumberAnimation { target: contentArea; property: "opacity"; to: 1.0; duration: !bridge.animationsEnabled ? 0 : 260; easing.type: Easing.OutCubic }
+                NumberAnimation { target: contentArea; property: "scale";   to: 1.0; duration: !bridge.animationsEnabled ? 0 : 260; easing.type: Easing.OutCubic }
             }
         }
     }

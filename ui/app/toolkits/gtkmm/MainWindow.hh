@@ -46,6 +46,7 @@ public:
   void open_window();
   void close_window();
   void update();
+  void refresh();
 
   closed_signal_t &signal_closed();
 

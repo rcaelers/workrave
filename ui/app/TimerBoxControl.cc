@@ -49,6 +49,13 @@ TimerBoxControl::~TimerBoxControl()
   TRACE_ENTRY();
 }
 
+void
+TimerBoxControl::refresh()
+{
+  reconfigure = true;
+  update();
+}
+
 //! Updates the timerbox.
 void
 TimerBoxControl::update()

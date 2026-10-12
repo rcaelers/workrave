@@ -45,6 +45,7 @@ public:
   void open_window();
   void close_window();
   void heartbeat();
+  void refresh();
 
   auto signal_closed() -> boost::signals2::signal<void()> &;
 

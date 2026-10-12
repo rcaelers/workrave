@@ -85,7 +85,7 @@ Item {
                     height: parent.height
                     radius: parent.radius
                     color: exPaused ? tok.warn : tok.sage
-                    Behavior on width { NumberAnimation { duration: 500 } }
+                    Behavior on width { enabled: exercisesBridge.animationsEnabled; NumberAnimation { duration: 500 } }
                 }
             }
 

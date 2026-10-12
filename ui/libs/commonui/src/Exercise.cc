@@ -290,6 +290,12 @@ ExerciseCollection::get_exercises()
   return exercises;
 }
 
+void
+ExerciseCollection::set_exercises(const std::list<Exercise> &items)
+{
+  exercises = items;
+}
+
 bool
 ExerciseCollection::has_exercises()
 {

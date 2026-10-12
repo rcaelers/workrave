@@ -20,11 +20,12 @@
 #endif
 
 #include "ToolkitMenu.hh"
-#include "commonui/MenuModel.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <vector>
 #endif
+
+#include "commonui/MenuModel.hh"
 
 using namespace detail;
 
@@ -107,9 +108,13 @@ namespace
 } // namespace
 #endif
 
-ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter)
+ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter, const std::string &submenu)
 {
-  menus::SubMenuNode::Ptr root = menu_model->get_root();
+  menus::SubMenuNode::Ptr root = menu_model->find_submenu(submenu);
+  if (!root)
+    {
+      root = menu_model->get_root();
+    }
 
   auto action_group = Gio::SimpleActionGroup::create();
 

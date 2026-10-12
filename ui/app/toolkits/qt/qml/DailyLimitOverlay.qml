@@ -204,7 +204,7 @@ Item {
                 height: root.isLocked ? lockCol.implicitHeight + 8 : 0
                 clip: true
 
-                Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                Behavior on height { enabled: bridge.animationsEnabled; NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
 
                 Column {
                     id: lockCol
@@ -231,7 +231,7 @@ Item {
                             width: Math.max(4, parent.width * root.lockProgress)
                             radius: 2
                             color: tok.sage
-                            Behavior on width { NumberAnimation { duration: 500 } }
+                            Behavior on width { enabled: bridge.animationsEnabled; NumberAnimation { duration: 500 } }
                         }
                     }
                 }
@@ -338,8 +338,8 @@ Item {
     SequentialAnimation {
         id: enterAnim
         ParallelAnimation {
-            NumberAnimation { target: card; property: "scale";   to: 1.0; duration: 240; easing.type: Easing.OutCubic }
-            NumberAnimation { target: card; property: "opacity"; to: 1.0; duration: 240; easing.type: Easing.OutCubic }
+            NumberAnimation { target: card; property: "scale";   to: 1.0; duration: !bridge.animationsEnabled ? 0 : 240; easing.type: Easing.OutCubic }
+            NumberAnimation { target: card; property: "opacity"; to: 1.0; duration: !bridge.animationsEnabled ? 0 : 240; easing.type: Easing.OutCubic }
         }
     }
 }

@@ -36,6 +36,7 @@ public:
   void set_frame_style(Style style);
   void set_frame_color(const Gdk::RGBA &color);
   void set_frame_flashing(int delay);
+  void set_flashing_enabled(bool enabled);
   void set_frame_visible(bool visible);
   flash_signal_t &signal_flash();
 
@@ -70,6 +71,7 @@ private:
 
   //! Flash delay;
   int flash_delay{-1};
+  bool flashing_enabled{true};
 
   //! Flash timeout signal
   sigc::connection flash_signal;

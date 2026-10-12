@@ -49,11 +49,11 @@ Item {
     property bool flashState: false
     Timer {
         interval: 500; repeat: true
-        running: root.userActive
+        running: root.userActive && bridge.animationsEnabled
         onTriggered: root.flashState = !root.flashState
         onRunningChanged: if (!running) root.flashState = false
     }
-    readonly property color borderCol: root.userActive ? (root.flashState ? colWarn : colBg) : colBorder
+    readonly property color borderCol: root.userActive ? ((!bridge.animationsEnabled || root.flashState) ? colWarn : colBg) : colBorder
     readonly property int   borderW:   root.userActive ? 6 : 1
 
     // ── Dim backdrop (blockMode All) ─────────────────────────────────────────
@@ -79,7 +79,7 @@ Item {
         y: root.blockMode === 2 ? (parent.height - height) / 2
                                  : Math.max(24, (parent.height - height) / 2)
 
-        Behavior on border.color { ColorAnimation { duration: 80 } }
+        Behavior on border.color { enabled: bridge.animationsEnabled; ColorAnimation { duration: 80 } }
 
         Column {
             id: cardContent
@@ -131,7 +131,7 @@ Item {
                             height: parent.height * root.exProgress
                             anchors.top: parent.top
                             color: colBar
-                            Behavior on height { NumberAnimation { duration: 500 } }
+                            Behavior on height { enabled: bridge.animationsEnabled; NumberAnimation { duration: 500 } }
                         }
                     }
 
@@ -250,7 +250,7 @@ Item {
                     width: Math.max(0, (parent.width - 2) * root.barProgress)
                     height: parent.height - 2
                     color: colTimeBar
-                    Behavior on width { NumberAnimation { duration: 500 } }
+                    Behavior on width { enabled: bridge.animationsEnabled; NumberAnimation { duration: 500 } }
                 }
 
                 Text {
@@ -267,7 +267,7 @@ Item {
                 height: root.isLocked ? 8 : 0
                 anchors.horizontalCenter: parent.horizontalCenter
                 clip: true
-                Behavior on height { NumberAnimation { duration: 200 } }
+                Behavior on height { enabled: bridge.animationsEnabled; NumberAnimation { duration: 200 } }
 
                 Rectangle {
                     anchors.bottom: parent.bottom
@@ -275,7 +275,7 @@ Item {
                     Rectangle {
                         width: Math.max(4, parent.width * root.lockProg)
                         height: parent.height; color: colBar
-                        Behavior on width { NumberAnimation { duration: 500 } }
+                        Behavior on width { enabled: bridge.animationsEnabled; NumberAnimation { duration: 500 } }
                     }
                 }
             }

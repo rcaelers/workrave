@@ -34,6 +34,7 @@ class PreferencesPage
 public:
   PreferencesPage(const std::string &id, Gtk::Notebook *notebook);
 
+  void select_panel(const std::string &panel);
   void add_panel(const std::string &id, Gtk::Widget *widget, const std::string &label);
   void add_panel(const std::string &id, Gtk::Widget *widget, Gtk::Widget *label);
 
@@ -49,6 +50,7 @@ class PreferencesDialog : public Gtk::Dialog
 public:
   explicit PreferencesDialog(std::shared_ptr<IApplicationContext> app);
   ~PreferencesDialog() override;
+  void select_page(const std::string &page, const std::string &panel);
 
 private:
   std::shared_ptr<PreferencesPage> add_page(const std::string &id, const std::string &label, const std::string &image);

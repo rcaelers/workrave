@@ -187,7 +187,10 @@ class ToolkitMenu
 public:
   using Ptr = std::shared_ptr<ToolkitMenu>;
 
-  explicit ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter = nullptr, QWidget *parent_widget = nullptr);
+  explicit ToolkitMenu(MenuModel::Ptr menu_model,
+                       MenuNodeFilter filter = nullptr,
+                       QWidget *parent_widget = nullptr,
+                       const std::string &submenu = "");
 
   [[nodiscard]] auto get_menu() const -> QMenu *;
 

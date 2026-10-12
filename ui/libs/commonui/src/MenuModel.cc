@@ -19,6 +19,7 @@
 #  include "config.h"
 #endif
 
+#include <functional>
 #include <utility>
 
 #include "commonui/MenuModel.hh"
@@ -48,6 +49,30 @@ MenuModel::find_section(std::string id) const -> menus::SectionNode::Ptr
 {
   auto root = get_root();
   return root->find_section(id);
+}
+
+auto
+MenuModel::find_submenu(const std::string &id) const -> menus::SubMenuNode::Ptr
+{
+  std::function<menus::SubMenuNode::Ptr(menus::ContainerNode::Ptr)> find =
+    [&](menus::ContainerNode::Ptr parent) -> menus::SubMenuNode::Ptr {
+    if (auto submenu = std::dynamic_pointer_cast<menus::SubMenuNode>(parent); submenu && (id.empty() || submenu->get_id() == id))
+      {
+        return submenu;
+      }
+    for (auto &child: parent->get_children())
+      {
+        if (auto container = std::dynamic_pointer_cast<menus::ContainerNode>(child); container)
+          {
+            if (auto result = find(container); result)
+              {
+                return result;
+              }
+          }
+      }
+    return nullptr;
+  };
+  return find(root);
 }
 
 void

@@ -1,0 +1,408 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave.preview;
+
+
+
+enum PreviewBreakType {
+
+
+  PREVIEW_BREAK_TYPE_MICRO_BREAK = 0;
+
+
+  PREVIEW_BREAK_TYPE_REST_BREAK = 1;
+
+
+  PREVIEW_BREAK_TYPE_DAILY_LIMIT = 2;
+
+}
+
+
+
+enum PreludeStage {
+
+
+  PRELUDE_STAGE_INITIAL = 0;
+
+
+  PRELUDE_STAGE_MOVE_OUT = 1;
+
+
+  PRELUDE_STAGE_WARN = 2;
+
+
+  PRELUDE_STAGE_ALERT = 3;
+
+}
+
+
+
+enum PreludeProgressText {
+
+
+  PRELUDE_PROGRESS_TEXT_BREAK_IN = 0;
+
+
+  PRELUDE_PROGRESS_TEXT_DISAPPEARS_IN = 1;
+
+
+  PRELUDE_PROGRESS_TEXT_SILENT_IN = 2;
+
+}
+
+
+
+enum PreviewWindowType {
+
+
+  PREVIEW_WINDOW_TYPE_MAIN = 0;
+
+
+  PREVIEW_WINDOW_TYPE_PREFERENCES = 1;
+
+
+  PREVIEW_WINDOW_TYPE_STATISTICS = 2;
+
+
+  PREVIEW_WINDOW_TYPE_EXERCISES = 3;
+
+
+  PREVIEW_WINDOW_TYPE_ABOUT = 4;
+
+
+  PREVIEW_WINDOW_TYPE_DEBUG = 5;
+
+}
+
+
+
+enum PreviewBlockMode {
+
+
+  PREVIEW_BLOCK_MODE_OFF = 0;
+
+
+  PREVIEW_BLOCK_MODE_INPUT = 1;
+
+
+  PREVIEW_BLOCK_MODE_ALL = 2;
+
+}
+
+
+
+// canonical_name: "operation_mode"
+
+enum OperationMode {
+
+
+  // canonical_name: "normal"
+
+  OPERATION_MODE_NORMAL = 0;
+
+
+  // canonical_name: "suspended"
+
+  OPERATION_MODE_SUSPENDED = 1;
+
+
+  // canonical_name: "quiet"
+
+  OPERATION_MODE_QUIET = 2;
+
+}
+
+
+
+// canonical_name: "usage_mode"
+
+enum UsageMode {
+
+
+  // canonical_name: "normal"
+
+  USAGE_MODE_NORMAL = 0;
+
+
+  // canonical_name: "reading"
+
+  USAGE_MODE_READING = 1;
+
+}
+
+
+
+
+
+message ShowBreakRequest {
+
+  PreviewBreakType id = 1;
+
+  int32 progress = 2;
+
+  int32 duration = 3;
+
+  bool skippable = 4;
+
+  bool postponable = 5;
+
+}
+
+message ShowBreakResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message ShowPreludeRequest {
+
+  PreviewBreakType id = 1;
+
+  PreludeStage stage = 2;
+
+  PreludeProgressText text = 3;
+
+  int32 progress = 4;
+
+  int32 duration = 5;
+
+}
+
+message ShowPreludeResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message ShowWindowRequest {
+
+  PreviewWindowType window = 1;
+
+  string page = 2;
+
+  string panel = 3;
+
+}
+
+message ShowWindowResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message ShowMenuRequest {
+
+  bool tray = 1;
+
+  string submenu = 2;
+
+  int32 x = 3;
+
+  int32 y = 4;
+
+}
+
+message ShowMenuResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message SetBackdropRequest {
+
+  string color = 1;
+
+}
+
+message SetBackdropResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message SetTimerRequest {
+
+  PreviewBreakType id = 1;
+
+  int32 elapsed = 2;
+
+  int32 limit = 3;
+
+  int32 idle = 4;
+
+  int32 duration = 5;
+
+  bool enabled = 6;
+
+}
+
+message SetTimerResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message SetAppearanceRequest {
+
+  PreviewBlockMode block_mode = 1;
+
+  bool user_active = 2;
+
+  int32 exercise_index = 3;
+
+  int32 exercise_elapsed = 4;
+
+}
+
+message SetAppearanceResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message SetButtonLockRequest {
+
+  bool can_skip = 1;
+
+  bool can_postpone = 2;
+
+  int32 value = 3;
+
+  int32 maximum = 4;
+
+}
+
+message SetButtonLockResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message SetModesRequest {
+
+  OperationMode operation_mode = 1;
+
+  UsageMode usage_mode = 2;
+
+}
+
+message SetModesResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message SetBoolSettingRequest {
+
+  string key = 1;
+
+  bool value = 2;
+
+}
+
+message SetBoolSettingResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message SetIntSettingRequest {
+
+  string key = 1;
+
+  int32 value = 2;
+
+}
+
+message SetIntSettingResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message SetStringSettingRequest {
+
+  string key = 1;
+
+  string value = 2;
+
+}
+
+message SetStringSettingResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message GetLastErrorRequest {
+
+}
+
+message GetLastErrorResponse {
+
+  string result = 1;
+
+}
+
+
+message HideRequest {
+
+}
+
+message HideResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message QuitRequest {
+
+}
+
+message QuitResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message GetAppliedSequenceRequest {
+
+}
+
+message GetAppliedSequenceResponse {
+
+  uint64 result = 1;
+
+}
+
+
+message WaitForAppliedSequenceRequest {
+
+  uint64 sequence = 1;
+
+  uint64 after_sequence = 2;
+
+}
+
+message WaitForAppliedSequenceResponse {
+
+  string result = 1;
+
+}

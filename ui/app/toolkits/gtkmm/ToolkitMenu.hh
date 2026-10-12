@@ -144,7 +144,7 @@ class ToolkitMenu : public workrave::utils::Trackable
 public:
   using Ptr = std::shared_ptr<ToolkitMenu>;
 
-  explicit ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter = nullptr);
+  explicit ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter = nullptr, const std::string &submenu = "");
 
   Glib::RefPtr<Gio::SimpleActionGroup> get_action_group() const;
   std::shared_ptr<Gtk::Menu> get_menu() const;

@@ -53,6 +53,8 @@ class PreludeBridge
 {
   Q_OBJECT
 
+  Q_PROPERTY(bool animationsEnabled MEMBER animations_enabled NOTIFY animationsEnabledChanged STORED false)
+
   Q_PROPERTY(int     breakType     READ breakType     CONSTANT)
   Q_PROPERTY(QString heading       READ heading       CONSTANT)
   Q_PROPERTY(double  ringProgress  READ ringProgress  NOTIFY progressChanged)
@@ -94,6 +96,7 @@ public:
   Q_INVOKABLE void requestSkip();
 
 Q_SIGNALS:
+  void animationsEnabledChanged();
   void progressChanged();
   void stageChanged();
   void skipRequested();
@@ -109,6 +112,7 @@ private:
   bool fullscreen_{false};
   bool card_at_bottom_{false};
   bool classic_{false};
+  bool animations_enabled{true};
 };
 
 // IPreludeWindow implementation hosting PreludeShell.qml in a QQuickView.

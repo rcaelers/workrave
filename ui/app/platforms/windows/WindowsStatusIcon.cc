@@ -21,10 +21,11 @@
 
 #include "ui/windows/WindowsStatusIcon.hh"
 
-#include <string>
 #include <cstring>
-#include <shellapi.h>
+#include <string>
+
 #include <commctrl.h>
+#include <shellapi.h>
 
 #include "core/CoreTypes.hh"
 #include "utils/StringUtils.hh"
@@ -222,6 +223,12 @@ WindowsStatusIcon::get_visible() const
   return visible;
 }
 
+HWND
+WindowsStatusIcon::get_window_handle() const
+{
+  return nid.hWnd;
+}
+
 bool
 WindowsStatusIcon::is_embedded() const
 {
@@ -301,9 +308,20 @@ WindowsStatusIcon::show_menu()
   POINT pt = {0};
   GetCursorPos(&pt);
 
+  show_menu(pt.x, pt.y);
+}
+
+void
+WindowsStatusIcon::show_menu(int x, int y, const std::string &submenu)
+{
+  auto root = menu_model->find_submenu(submenu);
+  if (!root)
+    {
+      root = menu_model->get_root();
+    }
   HMENU menu = CreatePopupMenu();
   std::vector<HBITMAP> bitmaps;
-  init_menu(menu, 0, menu_model->get_root(), bitmaps);
+  init_menu(menu, 0, root, bitmaps);
 
   MENUINFO menu_info{};
   menu_info.cbSize = sizeof(menu_info);
@@ -312,7 +330,7 @@ WindowsStatusIcon::show_menu()
   SetMenuInfo(menu, &menu_info);
 
   SetForegroundWindow(nid.hWnd);
-  UINT command = TrackPopupMenu(menu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, nid.hWnd, nullptr);
+  UINT command = TrackPopupMenu(menu, TPM_RETURNCMD | TPM_RIGHTBUTTON, x, y, 0, nid.hWnd, nullptr);
   DestroyMenu(menu);
   // DestroyMenu does not release the bitmaps, which must stay alive until it closes.
   for (auto bitmap: bitmaps)

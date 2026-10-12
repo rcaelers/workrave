@@ -32,11 +32,11 @@ Item {
         opacity: 0
         scale: 0.94
         border.width: 1.5
-        border.color: tok.edge
+        border.color: !bridge.animationsEnabled && root.stage > 0 ? root.stageAccent : tok.edge
 
         // Pulse border width + colour on Warn/Alert
         SequentialAnimation {
-            running: root.stage === 1 || root.stage === 2
+            running: bridge.animationsEnabled && (root.stage === 1 || root.stage === 2)
             loops: Animation.Infinite
             ParallelAnimation {
                 ColorAnimation  { target: card; property: "border.color"; to: root.stageAccent; duration: root.stage === 1 ? 600 : 280; easing.type: Easing.InOutSine }
@@ -131,7 +131,7 @@ Item {
                 width: parent.width * (bridge != null ? bridge.ringProgress : 1.0)
                 radius: 999
                 color: root.stageAccent
-                Behavior on color { ColorAnimation { duration: 300 } }
+                Behavior on color { enabled: bridge.animationsEnabled; ColorAnimation { duration: 300 } }
             }
         }
     }
@@ -144,8 +144,8 @@ Item {
     SequentialAnimation {
         id: enterAnim
         ParallelAnimation {
-            NumberAnimation { target: card; property: "opacity"; to: 1.0; duration: 220; easing.type: Easing.OutCubic }
-            NumberAnimation { target: card; property: "scale";   to: 1.0; duration: 220; easing.type: Easing.OutCubic }
+            NumberAnimation { target: card; property: "opacity"; to: 1.0; duration: !bridge.animationsEnabled ? 0 : 220; easing.type: Easing.OutCubic }
+            NumberAnimation { target: card; property: "scale";   to: 1.0; duration: !bridge.animationsEnabled ? 0 : 220; easing.type: Easing.OutCubic }
         }
     }
 }

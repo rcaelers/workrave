@@ -22,6 +22,7 @@
 
 #include <algorithm>
 #include <random>
+#include <utility>
 
 #include <QQmlContext>
 #include <QQmlEngine>
@@ -345,3 +346,44 @@ QmlExercisesDialog::onCloseRequested()
   view->hide();
 }
 
+void
+ExercisesBridge::seek(int elapsed)
+{
+  if (shuffled_exercises.empty() || ex_index < 0 || std::cmp_greater_equal(ex_index, shuffled_exercises.size()))
+    {
+      return;
+    }
+  const auto &exercise = shuffled_exercises.at(ex_index);
+  ex_time = std::clamp(elapsed, 0, std::max(0, exercise.duration - 1));
+  ex_seq_time = 0;
+  for (ex_image_it = exercise.sequence.begin(); ex_image_it != exercise.sequence.end(); ++ex_image_it)
+    {
+      ex_seq_time += ex_image_it->duration;
+      if (ex_seq_time > ex_time)
+        {
+          break;
+        }
+    }
+  if (!exercise.sequence.empty() && ex_image_it == exercise.sequence.end())
+    {
+      --ex_image_it;
+    }
+  Q_EMIT exerciseImageChanged();
+  Q_EMIT exerciseTimerChanged();
+}
+
+void
+ExercisesBridge::setAutoAdvance(bool enabled)
+{
+  if (ex_timer != nullptr)
+    {
+      if (enabled)
+        {
+          ex_timer->start();
+        }
+      else
+        {
+          ex_timer->stop();
+        }
+    }
+}

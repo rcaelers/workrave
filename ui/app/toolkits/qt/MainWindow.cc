@@ -446,3 +446,9 @@ MainWindow::moveEvent(QMoveEvent *event)
     }
   QWidget::moveEvent(event);
 }
+
+void
+MainWindow::refresh()
+{
+  timer_box_control->refresh();
+}

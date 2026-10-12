@@ -210,3 +210,9 @@ QmlPrefsDialog::onQmlStatusChanged(int status)
   // handled inline via lambda in constructor
   (void)status;
 }
+
+void
+QmlPrefsDialog::select_page(const std::string &section, const std::string &page)
+{
+  onNavigateTo(QString::fromStdString(section), QString::fromStdString(page));
+}

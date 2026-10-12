@@ -43,6 +43,8 @@ public:
   void set_visible(bool visible = true);
   bool get_visible() const;
   bool is_embedded() const;
+  void show_menu(int x, int y, const std::string &submenu = "");
+  HWND get_window_handle() const;
 
   boost::signals2::signal<void()> &signal_activate();
   boost::signals2::signal<void(std::string)> &signal_balloon_activate();

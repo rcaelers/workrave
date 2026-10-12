@@ -1,0 +1,47 @@
+// GENERATED FILE - DO NOT EDIT.
+// Produced by clang-rpc-gen from an annotated C++ header. Re-run codegen
+// instead of hand-editing this file; it will be overwritten on the next build.
+syntax = "proto3";
+
+package workrave;
+import "RpcWindowPreviewTypes.proto";
+
+
+service WindowPreviewService {
+
+  rpc ShowBreak(.workrave.preview.ShowBreakRequest) returns (.workrave.preview.ShowBreakResponse);
+
+  rpc ShowPrelude(.workrave.preview.ShowPreludeRequest) returns (.workrave.preview.ShowPreludeResponse);
+
+  rpc ShowWindow(.workrave.preview.ShowWindowRequest) returns (.workrave.preview.ShowWindowResponse);
+
+  rpc ShowMenu(.workrave.preview.ShowMenuRequest) returns (.workrave.preview.ShowMenuResponse);
+
+  rpc SetBackdrop(.workrave.preview.SetBackdropRequest) returns (.workrave.preview.SetBackdropResponse);
+
+  rpc SetTimer(.workrave.preview.SetTimerRequest) returns (.workrave.preview.SetTimerResponse);
+
+  rpc SetAppearance(.workrave.preview.SetAppearanceRequest) returns (.workrave.preview.SetAppearanceResponse);
+
+  rpc SetButtonLock(.workrave.preview.SetButtonLockRequest) returns (.workrave.preview.SetButtonLockResponse);
+
+  rpc SetModes(.workrave.preview.SetModesRequest) returns (.workrave.preview.SetModesResponse);
+
+  rpc SetBoolSetting(.workrave.preview.SetBoolSettingRequest) returns (.workrave.preview.SetBoolSettingResponse);
+
+  rpc SetIntSetting(.workrave.preview.SetIntSettingRequest) returns (.workrave.preview.SetIntSettingResponse);
+
+  rpc SetStringSetting(.workrave.preview.SetStringSettingRequest) returns (.workrave.preview.SetStringSettingResponse);
+
+  rpc GetLastError(.workrave.preview.GetLastErrorRequest) returns (.workrave.preview.GetLastErrorResponse);
+
+  rpc Hide(.workrave.preview.HideRequest) returns (.workrave.preview.HideResponse);
+
+  rpc Quit(.workrave.preview.QuitRequest) returns (.workrave.preview.QuitResponse);
+
+  rpc GetAppliedSequence(.workrave.preview.GetAppliedSequenceRequest) returns (.workrave.preview.GetAppliedSequenceResponse);
+
+  rpc WaitForAppliedSequence(.workrave.preview.WaitForAppliedSequenceRequest) returns (.workrave.preview.WaitForAppliedSequenceResponse);
+
+
+}

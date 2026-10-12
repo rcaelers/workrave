@@ -19,7 +19,7 @@ Item {
     Timer {
         interval: 500
         repeat: true
-        running: root.stage === 1 || root.stage === 2
+        running: bridge.animationsEnabled && (root.stage === 1 || root.stage === 2)
         onTriggered: root.flashOn = !root.flashOn
         onRunningChanged: if (!running) root.flashOn = true
     }
@@ -120,7 +120,7 @@ Item {
         target: card
         property: "opacity"
         to: 1.0
-        duration: 120
+        duration: !bridge.animationsEnabled ? 0 : 120
         easing.type: Easing.OutCubic
     }
 }

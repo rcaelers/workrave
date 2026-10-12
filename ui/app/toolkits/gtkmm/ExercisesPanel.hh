@@ -39,6 +39,8 @@ public:
   ~ExercisesPanel() override;
 
   void set_exercise_count(int num);
+  void seek(int elapsed);
+  void set_auto_advance(bool enabled);
   stop_signal_t &signal_stop()
   {
     return stop_signal;

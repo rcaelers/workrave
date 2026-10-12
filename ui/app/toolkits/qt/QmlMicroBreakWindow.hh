@@ -45,6 +45,8 @@ class MicroBreakBridge
 {
   Q_OBJECT
 
+  Q_PROPERTY(bool animationsEnabled MEMBER animations_enabled NOTIFY animationsEnabledChanged STORED false)
+
   Q_PROPERTY(int blockMode READ blockMode CONSTANT)
   Q_PROPERTY(bool lockable READ lockable CONSTANT)
   Q_PROPERTY(bool restBreakEnabled READ restBreakEnabled CONSTANT)
@@ -99,6 +101,7 @@ public:
   void updateUserActivity();
 
 Q_SIGNALS:
+  void animationsEnabledChanged();
   void progressChanged();
   void lockStateChanged();
   void restBreakInfoChanged();
@@ -125,6 +128,7 @@ private:
   double lock_progress{0.0};
   bool user_active{false};
   bool classic_{false};
+  bool animations_enabled{true};
   QString rest_break_info;
 };
 
