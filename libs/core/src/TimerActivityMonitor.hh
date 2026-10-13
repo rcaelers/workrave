@@ -30,14 +30,21 @@ class TimerActivityMonitor : public IActivityMonitor
 {
 public:
   //! Constructs an activity monitor that depends on specified timer.
-  TimerActivityMonitor(Timer *t)
+  TimerActivityMonitor(Timer *t, const std::string &owner)
     : timer(t)
+    , suspended{owner + ".timer.monitor.suspended", false}
+    , forced_idle{owner + ".timer.monitor.forced_idle", false}
   {
     Core *core = Core::get_instance();
     monitor = core->get_activity_monitor();
   }
 
   ~TimerActivityMonitor() override = default;
+
+  std::string get_diagnostic_name() const override
+  {
+    return "timer:" + timer->get_id();
+  }
 
   //! Stops the activity monitoring.
   void terminate() override
@@ -120,10 +127,10 @@ private:
   Timer *timer{nullptr};
 
   //! Monitor suspended?
-  bool suspended{false};
+  TracedField<bool> suspended;
 
   //! Is this timer forced idle?
-  bool forced_idle{false};
+  TracedField<bool> forced_idle;
 };
 
 #endif // TIMERACTIVITYMONITOR_HH

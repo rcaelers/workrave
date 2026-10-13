@@ -55,10 +55,10 @@ template<>
 struct workrave::utils::enum_traits<BreakStage>
 {
   static constexpr std::array<std::pair<std::string_view, BreakStage>, 5> names{{{"none", BreakStage::None},
-                                                                                 {"snoozed", BreakStage::Snoozed},
-                                                                                 {"prelude", BreakStage::Prelude},
-                                                                                 {"taking", BreakStage::Taking},
-                                                                                 {"delayed", BreakStage::Delayed}}};
+                                                                            {"snoozed", BreakStage::Snoozed},
+                                                                            {"prelude", BreakStage::Prelude},
+                                                                            {"taking", BreakStage::Taking},
+                                                                            {"delayed", BreakStage::Delayed}}};
 };
 
 class BreakControl : public IActivityMonitorListener
@@ -100,6 +100,7 @@ public:
 
   // ActivityMonitorListener
   bool action_notify() override;
+  std::string get_diagnostic_name() const override;
 
   // Configuration
   void set_max_preludes(int m);
@@ -125,6 +126,7 @@ private:
   void goto_stage(BreakStage stage);
   void suspend_break();
   std::string get_stage_text(BreakStage stage);
+  void emit_break_event(workrave::BreakEvent event);
 
 private:
   //! ID of the break controlled by this BreakControl.
@@ -146,7 +148,7 @@ private:
   TracedField<BreakStage> break_stage;
 
   //! This is a final prelude prompt, forcing break after this prelude
-  bool reached_max_prelude{false};
+  TracedField<bool> reached_max_prelude;
 
   //! How long is the prelude active.
   int prelude_time{0};
@@ -158,7 +160,7 @@ private:
   TracedField<bool> forced_break;
 
   //! After how many preludes do we force a break or give up?
-  int max_number_of_preludes{2};
+  TracedField<int> max_number_of_preludes;
 
   //! Is this a break that is not controlled by the timer.
   TracedField<bool> fake_break;
@@ -173,7 +175,7 @@ private:
   TracedField<bool> delayed_abort;
 
   //! Break hint if break has been started.
-  workrave::utils::Flags<BreakHint> break_hint{BreakHint::Normal};
+  TracedField<workrave::utils::Flags<BreakHint>> break_hint;
 
   boost::signals2::signal<void(workrave::BreakEvent)> break_event_signal;
   boost::signals2::signal<void(BreakStage)> break_stage_changed_signal;

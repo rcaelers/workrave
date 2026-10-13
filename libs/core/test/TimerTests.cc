@@ -30,6 +30,7 @@
 #include "Timer.hh"
 #include "TimePred.hh"
 #include "SimulatedTime.hh"
+#include "DiagnosticsCapture.hh"
 
 using namespace std;
 using namespace workrave::utils;
@@ -173,6 +174,95 @@ public:
 
 class TimerTest : public ::testing::Test, public Fixture
 {};
+
+TEST_F(TimerTest, test_diagnostics_snapshot_and_stable_ticks)
+{
+  init();
+  tick(true);
+  DiagnosticsCapture capture;
+  EXPECT_TRUE(capture.contains("test.timer.limit_interval_seconds -> 100"));
+  EXPECT_TRUE(capture.contains("test.timer.autoreset_interval_seconds -> 20"));
+  EXPECT_TRUE(capture.contains("test.timer.snooze_interval_seconds -> 50"));
+  EXPECT_TRUE(capture.contains("test.timer.activity_source -> core"));
+  EXPECT_TRUE(capture.contains("test.timer.timing -> reason=snapshot"));
+  EXPECT_TRUE(capture.contains("elapsed_seconds=0"));
+  EXPECT_TRUE(capture.contains("last_start_wall_seconds="));
+  capture.lines.clear();
+  tick(true, 10, [](int) {});
+  EXPECT_TRUE(capture.lines.empty());
+
+  timer->set_limit(200);
+  EXPECT_TRUE(capture.contains("test.timer.limit_interval_seconds -> 200"));
+  EXPECT_EQ(capture.count("test.timer.next_limit_wall_seconds ->"), 1);
+  EXPECT_TRUE(!capture.contains("test.timer.next_limit_wall_seconds -> 0"));
+  capture.lines.clear();
+  timer->set_limit(200);
+  EXPECT_TRUE(capture.lines.empty());
+
+  Diagnostics::instance().disable();
+  timer->set_limit(300);
+  tick(false);
+  EXPECT_TRUE(capture.lines.empty());
+}
+
+TEST_F(TimerTest, test_diagnostics_reading_activity)
+{
+  init();
+  tick(true, 5, [](int) {});
+  timer->set_activity_sensitive(false);
+  DiagnosticsCapture capture;
+  EXPECT_TRUE(capture.contains("test.timer.activity_source -> reading"));
+  capture.lines.clear();
+  tick(false);
+  EXPECT_TRUE(capture.contains("test.timer.input_activity -> idle"));
+  EXPECT_TRUE(capture.contains("effective_activity=active"));
+  EXPECT_EQ(timer->get_state(), STATE_RUNNING);
+
+  capture.lines.clear();
+  timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
+  tick(true);
+  EXPECT_TRUE(capture.contains("test.timer.input_activity -> active"));
+  EXPECT_TRUE(capture.contains("test.timer.effective_activity -> idle"));
+  EXPECT_TRUE(capture.contains("state=stopped activity=idle effective_activity=idle"));
+  EXPECT_TRUE(capture.contains("next_limit_wall_seconds=0"));
+}
+
+TEST_F(TimerTest, test_diagnostics_repeated_limit_events)
+{
+  init();
+  timer->set_limit(2);
+  timer->set_snooze_interval(3);
+  DiagnosticsCapture capture;
+  capture.lines.clear();
+  tick(true, 9, [](int) {});
+  EXPECT_EQ(capture.count("test.timer.event -> limit-reached"), 3);
+  EXPECT_EQ(capture.count("test.timer.timing -> reason=limit-reached"), 3);
+  timer->snooze_timer();
+  timer->snooze_timer();
+  EXPECT_EQ(capture.count("test.timer.event -> snooze"), 2);
+}
+
+TEST_F(TimerTest, test_diagnostics_reset_reasons_and_lifetime)
+{
+  init();
+  DiagnosticsCapture capture;
+  capture.lines.clear();
+  tick(true, 3, [](int) {});
+  tick(false, 21, [](int) {});
+  EXPECT_EQ(capture.count("test.timer.event -> natural-reset"), 1);
+  auto *pred = new TestTimePred;
+  pred->set(TimeSource::get_real_time_sec_sync() + 5);
+  timer->set_auto_reset(pred);
+  EXPECT_TRUE(capture.contains("test.timer.reset_predicate -> xx"));
+  tick(false, 6, [](int) {});
+  EXPECT_EQ(capture.count("test.timer.event -> predicate-reset"), 1);
+
+  timer.reset();
+  capture.lines.clear();
+  Diagnostics::instance().disable();
+  Diagnostics::instance().enable(&capture);
+  EXPECT_TRUE(!capture.contains("test.timer."));
+}
 
 TEST_F(TimerTest, test_timer_get_id)
 {

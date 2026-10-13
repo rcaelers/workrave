@@ -21,6 +21,7 @@
 
 #include "ui/windows/WindowsStatusIcon.hh"
 
+#include <bit>
 #include <cstring>
 #include <string>
 
@@ -39,6 +40,99 @@ const UINT MYWM_TRAY_MESSAGE = WM_USER + 0x100;
 
 namespace
 {
+  class NativeMenuTheme
+  {
+  public:
+    NativeMenuTheme()
+    {
+      // These UxTheme entry points are undocumented. Ordinal 135 had a
+      // different signature before Windows 10 1903, so check the real OS
+      // version before resolving it and leave unsupported systems unchanged.
+      using RtlGetVersion = LONG(WINAPI *)(OSVERSIONINFOW *);
+      auto get_version = std::bit_cast<RtlGetVersion>(GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "RtlGetVersion"));
+      OSVERSIONINFOW version{};
+      version.dwOSVersionInfoSize = sizeof(version);
+      if (get_version == nullptr || get_version(&version) != 0 || version.dwMajorVersion < 10
+          || (version.dwMajorVersion == 10 && version.dwBuildNumber < 18362))
+        {
+          return;
+        }
+
+      uxtheme = LoadLibraryExW(L"uxtheme.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32);
+      if (uxtheme != nullptr)
+        {
+          refresh_color_policy = std::bit_cast<RefreshColorPolicy>(GetProcAddress(uxtheme, MAKEINTRESOURCEA(104)));
+          allow_dark_mode_for_window = std::bit_cast<AllowDarkModeForWindow>(GetProcAddress(uxtheme, MAKEINTRESOURCEA(133)));
+          set_preferred_app_mode = std::bit_cast<SetPreferredAppMode>(GetProcAddress(uxtheme, MAKEINTRESOURCEA(135)));
+          flush_menu_themes = std::bit_cast<FlushMenuThemes>(GetProcAddress(uxtheme, MAKEINTRESOURCEA(136)));
+        }
+    }
+
+    ~NativeMenuTheme()
+    {
+      if (uxtheme != nullptr)
+        {
+          FreeLibrary(uxtheme);
+        }
+    }
+
+    void apply(HWND hwnd, LightDarkTheme theme) const
+    {
+      if (hwnd == nullptr || refresh_color_policy == nullptr || allow_dark_mode_for_window == nullptr
+          || set_preferred_app_mode == nullptr || flush_menu_themes == nullptr)
+        {
+          return;
+        }
+
+      PreferredAppMode mode = PreferredAppMode::Default;
+      HIGHCONTRASTW contrast{};
+      contrast.cbSize = sizeof(contrast);
+      if (SystemParametersInfoW(SPI_GETHIGHCONTRAST, sizeof(contrast), &contrast, 0)
+          && (contrast.dwFlags & HCF_HIGHCONTRASTON) == 0)
+        {
+          switch (theme)
+            {
+            case LightDarkTheme::Light:
+              mode = PreferredAppMode::ForceLight;
+              break;
+            case LightDarkTheme::Dark:
+              mode = PreferredAppMode::ForceDark;
+              break;
+            case LightDarkTheme::Auto:
+              mode = PreferredAppMode::AllowDark;
+              break;
+            }
+        }
+
+      // Refresh on every opening so Auto also follows changes made while the
+      // application is running. Flush cached menu colours when switching mode.
+      refresh_color_policy();
+      set_preferred_app_mode(mode);
+      allow_dark_mode_for_window(hwnd, mode == PreferredAppMode::AllowDark || mode == PreferredAppMode::ForceDark);
+      flush_menu_themes();
+    }
+
+  private:
+    enum class PreferredAppMode
+    {
+      Default,
+      AllowDark,
+      ForceDark,
+      ForceLight
+    };
+
+    using RefreshColorPolicy = void(WINAPI *)();
+    using AllowDarkModeForWindow = bool(WINAPI *)(HWND, bool);
+    using SetPreferredAppMode = PreferredAppMode(WINAPI *)(PreferredAppMode);
+    using FlushMenuThemes = void(WINAPI *)();
+
+    HMODULE uxtheme{nullptr};
+    RefreshColorPolicy refresh_color_policy{nullptr};
+    AllowDarkModeForWindow allow_dark_mode_for_window{nullptr};
+    SetPreferredAppMode set_preferred_app_mode{nullptr};
+    FlushMenuThemes flush_menu_themes{nullptr};
+  };
+
   HBITMAP load_menu_bitmap(const wchar_t *resource)
   {
     const int width = GetSystemMetrics(SM_CXSMICON);
@@ -314,6 +408,9 @@ WindowsStatusIcon::show_menu()
 void
 WindowsStatusIcon::show_menu(int x, int y, const std::string &submenu)
 {
+  static NativeMenuTheme theme;
+  theme.apply(nid.hWnd, GUIConfig::light_dark_mode()());
+
   auto root = menu_model->find_submenu(submenu);
   if (!root)
     {
@@ -331,6 +428,7 @@ WindowsStatusIcon::show_menu(int x, int y, const std::string &submenu)
 
   SetForegroundWindow(nid.hWnd);
   UINT command = TrackPopupMenu(menu, TPM_RETURNCMD | TPM_RIGHTBUTTON, x, y, 0, nid.hWnd, nullptr);
+  PostMessage(nid.hWnd, WM_NULL, 0, 0);
   DestroyMenu(menu);
   // DestroyMenu does not release the bitmaps, which must stay alive until it closes.
   for (auto bitmap: bitmaps)
@@ -340,17 +438,22 @@ WindowsStatusIcon::show_menu(int x, int y, const std::string &submenu)
           DeleteObject(bitmap);
         }
     }
-  auto node = menu_helper.find_node(command);
-  if (node)
+  if (command != 0)
     {
-      node->activate();
+      auto node = menu_helper.find_node(command - 1);
+      if (node)
+        {
+          node->activate();
+        }
     }
 }
 
 void
 WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr node, std::vector<HBITMAP> &bitmaps)
 {
-  uint32_t command = menu_helper.allocate_command(node->get_id());
+  // Zero means cancellation in TrackPopupMenu, but is a valid legacy command
+  // (Preferences). Keep the shared command IDs unchanged and offset native IDs.
+  uint32_t command = menu_helper.allocate_command(node->get_id()) + 1;
 
   std::wstring text = workrave::utils::utf8_to_utf16(node->get_dynamic_text());
   std::replace(text.begin(), text.end(), '_', '&');

@@ -61,6 +61,9 @@ using namespace std::chrono_literals;
 
 #include "SimulatedTime.hh"
 #include "ActivityMonitorStub.hh"
+#include "DiagnosticsCapture.hh"
+#include "LocalActivityMonitor.hh"
+#include "IActivityMonitorListener.hh"
 
 using namespace workrave::config;
 
@@ -819,6 +822,118 @@ public:
 
 class IntegrationTest : public ::testing::Test, public Backend
 {};
+
+TEST_F(IntegrationTest, test_diagnostics_mode_overrides_and_reset)
+{
+  using namespace std::chrono_literals;
+  init();
+  DiagnosticsCapture capture;
+  EXPECT_TRUE(capture.contains("core.operation_mode_overrides -> none"));
+  EXPECT_TRUE(capture.contains("micro_pause.break.enabled -> 1"));
+  EXPECT_TRUE(capture.contains("micro_pause.break.max_preludes -> 3"));
+  core->set_operation_mode_override(workrave::OperationMode::Suspended, "powersave");
+  capture.lines.clear();
+  core->set_operation_mode_override(workrave::OperationMode::Quiet, "screensaver");
+  EXPECT_TRUE(capture.contains("core.operation_mode_overrides -> powersave=suspended screensaver=quiet"));
+  EXPECT_TRUE(!capture.contains("core.operation_mode_active ->"));
+  capture.lines.clear();
+  core->set_operation_mode_override(workrave::OperationMode::Quiet, "screensaver");
+  EXPECT_TRUE(capture.lines.empty());
+  core->remove_operation_mode_override("screensaver");
+  EXPECT_TRUE(capture.contains("core.operation_mode_overrides -> powersave=suspended"));
+  core->remove_operation_mode_override("powersave");
+  EXPECT_TRUE(capture.contains("core.operation_mode_overrides -> none"));
+
+  core->set_operation_mode_for(workrave::OperationMode::Quiet, 2min);
+  EXPECT_TRUE(capture.contains("core.operation_mode_reset_duration_minutes -> 2"));
+  auto deadline = std::chrono::duration_cast<std::chrono::seconds>(
+                    CoreConfig::operation_mode_auto_reset_time()().time_since_epoch())
+                    .count();
+  EXPECT_TRUE(capture.contains("core.operation_mode_reset_wall_seconds -> " + std::to_string(deadline)));
+  tick(false, 121);
+  EXPECT_TRUE(capture.contains("core.operation_mode.event -> auto-reset-deadline"));
+  EXPECT_TRUE(capture.contains("core.operation_mode_reset_duration_minutes -> 0"));
+}
+
+TEST_F(IntegrationTest, test_diagnostics_break_decisions)
+{
+  init();
+  DiagnosticsCapture capture;
+  core->set_operation_mode(workrave::OperationMode::Quiet);
+  tick(true, 301);
+  EXPECT_TRUE(capture.contains("micro_pause.timer.event -> limit-reached"));
+  EXPECT_TRUE(capture.contains("micro_pause.break.decision -> suppressed:quiet-mode"));
+  core->set_operation_mode(workrave::OperationMode::Normal);
+  tick(true, 150);
+  EXPECT_TRUE(capture.contains("micro_pause.break.decision -> start:timer-limit"));
+  EXPECT_TRUE(capture.contains("micro_pause.break.event -> event=ShowPrelude"));
+}
+
+TEST_F(IntegrationTest, test_diagnostics_advance_rest_break)
+{
+  init();
+  Core::get_instance()->get_timer(workrave::BREAK_ID_MICRO_BREAK)->set_limit(5);
+  Core::get_instance()->get_timer(workrave::BREAK_ID_REST_BREAK)->set_limit(30);
+  DiagnosticsCapture capture;
+  tick(true, 7);
+  EXPECT_TRUE(capture.contains("micro_pause.break.decision -> advanced:rest_break-within-30-seconds-after-microbreak"));
+  EXPECT_TRUE(capture.contains("rest_break.break.decision -> start:timer-limit"));
+}
+
+TEST_F(IntegrationTest, test_diagnostics_timer_activity_source)
+{
+  init();
+  DiagnosticsCapture capture;
+  config->set_value("timers/daily_limit/monitor", "micro_pause");
+  EXPECT_TRUE(capture.contains("daily_limit.timer.activity_source -> timer:micro_pause"));
+  tick(true, 3);
+  EXPECT_TRUE(capture.contains("daily_limit.timer.effective_activity -> active"));
+  auto *am = Core::get_instance()->get_timer(workrave::BREAK_ID_DAILY_LIMIT)->get_activity_monitor();
+  am->suspend();
+  am->force_idle();
+  EXPECT_TRUE(capture.contains("daily_limit.timer.monitor.suspended -> 1"));
+  EXPECT_TRUE(capture.contains("daily_limit.timer.monitor.forced_idle -> 1"));
+  config->set_value("timers/daily_limit/monitor", "");
+  EXPECT_TRUE(capture.contains("daily_limit.timer.activity_source -> core"));
+  capture.lines.clear();
+  Diagnostics::instance().disable();
+  Diagnostics::instance().enable(&capture);
+  EXPECT_TRUE(!capture.contains("daily_limit.timer.monitor."));
+}
+
+TEST_F(IntegrationTest, test_diagnostics_local_activity_and_listener)
+{
+  class Listener : public IActivityMonitorListener
+  {
+  public:
+    bool action_notify() override
+    {
+      return false;
+    }
+    std::string get_diagnostic_name() const override
+    {
+      return "test-break";
+    }
+  } listener;
+  // No Core: this exercises the actual local monitor instead of the test stub.
+  sim = SimulatedTime::create();
+  sim->reset();
+  LocalActivityMonitor local;
+  local.set_parameters(0, 0, 5000, 3);
+  DiagnosticsCapture capture;
+  EXPECT_TRUE(capture.contains("monitor.listener -> none"));
+  EXPECT_TRUE(capture.contains("first_action_monotonic_usec="));
+  local.set_listener(&listener);
+  EXPECT_TRUE(capture.contains("monitor.listener -> test-break"));
+  local.action_notify();
+  EXPECT_EQ(capture.count("monitor.listener -> none"), 2);
+  EXPECT_EQ(local.get_current_state(), ACTIVITY_ACTIVE);
+  EXPECT_TRUE(capture.contains("monitor.timing -> monotonic_usec="));
+  capture.lines.clear();
+  local.get_current_state();
+  local.get_current_state();
+  EXPECT_TRUE(capture.lines.empty());
+}
 
 TEST_F(IntegrationTest, test_grpc_preferences)
 {

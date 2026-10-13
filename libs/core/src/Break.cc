@@ -93,6 +93,8 @@ Break::init(BreakId id, workrave::config::IConfigurator::Ptr config, IApp *app)
   Defaults &def = default_config[break_id];
 
   break_name = def.name;
+  Diagnostics::instance().register_topic(break_name + ".break.enabled",
+                                         [this]() { Diagnostics::instance().report(break_name + ".break.enabled", enabled); });
   timer = new Timer(break_name);
   break_control = new BreakControl(break_id, break_name, app, timer);
 
@@ -105,6 +107,7 @@ Break::init(BreakId id, workrave::config::IConfigurator::Ptr config, IApp *app)
 Break::~Break()
 {
   TRACE_ENTRY();
+  Diagnostics::instance().unregister_topic(break_name + ".break.enabled");
   delete break_control;
   delete timer;
 }
@@ -264,7 +267,7 @@ Break::load_timer_config()
       if (master != nullptr)
         {
           TRACE_MSG("found master timer");
-          TimerActivityMonitor *am = new TimerActivityMonitor(master);
+          TimerActivityMonitor *am = new TimerActivityMonitor(master, break_name);
           timer->set_activity_monitor(am);
         }
     }
@@ -293,8 +296,13 @@ Break::load_break_control_config()
   break_control->set_max_preludes(max_preludes);
 
   // Break enabled?
-  enabled = true;
-  config->get_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, enabled);
+  bool new_enabled = true;
+  config->get_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, new_enabled);
+  if (enabled != new_enabled)
+    {
+      enabled = new_enabled;
+      Diagnostics::instance().report(break_name + ".break.enabled", enabled);
+    }
 
   // If this break is configured to behave as in quiet mode, stop an active
   // break, just like entering global quiet mode stops all breaks.

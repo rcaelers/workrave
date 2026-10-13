@@ -121,6 +121,7 @@ Timer::set_activity_monitor(IActivityMonitor *am)
 {
   delete activity_monitor;
   activity_monitor = am;
+  update_activity_source();
 }
 
 

@@ -190,6 +190,9 @@ private:
 
   void set_operation_mode_internal(OperationMode mode);
   void check_operation_mode_auto_reset();
+  void report_operation_mode_overrides() const;
+  void update_operation_mode_reset_diagnostics();
+  void report_break_decision(BreakId id, const std::string &decision) const;
   void update_active_operation_mode();
   void set_usage_mode_internal(UsageMode mode, bool persistent);
 
@@ -232,6 +235,9 @@ private:
 
   //! The same as operation_mode unless operation_mode is an override mode.
   TracedField<OperationMode> operation_mode_regular{"core.operation_mode_regular", OperationMode::Normal};
+
+  TracedField<int64_t> operation_mode_reset_duration{"core.operation_mode_reset_duration_minutes", 0};
+  TracedField<int64_t> operation_mode_reset_time{"core.operation_mode_reset_wall_seconds", 0};
 
   //! Active operation mode overrides.
   std::map<std::string, OperationMode> operation_mode_overrides;
