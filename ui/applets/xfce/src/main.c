@@ -83,7 +83,8 @@ static gboolean
 menu_items_lookup_id_by_menu_item(WorkraveApplet *applet, GtkMenuItem *item, uint32_t *id)
 {
   GHashTableIter iter;
-  gpointer key, value;
+  gpointer key = NULL;
+  gpointer value = NULL;
 
   g_hash_table_iter_init(&iter, applet->menus);
   while (g_hash_table_iter_next(&iter, &key, &value))
