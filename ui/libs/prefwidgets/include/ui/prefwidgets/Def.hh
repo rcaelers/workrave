@@ -18,7 +18,6 @@
 #ifndef WORKRAVE_UI_PREFWIDGETS_DEF_HH
 #define WORKRAVE_UI_PREFWIDGETS_DEF_HH
 
-#include <functional>
 #include <memory>
 
 #include "Widget.hh"

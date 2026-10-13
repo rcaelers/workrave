@@ -26,7 +26,6 @@
 
 #include "config/Setting.hh"
 #include "config/IConfigurator.hh"
-#include "utils/Signals.hh"
 
 #include <spdlog/spdlog.h>
 

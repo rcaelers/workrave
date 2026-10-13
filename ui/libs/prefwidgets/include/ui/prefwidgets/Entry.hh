@@ -19,8 +19,6 @@
 #define WORKRAVE_UI_PREFWIDGETS_ENTRY_HH
 
 #include <functional>
-#include <vector>
-
 #include "Widget.hh"
 
 namespace ui::prefwidgets
