@@ -42,6 +42,7 @@ public:
 
   void reset()
   {
+    monotonic_offset = 0;
     std::tm tm{};
     tm.tm_sec = 0;
     tm.tm_min = 0;
@@ -63,10 +64,11 @@ public:
 
   int64_t get_monotonic_time_usec() override
   {
-    return current_time;
+    return current_time + monotonic_offset;
   }
 
   int64_t current_time{};
+  int64_t monotonic_offset{};
 
 private:
   SimulatedTime() = default;

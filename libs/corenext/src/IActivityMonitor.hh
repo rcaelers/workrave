@@ -29,6 +29,10 @@ public:
 
   // Notification that the user is currently active.
   virtual bool action_notify() = 0;
+  virtual std::string get_diagnostic_name() const
+  {
+    return "listener";
+  }
 };
 
 class IActivityMonitor

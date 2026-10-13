@@ -41,12 +41,12 @@ Timer::Timer(std::string id)
   : timer_enabled{id + ".timer.enabled", false}
   , timer_frozen{id + ".timer.frozen", false}
   , timer_state{id + ".timer.state", STATE_INVALID}
-  , snooze_interval(60)
-  , snooze_inhibited(false)
-  , limit_enabled(true)
-  , limit_interval(600)
-  , auto_reset_enabled(true)
-  , auto_reset_interval(120)
+  , snooze_interval{id + ".timer.snooze_interval_seconds", 60}
+  , snooze_inhibited{id + ".timer.snooze_inhibited", false}
+  , limit_enabled{id + ".timer.limit_enabled", true}
+  , limit_interval{id + ".timer.limit_interval_seconds", 600}
+  , auto_reset_enabled{id + ".timer.autoreset_enabled", true}
+  , auto_reset_interval{id + ".timer.autoreset_interval_seconds", 120}
   , daily_auto_reset(nullptr)
   , elapsed_timespan(0)
   , elapsed_timespan_at_last_limit(0)
@@ -56,15 +56,20 @@ Timer::Timer(std::string id)
   , last_stop_time(0)
   , last_reset_time(0)
   , last_daily_reset_time(0)
-  , next_reset_time(0)
-  , next_daily_reset_time(0)
-  , next_limit_time(0)
+  , next_reset_time{id + ".timer.next_reset_monotonic_seconds", 0, true}
+  , next_daily_reset_time{id + ".timer.next_daily_reset_wall_seconds", 0, true}
+  , next_limit_time{id + ".timer.next_limit_monotonic_seconds", 0, true}
+  , activity_source{id + ".timer.activity_source", "core"}
+  , effective_activity{id + ".timer.effective_activity", "unknown"}
+  , reset_predicate{id + ".timer.reset_predicate", "none"}
   , timer_id(std::move(id))
 {
+  Diagnostics::instance().register_topic(timer_id + ".timer.timing", [this]() { report_timing("snapshot"); });
 }
 
 Timer::~Timer()
 {
+  Diagnostics::instance().unregister_topic(timer_id + ".timer.timing");
   delete daily_auto_reset;
 }
 
@@ -121,6 +126,7 @@ Timer::disable()
 
       timer_state = STATE_INVALID;
     }
+  publish_deadlines();
 }
 
 void
@@ -132,6 +138,8 @@ Timer::snooze_timer()
       next_limit_time = 0;
       elapsed_timespan_at_last_limit = get_elapsed_time();
       compute_next_limit_time();
+      Diagnostics::instance().report(timer_id + ".timer.event", "snooze");
+      report_timing("snooze");
     }
 }
 
@@ -179,6 +187,7 @@ Timer::start_timer()
       // When to generate a limit-reached-event.
       compute_next_limit_time();
     }
+  publish_deadlines();
 }
 
 void
@@ -207,6 +216,7 @@ Timer::stop_timer()
       // When to reset the timer.
       compute_next_reset_time();
     }
+  publish_deadlines();
 }
 
 void
@@ -250,13 +260,14 @@ Timer::reset_timer()
             {
               elapsed_idle_timespan += (TimeSource::get_monotonic_time_sec_sync() - last_stop_time);
             }
-          elapsed_idle_timespan = std::max(elapsed_idle_timespan, auto_reset_interval);
+          elapsed_idle_timespan = std::max(elapsed_idle_timespan, auto_reset_interval.get());
           last_stop_time = TimeSource::get_monotonic_time_sec_sync();
         }
     }
 
   next_daily_reset_time = 0;
   compute_next_daily_reset_time();
+  publish_deadlines();
 }
 
 void
@@ -290,7 +301,12 @@ Timer::freeze_timer(bool freeze)
         }
     }
 
+  const bool changed = timer_frozen != freeze;
   timer_frozen = freeze;
+  if (changed)
+    {
+      report_timing(freeze ? "freeze" : "unfreeze");
+    }
 }
 
 TimerEvent
@@ -300,6 +316,10 @@ Timer::process(bool user_is_active)
 
   int64_t current_time = TimeSource::get_monotonic_time_sec_sync();
   TimerEvent event = TIMER_EVENT_NONE;
+  const TimerState previous_state = timer_state;
+  const std::string previous_activity = effective_activity;
+  effective_activity = user_is_active ? "active" : "idle";
+  const char *event_reason = "none";
 
   if (timer_enabled)
     {
@@ -326,6 +346,7 @@ Timer::process(bool user_is_active)
 
       compute_next_daily_reset_time();
       event = TIMER_EVENT_RESET;
+      event_reason = "daily-reset";
     }
   else if (next_limit_time != 0 && current_time >= next_limit_time)
     {
@@ -336,6 +357,7 @@ Timer::process(bool user_is_active)
 
       compute_next_limit_time();
       event = TIMER_EVENT_LIMIT_REACHED;
+      event_reason = "limit-reached";
     }
   else if (next_reset_time != 0 && current_time >= next_reset_time)
     {
@@ -347,12 +369,22 @@ Timer::process(bool user_is_active)
       reset_timer();
 
       event = natural ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_RESET;
+      event_reason = natural ? "natural-reset" : "overdue-reset";
       if (natural)
         {
           TRACE_MSG("natural");
         }
     }
 
+  publish_deadlines();
+  if (event != TIMER_EVENT_NONE)
+    {
+      Diagnostics::instance().report(timer_id + ".timer.event", event_reason);
+    }
+  if (event != TIMER_EVENT_NONE || previous_state != timer_state || previous_activity != effective_activity.get())
+    {
+      report_timing(event != TIMER_EVENT_NONE ? event_reason : "activity-transition");
+    }
   TRACE_VAR(event);
   return event;
 }
@@ -409,10 +441,11 @@ Timer::set_auto_reset(int reset_time)
 }
 
 void
-Timer::set_daily_reset(TimePred *predicate)
+Timer::set_daily_reset(TimePred *predicate, const std::string &name)
 {
   delete daily_auto_reset;
   daily_auto_reset = predicate;
+  reset_predicate = predicate != nullptr ? name : "none";
   compute_next_daily_reset_time();
 }
 
@@ -573,6 +606,7 @@ Timer::deserialize_state(const std::string &state, int version)
   compute_next_daily_reset_time();
 
   TRACE_MSG("elapsed = {}", elapsed_timespan);
+  publish_deadlines();
   return true;
 }
 
@@ -669,6 +703,7 @@ Timer::compute_next_limit_time()
             }
         }
     }
+  next_limit_time.publish();
 }
 
 void
@@ -693,6 +728,7 @@ Timer::compute_next_reset_time()
           TRACE_MSG("Next reset time in past, setting to 0 ");
         }
     }
+  next_reset_time.publish();
 }
 
 void
@@ -711,4 +747,38 @@ Timer::compute_next_daily_reset_time()
 
       next_daily_reset_time = daily_auto_reset->get_next(last_daily_reset_time);
     }
+  next_daily_reset_time.publish();
+}
+
+void
+Timer::set_activity_source(const std::string &source)
+{
+  activity_source = source;
+}
+
+void
+Timer::publish_deadlines()
+{
+  next_limit_time.publish();
+  next_reset_time.publish();
+  next_daily_reset_time.publish();
+}
+
+void
+Timer::report_timing(const std::string &reason) const
+{
+  if (!TracedFieldBase::debug)
+    {
+      return;
+    }
+  std::ostringstream ss;
+  ss << "reason=" << reason << " monotonic_seconds=" << TimeSource::get_monotonic_time_sec_sync()
+     << " wall_seconds=" << TimeSource::get_real_time_sec_sync() << " state=" << timer_state
+     << " effective_activity=" << effective_activity << " elapsed_seconds=" << get_elapsed_time()
+     << " idle_seconds=" << get_elapsed_idle_time() << " overdue_seconds=" << get_total_overdue_time()
+     << " last_start_monotonic_seconds=" << last_start_time << " last_stop_monotonic_seconds=" << last_stop_time
+     << " last_reset_monotonic_seconds=" << last_reset_time << " last_daily_reset_wall_seconds=" << last_daily_reset_time
+     << " next_limit_monotonic_seconds=" << next_limit_time << " next_reset_monotonic_seconds=" << next_reset_time
+     << " next_daily_reset_wall_seconds=" << next_daily_reset_time;
+  Diagnostics::instance().report(timer_id + ".timer.timing", ss.str());
 }

@@ -20,6 +20,7 @@
 #endif
 
 #include <chrono>
+#include <sstream>
 
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
@@ -41,11 +42,13 @@ CoreModes::CoreModes(IActivityMonitor::Ptr monitor)
   , monitor(monitor)
 {
   TRACE_ENTRY();
+  Diagnostics::instance().register_topic("core.operation_mode_overrides", [this]() { report_operation_mode_overrides(); });
   load_config();
 }
 
 CoreModes::~CoreModes()
 {
+  Diagnostics::instance().unregister_topic("core.operation_mode_overrides");
   TRACE_ENTRY();
 }
 
@@ -120,7 +123,13 @@ CoreModes::set_operation_mode_override(OperationMode mode, const std::string &id
 {
   if (!id.empty())
     {
+      auto previous = operation_mode_overrides.find(id);
+      const bool changed = previous == operation_mode_overrides.end() || previous->second != mode;
       operation_mode_overrides[id] = mode;
+      if (changed)
+        {
+          report_operation_mode_overrides();
+        }
       update_active_operation_mode();
     }
 }
@@ -131,7 +140,10 @@ CoreModes::remove_operation_mode_override(const std::string &id)
 {
   if (!id.empty() && !operation_mode_overrides.empty())
     {
-      operation_mode_overrides.erase(id);
+      if (operation_mode_overrides.erase(id) != 0)
+        {
+          report_operation_mode_overrides();
+        }
       update_active_operation_mode();
     }
 }
@@ -219,6 +231,30 @@ CoreModes::set_usage_mode_internal(UsageMode mode, bool persistent)
 }
 
 void
+CoreModes::report_operation_mode_overrides() const
+{
+  if (!TracedFieldBase::debug)
+    {
+      return;
+    }
+  std::ostringstream ss;
+  for (const auto &entry: operation_mode_overrides)
+    {
+      ss << entry.first << "=" << entry.second << " ";
+    }
+  Diagnostics::instance().report("core.operation_mode_overrides", operation_mode_overrides.empty() ? "none" : ss.str());
+}
+
+void
+CoreModes::update_operation_mode_reset_diagnostics()
+{
+  operation_mode_reset_duration = CoreConfig::operation_mode_auto_reset_duration()().count();
+  operation_mode_reset_time = std::chrono::duration_cast<std::chrono::seconds>(
+                                CoreConfig::operation_mode_auto_reset_time()().time_since_epoch())
+                                .count();
+}
+
+void
 CoreModes::load_config()
 {
   TRACE_ENTRY();
@@ -232,6 +268,9 @@ CoreModes::load_config()
   TRACE_VAR(operation_mode);
   set_operation_mode_internal(operation_mode);
 
+  CoreConfig::operation_mode_auto_reset_duration().connect(this, [this](auto) { update_operation_mode_reset_diagnostics(); });
+  CoreConfig::operation_mode_auto_reset_time().connect(this, [this](auto) { update_operation_mode_reset_diagnostics(); });
+  update_operation_mode_reset_diagnostics();
   check_auto_reset();
 
   UsageMode usage_mode = CoreConfig::usage_mode()();
@@ -247,6 +286,7 @@ CoreModes::check_auto_reset()
   if ((next_reset_time.time_since_epoch().count() > 0) && (workrave::utils::TimeSource::get_real_time() >= next_reset_time)
       && (CoreConfig::operation_mode()() != OperationMode::Normal))
     {
+      Diagnostics::instance().report("core.operation_mode.event", "auto-reset-deadline");
       spdlog::debug("Resetting operation mode");
       set_operation_mode(OperationMode::Normal);
       CoreConfig::operation_mode_auto_reset_time().set(std::chrono::system_clock::time_point{});
@@ -267,6 +307,7 @@ CoreModes::daily_reset()
     {
       using namespace std::chrono_literals;
 
+      Diagnostics::instance().report("core.operation_mode.event", "auto-reset-daily");
       spdlog::debug("Resetting operation mode");
       set_operation_mode(OperationMode::Normal);
       CoreConfig::operation_mode_auto_reset_duration().set(0min);

@@ -29,6 +29,7 @@
 #include "Timer.hh"
 #include "TimePred.hh"
 #include "SimulatedTime.hh"
+#include "DiagnosticsCapture.hh"
 
 using namespace std;
 using namespace workrave::utils;
@@ -156,6 +157,85 @@ public:
 
 class TimerTest : public ::testing::Test, public Fixture
 {};
+
+TEST_F(TimerTest, test_diagnostics_snapshot_and_stable_ticks)
+{
+  init();
+  sim->monotonic_offset = 3600 * 1000000LL;
+  tick(true);
+  DiagnosticsCapture capture;
+  EXPECT_TRUE(capture.contains("test.timer.limit_interval_seconds -> 100"));
+  EXPECT_TRUE(capture.contains("test.timer.autoreset_interval_seconds -> 20"));
+  EXPECT_TRUE(capture.contains("test.timer.snooze_interval_seconds -> 50"));
+  EXPECT_TRUE(capture.contains("test.timer.activity_source -> core"));
+  EXPECT_TRUE(capture.contains("test.timer.timing -> reason=snapshot"));
+  EXPECT_TRUE(capture.contains("last_start_monotonic_seconds=" + std::to_string(TimeSource::get_monotonic_time_sec_sync())));
+  EXPECT_TRUE(capture.contains("test.timer.next_limit_monotonic_seconds -> "
+                               + std::to_string(TimeSource::get_monotonic_time_sec_sync() + 100)));
+  EXPECT_FALSE(capture.contains("next_limit_wall_seconds"));
+  capture.lines.clear();
+  tick(true, 10, [](int) {});
+  EXPECT_TRUE(capture.lines.empty());
+
+  timer->set_limit(200);
+  EXPECT_TRUE(capture.contains("test.timer.limit_interval_seconds -> 200"));
+  EXPECT_EQ(capture.count("test.timer.next_limit_monotonic_seconds ->"), 1);
+  EXPECT_FALSE(capture.contains("test.timer.next_limit_monotonic_seconds -> 0"));
+  capture.lines.clear();
+  timer->set_limit(200);
+  EXPECT_TRUE(capture.lines.empty());
+  timer->freeze_timer(true);
+  EXPECT_TRUE(capture.contains("reason=freeze"));
+  capture.lines.clear();
+  timer->freeze_timer(true);
+  EXPECT_TRUE(capture.lines.empty());
+  timer->freeze_timer(false);
+  EXPECT_TRUE(capture.contains("reason=unfreeze"));
+
+  Diagnostics::instance().disable();
+  capture.lines.clear();
+  timer->set_limit(300);
+  tick(false);
+  EXPECT_TRUE(capture.lines.empty());
+}
+
+TEST_F(TimerTest, test_diagnostics_repeated_limit_events)
+{
+  init();
+  timer->set_limit(2);
+  timer->set_snooze(3);
+  DiagnosticsCapture capture;
+  capture.lines.clear();
+  tick(true, 9, [](int) {});
+  EXPECT_EQ(capture.count("test.timer.event -> limit-reached"), 3);
+  EXPECT_EQ(capture.count("test.timer.timing -> reason=limit-reached"), 3);
+  timer->snooze_timer();
+  timer->snooze_timer();
+  EXPECT_EQ(capture.count("test.timer.event -> snooze"), 2);
+}
+
+TEST_F(TimerTest, test_diagnostics_reset_reasons_and_lifetime)
+{
+  init();
+  DiagnosticsCapture capture;
+  capture.lines.clear();
+  tick(true, 3, [](int) {});
+  tick(false, 21, [](int) {});
+  EXPECT_EQ(capture.count("test.timer.event -> natural-reset"), 1);
+  auto *pred = new TestTimePred;
+  pred->set(TimeSource::get_real_time_sec_sync() + 5);
+  timer->set_daily_reset(pred, "test-predicate");
+  EXPECT_TRUE(capture.contains("test.timer.reset_predicate -> test-predicate"));
+  EXPECT_TRUE(capture.contains("test.timer.next_daily_reset_wall_seconds -> " + std::to_string(pred->next)));
+  tick(false, 6, [](int) {});
+  EXPECT_EQ(capture.count("test.timer.event -> daily-reset"), 1);
+
+  timer.reset();
+  capture.lines.clear();
+  Diagnostics::instance().disable();
+  Diagnostics::instance().enable(&capture);
+  EXPECT_FALSE(capture.contains("test.timer."));
+}
 
 TEST_F(TimerTest, test_timer_get_id)
 {

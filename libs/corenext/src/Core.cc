@@ -237,11 +237,43 @@ void
 Core::heartbeat()
 {
   TRACE_ENTRY();
-  TimeSource::sync();
+  auto report_failure = [](const char *stage) {
+    try
+      {
+        spdlog::error("CoreNext heartbeat failed: stage={}", stage);
+        spdlog::default_logger()->flush();
+      }
+    catch (...)
+      {
+        // Preserve the original exception even if diagnostic logging fails.
+      }
+  };
 
-  configurator->heartbeat();
+  const char *stage = "time sync";
+  try
+    {
+      TimeSource::sync();
+      stage = "configuration";
+      configurator->heartbeat();
+    }
+  catch (...)
+    {
+      report_failure(stage);
+      throw;
+    }
+
+  // BreaksControl logs its own context before rethrowing.
   breaks_control->heartbeat();
-  core_modes->heartbeat();
+
+  try
+    {
+      core_modes->heartbeat();
+    }
+  catch (...)
+    {
+      report_failure("operation mode");
+      throw;
+    }
 }
 
 /********************************************************************************/

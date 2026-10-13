@@ -23,6 +23,7 @@
 
 #include <cassert>
 #include <string>
+#include <sstream>
 
 #include "BreakStateModel.hh"
 
@@ -50,12 +51,13 @@ BreakStateModel::BreakStateModel(BreakId id,
   , prelude_time(0)
   , forced_break{timer->get_id() + ".break.forced", false}
   , prelude_count{timer->get_id() + ".break.prelude_count", 0}
-  , max_number_of_preludes(2)
+  , max_number_of_preludes{timer->get_id() + ".break.max_preludes", 2}
+  , reached_max_prelude{timer->get_id() + ".break.reached_max_prelude", false}
   , fake_break{timer->get_id() + ".break.fake", false}
   , fake_break_count(0)
   , user_abort{timer->get_id() + ".break.user_abort", false}
   , delayed_abort{timer->get_id() + ".break.delayed_abort", false}
-  , break_hint(BreakHint::Normal)
+  , break_hint{timer->get_id() + ".break.hint", BreakHint::Normal}
 {
 }
 
@@ -167,7 +169,7 @@ BreakStateModel::start_break()
   user_abort = false;
   delayed_abort = false;
 
-  if (max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes)
+  if (has_reached_max_preludes())
     {
       goto_stage(BreakStage::Taking);
     }
@@ -184,7 +186,7 @@ BreakStateModel::force_start_break(workrave::utils::Flags<BreakHint> hint)
   TRACE_ENTRY_PAR(break_id, break_stage);
 
   break_hint = hint;
-  forced_break = (break_hint & (BreakHint::UserInitiated | BreakHint::NaturalBreak)).get() != 0;
+  forced_break = (break_hint.get() & (BreakHint::UserInitiated | BreakHint::NaturalBreak)).get() != 0;
   fake_break = false;
   prelude_time = 0;
   user_abort = false;
@@ -224,7 +226,7 @@ BreakStateModel::postpone_break()
               timer->snooze_timer();
             }
 
-          break_event_signal(BreakEvent::BreakPostponed);
+          emit_break_event(BreakEvent::BreakPostponed);
         }
 
       // and stop the break.
@@ -253,7 +255,7 @@ BreakStateModel::skip_break()
           timer->reset_timer();
         }
 
-      break_event_signal(BreakEvent::BreakSkipped);
+      emit_break_event(BreakEvent::BreakSkipped);
 
       // and stop the break.
       stop_break();
@@ -269,9 +271,10 @@ BreakStateModel::stop_break()
   break_hint = BreakHint::Normal;
   goto_stage(BreakStage::None);
   prelude_count = 0;
+  has_reached_max_preludes();
   fake_break = false;
 
-  break_event_signal(BreakEvent::BreakStop);
+  emit_break_event(BreakEvent::BreakStop);
 }
 
 void
@@ -290,6 +293,7 @@ BreakStateModel::override(BreakId id)
     }
 
   max_number_of_preludes = max_preludes;
+  has_reached_max_preludes();
 }
 
 boost::signals2::signal<void(BreakEvent)> &
@@ -326,6 +330,7 @@ void
 BreakStateModel::set_max_number_of_preludes(int max_number_of_preludes)
 {
   this->max_number_of_preludes = max_number_of_preludes;
+  has_reached_max_preludes();
 }
 
 void
@@ -390,7 +395,7 @@ BreakStateModel::break_window_start()
   application->refresh_break_window();
 
   // Report state change.
-  break_event_signal(forced_break ? BreakEvent::ShowBreakForced : BreakEvent::ShowBreak);
+  emit_break_event(forced_break ? BreakEvent::ShowBreakForced : BreakEvent::ShowBreak);
 }
 
 void
@@ -439,10 +444,10 @@ BreakStateModel::break_window_stop()
       if (idle >= reset && !user_abort)
         {
           // Breaks end without user skip/postponing it.
-          break_event_signal(BreakEvent::BreakTaken);
+          emit_break_event(BreakEvent::BreakTaken);
         }
     }
-  break_event_signal(BreakEvent::BreakIdle);
+  emit_break_event(BreakEvent::BreakIdle);
 }
 
 void
@@ -451,6 +456,7 @@ BreakStateModel::prelude_window_start()
   TRACE_ENTRY_PAR(break_id);
 
   prelude_count++;
+  has_reached_max_preludes();
   prelude_time = 0;
 
   application->hide_break_window();
@@ -473,10 +479,10 @@ BreakStateModel::prelude_window_start()
 
   if (prelude_count == 1)
     {
-      break_event_signal(BreakEvent::BreakStart);
+      emit_break_event(BreakEvent::BreakStart);
     }
 
-  break_event_signal(BreakEvent::ShowPrelude);
+  emit_break_event(BreakEvent::ShowPrelude);
 }
 void
 BreakStateModel::prelude_window_update()
@@ -490,9 +496,9 @@ BreakStateModel::prelude_window_stop()
   application->hide_break_window();
   if (!forced_break)
     {
-      break_event_signal(BreakEvent::BreakIgnored);
+      emit_break_event(BreakEvent::BreakIgnored);
     }
-  break_event_signal(BreakEvent::BreakIdle);
+  emit_break_event(BreakEvent::BreakIdle);
 }
 
 bool
@@ -506,5 +512,25 @@ BreakStateModel::action_notify()
 bool
 BreakStateModel::has_reached_max_preludes()
 {
-  return max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes;
+  reached_max_prelude = max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes;
+  return reached_max_prelude;
+}
+
+std::string
+BreakStateModel::get_diagnostic_name() const
+{
+  return timer->get_id() + ".break";
+}
+
+void
+BreakStateModel::emit_break_event(workrave::BreakEvent event)
+{
+  if (TracedFieldBase::debug)
+    {
+      std::ostringstream ss;
+      ss << "event=" << event << " stage=" << break_stage << " prelude_seconds=" << prelude_time
+         << " fake_remaining_seconds=" << fake_break_count;
+      Diagnostics::instance().report(timer->get_id() + ".break.event", ss.str());
+    }
+  break_event_signal(event);
 }

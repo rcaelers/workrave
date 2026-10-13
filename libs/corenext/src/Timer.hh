@@ -107,7 +107,8 @@ public:
   // Auto-resetting.
   void set_auto_reset(int reset_time);
   void set_auto_reset_enabled(bool b);
-  void set_daily_reset(TimePred *predicate);
+  void set_daily_reset(TimePred *predicate, const std::string &name = "custom");
+  void set_activity_source(const std::string &source);
   bool is_auto_reset_enabled() const;
   int64_t get_auto_reset() const;
   int64_t get_next_reset_time() const;
@@ -135,6 +136,8 @@ public:
   void daily_reset();
 
 private:
+  void report_timing(const std::string &reason) const;
+  void publish_deadlines();
   void compute_next_limit_time();
   void compute_next_reset_time();
   void compute_next_daily_reset_time();
@@ -150,22 +153,22 @@ private:
   TracedField<TimerState> timer_state;
 
   //! Default snooze time
-  int64_t snooze_interval;
+  TracedField<int64_t> snooze_interval;
 
   //! Don't snooze til next reset or changes.
-  bool snooze_inhibited;
+  TracedField<bool> snooze_inhibited;
 
   //! Is the timer limit enabled?
-  bool limit_enabled;
+  TracedField<bool> limit_enabled;
 
   //! Timer limit interval.
-  int64_t limit_interval;
+  TracedField<int64_t> limit_interval;
 
   //! Is the timer auto reset enabled?
-  bool auto_reset_enabled;
+  TracedField<bool> auto_reset_enabled;
 
   //! Automatic reset time interval.
-  int64_t auto_reset_interval;
+  TracedField<int64_t> auto_reset_interval;
 
   //! Daily auto reset checker (NULL if not used)
   TimePred *daily_auto_reset;
@@ -195,13 +198,17 @@ private:
   int64_t last_daily_reset_time;
 
   //! Next automatic reset time.
-  int64_t next_reset_time;
+  TracedField<int64_t> next_reset_time;
 
   //! Next daily reset time.
-  int64_t next_daily_reset_time;
+  TracedField<int64_t> next_daily_reset_time;
 
   //! Next limit time.
-  int64_t next_limit_time;
+  TracedField<int64_t> next_limit_time;
+
+  TracedField<std::string> activity_source;
+  TracedField<std::string> effective_activity;
+  TracedField<std::string> reset_predicate;
 
   //! Id of the timer.
   std::string timer_id;

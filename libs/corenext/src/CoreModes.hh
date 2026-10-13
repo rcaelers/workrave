@@ -60,6 +60,8 @@ private:
   void set_usage_mode_internal(workrave::UsageMode mode, bool persistent);
   void load_config();
   void check_auto_reset();
+  void report_operation_mode_overrides() const;
+  void update_operation_mode_reset_diagnostics();
 
 private:
   //! Current operation mode.
@@ -67,6 +69,9 @@ private:
 
   //! The same as operation_mode unless operation_mode is an override mode.
   TracedField<workrave::OperationMode> operation_mode_regular;
+
+  TracedField<int64_t> operation_mode_reset_duration{"core.operation_mode_reset_duration_minutes", 0};
+  TracedField<int64_t> operation_mode_reset_time{"core.operation_mode_reset_wall_seconds", 0};
 
   //! Active operation mode overrides.
   std::map<std::string, workrave::OperationMode> operation_mode_overrides;

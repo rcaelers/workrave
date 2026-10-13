@@ -38,7 +38,7 @@ class LocalActivityMonitor
 {
 public:
   LocalActivityMonitor(workrave::config::IConfigurator::Ptr config, const char *display_name);
-  ~LocalActivityMonitor() override = default;
+  ~LocalActivityMonitor() override;
 
   void init() override;
   void terminate() override;
@@ -62,6 +62,9 @@ private:
   void get_parameters(int &noise, int &activity, int &idle, int &sensitivity) const;
 
   void process_state();
+  void publish_activity();
+  void report_timing();
+  void report_listener();
 
   //! State of the activity monitor.
   enum LocalActivityMonitorState
@@ -85,6 +88,8 @@ private:
 
   //! the current state.
   TracedField<LocalActivityMonitorState> state{"monitor.activity_state", ACTIVITY_MONITOR_IDLE, true};
+
+  LocalActivityMonitorState reported_activity{ACTIVITY_MONITOR_IDLE};
 
   //! Internal locking
   std::recursive_mutex lock;

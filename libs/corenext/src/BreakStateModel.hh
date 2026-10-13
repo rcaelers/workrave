@@ -110,6 +110,8 @@ private:
 
   // IActivityMonitorListener
   bool action_notify() override;
+  std::string get_diagnostic_name() const override;
+  void emit_break_event(workrave::BreakEvent event);
 
 private:
   //! ID of the break controlled by this Break.
@@ -139,7 +141,8 @@ private:
   TracedField<int> prelude_count;
 
   //! After how many preludes do we force a break or give up?
-  int max_number_of_preludes;
+  TracedField<int> max_number_of_preludes;
+  TracedField<bool> reached_max_prelude;
 
   //! Is this a break that is not controlled by the timer.
   TracedField<bool> fake_break;
@@ -154,7 +157,7 @@ private:
   TracedField<bool> delayed_abort;
 
   //! Break hint if break has been started.
-  workrave::utils::Flags<workrave::BreakHint> break_hint;
+  TracedField<workrave::utils::Flags<workrave::BreakHint>> break_hint;
 
   //! Break enabled?
   bool enabled;

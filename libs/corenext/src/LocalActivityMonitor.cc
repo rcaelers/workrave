@@ -26,6 +26,7 @@
 #include <cmath>
 #include <cstddef>
 #include <utility>
+#include <sstream>
 
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/InputMonitorFactory.hh"
@@ -43,6 +44,14 @@ LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr config, const char
   , display_name(display_name)
 {
   TRACE_ENTRY();
+  Diagnostics::instance().register_topic("monitor.timing", [this]() { report_timing(); });
+  Diagnostics::instance().register_topic("monitor.listener", [this]() { report_listener(); });
+}
+
+LocalActivityMonitor::~LocalActivityMonitor()
+{
+  Diagnostics::instance().unregister_topic("monitor.timing");
+  Diagnostics::instance().unregister_topic("monitor.listener");
 }
 
 //! Initializes the monitor.
@@ -81,7 +90,7 @@ LocalActivityMonitor::suspend()
   lock.lock();
   state = ACTIVITY_MONITOR_SUSPENDED;
   lock.unlock();
-  state.publish();
+  publish_activity();
   TRACE_VAR(state);
 }
 
@@ -93,7 +102,7 @@ LocalActivityMonitor::resume()
   lock.lock();
   state = ACTIVITY_MONITOR_IDLE;
   lock.unlock();
-  state.publish();
+  publish_activity();
   TRACE_VAR(state);
 }
 
@@ -109,7 +118,7 @@ LocalActivityMonitor::force_idle()
       last_action_time = 0;
     }
   lock.unlock();
-  state.publish();
+  publish_activity();
   TRACE_VAR(state);
 }
 
@@ -140,7 +149,7 @@ LocalActivityMonitor::process_state()
     }
 
   lock.unlock();
-  state.publish();
+  publish_activity();
   TRACE_VAR(state);
 }
 
@@ -173,8 +182,13 @@ void
 LocalActivityMonitor::set_listener(IActivityMonitorListener::Ptr l)
 {
   lock.lock();
+  const bool changed = listener != l;
   listener = l;
   lock.unlock();
+  if (changed)
+    {
+      report_listener();
+    }
 }
 
 //! Activity is reported by the input monitor.
@@ -294,6 +308,7 @@ LocalActivityMonitor::call_listener()
           lock.lock();
           listener.reset();
           lock.unlock();
+          report_listener();
         }
     }
 }
@@ -381,3 +396,55 @@ LocalActivityMonitor::load_config()
 //       external_activity.erase(who);
 //     }
 //   // }
+
+void
+LocalActivityMonitor::publish_activity()
+{
+  state.publish();
+  if (!TracedFieldBase::debug)
+    {
+      return;
+    }
+  bool changed;
+  {
+    std::lock_guard<std::recursive_mutex> guard(lock);
+    changed = reported_activity != state;
+    reported_activity = state;
+  }
+  if (changed)
+    {
+      report_timing();
+    }
+}
+
+void
+LocalActivityMonitor::report_timing()
+{
+  if (!TracedFieldBase::debug)
+    {
+      return;
+    }
+  std::ostringstream ss;
+  {
+    std::lock_guard<std::recursive_mutex> guard(lock);
+    reported_activity = state;
+    ss << "monotonic_usec=" << TimeSource::get_monotonic_time_usec() << " state=" << state
+       << " first_action_monotonic_usec=" << first_action_time << " last_action_monotonic_usec=" << last_action_time;
+  }
+  Diagnostics::instance().report("monitor.timing", ss.str());
+}
+
+void
+LocalActivityMonitor::report_listener()
+{
+  if (!TracedFieldBase::debug)
+    {
+      return;
+    }
+  std::string name;
+  {
+    std::lock_guard<std::recursive_mutex> guard(lock);
+    name = listener != nullptr ? listener->get_diagnostic_name() : "none";
+  }
+  Diagnostics::instance().report("monitor.listener", name);
+}

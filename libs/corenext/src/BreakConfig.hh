@@ -47,7 +47,7 @@ private:
   workrave::BreakId break_id;
   BreakStateModel::Ptr break_state_model;
   Timer::Ptr timer;
-  bool enabled;
+  TracedField<bool> enabled;
   bool use_microbreak_activity;
 };
 

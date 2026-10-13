@@ -50,6 +50,10 @@ public:
 
 private:
   bool action_notify() override;
+  std::string get_diagnostic_name() const override
+  {
+    return "reading";
+  }
   void listen_for_activity();
   void on_usage_mode_changed(workrave::UsageMode mode);
 

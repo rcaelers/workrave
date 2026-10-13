@@ -72,7 +72,9 @@ public:
 
 private:
   void set_freeze_all_breaks(bool freeze);
-  void process_timers(bool user_is_active);
+  void process_timers(bool user_is_active, const char *&stage, int &break_id);
+  void update_activity_sources();
+  void report_break_decision(workrave::BreakId id, const std::string &decision) const;
   void start_break(workrave::BreakId break_id, workrave::BreakId resume_this_break = workrave::BREAK_ID_NONE);
   void load_state();
   void defrost();
@@ -100,6 +102,8 @@ private:
 #if defined(HAVE_GRPC) && defined(HAVE_CORE_NEXT)
   rpc::InstanceRegistry<workrave::BreakId, Break> break_registry;
 #endif
+
+  int64_t last_process_time{0};
 
   TracedField<workrave::InsistPolicy> insist_policy;
   TracedField<workrave::InsistPolicy> active_insist_policy;

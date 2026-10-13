@@ -28,6 +28,7 @@
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/ostream_sink.h>
 #include <spdlog/pattern_formatter.h>
 #include <spdlog/cfg/env.h>
 
@@ -62,6 +63,7 @@ using namespace std::chrono_literals;
 #include "SimulatedTime.hh"
 #include "ActivityMonitorStub.hh"
 #include "LocalActivityMonitor.hh"
+#include "DiagnosticsCapture.hh"
 
 using namespace workrave::config;
 
@@ -725,7 +727,7 @@ public:
 
   IActivityMonitor::Ptr on_create_monitor()
   {
-    monitor = std::make_shared<ActivityMonitorStub>();
+    monitor = injected_monitor ? injected_monitor : std::make_shared<ActivityMonitorStub>();
     return monitor;
   }
 
@@ -772,6 +774,7 @@ public:
   IConfigurator::Ptr config;
   SimulatedTime::Ptr sim;
   ActivityMonitorStub::Ptr monitor;
+  ActivityMonitorStub::Ptr injected_monitor;
   bool user_active{};
   uint64_t start_time{};
   workrave::BreakId active_break{};
@@ -823,6 +826,226 @@ public:
   std::vector<std::string> entries;
 };
 
+TEST_F(IntegrationTest, test_diagnostics_mode_overrides_and_reset)
+{
+  init();
+  DiagnosticsCapture capture;
+  EXPECT_TRUE(capture.contains("core.operation_mode_overrides -> none"));
+  EXPECT_TRUE(capture.contains("micro_pause.break.enabled -> 1"));
+  EXPECT_TRUE(capture.contains("micro_pause.break.max_preludes -> 3"));
+  EXPECT_TRUE(capture.contains("micro_pause.break.reached_max_prelude -> 0"));
+  EXPECT_TRUE(capture.contains("micro_pause.break.hint -> normal"));
+  core->set_operation_mode_override(workrave::OperationMode::Suspended, "powersave");
+  capture.lines.clear();
+  core->set_operation_mode_override(workrave::OperationMode::Quiet, "screensaver");
+  EXPECT_TRUE(capture.contains("core.operation_mode_overrides -> powersave=suspended screensaver=quiet"));
+  EXPECT_FALSE(capture.contains("core.operation_mode_active ->"));
+  capture.lines.clear();
+  core->set_operation_mode_override(workrave::OperationMode::Quiet, "screensaver");
+  EXPECT_TRUE(capture.lines.empty());
+  core->remove_operation_mode_override("screensaver");
+  EXPECT_TRUE(capture.contains("core.operation_mode_overrides -> powersave=suspended"));
+  core->remove_operation_mode_override("powersave");
+  EXPECT_TRUE(capture.contains("core.operation_mode_overrides -> none"));
+
+  core->set_operation_mode_for(workrave::OperationMode::Quiet, 2min);
+  EXPECT_TRUE(capture.contains("core.operation_mode_reset_duration_minutes -> 2"));
+  auto deadline = std::chrono::duration_cast<std::chrono::seconds>(
+                    CoreConfig::operation_mode_auto_reset_time()().time_since_epoch())
+                    .count();
+  EXPECT_TRUE(capture.contains("core.operation_mode_reset_wall_seconds -> " + std::to_string(deadline)));
+  tick(false, 121);
+  EXPECT_TRUE(capture.contains("core.operation_mode.event -> auto-reset-deadline"));
+  EXPECT_TRUE(capture.contains("core.operation_mode_reset_duration_minutes -> 0"));
+}
+
+TEST_F(IntegrationTest, test_diagnostics_break_decisions_and_events)
+{
+  init();
+  DiagnosticsCapture capture;
+  core->set_operation_mode(workrave::OperationMode::Quiet);
+  tick(true, 301);
+  EXPECT_TRUE(capture.contains("micro_pause.timer.event -> limit-reached"));
+  EXPECT_TRUE(capture.contains("micro_pause.break.decision -> suppressed:operation-mode=quiet"));
+  core->set_operation_mode(workrave::OperationMode::Normal);
+  tick(true, 150);
+  EXPECT_TRUE(capture.contains("micro_pause.break.decision -> start:timer-limit"));
+  EXPECT_TRUE(capture.contains("micro_pause.break.event -> event=ShowPrelude"));
+  core->set_operation_mode(workrave::OperationMode::Quiet);
+  EXPECT_TRUE(capture.contains("micro_pause.break.event -> event=BreakStop"));
+  config->set_value("breaks/micro_pause/enabled", false);
+  EXPECT_TRUE(capture.contains("micro_pause.break.enabled -> 0"));
+  config->set_value("breaks/micro_pause/enabled", true);
+  EXPECT_TRUE(capture.contains("micro_pause.break.enabled -> 1"));
+}
+
+TEST_F(IntegrationTest, test_diagnostics_advance_rest_break)
+{
+  init();
+  config->set_value("timers/micro_pause/limit", 5);
+  config->set_value("timers/rest_break/limit", 30);
+  DiagnosticsCapture capture;
+  tick(true, 7);
+  EXPECT_TRUE(capture.contains("micro_pause.break.decision -> advanced:rest_break-within-30-seconds-after-microbreak"));
+  EXPECT_TRUE(capture.contains("rest_break.break.decision -> start:timer-limit"));
+}
+
+TEST_F(IntegrationTest, test_diagnostics_activity_sources)
+{
+  init();
+  DiagnosticsCapture capture;
+  core->set_usage_mode(workrave::UsageMode::Reading);
+  EXPECT_TRUE(capture.contains("micro_pause.timer.activity_source -> reading"));
+  monitor->notify();
+  tick(false, 3);
+  EXPECT_TRUE(capture.contains("micro_pause.timer.effective_activity -> active"));
+  config->set_value("timers/daily_limit/use_microbreak_activity", true);
+  EXPECT_TRUE(capture.contains("daily_limit.timer.activity_source -> timer:micro_pause"));
+  tick(false, 3);
+  EXPECT_TRUE(capture.contains("daily_limit.timer.effective_activity -> active"));
+  core->set_usage_mode(workrave::UsageMode::Normal);
+  EXPECT_TRUE(capture.contains("micro_pause.timer.activity_source -> core"));
+  config->set_value("timers/daily_limit/use_microbreak_activity", false);
+  EXPECT_TRUE(capture.contains("daily_limit.timer.activity_source -> core"));
+}
+
+TEST_F(IntegrationTest, test_diagnostics_local_activity_and_listener)
+{
+  init();
+  DiagnosticsCapture capture;
+  {
+    class Listener : public IActivityMonitorListener
+    {
+    public:
+      bool action_notify() override
+      {
+        return false;
+      }
+      std::string get_diagnostic_name() const override
+      {
+        return "test-break";
+      }
+    };
+    LocalActivityMonitor local(create_configurator(), "");
+    Diagnostics::instance().enable(&capture);
+    EXPECT_TRUE(capture.contains("monitor.listener -> none"));
+    EXPECT_TRUE(capture.contains("first_action_monotonic_usec="));
+    local.set_listener(std::make_shared<Listener>());
+    EXPECT_TRUE(capture.contains("monitor.listener -> test-break"));
+    local.action_notify();
+    EXPECT_EQ(capture.count("monitor.listener -> none"), 2);
+    EXPECT_FALSE(local.is_active());
+    EXPECT_TRUE(capture.contains("monitor.timing -> monotonic_usec="));
+    capture.lines.clear();
+    local.is_active();
+    local.is_active();
+    EXPECT_TRUE(capture.lines.empty());
+  }
+  capture.lines.clear();
+  Diagnostics::instance().enable(&capture);
+  EXPECT_FALSE(capture.contains("monitor.timing ->"));
+  EXPECT_FALSE(capture.contains("monitor.listener ->"));
+}
+
+TEST_F(IntegrationTest, test_heartbeat_exception_context)
+{
+  class FailingMonitor : public ActivityMonitorStub
+  {
+  public:
+    bool fail{false};
+    int reads_before_failure{0};
+    bool is_active() override
+    {
+      if (fail && reads_before_failure-- <= 0)
+        {
+          throw std::runtime_error("original monitor failure");
+        }
+      return ActivityMonitorStub::is_active();
+    }
+  };
+  auto failing_monitor = std::make_shared<FailingMonitor>();
+  injected_monitor = failing_monitor;
+  init();
+
+  struct RestoreLogger
+  {
+    std::shared_ptr<spdlog::logger> logger{spdlog::default_logger()};
+    ~RestoreLogger()
+    {
+      spdlog::set_default_logger(logger);
+    }
+  } restore_logger;
+  std::ostringstream output;
+  auto sink = std::make_shared<spdlog::sinks::ostream_sink_mt>(output);
+  auto logger = std::make_shared<spdlog::logger>("heartbeat-test", sink);
+  logger->set_level(spdlog::level::info);
+  logger->set_pattern("%v");
+  spdlog::set_default_logger(logger);
+
+  core->heartbeat();
+  EXPECT_TRUE(output.str().empty());
+  auto last_completed = workrave::utils::TimeSource::get_real_time_sec_sync();
+  failing_monitor->fail = true;
+  sim->current_time += 1000000;
+  try
+    {
+      core->heartbeat();
+      FAIL() << "heartbeat did not rethrow";
+    }
+  catch (const std::runtime_error &error)
+    {
+      EXPECT_STREQ(error.what(), "original monitor failure");
+    }
+  EXPECT_NE(output.str().find("CoreNext BreaksControl heartbeat failed: stage=activity state break_id=-1"), std::string::npos);
+  EXPECT_NE(output.str().find("last_completed_wall_time=" + std::to_string(last_completed)), std::string::npos);
+  auto failure_log = output.str();
+  EXPECT_EQ(std::count(failure_log.begin(), failure_log.end(), '\n'), 1);
+
+  output.str("");
+  output.clear();
+  failing_monitor->reads_before_failure = 1;
+  EXPECT_THROW(core->heartbeat(), std::runtime_error);
+  EXPECT_NE(output.str().find("CoreNext BreaksControl heartbeat failed: stage=break heartbeat break_id="
+                              + std::to_string(workrave::BREAK_ID_MICRO_BREAK)),
+            std::string::npos);
+
+  failure_log = output.str();
+  EXPECT_EQ(std::count(failure_log.begin(), failure_log.end(), '\n'), 1);
+
+  // Diagnostic failures must not replace the original callback failure.
+  class FailingSink : public spdlog::sinks::sink
+  {
+  public:
+    void log(const spdlog::details::log_msg &) override
+    {
+      throw std::logic_error("log failure");
+    }
+    void flush() override
+    {
+      throw std::logic_error("flush failure");
+    }
+    void set_pattern(const std::string &) override
+    {
+    }
+    void set_formatter(std::unique_ptr<spdlog::formatter>) override
+    {
+    }
+  };
+  logger = std::make_shared<spdlog::logger>("failing-logger", std::make_shared<FailingSink>());
+  logger->set_error_handler([](const std::string &) { throw std::logic_error("logger failure"); });
+  spdlog::set_default_logger(logger);
+  try
+    {
+      core->heartbeat();
+      FAIL() << "heartbeat did not rethrow";
+    }
+  catch (const std::runtime_error &error)
+    {
+      EXPECT_STREQ(error.what(), "original monitor failure");
+    }
+  failing_monitor->fail = false;
+}
+
 TEST_F(IntegrationTest, test_monitoring_diagnostics)
 {
   init();
@@ -850,6 +1073,9 @@ TEST_F(IntegrationTest, test_monitoring_diagnostics)
   EXPECT_TRUE(sink.contains("micro_pause.monitor.suspended -> 0"));
   EXPECT_TRUE(sink.contains("micro_pause.monitor.forced_idle -> 0"));
 
+  // The first tick establishes the effective activity of each timer.
+  tick(false, 1);
+  EXPECT_TRUE(sink.contains("rest_break.timer.effective_activity -> idle"));
   sink.entries.clear();
   tick(false, 10);
   EXPECT_TRUE(sink.entries.empty());
@@ -1372,6 +1598,7 @@ TEST_F(IntegrationTest, test_operation_mode_autoreset)
 TEST_F(IntegrationTest, test_operation_mode_autoreset_daily_reset)
 {
   init();
+  DiagnosticsCapture capture;
 
   auto b = core->get_break(workrave::BREAK_ID_DAILY_LIMIT);
 
@@ -1417,6 +1644,8 @@ TEST_F(IntegrationTest, test_operation_mode_autoreset_daily_reset)
   EXPECT_TRUE(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
   EXPECT_TRUE(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
 
+  EXPECT_TRUE(capture.contains("daily_limit.timer.event -> daily-reset"));
+  EXPECT_TRUE(capture.contains("core.operation_mode.event -> auto-reset-daily"));
   verify();
 
   // Revert to normal after 2 minutes

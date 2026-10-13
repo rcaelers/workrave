@@ -25,6 +25,8 @@
 #include <fstream>
 #include <sstream>
 
+#include <spdlog/spdlog.h>
+
 #include "utils/Paths.hh"
 #include "utils/TimeSource.hh"
 
@@ -99,6 +101,9 @@ BreaksControl::init()
 
   microbreak_activity_monitor = std::make_shared<TimerActivityMonitor>(activity_monitor, timers[BREAK_ID_MICRO_BREAK]);
 
+  update_activity_sources();
+  connect(modes->signal_usage_mode_changed(), this, [this](auto) { update_activity_sources(); });
+  CoreConfig::key_timer(BREAK_ID_DAILY_LIMIT).connect(this, [this]() { update_activity_sources(); });
   load_state();
 }
 
@@ -145,6 +150,7 @@ BreaksControl::force_break(BreakId break_id, workrave::utils::Flags<BreakHint> b
       TRACE_MSG("Resuming Micro break");
     }
 
+  report_break_decision(break_id, "start:forced-request");
   breaks[break_id]->force_start_break(break_hint);
 }
 
@@ -153,39 +159,68 @@ void
 BreaksControl::heartbeat()
 {
   TRACE_ENTRY();
-  bool user_is_active = false;
-  if (modes->get_usage_mode() == UsageMode::Reading)
+  const char *stage = "activity state";
+  int break_id = -1;
+  try
     {
-      user_is_active = reading_activity_monitor->is_active();
+      bool user_is_active = false;
+      if (modes->get_usage_mode() == UsageMode::Reading)
+        {
+          user_is_active = reading_activity_monitor->is_active();
+        }
+      else
+        {
+          user_is_active = activity_monitor->is_active();
+        }
+
+      // Perform timer processing.
+      process_timers(user_is_active, stage, break_id);
+
+      // Send heartbeats to other components.
+      for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
+        {
+          stage = "break heartbeat";
+          break_id = i;
+          breaks[i]->process();
+        }
+      break_id = -1;
+
+      // Cheap, in-memory only: safe to do every heartbeat.
+      stage = "statistics";
+      statistics->update();
+
+      // Make state persistent.
+      if (TimeSource::get_monotonic_time_sec() % SAVESTATETIME == 0)
+        {
+          stage = "save statistics";
+          statistics->save();
+          stage = "save state";
+          save_state();
+        }
+      last_process_time = TimeSource::get_real_time_sec_sync();
     }
-  else
+  catch (...)
     {
-      user_is_active = activity_monitor->is_active();
-    }
-
-  // Perform timer processing.
-  process_timers(user_is_active);
-
-  // Send heartbeats to other components.
-  for (auto &b: breaks)
-    {
-      b->process();
-    }
-
-  // Cheap, in-memory only: safe to do every heartbeat.
-  statistics->update();
-
-  // Make state persistent.
-  if (TimeSource::get_monotonic_time_sec() % SAVESTATETIME == 0)
-    {
-      statistics->save();
-      save_state();
+      // Keep break-processing context local and preserve callback recovery.
+      try
+        {
+          spdlog::error("CoreNext BreaksControl heartbeat failed: stage={} break_id={} last_completed_wall_time={}",
+                        stage,
+                        break_id,
+                        last_process_time);
+          spdlog::default_logger()->flush();
+        }
+      catch (...)
+        {
+          // Preserve the original exception even if diagnostic logging fails.
+        }
+      throw;
     }
 }
 
 //! Processes all timers.
 void
-BreaksControl::process_timers(bool user_is_active)
+BreaksControl::process_timers(bool user_is_active, const char *&stage, int &current_break_id)
 {
   TRACE_ENTRY();
   TimerEvent events[BREAK_ID_SIZEOF]{};
@@ -194,6 +229,8 @@ BreaksControl::process_timers(bool user_is_active)
   for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
     {
       auto break_id = static_cast<BreakId>(i);
+      current_break_id = i;
+      stage = "timers";
       if (!breaks[break_id]->is_microbreak_used_for_activity())
         {
           events[break_id] = timers[break_id]->process(user_is_active);
@@ -203,6 +240,8 @@ BreaksControl::process_timers(bool user_is_active)
   for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
     {
       auto break_id = static_cast<BreakId>(i);
+      current_break_id = i;
+      stage = "timers";
       if (breaks[break_id]->is_microbreak_used_for_activity())
         {
           events[break_id] = timers[break_id]->process(microbreak_activity_monitor->is_active());
@@ -212,14 +251,29 @@ BreaksControl::process_timers(bool user_is_active)
   for (int i = BREAK_ID_DAILY_LIMIT; i > BREAK_ID_NONE; i--)
     {
       auto break_id = static_cast<BreakId>(i);
+      current_break_id = i;
+      stage = "timer events";
       if (breaks[break_id]->is_enabled())
         {
           switch (events[break_id])
             {
             case TIMER_EVENT_LIMIT_REACHED:
               TRACE_MSG("limit reached {}", break_id);
-              if (!breaks[break_id]->is_active() && modes->get_active_operation_mode() == OperationMode::Normal
-                  && !CoreConfig::break_quiet_mode(break_id)())
+              if (breaks[break_id]->is_active())
+                {
+                  report_break_decision(break_id, "suppressed:break-already-active");
+                }
+              else if (modes->get_active_operation_mode() != OperationMode::Normal)
+                {
+                  report_break_decision(break_id,
+                                        std::string("suppressed:operation-mode=")
+                                          + std::string(enum_to_string(modes->get_active_operation_mode())));
+                }
+              else if (CoreConfig::break_quiet_mode(break_id)())
+                {
+                  report_break_decision(break_id, "suppressed:quiet-mode");
+                }
+              else
                 {
                   start_break(break_id);
                 }
@@ -247,6 +301,10 @@ BreaksControl::process_timers(bool user_is_active)
               break;
             }
         }
+      else if (events[break_id] == TIMER_EVENT_LIMIT_REACHED)
+        {
+          report_break_decision(break_id, "suppressed:disabled");
+        }
     }
 }
 
@@ -258,6 +316,7 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
     {
       if (breaks[bi]->is_active())
         {
+          report_break_decision(break_id, "suppressed:active-break=" + breaks[bi]->get_name());
           return;
         }
     }
@@ -287,6 +346,7 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
 
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
+              report_break_decision(break_id, "advanced:rest_break-within-30-seconds-after-microbreak");
               breaks[BREAK_ID_REST_BREAK]->override(BREAK_ID_MICRO_BREAK);
 
               start_break(BREAK_ID_REST_BREAK, BREAK_ID_MICRO_BREAK);
@@ -309,6 +369,7 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
         }
     }
 
+  report_break_decision(break_id, "start:timer-limit");
   breaks[break_id]->start_break();
 }
 
@@ -529,5 +590,25 @@ BreaksControl::load_state()
               break;
             }
         }
+    }
+}
+
+void
+BreaksControl::update_activity_sources()
+{
+  for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
+    {
+      timers[i]->set_activity_source(breaks[i]->is_microbreak_used_for_activity()
+                                       ? "timer:" + timers[BREAK_ID_MICRO_BREAK]->get_id()
+                                       : (modes->get_usage_mode() == UsageMode::Reading ? "reading" : "core"));
+    }
+}
+
+void
+BreaksControl::report_break_decision(BreakId id, const std::string &decision) const
+{
+  if (TracedFieldBase::debug)
+    {
+      Diagnostics::instance().report(breaks[id]->get_name() + ".break.decision", decision);
     }
 }

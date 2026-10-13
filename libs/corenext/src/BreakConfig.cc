@@ -36,7 +36,7 @@ BreakConfig::BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_mode
   : break_id(break_id)
   , break_state_model(std::move(break_state_model))
   , timer(std::move(timer))
-  , enabled(true)
+  , enabled{CoreConfig::get_break_name(break_id) + ".break.enabled", true}
   , use_microbreak_activity(false)
 {
   load_timer_config();
@@ -65,7 +65,7 @@ BreakConfig::load_timer_config()
   if (!reset_pred.empty())
     {
       DayTimePred *pred = create_time_pred(reset_pred);
-      timer->set_daily_reset(pred);
+      timer->set_daily_reset(pred, reset_pred);
     }
 
   // Read the snooze time.
