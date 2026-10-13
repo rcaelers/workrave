@@ -21,9 +21,6 @@
 
 #include "debug.hh"
 
-#include <climits>
-#include <cstdlib>
-
 #include "SoundPlayer.hh"
 #include "ISoundDriver.hh"
 #include "IMixer.hh"
