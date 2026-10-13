@@ -37,8 +37,8 @@ public:
   static bool get_language(const std::string &code, std::string &language);
   static bool get_country(const std::string &code, std::string &language);
 
-  static void get_all_languages_in_current_locale(LanguageMap &list);
-  static void get_all_languages_in_native_locale(LanguageMap &list);
+  static void get_all_languages_in_current_locale(LanguageMap &languages);
+  static void get_all_languages_in_native_locale(LanguageMap &languages);
 
   static void set_locale(const std::string &code);
   static std::string get_locale();
