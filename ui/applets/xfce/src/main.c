@@ -30,7 +30,7 @@
 #include "commonui/nls.h"
 #include "commonui/MenuDefs.hh"
 
-typedef struct _WorkraveApplet
+typedef struct WorkraveApplet
 {
   XfcePanelPlugin *plugin;
 
