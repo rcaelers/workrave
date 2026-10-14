@@ -1,16 +1,32 @@
 if (HAVE_UNFOLD_AUTO_UPDATE)
 
   if (PLATFORM_OS_WINDOWS)
+    # EXCLUDE_FROM_ALL keeps unfold's own install() rules (and those of its
+    # sub-dependency sigstore, e.g. lib/cmake/{Unfold,SigstoreVerifier},
+    # include/{unfold,sigstore}) from leaking into our install tree; only the
+    # runtime DLLs are installed explicitly below.
     FetchContent_Declare_Logged(
       unfold
       "Auto-update framework"
       "MIT"
       GIT_REPOSITORY https://github.com/rcaelers/unfold.git
       GIT_TAG 14abf214d640cf8e45c385ba6ce5b4f9866993d9
+      EXCLUDE_FROM_ALL
     )
     if(NOT unfold_POPULATED)
+      set(WORKRAVE_WITH_TESTS_BACKUP "${WITH_TESTS}")
+      set(WITH_TESTS OFF CACHE BOOL "Enable unit tests" FORCE)
+      # Unfold and its dependencies have no Qt sources. Inheriting Qt's
+      # automatic generators creates unwanted dependencies in their targets.
+      set(CMAKE_AUTOMOC OFF)
+      set(CMAKE_AUTOUIC OFF)
+      set(CMAKE_AUTORCC OFF)
       FetchContent_MakeAvailable(unfold)
+      set(WITH_TESTS "${WORKRAVE_WITH_TESTS_BACKUP}" CACHE BOOL "Enable unit tests" FORCE)
       install(TARGETS unfold RUNTIME DESTINATION bin)
+      if (TARGET sigstore)
+        install(TARGETS sigstore RUNTIME DESTINATION bin)
+      endif()
     endif()
 
     # Prefer system/MSYS2 cmark (CMake package); fallback to FetchContent.
@@ -24,7 +40,10 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
 
     if (WORKRAVE_CMARK_TARGET)
       message(STATUS "Using system cmark")
-      install(IMPORTED_RUNTIME_ARTIFACTS ${WORKRAVE_CMARK_TARGET} RUNTIME DESTINATION bin)
+      get_target_property(WORKRAVE_CMARK_TYPE ${WORKRAVE_CMARK_TARGET} TYPE)
+      if(WORKRAVE_CMARK_TYPE STREQUAL "SHARED_LIBRARY")
+        install(IMPORTED_RUNTIME_ARTIFACTS ${WORKRAVE_CMARK_TARGET} RUNTIME DESTINATION bin)
+      endif()
     else()
       message(STATUS "System cmark not found; using FetchContent")
       FetchContent_Declare_Logged(
@@ -34,11 +53,15 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
         GIT_REPOSITORY https://github.com/commonmark/cmark.git
         GIT_TAG        0.31.2
         GIT_SHALLOW    TRUE
-        CMAKE_ARGS "BUILD_TESTING=OFF BUILD_STATIC_LIBS=OFF BUILD_SHARED_LIBS=ON"
+        EXCLUDE_FROM_ALL
       )
+      set(BUILD_SHARED_LIBS ON)
       set(BUILD_TESTING OFF CACHE INTERNAL "Disable tests")
       if(NOT cmark_POPULATED)
         FetchContent_MakeAvailable(cmark)
+        # Build the runtime we install without installing cmark's CLI and SDK.
+        set_target_properties(cmark PROPERTIES EXCLUDE_FROM_ALL FALSE
+                              RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
         install(TARGETS cmark RUNTIME DESTINATION bin)
       endif()
       set(WORKRAVE_CMARK_TARGET cmark)
