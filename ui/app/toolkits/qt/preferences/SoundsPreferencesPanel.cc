@@ -271,7 +271,7 @@ SoundsPreferencesPanel::on_device_changed(int index)
   if (device_combo && index >= 0)
     {
       std::string device_id = device_combo->itemData(index).toString().toStdString();
-      sound_theme->sound_device().set(device_id);
+      sound_theme->sound_output_device().set(device_id);
       sound_theme->set_device(device_id);
     }
 }
@@ -287,7 +287,7 @@ SoundsPreferencesPanel::update_device_selection()
   device_combo->clear();
 
   auto devices = sound_theme->get_devices();
-  std::string current_device = sound_theme->sound_device()();
+  std::string current_device = sound_theme->sound_output_device()();
 
   int active_index = 0;
   for (size_t i = 0; i < devices.size(); i++)
