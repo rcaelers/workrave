@@ -170,8 +170,6 @@ struct workrave::utils::enum_traits<Kind>
     {{"none", Kind::None}, {"A", Kind::A}, {"B", Kind::B}, {"C", Kind::C}, {"D", Kind::D}}};
 };
 
-
-
 TEST_F(EnumTest, test_enum_class_mix_max)
 {
   EXPECT_EQ(workrave::utils::enum_has_min_v<OperationMode>, true);
@@ -430,5 +428,3 @@ TEST_F(EnumTest, test_flags)
   oss << k;
   EXPECT_EQ(oss.str(), "A,B,D");
 }
-
-

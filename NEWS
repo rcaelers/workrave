@@ -1,9 +1,46 @@
-Workrave NEWS -- history of user-visible changes. 25 September 2026
+Workrave NEWS -- history of user-visible changes. 14 October 2026
 Copyright (C) 2001-2026 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.11.5
+
+** New features and improvements:
+   - Added a "Break in quiet-mode" option for micro-breaks, so their timer can
+     keep running without automatic break reminders while rest-break reminders
+     remain enabled (#743, Pedro Rolo)
+   - Added support for GNOME Shell 51
+   - Added an option to hide the status window from the taskbar and window
+     switcher on Windows and Linux/X11. This option is enabled by default (#701,
+     #747)
+   - Added shutdown, sleep, and hibernate options to the rest-break window on
+     Windows (#735)
+   - The Windows installer now supports /NOLAUNCH to skip starting Workrave after
+     installation
+** Bug fixes:
+   - Fixed reading-mode timers staying paused after leaving suspended mode (#724,
+     #727, #739)
+   - Fixed empty tray menus on Linux, including when using i3 with Polybar (#750)
+   - Fixed the GNOME Shell menu not appearing after choosing "Open Workrave"
+     (#750)
+   - Fixed switches in the GNOME Shell menu not applying changes when dragged
+   - Fixed Workrave ignoring the system language when no language was selected in
+     preferences
+   - Fixed crashes in Linux panel applets when Workrave's settings could not be
+     found
+   - The Linux indicator applet now respects the automatic-start setting
+   - Fixed registry permission errors when installing Workrave for the current
+     Windows user (#749)
+   - Fixed blocking break windows appearing in the taskbar and window switcher on
+     Windows and Linux/X11 (#747)
+   - Fixed the preferences window opening when dismissing the Windows tray menu
+     (#720)
+   - The Windows tray menu now follows the selected light or dark appearance
+     (#715)
+   - Fixed the selected sound theme being shown incorrectly when reopening sound
+     preferences (#702)
 
 * Workrave 1.11.4
 
@@ -838,10 +875,10 @@ https://github.com/rcaelers/workrave/issues
    inverse)
 ** Gnome applets now support transparency.
 ** The 'datadir' configuration option in workrave.ini can now be a relative path:
-
+   
      [general]
      datadir=.\\Data
-
+   
    This will store all Workrave data in the 'Data' directory below the Workrave
    root directory. (Note the double backslash)
 ** Daily limit now properly resets when hibernated.
@@ -856,10 +893,10 @@ https://github.com/rcaelers/workrave/issues
    this directory)
 ** Support for configuring the data storage directory. Add the following two
    lines to your workrave.ini
-
+   
      [general]
      datadir=C:\\Workrave\\Data
-
+   
    This feature can be used to run Workrave from an USB memory stick. Note: On
    Windows, you have to use double backslashes like in the example above!
 ** Support for Gnome screen saver added (Matt Zimmerman).

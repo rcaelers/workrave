@@ -371,8 +371,8 @@
   <schema path="/org/workrave/sound/" id="org.workrave.sound" gettext-domain="workrave">
     <child schema="org.workrave.sound.events" name="events"/>
 
-    <key type="s" name="device">
-      <default>""</default>
+    <key type="i" name="device">
+      <default>1</default>
       <summary></summary>
       <description></description>
     </key>

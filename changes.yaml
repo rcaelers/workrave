@@ -39,15 +39,19 @@ releases:
         look: expect rough edges, and please share your thoughts and any issues you run into
         at https://github.com/rcaelers/workrave/discussions before the final 1.12 release.
 
-  # Unreleased; update the date when preparing the release.
   - version: 1.11.5
-    date: 2026-10-04T00:00:00+02:00
+    date: 2026-10-14T18:14:54+02:00
     short: |-
-      Workrave 1.11.5 improves tray menus and window visibility, adds Windows power
-      options during breaks, and fixes a problem with the sound preferences.
+      Workrave 1.11.5 adds quiet micro-breaks, Windows power options during breaks,
+      and GNOME Shell 51 support. It also improves tray menus and window visibility,
+      and fixes problems with reading-mode timers, language selection, and sound preferences.
     changes:
       - |-
         New features and improvements:
+        - Added a "Break in quiet-mode" option for micro-breaks, so their timer can keep
+          running without automatic break reminders while rest-break reminders remain enabled
+          (#743, Pedro Rolo)
+        - Added support for GNOME Shell 51
         - Added an option to hide the status window from the taskbar and window switcher
           on Windows and Linux/X11. This option is enabled by default (#701, #747)
         - Added shutdown, sleep, and hibernate options to the rest-break window on Windows (#735)
@@ -57,6 +61,10 @@ releases:
         - Fixed reading-mode timers staying paused after leaving suspended mode (#724, #727, #739)
         - Fixed empty tray menus on Linux, including when using i3 with Polybar (#750)
         - Fixed the GNOME Shell menu not appearing after choosing "Open Workrave" (#750)
+        - Fixed switches in the GNOME Shell menu not applying changes when dragged
+        - Fixed Workrave ignoring the system language when no language was selected in preferences
+        - Fixed crashes in Linux panel applets when Workrave's settings could not be found
+        - The Linux indicator applet now respects the automatic-start setting
         - Fixed registry permission errors when installing Workrave for the current Windows user (#749)
         - Fixed blocking break windows appearing in the taskbar and window switcher on
           Windows and Linux/X11 (#747)
