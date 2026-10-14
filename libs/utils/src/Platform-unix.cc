@@ -19,6 +19,8 @@
 #  include "config.h"
 #endif
 
+#include <cstdlib>
+
 #include "utils/Platform.hh"
 
 #if defined(HAVE_GTK)
@@ -32,13 +34,11 @@
 #  endif
 #endif
 
-#if defined(HAVE_QT)
+#if defined(HAVE_QT) && defined(PLATFORM_OS_UNIX)
 #  include <QtGui>
 #  include <qapplication.h>
-
-#  if defined(PLATFORM_OS_UNIX)
-#    include <X11/Xlib.h>
-#  endif
+#  include <qpa/qplatformnativeinterface.h>
+#  include <X11/Xlib.h>
 #endif
 
 using namespace workrave::utils;
@@ -57,7 +57,7 @@ Platform::get_default_display()
     }
 #  elif defined(HAVE_QT)
   QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
-  if (native != NULL)
+  if (native != nullptr)
     {
       xdisplay = native->nativeResourceForScreen("display", QGuiApplication::primaryScreen());
     }
@@ -84,14 +84,17 @@ Platform::get_default_display_name()
         }
     }
 #  elif defined(HAVE_QT)
-  QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
-  if (native != NULL)
+  const auto *x11app = qGuiApp->nativeInterface<QNativeInterface::QX11Application>();
+  if (x11app != nullptr)
     {
-      void *xdisplay = native->nativeResourceForScreen("display", QGuiApplication::primaryScreen());
-      char *name = XDisplayString(static_cast<Display *>(xdisplay));
-      if (name != NULL)
+      Display *dpy = x11app->display();
+      if (dpy != nullptr)
         {
-          ret = name;
+          char *name = XDisplayString(dpy);
+          if (name != nullptr)
+            {
+              ret = name;
+            }
         }
     }
 #  else
@@ -106,9 +109,19 @@ Platform::get_default_root_window()
 #  if defined(HAVE_GTK)
   return gdk_x11_get_default_root_xwindow();
 #  elif defined(HAVE_QT)
-  QDesktopWidget *desktop = QApplication::desktop();
-  QWindow *window = desktop->windowHandle();
-  return window->winId();
+  const auto *x11app = qGuiApp->nativeInterface<QNativeInterface::QX11Application>();
+  if (x11app == nullptr)
+    {
+      return 0;
+    }
+
+  Display *dpy = x11app->display();
+  if (dpy == nullptr)
+    {
+      return 0;
+    }
+
+  return XDefaultRootWindow(dpy);
 #  else
 #    error Platform unsupported
 #  endif
@@ -134,6 +147,8 @@ Platform::running_on_wayland()
 #  if defined(GDK_WINDOWING_WAYLAND)
   GdkDisplay *display = gdk_display_manager_get_default_display(gdk_display_manager_get());
   return GDK_IS_WAYLAND_DISPLAY(display);
+#  elif defined(HAVE_QT)
+  return QGuiApplication::platformName() == "wayland";
 #  else
   return false;
 #  endif
