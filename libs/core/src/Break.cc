@@ -302,6 +302,7 @@ Break::load_break_control_config()
     {
       enabled = new_enabled;
       Diagnostics::instance().report(break_name + ".break.enabled", enabled);
+    }
 
   // If this break is configured to behave as in quiet mode, stop an active
   // break, just like entering global quiet mode stops all breaks.
