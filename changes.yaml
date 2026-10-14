@@ -1,8 +1,7 @@
 ---
 releases:
-  # Unreleased; update the date when preparing the release.
   - version: 1.11.5
-    date: 2026-10-14T00:00:00+02:00
+    date: 2026-10-14T18:14:54+02:00
     short: |-
       Workrave 1.11.5 adds quiet micro-breaks, Windows power options during breaks,
       and GNOME Shell 51 support. It also improves tray menus and window visibility,
