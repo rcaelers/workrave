@@ -15,9 +15,11 @@ if (WIN32)
       "$ENV{ProgramFiles}/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin"
       "$ENV{ProgramFiles}/Microsoft Visual Studio/2022/Professional/MSBuild/Current/Bin"
       "$ENV{ProgramFiles}/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"
+      "$ENV{ProgramFiles}/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin"
       "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin"
       "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/2022/Professional/MSBuild/Current/Bin"
       "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"
+      "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin"
       NO_DEFAULT_PATH
   )
 
