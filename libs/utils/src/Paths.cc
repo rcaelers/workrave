@@ -57,13 +57,8 @@ namespace
   // The GTK and Qt editions share configuration, timer state and statistics.
   constexpr std::string_view app_name = "Workrave"sv;
 #else
-#  ifdef HAVE_APP_QT
-  constexpr std::string_view app_name = "workrave-qt"sv;
-  constexpr std::string_view dot_app_name = ".workrave-qt"sv;
-#  else
   constexpr std::string_view app_name = "workrave"sv;
   constexpr std::string_view dot_app_name = ".Workrave"sv;
-#  endif
 #endif
 
   std::filesystem::path portable_directory;
