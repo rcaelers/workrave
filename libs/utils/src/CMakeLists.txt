@@ -23,10 +23,6 @@ if (PLATFORM_OS_MACOS)
   target_sources(workrave-libs-utils PRIVATE Platform-unix.cc)
 endif()
 
-if (NOT PLATFORM_OS_UNIX)
-  target_sources(workrave-libs-utils PRIVATE Platform.cc)
-endif()
-
 if (HAVE_DBUS_GIO)
   target_sources(workrave-libs-utils PRIVATE DBusProxy-gio.cc)
 endif()
