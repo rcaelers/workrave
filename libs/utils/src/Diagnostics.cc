@@ -21,6 +21,9 @@
 
 #include "Diagnostics.hh"
 
+#include <functional>
+#include <map>
+#include <string>
 #include <ctime>
 
 bool TracedFieldBase::debug = false;
