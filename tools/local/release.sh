@@ -11,6 +11,7 @@ run_docker_ppa() {
         -v "$SOURCES_DIR:/workspace/source" \
         -v "$DEPLOY_DIR:/workspace/deploy" \
         -v "$SCRIPTS_DIR:/workspace/scripts" $DEBVOL \
+        -e SCRIPTS_DIR=/workspace/scripts \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|SIGNING_SERVICE_URL|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
         ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
         sh -c "/workspace/scripts/local/ppa.sh -p $PPA $DRYRUN $PRERELEASE_ARG"
@@ -34,6 +35,7 @@ run_docker_appimage() {
         -v "$DEPLOY_DIR/$GIT_TAG:/workspace/deploy/" \
         -v "$SCRIPTS_DIR:/workspace/scripts" \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
+        -e SCRIPTS_DIR=/workspace/scripts \
         ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
         sh -c "/workspace/scripts/ci/build.sh"
 
@@ -43,6 +45,7 @@ run_docker_appimage() {
         -v "$DEPLOY_DIR/$GIT_TAG:/workspace/deploy/" \
         -v "$SCRIPTS_DIR:/workspace/scripts" \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
+        -e SCRIPTS_DIR=/workspace/scripts \
         ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
         sh -c "/workspace/scripts/ci/build.sh"
 
