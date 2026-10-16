@@ -1,0 +1,42 @@
+{
+  "buildType": {
+    "default": "debug",
+    "choices": {
+      "debug": {
+        "short": "Debug",
+        "long": "Disable optimizations and include debug information",
+        "buildType": "Debug"
+      },
+      "release": {
+        "short": "Release",
+        "long": "Optimize without debug information",
+        "buildType": "Release"
+      },
+      "minsize": {
+        "short": "MinSizeRel",
+        "long": "Optimize for size without debug information",
+        "buildType": "MinSizeRel"
+      },
+      "reldeb": {
+        "short": "RelWithDebInfo",
+        "long": "Optimize and include debug information",
+        "buildType": "RelWithDebInfo"
+      },
+      "unspecified": {
+        "short": "Unspecified",
+        "long": "Let CMake choose the build type",
+        "buildType": "Unspecified"
+      },
+      "asan": {
+        "short": "ASan",
+        "long": "Debug build with AddressSanitizer",
+        "buildType": "ASan"
+      },
+      "ubsan": {
+        "short": "UBSan",
+        "long": "Debug build with UndefinedBehaviorSanitizer",
+        "buildType": "UBSan"
+      }
+    }
+  }
+}
