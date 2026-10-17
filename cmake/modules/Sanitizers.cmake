@@ -25,8 +25,10 @@ foreach(_config ASan UBSan)
     mark_as_advanced(${_flags}_${_upper_config})
   endforeach()
   # Imported dependencies need not provide separately instrumented binaries.
+  # NOCONFIG exports differ from a configuration-independent IMPORTED_LOCATION
+  # (the empty entry), so include both as fallbacks.
   if(NOT DEFINED CMAKE_MAP_IMPORTED_CONFIG_${_upper_config})
-    set(CMAKE_MAP_IMPORTED_CONFIG_${_upper_config} Debug RelWithDebInfo Release "")
+    set(CMAKE_MAP_IMPORTED_CONFIG_${_upper_config} Debug RelWithDebInfo Release MinSizeRel NOCONFIG "")
   endif()
 endforeach()
 
