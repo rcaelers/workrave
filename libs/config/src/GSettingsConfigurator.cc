@@ -23,6 +23,7 @@
 #include "IConfiguratorListener.hh"
 
 #include <array>
+#include <memory>
 #include <boost/algorithm/string/replace.hpp>
 
 #include "debug.hh"
@@ -230,6 +231,7 @@ GSettingsConfigurator::add_children()
 
   gchar **schemas = nullptr;
   g_settings_schema_source_list_schemas(g_settings_schema_source_get_default(), TRUE, &schemas, nullptr);
+  const std::unique_ptr<gchar *, decltype(&g_strfreev)> owned_schemas(schemas, &g_strfreev);
 
   for (int i = 0; schemas[i] != nullptr; i++)
     {
