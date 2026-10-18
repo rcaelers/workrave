@@ -313,6 +313,14 @@ option(WITH_TESTS "Enable unit tests" OFF)
 if (WITH_TESTS)
   set (HAVE_TESTS ON)
   enable_testing()
+  # Dashboard actions such as `ctest -T memcheck` need DartConfiguration.tcl
+  # and memory-checker discovery in addition to ordinary test registration.
+  # Keep CTest's switch local so WITH_TESTS controls our tests without enabling
+  # BUILD_TESTING in third-party projects.
+  block()
+    set(BUILD_TESTING ON)
+    include(CTest)
+  endblock()
 endif()
 
 include(code-coverage)
