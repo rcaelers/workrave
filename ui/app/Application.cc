@@ -657,8 +657,9 @@ Application::on_operation_mode_warning_timer()
 std::string
 Application::get_timers_tooltip()
 {
-  // FIXME: duplicate
-  const std::array<const char*, 3> labels = {_("Micro-break"), _("Rest break"), _("Daily limit")};
+  // Qt translations expose data from temporary QByteArrays. Copy the labels
+  // before those temporaries are destroyed at the end of this statement.
+  const std::array<std::string, 3> labels = {_("Micro-break"), _("Rest break"), _("Daily limit")};
   std::string tip;
 
   OperationMode mode = core->get_regular_operation_mode();
