@@ -1306,6 +1306,9 @@ else()
   target_compile_definitions(fmt INTERFACE FMT_HEADER_ONLY=1)
 endif()
 
+include(Fmt)
+workrave_configure_fmt()
+
 if((NOT ${spdlog_FOUND}) OR (NOT ${fmt_FOUND}))
   FetchContent_Declare_Logged(
       spdlog
