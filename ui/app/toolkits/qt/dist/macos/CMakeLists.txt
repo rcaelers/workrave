@@ -29,19 +29,37 @@ get_filename_component(BOOST_PATH "${BOOST_PATH}" DIRECTORY)
 # in the install script — avoiding the ${var} vs \${var} escaping trap where
 # install-time-only variables expand to empty string at configure time.
 set(_deploy_app    "${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app")
-# Stamp is keyed on the macdeployqt executable (a reliable Qt-version proxy).
-# macdeployqt only needs to re-run when Qt itself changes, not on every binary
-# relink.  Binary-only updates are handled by the fast rpath-fixup block below.
-# Delete the stamp to force a full re-deploy (e.g. after switching Qt versions).
+# Invalidate deployment when either Qt or these deployment rules change.
+# Binary-only updates are handled by the fast rpath-fixup block below.
+file(SHA256 "${CMAKE_CURRENT_LIST_FILE}" _deploy_rules_hash)
 set(_deploy_stamp  "${CMAKE_INSTALL_PREFIX}/.deps-stamp")
 
 INSTALL(CODE "
+    # Clang's sanitizer linker adds a bare @executable_path rpath. Qt's
+    # resolveDyldPrefix() only accepts @executable_path/ followed by a path.
+    # Preserve its meaning using /. before macdeployqt scans the executable.
+    set(_bin \"${_deploy_app}/Contents/MacOS/${PROJECT_NAME}\")
+    execute_process(COMMAND otool -l \"\${_bin}\"
+        OUTPUT_VARIABLE _load_commands RESULT_VARIABLE _otool_result)
+    if(NOT \${_otool_result} EQUAL 0)
+        message(FATAL_ERROR \"Cannot inspect rpaths in \${_bin}\")
+    endif()
+    if(\"\${_load_commands}\" MATCHES \"[\n\r][ \t]+path @executable_path \\\\(offset\")
+        execute_process(COMMAND install_name_tool -rpath
+            \"@executable_path\" \"@executable_path/.\" \"\${_bin}\"
+            RESULT_VARIABLE _rpath_result)
+        if(NOT \${_rpath_result} EQUAL 0)
+            message(FATAL_ERROR \"Cannot normalize sanitizer rpath in \${_bin}\")
+        endif()
+    endif()
+
+    file(SHA256 \"${MACDEPLOYQT_EXECUTABLE}\" _mdt_hash)
+    string(SHA256 _deploy_hash \"\${_mdt_hash};${_deploy_rules_hash}\")
     set(_need_deploy TRUE)
     if(EXISTS \"${_deploy_stamp}\")
-        file(SHA256 \"${MACDEPLOYQT_EXECUTABLE}\" _mdt_hash)
         file(READ   \"${_deploy_stamp}\"            _stamp_hash)
         string(STRIP \"\${_stamp_hash}\" _stamp_hash)
-        if(\"\${_stamp_hash}\" STREQUAL \"\${_mdt_hash}\")
+        if(\"\${_stamp_hash}\" STREQUAL \"\${_deploy_hash}\")
             set(_need_deploy FALSE)
         endif()
     endif()
@@ -64,9 +82,13 @@ INSTALL(CODE "
                \"$<$<BOOL:${SPDLOG_PATH}>:-libpath=${SPDLOG_PATH}>\"
                \"$<$<BOOL:${WORKRAVE_SIGN_IDENTITY}>:-sign-for-notarization=${WORKRAVE_SIGN_IDENTITY}>\"
                ${NO_STRIP}
-               RESULT_VARIABLE _deploy_result)
-        if(NOT \${_deploy_result} EQUAL 0)
-            message(FATAL_ERROR \"macdeployqt failed with exit code \${_deploy_result}\")
+               RESULT_VARIABLE _deploy_result
+               OUTPUT_VARIABLE _deploy_output ERROR_VARIABLE _deploy_output)
+        if(NOT \"\${_deploy_output}\" STREQUAL \"\")
+            message(\"\${_deploy_output}\")
+        endif()
+        if(NOT \${_deploy_result} EQUAL 0 OR \"\${_deploy_output}\" MATCHES \"(^|[\n\r])ERROR:\")
+            message(FATAL_ERROR \"macdeployqt reported errors (exit code \${_deploy_result})\")
         endif()
         # Create the lib -> Frameworks alias only *after* macdeployqt has run.
         # Creating it beforehand made macdeployqt walk into the alias while
@@ -75,13 +97,7 @@ INSTALL(CODE "
         # made codesign/notarization fail with ELOOP (\"too many levels of
         # symbolic links\").
         execute_process(COMMAND ln -sf ./Frameworks \"${_deploy_app}/Contents/lib\")
-	    if(NOT \"${WORKRAVE_SIGN_IDENTITY}\")
-            set(_app ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app)
-            message(\"-- Ad-hoc signing app bundle...\")
-            execute_process(COMMAND codesign --force --deep --sign - \${_app})
-	    endif()
-        file(SHA256 \"${MACDEPLOYQT_EXECUTABLE}\" _mdt_hash)
-        file(WRITE  \"${_deploy_stamp}\"            \"\${_mdt_hash}\")
+        file(WRITE  \"${_deploy_stamp}\"            \"\${_deploy_hash}\")
     else()
         message(\"-- Qt frameworks up to date, skipping macdeployqt.\")
     endif()
@@ -133,6 +149,17 @@ INSTALL(CODE "
             endif()
         endif()
     endforeach()
+
+    # Rpath edits invalidate the executable's signature, including on installs
+    # that reuse deployed Qt libraries. Sign after all edits on every install.
+    if(NOT \"${WORKRAVE_SIGN_IDENTITY}\")
+        message(\"-- Ad-hoc signing app bundle...\")
+        execute_process(COMMAND codesign --force --deep --sign - \"${_deploy_app}\"
+            RESULT_VARIABLE _sign_result)
+        if(NOT \${_sign_result} EQUAL 0)
+            message(FATAL_ERROR \"Ad-hoc signing failed with exit code \${_sign_result}\")
+        endif()
+    endif()
 ")
 
 if (CMAKE_BUILD_TYPE MATCHES "Debug")

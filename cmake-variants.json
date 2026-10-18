@@ -36,6 +36,11 @@
         "short": "UBSan",
         "long": "Debug build with UndefinedBehaviorSanitizer",
         "buildType": "UBSan"
+      },
+      "asanubsan": {
+        "short": "ASan+UBSan",
+        "long": "Debug build with AddressSanitizer and UndefinedBehaviorSanitizer",
+        "buildType": "ASanUBSan"
       }
     }
   }

@@ -1,6 +1,6 @@
 # Named sanitizer configurations use Debug flags and existing dependency builds.
 if(DEFINED CACHE{CMAKE_BUILD_TYPE})
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS Debug Release RelWithDebInfo MinSizeRel ASan UBSan)
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS Debug Release RelWithDebInfo MinSizeRel ASan UBSan ASanUBSan)
 endif()
 
 set(_workrave_sanitizer_compiler OFF)
@@ -11,12 +11,12 @@ endif()
 
 get_property(_workrave_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 if(_workrave_multi_config AND _workrave_sanitizer_compiler)
-  list(APPEND CMAKE_CONFIGURATION_TYPES ASan UBSan)
+  list(APPEND CMAKE_CONFIGURATION_TYPES ASan UBSan ASanUBSan)
   list(REMOVE_DUPLICATES CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_CONFIGURATION_TYPES "${CMAKE_CONFIGURATION_TYPES}" CACHE STRING "Available build configurations" FORCE)
 endif()
 
-foreach(_config ASan UBSan)
+foreach(_config ASan UBSan ASanUBSan)
   string(TOUPPER "${_config}" _upper_config)
   foreach(_flags CMAKE_C_FLAGS CMAKE_CXX_FLAGS CMAKE_EXE_LINKER_FLAGS CMAKE_SHARED_LINKER_FLAGS CMAKE_MODULE_LINKER_FLAGS)
     if(NOT DEFINED ${_flags}_${_upper_config} OR "${${_flags}_${_upper_config}}" STREQUAL "")
@@ -41,10 +41,12 @@ if(_workrave_multi_config)
       list(APPEND _workrave_required_sanitizers address)
     elseif(_upper_config STREQUAL "UBSAN")
       list(APPEND _workrave_required_sanitizers undefined)
+    elseif(_upper_config STREQUAL "ASANUBSAN")
+      list(APPEND _workrave_required_sanitizers "address,undefined")
     endif()
   endforeach()
   if(_workrave_required_sanitizers)
-    set(_workrave_sanitizer_description "per configuration (ASan/UBSan)")
+    set(_workrave_sanitizer_description "per configuration (ASan/UBSan/ASanUBSan)")
   endif()
 else()
   string(TOUPPER "${CMAKE_BUILD_TYPE}" _upper_build_type)
@@ -54,6 +56,9 @@ else()
   elseif(_upper_build_type STREQUAL "UBSAN")
     list(APPEND _workrave_required_sanitizers undefined)
     set(_workrave_sanitizer_description undefined)
+  elseif(_upper_build_type STREQUAL "ASANUBSAN")
+    list(APPEND _workrave_required_sanitizers "address,undefined")
+    set(_workrave_sanitizer_description "address,undefined")
   endif()
 endif()
 list(REMOVE_DUPLICATES _workrave_required_sanitizers)
@@ -71,6 +76,7 @@ foreach(_sanitizer IN LISTS _workrave_required_sanitizers)
   cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_FLAGS "-fsanitize=${_sanitizer}")
   string(TOUPPER "${_sanitizer}" _upper_sanitizer)
+  string(REPLACE "," "_" _upper_sanitizer "${_upper_sanitizer}")
   check_c_source_compiles("int main(void) { return 0; }" WORKRAVE_C_SANITIZER_${_upper_sanitizer})
   check_cxx_source_compiles("int main() { return 0; }" WORKRAVE_CXX_SANITIZER_${_upper_sanitizer})
   cmake_pop_check_state()
@@ -81,22 +87,12 @@ endforeach()
 
 # Also used by tools that compile/link helper executables outside CMake.
 set(_workrave_sanitizer_link_flags
-  "$<$<CONFIG:ASan>:-fsanitize=address>$<$<CONFIG:UBSan>:-fsanitize=undefined>")
+  "$<$<CONFIG:ASan>:-fsanitize=address>$<$<CONFIG:UBSan>:-fsanitize=undefined>$<$<CONFIG:ASanUBSan>:-fsanitize=address,undefined>")
 add_link_options("${_workrave_sanitizer_link_flags}")
 
-foreach(_sanitizer address undefined)
-  if(_sanitizer STREQUAL "address")
-    set(_config ASan)
-  else()
-    set(_config UBSan)
-  endif()
-  set(_enabled "$<CONFIG:${_config}>")
-  add_compile_options(
-    "$<${_enabled}:-fsanitize=${_sanitizer}>"
-    "$<${_enabled}:-fno-omit-frame-pointer>"
-    "$<${_enabled}:-fno-optimize-sibling-calls>")
-  if(_sanitizer STREQUAL "undefined")
-    # Findings fail tests without requiring UBSAN_OPTIONS in the environment.
-    add_compile_options("$<${_enabled}:-fno-sanitize-recover=undefined>")
-  endif()
-endforeach()
+add_compile_options(
+  "${_workrave_sanitizer_link_flags}"
+  "$<$<CONFIG:ASan,UBSan,ASanUBSan>:-fno-omit-frame-pointer>"
+  "$<$<CONFIG:ASan,UBSan,ASanUBSan>:-fno-optimize-sibling-calls>"
+  # Findings fail tests without requiring UBSAN_OPTIONS in the environment.
+  "$<$<CONFIG:UBSan,ASanUBSan>:-fno-sanitize-recover=undefined>")
