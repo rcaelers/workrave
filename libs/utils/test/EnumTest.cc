@@ -232,7 +232,8 @@ TEST_F(EnumTest, test_enum_class_to_string)
   EXPECT_EQ(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Suspended), "suspended");
   EXPECT_EQ(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Quiet), "quiet");
   EXPECT_EQ(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::NotInRange), "notinrange");
-  EXPECT_EQ(workrave::utils::enum_to_string<OperationModeEnum>(static_cast<OperationModeEnum>(200)), "");
+  EXPECT_EQ(workrave::utils::enum_to_string<OperationModeEnum>(static_cast<OperationModeEnum>(0)), "");
+  EXPECT_EQ(workrave::utils::enum_to_string<OperationModeEnum>(static_cast<OperationModeEnum>(7)), "");
 }
 
 TEST_F(EnumTest, test_enum_class_linear)
