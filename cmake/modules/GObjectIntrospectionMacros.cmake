@@ -45,18 +45,38 @@ macro(gir_add_introspections introspections_girs)
     _gir_list_prefix(_gir_libraries ${_gir_name}_LIBS "--library=")
     _gir_list_prefix(_gir_packages ${_gir_name}_PACKAGES "--pkg=")
     _gir_list_prefix(_gir_includes ${_gir_name}_INCLUDES "--include=")
+    set(_gir_library_paths)
+    foreach(_gir_library IN LISTS ${_gir_name}_LIBS)
+      if(TARGET ${_gir_library})
+        list(APPEND _gir_library_paths "--library-path=$<TARGET_FILE_DIR:${_gir_library}>")
+      endif()
+    endforeach()
 
     # Reuse the LIBTOOL variable from by automake if it's set
     set(_gir_libtool "--no-libtool")
 
-    # The scanner itself runs on the build host. Its temporary executable
-    # must use the target compiler. The cross image supplies the target
-    # scanner wrapper, which launches that executable through QEMU.
-    set(_gir_scanner_command ${INTROSPECTION_SCANNER})
-    if(CMAKE_CROSSCOMPILING)
-      set(_gir_scanner_command ${CMAKE_COMMAND} -E env
-          "CC=${CMAKE_C_COMPILER}" ${INTROSPECTION_SCANNER})
+    # The scanner compiles, links, and runs a helper outside CMake. Use our
+    # compiler even for native builds: mixing GCC and Clang sanitizer runtimes
+    # does not work. Cross builds retain their scanner wrapper/QEMU runner.
+    set(_gir_cc "${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}")
+    if(CMAKE_C_COMPILER_TARGET)
+      string(APPEND _gir_cc " --target=${CMAKE_C_COMPILER_TARGET}")
     endif()
+    if(CMAKE_SYSROOT)
+      string(APPEND _gir_cc " --sysroot=\"${CMAKE_SYSROOT}\"")
+    endif()
+    set(_gir_cflags "${CMAKE_C_FLAGS} ${_workrave_sanitizer_link_flags}")
+    set(_gir_ldflags "${CMAKE_EXE_LINKER_FLAGS} ${_workrave_sanitizer_link_flags}")
+    set(_gir_configs ${CMAKE_CONFIGURATION_TYPES} ${CMAKE_BUILD_TYPE})
+    list(REMOVE_DUPLICATES _gir_configs)
+    foreach(_gir_config IN LISTS _gir_configs)
+      string(TOUPPER "${_gir_config}" _gir_upper_config)
+      string(APPEND _gir_cflags " $<$<CONFIG:${_gir_config}>:${CMAKE_C_FLAGS_${_gir_upper_config}}>")
+      string(APPEND _gir_ldflags " $<$<CONFIG:${_gir_config}>:${CMAKE_EXE_LINKER_FLAGS_${_gir_upper_config}}>")
+    endforeach()
+    set(_gir_scanner_command ${CMAKE_COMMAND} -E env
+        "CC=${_gir_cc}" "CFLAGS=${_gir_cflags}" "LDFLAGS=${_gir_ldflags}"
+        ${INTROSPECTION_SCANNER})
 
     add_custom_command(
       COMMAND ${_gir_scanner_command}
@@ -66,6 +86,7 @@ macro(gir_add_introspections introspections_girs)
               ${_gir_libtool}
               ${_gir_program}
               ${_gir_libraries}
+              ${_gir_library_paths}
               ${_gir_packages}
               ${_gir_includes}
               ${${_gir_name}_SCANNERFLAGS}

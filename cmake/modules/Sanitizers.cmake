@@ -79,6 +79,11 @@ foreach(_sanitizer IN LISTS _workrave_required_sanitizers)
   endif()
 endforeach()
 
+# Also used by tools that compile/link helper executables outside CMake.
+set(_workrave_sanitizer_link_flags
+  "$<$<CONFIG:ASan>:-fsanitize=address>$<$<CONFIG:UBSan>:-fsanitize=undefined>")
+add_link_options("${_workrave_sanitizer_link_flags}")
+
 foreach(_sanitizer address undefined)
   if(_sanitizer STREQUAL "address")
     set(_config ASan)
@@ -90,7 +95,6 @@ foreach(_sanitizer address undefined)
     "$<${_enabled}:-fsanitize=${_sanitizer}>"
     "$<${_enabled}:-fno-omit-frame-pointer>"
     "$<${_enabled}:-fno-optimize-sibling-calls>")
-  add_link_options("$<${_enabled}:-fsanitize=${_sanitizer}>")
   if(_sanitizer STREQUAL "undefined")
     # Findings fail tests without requiring UBSAN_OPTIONS in the environment.
     add_compile_options("$<${_enabled}:-fno-sanitize-recover=undefined>")
