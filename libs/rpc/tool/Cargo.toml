@@ -15,13 +15,11 @@ path = "src/main.rs"
 
 [dependencies]
 clang = { version = "2.0.0", features = ["clang_10_0", "runtime"] }
-minijinja = "2.21.0"
+minijinja = "2.24.0"
 clap = { version = "4.6.4", features = ["derive"] }
 anyhow = "1.0.104"
 regex = "1.13.1"
-shell-words = "1.1.0"
 serde = { version = "1.0.229", features = ["derive"] }
-serde_json = "1.0.151"
 
 [dev-dependencies]
 tempfile = "3.27.0"
