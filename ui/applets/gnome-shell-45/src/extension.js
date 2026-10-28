@@ -614,8 +614,8 @@ const WorkraveButton = GObject.registerClass(
               // PopupSwitchMenuItem's switch can be toggled directly (drag
               // gesture on the switch handle) without the row ever emitting
               // "activate", so listen on "toggled" instead: it fires
-              // reliably for every state change, however it was triggered.
-              popup.connect("toggled", (item, state) =>
+              // for programmatic state changes as well as user gestures.
+              popup._workraveToggledId = popup.connect("toggled", (item, state) =>
                 this._onMenuCommand(item, null, id),
               );
             } else {
@@ -642,7 +642,13 @@ const WorkraveButton = GObject.registerClass(
       popup.setSensitive(visible);
 
       if (type == MENU_ITEM_TYPE_CHECK) {
-        popup.setToggleState(active);
+        // Applying Workrave's state must not send another toggle command.
+        GObject.signal_handler_block(popup, popup._workraveToggledId);
+        try {
+          popup.setToggleState(active);
+        } finally {
+          GObject.signal_handler_unblock(popup, popup._workraveToggledId);
+        }
       } else if (type == MENU_ITEM_TYPE_RADIO) {
         // Gnome 3.6 & 3.8
         if (typeof popup.setShowDot === "function") {
