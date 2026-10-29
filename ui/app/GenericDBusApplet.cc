@@ -39,17 +39,6 @@ GenericDBusApplet::GenericDBusApplet(std::shared_ptr<IPluginContext> context)
 
   control = std::make_shared<TimerBoxControl>(context->get_core(), "applet", this);
 
-  for (auto &i: data)
-    {
-      i.bar_text = "";
-      i.bar_primary_color = 0;
-      i.bar_primary_val = 0;
-      i.bar_primary_max = 0;
-      i.bar_secondary_color = 0;
-      i.bar_secondary_val = 0;
-      i.bar_secondary_max = 0;
-    }
-
   GUIConfig::trayicon_enabled().connect(this, [this](bool) { send_tray_icon_enabled(); });
 
   init();
