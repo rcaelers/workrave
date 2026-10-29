@@ -337,7 +337,7 @@ BreakWindow::create_sysoper_combobox()
       return nullptr;
     }
 
-  sysoper_model_columns = new SysoperModelColumns(has_button_images);
+  sysoper_model_columns = std::make_unique<SysoperModelColumns>(has_button_images);
 
   Glib::RefPtr<Gtk::ListStore> model = Gtk::ListStore::create(*sysoper_model_columns);
 
@@ -351,8 +351,7 @@ BreakWindow::create_sysoper_combobox()
   // if there are no operations to put in the combobox
   if (model->children().empty())
     {
-      delete sysoper_model_columns;
-      sysoper_model_columns = nullptr;
+      sysoper_model_columns.reset();
       return nullptr;
     }
 

@@ -18,6 +18,7 @@
 #ifndef BREAKWINDOW_HH
 #define BREAKWINDOW_HH
 
+#include <memory>
 #include <gtkmm.h>
 
 #include "ui/IBreakWindow.hh"
@@ -137,7 +138,7 @@ private:
 
   // Supported system operations (like suspend, hibernate, shutdown)
   std::vector<System::SystemOperation> supported_system_operations;
-  SysoperModelColumns *sysoper_model_columns{nullptr};
+  std::unique_ptr<SysoperModelColumns> sysoper_model_columns;
 
   bool accel_added{false};
   Glib::RefPtr<Gtk::AccelGroup> accel_group;
