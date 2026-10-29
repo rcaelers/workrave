@@ -77,6 +77,7 @@ private:
   Gtk::Image image;
   Gtk::ProgressBar progress_bar;
   Gtk::TextView description_text;
+  Glib::RefPtr<Gtk::TextTag> title_tag;
   Gtk::ScrolledWindow description_scroll;
   Gtk::Button *back_button{nullptr};
   Gtk::Button *pause_button{nullptr};
