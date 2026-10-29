@@ -27,8 +27,17 @@ using namespace std;
 
 PulseMixer::~PulseMixer()
 {
-  pa_context_unref(context);
-  pa_glib_mainloop_free(pa_mainloop);
+  if (context != nullptr)
+    {
+      pa_context_set_state_callback(context, nullptr, nullptr);
+      pa_context_set_subscribe_callback(context, nullptr, nullptr);
+      pa_context_disconnect(context);
+      pa_context_unref(context);
+    }
+  if (pa_mainloop != nullptr)
+    {
+      pa_glib_mainloop_free(pa_mainloop);
+    }
 }
 
 bool
@@ -208,7 +217,7 @@ PulseMixer::set_default_sink_name(const char *name)
 
   for (auto &sink: sinks)
     {
-      SinkInfo *sink_info = sink.second;
+      SinkInfo *sink_info = sink.second.get();
 
       if (sink_info != nullptr && sink_info->name == default_sink_name)
         {
@@ -224,12 +233,11 @@ PulseMixer::remove_sink(uint32_t index)
   TRACE_ENTRY_PAR(index);
   if (sinks.count(index))
     {
-      if (sinks[index] == default_sink_info)
+      if (sinks[index].get() == default_sink_info)
         {
           TRACE_MSG("Lost default sink");
           default_sink_info = nullptr;
         }
-      delete sinks[index];
       sinks.erase(index);
     }
 }
@@ -238,17 +246,12 @@ void
 PulseMixer::update_sink(const pa_sink_info &info)
 {
   TRACE_ENTRY();
-  SinkInfo *sink_info = nullptr;
-
-  if (sinks.count(info.index))
+  auto &sink = sinks[info.index];
+  if (!sink)
     {
-      sink_info = sinks[info.index];
+      sink = std::make_unique<SinkInfo>();
     }
-  else
-    {
-      sink_info = new SinkInfo();
-      sinks[info.index] = sink_info;
-    }
+  SinkInfo *sink_info = sink.get();
 
   sink_info->index = info.index;
   sink_info->name = info.name;
