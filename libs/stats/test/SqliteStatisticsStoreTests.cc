@@ -30,6 +30,15 @@
 using namespace workrave::stats;
 using namespace workrave::stats::test;
 
+TEST(StatisticsStoreDiagnostics, prints_calendar_values)
+{
+  EXPECT_EQ(::testing::PrintToString(reference_date()), "2025-07-12");
+  EXPECT_EQ(::testing::PrintToString(make_record().start), "2025-07-12 09:15:00");
+  const auto before_epoch = to_local_time(std::chrono::year{1969} / 12 / 31, std::chrono::seconds{86399});
+  EXPECT_EQ(::testing::PrintToString(before_epoch), "1969-12-31 23:59:59");
+  EXPECT_NE(::testing::PrintToString(std::vector<Date>{reference_date()}).find("2025-07-12"), std::string::npos);
+}
+
 namespace
 {
   class SqliteStoreTest : public StatisticsStoreTest
