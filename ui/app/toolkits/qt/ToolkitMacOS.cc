@@ -98,6 +98,10 @@ ToolkitMacOS::init(std::shared_ptr<IApplicationContext> app)
 {
   Toolkit::init(app);
 
+  // LSUIElement in Info.plist already starts us as an agent app; enforce it
+  // here too so the behavior does not depend on the bundle plist.
+  update_dock_visibility();
+
   main_window->installEventFilter(this);
 
   dock_tile = std::make_unique<MacDockTile>(app);
@@ -176,4 +180,45 @@ ToolkitMacOS::eventFilter(QObject *obj, QEvent *event)
       configure_native_window(main_window->windowHandle(), main_window->testAttribute(Qt::WA_TranslucentBackground), floating);
     }
   return Toolkit::eventFilter(obj, event);
+}
+
+void
+ToolkitMacOS::show_about()
+{
+  Toolkit::show_about();
+  if (about_dialog)
+    {
+      connect(about_dialog.get(), &QmlAboutDialog::signal_visibility_changed, this, &ToolkitMacOS::on_dock_dialog_visibility_changed, Qt::UniqueConnection);
+    }
+  update_dock_visibility();
+}
+
+void
+ToolkitMacOS::show_preferences()
+{
+  Toolkit::show_preferences();
+  if (preferences_dialog)
+    {
+      connect(preferences_dialog.get(), &QmlPrefsDialog::signal_visibility_changed, this, &ToolkitMacOS::on_dock_dialog_visibility_changed, Qt::UniqueConnection);
+    }
+  update_dock_visibility();
+}
+
+void
+ToolkitMacOS::on_dock_dialog_visibility_changed(bool)
+{
+  update_dock_visibility();
+}
+
+void
+ToolkitMacOS::update_dock_visibility()
+{
+  // While the Preferences or About dialog is open, run as a regular app so
+  // Workrave shows in the Dock and Cmd-Tab; otherwise stay an agent app.
+  bool show_in_dock = (about_dialog != nullptr && about_dialog->is_visible()) || (preferences_dialog != nullptr && preferences_dialog->is_visible());
+  NSApplicationActivationPolicy policy = show_in_dock ? NSApplicationActivationPolicyRegular : NSApplicationActivationPolicyAccessory;
+  if ([NSApp activationPolicy] != policy)
+    {
+      [NSApp setActivationPolicy:policy];
+    }
 }

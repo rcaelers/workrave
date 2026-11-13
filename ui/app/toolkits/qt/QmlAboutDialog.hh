@@ -32,6 +32,10 @@ public:
   ~QmlAboutDialog() override;
 
   void show();
+  bool is_visible() const;
+
+Q_SIGNALS:
+  void signal_visibility_changed(bool visible);
 
 private slots:
   void onCloseRequested();

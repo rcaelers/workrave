@@ -101,6 +101,14 @@ QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject
   });
 
   view->setSource(QUrl("qrc:/sanctuary/PrefsShell.qml"));
+
+  QObject::connect(view, &QWindow::visibleChanged, this, &QmlPrefsDialog::signal_visibility_changed);
+}
+
+auto
+QmlPrefsDialog::is_visible() const -> bool
+{
+  return view != nullptr && view->isVisible();
 }
 
 QmlPrefsDialog::~QmlPrefsDialog()

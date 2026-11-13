@@ -82,6 +82,14 @@ QmlAboutDialog::QmlAboutDialog(QObject *parent)
   });
 
   view->setSource(QUrl(QStringLiteral("qrc:/sanctuary/AboutDialog.qml")));
+
+  QObject::connect(view, &QWindow::visibleChanged, this, &QmlAboutDialog::signal_visibility_changed);
+}
+
+auto
+QmlAboutDialog::is_visible() const -> bool
+{
+  return view != nullptr && view->isVisible();
 }
 
 QmlAboutDialog::~QmlAboutDialog()
