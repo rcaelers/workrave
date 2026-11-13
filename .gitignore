@@ -17,6 +17,8 @@
 /.vscode
 /vcpkg_installed
 /*code-workspace
+/build*
+/dist*
 .DS_Store
 
 # Private builder access and VM lifecycle commands.

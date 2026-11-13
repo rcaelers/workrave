@@ -24,10 +24,7 @@
 #include <array>
 #include <cstring>
 
-#include <QCoreApplication>
 #include <QDate>
-#include <QDir>
-#include <QLibraryInfo>
 #include <QLocale>
 #include <QObject>
 #include <QQmlContext>
@@ -39,6 +36,7 @@
 #include <QUrl>
 
 #include "debug.hh"
+#include "utils/Ui.hh"
 
 using namespace workrave;
 
@@ -480,19 +478,7 @@ QmlStatisticsDialog::QmlStatisticsDialog(std::shared_ptr<IApplicationContext> ap
   view_->setMinimumSize(QSize(860, 580));
   view_->resize(860, 580);
 
-#ifdef Q_OS_MACOS
-  {
-    QDir bundleQml(QCoreApplication::applicationDirPath() + "/../Resources/qml");
-    if (bundleQml.exists())
-      {
-        view_->engine()->addImportPath(bundleQml.canonicalPath());
-      }
-  }
-#endif
-#ifdef QT_QML_IMPORT_PATH
-  view_->engine()->addImportPath(QStringLiteral(QT_QML_IMPORT_PATH));
-#endif
-  view_->engine()->addImportPath(QLibraryInfo::path(QLibraryInfo::QmlImportsPath));
+  Ui::add_qml_import_paths(view_->engine());
 
   view_->rootContext()->setContextProperty("statsBridge", bridge_);
 

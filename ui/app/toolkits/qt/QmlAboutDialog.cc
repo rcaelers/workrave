@@ -24,9 +24,6 @@
 #include <QQmlEngine>
 #include <QQuickItem>
 #include <QUrl>
-#include <QLibraryInfo>
-#include <QDir>
-#include <QCoreApplication>
 #include <QString>
 #include <QStringList>
 
@@ -34,6 +31,7 @@
 
 #include "commonui/credits.h"
 #include "debug.hh"
+#include "utils/Ui.hh"
 
 QmlAboutDialog::QmlAboutDialog(QObject *parent)
   : QObject(parent)
@@ -47,19 +45,7 @@ QmlAboutDialog::QmlAboutDialog(QObject *parent)
   view->setMaximumSize(QSize(540, 430));
   view->resize(540, 430);
 
-#ifdef Q_OS_MACOS
-  {
-    QDir bundleQml(QCoreApplication::applicationDirPath() + "/../Resources/qml");
-    if (bundleQml.exists())
-      {
-        view->engine()->addImportPath(bundleQml.canonicalPath());
-      }
-  }
-#endif
-#ifdef QT_QML_IMPORT_PATH
-  view->engine()->addImportPath(QStringLiteral(QT_QML_IMPORT_PATH));
-#endif
-  view->engine()->addImportPath(QLibraryInfo::path(QLibraryInfo::QmlImportsPath));
+  Ui::add_qml_import_paths(view->engine());
 
   QString version = QStringLiteral(WORKRAVE_VERSION);
 #if defined(WORKRAVE_GIT_VERSION)

@@ -24,14 +24,12 @@
 #include <QQuickItem>
 #include <QQmlContext>
 #include <QQmlEngine>
-#include <QLibraryInfo>
-#include <QDir>
 #include <QScreen>
 #include <QGuiApplication>
-#include <QCoreApplication>
 
 #include "QmlPrefsBridges.hh"
 #include "QmlPluginPrefBridges.hh"
+#include "utils/Ui.hh"
 
 QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject *parent)
   : QObject(parent)
@@ -51,23 +49,7 @@ QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject
   create_plugin_bridges();
 
   view = new QQuickView();
-  // QML import path resolution: macdeployqt copies QML modules to Contents/Resources/qml/ in
-  // a deployed .app bundle. For build-tree runs (no bundle), fall back to the compile-time path
-  // baked in from Qt's CMake config dir (QLibraryInfo resolves incorrectly for custom framework
-  // builds, pointing to lib/qml instead of the real prefix/qml).
-#ifdef Q_OS_MACOS
-  {
-    QDir bundleQml(QCoreApplication::applicationDirPath() + "/../Resources/qml");
-    if (bundleQml.exists())
-      {
-        view->engine()->addImportPath(bundleQml.canonicalPath());
-      }
-  }
-#endif
-#ifdef QT_QML_IMPORT_PATH
-  view->engine()->addImportPath(QStringLiteral(QT_QML_IMPORT_PATH));
-#endif
-  view->engine()->addImportPath(QLibraryInfo::path(QLibraryInfo::QmlImportsPath));
+  Ui::add_qml_import_paths(view->engine());
   view->setResizeMode(QQuickView::SizeRootObjectToView);
   view->setTitle(tr("Workrave — Preferences"));
   view->setMinimumSize(QSize(720, 520));
