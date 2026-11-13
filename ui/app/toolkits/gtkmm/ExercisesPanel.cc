@@ -20,45 +20,17 @@
 #include <algorithm>
 #include <random>
 
-#include <cstring>
 #include <gtkmm.h>
 
 #include "ExercisesPanel.hh"
 #include "GtkUtil.hh"
 #include "utils/AssetPath.hh"
-#include "Hig.hh"
 #include "commonui/nls.h"
 #include "ui/SoundTheme.hh"
 #include "debug.hh"
 
 using namespace std;
 using namespace workrave::utils;
-
-static void
-text_buffer_set_markup(GtkTextBuffer *buffer, const gchar *markup, gint len)
-{
-  GtkTextIter start;
-  GtkTextIter end;
-
-  g_return_if_fail(GTK_IS_TEXT_BUFFER(buffer));
-  g_return_if_fail(markup != nullptr);
-
-  if (len < 0)
-    {
-      len = (gint)strlen(markup);
-    }
-
-  gtk_text_buffer_get_bounds(buffer, &start, &end);
-
-  gtk_text_buffer_delete(buffer, &start, &end);
-
-  if (len > 0)
-    {
-      gtk_text_buffer_get_iter_at_offset(buffer, &start, 0);
-      gtk_text_buffer_insert_markup(buffer, &start, markup, len);
-    }
-}
-// (end code to be removed)
 
 int ExercisesPanel::exercises_pointer = 0;
 
@@ -82,6 +54,10 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, ExerciseCollection::
   description_text.set_cursor_visible(false);
   description_text.set_wrap_mode(Gtk::WRAP_WORD);
   description_text.set_editable(false);
+  // Reuse one tag: GTK 3's insert_markup() leaks tags on every insertion.
+  title_tag = description_text.get_buffer()->create_tag();
+  title_tag->property_weight() = Pango::WEIGHT_BOLD;
+  title_tag->property_scale() = Pango::SCALE_LARGE;
   image_frame.add(image);
 
   pause_button = Gtk::manage(new Gtk::Button());
@@ -209,8 +185,8 @@ ExercisesPanel::start_exercise()
       const Exercise &exercise = *exercise_iterator;
 
       Glib::RefPtr<Gtk::TextBuffer> buf = description_text.get_buffer();
-      std::string txt = HigUtil::create_alert_text(exercise.title.c_str(), exercise.description.c_str());
-      text_buffer_set_markup(buf->gobj(), txt.c_str(), static_cast<gint>(txt.length()));
+      buf->set_text("\n\n" + exercise.description);
+      buf->insert_with_tag(buf->begin(), exercise.title, title_tag);
       exercise_time = 0;
       seq_time = 0;
       image_iterator = exercise.sequence.end();

@@ -64,13 +64,13 @@ public:
   struct TimerData
   {
     std::string bar_text;
-    int slot;
-    uint32_t bar_secondary_color;
-    uint32_t bar_secondary_val;
-    uint32_t bar_secondary_max;
-    uint32_t bar_primary_color;
-    uint32_t bar_primary_val;
-    uint32_t bar_primary_max;
+    int slot{workrave::BREAK_ID_NONE};
+    uint32_t bar_secondary_color{};
+    uint32_t bar_secondary_val{};
+    uint32_t bar_secondary_max{};
+    uint32_t bar_primary_color{};
+    uint32_t bar_primary_val{};
+    uint32_t bar_primary_max{};
   };
 
   struct MenuItem

@@ -1,0 +1,97 @@
+# Installed after the executable. Keep Qt deployment, cache reuse and signing
+# in one install-time script, with ordinary CMake quoting and variable scope.
+include("@CMAKE_CURRENT_SOURCE_DIR@/fixup_bundle_rpaths.cmake")
+set(app "@_deploy_app@")
+set(binary "${app}/Contents/MacOS/@PROJECT_NAME@")
+set(frameworks "${app}/Contents/Frameworks")
+set(stamp "@_deploy_stamp@")
+
+# Qt's path resolver requires a slash after @executable_path. Clang's sanitizer
+# runtime adds the bare form; /. preserves its meaning.
+execute_process(COMMAND otool -l "${binary}"
+    OUTPUT_VARIABLE load_commands COMMAND_ERROR_IS_FATAL ANY)
+if(load_commands MATCHES "[\n\r][ \t]+path @executable_path \\(offset")
+    execute_process(COMMAND install_name_tool -rpath
+        "@executable_path" "@executable_path/." "${binary}"
+        COMMAND_ERROR_IS_FATAL ANY)
+endif()
+workrave_prepare_qt_rpaths("${binary}" "@QT_LIB_DIR@")
+
+# Reuse deployed libraries for executable-only changes. Redeploy when the tool,
+# deployment rules, selected Qt or linked dependency list changes.
+execute_process(COMMAND otool -L "${binary}"
+    OUTPUT_VARIABLE linked_libraries COMMAND_ERROR_IS_FATAL ANY)
+file(SHA256 "@MACDEPLOYQT_EXECUTABLE@" tool_hash)
+file(SHA256 "${CMAKE_CURRENT_LIST_FILE}" rules_hash)
+file(SHA256 "@CMAKE_CURRENT_SOURCE_DIR@/fixup_bundle_rpaths.cmake" helper_hash)
+string(SHA256 deploy_hash "${tool_hash};${rules_hash};${helper_hash};${linked_libraries}")
+set(previous_hash "")
+if(EXISTS "${stamp}")
+    file(READ "${stamp}" previous_hash)
+    string(STRIP "${previous_hash}" previous_hash)
+endif()
+if(NOT previous_hash STREQUAL deploy_hash)
+    message(STATUS "Installing Qt frameworks and plugins...")
+    file(REMOVE_RECURSE "${frameworks}" "${app}/Contents/PlugIns"
+        "${app}/Contents/Resources/qml" "${app}/Contents/Resources/lib" "${app}/Contents/lib")
+    file(REMOVE "${app}/Contents/MacOS/workrave-core-shadow-helper")
+    file(MAKE_DIRECTORY "${frameworks}")
+    set(options -verbose=1 "-qmldir=@CMAKE_SOURCE_DIR@/ui/app/toolkits/qt/qml" @NO_STRIP@)
+    if(NOT "@WORKRAVE_SIGN_IDENTITY@" STREQUAL "")
+        list(APPEND options "-sign-for-notarization=@WORKRAVE_SIGN_IDENTITY@")
+    endif()
+    execute_process(COMMAND "@MACDEPLOYQT_EXECUTABLE@" "${app}" ${options}
+        RESULT_VARIABLE result OUTPUT_VARIABLE output ERROR_VARIABLE output)
+    if(NOT output STREQUAL "")
+        message("${output}")
+    endif()
+    if(NOT result EQUAL 0 OR output MATCHES "(^|[\n\r])ERROR:")
+        message(FATAL_ERROR "macdeployqt reported errors (exit code ${result})")
+    endif()
+    # Creating this alias before macdeployqt scans the bundle caused a loop.
+    execute_process(COMMAND ln -sf ./Frameworks "${app}/Contents/lib"
+        COMMAND_ERROR_IS_FATAL ANY)
+    file(WRITE "${stamp}" "${deploy_hash}")
+else()
+    message(STATUS "Qt frameworks up to date, skipping macdeployqt.")
+endif()
+
+# Install the optional helper after deployment, as in the main target's rules.
+if(NOT "@_deploy_shadow_helper@" STREQUAL "")
+    file(INSTALL DESTINATION "${app}/Contents/MacOS" TYPE PROGRAM FILES "@_deploy_shadow_helper@")
+    set(helper "${app}/Contents/MacOS/workrave-core-shadow-helper")
+    execute_process(COMMAND otool -l "${helper}"
+        OUTPUT_VARIABLE helper_commands COMMAND_ERROR_IS_FATAL ANY)
+    if(NOT helper_commands MATCHES "@executable_path/../Frameworks")
+        execute_process(COMMAND install_name_tool -add_rpath
+            "@executable_path/../Frameworks" "${helper}" COMMAND_ERROR_IS_FATAL ANY)
+    endif()
+endif()
+
+# CMake restores the original executable on every install, including cache hits.
+execute_process(COMMAND otool -l "${binary}"
+    OUTPUT_VARIABLE load_commands COMMAND_ERROR_IS_FATAL ANY)
+if(NOT load_commands MATCHES "@executable_path/../Frameworks")
+    execute_process(COMMAND install_name_tool -add_rpath
+        "@executable_path/../Frameworks" "${binary}" COMMAND_ERROR_IS_FATAL ANY)
+endif()
+workrave_relocate_bundled_dependencies("${binary}" "${frameworks}")
+workrave_remove_external_rpaths("${binary}")
+file(GLOB dylibs "${frameworks}/*.dylib")
+foreach(dylib IN LISTS dylibs)
+    if(NOT IS_SYMLINK "${dylib}")
+        workrave_remove_external_rpaths("${dylib}")
+    endif()
+endforeach()
+
+# Sign after all edits. Developer ID signing is finalized by notarize.cmake.
+if("@WORKRAVE_SIGN_IDENTITY@" STREQUAL "")
+    message(STATUS "Ad-hoc signing app bundle...")
+    execute_process(COMMAND codesign --force --deep --sign - "${app}"
+        COMMAND_ERROR_IS_FATAL ANY)
+endif()
+if(NOT "@_debug_entitlements@" STREQUAL "")
+    message(STATUS "Applying debug entitlements (lldb attach)...")
+    execute_process(COMMAND codesign --force --sign -
+        --entitlements "@_debug_entitlements@" "${app}" COMMAND_ERROR_IS_FATAL ANY)
+endif()

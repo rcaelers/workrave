@@ -26,6 +26,7 @@ if (HAVE_GRPC AND HAVE_TESTS)
 
   target_link_libraries(workrave-libs-rpc-test PRIVATE
     workrave-libs-rpc
+    Boost::boost
     gRPC::grpc++
     protobuf::libprotobuf
     GTest::gtest_main

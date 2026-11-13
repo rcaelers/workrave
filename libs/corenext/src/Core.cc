@@ -76,6 +76,9 @@ Core::~Core()
   if (monitor)
     {
       monitor->terminate();
+      // The reading listener owns the monitor too. Release it after monitoring
+      // stops so the listener and monitor cannot keep each other alive.
+      monitor->set_listener(nullptr);
     }
 }
 

@@ -805,6 +805,20 @@ public:
 class IntegrationTest : public ::testing::Test, public Backend
 {};
 
+TEST_F(IntegrationTest, test_shutdown_releases_activity_monitor)
+{
+  init();
+  std::weak_ptr<IActivityMonitor> monitor_lifetime = monitor;
+  std::weak_ptr<workrave::IBreak> break_lifetime = core->get_break(workrave::BREAK_ID_MICRO_BREAK);
+
+  // No activity has arrived to remove the reading listener installed by init().
+  core.reset();
+  monitor.reset();
+
+  EXPECT_TRUE(monitor_lifetime.expired());
+  EXPECT_TRUE(break_lifetime.expired());
+}
+
 class MonitoringDiagnostics : public DiagnosticsSink
 {
 public:

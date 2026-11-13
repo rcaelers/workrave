@@ -257,6 +257,7 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 endif()
 
 include(CheckCXXCompilerFlag)
+include(Sanitizers)
 CHECK_CXX_COMPILER_FLAG("-fconcepts" COMPILER_SUPPORTS_FCONCEPTS)
 if(COMPILER_SUPPORTS_FCONCEPTS)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fconcepts")
@@ -312,6 +313,14 @@ option(WITH_TESTS "Enable unit tests" OFF)
 if (WITH_TESTS)
   set (HAVE_TESTS ON)
   enable_testing()
+  # Dashboard actions such as `ctest -T memcheck` need DartConfiguration.tcl
+  # and memory-checker discovery in addition to ordinary test registration.
+  # Keep CTest's switch local so WITH_TESTS controls our tests without enabling
+  # BUILD_TESTING in third-party projects.
+  block()
+    set(BUILD_TESTING ON)
+    include(CTest)
+  endblock()
 endif()
 
 include(code-coverage)
@@ -361,7 +370,7 @@ if (UNIX AND NOT APPLE)
   set (XDGCONFDIR "${SYSCONFDIR}/xdg")
   set (XDGAUTOSTARTDIR "${XDGCONFDIR}/autostart")
 elseif (APPLE)
-  set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0" CACHE STRING "Minimum macOS deployment target")
+  set(CMAKE_OSX_DEPLOYMENT_TARGET "14.4" CACHE STRING "Minimum macOS deployment target")
   set (BUNDLEDIR Workrave.app/Contents)
   set (BINDIR ${BUNDLEDIR}/MacOS)
   set (RESOURCESDIR ${BUNDLEDIR}/Resources)
@@ -669,8 +678,8 @@ if ("${WITH_UI}" STREQUAL "Qt")
                   OUTPUT_VARIABLE QT_BIN_DIR OUTPUT_STRIP_TRAILING_WHITESPACE
                   COMMAND_ERROR_IS_FATAL ANY)
   if (APPLE)
-    execute_process(COMMAND ${QT_QTPATHS_EXECUTABLE} --query QT_INSTALL_PREFIX
-                    OUTPUT_VARIABLE QT_INSTALL_PREFIX OUTPUT_STRIP_TRAILING_WHITESPACE
+    execute_process(COMMAND ${QT_QTPATHS_EXECUTABLE} --query QT_INSTALL_LIBS
+                    OUTPUT_VARIABLE QT_LIB_DIR OUTPUT_STRIP_TRAILING_WHITESPACE
                     COMMAND_ERROR_IS_FATAL ANY)
   endif()
 
@@ -1305,6 +1314,9 @@ else()
   target_compile_definitions(fmt INTERFACE FMT_HEADER_ONLY=1)
 endif()
 
+include(Fmt)
+workrave_configure_fmt()
+
 if((NOT ${spdlog_FOUND}) OR (NOT ${fmt_FOUND}))
   FetchContent_Declare_Logged(
       spdlog
@@ -1539,3 +1551,4 @@ feature_bool("Auto update" HAVE_UNFOLD_AUTO_UPDATE)
 endif()
 feature_bool("Debug logs" HAVE_TRACING)
 feature_bool("Tests" HAVE_TESTS)
+feature_string("Sanitizer" "${_workrave_sanitizer_description}")

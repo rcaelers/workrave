@@ -19,6 +19,7 @@
 #define PULSEMIXER_HH
 
 #include <map>
+#include <memory>
 #include <string>
 
 #include <pulse/pulseaudio.h>
@@ -58,7 +59,7 @@ private:
   pa_mainloop_api *pa_api{nullptr};
   pa_context *context{nullptr};
 
-  std::map<uint32_t, SinkInfo *> sinks;
+  std::map<uint32_t, std::unique_ptr<SinkInfo>> sinks;
   SinkInfo *default_sink_info{nullptr};
   std::string default_sink_name;
 };
