@@ -121,7 +121,7 @@ endif()
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/settings.ini DESTINATION etc/gtk-3.0)
 
-install(CODE "set(SYS_ROOT ${SYS_ROOT})")
+install(CODE "set(SYS_ROOT \"${SYS_ROOT}\")")
 install(CODE "set(STRICT_WINDOWS_DEPENDENCIES ON)")
 install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)")
 install(CODE "set(BINARY_DIR \"${CMAKE_BINARY_DIR}\")")
