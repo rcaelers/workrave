@@ -303,6 +303,10 @@ option(WITH_TESTS "Enable unit tests" OFF)
 if (WITH_TESTS)
   set (HAVE_TESTS ON)
   enable_testing()
+  add_test(NAME msys2-toolchain-root
+    COMMAND "${CMAKE_COMMAND}"
+      "-DTEST_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}/tests/msys2-root"
+      -P "${CMAKE_CURRENT_SOURCE_DIR}/cmake/toolchains/tests/Msys2RootTest.cmake")
 endif()
 
 include(code-coverage)

@@ -35,7 +35,7 @@ install(CODE "
   file(WRITE \"${CMAKE_INSTALL_PREFIX}/${qtconf_dest_dir}/qt.conf\" \"[Paths]\\nPlugins = ../lib/plugins/\")
   " COMPONENT Runtime)
 
-install(CODE "set(SYS_ROOT ${SYS_ROOT})")
+install(CODE "set(SYS_ROOT \"${SYS_ROOT}\")")
 install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)")
 install(CODE "set(DIST_PATH \"${CMAKE_CURRENT_BINARY_DIR}\")")
 install(CODE "set(INSTALL_PATH \"${CMAKE_INSTALL_PREFIX}\")")
