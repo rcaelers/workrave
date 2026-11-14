@@ -21,12 +21,41 @@
 
 #include "Ui.hh"
 
+#include <QDir>
+#include <QLibraryInfo>
+#include <QQmlEngine>
+
 #include "ui/GUIConfig.hh"
 
 #include "utils/Exception.hh"
 #include "utils/AssetPath.hh"
 
 using namespace workrave::utils;
+
+void
+Ui::add_qml_import_paths(QQmlEngine *engine)
+{
+#ifdef Q_OS_MACOS
+  // In a deployed .app bundle, macdeployqt places the QML modules in
+  // Contents/Resources/qml. Use that exclusively: additionally adding the
+  // build-time QT_QML_IMPORT_PATH makes the engine resolve QML modules (such
+  // as the QtQuick.Controls.Basic style plugin) from the build machine's Qt
+  // installation, whose compiled-in style resources do not match the bundled
+  // frameworks. Types from those styles (e.g. ScrollBar) then fail to load
+  // and the window renders blank.
+  QDir bundleQml(QCoreApplication::applicationDirPath() + "/../Resources/qml");
+  if (bundleQml.exists())
+    {
+      engine->addImportPath(bundleQml.canonicalPath());
+      engine->addImportPath(QLibraryInfo::path(QLibraryInfo::QmlImportsPath));
+      return;
+    }
+#endif
+#ifdef QT_QML_IMPORT_PATH
+  engine->addImportPath(QStringLiteral(QT_QML_IMPORT_PATH));
+#endif
+  engine->addImportPath(QLibraryInfo::path(QLibraryInfo::QmlImportsPath));
+}
 
 auto
 Ui::get_break_name(workrave::BreakId id) -> QString

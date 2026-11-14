@@ -357,6 +357,18 @@ if (APPLE)
     MACOSX_BUNDLE_COPYRIGHT "Copyright (c) 2001-2026 Rob Caelers, Raymond Penners, Ray Satiro"
     )
 
+  # Run as an agent app: no Dock icon and no Cmd-Tab entry. ToolkitMacOS
+  # switches the activation policy to Regular while the Preferences or About
+  # dialog is open, making the app visible in the Dock at that time.
+  get_target_property(_workrave_info_plist_template workrave MACOSX_BUNDLE_INFO_PLIST)
+  if (NOT _workrave_info_plist_template)
+    set(_workrave_info_plist_template "${CMAKE_ROOT}/Modules/MacOSXBundleInfo.plist.in")
+  endif()
+  file(READ "${_workrave_info_plist_template}" _workrave_info_plist)
+  string(REPLACE "</dict>" "\t<key>LSUIElement</key>\n\t<true/>\n</dict>" _workrave_info_plist "${_workrave_info_plist}")
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/WorkraveInfo.plist.in" "${_workrave_info_plist}")
+  set_target_properties(workrave PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_BINARY_DIR}/WorkraveInfo.plist.in")
+
   set_source_files_properties(BreakWindow.cc PreludeWindow.cc MouseMonitor.cc ToolkitPlatformMac.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 endif()
 

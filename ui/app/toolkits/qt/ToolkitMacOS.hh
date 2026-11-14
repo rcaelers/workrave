@@ -50,8 +50,14 @@ public:
 
   bool event(QEvent *e) override;
 
+protected:
+  void show_about() override;
+  void show_preferences() override;
+
 private:
   bool eventFilter(QObject *obj, QEvent *event) override;
+  void on_dock_dialog_visibility_changed(bool visible);
+  void update_dock_visibility();
 
   std::shared_ptr<MacOSLocker> locker;
   std::shared_ptr<ToolkitMenu> dock_menu;

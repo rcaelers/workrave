@@ -55,6 +55,10 @@ public:
   void show();
   void hide();
   void retranslate();
+  bool is_visible() const;
+
+Q_SIGNALS:
+  void signal_visibility_changed(bool visible);
 
 private Q_SLOTS:
   void onNavigateTo(const QString &section, const QString &page);

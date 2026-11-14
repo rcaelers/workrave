@@ -22,9 +22,6 @@
 
 #include <cmath>
 
-#include <QCoreApplication>
-#include <QDir>
-#include <QLibraryInfo>
 #include <QObject>
 #include <QQmlContext>
 #include <QQmlEngine>
@@ -34,6 +31,7 @@
 #include <QUrl>
 
 #include "debug.hh"
+#include "utils/Ui.hh"
 
 // ── AutoUpdateBridge ──────────────────────────────────────────────────────────
 
@@ -197,19 +195,7 @@ QmlAutoUpdateDialog::QmlAutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> inf
   view_->setMinimumSize(QSize(760, 520));
   view_->resize(760, 520);
 
-#ifdef Q_OS_MACOS
-  {
-    QDir bundleQml(QCoreApplication::applicationDirPath() + "/../Resources/qml");
-    if (bundleQml.exists())
-      {
-        view_->engine()->addImportPath(bundleQml.canonicalPath());
-      }
-  }
-#endif
-#ifdef QT_QML_IMPORT_PATH
-  view_->engine()->addImportPath(QStringLiteral(QT_QML_IMPORT_PATH));
-#endif
-  view_->engine()->addImportPath(QLibraryInfo::path(QLibraryInfo::QmlImportsPath));
+  Ui::add_qml_import_paths(view_->engine());
 
   view_->rootContext()->setContextProperty("updateBridge", bridge_);
 

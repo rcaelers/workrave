@@ -24,6 +24,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>@VERSION@</string>
+	<key>LSUIElement</key>
+	<true/>
 
 </dict>
 </plist>

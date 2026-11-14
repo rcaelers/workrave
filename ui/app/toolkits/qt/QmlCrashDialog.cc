@@ -39,6 +39,25 @@
 
 namespace
 {
+  // Not using Ui::add_qml_import_paths() here: the crash handler is a
+  // standalone binary that does not link workrave-toolkit-qt.
+  void add_qml_import_paths(QQmlEngine *engine)
+  {
+#ifdef Q_OS_MACOS
+    QDir bundleQml(QCoreApplication::applicationDirPath() + "/../Resources/qml");
+    if (bundleQml.exists())
+      {
+        engine->addImportPath(bundleQml.canonicalPath());
+        engine->addImportPath(QLibraryInfo::path(QLibraryInfo::QmlImportsPath));
+        return;
+      }
+#endif
+#ifdef QT_QML_IMPORT_PATH
+    engine->addImportPath(QStringLiteral(QT_QML_IMPORT_PATH));
+#endif
+    engine->addImportPath(QLibraryInfo::path(QLibraryInfo::QmlImportsPath));
+  }
+
   std::string format_hex(uint64_t value)
   {
     std::ostringstream oss;
@@ -264,10 +283,7 @@ QmlCrashDialog::QmlCrashDialog(const std::map<std::string, std::string> & /*anno
   view_->setMinimumSize(QSize(600, 420));
   view_->resize(600, 420);
 
-#ifdef QT_QML_IMPORT_PATH
-  view_->engine()->addImportPath(QStringLiteral(QT_QML_IMPORT_PATH));
-#endif
-  view_->engine()->addImportPath(QLibraryInfo::path(QLibraryInfo::QmlImportsPath));
+  add_qml_import_paths(view_->engine());
 
   view_->rootContext()->setContextProperty("crashBridge", bridge_);
   view_->rootContext()->setContextProperty("detailsBridge", details_bridge_);

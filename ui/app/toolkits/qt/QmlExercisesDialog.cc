@@ -28,11 +28,9 @@
 #include <QQmlEngine>
 #include <QQuickItem>
 #include <QUrl>
-#include <QLibraryInfo>
-#include <QDir>
-#include <QCoreApplication>
 
 #include "utils/AssetPath.hh"
+#include "utils/Ui.hh"
 #include "ui/SoundTheme.hh"
 #include "ui/GUIConfig.hh"
 #include "debug.hh"
@@ -290,19 +288,7 @@ QmlExercisesDialog::QmlExercisesDialog(std::shared_ptr<IApplicationContext> app,
   view->setMinimumSize(QSize(600, 340));
   view->resize(680, 420);
 
-#ifdef Q_OS_MACOS
-  {
-    QDir bundleQml(QCoreApplication::applicationDirPath() + "/../Resources/qml");
-    if (bundleQml.exists())
-      {
-        view->engine()->addImportPath(bundleQml.canonicalPath());
-      }
-  }
-#endif
-#ifdef QT_QML_IMPORT_PATH
-  view->engine()->addImportPath(QStringLiteral(QT_QML_IMPORT_PATH));
-#endif
-  view->engine()->addImportPath(QLibraryInfo::path(QLibraryInfo::QmlImportsPath));
+  Ui::add_qml_import_paths(view->engine());
 
   view->rootContext()->setContextProperty("exercisesBridge", bridge);
 

@@ -96,13 +96,13 @@ protected:
   virtual void apply_light_dark_mode(LightDarkTheme mode);
   void apply_qt_locale(const std::string &locale_code);
   void retranslate_all_qml_views();
+  virtual void show_about();
+  virtual void show_preferences();
 
 private:
-  void show_about();
   void show_debug();
   void show_exercises();
   void show_main_window();
-  void show_preferences();
   void show_statistics();
   auto can_close() const -> bool;
 
@@ -115,15 +115,15 @@ protected:
 
   std::shared_ptr<IApplicationContext> app;
   MainWindow *main_window{nullptr};
+  std::unique_ptr<QmlPrefsDialog> preferences_dialog;
+  std::unique_ptr<QmlAboutDialog> about_dialog;
 
 private:
   int argc{};
   char **argv{};
   std::unique_ptr<QmlStatisticsDialog> statistics_dialog;
-  std::unique_ptr<QmlPrefsDialog> preferences_dialog;
   QPointer<DebugDialog> debug_dialog;
   std::unique_ptr<QmlExercisesDialog> exercises_dialog;
-  std::unique_ptr<QmlAboutDialog> about_dialog;
   std::unique_ptr<StatusIcon> status_icon;
   int hold_count{0};
 

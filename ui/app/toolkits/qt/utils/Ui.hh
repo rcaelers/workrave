@@ -27,11 +27,14 @@
 #include "ui/UiTypes.hh"
 #include "ui/SoundTheme.hh"
 
+class QQmlEngine;
+
 class Ui
 {
   Q_DECLARE_TR_FUNCTIONS(Application);
 
 public:
+  static void add_qml_import_paths(QQmlEngine *engine);
   static auto get_break_name(workrave::BreakId id) -> QString;
   static auto get_image_filename(const std::string &image) -> QString;
   static auto get_break_icon_filename(workrave::BreakId id) -> QString;
