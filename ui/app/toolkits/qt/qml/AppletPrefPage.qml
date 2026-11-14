@@ -1,4 +1,5 @@
 import QtQuick
+import PrefWidgets 1.0
 
 // AppletPrefPage — content for User interface > Status applet preferences.
 // Expects context property: appletPrefBridge (AppletPrefBridge)

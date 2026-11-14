@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 
 // PrefToggleRow — label + optional hint on the left, iOS-style toggle on the right.
@@ -15,16 +17,16 @@ Item {
     signal toggled(bool checked)
 
     implicitWidth:  parent ? parent.width : 400
-    implicitHeight: rowContent.implicitHeight + tok.rowPad
+    implicitHeight: rowContent.implicitHeight + root.tok.rowPad
 
-    PrefTokens { id: tok }
+    readonly property var tok: Theme
 
     // ── Bottom divider ───────────────────────────────────────────────────────
     Rectangle {
         visible: !root.isLast
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: 1
-        color: tok.edge2
+        color: root.tok.borderSubtle
     }
 
     // ── Row content ──────────────────────────────────────────────────────────
@@ -37,7 +39,7 @@ Item {
         Column {
             id: labelCol
             anchors { left: parent.left; right: toggle.left; rightMargin: 16; verticalCenter: parent.verticalCenter }
-            spacing: tok.labelHintGap
+            spacing: root.tok.labelHintGap
 
             Item {
                 width: parent.width
@@ -46,9 +48,9 @@ Item {
                 Text {
                     id: labelText
                     text: root.label
-                    font.pixelSize: tok.labelPx
+                    font.pixelSize: root.tok.labelPx
                     font.weight: Font.Medium
-                    color: tok.ink
+                    color: root.tok.text
                 }
 
                 Rectangle {
@@ -57,18 +59,18 @@ Item {
                     height: badgeText.implicitHeight + 4
                     width:  badgeText.implicitWidth  + 12
                     radius: 4
-                    color:  tok.panel2
-                    border.color: tok.edge
+                    color:  root.tok.surfaceVariant
+                    border.color: root.tok.border
                     border.width: 1
 
                     Text {
                         id: badgeText
                         anchors.centerIn: parent
                         text: root.badge
-                        font.pixelSize: tok.captionPx
+                        font.pixelSize: root.tok.captionPx
                         font.weight: Font.DemiBold
                         font.letterSpacing: 9.5 * 0.14
-                        color: tok.mute
+                        color: root.tok.textMuted
                     }
                 }
             }
@@ -77,10 +79,10 @@ Item {
                 visible: root.hint !== ""
                 width: parent.width
                 text: root.hint
-                font.pixelSize: tok.hintPx
-                color: tok.mute
+                font.pixelSize: root.tok.hintPx
+                color: root.tok.textMuted
                 wrapMode: Text.WordWrap
-                lineHeight: tok.hintLineH
+                lineHeight: root.tok.hintLineH
             }
         }
 
@@ -93,7 +95,7 @@ Item {
             Rectangle {
                 anchors.fill: parent
                 radius: 999
-                color: root.checked ? tok.sage : tok.track
+                color: root.checked ? root.tok.accent : root.tok.track
                 Behavior on color { ColorAnimation { duration: 150 } }
             }
 

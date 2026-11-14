@@ -14,7 +14,6 @@ target_sources(workrave-toolkit-qt PRIVATE
   QmlMicroBreakWindow.cc
   QmlPrefsDialog.cc
   QmlPrefsBridges.cc
-  QmlPluginPrefBridges.cc
   QmlPreludeWindow.cc
   QmlRestBreakWindow.cc
   QmlTimerBoxView.cc
@@ -111,7 +110,6 @@ set(MOC_SOURCES
   QmlMicroBreakWindow.hh
   QmlPrefsDialog.hh
   QmlPrefsBridges.hh
-  QmlPluginPrefBridges.hh
   QmlPreludeWindow.hh
   QmlRestBreakWindow.hh
   QmlTimerBoxView.hh
@@ -178,7 +176,7 @@ target_link_libraries(workrave-toolkit-qt PRIVATE
   workrave-libs-session
   workrave-libs-utils
   workrave-libs-ui-prefwidgets
-  workrave-libs-ui-prefwidgets-qt
+  workrave-libs-ui-prefwidgets-qtquick
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Svg
   Qt${QT_VERSION_MAJOR}::Xml

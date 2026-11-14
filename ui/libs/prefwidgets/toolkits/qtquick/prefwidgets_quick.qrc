@@ -1,0 +1,24 @@
+<RCC>
+  <qresource prefix="/qt/qml/PrefWidgets">
+    <file alias="qmldir">qml/PrefWidgets/qmldir</file>
+    <file alias="PresentationRegistry.qml">qml/PrefWidgets/PresentationRegistry.qml</file>
+    <file alias="ControlPresentation.qml">qml/PrefWidgets/ControlPresentation.qml</file>
+    <file alias="PreviewRegistry.qml">qml/PrefWidgets/PreviewRegistry.qml</file>
+    <file alias="Preview.qml">qml/PrefWidgets/Preview.qml</file>
+    <file alias="Theme.qml">qml/PrefWidgets/Theme.qml</file>
+    <file alias="Page.qml">qml/PrefWidgets/Page.qml</file>
+    <file alias="PrefGroup.qml">qml/PrefWidgets/PrefGroup.qml</file>
+    <file alias="PrefToggleRow.qml">qml/PrefWidgets/PrefToggleRow.qml</file>
+    <file alias="PrefStepper.qml">qml/PrefWidgets/PrefStepper.qml</file>
+    <file alias="PrefTimeStepper.qml">qml/PrefWidgets/PrefTimeStepper.qml</file>
+    <file alias="PrefSliderRow.qml">qml/PrefWidgets/PrefSliderRow.qml</file>
+    <file alias="PrefTimeControl.qml">qml/PrefWidgets/PrefTimeControl.qml</file>
+    <file alias="PrefSpinRow.qml">qml/PrefWidgets/PrefSpinRow.qml</file>
+    <file alias="PrefChoiceRow.qml">qml/PrefWidgets/PrefChoiceRow.qml</file>
+    <file alias="PrefTextRow.qml">qml/PrefWidgets/PrefTextRow.qml</file>
+    <file alias="PrefLanguageRow.qml">qml/PrefWidgets/PrefLanguageRow.qml</file>
+    <file alias="PrefCardsRow.qml">qml/PrefWidgets/PrefCardsRow.qml</file>
+    <file alias="PrefChoiceCard.qml">qml/PrefWidgets/PrefChoiceCard.qml</file>
+    <file alias="PrefSegmentedRow.qml">qml/PrefWidgets/PrefSegmentedRow.qml</file>
+  </qresource>
+</RCC>

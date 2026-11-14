@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 
 // PrefGroup — uppercase section header + 1px bottom border + child rows below.
@@ -11,7 +13,7 @@ Item {
     implicitWidth:  parent ? parent.width : 400
     implicitHeight: header.height + 4 + contentColumn.implicitHeight
 
-    PrefTokens { id: tok }
+    readonly property var tok: Theme
 
     // ── Section header ───────────────────────────────────────────────────────
     Item {
@@ -23,16 +25,16 @@ Item {
             id: headerText
             anchors { left: parent.left; right: parent.right; top: parent.top }
             text: root.title.toUpperCase()
-            font.pixelSize: tok.captionPx
+            font.pixelSize: root.tok.captionPx
             font.weight: Font.DemiBold
             font.letterSpacing: 10.5 * 0.18
-            color: tok.mute
+            color: root.tok.textMuted
         }
 
         Rectangle {
             anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
             height: 1
-            color: tok.edge
+            color: root.tok.border
         }
     }
 

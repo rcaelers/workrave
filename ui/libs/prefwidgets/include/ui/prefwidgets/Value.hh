@@ -41,7 +41,11 @@ namespace ui::prefwidgets
     int get_max() const;
     ValueKind get_kind() const;
 
+    std::shared_ptr<Value> presentation(ValuePresentation presentation);
+    ValuePresentation get_value_presentation() const;
+
   private:
+    ValuePresentation presentation_;
     int min{0};
     int max{1};
     ValueKind kind{ValueKind::Spin};

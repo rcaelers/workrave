@@ -54,3 +54,22 @@ Value::get_kind() const
 {
   return kind;
 }
+
+std::shared_ptr<Value>
+Value::presentation(ValuePresentation presentation)
+{
+  set_presentation(
+    {.name = presentation.name, .label = presentation.label, .hint = presentation.hint, .accent = presentation.accent});
+  presentation_ = std::move(presentation);
+  return shared_from_base<Value>();
+}
+
+ValuePresentation
+Value::get_value_presentation() const
+{
+  auto result = presentation_;
+  const auto common = get_presentation();
+  result.label = common.label;
+  result.hint = common.hint;
+  return result;
+}

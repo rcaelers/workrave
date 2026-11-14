@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 
 // PrefTimeControl — label/hint row + stepper pill + optional ticked slider.
@@ -10,7 +12,7 @@ Item {
     property string value:         "0:00"
     property bool   sliderVisible: true
     property real   sliderValue:   0.5
-    property color  sliderColor:   tok.sage
+    property color  sliderColor:   root.tok.accent
     property var    ticks:         []
     property int    secondsStep:   1
 
@@ -22,15 +24,15 @@ Item {
     implicitWidth:  parent ? parent.width : 400
     implicitHeight: topRow.height
                     + (root.sliderVisible ? sliderItem.implicitHeight + 14 : 0)
-                    + tok.rowPadLg
+                    + root.tok.rowPadLg
 
-    PrefTokens { id: tok }
+    readonly property var tok: Theme
 
     // ── Bottom divider ───────────────────────────────────────────────────────
     Rectangle {
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: 1
-        color: tok.edge2
+        color: root.tok.borderSubtle
     }
 
     // ── Top row: label/hint + stepper ────────────────────────────────────────
@@ -42,24 +44,24 @@ Item {
         Column {
             id: labelCol
             anchors { left: parent.left; right: stepper.left; rightMargin: 24; verticalCenter: parent.verticalCenter }
-            spacing: tok.labelHintGap
+            spacing: root.tok.labelHintGap
 
             Text {
                 width: parent.width
                 text: root.label
-                font.pixelSize: tok.labelPx
+                font.pixelSize: root.tok.labelPx
                 font.weight: Font.Medium
-                color: tok.ink
+                color: root.tok.text
             }
 
             Text {
                 visible: root.hint !== ""
                 width: parent.width
                 text: root.hint
-                font.pixelSize: tok.hintPx
-                color: tok.mute
+                font.pixelSize: root.tok.hintPx
+                color: root.tok.textMuted
                 wrapMode: Text.WordWrap
-                lineHeight: tok.hintLineH
+                lineHeight: root.tok.hintLineH
             }
         }
 

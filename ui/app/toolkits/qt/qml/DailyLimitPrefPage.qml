@@ -1,4 +1,5 @@
 import QtQuick
+import PrefWidgets 1.0
 
 // DailyLimitPrefPage — content for Timers > Daily limit preferences.
 // Expects context property: dailyLimitPrefBridge (DailyLimitPrefBridge)
@@ -33,7 +34,7 @@ Item {
                 hint:  qsTr("When today's active time crosses this, the daily-limit window appears.")
                 value: root.bridge ? root.bridge.limitDisplay : "8:00"
                 sliderValue: root.bridge ? root.bridge.limitNorm : 0.6
-                sliderColor: "#44563F"
+                sliderColor: Theme.accentStrong
                 ticks: [
                     { at: 0.000, label: "2h"  },
                     { at: 0.400, label: "6h"  },
@@ -53,7 +54,7 @@ Item {
                 hint:  qsTr("When postponed, Workrave reminds you again after this long.")
                 value: root.bridge ? root.bridge.snoozeDisplay : "3:00"
                 sliderValue: root.bridge ? root.bridge.snoozeNorm : 0.222
-                sliderColor: "#44563F"
+                sliderColor: Theme.accentStrong
                 ticks: [
                     { at: 0.000, label: "1m"  },
                     { at: 0.222, label: "3m"  },

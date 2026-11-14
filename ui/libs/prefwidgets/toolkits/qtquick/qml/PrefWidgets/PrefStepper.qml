@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 
 // PrefStepper — the −/value/+ pill used in TimeControl and SpinRow.
@@ -15,13 +17,13 @@ Item {
     implicitWidth:  30 + (narrow ? 60 : 96) + 30
     implicitHeight: 34
 
-    PrefTokens { id: tok }
+    readonly property var tok: Theme
 
     Rectangle {
         anchors.fill: parent
         radius: 10
-        color: tok.panel
-        border.color: tok.edge
+        color: root.tok.surface
+        border.color: root.tok.border
         border.width: 1
         clip: true
 
@@ -35,9 +37,9 @@ Item {
                 Text {
                     anchors.centerIn: parent
                     text: "−"
-                    font.pixelSize: tok.btnPx
+                    font.pixelSize: root.tok.btnPx
                     font.weight: Font.Medium
-                    color: tok.ink2
+                    color: root.tok.textSecondary
                 }
 
                 MouseArea {
@@ -54,20 +56,20 @@ Item {
 
                 Rectangle {
                     anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
-                    width: 1; color: tok.edge
+                    width: 1; color: root.tok.border
                 }
                 Rectangle {
                     anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
-                    width: 1; color: tok.edge
+                    width: 1; color: root.tok.border
                 }
 
                 Text {
                     anchors.centerIn: parent
                     text: root.value
-                    font.pixelSize: tok.stepperPx
-                    font.family: tok.serifFamily
+                    font.pixelSize: root.tok.stepperPx
+                    font.family: root.tok.serifFamily
                     font.features: { "tnum": 1 }
-                    color: tok.ink
+                    color: root.tok.text
                 }
             }
 
@@ -78,9 +80,9 @@ Item {
                 Text {
                     anchors.centerIn: parent
                     text: "+"
-                    font.pixelSize: tok.btnPx
+                    font.pixelSize: root.tok.btnPx
                     font.weight: Font.Medium
-                    color: tok.ink2
+                    color: root.tok.textSecondary
                 }
 
                 MouseArea {

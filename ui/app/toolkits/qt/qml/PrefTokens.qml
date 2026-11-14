@@ -1,8 +1,10 @@
 import QtQuick
+import PrefWidgets 1.0 as Widgets
 
 // Design token object — instantiate as `PrefTokens { id: tok }` in each component.
 // Qt::ColorScheme::Dark == 2; binding updates live when the user changes the setting.
 QtObject {
+    id: tokens
     readonly property bool isDark: Qt.styleHints.colorScheme === 2
 
     // ── Colors ────────────────────────────────────────────────────────────────
@@ -48,4 +50,46 @@ QtObject {
     readonly property int  rowPad:       28    // vertical padding in toggle/choice rows
     readonly property int  rowPadLg:     36    // vertical padding in stepper/time rows
     readonly property int  actionRadius: 8     // actions are visibly distinct from status pills
+
+    function applyLibraryTheme() {
+        Widgets.Theme.colorScheme = tokens.isDark ? 2 : 1
+        Widgets.Theme.values = {
+            background: tokens.bg,
+            surface: tokens.panel,
+            surfaceVariant: tokens.panel2,
+            border: tokens.edge,
+            borderSubtle: tokens.edge2,
+            text: tokens.ink,
+            textSecondary: tokens.ink2,
+            textMuted: tokens.mute,
+            accent: tokens.sage,
+            accentStrong: tokens.sageDeep,
+            accentSoft: tokens.sageSoft,
+            secondary: tokens.clay,
+            secondarySoft: tokens.claySoft,
+            track: tokens.track,
+            error: tokens.danger,
+            errorSoft: tokens.dangerSoft,
+            warning: tokens.warn,
+            positive: tokens.rest,
+            actionSurface: tokens.actionBg,
+            actionBorder: tokens.actionEdge,
+            labelPx: tokens.labelPx,
+            hintPx: tokens.hintPx,
+            bodyPx: tokens.bodyPx,
+            captionPx: tokens.captionPx,
+            stepperPx: tokens.stepperPx,
+            btnPx: tokens.btnPx,
+            tickPx: tokens.tickPx,
+            serifFamily: tokens.serifFamily,
+            monoFamily: tokens.monoFamily,
+            labelHintGap: tokens.labelHintGap,
+            hintLineH: tokens.hintLineH,
+            rowPad: tokens.rowPad,
+            rowPadLg: tokens.rowPadLg,
+            actionRadius: tokens.actionRadius,
+        }
+    }
+    Component.onCompleted: applyLibraryTheme()
+    onIsDarkChanged: applyLibraryTheme()
 }

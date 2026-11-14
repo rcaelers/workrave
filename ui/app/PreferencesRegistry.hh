@@ -35,16 +35,19 @@ public:
   PreferencesRegistry() = default;
   ~PreferencesRegistry() override;
 
-  void add(std::shared_ptr<ui::prefwidgets::Def> def) override;
+  void add(std::shared_ptr<ui::prefwidgets::PanelDef> def) override;
+  Section find(const std::string &location) override;
   void remove(std::shared_ptr<ui::prefwidgets::Def> def) override;
   void add_page(const std::string &id, const std::string &label, const std::string &image) override;
 
   std::list<std::shared_ptr<ui::prefwidgets::Def>> get_widgets(const std::string &location) const override;
   std::map<std::string, std::list<std::shared_ptr<ui::prefwidgets::Def>>> get_widgets() const override;
+  std::map<std::string, std::list<PanelExtension>> get_panel_extensions() const override;
   std::map<std::string, std::pair<std::string, std::string>> get_pages() const override;
 
 private:
   std::map<std::string, std::list<std::shared_ptr<ui::prefwidgets::Def>>> widgets;
+  std::map<std::string, std::shared_ptr<std::list<PanelExtension>>> panel_extensions;
   std::map<std::string, std::pair<std::string, std::string>> pages;
 };
 

@@ -19,6 +19,8 @@
 #define WORKRAVE_UI_IPREFERENCES_REGISTRY_HH
 
 #include <memory>
+#include <functional>
+#include <utility>
 
 #include "ui/prefwidgets/Def.hh"
 
@@ -27,9 +29,41 @@ class IPreferencesRegistry
 public:
   using Ptr = std::shared_ptr<IPreferencesRegistry>;
 
+  class Section
+  {
+  public:
+    using Add = std::function<void(std::shared_ptr<ui::prefwidgets::Def>)>;
+
+    Section() = default;
+
+    explicit Section(Add add)
+      : insert(std::move(add))
+    {
+    }
+
+    void add(std::shared_ptr<ui::prefwidgets::Def> def) const
+    {
+      if (insert)
+        {
+          insert(std::move(def));
+        }
+    }
+
+    explicit operator bool() const
+    {
+      return static_cast<bool>(insert);
+    }
+
+  private:
+    Add insert;
+  };
+
   virtual ~IPreferencesRegistry() = default;
 
-  virtual void add(std::shared_ptr<ui::prefwidgets::Def> def) = 0;
+  // Contributions with the same page/panel IDs share one panel. The order of
+  // contributions (and the label chosen when they differ) is unspecified.
+  virtual void add(std::shared_ptr<ui::prefwidgets::PanelDef> def) = 0;
+  virtual Section find(const std::string &location) = 0;
   virtual void remove(std::shared_ptr<ui::prefwidgets::Def> def) = 0;
   virtual void add_page(const std::string &id, const std::string &label, const std::string &image) = 0;
 };

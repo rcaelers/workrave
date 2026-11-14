@@ -18,12 +18,13 @@
 #define QMLPREFSDIALOG_HH
 
 #ifndef Q_MOC_RUN
-#include <map>
-#include <memory>
-#include <string>
-#include <QObject>
-#include <QPointer>
-#include <QString>
+#  include <map>
+#  include <memory>
+#  include <string>
+#  include <QObject>
+#  include <QPointer>
+#  include <QString>
+#  include <QVariantList>
 #endif
 
 class QQuickView;
@@ -36,11 +37,14 @@ class GeneralPrefBridge;
 class RemoteControlPrefBridge;
 class MonitoringPrefBridge;
 class SoundsPrefBridge;
-class ActivePluginPageBridge;
-class PluginPageBridge;
+namespace ui::prefwidgets::qtquick
+{
+  class ActivePageModel;
+  class PageModel;
+} // namespace ui::prefwidgets::qtquick
 
 #ifndef Q_MOC_RUN
-#include "ui/IApplicationContext.hh"
+#  include "ui/IApplicationContext.hh"
 #endif
 
 class QmlPrefsDialog : public QObject
@@ -62,23 +66,30 @@ private Q_SLOTS:
   void onQmlStatusChanged(int status);
 
 private:
+  using ActivePageModel = ui::prefwidgets::qtquick::ActivePageModel;
+  using PageModel = ui::prefwidgets::qtquick::PageModel;
   void create_plugin_bridges();
+  QVariantList create_plugin_navigation();
 
   std::shared_ptr<IApplicationContext> app;
   QQuickView *view{nullptr};
-  MicrobreakPrefBridge   *microbreakBridge{nullptr};
-  RestBreakPrefBridge    *restBreakBridge{nullptr};
-  DailyLimitPrefBridge   *dailyLimitBridge{nullptr};
+  MicrobreakPrefBridge *microbreakBridge{nullptr};
+  RestBreakPrefBridge *restBreakBridge{nullptr};
+  DailyLimitPrefBridge *dailyLimitBridge{nullptr};
   StatusWindowPrefBridge *statusWindowBridge{nullptr};
-  AppletPrefBridge       *appletBridge{nullptr};
-  GeneralPrefBridge      *generalBridge{nullptr};
+  AppletPrefBridge *appletBridge{nullptr};
+  GeneralPrefBridge *generalBridge{nullptr};
   RemoteControlPrefBridge *remoteControlBridge{nullptr};
-  MonitoringPrefBridge   *monitoringBridge{nullptr};
-  SoundsPrefBridge       *soundsBridge{nullptr};
+  MonitoringPrefBridge *monitoringBridge{nullptr};
+  SoundsPrefBridge *soundsBridge{nullptr};
 
-  ActivePluginPageBridge                 *activeBridge{nullptr};
-  ActivePluginPageBridge                 *extensionBridge{nullptr};
-  std::map<std::string, PluginPageBridge *> pluginBridges;
+  ActivePageModel *activeBridge{nullptr};
+  ActivePageModel *extensionBridge{nullptr};
+  ActivePageModel *topExtensionBridge{nullptr};
+  std::map<std::string, PageModel *> pluginBridges;
+  std::map<std::string, PageModel *> topExtensionBridges;
+  std::map<std::string, PageModel *> bottomExtensionBridges;
+  std::map<std::string, std::string> pluginSections;
 };
 
 #endif // QMLPREFSDIALOG_HH

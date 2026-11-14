@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls.Basic
+import PrefWidgets 1.0
 
 // SoundsPrefPage — audio settings.
 // Expects context property: soundsPrefBridge (SoundsPrefBridge)

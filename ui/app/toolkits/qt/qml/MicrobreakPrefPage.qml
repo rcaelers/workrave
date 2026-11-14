@@ -1,4 +1,5 @@
 import QtQuick
+import PrefWidgets 1.0
 
 // MicrobreakPrefPage — content for Timers > Microbreak preferences.
 // Expects context property: microbreakPrefBridge (MicrobreakPrefBridge)
@@ -33,7 +34,7 @@ Item {
                 hint:  qsTr("How long you've been using the keyboard or mouse before being prompted.")
                 value: root.bridge ? root.bridge.limitDisplay : "3:00"
                 sliderValue: root.bridge ? root.bridge.limitNorm : 0.3
-                sliderColor: "#6B8068"
+                sliderColor: Theme.accent
                 secondsStep: 5
                 ticks: [
                     { at: 0.000, label: "1m" },
@@ -54,7 +55,7 @@ Item {
                 hint:  qsTr("How long each microbreak lasts.")
                 value: root.bridge ? root.bridge.durationDisplay : "0:30"
                 sliderValue: root.bridge ? root.bridge.durationNorm : 0.143
-                sliderColor: "#6B8068"
+                sliderColor: Theme.accent
                 secondsStep: 5
                 ticks: [
                     { at: 0.000, label: "15s" },
@@ -74,7 +75,7 @@ Item {
                 hint:  qsTr("When postponed, Workrave reminds you again after this long.")
                 value: root.bridge ? root.bridge.snoozeDisplay : "5:00"
                 sliderValue: root.bridge ? root.bridge.snoozeNorm : 0.444
-                sliderColor: "#6B8068"
+                sliderColor: Theme.accent
                 ticks: [
                     { at: 0.000, label: "1m"  },
                     { at: 0.444, label: "5m"  },

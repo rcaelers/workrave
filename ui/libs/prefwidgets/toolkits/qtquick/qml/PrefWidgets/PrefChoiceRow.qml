@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls.Basic
 
@@ -15,15 +17,15 @@ Item {
     signal selected(int index)
 
     implicitWidth:  parent ? parent.width : 400
-    implicitHeight: Math.max(labelCol.implicitHeight, pill.height) + tok.rowPad
+    implicitHeight: Math.max(labelCol.implicitHeight, pill.height) + root.tok.rowPad
 
-    PrefTokens { id: tok }
+    readonly property var tok: Theme
 
     // ── Bottom divider ───────────────────────────────────────────────────────
     Rectangle {
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: 1
-        color: tok.edge2
+        color: root.tok.borderSubtle
     }
 
     // ── Row ──────────────────────────────────────────────────────────────────
@@ -34,24 +36,24 @@ Item {
         Column {
             id: labelCol
             anchors { left: parent.left; right: pill.left; rightMargin: 16; verticalCenter: parent.verticalCenter }
-            spacing: tok.labelHintGap
+            spacing: root.tok.labelHintGap
 
             Text {
                 width: parent.width
                 text: root.label
-                font.pixelSize: tok.labelPx
+                font.pixelSize: root.tok.labelPx
                 font.weight: Font.Medium
-                color: tok.ink
+                color: root.tok.text
             }
 
             Text {
                 visible: root.hint !== ""
                 width: parent.width
                 text: root.hint
-                font.pixelSize: tok.hintPx
-                color: tok.mute
+                font.pixelSize: root.tok.hintPx
+                color: root.tok.textMuted
                 wrapMode: Text.WordWrap
-                lineHeight: tok.hintLineH
+                lineHeight: root.tok.hintLineH
             }
         }
 
@@ -68,8 +70,8 @@ Item {
 
             background: Rectangle {
                 radius: 10
-                color: tok.panel
-                border.color: tok.edge
+                color: root.tok.surface
+                border.color: root.tok.border
                 border.width: 1
             }
 
@@ -78,7 +80,7 @@ Item {
                 rightPadding: 28
                 text: pill.displayText
                 font.pixelSize: 13
-                color: tok.ink
+                color: root.tok.text
                 verticalAlignment: Text.AlignVCenter
                 elide: Text.ElideRight
             }
@@ -92,7 +94,7 @@ Item {
                     ctx.clearRect(0, 0, width, height)
                     ctx.beginPath()
                     ctx.moveTo(1, 1); ctx.lineTo(5, 5); ctx.lineTo(9, 1)
-                    ctx.strokeStyle = tok.ink2.toString()
+                    ctx.strokeStyle = root.tok.textSecondary.toString()
                     ctx.lineWidth = 1.4
                     ctx.lineCap = "round"; ctx.lineJoin = "round"
                     ctx.stroke()
@@ -107,8 +109,8 @@ Item {
 
                 background: Rectangle {
                     radius: 8
-                    color: tok.panel
-                    border.color: tok.edge
+                    color: root.tok.surface
+                    border.color: root.tok.border
                     border.width: 1
                 }
 
@@ -128,7 +130,7 @@ Item {
                 highlighted: pill.highlightedIndex === index
 
                 background: Rectangle {
-                    color: parent.highlighted ? tok.sageSoft : "transparent"
+                    color: parent.highlighted ? root.tok.accentSoft : "transparent"
                     radius: 6
                 }
 
@@ -138,7 +140,7 @@ Item {
                           ? parent.model.modelData
                           : ""
                     font.pixelSize: 13
-                    color: tok.ink
+                    color: root.tok.text
                     verticalAlignment: Text.AlignVCenter
                 }
             }

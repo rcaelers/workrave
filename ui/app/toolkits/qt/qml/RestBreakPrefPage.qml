@@ -1,4 +1,5 @@
 import QtQuick
+import PrefWidgets 1.0
 
 // RestBreakPrefPage — content for Timers > Rest break preferences.
 // Expects context property: restBreakPrefBridge (RestBreakPrefBridge)
@@ -33,7 +34,7 @@ Item {
                 hint:  qsTr("Active time required before a rest break is prompted.")
                 value: root.bridge ? root.bridge.limitDisplay : "45:00"
                 sliderValue: root.bridge ? root.bridge.limitNorm : 0.5
-                sliderColor: "#6B8068"
+                sliderColor: Theme.accent
                 ticks: [
                     { at: 0.000, label: "15m" },
                     { at: 0.333, label: "30m" },
@@ -53,7 +54,7 @@ Item {
                 hint:  qsTr("How long each rest break lasts.")
                 value: root.bridge ? root.bridge.durationDisplay : "10:00"
                 sliderValue: root.bridge ? root.bridge.durationNorm : 0.444
-                sliderColor: "#6B8068"
+                sliderColor: Theme.accent
                 ticks: [
                     { at: 0.000, label: "5m"  },
                     { at: 0.444, label: "10m" },
@@ -72,7 +73,7 @@ Item {
                 hint:  qsTr("When postponed, Workrave reminds you again after this long.")
                 value: root.bridge ? root.bridge.snoozeDisplay : "3:00"
                 sliderValue: root.bridge ? root.bridge.snoozeNorm : 0.222
-                sliderColor: "#6B8068"
+                sliderColor: Theme.accent
                 ticks: [
                     { at: 0.000, label: "1m"  },
                     { at: 0.222, label: "3m"  },

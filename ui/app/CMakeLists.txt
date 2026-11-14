@@ -1,5 +1,16 @@
 add_library(workrave-app OBJECT)
 
+if (WITH_TESTS)
+  add_executable(preferences-registry-test tests/PreferencesRegistryTest.cc PreferencesRegistry.cc)
+  target_include_directories(preferences-registry-test
+                            PRIVATE
+                            ${CMAKE_CURRENT_SOURCE_DIR}
+                            ${CMAKE_CURRENT_SOURCE_DIR}/include
+                            ${CMAKE_BINARY_DIR})
+  target_link_libraries(preferences-registry-test PRIVATE workrave-libs-ui-prefwidgets)
+  add_test(NAME preferences-registry COMMAND preferences-registry-test)
+endif()
+
 target_sources(workrave-app PRIVATE
   AppHold.cc
   Application.cc
