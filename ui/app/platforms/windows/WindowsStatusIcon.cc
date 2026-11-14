@@ -68,6 +68,10 @@ namespace
         }
     }
 
+    NativeMenuTheme(const NativeMenuTheme &) = delete;
+    NativeMenuTheme(NativeMenuTheme &&) = delete;
+    NativeMenuTheme &operator=(const NativeMenuTheme &) = delete;
+    NativeMenuTheme &operator=(NativeMenuTheme &&) = delete;
     ~NativeMenuTheme()
     {
       if (uxtheme != nullptr)

@@ -1,6 +1,10 @@
 add_library(workrave-app OBJECT)
 
 if (WITH_TESTS)
+  add_executable(taskbar-placement-test tests/TaskbarPlacementTest.cc)
+  target_include_directories(taskbar-placement-test PRIVATE platforms/windows)
+  add_test(NAME taskbar-placement COMMAND taskbar-placement-test)
+
   add_executable(preferences-registry-test tests/PreferencesRegistryTest.cc PreferencesRegistry.cc)
   target_include_directories(preferences-registry-test
                             PRIVATE
@@ -120,10 +124,14 @@ if (PLATFORM_OS_WINDOWS)
     platforms/windows/WindowsCompat.cc
     platforms/windows/WindowsForceFocus.cc
     platforms/windows/WindowsLocker.cc
+    platforms/windows/WindowsTaskbarApplet.cc
+    platforms/windows/TaskbarLayout.cc
     platforms/windows/WindowsStatusIcon.cc
     platforms/windows/WindowsFocusAssist.cc
     platforms/windows/Remote.cc
   )
+
+  target_link_libraries(workrave-app PUBLIC user32 gdi32 advapi32 ole32 oleaut32 uuid uiautomationcore comctl32)
 
   if (HAVE_HARPOON)
     target_sources(workrave-app PRIVATE platforms/windows/WindowsHarpoonLocker.cc)
