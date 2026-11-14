@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <type_traits>
 
+#include "Presentation.hh"
 #include "config/Setting.hh"
 #include "config/IConfigurator.hh"
 
@@ -57,10 +58,13 @@ namespace ui::prefwidgets
     virtual ~Widget() = default;
 
     std::string get_label() const;
+    Presentation get_presentation() const;
 
     virtual std::list<std::shared_ptr<SizeGroup>> get_size_groups() const = 0;
 
   protected:
+    void set_presentation(Presentation presentation);
+
     template<class Derived>
     std::shared_ptr<Derived> shared_from_base()
     {
@@ -69,6 +73,7 @@ namespace ui::prefwidgets
 
   private:
     std::string label;
+    Presentation presentation_;
   };
 
   template<typename S, typename T>
@@ -154,6 +159,12 @@ namespace ui::prefwidgets
     ~WidgetBase() override
     {
       config->remove_listener(this);
+    }
+
+    std::shared_ptr<Derived> presentation(Presentation presentation)
+    {
+      set_presentation(std::move(presentation));
+      return shared_from_base<Derived>();
     }
 
     void init(std::function<void(Type)> update_func)
@@ -406,6 +417,12 @@ namespace ui::prefwidgets
     }
     ContainerBase() = default;
     ~ContainerBase() override = default;
+
+    std::shared_ptr<Derived> presentation(Presentation presentation)
+    {
+      set_presentation(std::move(presentation));
+      return shared_from_base<Derived>();
+    }
 
     auto operator<<(std::shared_ptr<Widget> w)
     {

@@ -39,7 +39,11 @@ namespace ui::prefwidgets
     std::shared_ptr<Choice> assign(std::function<std::vector<std::string>()> func);
     std::vector<std::string> get_content() const;
 
+    std::shared_ptr<Choice> presentation(ChoicePresentation presentation);
+    ChoicePresentation get_choice_presentation() const;
+
   private:
+    ChoicePresentation presentation_;
     std::vector<std::string> content;
     std::function<std::vector<std::string>()> fill_func;
   };

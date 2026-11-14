@@ -68,7 +68,7 @@ private:
   std::shared_ptr<AutoUpdateDialog> dialog;
   std::optional<handler_type> dialog_handler;
 
-  std::shared_ptr<ui::prefwidgets::Def> auto_update_def;
+  std::shared_ptr<ui::prefwidgets::PanelDef> auto_update_def;
   double progress{0.0};
 
   using sv = std::string_view;

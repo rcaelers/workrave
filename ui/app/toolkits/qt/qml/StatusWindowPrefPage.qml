@@ -1,4 +1,5 @@
 import QtQuick
+import PrefWidgets 1.0
 
 // StatusWindowPrefPage — content for User interface > Status window preferences.
 // Expects context property: statusWindowPrefBridge (StatusWindowPrefBridge)
@@ -127,75 +128,10 @@ Item {
             width: parent.width
             title: qsTr("Layout")
 
-            // Placement picker
-            Item {
+            TimerPlacementPicker {
                 width: parent.width
-                height: placementContent.implicitHeight + 28
-
-                Rectangle {
-                    anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
-                    height: 1; color: tok.edge2
-                }
-
-                Column {
-                    id: placementContent
-                    anchors { left: parent.left; right: parent.right; top: parent.top; topMargin: 14 }
-                    spacing: 14
-
-                    Column {
-                        width: parent.width
-                        spacing: tok.labelHintGap
-
-                        Text {
-                            text: qsTr("Placement")
-                            font.pixelSize: tok.labelPx; font.weight: Font.Medium
-                            color: tok.ink
-                        }
-                        Text {
-                            width: parent.width
-                            text: qsTr("Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them.")
-                            font.pixelSize: tok.hintPx; color: tok.mute
-                            wrapMode: Text.WordWrap; lineHeight: tok.hintLineH
-                        }
-                    }
-
-                    Row {
-                        width: parent.width
-                        spacing: 10
-
-                        TimerPlacementCard {
-                            width: (parent.width - 30) / 4
-                            active: root.bridge ? root.bridge.placement === 0 : true
-                            cardTitle: qsTr("Next to each other")
-                            pattern: [["M"], ["R"], ["D"]]
-                            onClicked: { if (root.bridge) root.bridge.setPlacement(0) }
-                        }
-
-                        TimerPlacementCard {
-                            width: (parent.width - 30) / 4
-                            active: root.bridge ? root.bridge.placement === 1 : false
-                            cardTitle: qsTr("Micro + Rest together")
-                            pattern: [["M","R"], ["D"]]
-                            onClicked: { if (root.bridge) root.bridge.setPlacement(1) }
-                        }
-
-                        TimerPlacementCard {
-                            width: (parent.width - 30) / 4
-                            active: root.bridge ? root.bridge.placement === 2 : false
-                            cardTitle: qsTr("Rest + Daily together")
-                            pattern: [["M"], ["R","D"]]
-                            onClicked: { if (root.bridge) root.bridge.setPlacement(2) }
-                        }
-
-                        TimerPlacementCard {
-                            width: (parent.width - 30) / 4
-                            active: root.bridge ? root.bridge.placement === 3 : false
-                            cardTitle: qsTr("All in one slot")
-                            pattern: [["M","R","D"]]
-                            onClicked: { if (root.bridge) root.bridge.setPlacement(3) }
-                        }
-                    }
-                }
+                currentIndex: root.bridge ? root.bridge.placement : 0
+                onSelected: (v) => { if (root.bridge) root.bridge.setPlacement(v) }
             }
 
             // Cycle time — only meaningful when timers share a slot

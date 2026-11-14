@@ -1,4 +1,5 @@
 import QtQuick
+import PrefWidgets 1.0 as Widgets
 
 // TimerStyleCard — selectable card showing a display style option.
 // kind: "rings" | "bars" | "focus"
@@ -14,6 +15,7 @@ Item {
 
     implicitHeight: cardCol.implicitHeight + 26
 
+    PreferencePresentations { }
     PrefTokens { id: tok }
 
     Rectangle {
@@ -42,9 +44,10 @@ Item {
                 border.color: tok.edge; border.width: 1
             }
 
-            TimerStylePreview {
-                anchors.centerIn: parent
-                kind: card.kind
+            Widgets.Preview {
+                anchors.fill: parent
+                anchors.margins: 8
+                asset: "workrave.timer-style." + card.kind
             }
         }
 

@@ -20,6 +20,7 @@
 #endif
 
 #include "Choice.hh"
+#include "commonui/Locale.hh"
 
 using namespace ui::prefwidgets;
 
@@ -62,4 +63,31 @@ Choice::get_content() const
       return fill_func();
     }
   return content;
+}
+
+std::shared_ptr<Choice>
+Choice::presentation(ChoicePresentation presentation)
+{
+  set_presentation(
+    {.name = presentation.name, .label = presentation.label, .hint = presentation.hint, .accent = presentation.accent});
+  presentation_ = std::move(presentation);
+  return shared_from_base<Choice>();
+}
+
+ChoicePresentation
+Choice::get_choice_presentation() const
+{
+  auto result = presentation_;
+  const auto common = get_presentation();
+  result.label = common.label;
+  result.hint = common.hint;
+  for (auto &option: result.options)
+    {
+      option = Locale::lookup(option);
+    }
+  for (auto &preview: result.previews)
+    {
+      preview.description = Locale::lookup(preview.description);
+    }
+  return result;
 }

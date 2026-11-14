@@ -1,4 +1,5 @@
 import QtQuick
+import PrefWidgets 1.0
 
 // MonitoringPrefPage — activity monitoring options.
 // Expects context property: monitoringPrefBridge (MonitoringPrefBridge)
@@ -42,12 +43,6 @@ Item {
                 onIncrement: { if (root.bridge) root.bridge.setSensitivity(root.bridge.sensitivity + 1) }
                 onDecrement: { if (root.bridge) root.bridge.setSensitivity(Math.max(1, root.bridge.sensitivity - 1)) }
             }
-        }
-
-        // ── Plugin extensions (e.g. WindowsFocusAssist) ───────────────────────
-        PrefPluginGroups {
-            width: parent.width
-            bridge: (typeof pageExtensionBridge !== "undefined") ? pageExtensionBridge : null
         }
 
         // ── Debug ─────────────────────────────────────────────────────────────

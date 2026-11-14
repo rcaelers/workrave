@@ -1,8 +1,8 @@
 import QtQuick
 
-// Simulates ActivePluginPageBridge with a sample plugin (auto-updater style).
+// Simulates an active preference page model with a sample plugin (auto-updater style).
 // groups is a list of group objects, each with a label and rows list.
-// rows items mirror PrefRowBridge properties.
+// rows items mirror the prefwidget library row properties.
 
 QtObject {
     id: root
