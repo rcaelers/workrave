@@ -173,7 +173,14 @@ class ActivePluginPageBridge : public QObject
 public:
   explicit ActivePluginPageBridge(QObject *parent = nullptr);
 
+  struct Panels
+  {
+    PluginPageBridge *main{nullptr};
+    PluginPageBridge *additional{nullptr};
+  };
+
   void loadPanel(PluginPageBridge *panel);
+  void loadPanels(Panels panels);
 
   QString      label()  const;
   QVariantList groups() const;
@@ -183,6 +190,7 @@ Q_SIGNALS:
 
 private:
   PluginPageBridge *current_{nullptr};
+  PluginPageBridge *additional_{nullptr};
 };
 
 // ── QmlPluginPageBuilder ──────────────────────────────────────────────────────
@@ -190,6 +198,7 @@ private:
 
 namespace QmlPluginPageBuilder
 {
+  void append(std::shared_ptr<ui::prefwidgets::Def> def, PluginPageBridge *page, QObject *parent);
   PluginPageBridge *build(std::shared_ptr<ui::prefwidgets::Def> def, QObject *parent);
 }
 

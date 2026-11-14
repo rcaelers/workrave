@@ -21,6 +21,7 @@
 #include <memory>
 #include <list>
 #include <map>
+#include <optional>
 
 #include <gtkmm.h>
 
@@ -37,10 +38,14 @@ public:
   void select_panel(const std::string &panel);
   void add_panel(const std::string &id, Gtk::Widget *widget, const std::string &label);
   void add_panel(const std::string &id, Gtk::Widget *widget, Gtk::Widget *label);
+  bool add_panel_extension(const std::string &id, Gtk::Widget *widget, IPreferencesRegistryInternal::Placement placement);
 
 private:
+  bool add_panel_content(const std::string &id, Gtk::Widget *widget);
   std::string id;
-  std::map<std::string, Gtk::Widget *> panels;
+  std::map<std::string, Gtk::Box *> panels;
+  std::map<std::string, int> top_extension_counts;
+  std::map<std::string, int> panel_content_counts;
   std::list<std::string> panel_order;
   Gtk::Notebook *notebook{nullptr};
 };
@@ -64,7 +69,8 @@ private:
 
   void create_plugin_pages();
   void create_plugin_panels();
-  void create_panel(std::shared_ptr<ui::prefwidgets::Def> &def);
+  void create_panel(const std::shared_ptr<ui::prefwidgets::Def> &def,
+                    const IPreferencesRegistryInternal::PanelExtension *extension = nullptr);
 
   bool on_focus_in_event(GdkEventFocus *event) override;
   bool on_focus_out_event(GdkEventFocus *event) override;

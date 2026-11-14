@@ -259,20 +259,32 @@ ActivePluginPageBridge::ActivePluginPageBridge(QObject *parent)
 void
 ActivePluginPageBridge::loadPanel(PluginPageBridge *panel)
 {
-  current_ = panel;
+  loadPanels({.main = panel});
+}
+
+void
+ActivePluginPageBridge::loadPanels(Panels panels)
+{
+  current_ = panels.main;
+  additional_ = panels.additional;
   Q_EMIT changed();
 }
 
 QString
 ActivePluginPageBridge::label() const
 {
-  return current_ ? current_->label() : QString();
+  return current_ != nullptr ? current_->label() : QString();
 }
 
 QVariantList
 ActivePluginPageBridge::groups() const
 {
-  return current_ ? current_->groups() : QVariantList{};
+  auto groups = current_ != nullptr ? current_->groups() : QVariantList{};
+  if (additional_ != nullptr)
+    {
+      groups.append(additional_->groups());
+    }
+  return groups;
 }
 
 // ── QmlPluginPageBuilder ──────────────────────────────────────────────────────
@@ -333,7 +345,6 @@ namespace QmlPluginPageBuilder
     else
       {
         // bare leaf at root level — put in an unlabelled group
-        auto *group = new PluginGroupBridge(QString{}, parent);
         PrefRowBridge *row = nullptr;
 
         if (auto d = std::dynamic_pointer_cast<ui::prefwidgets::Toggle>(widget); d)
@@ -349,9 +360,18 @@ namespace QmlPluginPageBuilder
 
         if (row != nullptr)
           {
+            auto *group = new PluginGroupBridge(QString{}, parent);
             group->addRow(row);
             page->addGroup(group);
           }
+      }
+  }
+
+  void append(std::shared_ptr<ui::prefwidgets::Def> def, PluginPageBridge *page, QObject *parent)
+  {
+    if (auto root = def->get_widget(); root)
+      {
+        buildWidget(root, page, parent);
       }
   }
 
@@ -365,11 +385,7 @@ namespace QmlPluginPageBuilder
 
     auto *page = new PluginPageBridge(pageLabel, parent);
 
-    auto root = def->get_widget();
-    if (root)
-      {
-        buildWidget(root, page, parent);
-      }
+    append(def, page, parent);
 
     return page;
   }

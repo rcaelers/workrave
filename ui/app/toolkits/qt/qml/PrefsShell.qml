@@ -14,6 +14,8 @@ Item {
     signal closeRequested()
 
     readonly property bool hasGrpc: typeof remoteControlPrefBridge !== "undefined" && remoteControlPrefBridge.hasGrpc
+    readonly property bool hasBuiltinApplet: typeof prefHasBuiltinApplet !== "undefined"
+                                            ? prefHasBuiltinApplet : Qt.platform.os === "linux"
 
     readonly property var staticNavModel: {
         var sections = [
@@ -27,9 +29,11 @@ Item {
             { id: "general",     title: qsTr("General")         },
             { id: "sounds",      title: qsTr("Sounds")          },
             { id: "status",      title: qsTr("Status window")   },
-            { id: "applet",      title: qsTr("Applet")   },
           ]},
         ]
+        if (root.hasBuiltinApplet) {
+            sections[1].children.push({ id: "applet", title: qsTr("Applet") })
+        }
         if (root.hasGrpc) {
             sections.push({ id: "remote-control", title: qsTr("Remote control"), children: [
                 { id: "grpc", title: "gRPC" },
@@ -39,17 +43,28 @@ Item {
     }
 
     // Plugin pages injected by C++ via prefPluginNavEntries context property.
-    // Each entry: { id: string, title: string }
+    // Each entry: { id: string, title: string, section: string }
     readonly property var pluginEntries: (typeof prefPluginNavEntries !== "undefined") ? prefPluginNavEntries : []
 
     readonly property var navModel: {
         if (pluginEntries.length === 0)
             return staticNavModel;
+        var sections = staticNavModel.map(function(section) {
+            return { id: section.id, title: section.title, children: section.children.slice() };
+        });
         var plugins = [];
         for (var i = 0; i < pluginEntries.length; i++) {
-            plugins.push({ id: pluginEntries[i].id, title: pluginEntries[i].title });
+            var entry = pluginEntries[i];
+            var target = sections.find(function(section) { return section.id === (entry.section || "plugin"); });
+            var child = { id: entry.id, title: entry.title };
+            if (target)
+                target.children.push(child);
+            else
+                plugins.push(child);
         }
-        return staticNavModel.concat([{ id: "plugin", title: "Plugins", children: plugins }]);
+        if (plugins.length > 0)
+            sections.push({ id: "plugin", title: "Plugins", children: plugins });
+        return sections;
     }
 
     PrefTokens { id: tok }
@@ -93,7 +108,7 @@ Item {
                 lede:  qsTr("The little always-visible window with your three timers."),
                 url:   "StatusWindowPrefPage.qml"
             }
-            if (pg === "applet") return {
+            if (pg === "applet" && root.hasBuiltinApplet) return {
                 title: qsTr("Applet"),
                 lede:  qsTr("The system-tray or panel applet showing your three timers."),
                 url:   "AppletPrefPage.qml"
@@ -103,6 +118,11 @@ Item {
             title: "gRPC",
             lede: qsTr("Allow local applications to inspect and control Workrave."),
             url: "RemoteControlPrefPage.qml"
+        }
+        for (var i = 0; i < root.pluginEntries.length; i++) {
+            var entry = root.pluginEntries[i];
+            if ((entry.section || "plugin") === sec && entry.id === pg)
+                return { title: entry.title, lede: "", url: "PluginPrefPage.qml" };
         }
         if (sec === "plugin") {
             var lbl = "";
@@ -267,6 +287,18 @@ Item {
 
                         Item {
                             width: parent.width
+                            visible: topExtensions.visible
+                            height: visible ? topExtensions.implicitHeight + 24 : 0
+
+                            PrefPluginGroups {
+                                id: topExtensions
+                                width: parent.width
+                                bridge: typeof pageTopExtensionBridge !== "undefined" ? pageTopExtensionBridge : null
+                            }
+                        }
+
+                        Item {
+                            width: parent.width
                             height: (pageLoader.item ? pageLoader.item.implicitHeight : 0) + 4
 
                             Loader {
@@ -275,6 +307,20 @@ Item {
                                 source: root.pageMeta.url !== ""
                                         ? Qt.resolvedUrl(root.pageMeta.url)
                                         : ""
+                            }
+                        }
+
+                        // Every built-in tab can host prefwidgets extensions.
+                        Item {
+                            width: parent.width
+                            visible: extensions.visible
+                            height: visible ? extensions.implicitHeight + 24 : 0
+
+                            PrefPluginGroups {
+                                id: extensions
+                                y: 24
+                                width: parent.width
+                                bridge: typeof pageExtensionBridge !== "undefined" ? pageExtensionBridge : null
                             }
                         }
                     }

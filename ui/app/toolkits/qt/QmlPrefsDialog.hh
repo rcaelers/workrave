@@ -18,12 +18,13 @@
 #define QMLPREFSDIALOG_HH
 
 #ifndef Q_MOC_RUN
-#include <map>
-#include <memory>
-#include <string>
-#include <QObject>
-#include <QPointer>
-#include <QString>
+#  include <map>
+#  include <memory>
+#  include <string>
+#  include <QObject>
+#  include <QPointer>
+#  include <QString>
+#  include <QVariantList>
 #endif
 
 class QQuickView;
@@ -40,7 +41,7 @@ class ActivePluginPageBridge;
 class PluginPageBridge;
 
 #ifndef Q_MOC_RUN
-#include "ui/IApplicationContext.hh"
+#  include "ui/IApplicationContext.hh"
 #endif
 
 class QmlPrefsDialog : public QObject
@@ -67,22 +68,27 @@ private Q_SLOTS:
 
 private:
   void create_plugin_bridges();
+  QVariantList create_plugin_navigation();
 
   std::shared_ptr<IApplicationContext> app;
   QQuickView *view{nullptr};
-  MicrobreakPrefBridge   *microbreakBridge{nullptr};
-  RestBreakPrefBridge    *restBreakBridge{nullptr};
-  DailyLimitPrefBridge   *dailyLimitBridge{nullptr};
+  MicrobreakPrefBridge *microbreakBridge{nullptr};
+  RestBreakPrefBridge *restBreakBridge{nullptr};
+  DailyLimitPrefBridge *dailyLimitBridge{nullptr};
   StatusWindowPrefBridge *statusWindowBridge{nullptr};
-  AppletPrefBridge       *appletBridge{nullptr};
-  GeneralPrefBridge      *generalBridge{nullptr};
+  AppletPrefBridge *appletBridge{nullptr};
+  GeneralPrefBridge *generalBridge{nullptr};
   RemoteControlPrefBridge *remoteControlBridge{nullptr};
-  MonitoringPrefBridge   *monitoringBridge{nullptr};
-  SoundsPrefBridge       *soundsBridge{nullptr};
+  MonitoringPrefBridge *monitoringBridge{nullptr};
+  SoundsPrefBridge *soundsBridge{nullptr};
 
-  ActivePluginPageBridge                 *activeBridge{nullptr};
-  ActivePluginPageBridge                 *extensionBridge{nullptr};
+  ActivePluginPageBridge *activeBridge{nullptr};
+  ActivePluginPageBridge *extensionBridge{nullptr};
+  ActivePluginPageBridge *topExtensionBridge{nullptr};
   std::map<std::string, PluginPageBridge *> pluginBridges;
+  std::map<std::string, PluginPageBridge *> topExtensionBridges;
+  std::map<std::string, PluginPageBridge *> bottomExtensionBridges;
+  std::map<std::string, std::string> pluginSections;
 };
 
 #endif // QMLPREFSDIALOG_HH

@@ -22,7 +22,6 @@
 #include "PreferencesDialog.hh"
 
 #include <memory>
-#include <stdexcept>
 
 #include <boost/algorithm/string/split.hpp>
 #include <gtkmm.h>
@@ -129,7 +128,7 @@ PreferencesDialog::create_ui_page()
   Gtk::Widget *gui_mainwindow_page = Gtk::manage(new TimerBoxPreferencePanel(app, "main_window"));
   page->add_panel("mainwindow", gui_mainwindow_page, _("Status window"));
 
-#if !defined(PLATFORM_OS_MACOS)
+#ifdef PLATFORM_OS_UNIX
   Gtk::Widget *gui_applet_page = Gtk::manage(new TimerBoxPreferencePanel(app, "applet"));
   page->add_panel("applet", gui_applet_page, _("Applet"));
 #endif
@@ -173,11 +172,24 @@ PreferencesDialog::create_plugin_pages()
 }
 
 void
-PreferencesDialog::create_panel(std::shared_ptr<ui::prefwidgets::Def> &def)
+PreferencesDialog::create_panel(const std::shared_ptr<ui::prefwidgets::Def> &def,
+                                const IPreferencesRegistryInternal::PanelExtension *extension)
 {
-  auto pageid = def->get_page();
-  auto panelid = def->get_panel();
+  if (def == nullptr || def->get_widget() == nullptr)
+    {
+      spdlog::error("Cannot create preferences from an empty definition");
+      return;
+    }
+  auto placement = extension != nullptr ? std::optional{extension->placement} : std::nullopt;
+  auto pageid = extension != nullptr ? extension->page : def->get_page();
+  auto panelid = extension != nullptr ? extension->panel : def->get_panel();
   auto widget = def->get_widget();
+  auto paneldef = std::dynamic_pointer_cast<ui::prefwidgets::PanelDef>(def);
+  if (!placement && paneldef == nullptr)
+    {
+      spdlog::error("Cannot create preferences panel '{}' from a widget definition", panelid);
+      return;
+    }
 
   auto pageit = pages.find(pageid);
   if (pageit == pages.end())
@@ -186,15 +198,25 @@ PreferencesDialog::create_panel(std::shared_ptr<ui::prefwidgets::Def> &def)
       return;
     }
   auto page = pageit->second;
-  if (auto paneldef = std::dynamic_pointer_cast<ui::prefwidgets::PanelDef>(def); paneldef)
+  auto *box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL, 6));
+  if (placement)
     {
-      ui::prefwidgets::gtkmm::Builder builder;
-      auto *box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL, 6));
-      auto frame = std::make_shared<ui::prefwidgets::gtkmm::BoxWidget>(box);
-      builder.build(widget, frame);
-      page->add_panel(panelid, box, paneldef->get_label());
-      frames.push_back(frame);
+      if (!page->add_panel_extension(panelid, box, *placement))
+        {
+          spdlog::error("Cannot find panel {} on page {} when adding preferences", panelid, pageid);
+          delete box;
+          return;
+        }
     }
+  // Resolve the insertion point before connecting definitions to UI callbacks.
+  ui::prefwidgets::gtkmm::Builder builder;
+  auto frame = std::make_shared<ui::prefwidgets::gtkmm::BoxWidget>(box);
+  builder.build(widget, frame);
+  if (!placement)
+    {
+      page->add_panel(panelid, box, paneldef->get_label());
+    }
+  frames.push_back(frame);
 }
 
 void
@@ -202,11 +224,20 @@ PreferencesDialog::create_plugin_panels()
 {
   auto preferences_registry = app->get_internal_preferences_registry();
 
+  // Create plugin tabs before inserting extensions, including extensions of
+  // another plugin's tab. Registry iteration order must not affect placement.
   for (auto &[id, deflist]: preferences_registry->get_widgets())
     {
-      for (std::shared_ptr<ui::prefwidgets::Def> def: deflist)
+      for (const auto &def: deflist)
         {
           create_panel(def);
+        }
+    }
+  for (const auto &[id, extensions]: preferences_registry->get_panel_extensions())
+    {
+      for (const auto &extension: extensions)
+        {
+          create_panel(extension.def, &extension);
         }
     }
 }
@@ -265,21 +296,71 @@ PreferencesPage::PreferencesPage(const std::string &id, Gtk::Notebook *notebook)
 void
 PreferencesPage::add_panel(const std::string &id, Gtk::Widget *widget, const std::string &label)
 {
-  panels.emplace(id, widget);
-  panel_order.push_back(id);
-
-  notebook->append_page(*widget, label);
-  notebook->set_show_tabs(notebook->get_n_pages() > 1);
+  if (add_panel_content(id, widget))
+    {
+      return;
+    }
+  add_panel(id, widget, Gtk::manage(new Gtk::Label(label)));
 }
 
 void
 PreferencesPage::add_panel(const std::string &id, Gtk::Widget *widget, Gtk::Widget *label)
 {
-  panels.emplace(id, widget);
+  if (add_panel_content(id, widget))
+    {
+      return;
+    }
+  auto *content = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL, 6));
+  content->pack_start(*widget, true, true, 0);
+  panels.emplace(id, content);
+  panel_content_counts[id] = 1;
   panel_order.push_back(id);
 
-  notebook->append_page(*widget, *label);
+  notebook->append_page(*content, *label);
   notebook->set_show_tabs(notebook->get_n_pages() > 1);
+}
+
+bool
+PreferencesPage::add_panel_content(const std::string &id, Gtk::Widget *widget)
+{
+  auto it = panels.find(id);
+  if (it == panels.end())
+    {
+      return false;
+    }
+  for (auto *child: it->second->get_children())
+    {
+      it->second->child_property_expand(*child) = false;
+      it->second->child_property_fill(*child) = false;
+    }
+  it->second->pack_start(*widget, false, false, 0);
+  it->second->reorder_child(*widget, top_extension_counts[id] + panel_content_counts[id]++);
+  return true;
+}
+
+bool
+PreferencesPage::add_panel_extension(const std::string &id,
+                                     Gtk::Widget *widget,
+                                     IPreferencesRegistryInternal::Placement placement)
+{
+  auto it = panels.find(id);
+  if (it == panels.end())
+    {
+      return false;
+    }
+  // Keep extensions adjacent to the existing controls instead of letting
+  // the original panel consume spare vertical space between them.
+  for (auto *child: it->second->get_children())
+    {
+      it->second->child_property_expand(*child) = false;
+      it->second->child_property_fill(*child) = false;
+    }
+  it->second->pack_start(*widget, false, false, 0);
+  if (placement == IPreferencesRegistryInternal::Placement::Top)
+    {
+      it->second->reorder_child(*widget, top_extension_counts[id]++);
+    }
+  return true;
 }
 
 void
@@ -292,7 +373,8 @@ PreferencesPage::select_panel(const std::string &panel)
   auto it = panels.find(panel);
   if (it == panels.end())
     {
-      throw std::invalid_argument("Unknown preferences panel: " + panel);
+      spdlog::error("Cannot select unknown preferences panel '{}' on page '{}'", panel, id);
+      return;
     }
   notebook->set_current_page(notebook->page_num(*it->second));
 }
@@ -309,7 +391,8 @@ PreferencesDialog::select_page(const std::string &page, const std::string &panel
   auto it = pages.find(page);
   if (it == pages.end())
     {
-      throw std::invalid_argument("Unknown preferences page: " + page);
+      spdlog::error("Cannot select unknown preferences page '{}'", page);
+      return;
     }
   it->second->select_panel(panel);
   panel_list.select_row(page);

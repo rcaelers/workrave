@@ -44,12 +44,6 @@ Item {
             }
         }
 
-        // ── Plugin extensions (e.g. WindowsFocusAssist) ───────────────────────
-        PrefPluginGroups {
-            width: parent.width
-            bridge: (typeof pageExtensionBridge !== "undefined") ? pageExtensionBridge : null
-        }
-
         // ── Debug ─────────────────────────────────────────────────────────────
         PrefGroup {
             width: parent.width

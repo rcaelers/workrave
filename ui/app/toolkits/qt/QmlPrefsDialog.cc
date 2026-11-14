@@ -20,6 +20,9 @@
 
 #include "QmlPrefsDialog.hh"
 
+#include <algorithm>
+#include <set>
+
 #include <QQuickView>
 #include <QQuickItem>
 #include <QQmlContext>
@@ -46,6 +49,7 @@ QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject
   soundsBridge       = new SoundsPrefBridge(this->app, this);
   activeBridge    = new ActivePluginPageBridge(this);
   extensionBridge = new ActivePluginPageBridge(this);
+  topExtensionBridge = new ActivePluginPageBridge(this);
   create_plugin_bridges();
 
   view = new QQuickView();
@@ -67,19 +71,15 @@ QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject
   ctx->setContextProperty("soundsPrefBridge",       soundsBridge);
   ctx->setContextProperty("activePluginBridge",  activeBridge);
   ctx->setContextProperty("pageExtensionBridge", extensionBridge);
+  ctx->setContextProperty("pageTopExtensionBridge", topExtensionBridge);
+#ifdef PLATFORM_OS_UNIX
+  constexpr bool builtinApplet = true;
+#else
+  constexpr bool builtinApplet = false;
+#endif
+  ctx->setContextProperty("prefHasBuiltinApplet", builtinApplet);
 
-  // Build nav entries for plugin pages
-  QVariantList pluginNavEntries;
-  auto registry = this->app->get_internal_preferences_registry();
-  for (auto &[id, info] : registry->get_pages())
-    {
-      auto &[label, image] = info;
-      QVariantMap entry;
-      entry["id"]    = QString::fromStdString(id);
-      entry["title"] = QString::fromStdString(label);
-      pluginNavEntries.append(entry);
-    }
-  ctx->setContextProperty("prefPluginNavEntries", pluginNavEntries);
+  ctx->setContextProperty("prefPluginNavEntries", create_plugin_navigation());
 
   QObject::connect(view, &QQuickView::statusChanged, this, [this](QQuickView::Status status) {
     if (status == QQuickView::Error)
@@ -96,6 +96,7 @@ QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject
           {
             QObject::connect(root, SIGNAL(navigateTo(QString, QString)), this, SLOT(onNavigateTo(QString, QString)));
             QObject::connect(root, SIGNAL(closeRequested()), this, SLOT(onCloseRequested()));
+            onNavigateTo(root->property("currentSection").toString(), root->property("currentPage").toString());
           }
       }
   });
@@ -109,6 +110,71 @@ auto
 QmlPrefsDialog::is_visible() const -> bool
 {
   return view != nullptr && view->isVisible();
+}
+
+QVariantList
+QmlPrefsDialog::create_plugin_navigation()
+{
+  // Build nav entries for plugin pages
+  QVariantList pluginNavEntries;
+  auto registry = this->app->get_internal_preferences_registry();
+  auto pluginPages = registry->get_pages();
+  auto panelDefinitions = registry->get_widgets();
+  std::map<std::string, std::string> sections{{"ui", "ui"}, {"timer", "timers"}, {"monitoring", "timers"}, {"sounds", "ui"}};
+  std::set<std::string> builtinPanels{
+    "ui.general",
+    "ui.mainwindow",
+    "timer.microbreak",
+    "timer.restbreak",
+    "timer.dailylimit",
+    "monitoring.monitoring",
+    "sounds.sounds",
+  };
+#ifdef PLATFORM_OS_UNIX
+  builtinPanels.insert("ui.applet");
+#endif
+#ifdef HAVE_GRPC
+  sections.emplace("remote-control", "remote-control");
+  builtinPanels.insert("remote-control.grpc");
+#endif
+  for (const auto &[location, definitions]: panelDefinitions)
+    {
+      if (definitions.empty())
+        {
+          continue;
+        }
+      auto def = definitions.front();
+      auto locationId = def->get_page() + "." + def->get_panel();
+      if (builtinPanels.contains(locationId))
+        {
+          continue;
+        }
+      auto page = pluginPages.find(def->get_page());
+      auto host = sections.find(def->get_page());
+      if (page == pluginPages.end() && host == sections.end())
+        {
+          spdlog::error("Cannot add preferences panel '{}' to unknown page '{}'", def->get_panel(), def->get_page());
+          continue;
+        }
+      auto panel = std::dynamic_pointer_cast<ui::prefwidgets::PanelDef>(def);
+      if (panel == nullptr)
+        {
+          spdlog::error("Cannot create preferences panel '{}' from a widget definition", locationId);
+          continue;
+        }
+      QVariantMap entry;
+      auto section = host != sections.end() ? host->second : "plugin";
+      entry.insert("id", QString::fromStdString(locationId));
+      entry.insert("section", QString::fromStdString(section));
+      pluginSections[locationId] = section;
+      auto panelCount = std::count_if(panelDefinitions.begin(), panelDefinitions.end(), [&](const auto &item) {
+        return !item.second.empty() && item.second.front()->get_page() == def->get_page();
+      });
+      entry.insert("title",
+                   QString::fromStdString(section == "plugin" && panelCount == 1 ? page->second.first : panel->get_label()));
+      pluginNavEntries.append(entry);
+    }
+  return pluginNavEntries;
 }
 
 QmlPrefsDialog::~QmlPrefsDialog()
@@ -149,16 +215,63 @@ void
 QmlPrefsDialog::create_plugin_bridges()
 {
   auto registry = app->get_internal_preferences_registry();
+  auto append = [this](auto &bridges, const auto &key, const auto &def) {
+    auto it = bridges.find(key);
+    if (it == bridges.end())
+      {
+        bridges[key] = QmlPluginPageBuilder::build(def, this);
+      }
+    else
+      {
+        QmlPluginPageBuilder::append(def, it->second, this);
+      }
+  };
   for (auto &[id, deflist] : registry->get_widgets())
     {
       for (auto &def : deflist)
         {
-          auto pageid = def->get_page();
-          auto *page  = QmlPluginPageBuilder::build(def, this);
-          pluginBridges[pageid] = page;
+          append(pluginBridges, def->get_page() + "." + def->get_panel(), def);
+        }
+    }
+  for (const auto &[id, extensions]: registry->get_panel_extensions())
+    {
+      for (const auto &extension: extensions)
+        {
+          const auto &def = extension.def;
+          auto key = extension.page + "." + extension.panel;
+          auto &bridges = extension.placement == IPreferencesRegistryInternal::Placement::Top ? topExtensionBridges
+                                                                                              : bottomExtensionBridges;
+          append(bridges, key, def);
         }
     }
 }
+
+namespace
+{
+  std::string registry_location(const QString &section, const QString &page)
+  {
+    // Use the registry's existing GTK page/panel IDs in both toolkits.
+    QString registryPage = section == "timers" ? "timer" : section;
+    QString registryPanel = page;
+    if (section == "timers" && page == "daily")
+      {
+        registryPanel = "dailylimit";
+      }
+    else if (section == "timers" && page == "monitoring")
+      {
+        registryPage = "monitoring";
+      }
+    else if (section == "ui" && page == "status")
+      {
+        registryPanel = "mainwindow";
+      }
+    else if (section == "ui" && page == "sounds")
+      {
+        registryPage = "sounds";
+      }
+    return registryPage.toStdString() + "." + registryPanel.toStdString();
+  }
+} // namespace
 
 void
 QmlPrefsDialog::onNavigateTo(const QString &section, const QString &page)
@@ -169,19 +282,30 @@ QmlPrefsDialog::onNavigateTo(const QString &section, const QString &page)
       return;
     }
 
-  if (section == "plugin")
+  if (section == "plugin" || pluginSections.contains(page.toStdString()))
     {
       auto it = pluginBridges.find(page.toStdString());
-      if (it != pluginBridges.end())
+      if (it == pluginBridges.end())
         {
-          activeBridge->loadPanel(it->second);
+          spdlog::error("Cannot select unknown preferences panel '{}'", page.toStdString());
         }
-      extensionBridge->loadPanel(nullptr);
+      activeBridge->loadPanel(it != pluginBridges.end() ? it->second : nullptr);
+      auto bottom = bottomExtensionBridges.find(page.toStdString());
+      extensionBridge->loadPanel(bottom != bottomExtensionBridges.end() ? bottom->second : nullptr);
+      auto top = topExtensionBridges.find(page.toStdString());
+      topExtensionBridge->loadPanel(top != topExtensionBridges.end() ? top->second : nullptr);
     }
   else
     {
-      auto it = pluginBridges.find(page.toStdString());
-      extensionBridge->loadPanel(it != pluginBridges.end() ? it->second : nullptr);
+      auto location = registry_location(section, page);
+      auto top = topExtensionBridges.find(location);
+      topExtensionBridge->loadPanel(top != topExtensionBridges.end() ? top->second : nullptr);
+      auto bottom = bottomExtensionBridges.find(location);
+      auto core = pluginBridges.find(location);
+      extensionBridge->loadPanels({
+        .main = core != pluginBridges.end() ? core->second : nullptr,
+        .additional = bottom != bottomExtensionBridges.end() ? bottom->second : nullptr,
+      });
     }
 
   root->setProperty("currentSection", section);
@@ -204,5 +328,13 @@ QmlPrefsDialog::onQmlStatusChanged(int status)
 void
 QmlPrefsDialog::select_page(const std::string &section, const std::string &page)
 {
-  onNavigateTo(QString::fromStdString(section), QString::fromStdString(page));
+  auto location = section + "." + page;
+  if (auto it = pluginSections.find(location); it != pluginSections.end())
+    {
+      onNavigateTo(QString::fromStdString(it->second), QString::fromStdString(location));
+    }
+  else
+    {
+      onNavigateTo(QString::fromStdString(section), QString::fromStdString(page));
+    }
 }
