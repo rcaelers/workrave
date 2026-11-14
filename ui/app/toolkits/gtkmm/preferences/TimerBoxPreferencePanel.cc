@@ -125,6 +125,14 @@ TimerBoxPreferencePanel::create_page()
       hig->add_widget(*enabled_cb);
     }
 
+#ifdef PLATFORM_OS_WINDOWS
+  if (name == "applet")
+    {
+      enabled_cb = Gtk::manage(new Gtk::CheckButton(_("Show timers in taskbar")));
+      hig->add_widget(*enabled_cb);
+    }
+#endif
+
   if (ontop_cb != nullptr)
     {
       hig->add_widget(*ontop_cb);

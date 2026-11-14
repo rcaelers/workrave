@@ -76,7 +76,11 @@ TimerBoxPreferencesPanel::init_enabled()
     }
   else if (name == "applet")
     {
+#ifdef PLATFORM_OS_WINDOWS
+      enabled_cb->setText(tr("Show timers in taskbar"));
+#else
       enabled_cb->setText(tr("Applet enabled"));
+#endif
     }
 
   connector->connect(GUIConfig::timerbox_enabled(name), dc::wrap(enabled_cb), [this](const auto &key, auto write) {
@@ -162,8 +166,6 @@ TimerBoxPreferencesPanel::init()
 
   layout = new QVBoxLayout;
   setLayout(layout);
-
-  layout->addWidget(enabled_cb);
 
   auto *display_box = new QGroupBox(tr("Display"));
   auto *display_layout = new QVBoxLayout;

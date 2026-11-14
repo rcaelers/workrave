@@ -116,6 +116,7 @@ ui/app/platforms/windows/WindowsForceFocus.cc
 ui/app/platforms/windows/WindowsHarpoonLocker.cc
 ui/app/platforms/windows/WindowsLocker.cc
 ui/app/platforms/windows/WindowsStatusIcon.cc
+ui/app/platforms/windows/WindowsTaskbarApplet.cc
 ui/app/PreferencesRegistry.cc
 ui/app/SoundTheme.cc
 ui/app/TimerBoxControl.cc
