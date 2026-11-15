@@ -3,12 +3,19 @@ if (NOT "@HAVE_SBOM@")
   return()
 endif()
 
+# This component also runs on its own, without the normal install(CODE)
+# assignments. The packaging-only project has a different CMAKE_SOURCE_DIR.
+set(sbom_source "@WORKRAVE_SOURCE_DIR@")
+if(sbom_source STREQUAL "")
+  set(sbom_source "@CMAKE_SOURCE_DIR@")
+endif()
+
 if (NOT "@WORKRAVE_SDK_DIR@" STREQUAL "")
   execute_process(
     COMMAND "@SHIP_EXECUTABLE@" sbom
             --sdk "@WORKRAVE_SDK_DIR@"
             --external "@CMAKE_BINARY_DIR@/external-sbom.csv"
-            --source "@CMAKE_SOURCE_DIR@"
+            --source "${sbom_source}"
             --output "${CMAKE_INSTALL_PREFIX}"
     RESULT_VARIABLE sbom_result)
 else()

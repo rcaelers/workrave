@@ -61,6 +61,9 @@ options:
     flag: true
     config: windows.debug
     help: "Windows: also produce a Debug build"
+  windows-ui:
+    config: windows.ui
+    help: "Windows interface to build: gtk, qt, or both (default: both)"
 
 # Values derived from the configuration and the command line.
 vars:
@@ -88,6 +91,7 @@ vars:
   windows_qt_sdk: "${{ config.workspace_dir }}/windows-qt-sdk/sdk.tar.gz"
   windows_qt_sdk_root: "C:/cache/qt/${{ ship.slice(ship.sha256(vars.windows_qt_sdk), 0, 24) }}-${{ ship.slice(ship.sha256(format('{0}/windows-conan/init-sdk.py', vars.windows_containers)), 0, 16) }}"
   windows_build_name: "${{ (matrix.ui == 'Qt' && 'qt' || 'gtk3') }}"
+  windows_ui: "${{ config.windows.ui || 'both' }}"
   windows_build_dir: "C:/workspace/source/_build/${{ vars.windows_build_name }}/${{ matrix.configuration }}"
   windows_output_dir: "C:/workspace/source/_output/${{ vars.windows_build_name }}/${{ matrix.configuration }}"
   windows_ship: "${{ (matrix.ui == 'Qt' && 'C:/cache/target/llvm-mingw' || 'C:/cache/target') }}/release/ship.exe"
@@ -119,6 +123,9 @@ targets:
     - win-prepare
     - win-qt-sdk
     - win-qt-sdk-install
+    - win-gtk-build
+    - win-qt-build
+    - win-qt-package
     - win-build
     - win-sign
     - win-upload
@@ -188,7 +195,15 @@ jobs:
   check-config-windows:
     runs-on: host
     if: "${{ contains(ship.targets, 'windows') }}"
+    env:
+      WINDOWS_UI: "${{ vars.windows_ui }}"
     steps:
+      - name: validate the selected Windows interface
+        run: |
+          case "$WINDOWS_UI" in
+            gtk|qt|both) ;;
+            *) echo "--windows-ui must be gtk, qt, or both" >&2; exit 1 ;;
+          esac
       - uses: check-config
         with:
           hint: tools/local/ship.example.yaml
@@ -223,9 +238,11 @@ jobs:
             - execution.windows.stop
             - execution.windows.docker
             - windows.jobs
+            - windows.ui
 
   check-config-windows-dependencies:
     runs-on: host
+    if: "${{ !failure() && !cancelled() && (contains(ship.targets, 'windows-dependencies') || vars.windows_ui != 'gtk') }}"
     steps:
       - uses: check-config
         with:
@@ -512,6 +529,7 @@ jobs:
               -DCMAKE_INSTALL_PREFIX="$OUTPUT_DIR" \
               -DCMAKE_PREFIX_PATH="$PREFIX_PATH" \
               -DCMAKE_OSX_ARCHITECTURES="$ARCHITECTURES" \
+              -DCMAKE_OSX_DEPLOYMENT_TARGET=14.4 \
               -DWITH_UI=Qt -DWITH_GRPC=ON \
               -DWORKRAVE_SIGN_IDENTITY="$SIGN_IDENTITY" \
               -DWORKRAVE_NOTARIZE_PROFILE="$NOTARIZE_PROFILE"
@@ -562,6 +580,7 @@ jobs:
 
   win-qt-sdk:
     needs: [check-config-windows-dependencies]
+    if: "${{ !failure() && !cancelled() && (contains(ship.targets, 'windows-dependencies') || vars.windows_ui != 'gtk') }}"
     runs-on: linux
     container:
       image: ${{ (config.windows.dependencies_image || 'ghcr.io/rcaelers/workrave-build:llvm-mingw') }}
@@ -584,7 +603,8 @@ jobs:
           # Include recipes, profiles, patches and SDK templates, but not build outputs.
           find . -type d ! -path . \( -name '_*' -o -name '.*' \) -prune -o -type f -print0 \
             | LC_ALL=C sort -z | xargs -0 sha256sum > "$fingerprint"
-          sha256sum /workspace/scripts/local/release.yaml >> "$fingerprint"
+          # Workflow/UI selection changes do not alter the dependency SDK.
+          # Its recipes, lockfiles, profiles and export templates are above.
           x86_64-w64-mingw32-clang --version >> "$fingerprint"
           conan --version >> "$fingerprint"
           key=$(sha256sum "$fingerprint" | cut -d' ' -f1)
@@ -614,7 +634,7 @@ jobs:
           build=/workspace/dependencies/conan/_build/windows-x86_64
           cmake --fresh -S /workspace/dependencies/conan/smoke -B "$build/smoke" -G Ninja \
             -DCMAKE_TOOLCHAIN_FILE="$build/build/RelWithDebInfo/generators/conan_toolchain.cmake" \
-            -DCMAKE_BUILD_TYPE=RelWithDebInfo
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWORKRAVE_SMOKE_GRPC=ON
           cmake --build "$build/smoke" --parallel ${{ (config.windows.jobs || 16) }}
           cmake --install "$build/smoke" --prefix "$build/smoke/package"
       - name: validate dependency architectures, checksums and PDBs
@@ -646,6 +666,7 @@ jobs:
 
   win-qt-sdk-install:
     needs: [win-qt-sdk]
+    if: "${{ !failure() && !cancelled() && (contains(ship.targets, 'windows-dependencies') || vars.windows_ui != 'gtk') }}"
     runs-on: windows
     container:
       image: ${{ (config.windows.qt_image || 'workrave-build:windows-conan') }}
@@ -662,11 +683,12 @@ jobs:
         run: >-
           python C:/image/init-sdk.py C:/input/sdk.tar.gz "${{ vars.windows_qt_sdk_root }}"
 
-  win-build:
-    needs: [workspace, win-prepare, win-qt-sdk-install]
+  win-gtk-build:
+    needs: [workspace, win-prepare]
+    if: "${{ !failure() && !cancelled() && vars.windows_ui != 'qt' }}"
     runs-on: windows
     container:
-      image: ${{ matrix.ui == 'Qt' && (config.windows.qt_image || 'workrave-build:windows-conan') || (config.windows.image || 'workrave-build:windows-msys2') }}
+      image: ${{ config.windows.image || 'workrave-build:windows-msys2' }}
       env:
         WORKRAVE_BUILD_JOBS: ${{ (config.windows.jobs || 16) }}
         WORKRAVE_BUILD_DATE: ${{ ship.today('%Y%m%d') }}
@@ -679,9 +701,9 @@ jobs:
         GIT_CONFIG_GLOBAL: C:/workspace/gitconfig
         XDG_CONFIG_HOME: C:/workspace/config
         CARGO_HOME: C:/cache/cargo
-        CARGO_TARGET_DIR: ${{ matrix.ui == 'Qt' && 'C:/cache/target/llvm-mingw' || 'C:/cache/target' }}
-        WORKRAVE_SDK_DIR: ${{ matrix.ui == 'Qt' && vars.windows_qt_sdk_root || '' }}
-      image-context: ${{ matrix.ui == 'Qt' && format('{0}/windows-conan', vars.windows_containers) || format('{0}/windows-msys2', vars.windows_containers) }}
+        CARGO_TARGET_DIR: C:/cache/target
+        WORKRAVE_SDK_DIR: ''
+      image-context: ${{ vars.windows_containers }}/windows-msys2
       copy:
         ${{ vars.source }}: C:/workspace/source
         ${{ vars.scripts }}: C:/workspace/scripts
@@ -690,38 +712,23 @@ jobs:
         C:/workspace/source/_output: ${{ vars.source }}/_output
         C:/workspace/source/_build/${{ vars.windows_build_name }}/${{ matrix.configuration }}/symbols: ${{ vars.source }}/_build/${{ vars.windows_build_name }}/${{ matrix.configuration }}/symbols
       init: |
-        if ('${{ matrix.ui }}' -eq 'Qt') {
-            $sdk = $env:WORKRAVE_SDK_DIR
-            if (-not (Test-Path "$sdk/.ready")) { throw 'Run the windows-dependencies target to initialize the Qt SDK' }
-            $bins = Get-ChildItem "$sdk/packages" -Directory | ForEach-Object { "$($_.FullName)/bin" }
-            $env:PATH = ($bins -join ';') + ';' + $env:PATH
-        } else {
-            $env:MINGW_ROOT = 'C:/msys64/clang64'
-            $env:MSYSTEM = 'CLANG64'
-            $env:PATH = 'C:/msys64/clang64/bin;C:/msys64/usr/bin;' + $env:PATH
-        }
+        $env:MINGW_ROOT = 'C:/msys64/clang64'
+        $env:MSYSTEM = 'CLANG64'
+        $env:PATH = 'C:/msys64/clang64/bin;C:/msys64/usr/bin;' + $env:PATH
       volumes:
         - workrave-ship-target:C:/cache/target
         - workrave-cargo:C:/cache/cargo
-        - ${{ (config.windows.qt_sdk_cache || 'workrave-qt-sdk') }}:C:/cache/qt
     defaults:
       run:
         shell: powershell
     strategy:
       matrix:
-        ui: [Gtk+3, Qt]
+        ui: [Gtk+3]
         configuration: ${{ fromJSON(config.windows.debug && '["Release","Debug"]' || '["Release"]') }}
     env:
       BUILD_DIR: "${{ vars.windows_build_dir }}"
       OUTPUT_DIR: "${{ vars.windows_output_dir }}"
     steps:
-      - name: validate the native Qt compiler and cached SDK
-        if: "${{ matrix.ui == 'Qt' }}"
-        run: |
-          $manifest = Get-Content "$env:WORKRAVE_SDK_DIR/manifest.json" -Raw | ConvertFrom-Json
-          $compiler = & x86_64-w64-mingw32-clang --version
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          if ($compiler[0] -ne $manifest.compiler.Split("`n")[0]) { throw 'Native compiler does not match the Conan SDK' }
       - name: build Ship for signing and SBOM generation
         if: "${{ (config.windows.sign || (matrix.configuration == 'Release' && config.windows.sbom)) }}"
         run: cargo build --release --manifest-path C:/workspace/scripts/ship/Cargo.toml
@@ -732,8 +739,8 @@ jobs:
           cmake -S C:/workspace/source -B "$env:BUILD_DIR" -G Ninja `
             "-DCMAKE_BUILD_TYPE=${{ matrix.configuration }}" `
             "-DCMAKE_INSTALL_PREFIX=$env:OUTPUT_DIR" -DCMAKE_FIND_USE_INSTALL_PREFIX=OFF `
-            "-DCMAKE_PREFIX_PATH=${{ (matrix.ui == 'Qt' && 'C:/llvm-mingw/x86_64-w64-mingw32' || 'C:/msys64/clang64') }}" `
-            "-DCMAKE_TOOLCHAIN_FILE=${{ (matrix.ui == 'Qt' && format('{0}/toolchain.cmake', vars.windows_qt_sdk_root) || 'C:/workspace/source/cmake/toolchains/msys2.cmake') }}" `
+            "-DCMAKE_PREFIX_PATH=C:/msys64/clang64" `
+            "-DCMAKE_TOOLCHAIN_FILE=C:/workspace/source/cmake/toolchains/msys2.cmake" `
             "-DWITH_UI=${{ matrix.ui }}" -DWITH_GRPC=OFF -DWITH_DBUS=OFF `
             -DWITH_TESTS=ON -DWITH_AUTO_UPDATE=ON `
             "-DWITH_CRASHPAD=${{ (matrix.configuration == 'Release' && 'ON' || 'OFF') }}" `
@@ -764,9 +771,8 @@ jobs:
         if: "${{ matrix.configuration == 'Release' }}"
         run: >-
           python C:/workspace/scripts/local/windows-symbols.py "$env:BUILD_DIR"
-          ${{ (matrix.ui == 'Qt' && format('--sdk {0}', vars.windows_qt_sdk_root) || '') }}
       - name: source archive
-        if: "${{ (matrix.ui != 'Qt' && matrix.configuration == 'Release') }}"
+        if: "${{ ((matrix.ui != 'Qt' || vars.windows_ui == 'qt') && matrix.configuration == 'Release') }}"
         run: |
           $destination = 'C:/workspace/source/_deploy/${{ vars.build_id }}'
           New-Item -ItemType Directory -Force $destination | Out-Null
@@ -782,7 +788,7 @@ jobs:
             @{ source = '${{ (matrix.ui == 'Qt' && 'workrave-next' || 'workrave') }}-installer.exe'; name = "$base.exe"; kind = 'installer' },
             @{ source = '${{ (matrix.ui == 'Qt' && 'workrave-next' || 'workrave') }}-portable.zip'; name = "$base-portable.zip"; kind = 'portable' }
           )
-          ${{ ((matrix.ui != 'Qt' && matrix.configuration == 'Release') && format('$artifacts += @{{ source = ''''; name = ''workrave-{0}.tar.xz''; kind = ''source'' }}', vars.windows_postfix) || '') }}
+          ${{ (((matrix.ui != 'Qt' || vars.windows_ui == 'qt') && matrix.configuration == 'Release') && format('$artifacts += @{{ source = ''''; name = ''workrave-{0}.tar.xz''; kind = ''source'' }}', vars.windows_postfix) || '') }}
           $entries = foreach ($artifact in $artifacts) {
             $file = "$destination/$($artifact.name)"
             if ($artifact.source) {
@@ -800,6 +806,190 @@ jobs:
             ConvertTo-Json -Depth 8 | ForEach-Object {
               [IO.File]::WriteAllText("$destination/job-catalog-${{ vars.build_id }}.${{ vars.windows_build_name }}-${{ ship.lower(matrix.configuration) }}.json", $_, (New-Object Text.UTF8Encoding $false))
             }
+
+  win-qt-build:
+    needs: [workspace, win-qt-sdk]
+    if: "${{ !failure() && !cancelled() && vars.windows_ui != 'gtk' }}"
+    runs-on: linux
+    container:
+      image: ${{ config.windows.dependencies_image || 'ghcr.io/rcaelers/workrave-build:llvm-mingw' }}
+      platform: linux/amd64
+      env:
+        WORKRAVE_BUILD_JOBS: ${{ config.windows.jobs || 16 }}
+        WORKRAVE_BUILD_DATE: ${{ ship.today('%Y%m%d') }}
+        WORKRAVE_BUILD_DATETIME: ${{ ship.today('%Y-%m-%dT%H:%M:%S%:z') }}
+        WORKRAVE_GIT_VERSION: ${{ vars.version.git_version }}
+        WORKRAVE_BUILD_ID: ${{ vars.build_id }}
+        WORKRAVE_CONFIGURATION: ${{ matrix.configuration }}
+        WORKRAVE_STAGING: ${{ (inputs.staging && matrix.configuration == 'Release') && 'ON' || 'OFF' }}
+        SCRIPTS_DIR: /workspace/scripts
+      mounts:
+        ${{ vars.source }}: /workspace/source
+        ${{ vars.scripts }}: /workspace/scripts
+        ${{ vars.windows_dependencies }}: /workspace/dependencies
+        ${{ config.workspace_dir }}/windows-qt-sdk: /workspace/sdk
+        ${{ config.workspace_dir }}/windows-qt-build: /workspace/handoff
+      volumes:
+        - ${{ config.windows.conan_cache || 'workrave-conan' }}:/cache
+        - workrave-qt-build:/build
+    strategy:
+      matrix:
+        configuration: ${{ fromJSON(config.windows.debug && '["Release","Debug"]' || '["Release"]') }}
+    steps:
+      - name: resolve locked dependencies and configure the Qt cross-build
+        run: /workspace/scripts/local/windows-qt-build.sh configure
+      - name: compile Workrave and its external libraries on Linux
+        run: /workspace/scripts/local/windows-qt-build.sh compile
+      - name: stage application binaries and resources
+        run: /workspace/scripts/local/windows-qt-build.sh stage
+      - name: collect Crashpad symbols
+        if: "${{ matrix.configuration == 'Release' }}"
+        run: /workspace/scripts/local/windows-qt-build.sh symbols
+      - name: export binaries and tests for native Windows packaging
+        run: /workspace/scripts/local/windows-qt-build.sh handoff
+
+  win-qt-package:
+    needs: [workspace, win-prepare, win-qt-build, win-qt-sdk-install]
+    if: "${{ !failure() && !cancelled() && vars.windows_ui != 'gtk' }}"
+    runs-on: windows
+    container:
+      image: ${{ config.windows.qt_image || 'workrave-build:windows-conan' }}
+      env:
+        WORKRAVE_BUILD_JOBS: ${{ (config.windows.jobs || 16) }}
+        WORKRAVE_BUILD_DATE: ${{ ship.today('%Y%m%d') }}
+        WORKRAVE_BUILD_DATETIME: ${{ ship.today('%Y-%m-%dT%H:%M:%S%:z') }}
+        WORKRAVE_BUILD_ID: ${{ vars.build_id }}
+        WORKRAVE_GIT_VERSION: ${{ vars.version.git_version }}
+        SIGNING_SERVICE_URL: ${{ config.signing_service_url }}
+        SOURCES_DIR: C:/workspace/source
+        SCRIPTS_DIR: C:/workspace/scripts
+        GIT_CONFIG_GLOBAL: C:/workspace/gitconfig
+        XDG_CONFIG_HOME: C:/workspace/config
+        CARGO_HOME: C:/cache/cargo
+        CARGO_TARGET_DIR: C:/cache/target/llvm-mingw
+        WORKRAVE_SDK_DIR: ${{ vars.windows_qt_sdk_root }}
+      image-context: ${{ vars.windows_containers }}/windows-conan
+      copy:
+        ${{ vars.source }}: C:/workspace/source
+        ${{ vars.scripts }}: C:/workspace/scripts
+        ${{ config.workspace_dir }}/windows-qt-build: C:/input/qt-build
+      collect:
+        C:/workspace/source/_deploy: ${{ vars.source }}/_deploy
+        C:/workspace/source/_output: ${{ vars.source }}/_output
+        C:/workspace/source/_build/${{ vars.windows_build_name }}/${{ matrix.configuration }}/symbols: ${{ vars.source }}/_build/${{ vars.windows_build_name }}/${{ matrix.configuration }}/symbols
+      init: |
+        git config --global --add safe.directory C:/workspace/source
+        if ($LASTEXITCODE) { throw 'Cannot configure source checkout ownership' }
+        $sdk = $env:WORKRAVE_SDK_DIR
+        if (-not (Test-Path "$sdk/.ready")) { throw 'Run the windows-dependencies target to initialize the Qt SDK' }
+        $bins = Get-ChildItem "$sdk/packages" -Directory | ForEach-Object { "$($_.FullName)/bin" }
+        $env:PATH = ($bins -join ';') + ';' + $env:PATH
+      volumes:
+        - workrave-ship-target:C:/cache/target
+        - workrave-cargo:C:/cache/cargo
+        - ${{ (config.windows.qt_sdk_cache || 'workrave-qt-sdk') }}:C:/cache/qt
+    defaults:
+      run:
+        shell: powershell
+    strategy:
+      matrix:
+        ui: [Qt]
+        configuration: ${{ fromJSON(config.windows.debug && '["Release","Debug"]' || '["Release"]') }}
+    env:
+      BUILD_DIR: "${{ vars.windows_build_dir }}"
+      OUTPUT_DIR: "${{ vars.windows_output_dir }}"
+    steps:
+      - name: validate the native Qt compiler and cached SDK
+        if: "${{ matrix.ui == 'Qt' }}"
+        run: |
+          $manifest = Get-Content "$env:WORKRAVE_SDK_DIR/manifest.json" -Raw | ConvertFrom-Json
+          $compiler = & x86_64-w64-mingw32-clang --version
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          if ($compiler[0] -ne $manifest.compiler.Split("`n")[0]) { throw 'Native compiler does not match the Conan SDK' }
+      - name: build Ship for signing and SBOM generation
+        if: "${{ (config.windows.sign || (matrix.configuration == 'Release' && config.windows.sbom)) }}"
+        run: cargo build --release --manifest-path C:/workspace/scripts/ship/Cargo.toml
+      - name: unpack the Linux-built application and native tests
+        run: >-
+          python C:/workspace/scripts/local/windows-qt-handoff.py unpack
+          --archive "C:/input/qt-build/${{ matrix.configuration }}.tar.gz"
+          --build "$env:BUILD_DIR" --install "$env:OUTPUT_DIR"
+      - name: test the cross-built binaries on Windows
+        run: >-
+          python C:/workspace/scripts/local/windows-qt-handoff.py test
+          --build "$env:BUILD_DIR" --install "$env:OUTPUT_DIR"
+          --source C:/workspace/source --sdk "$env:WORKRAVE_SDK_DIR"
+      - name: configure native deployment and packaging without recompiling Workrave
+        run: |
+          cmake -S C:/workspace/scripts/local/windows-qt-package -B "$env:BUILD_DIR" -G Ninja `
+            "-DCMAKE_INSTALL_PREFIX=$env:OUTPUT_DIR" `
+            -DWORKRAVE_SOURCE_DIR=C:/workspace/source `
+            "-DWORKRAVE_SDK_DIR=$env:WORKRAVE_SDK_DIR" `
+            "-DWITH_CRASHPAD=${{ (matrix.configuration == 'Release' && 'ON' || 'OFF') }}" `
+            "-DWITH_SBOM=${{ ((matrix.configuration == 'Release' && config.windows.sbom) && 'ON' || 'OFF') }}" `
+            "-DWITH_SIGN=${{ (config.windows.sign && 'ON' || 'OFF') }}" `
+            "-DWITH_SIGN_TOOL=${{ vars.windows_ship }}" `
+            "-DSHIP_EXECUTABLE=${{ vars.windows_ship }}" -DISCC=C:/inno/ISCC.exe
+      - name: install Workrave and its runtime dependencies
+        run: cmake --install "$env:BUILD_DIR"
+      - name: generate the SBOM from dependency metadata
+        if: "${{ (matrix.configuration == 'Release' && config.windows.sbom) }}"
+        run: cmake --install "$env:BUILD_DIR" --component SBOM
+      - name: create the portable archive
+        run: cmake --build "$env:BUILD_DIR" --target portable
+      - name: create the installer
+        run: cmake --build "$env:BUILD_DIR" --target installer
+      - name: source archive
+        if: "${{ ((matrix.ui != 'Qt' || vars.windows_ui == 'qt') && matrix.configuration == 'Release') }}"
+        run: |
+          $destination = 'C:/workspace/source/_deploy/${{ vars.build_id }}'
+          New-Item -ItemType Directory -Force $destination | Out-Null
+          git -C C:/workspace/source archive --format=tar --prefix="${{ vars.windows_postfix }}/" --output="$destination/workrave-${{ vars.windows_postfix }}.tar" HEAD
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          @'
+          import lzma
+          from pathlib import Path
+          import shutil
+          import sys
+          archive = Path(sys.argv[1])
+          with archive.open('rb') as source, lzma.open(str(archive) + '.xz', 'wb') as output:
+              shutil.copyfileobj(source, output)
+          archive.unlink()
+          '@ | python - "$destination/workrave-${{ vars.windows_postfix }}.tar"
+      - name: stage artifacts and record their hashes
+        run: |
+          $destination = 'C:/workspace/source/_deploy/${{ vars.build_id }}'
+          New-Item -ItemType Directory -Force $destination | Out-Null
+          $base = '${{ (matrix.ui == 'Qt' && 'workrave-next-windows' || 'workrave-windows') }}-${{ vars.windows_postfix }}'
+          $artifacts = @(
+            @{ source = '${{ (matrix.ui == 'Qt' && 'workrave-next' || 'workrave') }}-installer.exe'; name = "$base.exe"; kind = 'installer' },
+            @{ source = '${{ (matrix.ui == 'Qt' && 'workrave-next' || 'workrave') }}-portable.zip'; name = "$base-portable.zip"; kind = 'portable' }
+          )
+          ${{ (((matrix.ui != 'Qt' || vars.windows_ui == 'qt') && matrix.configuration == 'Release') && format('$artifacts += @{{ source = ''''; name = ''workrave-{0}.tar.xz''; kind = ''source'' }}', vars.windows_postfix) || '') }}
+          $entries = foreach ($artifact in $artifacts) {
+            $file = "$destination/$($artifact.name)"
+            if ($artifact.source) {
+              Copy-Item "$env:OUTPUT_DIR/$($artifact.source)" $file
+              if (Test-Path "$env:OUTPUT_DIR/$($artifact.source).sigstore") { Copy-Item "$env:OUTPUT_DIR/$($artifact.source).sigstore" "$file.sigstore" }
+            }
+            @{ url = '${{ config.snapshots.bucket }}/${{ vars.s3_dir }}/${{ vars.build_id }}/' + $artifact.name;
+               path = '${{ config.snapshots.bucket }}/${{ vars.s3_dir }}/${{ vars.build_id }}'; filename = $artifact.name;
+               size = (Get-Item $file).Length.ToString(); sha256 = (Get-FileHash $file -Algorithm SHA256).Hash.ToLower();
+               sha512 = (Get-FileHash $file -Algorithm SHA512).Hash.ToLower(); lastmod = (Get-Item $file).LastWriteTime.ToString('yyyy-MM-dd HH:mm:ss');
+               platform = $(if ($artifact.kind -eq 'source') { 'all' } else { 'windows' }); edition = '${{ vars.windows_build_name }}';
+               kind = $artifact.kind; configuration = $(if ($artifact.kind -eq 'source') { 'none' } else { '${{ ship.lower(matrix.configuration) }}' }) }
+          }
+          @{ version = '2'; builds = @(@{ id = '${{ vars.build_id }}'; artifacts = @($entries) }) } |
+            ConvertTo-Json -Depth 8 | ForEach-Object {
+              [IO.File]::WriteAllText("$destination/job-catalog-${{ vars.build_id }}.${{ vars.windows_build_name }}-${{ ship.lower(matrix.configuration) }}.json", $_, (New-Object Text.UTF8Encoding $false))
+            }
+
+  # Keep --job win-build as the build/package entry point for either edition.
+  win-build:
+    needs: [win-gtk-build, win-qt-package]
+    if: "${{ !failure() && !cancelled() }}"
+    runs-on: host
+    steps: []
 
   win-sign:
     runs-on: host

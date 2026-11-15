@@ -4,6 +4,7 @@
 import argparse
 import json
 from pathlib import Path
+import shutil
 import subprocess
 
 
@@ -11,11 +12,16 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("build", type=Path)
     parser.add_argument("--sdk", type=Path, help="Include the Conan dependencies' matching PDBs")
+    parser.add_argument("--tool", type=Path, help="Native dump_syms executable for cross builds")
     args = parser.parse_args()
-    tool = args.build / "_deps/dump_syms-src/dump_syms.exe"
+    tool = args.tool or args.build / "_deps/dump_syms-src/dump_syms.exe"
     if not tool.is_file():
         raise RuntimeError("Crashpad build has no dump_syms executable")
-    pdbs = sorted(args.build.rglob("*.pdb"))
+    # Linux application objects persist between releases. A Breakpad store
+    # contains directories named *.pdb, which are not input PDB files.
+    if (args.build / "symbols").exists():
+        shutil.rmtree(args.build / "symbols")
+    pdbs = sorted(p for p in args.build.rglob("*.pdb") if p.is_file())
     if not pdbs:
         raise RuntimeError("Crashpad build produced no PDBs")
     for pdb in pdbs:

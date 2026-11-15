@@ -68,18 +68,20 @@ macos:
   # Optional: self-contained universal (arm64+x86_64) Qt, sqlite3, ... tree
   # from workrave-dependencies. Without it CMake uses what it finds
   # (Homebrew's Qt), giving a single-architecture build.
-  dependencies_dir: ~/src/workrave-dependencies/macos/_deploy/dependencies
+  dependencies_dir: ~/src/workrave-dependencies/conan/_build/macos-universal
   # Optional: "Developer ID Application: ..." identity; found with `security`
   # if unset.
   sign_identity: null
 
 windows:
+  # gtk | qt | both; can also be selected with --windows-ui.
+  ui: both
   # The existing Forge SSH connection and Windows Incus guest agent.
   # Docker runs Windows Server Core 2025 containers with process isolation.
   # Built on the VM from workrave-build-containers/windows-msys2.
   image: workrave-build:windows-msys2
-  # Qt uses llvm-mingw and Conan, without MSYS2. Dependencies are built once
-  # on Linux and exported to a persistent SDK cache in the Windows VM.
+  # Qt dependencies and Workrave compile on Linux with llvm-mingw/Conan.
+  # Windows runs native tests, deployment and packaging using the cached SDK.
   qt_image: workrave-build:windows-conan
   # Container recipes and Conan package configuration live in separate repos.
   containers_dir: ~/src/workrave/workrave-build-containers

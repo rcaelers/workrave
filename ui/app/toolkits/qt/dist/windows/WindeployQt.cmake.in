@@ -4,7 +4,7 @@ endif()
 
 set(_windeployqt_args
   --qtpaths "@QT_QTPATHS_EXECUTABLE@"
-  --qmldir "@CMAKE_SOURCE_DIR@/ui/app/toolkits/qt/qml"
+  --qmldir "@WORKRAVE_SOURCE_DIR@/ui/app/toolkits/qt/qml"
   --qml-deploy-dir "${CMAKE_INSTALL_PREFIX}/@qml_dest_dir@"
   --plugindir "${CMAKE_INSTALL_PREFIX}/@plugin_dest_dir@"
   --libdir "${CMAKE_INSTALL_PREFIX}/@qtconf_dest_dir@"

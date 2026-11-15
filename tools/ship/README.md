@@ -35,13 +35,33 @@ signing service URL) and what each container environment declares
 
 ## Windows container builds
 
-`tools/local/ship release --target windows` builds both Windows editions in
-process-isolated Docker containers: Workrave (GTK) and WorkraveNext (Qt).
-GTK uses MSYS2 CLANG64; Qt uses native
-llvm-mingw and the cached Conan SDK, without MSYS2. Configure, compile, test,
-install, SBOM, portable archive, installer, symbols and artifact recording are
-separate steps in `tools/local/release.yaml` and in the build report. Each
-edition/configuration keeps one container for the entire job.
+`tools/local/ship release --target windows` builds both Windows editions:
+Workrave (GTK) and WorkraveNext (Qt). GTK compiles in a process-isolated
+Windows container using MSYS2 CLANG64 and MSVC for Harpoon. Qt compiles on
+Linux using llvm-mingw and the locked Conan dependencies, without MSYS2 or
+Harpoon. The Linux job stages its application binaries, native test executables,
+resources and Breakpad symbols in a handoff archive. A Windows container runs
+those tests and performs native Qt deployment, SBOM generation, signing and
+installer/portable packaging, without recompiling Workrave. Windows still builds
+the native Ship helper and initializes the matching windeployqt SDK tool.
+`win-build` selects the prerequisite build/package jobs for the requested editions.
+Configure, compile, staging, symbol collection and handoff export have separate
+Linux step timings. The application resolves a separate Conan graph matching its
+disabled gRPC setting; SDK preparation retains the full gRPC-enabled graph.
+Code generation uses native Linux protoc 35.1, matching the updater's pinned
+Protobuf sources. Wine is not used. Windows runs Inno Setup for the installer.
+
+Select one edition with `--windows-ui gtk` or `--windows-ui qt`; the default is
+`--windows-ui both`. This can also be configured with `windows.ui`. Gtk-only
+builds skip the Qt SDK preparation jobs. To build and package without publishing:
+
+```sh
+tools/local/ship --target windows --job win-build --windows-ui gtk --commit <sha>
+tools/local/ship --target windows --job win-build --windows-ui qt --commit <sha>
+```
+
+For Linux compilation and handoff export alone, use `--job win-qt-build` instead
+of `--job win-build`. This does not start or connect to the Windows VM.
 
 Workrave keeps the existing installer identity, including upgrades from 32-bit
 1.10 installations. WorkraveNext installs alongside it with separate shortcuts
@@ -112,7 +132,7 @@ The Linux job exposes cache lookup, Conan configuration, dependency compilation,
 the Qt smoke build, PDB validation, SDK export, archive caching and staging as
 separate steps. Package relocation lives in `workrave-dependencies/conan/export-sdk.py`,
 with regular CMake files under `conan/sdk`. The cache key includes dependency
-inputs, this release workflow and the compiler/Conan versions. A cache hit skips
+inputs and the compiler/Conan versions. A cache hit skips
 all preparation steps and stages the existing archive.
 
 To create or restore both dependency volumes without building Workrave:
@@ -127,8 +147,11 @@ signing service or upload configuration. Missing volumes are created
 automatically. The locked dependencies, Qt smoke build and matching PDBs are
 checked before the SDK is exported. Repeated runs reuse both caches.
 
-The Linux volume defaults to `workrave-conan`; the Windows volume defaults to
-`workrave-qt-sdk`. Separate recovery caches can be selected with:
+The Linux dependency volume defaults to `workrave-conan`; the Windows SDK volume
+defaults to `workrave-qt-sdk`. Linux Qt application objects persist separately in
+`workrave-qt-build`. The exported dependency SDK key covers Conan inputs and
+compiler/Conan versions, so changing UI selection or workflow steps does not
+invalidate it. Separate recovery caches can be selected with:
 
 ```sh
 tools/local/ship release --target windows-dependencies \

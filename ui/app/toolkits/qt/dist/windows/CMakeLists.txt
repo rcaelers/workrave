@@ -1,3 +1,13 @@
+option(WORKRAVE_WINDOWS_STAGE_ONLY "Stage cross-built binaries for native Windows deployment" OFF)
+if(WORKRAVE_WINDOWS_STAGE_ONLY)
+  file(WRITE "${CMAKE_BINARY_DIR}/windows-package.json"
+    "{\"version\":\"${WORKRAVE_VERSION}\",\"channel\":\"${WORKRAVE_CHANNEL}\"}\n")
+  return()
+endif()
+if(NOT WORKRAVE_SOURCE_DIR)
+  set(WORKRAVE_SOURCE_DIR "${CMAKE_SOURCE_DIR}")
+endif()
+
 include(InstallRequiredSystemLibraries)
 
 execute_process(
@@ -46,7 +56,7 @@ install(CODE "
 
 install(CODE "set(SYS_ROOT ${SYS_ROOT})")
 install(CODE "set(STRICT_WINDOWS_DEPENDENCIES ON)")
-install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)")
+install(CODE "set(MODULE_PATH ${WORKRAVE_SOURCE_DIR}/cmake/modules)")
 install(CODE "set(BINARY_DIR \"${CMAKE_BINARY_DIR}\")")
 install(CODE "set(DIST_PATH \"${CMAKE_CURRENT_BINARY_DIR}\")")
 install(CODE "set(INSTALL_PATH \"${CMAKE_INSTALL_PREFIX}\")")
@@ -61,7 +71,7 @@ install(CODE "set(BINDIR \"${BINDIR}\")")
 install(CODE "set(BINDIR32 \"${BINDIR32}\")")
 install(CODE "set(HAVE_CRASHPAD \"${HAVE_CRASHPAD}\")")
 install(CODE "set(HAVE_SBOM \"${HAVE_SBOM}\")")
-install(CODE "set(SOURCE_DIR \"${CMAKE_SOURCE_DIR}\")")
+install(CODE "set(SOURCE_DIR \"${WORKRAVE_SOURCE_DIR}\")")
 
 install(CODE "set(WITH_SIGN ${WITH_SIGN})")
 if (WITH_SIGN)
@@ -76,7 +86,7 @@ if (HAVE_SBOM)
   endif()
 endif()
 
-configure_file("${CMAKE_SOURCE_DIR}/cmake/win32/GenerateSBOM.cmake.in"
+configure_file("${WORKRAVE_SOURCE_DIR}/cmake/win32/GenerateSBOM.cmake.in"
                "${CMAKE_CURRENT_BINARY_DIR}/GenerateSBOM.cmake" @ONLY)
 
 if (MSVC)
@@ -88,7 +98,7 @@ if (MSVC)
 endif()
 
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/InstallDependencies.cmake")
-install(SCRIPT "${CMAKE_SOURCE_DIR}/cmake/modules/SignBinaries.cmake")
+install(SCRIPT "${WORKRAVE_SOURCE_DIR}/cmake/modules/SignBinaries.cmake")
 install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/GenerateSBOM.cmake" COMPONENT SBOM EXCLUDE_FROM_ALL)
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
 

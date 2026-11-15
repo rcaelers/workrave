@@ -1,6 +1,22 @@
 if (HAVE_UNFOLD_AUTO_UPDATE)
 
   if (PLATFORM_OS_WINDOWS)
+    set(WORKRAVE_HOST_PROTOC "" CACHE FILEPATH "Native protoc for cross-compiling the updater")
+    if(CMAKE_CROSSCOMPILING AND WORKRAVE_HOST_PROTOC)
+      execute_process(COMMAND "${WORKRAVE_HOST_PROTOC}" --version
+                      OUTPUT_VARIABLE host_protoc_version OUTPUT_STRIP_TRAILING_WHITESPACE
+                      COMMAND_ERROR_IS_FATAL ANY)
+      if(NOT host_protoc_version STREQUAL "libprotoc 35.1")
+        message(FATAL_ERROR "The pinned Sigstore Protobuf sources require native protoc 35.1")
+      endif()
+      # Override Unfold's declaration so its generator uses the build host.
+      # Keep the revision aligned with the pinned Unfold dependency below.
+      FetchContent_Declare(sigstore
+        GIT_REPOSITORY https://github.com/rcaelers/sigstore-verifier-cpp
+        GIT_TAG 8b62465cbe474519d2e4d149a5430a13fcbf97a9
+        PATCH_COMMAND "${CMAKE_COMMAND}" "-DSOURCE_DIR=<SOURCE_DIR>"
+                      -P "${CMAKE_SOURCE_DIR}/cmake/patches/SigstoreHostProtoc.cmake")
+    endif()
     # EXCLUDE_FROM_ALL keeps unfold's own install() rules (and those of its
     # sub-dependency sigstore, e.g. lib/cmake/{Unfold,SigstoreVerifier},
     # include/{unfold,sigstore}) from leaking into our install tree; only the

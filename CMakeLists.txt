@@ -1184,6 +1184,9 @@ if (WIN32)
   set (HAVE_LANGUAGE_SELECTION TRUE)
   set (HAVE_STATUSICON ON)
 
+  # The Windows UI uses Windows 10 DPI-awareness APIs with every compiler.
+  add_compile_definitions(WINVER=0x0A00 _WIN32_WINNT=0x0A00)
+
   if (MSVC)
     add_compile_definitions(_CRT_SECURE_NO_DEPRECATE _CRT_NONSTDC_NO_DEPRECATE _SCL_SECURE_NO_WARNINGS)
 
@@ -1196,8 +1199,6 @@ if (WIN32)
     add_compile_definitions(
        NOMINMAX
        WIN32
-       WINVER=0xA00
-       _WIN32_WINNT=0x0A00
        _WINDOWS)
 
     set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} /MANIFEST:NO")
@@ -1365,6 +1366,8 @@ if (WITH_CRASHPAD)
     GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
     # GIT_SHALLOW TRUE
     GIT_TAG 2ee3985352352c4ad302635877561f7a6101da99
+    PATCH_COMMAND "${CMAKE_COMMAND}" "-DSOURCE_DIR=<SOURCE_DIR>"
+                  -P "${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/CrashpadMinGW.cmake"
     EXCLUDE_FROM_ALL
   )
   set(CRASHPAD_ENABLE_STACKTRACE ON CACHE BOOL "Enable stack traces in crashpad" FORCE)
