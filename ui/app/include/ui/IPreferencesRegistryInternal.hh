@@ -28,10 +28,25 @@ class IPreferencesRegistryInternal : public IPreferencesRegistry
 public:
   using Ptr = std::shared_ptr<IPreferencesRegistryInternal>;
 
+  enum class Placement
+  {
+    Top,
+    Bottom,
+  };
+
+  struct PanelExtension
+  {
+    std::shared_ptr<ui::prefwidgets::Def> def;
+    Placement placement;
+    std::string page;
+    std::string panel;
+  };
+
   ~IPreferencesRegistryInternal() override = default;
 
   virtual std::list<std::shared_ptr<ui::prefwidgets::Def>> get_widgets(const std::string &location) const = 0;
   virtual std::map<std::string, std::list<std::shared_ptr<ui::prefwidgets::Def>>> get_widgets() const = 0;
+  virtual std::map<std::string, std::list<PanelExtension>> get_panel_extensions() const = 0;
   virtual std::map<std::string, std::pair<std::string, std::string>> get_pages() const = 0;
 };
 

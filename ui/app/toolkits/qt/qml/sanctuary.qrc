@@ -29,24 +29,16 @@
         <file>ConfirmDialog.qml</file>
         <file>PrefTokens.qml</file>
         <file>PrefsShell.qml</file>
-        <file>PrefGroup.qml</file>
-        <file>PrefToggleRow.qml</file>
-        <file>PrefStepper.qml</file>
-        <file>PrefTimeStepper.qml</file>
-        <file>PrefSliderRow.qml</file>
-        <file>PrefTimeControl.qml</file>
-        <file>PrefSpinRow.qml</file>
-        <file>PrefChoiceRow.qml</file>
-        <file>PrefTextRow.qml</file>
-        <file>PrefLanguageRow.qml</file>
         <file>MicrobreakPrefPage.qml</file>
         <file>RestBreakPrefPage.qml</file>
         <file>DailyLimitPrefPage.qml</file>
         <file>GeneralPrefPage.qml</file>
         <file>RemoteControlPrefPage.qml</file>
         <file>TimerStylePreview.qml</file>
+        <file>TimerGroupingPreview.qml</file>
+        <file>PreferencePresentations.qml</file>
         <file>TimerStyleCard.qml</file>
-        <file>TimerPlacementCard.qml</file>
+        <file>TimerPlacementPicker.qml</file>
         <file>TimerVisibilityRow.qml</file>
         <file>StatusWindowPrefPage.qml</file>
         <file>AppletPrefPage.qml</file>

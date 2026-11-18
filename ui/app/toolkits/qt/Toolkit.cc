@@ -39,6 +39,7 @@
 #include "debug.hh"
 #include "ui/GUIConfig.hh"
 #include "utils/Signals.hh"
+#include "ui/prefwidgets/qtquick/Builder.hh"
 
 using namespace workrave;
 using namespace workrave::config;
@@ -53,6 +54,7 @@ Toolkit::Toolkit(int &argc, char **argv)
 void
 Toolkit::preinit(std::shared_ptr<workrave::config::IConfigurator> config)
 {
+  ui::prefwidgets::qtquick::Builder::initialize();
   TRACE_ENTRY();
 }
 

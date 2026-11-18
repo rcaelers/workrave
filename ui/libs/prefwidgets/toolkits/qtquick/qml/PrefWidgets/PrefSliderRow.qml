@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 
 // PrefSliderRow — ticked slider bar. Used standalone or inside PrefTimeControl.
@@ -7,7 +9,7 @@ Item {
     id: root
 
     property real   value:       0.5
-    property color  sliderColor: tok.sage
+    property color  sliderColor: root.tok.accent
     property var    ticks:       []
 
     signal moved(real value)
@@ -15,7 +17,7 @@ Item {
     implicitWidth:  parent ? parent.width : 400
     implicitHeight: 46   // 30px track area + 16px tick labels
 
-    PrefTokens { id: tok }
+    readonly property var tok: Theme
 
     Item {
         id: trackArea
@@ -28,7 +30,7 @@ Item {
             anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
             height: 3
             radius: 99
-            color: tok.track
+            color: root.tok.track
         }
 
         // Track fill
@@ -56,9 +58,9 @@ Item {
             delegate: Rectangle {
                 required property var modelData
                 x: trackBg.x + trackBg.width * modelData.at - width / 2
-                anchors.top: parent.top
+                anchors.top: trackArea.top
                 width: 1; height: 6
-                color: tok.edge
+                color: root.tok.border
             }
         }
 
@@ -82,6 +84,7 @@ Item {
 
     // Tick labels
     Item {
+        id: tickLabels
         anchors { left: parent.left; right: parent.right; top: trackArea.bottom }
         height: 16
 
@@ -90,12 +93,12 @@ Item {
             delegate: Text {
                 required property var modelData
                 x: trackArea.width * modelData.at - implicitWidth / 2
-                anchors.top: parent.top
+                anchors.top: tickLabels.top
                 text: modelData.label
-                font.pixelSize: tok.tickPx
-                font.family: tok.monoFamily
+                font.pixelSize: root.tok.tickPx
+                font.family: root.tok.monoFamily
                 font.letterSpacing: 9.5 * 0.04
-                color: tok.mute
+                color: root.tok.textMuted
             }
         }
     }

@@ -20,23 +20,17 @@
 #ifndef Q_MOC_RUN
 #include <memory>
 #include <QObject>
-#include <QString>
-#include <QVariantList>
+#  include "ui/prefwidgets/qtquick/Formatting.hh"
+#  include <QString>
+#  include <QVariantList>
 
-#include "core/CoreTypes.hh"
-#include "ui/IApplicationContext.hh"
+#  include "core/CoreTypes.hh"
+#  include "ui/IApplicationContext.hh"
 #endif
 
 // ── Shared utility ─────────────────────────────────────────────────────────────
 
-namespace PrefUtils
-{
-  QString formatTime(int seconds);
-  double  normalize(int value, int minVal, int maxVal);
-  int     denormalize(double norm, int minVal, int maxVal, int step);
-  int     clampStep(int value, int delta, int minVal, int maxVal, int step);
-  int     snapStep(int value, int minVal, int maxVal, int step);
-} // namespace PrefUtils
+namespace PrefUtils = ui::prefwidgets::qtquick::Formatting;
 
 // ── MicrobreakPrefBridge ───────────────────────────────────────────────────────
 

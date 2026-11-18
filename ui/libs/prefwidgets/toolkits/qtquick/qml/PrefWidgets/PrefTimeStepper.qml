@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 
 // PrefTimeStepper — editable time stepper for use in PrefTimeControl.
@@ -25,7 +27,7 @@ Item {
     implicitWidth:  170   // 30 + 110 + 30
     implicitHeight: 34
 
-    PrefTokens { id: tok }
+    readonly property var tok: Theme
 
     function step(direction, unit) {
         if (unit > 0) {
@@ -100,8 +102,8 @@ Item {
     Rectangle {
         anchors.fill: parent
         radius: 10
-        color: tok.panel
-        border.color: valueInput.activeFocus ? tok.sage : tok.edge
+        color: root.tok.surface
+        border.color: valueInput.activeFocus ? root.tok.accent : root.tok.border
         border.width:  valueInput.activeFocus ? 2 : 1
         clip: true
 
@@ -115,8 +117,8 @@ Item {
                 Text {
                     anchors.centerIn: parent
                     text: "−"
-                    font.pixelSize: tok.btnPx; font.weight: Font.Medium
-                    color: tok.ink2
+                    font.pixelSize: root.tok.btnPx; font.weight: Font.Medium
+                    color: root.tok.textSecondary
                 }
 
                 MouseArea {
@@ -134,11 +136,11 @@ Item {
 
                 Rectangle {
                     anchors { left:  parent.left;  top: parent.top; bottom: parent.bottom }
-                    width: 1; color: tok.edge
+                    width: 1; color: root.tok.border
                 }
                 Rectangle {
                     anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
-                    width: 1; color: tok.edge
+                    width: 1; color: root.tok.border
                 }
 
                 TextInput {
@@ -150,12 +152,12 @@ Item {
                     readOnly: true
                     horizontalAlignment: TextInput.AlignHCenter
 
-                    font.pixelSize: tok.stepperPx
-                    font.family: tok.serifFamily
+                    font.pixelSize: root.tok.stepperPx
+                    font.family: root.tok.serifFamily
                     font.features: { "tnum": 1 }
-                    color: tok.ink
-                    selectionColor: tok.sageSoft
-                    selectedTextColor: tok.ink
+                    color: root.tok.text
+                    selectionColor: root.tok.accentSoft
+                    selectedTextColor: root.tok.text
                     cursorVisible: activeFocus && !readOnly
 
                     // Keep display in sync when bridge pushes an update
@@ -260,8 +262,8 @@ Item {
                 Text {
                     anchors.centerIn: parent
                     text: "+"
-                    font.pixelSize: tok.btnPx; font.weight: Font.Medium
-                    color: tok.ink2
+                    font.pixelSize: root.tok.btnPx; font.weight: Font.Medium
+                    color: root.tok.textSecondary
                 }
 
                 MouseArea {

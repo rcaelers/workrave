@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls.Basic
 
@@ -18,14 +20,14 @@ Item {
     signal committed(string text)
 
     implicitWidth:  parent ? parent.width : 400
-    implicitHeight: Math.max(labelCol.implicitHeight, field.height) + tok.rowPad
+    implicitHeight: Math.max(labelCol.implicitHeight, field.height) + root.tok.rowPad
 
-    PrefTokens { id: tok }
+    readonly property var tok: Theme
 
     Rectangle {
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: 1
-        color: tok.edge2
+        color: root.tok.borderSubtle
     }
 
     Item {
@@ -35,24 +37,24 @@ Item {
         Column {
             id: labelCol
             anchors { left: parent.left; right: field.left; rightMargin: 16; verticalCenter: parent.verticalCenter }
-            spacing: tok.labelHintGap
+            spacing: root.tok.labelHintGap
 
             Text {
                 width: parent.width
                 text: root.label
-                font.pixelSize: tok.labelPx
+                font.pixelSize: root.tok.labelPx
                 font.weight: Font.Medium
-                color: tok.ink
+                color: root.tok.text
             }
 
             Text {
                 visible: root.hint !== ""
                 width: parent.width
                 text: root.hint
-                font.pixelSize: tok.hintPx
-                color: tok.mute
+                font.pixelSize: root.tok.hintPx
+                color: root.tok.textMuted
                 wrapMode: Text.WordWrap
-                lineHeight: tok.hintLineH
+                lineHeight: root.tok.hintLineH
             }
         }
 
@@ -70,8 +72,8 @@ Item {
 
             background: Rectangle {
                 radius: 8
-                color: tok.panel
-                border.color: field.activeFocus ? tok.sage : tok.edge
+                color: root.tok.surface
+                border.color: field.activeFocus ? root.tok.accent : root.tok.border
                 border.width: field.activeFocus ? 1.5 : 1
             }
 

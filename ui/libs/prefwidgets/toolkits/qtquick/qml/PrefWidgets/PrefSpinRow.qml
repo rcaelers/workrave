@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 
 // PrefSpinRow — label/hint + stepper pill (no slider).
@@ -14,15 +16,15 @@ Item {
     signal decrement()
 
     implicitWidth:  parent ? parent.width : 400
-    implicitHeight: Math.max(labelCol.implicitHeight, stepper.implicitHeight) + tok.rowPadLg
+    implicitHeight: Math.max(labelCol.implicitHeight, stepper.implicitHeight) + root.tok.rowPadLg
 
-    PrefTokens { id: tok }
+    readonly property var tok: Theme
 
     // ── Bottom divider ───────────────────────────────────────────────────────
     Rectangle {
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: 1
-        color: tok.edge2
+        color: root.tok.borderSubtle
     }
 
     // ── Row ──────────────────────────────────────────────────────────────────
@@ -33,24 +35,24 @@ Item {
         Column {
             id: labelCol
             anchors { left: parent.left; right: stepper.left; rightMargin: 24; verticalCenter: parent.verticalCenter }
-            spacing: tok.labelHintGap
+            spacing: root.tok.labelHintGap
 
             Text {
                 width: parent.width
                 text: root.label
-                font.pixelSize: tok.labelPx
+                font.pixelSize: root.tok.labelPx
                 font.weight: Font.Medium
-                color: tok.ink
+                color: root.tok.text
             }
 
             Text {
                 visible: root.hint !== ""
                 width: parent.width
                 text: root.hint
-                font.pixelSize: tok.hintPx
-                color: tok.mute
+                font.pixelSize: root.tok.hintPx
+                color: root.tok.textMuted
                 wrapMode: Text.WordWrap
-                lineHeight: tok.hintLineH
+                lineHeight: root.tok.hintLineH
             }
         }
 
