@@ -78,6 +78,7 @@ TimerBoxPreferencesPanel::init_enabled()
     {
 #ifdef PLATFORM_OS_WINDOWS
       enabled_cb->setText(tr("Show timers in taskbar"));
+      enabled_cb->setChecked(GUIConfig::timerbox_enabled(name)());
 #else
       enabled_cb->setText(tr("Applet enabled"));
 #endif
@@ -134,6 +135,12 @@ TimerBoxPreferencesPanel::init_cycle()
 {
   cycle_entry->setMinimum(1);
   cycle_entry->setMaximum(999);
+#ifdef PLATFORM_OS_WINDOWS
+  if (name == "applet")
+    {
+      cycle_entry->setValue(GUIConfig::timerbox_cycle_time(name)());
+    }
+#endif
   connector->connect(GUIConfig::timerbox_cycle_time(name), dc::wrap(cycle_entry));
 }
 
@@ -194,6 +201,12 @@ TimerBoxPreferencesPanel::init()
   layout->addStretch();
 
   init_config();
+#ifdef PLATFORM_OS_WINDOWS
+  if (name == "applet")
+    {
+      enable_buttons();
+    }
+#endif
 }
 
 auto
