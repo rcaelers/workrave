@@ -29,9 +29,16 @@ ApplicationMacOS::ApplicationMacOS(int argc, char **argv, std::shared_ptr<IToolk
 void
 ApplicationMacOS::init_platform_pre()
 {
+  // App Nap throttles the 1 Hz heartbeat that drives all timers; keep the
+  // process running while the system itself is free to sleep.
+  app_nap_disabler = std::make_unique<MacOSAppNapDisabler>();
 }
 
 void
 ApplicationMacOS::init_platform_post()
 {
+  if (auto c = get_core(); c != nullptr)
+    {
+      sleep_monitor = std::make_shared<MacOSSleepMonitor>([c](bool start) { c->set_powersave(start); });
+    }
 }
