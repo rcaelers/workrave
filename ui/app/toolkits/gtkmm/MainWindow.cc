@@ -336,10 +336,6 @@ MainWindow::move_to_start_position()
   int y = GUIConfig::main_window_y()();
   int head = GUIConfig::main_window_head()();
 
-  int width = 0;
-  int height = 0;
-  get_size(width, height);
-
   if (head >= app->get_toolkit()->get_head_count())
     {
       head = 0;
@@ -446,11 +442,30 @@ MainWindow::convert_monitor_to_display(int &x, int &y, int head)
       y += h.get_height();
     }
 
-  x = std::clamp(x, 0, h.get_width());
-  y = std::clamp(y, 0, h.get_height());
-
   x += h.get_x();
   y += h.get_y();
+
+  Gdk::Rectangle workarea = h.geometry;
+  if (auto monitor = h.get_monitor())
+    {
+      monitor->get_workarea(workarea);
+    }
+
+  int width = 0;
+  int height = 0;
+  get_size(width, height);
+  if (auto window = get_window())
+    {
+      Gdk::Rectangle frame;
+      window->get_frame_extents(frame);
+      width = std::max(width, frame.get_width());
+      height = std::max(height, frame.get_height());
+    }
+
+  // Clamp the entire decorated window, not just its top-left corner. Saved
+  // offsets such as -1 otherwise leave the window beyond the screen edge.
+  x = std::clamp(x, workarea.get_x(), workarea.get_x() + std::max(0, workarea.get_width() - width));
+  y = std::clamp(y, workarea.get_y(), workarea.get_y() + std::max(0, workarea.get_height() - height));
 }
 
 MainWindow::closed_signal_t &
