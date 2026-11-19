@@ -1,4 +1,4 @@
-// Copyright (C) 2001 - 2026 Rob Caelers & Raymond Penners
+// Copyright (C) 2026 Wouter van Wijk
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
