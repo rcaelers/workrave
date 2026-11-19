@@ -161,6 +161,7 @@ if (PLATFORM_OS_MACOS)
     ApplicationMacOS.cc
     platforms/macos/MacOSLocker.cc
     platforms/macos/MacOSDock.mm
+    platforms/macos/MacOSSleepMonitor.mm
     #platforms/macos/MacOSAppletWindow.cc
     #platforms/macos/MacOSStatusBarView.mm
     #platforms/macos/MacOSTimeBar.mm
@@ -169,10 +170,12 @@ if (PLATFORM_OS_MACOS)
   set_source_files_properties(Locale.cc
                               platforms/macos/MacOSLocker.cc
                               platforms/macos/MacOSDock.mm
+                              platforms/macos/MacOSSleepMonitor.mm
                               PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
   set_source_files_properties(Locale.cc
                               platforms/macos/MacOSLocker.cc
                               platforms/macos/MacOSDock.mm
+                              platforms/macos/MacOSSleepMonitor.mm
                               PROPERTIES SKIP_LINTING ON)
 
   target_include_directories(workrave-app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
