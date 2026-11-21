@@ -34,3 +34,18 @@ Widget::get_label() const
 {
   return Locale::lookup(label);
 }
+
+Presentation
+Widget::get_presentation() const
+{
+  auto result = presentation_;
+  result.label = Locale::lookup(result.label);
+  result.hint = Locale::lookup(result.hint);
+  return result;
+}
+
+void
+Widget::set_presentation(Presentation presentation)
+{
+  presentation_ = std::move(presentation);
+}

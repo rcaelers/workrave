@@ -54,7 +54,7 @@ install(CODE "
   file(WRITE \"${CMAKE_INSTALL_PREFIX}/${qtconf_dest_dir}/qt.conf\" \"[Paths]\\nPlugins = ../lib/plugins/\\nQmlImports = ../qml/\")
   " COMPONENT Runtime)
 
-install(CODE "set(SYS_ROOT ${SYS_ROOT})")
+install(CODE "set(SYS_ROOT \"${SYS_ROOT}\")")
 install(CODE "set(STRICT_WINDOWS_DEPENDENCIES ON)")
 install(CODE "set(MODULE_PATH ${WORKRAVE_SOURCE_DIR}/cmake/modules)")
 install(CODE "set(BINARY_DIR \"${CMAKE_BINARY_DIR}\")")

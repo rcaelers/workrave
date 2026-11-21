@@ -1,4 +1,5 @@
 import QtQuick
+import PrefWidgets 1.0
 
 // GeneralPrefPage — content for User interface > General preferences.
 // Expects context property: generalPrefBridge (GeneralPrefBridge)

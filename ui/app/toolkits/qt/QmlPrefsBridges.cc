@@ -45,53 +45,6 @@ using namespace workrave;
 
 // ── Utilities ─────────────────────────────────────────────────────────────────
 
-namespace PrefUtils
-{
-  QString
-  formatTime(int seconds)
-  {
-    int h = seconds / 3600;
-    int m = (seconds % 3600) / 60;
-    int s = seconds % 60;
-    if (h > 0)
-      {
-        return QStringLiteral("%1:%2:%3").arg(h).arg(m, 2, 10, QLatin1Char('0')).arg(s, 2, 10, QLatin1Char('0'));
-      }
-      return QStringLiteral("%1:%2").arg(m).arg(s, 2, 10, QLatin1Char('0'));
-  }
-
-  double
-  normalize(int value, int minVal, int maxVal)
-  {
-    if (maxVal <= minVal)
-      {
-        return 0.0;
-      }
-    return std::clamp(static_cast<double>(value - minVal) / (maxVal - minVal), 0.0, 1.0);
-  }
-
-  int
-  denormalize(double norm, int minVal, int maxVal, int step)
-  {
-    double raw = minVal + norm * (maxVal - minVal);
-    int snapped = static_cast<int>(std::round(raw / step)) * step;
-    return std::clamp(snapped, minVal, maxVal);
-  }
-
-  int
-  clampStep(int value, int delta, int minVal, int maxVal, int step)
-  {
-    return std::clamp(value + delta * step, minVal, maxVal);
-  }
-
-  int
-  snapStep(int value, int minVal, int maxVal, int step)
-  {
-    int snapped = static_cast<int>(std::round(static_cast<double>(value) / step)) * step;
-    return std::clamp(snapped, minVal, maxVal);
-  }
-} // namespace PrefUtils
-
 // ── MicrobreakPrefBridge ───────────────────────────────────────────────────────
 
 MicrobreakPrefBridge::MicrobreakPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent)
@@ -122,7 +75,7 @@ MicrobreakPrefBridge::limitDisplay() const
 double
 MicrobreakPrefBridge::limitNorm() const
 {
-  return PrefUtils::normalize(CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK)(), LIMIT_MIN, LIMIT_MAX);
+  return PrefUtils::normalize(CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK)(), {.minimum = LIMIT_MIN, .maximum = LIMIT_MAX});
 }
 
 QString
@@ -134,7 +87,7 @@ MicrobreakPrefBridge::durationDisplay() const
 double
 MicrobreakPrefBridge::durationNorm() const
 {
-  return PrefUtils::normalize(CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK)(), DUR_MIN, DUR_MAX);
+  return PrefUtils::normalize(CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK)(), {.minimum = DUR_MIN, .maximum = DUR_MAX});
 }
 
 QString
@@ -146,7 +99,7 @@ MicrobreakPrefBridge::snoozeDisplay() const
 double
 MicrobreakPrefBridge::snoozeNorm() const
 {
-  return PrefUtils::normalize(CoreConfig::timer_snooze(BREAK_ID_MICRO_BREAK)(), SNOOZE_MIN, SNOOZE_MAX);
+  return PrefUtils::normalize(CoreConfig::timer_snooze(BREAK_ID_MICRO_BREAK)(), {.minimum = SNOOZE_MIN, .maximum = SNOOZE_MAX});
 }
 
 bool
@@ -241,7 +194,9 @@ MicrobreakPrefBridge::maxPreludes() const
 void
 MicrobreakPrefBridge::incrementLimit()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK)(), +1, LIMIT_MIN, LIMIT_MAX, LIMIT_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK)(),
+                               +1,
+                               {.minimum = LIMIT_MIN, .maximum = LIMIT_MAX, .step = LIMIT_STEP});
   CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -249,7 +204,9 @@ MicrobreakPrefBridge::incrementLimit()
 void
 MicrobreakPrefBridge::decrementLimit()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK)(), -1, LIMIT_MIN, LIMIT_MAX, LIMIT_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK)(),
+                               -1,
+                               {.minimum = LIMIT_MIN, .maximum = LIMIT_MAX, .step = LIMIT_STEP});
   CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -257,7 +214,7 @@ MicrobreakPrefBridge::decrementLimit()
 void
 MicrobreakPrefBridge::setLimitNorm(double norm)
 {
-  int v = PrefUtils::denormalize(norm, LIMIT_MIN, LIMIT_MAX, LIMIT_STEP);
+  int v = PrefUtils::denormalize(norm, {.minimum = LIMIT_MIN, .maximum = LIMIT_MAX, .step = LIMIT_STEP});
   CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -265,14 +222,17 @@ MicrobreakPrefBridge::setLimitNorm(double norm)
 void
 MicrobreakPrefBridge::setLimitSeconds(int seconds)
 {
-  CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK).set(PrefUtils::snapStep(seconds, 5, 86400, LIMIT_STEP));
+  CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK)
+    .set(PrefUtils::snapStep(seconds, {.minimum = 5, .maximum = 86400, .step = LIMIT_STEP}));
   Q_EMIT timingChanged();
 }
 
 void
 MicrobreakPrefBridge::incrementDuration()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK)(), +1, DUR_MIN, DUR_MAX, DUR_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK)(),
+                               +1,
+                               {.minimum = DUR_MIN, .maximum = DUR_MAX, .step = DUR_STEP});
   CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -280,7 +240,9 @@ MicrobreakPrefBridge::incrementDuration()
 void
 MicrobreakPrefBridge::decrementDuration()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK)(), -1, DUR_MIN, DUR_MAX, DUR_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK)(),
+                               -1,
+                               {.minimum = DUR_MIN, .maximum = DUR_MAX, .step = DUR_STEP});
   CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -288,7 +250,7 @@ MicrobreakPrefBridge::decrementDuration()
 void
 MicrobreakPrefBridge::setDurationNorm(double norm)
 {
-  int v = PrefUtils::denormalize(norm, DUR_MIN, DUR_MAX, DUR_STEP);
+  int v = PrefUtils::denormalize(norm, {.minimum = DUR_MIN, .maximum = DUR_MAX, .step = DUR_STEP});
   CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -296,14 +258,17 @@ MicrobreakPrefBridge::setDurationNorm(double norm)
 void
 MicrobreakPrefBridge::setDurationSeconds(int seconds)
 {
-  CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK).set(PrefUtils::snapStep(seconds, 5, 86400, DUR_STEP));
+  CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK)
+    .set(PrefUtils::snapStep(seconds, {.minimum = 5, .maximum = 86400, .step = DUR_STEP}));
   Q_EMIT timingChanged();
 }
 
 void
 MicrobreakPrefBridge::incrementSnooze()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_MICRO_BREAK)(), +1, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_MICRO_BREAK)(),
+                               +1,
+                               {.minimum = SNOOZE_MIN, .maximum = SNOOZE_MAX, .step = SNOOZE_STEP});
   CoreConfig::timer_snooze(BREAK_ID_MICRO_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -311,7 +276,9 @@ MicrobreakPrefBridge::incrementSnooze()
 void
 MicrobreakPrefBridge::decrementSnooze()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_MICRO_BREAK)(), -1, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_MICRO_BREAK)(),
+                               -1,
+                               {.minimum = SNOOZE_MIN, .maximum = SNOOZE_MAX, .step = SNOOZE_STEP});
   CoreConfig::timer_snooze(BREAK_ID_MICRO_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -319,7 +286,7 @@ MicrobreakPrefBridge::decrementSnooze()
 void
 MicrobreakPrefBridge::setSnoozeNorm(double norm)
 {
-  int v = PrefUtils::denormalize(norm, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
+  int v = PrefUtils::denormalize(norm, {.minimum = SNOOZE_MIN, .maximum = SNOOZE_MAX, .step = SNOOZE_STEP});
   CoreConfig::timer_snooze(BREAK_ID_MICRO_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -381,7 +348,7 @@ RestBreakPrefBridge::limitDisplay() const
 double
 RestBreakPrefBridge::limitNorm() const
 {
-  return PrefUtils::normalize(CoreConfig::timer_limit(BREAK_ID_REST_BREAK)(), LIMIT_MIN, LIMIT_MAX);
+  return PrefUtils::normalize(CoreConfig::timer_limit(BREAK_ID_REST_BREAK)(), {.minimum = LIMIT_MIN, .maximum = LIMIT_MAX});
 }
 
 QString
@@ -393,7 +360,7 @@ RestBreakPrefBridge::durationDisplay() const
 double
 RestBreakPrefBridge::durationNorm() const
 {
-  return PrefUtils::normalize(CoreConfig::timer_auto_reset(BREAK_ID_REST_BREAK)(), DUR_MIN, DUR_MAX);
+  return PrefUtils::normalize(CoreConfig::timer_auto_reset(BREAK_ID_REST_BREAK)(), {.minimum = DUR_MIN, .maximum = DUR_MAX});
 }
 
 QString
@@ -405,7 +372,7 @@ RestBreakPrefBridge::snoozeDisplay() const
 double
 RestBreakPrefBridge::snoozeNorm() const
 {
-  return PrefUtils::normalize(CoreConfig::timer_snooze(BREAK_ID_REST_BREAK)(), SNOOZE_MIN, SNOOZE_MAX);
+  return PrefUtils::normalize(CoreConfig::timer_snooze(BREAK_ID_REST_BREAK)(), {.minimum = SNOOZE_MIN, .maximum = SNOOZE_MAX});
 }
 
 int
@@ -489,7 +456,9 @@ RestBreakPrefBridge::setPreludeEnabled(bool v)
 void
 RestBreakPrefBridge::incrementLimit()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_limit(BREAK_ID_REST_BREAK)(), +1, LIMIT_MIN, LIMIT_MAX, LIMIT_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_limit(BREAK_ID_REST_BREAK)(),
+                               +1,
+                               {.minimum = LIMIT_MIN, .maximum = LIMIT_MAX, .step = LIMIT_STEP});
   CoreConfig::timer_limit(BREAK_ID_REST_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -497,7 +466,9 @@ RestBreakPrefBridge::incrementLimit()
 void
 RestBreakPrefBridge::decrementLimit()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_limit(BREAK_ID_REST_BREAK)(), -1, LIMIT_MIN, LIMIT_MAX, LIMIT_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_limit(BREAK_ID_REST_BREAK)(),
+                               -1,
+                               {.minimum = LIMIT_MIN, .maximum = LIMIT_MAX, .step = LIMIT_STEP});
   CoreConfig::timer_limit(BREAK_ID_REST_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -505,7 +476,7 @@ RestBreakPrefBridge::decrementLimit()
 void
 RestBreakPrefBridge::setLimitNorm(double norm)
 {
-  int v = PrefUtils::denormalize(norm, LIMIT_MIN, LIMIT_MAX, LIMIT_STEP);
+  int v = PrefUtils::denormalize(norm, {.minimum = LIMIT_MIN, .maximum = LIMIT_MAX, .step = LIMIT_STEP});
   CoreConfig::timer_limit(BREAK_ID_REST_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -520,7 +491,9 @@ RestBreakPrefBridge::setLimitSeconds(int seconds)
 void
 RestBreakPrefBridge::incrementDuration()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_auto_reset(BREAK_ID_REST_BREAK)(), +1, DUR_MIN, DUR_MAX, DUR_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_auto_reset(BREAK_ID_REST_BREAK)(),
+                               +1,
+                               {.minimum = DUR_MIN, .maximum = DUR_MAX, .step = DUR_STEP});
   CoreConfig::timer_auto_reset(BREAK_ID_REST_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -528,7 +501,9 @@ RestBreakPrefBridge::incrementDuration()
 void
 RestBreakPrefBridge::decrementDuration()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_auto_reset(BREAK_ID_REST_BREAK)(), -1, DUR_MIN, DUR_MAX, DUR_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_auto_reset(BREAK_ID_REST_BREAK)(),
+                               -1,
+                               {.minimum = DUR_MIN, .maximum = DUR_MAX, .step = DUR_STEP});
   CoreConfig::timer_auto_reset(BREAK_ID_REST_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -536,7 +511,7 @@ RestBreakPrefBridge::decrementDuration()
 void
 RestBreakPrefBridge::setDurationNorm(double norm)
 {
-  int v = PrefUtils::denormalize(norm, DUR_MIN, DUR_MAX, DUR_STEP);
+  int v = PrefUtils::denormalize(norm, {.minimum = DUR_MIN, .maximum = DUR_MAX, .step = DUR_STEP});
   CoreConfig::timer_auto_reset(BREAK_ID_REST_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -551,7 +526,9 @@ RestBreakPrefBridge::setDurationSeconds(int seconds)
 void
 RestBreakPrefBridge::incrementSnooze()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_REST_BREAK)(), +1, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_REST_BREAK)(),
+                               +1,
+                               {.minimum = SNOOZE_MIN, .maximum = SNOOZE_MAX, .step = SNOOZE_STEP});
   CoreConfig::timer_snooze(BREAK_ID_REST_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -559,7 +536,9 @@ RestBreakPrefBridge::incrementSnooze()
 void
 RestBreakPrefBridge::decrementSnooze()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_REST_BREAK)(), -1, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_REST_BREAK)(),
+                               -1,
+                               {.minimum = SNOOZE_MIN, .maximum = SNOOZE_MAX, .step = SNOOZE_STEP});
   CoreConfig::timer_snooze(BREAK_ID_REST_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -567,7 +546,7 @@ RestBreakPrefBridge::decrementSnooze()
 void
 RestBreakPrefBridge::setSnoozeNorm(double norm)
 {
-  int v = PrefUtils::denormalize(norm, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
+  int v = PrefUtils::denormalize(norm, {.minimum = SNOOZE_MIN, .maximum = SNOOZE_MAX, .step = SNOOZE_STEP});
   CoreConfig::timer_snooze(BREAK_ID_REST_BREAK).set(v);
   Q_EMIT timingChanged();
 }
@@ -675,7 +654,7 @@ DailyLimitPrefBridge::limitDisplay() const
 double
 DailyLimitPrefBridge::limitNorm() const
 {
-  return PrefUtils::normalize(CoreConfig::timer_limit(BREAK_ID_DAILY_LIMIT)(), LIMIT_MIN, LIMIT_MAX);
+  return PrefUtils::normalize(CoreConfig::timer_limit(BREAK_ID_DAILY_LIMIT)(), {.minimum = LIMIT_MIN, .maximum = LIMIT_MAX});
 }
 
 QString
@@ -687,7 +666,7 @@ DailyLimitPrefBridge::snoozeDisplay() const
 double
 DailyLimitPrefBridge::snoozeNorm() const
 {
-  return PrefUtils::normalize(CoreConfig::timer_snooze(BREAK_ID_DAILY_LIMIT)(), SNOOZE_MIN, SNOOZE_MAX);
+  return PrefUtils::normalize(CoreConfig::timer_snooze(BREAK_ID_DAILY_LIMIT)(), {.minimum = SNOOZE_MIN, .maximum = SNOOZE_MAX});
 }
 
 bool
@@ -795,7 +774,9 @@ DailyLimitPrefBridge::maxPreludes() const
 void
 DailyLimitPrefBridge::incrementLimit()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_limit(BREAK_ID_DAILY_LIMIT)(), +1, LIMIT_MIN, LIMIT_MAX, LIMIT_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_limit(BREAK_ID_DAILY_LIMIT)(),
+                               +1,
+                               {.minimum = LIMIT_MIN, .maximum = LIMIT_MAX, .step = LIMIT_STEP});
   CoreConfig::timer_limit(BREAK_ID_DAILY_LIMIT).set(v);
   Q_EMIT timingChanged();
 }
@@ -803,7 +784,9 @@ DailyLimitPrefBridge::incrementLimit()
 void
 DailyLimitPrefBridge::decrementLimit()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_limit(BREAK_ID_DAILY_LIMIT)(), -1, LIMIT_MIN, LIMIT_MAX, LIMIT_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_limit(BREAK_ID_DAILY_LIMIT)(),
+                               -1,
+                               {.minimum = LIMIT_MIN, .maximum = LIMIT_MAX, .step = LIMIT_STEP});
   CoreConfig::timer_limit(BREAK_ID_DAILY_LIMIT).set(v);
   Q_EMIT timingChanged();
 }
@@ -811,7 +794,7 @@ DailyLimitPrefBridge::decrementLimit()
 void
 DailyLimitPrefBridge::setLimitNorm(double norm)
 {
-  int v = PrefUtils::denormalize(norm, LIMIT_MIN, LIMIT_MAX, LIMIT_STEP);
+  int v = PrefUtils::denormalize(norm, {.minimum = LIMIT_MIN, .maximum = LIMIT_MAX, .step = LIMIT_STEP});
   CoreConfig::timer_limit(BREAK_ID_DAILY_LIMIT).set(v);
   Q_EMIT timingChanged();
 }
@@ -826,7 +809,9 @@ DailyLimitPrefBridge::setLimitSeconds(int seconds)
 void
 DailyLimitPrefBridge::incrementSnooze()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_DAILY_LIMIT)(), +1, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_DAILY_LIMIT)(),
+                               +1,
+                               {.minimum = SNOOZE_MIN, .maximum = SNOOZE_MAX, .step = SNOOZE_STEP});
   CoreConfig::timer_snooze(BREAK_ID_DAILY_LIMIT).set(v);
   Q_EMIT timingChanged();
 }
@@ -834,7 +819,9 @@ DailyLimitPrefBridge::incrementSnooze()
 void
 DailyLimitPrefBridge::decrementSnooze()
 {
-  int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_DAILY_LIMIT)(), -1, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
+  int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_DAILY_LIMIT)(),
+                               -1,
+                               {.minimum = SNOOZE_MIN, .maximum = SNOOZE_MAX, .step = SNOOZE_STEP});
   CoreConfig::timer_snooze(BREAK_ID_DAILY_LIMIT).set(v);
   Q_EMIT timingChanged();
 }
@@ -842,7 +829,7 @@ DailyLimitPrefBridge::decrementSnooze()
 void
 DailyLimitPrefBridge::setSnoozeNorm(double norm)
 {
-  int v = PrefUtils::denormalize(norm, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
+  int v = PrefUtils::denormalize(norm, {.minimum = SNOOZE_MIN, .maximum = SNOOZE_MAX, .step = SNOOZE_STEP});
   CoreConfig::timer_snooze(BREAK_ID_DAILY_LIMIT).set(v);
   Q_EMIT timingChanged();
 }
@@ -996,13 +983,15 @@ StatusWindowPrefBridge::cycleDisplay() const
 double
 StatusWindowPrefBridge::cycleNorm() const
 {
-  return PrefUtils::normalize(GUIConfig::timerbox_cycle_time("main_window")(), CYCLE_MIN, CYCLE_MAX);
+  return PrefUtils::normalize(GUIConfig::timerbox_cycle_time("main_window")(), {.minimum = CYCLE_MIN, .maximum = CYCLE_MAX});
 }
 
 void
 StatusWindowPrefBridge::incrementCycle()
 {
-  int v = PrefUtils::clampStep(GUIConfig::timerbox_cycle_time("main_window")(), +1, CYCLE_MIN, CYCLE_MAX, CYCLE_STEP);
+  int v = PrefUtils::clampStep(GUIConfig::timerbox_cycle_time("main_window")(),
+                               +1,
+                               {.minimum = CYCLE_MIN, .maximum = CYCLE_MAX, .step = CYCLE_STEP});
   GUIConfig::timerbox_cycle_time("main_window").set(v);
   Q_EMIT changed();
 }
@@ -1010,7 +999,9 @@ StatusWindowPrefBridge::incrementCycle()
 void
 StatusWindowPrefBridge::decrementCycle()
 {
-  int v = PrefUtils::clampStep(GUIConfig::timerbox_cycle_time("main_window")(), -1, CYCLE_MIN, CYCLE_MAX, CYCLE_STEP);
+  int v = PrefUtils::clampStep(GUIConfig::timerbox_cycle_time("main_window")(),
+                               -1,
+                               {.minimum = CYCLE_MIN, .maximum = CYCLE_MAX, .step = CYCLE_STEP});
   GUIConfig::timerbox_cycle_time("main_window").set(v);
   Q_EMIT changed();
 }
@@ -1018,7 +1009,7 @@ StatusWindowPrefBridge::decrementCycle()
 void
 StatusWindowPrefBridge::setCycleNorm(double norm)
 {
-  int v = PrefUtils::denormalize(norm, CYCLE_MIN, CYCLE_MAX, CYCLE_STEP);
+  int v = PrefUtils::denormalize(norm, {.minimum = CYCLE_MIN, .maximum = CYCLE_MAX, .step = CYCLE_STEP});
   GUIConfig::timerbox_cycle_time("main_window").set(v);
   Q_EMIT changed();
 }
@@ -1619,7 +1610,9 @@ GeneralPrefBridge::lockMethodIndex() const
   for (int i = 0; i < static_cast<int>(methods.size()); i++)
     {
       if (methods[i].id == pref)
-        return i;
+        {
+          return i;
+        }
     }
   return 0;
 }
@@ -1675,7 +1668,9 @@ GeneralPrefBridge::sleepOperationIndex() const
   for (int i = 0; i < static_cast<int>(ops.size()); i++)
     {
       if (sleep_op_id(ops[i].type) == pref)
-        return i;
+        {
+          return i;
+        }
     }
   return 0;
 }
@@ -1893,13 +1888,15 @@ AppletPrefBridge::cycleDisplay() const
 double
 AppletPrefBridge::cycleNorm() const
 {
-  return PrefUtils::normalize(GUIConfig::timerbox_cycle_time("applet")(), CYCLE_MIN, CYCLE_MAX);
+  return PrefUtils::normalize(GUIConfig::timerbox_cycle_time("applet")(), {.minimum = CYCLE_MIN, .maximum = CYCLE_MAX});
 }
 
 void
 AppletPrefBridge::incrementCycle()
 {
-  int v = PrefUtils::clampStep(GUIConfig::timerbox_cycle_time("applet")(), +1, CYCLE_MIN, CYCLE_MAX, CYCLE_STEP);
+  int v = PrefUtils::clampStep(GUIConfig::timerbox_cycle_time("applet")(),
+                               +1,
+                               {.minimum = CYCLE_MIN, .maximum = CYCLE_MAX, .step = CYCLE_STEP});
   GUIConfig::timerbox_cycle_time("applet").set(v);
   Q_EMIT changed();
 }
@@ -1907,7 +1904,9 @@ AppletPrefBridge::incrementCycle()
 void
 AppletPrefBridge::decrementCycle()
 {
-  int v = PrefUtils::clampStep(GUIConfig::timerbox_cycle_time("applet")(), -1, CYCLE_MIN, CYCLE_MAX, CYCLE_STEP);
+  int v = PrefUtils::clampStep(GUIConfig::timerbox_cycle_time("applet")(),
+                               -1,
+                               {.minimum = CYCLE_MIN, .maximum = CYCLE_MAX, .step = CYCLE_STEP});
   GUIConfig::timerbox_cycle_time("applet").set(v);
   Q_EMIT changed();
 }
@@ -1915,7 +1914,7 @@ AppletPrefBridge::decrementCycle()
 void
 AppletPrefBridge::setCycleNorm(double norm)
 {
-  int v = PrefUtils::denormalize(norm, CYCLE_MIN, CYCLE_MAX, CYCLE_STEP);
+  int v = PrefUtils::denormalize(norm, {.minimum = CYCLE_MIN, .maximum = CYCLE_MAX, .step = CYCLE_STEP});
   GUIConfig::timerbox_cycle_time("applet").set(v);
   Q_EMIT changed();
 }

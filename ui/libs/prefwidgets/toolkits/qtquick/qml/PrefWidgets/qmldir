@@ -1,0 +1,20 @@
+module PrefWidgets
+singleton Theme 1.0 Theme.qml
+Page 1.0 Page.qml
+PrefGroup 1.0 PrefGroup.qml
+PrefToggleRow 1.0 PrefToggleRow.qml
+PrefStepper 1.0 PrefStepper.qml
+PrefTimeStepper 1.0 PrefTimeStepper.qml
+PrefSliderRow 1.0 PrefSliderRow.qml
+PrefTimeControl 1.0 PrefTimeControl.qml
+PrefSpinRow 1.0 PrefSpinRow.qml
+PrefChoiceRow 1.0 PrefChoiceRow.qml
+PrefTextRow 1.0 PrefTextRow.qml
+PrefLanguageRow 1.0 PrefLanguageRow.qml
+PrefCardsRow 1.0 PrefCardsRow.qml
+PrefChoiceCard 1.0 PrefChoiceCard.qml
+PrefSegmentedRow 1.0 PrefSegmentedRow.qml
+singleton PreviewRegistry 1.0 PreviewRegistry.qml
+Preview 1.0 Preview.qml
+singleton PresentationRegistry 1.0 PresentationRegistry.qml
+ControlPresentation 1.0 ControlPresentation.qml

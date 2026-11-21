@@ -1,5 +1,29 @@
 add_library(workrave-app OBJECT)
 
+if (WITH_TESTS)
+  if (PLATFORM_OS_WINDOWS)
+    add_executable(windows-resources-test tests/WindowsResourcesTest.cc)
+    target_include_directories(windows-resources-test PRIVATE platforms/windows)
+    target_link_libraries(windows-resources-test PRIVATE ole32 gdi32 user32 windowscodecs uuid)
+    target_compile_definitions(windows-resources-test PRIVATE
+      TEST_IMAGE_PATH="${CMAKE_SOURCE_DIR}/ui/data/images/timer-micro-break.png")
+    add_test(NAME windows-resources COMMAND windows-resources-test)
+  endif()
+
+  add_executable(taskbar-placement-test tests/TaskbarPlacementTest.cc)
+  target_include_directories(taskbar-placement-test PRIVATE platforms/windows)
+  add_test(NAME taskbar-placement COMMAND taskbar-placement-test)
+
+  add_executable(preferences-registry-test tests/PreferencesRegistryTest.cc PreferencesRegistry.cc)
+  target_include_directories(preferences-registry-test
+                            PRIVATE
+                            ${CMAKE_CURRENT_SOURCE_DIR}
+                            ${CMAKE_CURRENT_SOURCE_DIR}/include
+                            ${CMAKE_BINARY_DIR})
+  target_link_libraries(preferences-registry-test PRIVATE workrave-libs-ui-prefwidgets)
+  add_test(NAME preferences-registry COMMAND preferences-registry-test)
+endif()
+
 target_sources(workrave-app PRIVATE
   AppHold.cc
   Application.cc
@@ -109,10 +133,14 @@ if (PLATFORM_OS_WINDOWS)
     platforms/windows/WindowsCompat.cc
     platforms/windows/WindowsForceFocus.cc
     platforms/windows/WindowsLocker.cc
+    platforms/windows/WindowsTaskbarApplet.cc
+    platforms/windows/TaskbarLayout.cc
     platforms/windows/WindowsStatusIcon.cc
     platforms/windows/WindowsFocusAssist.cc
     platforms/windows/Remote.cc
   )
+
+  target_link_libraries(workrave-app PUBLIC user32 gdi32 advapi32 ole32 oleaut32 uuid uiautomationcore comctl32)
 
   if (HAVE_HARPOON)
     target_sources(workrave-app PRIVATE platforms/windows/WindowsHarpoonLocker.cc)
@@ -133,6 +161,7 @@ if (PLATFORM_OS_MACOS)
     ApplicationMacOS.cc
     platforms/macos/MacOSLocker.cc
     platforms/macos/MacOSDock.mm
+    platforms/macos/MacOSSleepMonitor.mm
     #platforms/macos/MacOSAppletWindow.cc
     #platforms/macos/MacOSStatusBarView.mm
     #platforms/macos/MacOSTimeBar.mm
@@ -141,10 +170,12 @@ if (PLATFORM_OS_MACOS)
   set_source_files_properties(Locale.cc
                               platforms/macos/MacOSLocker.cc
                               platforms/macos/MacOSDock.mm
+                              platforms/macos/MacOSSleepMonitor.mm
                               PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
   set_source_files_properties(Locale.cc
                               platforms/macos/MacOSLocker.cc
                               platforms/macos/MacOSDock.mm
+                              platforms/macos/MacOSSleepMonitor.mm
                               PROPERTIES SKIP_LINTING ON)
 
   target_include_directories(workrave-app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)

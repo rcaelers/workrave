@@ -1,4 +1,5 @@
 import QtQuick
+import PrefWidgets 1.0
 
 // RemoteControlPrefPage — content for Remote control > gRPC preferences.
 // Expects context property: remoteControlPrefBridge (RemoteControlPrefBridge)

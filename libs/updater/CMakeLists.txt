@@ -26,7 +26,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       "Auto-update framework"
       "MIT"
       GIT_REPOSITORY https://github.com/rcaelers/unfold.git
-      GIT_TAG 14abf214d640cf8e45c385ba6ce5b4f9866993d9
+      GIT_TAG 4eca375e08a3177d93c34ee61b3764e55acce228
       EXCLUDE_FROM_ALL
     )
     if(NOT unfold_POPULATED)

@@ -18,8 +18,11 @@
 #ifndef APPLICATION_MACOS_HH
 #define APPLICATION_MACOS_HH
 
+#include <memory>
+
 #include "Application.hh"
 
+#include "ui/macos/MacOSSleepMonitor.hh"
 #include "ui/macos/MacOSDock.hh"
 
 class ApplicationMacOS : public Application
@@ -33,6 +36,8 @@ public:
 
 private:
   std::shared_ptr<MacOSDock> dock;
+  std::shared_ptr<MacOSSleepMonitor> sleep_monitor;
+  std::unique_ptr<MacOSAppNapDisabler> app_nap_disabler;
 };
 
 #endif // APPLICATION_MACOS_HH
