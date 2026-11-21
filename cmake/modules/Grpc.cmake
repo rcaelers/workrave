@@ -76,7 +76,13 @@ function(workrave_configure_grpc)
     set(CMAKE_REQUIRED_LIBRARIES "${_workrave_saved_required_libraries}")
     unset(_workrave_saved_required_libraries)
 
-    if(NOT WORKRAVE_GRPC_SUPPORTS_UNIX_SOCKETS)
+    if(NOT WORKRAVE_GRPC_SUPPORTS_UNIX_SOCKETS_COMPILED)
+      message(FATAL_ERROR
+        "The gRPC Unix domain socket probe failed to compile or link. "
+        "Check the CMake configure log for compiler/linker errors and verify "
+        "that gRPC and its dependencies are compatible. "
+        "Unix domain socket support could not be tested.")
+    elseif(NOT WORKRAVE_GRPC_SUPPORTS_UNIX_SOCKETS)
       message(WARNING
         "The installed gRPC library cannot listen on Windows Unix domain sockets; "
         "Workrave will support TCP/IP gRPC only")
