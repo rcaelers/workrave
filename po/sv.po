@@ -3,138 +3,139 @@
 # This file is distributed under the same license as the workrave package.
 # Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009.
 #
+# Jonatan Nyberg <84130654+NickWick13@users.noreply.github.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-08-04 19:16+0200\n"
-"PO-Revision-Date: 2011-02-16 19:51+0100\n"
-"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"POT-Creation-Date: 2026-11-21 12:23+0200\n"
+"PO-Revision-Date: 2026-11-21 12:28+0200\n"
+"Last-Translator: Jonatan Nyberg <84130654+NickWick13@users.noreply.github.com>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: libs/corenext/src/org.workrave.gschema.xml.in:45
-#, fuzzy
 msgid "Replaced by use-microbreak-activity"
-msgstr "Anse mikropaus vara en aktivitet"
-
-#: libs/corenext/src/org.workrave.gschema.xml.in:221
-#: libs/core/src/org.workrave.gschema.xml.in:237
-msgid "Enable the gRPC server"
-msgstr ""
-
-#: libs/corenext/src/org.workrave.gschema.xml.in:222
-#: libs/core/src/org.workrave.gschema.xml.in:238
-msgid "Allow local applications to control Workrave through gRPC."
-msgstr ""
-
-#: libs/corenext/src/org.workrave.gschema.xml.in:230
-#: libs/core/src/org.workrave.gschema.xml.in:246
-msgid "gRPC transport"
-msgstr ""
-
-#: libs/corenext/src/org.workrave.gschema.xml.in:231
-#: libs/core/src/org.workrave.gschema.xml.in:247
-msgid "Use a Unix-domain socket or a loopback TCP/IP socket."
-msgstr ""
+msgstr "Ersatt av use-microbreak-activity"
 
 #: libs/corenext/src/org.workrave.gschema.xml.in:236
 #: libs/core/src/org.workrave.gschema.xml.in:252
-msgid "gRPC TCP port"
-msgstr ""
+msgid "Enable the gRPC server"
+msgstr "Aktivera gRPC-servern"
 
 #: libs/corenext/src/org.workrave.gschema.xml.in:237
 #: libs/core/src/org.workrave.gschema.xml.in:253
+msgid "Allow local applications to control Workrave through gRPC."
+msgstr "Tillåt lokala program att styra Workrave via gRPC."
+
+#: libs/corenext/src/org.workrave.gschema.xml.in:245
+#: libs/core/src/org.workrave.gschema.xml.in:261
+msgid "gRPC transport"
+msgstr "Transport för gRPC"
+
+#: libs/corenext/src/org.workrave.gschema.xml.in:246
+#: libs/core/src/org.workrave.gschema.xml.in:262
+msgid "Use a Unix-domain socket or a loopback TCP/IP socket."
+msgstr "Använd en Unix-domänsocket eller en TCP/IP-socket på loopbackgränssnittet."
+
+#: libs/corenext/src/org.workrave.gschema.xml.in:251
+#: libs/core/src/org.workrave.gschema.xml.in:267
+msgid "gRPC TCP port"
+msgstr "TCP-port för gRPC"
+
+#: libs/corenext/src/org.workrave.gschema.xml.in:252
+#: libs/core/src/org.workrave.gschema.xml.in:268
 msgid "TCP port used when the gRPC transport is set to TCP/IP."
-msgstr ""
+msgstr "TCP-port som används när TCP/IP har valts som transport för gRPC."
 
 #: ui/app/Application.cc:469
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
+msgstr "Workrave kunde inte registrera tangentbords- och musaktiviteten.\n"
 
 #: ui/app/Application.cc:694
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
-msgstr ""
+msgstr "Workrave körs fortfarande. Klicka på ikonen med det vita fåret för att öppna Workrave. Klicka på det här meddelandet om du inte vill se det igen."
 
 #: ui/app/Application.cc:710
 msgid ""
 "Workrave is in suspended mode.\n"
 "Mouse and keyboard activity will not be monitored."
 msgstr ""
+"Workrave är pausat.\n"
+"Tangentbords- och musaktiviteten registreras inte."
 
 #: ui/app/Application.cc:718
 msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
+msgstr "Workrave är i tyst läge. Inga pausfönster visas."
 
-#. FIXME: duplicate
+#. Qt translations expose data from temporary QByteArrays. Copy the labels
+#. before those temporaries are destroyed at the end of this statement.
 #. Layout
-#: ui/app/Application.cc:728 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/Application.cc:729 ui/app/toolkits/gtkmm/GtkUtil.cc:176
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-#: ui/app/toolkits/gtkmm/Ui.cc:38 ui/app/toolkits/qt/qml/AppletPrefPage.qml:124
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:143
+#: ui/app/toolkits/gtkmm/Ui.cc:38 ui/app/toolkits/qt/qml/AppletPrefPage.qml:125
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:30
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:92
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:60
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:23
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:75
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:165
 msgid "Micro-break"
 msgstr "Mikropaus"
 
-#: ui/app/Application.cc:728 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/Application.cc:729 ui/app/toolkits/gtkmm/GtkUtil.cc:176
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:144
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:132
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:133
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:184
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:262
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:270
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:22
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:65
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:24
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:80
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:96
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:576
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:237
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:173
 msgid "Rest break"
 msgstr "Vilopaus"
 
 #. label
-#: ui/app/Application.cc:728 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/Application.cc:729 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:176
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:145
 #: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:140
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:141
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:101
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:83
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:23
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:70
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:245
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:33
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:25
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:85
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:181
 msgid "Daily limit"
 msgstr "Daglig gräns"
 
-#: ui/app/Application.cc:735 ui/app/Application.cc:739
-#, fuzzy
+#: ui/app/Application.cc:736 ui/app/Application.cc:740
 msgid "Mode: "
-msgstr "_Läge"
+msgstr "Läge: "
 
-#: ui/app/Application.cc:735 ui/app/platforms/windows/WindowsFocusAssist.cc:78
+#: ui/app/Application.cc:736 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:387
-#, fuzzy
 msgid "Suspended"
-msgstr "V_iloläge"
+msgstr "Pausat"
 
-#: ui/app/Application.cc:739 ui/app/platforms/windows/WindowsFocusAssist.cc:78
+#: ui/app/Application.cc:740 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:389
-#, fuzzy
 msgid "Quiet"
-msgstr "_Tyst"
+msgstr "Tyst"
 
 #: ui/app/Prelude.cc:35 ui/app/toolkits/gtkmm/PreludeWindow.cc:115
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:15
@@ -143,197 +144,201 @@ msgstr "Dags för en mikropaus?"
 
 #: ui/app/Prelude.cc:37 ui/app/toolkits/gtkmm/PreludeWindow.cc:119
 msgid "You need a rest break..."
-msgstr "Du behöver ta en vilopaus..."
+msgstr "Dags att ta en vilopaus …"
 
 #: ui/app/Prelude.cc:39 ui/app/toolkits/gtkmm/PreludeWindow.cc:123
 msgid "You should stop for today..."
-msgstr "Du bör sluta för idag..."
+msgstr "Dags att sluta för i dag …"
 
 #: ui/app/Prelude.cc:51 ui/app/toolkits/gtkmm/PreludeWindow.cc:334
 #: ui/app/toolkits/qt/qml/PreludeClassic.qml:102
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
-#, fuzzy, c++-format
+#, c++-format
 msgid "Break in {}"
-msgstr "Paus om"
+msgstr "Paus om {}"
 
 #: ui/app/Prelude.cc:53 ui/app/toolkits/gtkmm/PreludeWindow.cc:338
-#, fuzzy, c++-format
+#, c++-format
 msgid "Disappears in {}"
-msgstr "Försvinner om"
+msgstr "Försvinner om {}"
 
 #: ui/app/Prelude.cc:55 ui/app/toolkits/gtkmm/PreludeWindow.cc:342
-#, fuzzy, c++-format
+#, c++-format
 msgid "Silent in {}"
-msgstr "Tyst om"
+msgstr "Tystnar om {}"
 
 #: ui/app/Menus.cc:68 ui/applets/mate/src/main.c:360
 msgid "_Open"
 msgstr "_Öppna"
 
-#: ui/app/Menus.cc:74 ui/applets/mate/src/main.c:364
+#: ui/app/Menus.cc:75 ui/applets/mate/src/main.c:364
 msgid "_Preferences"
 msgstr "_Inställningar"
 
-#: ui/app/Menus.cc:77
+#: ui/app/Menus.cc:79
 msgid "_Rest break"
 msgstr "_Vilopaus"
 
-#: ui/app/Menus.cc:80 ui/applets/mate/src/main.c:366
+#: ui/app/Menus.cc:83 ui/applets/mate/src/main.c:366
 msgid "_Exercises"
 msgstr "_Övningar"
 
-#: ui/app/Menus.cc:83
-#, fuzzy
+#: ui/app/Menus.cc:86
 msgid "S_tatistics"
-msgstr "Statistik"
+msgstr "S_tatistik"
 
-#: ui/app/Menus.cc:92 ui/applets/mate/src/main.c:370
+#: ui/app/Menus.cc:95 ui/applets/mate/src/main.c:370
 msgid "_Mode"
 msgstr "_Läge"
 
-#: ui/app/Menus.cc:100
+#: ui/app/Menus.cc:103
 msgid "_Normal"
-msgstr "_Normal"
+msgstr "_Normalt"
 
-#: ui/app/Menus.cc:107
+#: ui/app/Menus.cc:110
 msgid "_Suspended"
-msgstr "V_iloläge"
+msgstr "_Pausat"
 
-#: ui/app/Menus.cc:114
+#: ui/app/Menus.cc:117
 msgid "Q_uiet"
 msgstr "_Tyst"
 
-#: ui/app/Menus.cc:120
-msgid "Temporarily Suspended..."
-msgstr ""
-
 #: ui/app/Menus.cc:123
+msgid "Temporarily Suspended..."
+msgstr "Pausa tillfälligt …"
+
+#: ui/app/Menus.cc:126
 msgid "Temporarily Quiet..."
-msgstr ""
+msgstr "Tyst läge tillfälligt …"
 
-#: ui/app/Menus.cc:129
+#: ui/app/Menus.cc:132
 msgid "_Reading mode"
-msgstr ""
+msgstr "_Läsläge"
 
-#: ui/app/Menus.cc:139 ui/applets/mate/src/main.c:372
-#, fuzzy
+#: ui/app/Menus.cc:142 ui/applets/mate/src/main.c:372
 msgid "_About"
-msgstr "_Om..."
+msgstr "_Om"
 
-#: ui/app/Menus.cc:142 ui/applets/mate/src/main.c:374
+#: ui/app/Menus.cc:146 ui/applets/mate/src/main.c:374
 msgid "_Quit"
 msgstr "_Avsluta"
 
-#: ui/app/Menus.cc:168
+#: ui/app/Menus.cc:173
 msgid "Indefinitely"
-msgstr ""
+msgstr "Tills vidare"
 
-#: ui/app/Menus.cc:180
+#: ui/app/Menus.cc:185
 msgid "For 1 hour"
-msgstr ""
+msgstr "I 1 timme"
 
-#: ui/app/Menus.cc:181
+#: ui/app/Menus.cc:186
 #, qt-format
 msgid "For %1% hours"
-msgstr ""
+msgstr "I %1% timmar"
 
-#: ui/app/Menus.cc:187
+#: ui/app/Menus.cc:192
 msgid "and 1 minute"
-msgstr ""
+msgstr "och 1 minut"
 
-#: ui/app/Menus.cc:187
-#, fuzzy, qt-format
-msgid "and %1% minutes"
-msgstr "%s%d:%02d minuter"
-
-#: ui/app/Menus.cc:191
-msgid "For 1 minute"
-msgstr ""
-
-#: ui/app/Menus.cc:191
-#, fuzzy, qt-format
-msgid "For %1% minutes"
-msgstr "%s%d:%02d minuter"
-
-#: ui/app/Menus.cc:200
-msgid "Until next day"
-msgstr ""
-
-#: ui/app/Menus.cc:299
+#: ui/app/Menus.cc:192
 #, qt-format
-msgid "Q_uiet (until %1%)"
-msgstr ""
+msgid "and %1% minutes"
+msgstr "och %1% minuter"
+
+#: ui/app/Menus.cc:196
+msgid "For 1 minute"
+msgstr "I 1 minut"
+
+#: ui/app/Menus.cc:196
+#, qt-format
+msgid "For %1% minutes"
+msgstr "I %1% minuter"
+
+#: ui/app/Menus.cc:205
+msgid "Until next day"
+msgstr "Till nästa dag"
 
 #: ui/app/Menus.cc:304
-#, fuzzy, qt-format
-msgid "_Suspended (until %1%)"
-msgstr "V_iloläge"
+#, qt-format
+msgid "Q_uiet (until %1%)"
+msgstr "_Tyst (till %1%)"
 
-#: ui/app/Menus.cc:312
-msgid "Q_uiet (until next day)"
-msgstr ""
+#: ui/app/Menus.cc:309
+#, qt-format
+msgid "_Suspended (until %1%)"
+msgstr "_Pausat (till %1%)"
 
 #: ui/app/Menus.cc:317
+msgid "Q_uiet (until next day)"
+msgstr "_Tyst (till nästa dag)"
+
+#: ui/app/Menus.cc:322
 msgid "_Suspended (until next day)"
-msgstr ""
+msgstr "_Pausat (till nästa dag)"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:10
 msgid "Preferred screen lock method"
-msgstr ""
+msgstr "Föredragen metod för att låsa skärmen"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:11
 msgid "Identifier of the screen lock method used by break windows. An empty value selects the first available method."
-msgstr ""
+msgstr "Identifierare för den metod som pausfönstren använder för att låsa skärmen. Lämna värdet tomt för att välja den första tillgängliga metoden."
 
 #: ui/app/org.workrave.gui.gschema.xml.in:15
 msgid "Preferred sleep operation"
-msgstr ""
+msgstr "Föredraget strömsparläge"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:16
 msgid "System sleep operation used by break windows."
-msgstr ""
+msgstr "Det strömsparläge som pausfönstren använder."
 
 #: ui/app/org.workrave.gui.gschema.xml.in:20
 msgid "Custom screen lock command"
-msgstr ""
+msgstr "Eget kommando för att låsa skärmen"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:21
 msgid "Command to execute when the custom screen lock method is selected."
-msgstr ""
+msgstr "Kommando som körs när en egen metod för skärmlås har valts."
 
 #: ui/app/org.workrave.gui.gschema.xml.in:51
 msgid "Interface color scheme"
-msgstr ""
+msgstr "Gränssnittets färgschema"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:52
 msgid "Select a light, dark, or automatically detected interface color scheme."
-msgstr ""
+msgstr "Välj ett ljust eller mörkt färgschema för gränssnittet, eller låt det väljas automatiskt."
 
 #: ui/app/org.workrave.gui.gschema.xml.in:71
-#, fuzzy
 msgid "Use the Sanctuary interface"
-msgstr "Användargränssnitt"
+msgstr "Använd gränssnittet Sanctuary"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:72
 msgid "Use the Sanctuary design for break windows and the status window."
-msgstr ""
+msgstr "Använd utseendet Sanctuary för pausfönstren och statusfönstret."
 
 #: ui/app/org.workrave.gui.gschema.xml.in:77
-#, fuzzy
 msgid "Timer display style"
-msgstr "Visa"
+msgstr "Timrarnas utseende"
 
 #: ui/app/org.workrave.gui.gschema.xml.in:78
 msgid "Select the visual style used to display timers."
-msgstr ""
+msgstr "Välj hur timrarna ska visas."
 
-#: ui/app/org.workrave.gui.gschema.xml.in:376
+#: ui/app/org.workrave.gui.gschema.xml.in:297
+msgid "Hide the status window from the taskbar"
+msgstr "Dölj statusfönstret i aktivitetsfältet"
+
+#: ui/app/org.workrave.gui.gschema.xml.in:298
+msgid "Hide the status window from the taskbar and window switcher."
+msgstr "Dölj statusfönstret i aktivitetsfältet och fönsterväxlaren."
+
+#: ui/app/org.workrave.gui.gschema.xml.in:381
 msgid "Audio output device"
-msgstr ""
+msgstr "Enhet för ljudutmatning"
 
-#: ui/app/org.workrave.gui.gschema.xml.in:377
+#: ui/app/org.workrave.gui.gschema.xml.in:382
 msgid "Stable identifier of the audio output device. An empty value follows the system default device."
-msgstr ""
+msgstr "Beständig identifierare för ljudutmatningsenheten. Lämna värdet tomt för att använda systemets standardenhet."
 
 #: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:4
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
@@ -342,281 +347,273 @@ msgstr "Workrave"
 
 #: ui/app/org.workrave.Workrave.desktop.in:5
 msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr "Hjälper till att förebygga och återhämta sig från musarm (RSI)."
+msgstr "Hjälper dig att förebygga belastningsskador (RSI) och återhämta dig efter dem"
 
 #: ui/app/org.workrave.Workrave.desktop.in:6
 msgid "typing;break;timer;wrists;health;rsi;"
-msgstr ""
+msgstr "skrivande;paus;timer;handleder;hälsa;rsi;belastningsskador;musarm;"
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:80
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:81
 msgid "Focus Assist"
-msgstr ""
+msgstr "Fokusstöd"
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:82
 msgid "Set operation mode based on Windows Focus Assist"
-msgstr ""
+msgstr "Anpassa Workraves läge efter fokusstödet i Windows"
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:84
 msgid "Operation mode during Focus Assist"
-msgstr ""
+msgstr "Workraves läge när fokusstödet är aktivt"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:90
 msgid "Software Update"
-msgstr ""
+msgstr "Programuppdatering"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:131
 #, c++-format
 msgid "A new version of {} is available"
-msgstr ""
+msgstr "En ny version av {} finns tillgänglig"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:139
 #, c++-format
 msgid "{} {} is now available -- you have {}. Would you like to download it now?"
-msgstr ""
+msgstr "{} {} finns nu tillgänglig. Du har version {}. Vill du hämta uppdateringen nu?"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:148
 #: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:74
 msgid "Release notes"
-msgstr ""
+msgstr "Versionsinformation"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:164
 #, c++-format
 msgid "<h3>Version {}</h3>\n"
-msgstr ""
+msgstr "<h3>Version {}</h3>\n"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:211
 #, c++-format
 msgid "Version {}\n"
-msgstr ""
+msgstr "Version {}\n"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:258
 #: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:158
 msgid "_Skip this version"
-msgstr ""
+msgstr "_Hoppa över den här versionen"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:264
 #: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:169
 msgid "_Remind me later"
-msgstr ""
+msgstr "_Påminn mig senare"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:267
 #: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:174
 msgid "_Install update"
-msgstr ""
+msgstr "_Installera uppdateringen"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:274
 #: ui/app/toolkits/qt/qml/AutoUpdateDialog.qml:181
 msgid "_Close"
-msgstr ""
+msgstr "_Stäng"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:309
 msgid "Downloading installer"
-msgstr ""
+msgstr "Hämtar installationsprogrammet"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:312
 msgid "Verifying installer"
-msgstr ""
+msgstr "Verifierar installationsprogrammet"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:315
 msgid "Running installer"
-msgstr ""
+msgstr "Kör installationsprogrammet"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Stable"
-msgstr ""
+msgstr "Stabil"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Release Candidate"
-msgstr ""
+msgstr "Utgivningskandidat"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:231
 msgid "Beta"
-msgstr ""
+msgstr "Beta"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 msgid "No proxy"
-msgstr ""
+msgstr "Ingen proxy"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
 msgid "System proxy"
-msgstr ""
+msgstr "Systemets proxy"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:232
-#, fuzzy
 msgid "Custom proxy"
-msgstr "Anpassad"
+msgstr "Egen proxy"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:234
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:265
 msgid "Software updates"
-msgstr ""
+msgstr "Programuppdateringar"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:235
 msgid "Auto update"
-msgstr ""
+msgstr "Automatisk uppdatering"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:236
 msgid "Automatically check for updates"
-msgstr ""
+msgstr "Sök automatiskt efter uppdateringar"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:238
 msgid "Get updates as soon as they are available"
-msgstr ""
+msgstr "Hämta uppdateringar så snart de finns tillgängliga"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:246
 msgid "Release channel"
-msgstr ""
+msgstr "Uppdateringskanal"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:254
 msgid "Proxy Type"
-msgstr ""
+msgstr "Proxytyp"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:260
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:274
 msgid "Check for _updates"
-msgstr ""
+msgstr "Sök efter _uppdateringar"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:384
 msgid "Invalid appcast"
-msgstr ""
+msgstr "Ogiltigt uppdateringsflöde"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:387
 msgid "Failed to download appcast"
-msgstr ""
+msgstr "Det gick inte att hämta uppdateringsflödet"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:390
 msgid "Failed to download installer"
-msgstr ""
+msgstr "Det gick inte att hämta installationsprogrammet"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:393
 msgid "Failed to validate installer integrity. Aborting upgrade"
-msgstr ""
+msgstr "Det gick inte att verifiera installationsprogrammets integritet. Uppdateringen avbryts."
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:396
 msgid "Failed to execute installer"
-msgstr ""
+msgstr "Det gick inte att köra installationsprogrammet"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:401
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:407
 msgid "Internal failure. Aborting upgrade"
-msgstr ""
+msgstr "Internt fel. Uppdateringen avbryts."
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:269
-#, fuzzy
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:278
 msgid "Lock..."
-msgstr "_Lås"
+msgstr "Lås …"
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:273
-#, fuzzy
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:282
 msgid "Lock"
-msgstr "_Lås"
+msgstr "Lås"
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:277
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:286
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:14
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:14
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:14
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:18
-#, fuzzy
 msgid "Shutdown"
-msgstr "_Stäng ner"
+msgstr "Stäng av"
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:281
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:290
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:15
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:15
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:15
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:19
-#, fuzzy
 msgid "Suspend"
-msgstr "V_iloläge"
+msgstr "Vänteläge"
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:285
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:294
 msgid "Hibernate"
-msgstr ""
+msgstr "Viloläge"
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:289
-#, fuzzy
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:298
 msgid "Suspend hybrid"
-msgstr "V_iloläge"
+msgstr "Hybridviloläge"
 
 #. Historical Gtk msgids — reuses the existing po translations. The
 #. mnemonic underscore ("_Skip") is stripped for display.
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:408
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:416
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:12
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:12
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:12
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:12
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:12
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:16
-#, fuzzy
 msgid "_Skip"
 msgstr "_Hoppa över"
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:418
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:426
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:13
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:13
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:13
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:13
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:13
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:17
-#, fuzzy
 msgid "_Postpone"
-msgstr "_Flytta fram"
+msgstr "_Skjut upp"
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:588
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:596
 msgid "You cannot skip this break while another non-skippable break is overdue."
-msgstr ""
+msgstr "Du kan inte hoppa över den här pausen. Det finns redan en försenad paus som du måste ta."
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:602
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:610
 msgid "You cannot postpone this break while another non-postponable break is overdue."
-msgstr ""
+msgstr "Du kan inte skjuta upp den här pausen. Det finns redan en försenad paus som inte får skjutas upp."
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:107
 msgid "Crash report details"
-msgstr ""
+msgstr "Uppgifter i kraschrapporten"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:110
 msgid "Crash details"
-msgstr ""
+msgstr "Uppgifter om kraschen"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:156
 msgid "Crash Info"
-msgstr ""
+msgstr "Kraschinformation"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:298
 msgid "(file not found or not readable)"
-msgstr ""
+msgstr "(filen hittades inte eller kan inte läsas)"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:331
 msgid "Crash report"
-msgstr ""
+msgstr "Kraschrapport"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:336
 msgid "Workrave crash reporter"
-msgstr ""
+msgstr "Workraves kraschrapportering"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:373
 msgid "Workrave encountered a problem and crashed. Please help us diagnose and fix this problem by sending a crash report."
-msgstr ""
+msgstr "Workrave stötte på ett problem och kraschade. Skicka gärna en kraschrapport för att hjälpa oss att hitta och åtgärda felet."
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:395
 msgid "Submit crash report to the Workrave developers"
-msgstr ""
+msgstr "Skicka en kraschrapport till Workraves utvecklare"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:404
 msgid "Details..."
-msgstr ""
+msgstr "Detaljer …"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:409
 msgid "<small><i>Shows the crash information and files that will be submitted.</i></small>"
-msgstr ""
+msgstr "<small><i>Visar vilka uppgifter om kraschen och vilka filer som kommer att skickas.</i></small>"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:416
 msgid "Additional comments (optional)"
-msgstr ""
+msgstr "Ytterligare kommentarer (valfritt)"
 
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:108
@@ -626,113 +623,112 @@ msgid ""
 "behind the computer. If your working day is not over yet,\n"
 "find something else to do, such as reviewing a document."
 msgstr ""
-"Du har nått din dagliga gräns. Sluta arbeta med datorn.\n"
-"Om din arbetsdag ännu inte är över, hitta på något\n"
-"annat att göra, såsom granska ett dokument."
+"Du har nått din dagliga gräns. Sluta arbeta vid datorn.\n"
+"Om arbetsdagen inte är slut, välj en annan uppgift,\n"
+"till exempel att läsa ett dokument på papper."
 
 #: ui/app/toolkits/gtkmm/DebugDialog.cc:33
 msgid "Debug log"
-msgstr ""
+msgstr "Felsökningslogg"
 
 #. Dialog
 #: ui/app/toolkits/gtkmm/DebugDialog.cc:51
 #: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:94
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:95
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:136
 #: ui/app/toolkits/qt/qml/AboutDialog.qml:152
 #: ui/app/toolkits/qt/qml/ExercisesDialog.qml:166
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:313
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:359
 #: ui/app/toolkits/qt/qml/StatusWindow.qml:96
 msgid "Close"
-msgstr ""
+msgstr "Stäng"
 
 #: ui/app/toolkits/gtkmm/ExercisesDialog.cc:29
 #: ui/app/toolkits/qt/qml/ExercisesDialog.qml:36
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:707
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:160
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:161
 msgid "Exercises"
 msgstr "Övningar"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:92
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:68
 #: ui/app/toolkits/qt/qml/ExercisesDialog.qml:151
-#, fuzzy
 msgid "Previous"
-msgstr "Föregående övning"
+msgstr "Föregående"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:93
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:69
 #: ui/app/toolkits/qt/qml/ExercisesDialog.qml:159
 msgid "Next"
-msgstr ""
+msgstr "Nästa"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:112
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:88
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:175
 msgid "Exercises player"
-msgstr "Övningar"
+msgstr "Övningsvisare"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:146
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:122
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:274
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:808
 msgid "Previous exercise"
 msgstr "Föregående övning"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:147
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:123
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:325
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:859
 msgid "Next exercise"
 msgstr "Nästa övning"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:148
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:325
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:124
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:301
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:289
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:823
 msgid "Pause exercises"
-msgstr "Pausa övningar"
+msgstr "Pausa övningarna"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:152
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:128
 msgid "End exercises"
-msgstr "Avsluta övningar"
+msgstr "Avsluta övningarna"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:293
 #: ui/app/toolkits/qt/qml/ExercisesDialog.qml:155
 msgid "Resume"
-msgstr "Återuppta"
+msgstr "Fortsätt"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:293
 #: ui/app/toolkits/qt/qml/ExercisesDialog.qml:155
 msgid "Pause"
-msgstr "Paus"
+msgstr "Pausa"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:321
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:297
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:289
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:823
 msgid "Resume exercises"
-msgstr "Återuppta övningar"
+msgstr "Fortsätt med övningarna"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:108
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:199
 msgid "Please relax for a few seconds"
-msgstr "Slappna av i ett par sekunder"
+msgstr "Slappna av i några sekunder"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, fuzzy, c++-format
+#, c++-format
 msgid "Next rest break in {}"
 msgstr "Nästa vilopaus om {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, fuzzy, c++-format
+#, c++-format
 msgid "Rest break {} overdue"
-msgstr "Tidspunkt för vilopaus har överskridits med {} minuter"
+msgstr "Vilopausen är {} försenad"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
-#, fuzzy, c++-format
+#, c++-format
 msgid "Daily limit in {}"
-msgstr "Daglig gräns på {}"
+msgstr "Den dagliga gränsen nås om {}"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
-#, fuzzy, c++-format
+#, c++-format
 msgid "Daily limit {} overdue"
-msgstr "Daglig gräns överskriden med {}"
+msgstr "Den dagliga gränsen överskreds för {} sedan"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
 msgid "Orientation"
@@ -740,246 +736,241 @@ msgstr "Orientering"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:120
 msgid "The orientation of the tray"
-msgstr "Lådans orientering"
+msgstr "Meddelandefältets orientering"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
 msgid "Foreground color"
-msgstr ""
+msgstr "Förgrundsfärg"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:129
 msgid "Foreground color for symbolic icons"
-msgstr ""
+msgstr "Förgrundsfärg för symboliska ikoner"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
 msgid "Error color"
-msgstr ""
+msgstr "Färg för fel"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
 msgid "Error color for symbolic icons"
-msgstr ""
+msgstr "Färg för symboliska felikoner"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:141
 msgid "Warning color"
-msgstr ""
+msgstr "Färg för varningar"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:142
 msgid "Warning color for symbolic icons"
-msgstr ""
+msgstr "Färg för symboliska varningsikoner"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
 msgid "Success color"
-msgstr ""
+msgstr "Färg för lyckade åtgärder"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:150
 msgid "Success color for symbolic icons"
-msgstr ""
+msgstr "Färg för symboliska ikoner för lyckade åtgärder"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:157
 msgid "Padding"
-msgstr ""
+msgstr "Utfyllnad"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:158
 msgid "Padding that should be put around icons in the tray"
-msgstr ""
+msgstr "Utrymme runt ikonerna i meddelandefältet"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:167
 msgid "Icon Size"
-msgstr ""
+msgstr "Ikonstorlek"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:168
 msgid "The pixel size that icons should be forced to, or zero"
-msgstr ""
+msgstr "Fast ikonstorlek i bildpunkter, eller noll för att behålla standardstorleken"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:46
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:47
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:104
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:20
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:105
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:140
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:193
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:22
 msgid "Timers"
-msgstr "Tidtagare"
+msgstr "Timrar"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:26
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:121
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:28
 msgid "User interface"
 msgstr "Användargränssnitt"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:27
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:125
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:29
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
 msgid "General"
 msgstr "Allmänt"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:29
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:92
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:129
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:31
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:107
 msgid "Status window"
 msgstr "Statusfönster"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:97
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:133
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:35
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:112
 msgid "Applet"
 msgstr "Panelprogram"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:139
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:141
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:24
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:75
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:140
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:142
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:26
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:90
 msgid "Monitoring"
-msgstr ""
+msgstr "Aktivitetsregistrering"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:147
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:149
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:28
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:87
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:148
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:150
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:30
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:102
 msgid "Sounds"
 msgstr "Ljud"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:156
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:34
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:157
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:38
 msgid "Remote control"
-msgstr ""
+msgstr "Fjärrstyrning"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:85
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:73
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:86
 msgid "No blocking"
 msgstr "Ingen blockering"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:67
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:68
 msgid "Block input"
-msgstr "Blockera tangentbord/mus"
+msgstr "Blockera tangentbord och mus"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:76
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:76
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:77
 msgid "Block input and screen"
-msgstr "Blockera tangentbord/mus och skärm"
+msgstr "Blockera tangentbord, mus och skärm"
 
 #. Options
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:93
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:126
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:104
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:124
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:123
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:26
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:105
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:125
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:124
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:27
 msgid "Options"
 msgstr "Alternativ"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-#, fuzzy
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:95
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:48
 msgid "Block mode"
 msgstr "Blockeringsläge"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:115
 msgid "System default"
-msgstr "Systemstandard"
+msgstr "Systemets standard"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:157
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:156
 msgid "(font not available)"
-msgstr "(typsnitt inte tillgängligt)"
+msgstr "(typsnittet är inte tillgängligt)"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:175
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
 msgid "Language"
 msgstr "Språk"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
-#, fuzzy
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:189
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:126
 msgid "Start Workrave on logon"
-msgstr "Starta Workrave vid uppstart av Windows"
+msgstr "Starta Workrave vid inloggning"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:204
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:118
+msgid "Show system tray icon"
+msgstr "Visa en ikon i meddelandefältet"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:205
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:117
-msgid "Show system tray icon"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:206
 msgid "Note that not all desktop environments show system tray icons, or have disabled system tray icons by default."
-msgstr ""
+msgstr "Vissa skrivbordsmiljöer saknar stöd för ikoner i meddelandefältet eller har dem avstängda som standard."
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:228
+msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
+msgstr "Använd alltid X11 under Wayland (kräver att Workrave startas om)"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:227
-msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:218
 msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
-msgstr ""
+msgstr "Workrave har ännu inte fullt stöd för Wayland. Med den här inställningen använder Workrave alltid X11 under Wayland. Starta om Workrave för att ändringen ska träda i kraft."
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:228
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:237
+msgid "Use GNOME Shell extension for showing break prompts on Wayland (EXPERIMENTAL)"
+msgstr "Använd GNOME Shell-tillägget för att visa pauspåminnelser under Wayland (experimentellt)"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:229
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:236
-msgid "Use GNOME Shell extension for showing break prompts on Wayland (EXPERIMENTAL)"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:230
 msgid "Workrave can use its GNOME Shell extension to enhance its integration with the desktop environment running on Wayland."
-msgstr ""
+msgstr "Med tillägget för GNOME Shell kan Workrave fungera bättre tillsammans med skrivbordsmiljön under Wayland."
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:243
-#, fuzzy
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:242
 msgid "Icon Theme"
-msgstr "Ljudtema"
+msgstr "Ikontema"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:247
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:146
+msgid "Light"
+msgstr "Ljust"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:248
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:145
-msgid "Light"
-msgstr ""
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:146
+msgid "Dark"
+msgstr "Mörkt"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:249
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:145
-msgid "Dark"
-msgstr ""
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:146
+msgid "Auto"
+msgstr "Automatiskt"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:250
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:145
-msgid "Auto"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-#, fuzzy
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
 msgid "Dark mode"
-msgstr "Blockeringsläge"
+msgstr "Mörkt läge"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:433
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:158
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:159
 msgid "Default"
-msgstr ""
+msgstr "Standard"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:56
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:29
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:30
 msgid "Use alternate monitor"
-msgstr ""
+msgstr "Använd en annan metod för att registrera aktivitet"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:63
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:30
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:31
 msgid "Enable this option if Workrave fails to detect when you are using your computer"
-msgstr ""
+msgstr "Aktivera detta om Workrave inte märker när du använder datorn."
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:66
 msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr ""
+msgstr "Du måste starta om Workrave manuellt när du har ändrat den här inställningen."
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-#, fuzzy
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
 msgid "Mouse sensitivity"
-msgstr "Musrörelser"
+msgstr "Muskänslighet"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:41
 msgid "Number of pixels the mouse should move before it is considered activity."
-msgstr ""
+msgstr "Antal bildpunkter som muspekaren måste flyttas för att rörelsen ska räknas som aktivitet."
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:88
 msgid "Debug monitoring"
-msgstr ""
+msgstr "Felsök aktivitetsregistreringen"
 
 #. Options
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:57
@@ -992,45 +983,43 @@ msgstr "Inga ljud"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:63
 msgid "Play sounds using sound card"
-msgstr "Spela upp ljud med ljudkort"
+msgstr "Spela upp ljud via ljudkortet"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:83
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-#, fuzzy
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:57
 msgid "Volume"
 msgstr "Volym"
 
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:123
-msgid "Output device"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:94
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:86
 msgid "Sound"
 msgstr "Ljud"
 
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:92
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:124
+msgid "Output device"
+msgstr "Utmatningsenhet"
+
 #. Volume
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:99
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:171
-#, fuzzy
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172
 msgid "Mute sounds during rest break and daily limit"
-msgstr "Placera vilopaus och daglig gräns på samma ställe"
+msgstr "Stäng av ljudet under vilopauser och när den dagliga gränsen nås"
 
 #. Sound themes
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:107
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:243
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:244
 msgid "Sound Events"
 msgstr "Ljudhändelser"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:115
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:195
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:196
 msgid "Sound theme"
 msgstr "Ljudtema"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:138
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:176
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:327
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:328
 msgid "Play"
 msgstr "Spela upp"
 
@@ -1044,190 +1033,185 @@ msgstr "Välj ett ljud"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:165
 msgid "Wavefiles"
-msgstr "Wave-filer"
+msgstr "WAV-filer"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:73
 msgid "Place timers next to each other"
-msgstr "Placera tiderna bredvid varandra"
+msgstr "Visa timrarna bredvid varandra"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:74
 msgid "Place micro-break and rest break in one spot"
-msgstr "Placera mikropauser och vilopauser på samma ställe"
+msgstr "Visa mikropaus och vilopaus på samma plats"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:75
 msgid "Place rest break and daily limit in one spot"
-msgstr "Placera vilopaus och daglig gräns på samma ställe"
+msgstr "Visa vilopaus och daglig gräns på samma plats"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:76
 msgid "Place all timers in one spot"
-msgstr "Placera alla pauser på samma ställe"
+msgstr "Visa alla timrar på samma plats"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:92
-#: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:72
+#: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:11
 msgid "Hide"
 msgstr "Dölj"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:93
-#: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:70
+#: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:11
 msgid "Show"
 msgstr "Visa"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:94
 msgid "Show only when this timer is first due"
-msgstr "Visa endast första gången perioden går ut"
+msgstr "Visa bara när den här timern löper ut först"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:97
 msgid "Display"
-msgstr "Visa"
+msgstr "Visning"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:106
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:39
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:40
 msgid "The status window stays always on top of other windows"
-msgstr "Statusfönstret är alltid överst"
+msgstr "Visa alltid statusfönstret ovanpå andra fönster"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:112
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:30
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:116
+msgid "Hide from taskbar and window switcher"
+msgstr "Dölj i aktivitetsfältet och fönsterväxlaren"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:120
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:31
 msgid "Show status window"
-msgstr "Visa statusfönster"
+msgstr "Visa statusfönstret"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:113
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:122
 msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environments do not support, or have disabled status icons."
-msgstr ""
+msgstr "Statusfönstret döljs bara om statusikonen eller ett panelprogram visas. Vissa skrivbordsmiljöer saknar stöd för statusikoner eller har dem avstängda."
 
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-#, fuzzy
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:137
 msgid "Placement"
 msgstr "Placering"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-#, fuzzy
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:138
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:141
 msgid "Cycle time"
-msgstr "Tidscykler"
+msgstr "Tid mellan växlingar"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
-#, fuzzy
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:149
 msgid "Fallback applet enabled"
-msgstr "Panelprogram aktiverat"
+msgstr "Aktivera reservpanelprogrammet"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:144
-#, fuzzy
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:154
 msgid "Show status icon"
-msgstr "Visa statusfönster"
+msgstr "Visa statusikon"
 
 #. Enabled/Disabled checkbox
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:58
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:20
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:20
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:20
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:21
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:21
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:21
 msgid "Enable timer"
-msgstr "Aktivera tidtagare"
+msgstr "Aktivera timern"
 
 #. Prelude frame
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:95
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:72
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:92
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:91
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:73
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:93
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:92
 msgid "Break prompting"
-msgstr "Pausuppmaningar"
+msgstr "Pauspåminnelser"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:96
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:95
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:97
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:96
 msgid "Prompt before breaking"
-msgstr "Uppmaning före pauser"
+msgstr "Påminn innan pausen börjar"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:114
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-#, fuzzy
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:95
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:115
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:114
 msgid "Maximum number of prompts"
-msgstr "Maximalt antal uppmaningar"
+msgstr "Högsta antal påminnelser"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:108
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:128
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:127
-#, fuzzy
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:129
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:128
 msgid "Show 'Postpone' button"
-msgstr "Visa knappar för \"Flytta fram\" och \"Hoppa över\""
+msgstr "Visa knappen ”Skjut upp”"
 
 #. Skippable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:133
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:116
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:136
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:135
-#, fuzzy
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:117
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:137
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:136
 msgid "Show 'Skip' button"
-msgstr "Visa knappar för \"Flytta fram\" och \"Hoppa över\""
+msgstr "Visa knappen ”Hoppa över”"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:144
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:124
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:145
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:125
 msgid "Regard micro-breaks as activity"
-msgstr "Anse mikropaus vara en aktivitet"
+msgstr "Räkna mikropauser som aktivitet"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-#, fuzzy
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:154
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
 msgid "Number of exercises"
 msgstr "Antal övningar"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:159
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:144
 msgid "Start restbreak when screen is locked"
-msgstr ""
+msgstr "Starta en vilopaus när skärmen låses"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:163
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:151
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:164
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:152
 msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
+msgstr "Tillåt att datorn stängs av från pausfönstret"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:172
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:145
+msgid "Break in quiet-mode"
+msgstr "Paus i tyst läge"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:197
 msgid "Time before end:"
-msgstr "Tid före slut:"
+msgstr "Tid tills den dagliga gränsen nås:"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-#, fuzzy
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:197
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:33
 msgid "Time between breaks"
 msgstr "Tid mellan pauser"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-#, fuzzy
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:204
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:54
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:53
 msgid "Break duration"
-msgstr "Längd på paus"
+msgstr "Pausens längd"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:73
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-#, fuzzy
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:219
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:74
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
 msgid "Postpone time"
-msgstr "Flytta fram tid"
+msgstr "Tid till nästa påminnelse när en paus skjuts upp"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:258
-#, fuzzy, c++-format
+#, c++-format
 msgid "Rest break for {}"
 msgstr "Vilopaus i {}"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
-#, fuzzy
 msgid "Natural rest break"
-msgstr "Naturliga pauser tagna"
+msgstr "Spontan vilopaus"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:227
-#, fuzzy
 msgid "This is your natural rest break."
-msgstr "Du behöver ta en vilopaus..."
+msgstr "Det här är en vilopaus som du har tagit på eget initiativ."
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:228
@@ -1236,9 +1220,9 @@ msgid ""
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
-"Detta är din vilopaus. Se till att du ställer dig upp och går\n"
-"bort från din dator på en regelbunden basis. Gå bara\n"
-"runt i några minuter, stretcha och slappna av."
+"Nu är det dags för en vilopaus. Res dig och gå ifrån\n"
+"datorn med jämna mellanrum. Gå runt några minuter,\n"
+"sträck på dig och slappna av."
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:48
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:116
@@ -1248,12 +1232,12 @@ msgstr "Statistik"
 #. Navigation box
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:105
 msgid "Browse history"
-msgstr "Bläddra i historik"
+msgstr "Bläddra i historiken"
 
 #. Delete button
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:110
 msgid "Delete all statistics history"
-msgstr ""
+msgstr "Radera all statistikhistorik"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:117
 msgid "Date:"
@@ -1265,35 +1249,35 @@ msgstr "Pauser"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:154
 msgid "Break prompts"
-msgstr "Uppmanade pauser"
+msgstr "Pauspåminnelser"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:155
 msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
-msgstr "Antalet gånger du blev uppmanad att ta en paus, undantaget upprepade uppmaningar för samma paus"
+msgstr "Antal gånger du påmindes om en paus. Upprepade påminnelser om samma paus räknas inte."
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:159
 msgid "Repeated prompts"
-msgstr "Upprepade uppmaningar"
+msgstr "Upprepade påminnelser"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:160
 msgid "The number of times you were repeatedly prompted to break"
-msgstr "Antalet gånger du blev upprepningsvis uppmanad att ta en paus"
+msgstr "Antal gånger du fick ytterligare en påminnelse om samma paus"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:162
 msgid "Prompted breaks taken"
-msgstr "Uppmanade pauser tagna"
+msgstr "Pauser efter påminnelse"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:163
 msgid "The number of times you took a break when being prompted"
-msgstr "Antalet gånger du tog en paus när du blev uppmanad"
+msgstr "Antal gånger du tog en paus efter en påminnelse"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
 msgid "Natural breaks taken"
-msgstr "Naturliga pauser tagna"
+msgstr "Spontana pauser"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:167
 msgid "The number of times you took a break without being prompted"
-msgstr "Antalet gånger du tog en paus utan att bli uppmanad"
+msgstr "Antal gånger du tog en paus utan påminnelse"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
 msgid "Breaks skipped"
@@ -1301,57 +1285,55 @@ msgstr "Överhoppade pauser"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
 msgid "The number of breaks you skipped"
-msgstr "Antalet pauser du har hoppat över"
+msgstr "Antal pauser som du hoppade över"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:171
 msgid "Breaks postponed"
-msgstr "Framflyttade pauser"
+msgstr "Uppskjutna pauser"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:172
 msgid "The number of breaks you postponed"
-msgstr "Antalet pauser du har flyttat fram"
+msgstr "Antal pauser som du sköt upp"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:174
 msgid "Overdue time"
-msgstr "Överskriden tid"
+msgstr "Försening"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:174
 msgid "The total time this break was overdue"
-msgstr "Den totala tiden som denna paus var fördröjd"
+msgstr "Sammanlagd tid som pauser av den här typen blev försenade"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
 msgid "Usage"
-msgstr ""
+msgstr "Användning"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
 msgid "Active computer usage"
-msgstr ""
+msgstr "Aktiv tid vid datorn"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
-#, fuzzy
 msgid "Daily"
-msgstr "Daglig gräns"
+msgstr "Per dag"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:179
-#, fuzzy
 msgid "The total computer usage for the selected day"
-msgstr "Total användning av datorn"
+msgstr "Sammanlagd tid vid datorn den valda dagen"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
 msgid "Weekly"
-msgstr ""
+msgstr "Per vecka"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:183
 msgid "The total computer usage for the whole week of the selected day"
-msgstr ""
+msgstr "Sammanlagd tid vid datorn den vecka som den valda dagen ingår i"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:186
 msgid "Monthly"
-msgstr ""
+msgstr "Per månad"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:187
 msgid "The total computer usage for the whole month of the selected day"
-msgstr ""
+msgstr "Sammanlagd tid vid datorn den månad som den valda dagen ingår i"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:307
 #, c-format
@@ -1362,47 +1344,47 @@ msgstr "{:%x}, från {:%X} till {:%X}"
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:515
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:517
 msgid "Warning"
-msgstr ""
+msgstr "Varning"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:515
 msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
+msgstr "Du har valt att radera din statistikhistorik. Vill du fortsätta?"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:528
 msgid "Files deleted!"
-msgstr ""
+msgstr "Filerna har raderats"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:529
 msgid "The files containing your statistics history have been deleted."
-msgstr ""
+msgstr "Filerna med din statistikhistorik har raderats."
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:531
 msgid "Info"
-msgstr ""
+msgstr "Information"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:536
 msgid "File deletion failed!"
-msgstr ""
+msgstr "Det gick inte att radera filerna"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:537
 msgid "The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
+msgstr "Filerna med din statistikhistorik kunde inte raderas. Vill du försöka igen?"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:539
 msgid "Error"
-msgstr ""
+msgstr "Fel"
 
-#: ui/app/toolkits/gtkmm/Toolkit.cc:294
+#: ui/app/toolkits/gtkmm/Toolkit.cc:295
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
 #: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
 #: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:350
 #: ui/app/toolkits/qt/qml/AboutDialog.qml:46
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
-msgstr "Detta program hjälper till att förebygga och återhämta sig från musarm (RSI)."
+msgstr "Programmet hjälper dig att förebygga belastningsskador (RSI) och återhämta dig efter dem."
 
 #: ui/app/toolkits/gtkmm/Ui.cc:83
 msgid "Break prompt"
-msgstr "Pausuppmaning"
+msgstr "Pauspåminnelse"
 
 #: ui/app/toolkits/gtkmm/Ui.cc:86
 msgid "Break ignored"
@@ -1434,7 +1416,7 @@ msgstr "Övningar avslutade"
 
 #: ui/app/toolkits/gtkmm/Ui.cc:110
 msgid "Exercise change"
-msgstr "Övning ändrad"
+msgstr "Byte av övning"
 
 #: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:166
 msgid "Take rest break now"
@@ -1445,32 +1427,28 @@ msgid "Wait"
 msgstr "Vänta"
 
 #: ui/app/workrave.metainfo.xml:5
-#, fuzzy
 msgid "Workrave assists in the recovery and prevention of Repetitive Strain Injury (RSI)"
-msgstr "Hjälper till att förebygga och återhämta sig från musarm (RSI)."
+msgstr "Workrave hjälper dig att förebygga belastningsskador (RSI) och återhämta dig efter dem"
 
 #: ui/app/workrave.metainfo.xml:9
 msgid "Workrave is a free program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). It frequently alerts you to take microbreaks, rest breaks and restricts you to your daily computer usage."
-msgstr ""
+msgstr "Workrave är ett fritt program som hjälper dig att förebygga belastningsskador (RSI) och återhämta dig efter dem. Det påminner dig regelbundet om att ta mikropauser och vilopauser och begränsar din dagliga tid vid datorn."
 
 #: ui/app/workrave.metainfo.xml:17
-#, fuzzy
 msgid "The break warning window"
-msgstr "Ta en vilopaus nu"
+msgstr "Fönstret med pauspåminnelsen"
 
 #: ui/app/workrave.metainfo.xml:21
-#, fuzzy
 msgid "The restbreak window"
-msgstr "Ta en vilopaus nu"
+msgstr "Vilopausfönstret"
 
 #: ui/app/workrave.metainfo.xml:25
-#, fuzzy
 msgid "The main window"
-msgstr "Visa statusfönster"
+msgstr "Huvudfönstret"
 
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
 msgid "Workrave Applet"
-msgstr "Workrave-panelprogram"
+msgstr "Panelprogram för Workrave"
 
 #: ui/applets/mate/src/main.c:362
 msgid "_Statistics"
@@ -1481,91 +1459,88 @@ msgid "_Restbreak"
 msgstr "_Vilopaus"
 
 #: ui/applets/mate/src/main.c:379
-#, fuzzy
 msgid "Show log"
-msgstr "Visa _logg"
+msgstr "Visa logg"
 
 #: ui/applets/mate/src/main.c:381
 msgid "Reading mode"
-msgstr ""
+msgstr "Läsläge"
 
 #: ui/applets/mate/src/main.c:385
-#, fuzzy
 msgid "Normal"
-msgstr "_Normal"
+msgstr "Normalt"
 
 #: ui/data/exercises/exercises.xml.in:4
 msgid "Shoulder-arm stretch"
-msgstr "Utsträckning av skuldror och armar"
+msgstr "Stretcha axlar och armar"
 
 #: ui/data/exercises/exercises.xml.in:5
 msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
-msgstr "Sträck ut en arm horisonellt framför bröstkorgen. Tryck denna arm med din andra arm mot dig tills du känner en lätt sträckning i skuldran. Håll kvar i denna position en kort stund och upprepa övningen för din andra arm."
+msgstr "Håll ena armen vågrätt framför bröstet. Dra den mot dig med den andra armen tills det stramar lätt i axeln. Håll kvar en kort stund och upprepa med den andra armen."
 
 #: ui/data/exercises/exercises.xml.in:22
 msgid "Finger stretch"
-msgstr "Sträck ut fingrarna"
+msgstr "Stretcha fingrarna"
 
 #: ui/data/exercises/exercises.xml.in:23
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
-msgstr "Sträck ut och räta på fingrarna tills du märker en lätt sträckning. Håll kvar i 10 sekunder. Slappna av och knyt fingrarna och håll kvar i 10 sekunder. Upprepa övningen en gång till."
+msgstr "Spreta med fingrarna och sträck ut dem tills det stramar lätt. Håll kvar i 10 sekunder. Slappna av, böj sedan fingrarna vid knogarna och håll kvar i 10 sekunder. Upprepa övningen en gång till."
 
 #: ui/data/exercises/exercises.xml.in:30
 msgid "Neck tilt stretch"
-msgstr "Utsträckning av nacken"
+msgstr "Stretcha sidan av nacken"
 
 #: ui/data/exercises/exercises.xml.in:31
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
-msgstr "Se rakt fram och hitta en behaglig position med huvudet. Lägg sedan högra örat mot högra skuldran så att du försiktigt sträcker musklerna på vänstra sidan av nacken. Håll kvar i 5 sekunder. Upprepa hela övningen med vänster öra mot vänster skuldra. Upprepa båda övningarna 2 gånger till på varje sida."
+msgstr "Håll huvudet rakt i en bekväm ställning. Luta det långsamt mot höger axel så att det stramar lätt på vänster sida av nacken. Håll kvar i 5 sekunder. Luta sedan huvudet åt vänster för att stretcha den andra sidan. Gör övningen två gånger på varje sida."
 
 #: ui/data/exercises/exercises.xml.in:38
 msgid "Backward shoulder stretch"
-msgstr "Sträck ut skuldrorna bakåt"
+msgstr "Stretcha axlarna med armarna bakom ryggen"
 
 #: ui/data/exercises/exercises.xml.in:39
 msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
-msgstr "Fläta fingrarna bakom ryggen. Vrid dina armbågar försiktigt innåt, samtidigt som du sträcker på armarna. Håll kvar i denna position mellan 5 och 15 sekunder, och upprepa denna övning två gånger."
+msgstr "Fläta ihop fingrarna bakom ryggen. Vrid försiktigt armbågarna inåt samtidigt som du sträcker ut armarna. Håll kvar i 5–15 sekunder och upprepa övningen två gånger."
 
 #: ui/data/exercises/exercises.xml.in:45
 msgid "Move the eyes"
-msgstr "Rör på ögonen"
+msgstr "Följ skärmkanten med blicken"
 
 #: ui/data/exercises/exercises.xml.in:46
 msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
-msgstr "Se på översta vänstra hörnet på den yttersta kanten på din skärm. Följ kanten långsamt med ögonen till det övre högra hörnet. Fortsätt till nästa hörna tills du har gått runt två gånger. Upprepa övningen fast det motsatta hållet."
+msgstr "Titta på skärmens övre vänstra hörn. Följ långsamt ytterkanten med blicken till det övre högra hörnet. Fortsätt från hörn till hörn tills du har följt kanten två varv. Byt sedan riktning."
 
 #: ui/data/exercises/exercises.xml.in:64
 msgid "Train focusing the eyes"
-msgstr "Träna fokusering med ögonen"
+msgstr "Växla fokus med blicken"
 
 #: ui/data/exercises/exercises.xml.in:65
 msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you cannot look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
-msgstr "Se på den punkt som är längst bort bakom din skärm. Fokusera dina ögon på punkten. Fokusera sedan på kanten av din skärm. Upprepa det. Om du inte kan se speciellt långt bakom din skärm, vänd dig mot en annan riktning med längre utsikt. Byt fokus mellan en objekt långt bort och en penna som hålls på samma avstånd från dina ögon som din skärm."
+msgstr "Leta upp den mest avlägsna punkt du kan se bakom skärmen. Fäst blicken på den och sedan på skärmens kant. Upprepa. Om du inte ser så långt bakom skärmen kan du vända dig åt ett annat håll där du ser längre. Växla då mellan att titta på ett föremål långt bort och på en penna som du håller på samma avstånd som skärmen."
 
 #: ui/data/exercises/exercises.xml.in:72
 msgid "Look into the darkness"
-msgstr "Se in i mörkret"
+msgstr "Titta in i mörkret"
 
 #: ui/data/exercises/exercises.xml.in:73
-#, fuzzy
 msgid "Cover your eyes with your palms in such a way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
-msgstr "Täck för dina ögon med dina handflator på så sätt att du fortfarande kan öppna dina ögonlock. Öppna nu ögonen och se in i mörkret i handflatorna. Denna övning ger bättre avlastning för ögonen jämfört med att bara stänga dem."
+msgstr "Kupa handflatorna över ögonen så att du fortfarande kan öppna dem. Öppna ögonen och titta in i mörkret bakom händerna. Det låter ögonen vila bättre än om du bara blundar."
 
 #: ui/data/exercises/exercises.xml.in:79
 msgid "Move the shoulders"
-msgstr "Rör på skuldrorna"
+msgstr "Rör på axlarna"
 
 #: ui/data/exercises/exercises.xml.in:80
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
-msgstr "Pendla din högra arm långsamt runt som en flygplanspropeller. Gör detta 4 gånger framåt, 4 gånger bakåt och slappna av ett par sekunder. Upprepa med vänstra armen."
+msgstr "Gör långsamma cirklar med höger arm vid sidan av kroppen, som en flygplanspropeller. Gör fyra varv framåt och fyra bakåt. Slappna av några sekunder och upprepa med vänster arm."
 
 #: ui/data/exercises/exercises.xml.in:87
 msgid "Move the shoulders up and down"
-msgstr "Rör på skuldrorna upp och ner"
+msgstr "Höj och sänk axlarna"
 
 #: ui/data/exercises/exercises.xml.in:88
 msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
-msgstr "Ta tag i armstöden på din stol när du sitter ner och tryck din kropp uppåt tills dina armar är raka. Försök att flytta ditt huvud längre genom att sänka skuldrorna. Rör dig sakta tillbaka till stolen."
+msgstr "Sitt på en stol och lägg händerna på armstöden. Tryck dig uppåt tills armarna är raka. Sänk axlarna för att lyfta huvudet lite högre. Sänk dig sedan långsamt tillbaka i stolen."
 
 #: ui/data/exercises/exercises.xml.in:125
 msgid "Turn your head"
@@ -1573,7 +1548,7 @@ msgstr "Vrid på huvudet"
 
 #: ui/data/exercises/exercises.xml.in:126
 msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
-msgstr "Vrid på huvudet åt vänster och håll det kvar där i 2 sekunder. Vrid sedan ditt huvud åt höger och håll det där i 2 sekunder."
+msgstr "Vrid huvudet åt vänster och håll kvar i 2 sekunder. Vrid det sedan åt höger och håll kvar i 2 sekunder."
 
 #: ui/libs/commonui/src/Text.cc:71
 #, c-format, qt-format
@@ -1592,87 +1567,84 @@ msgstr "%s%d sekunder"
 
 #: ui/app/toolkits/qt/qml/AboutDialog.qml:87
 msgid "Authors"
-msgstr ""
+msgstr "Upphovspersoner"
 
 #: ui/app/toolkits/qt/qml/AboutDialog.qml:87
-#, fuzzy
 msgid "Translators"
-msgstr "_Översatt av"
+msgstr "Översättare"
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:26
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:26
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:27
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:27
 msgid "Visibility"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:30
-#, fuzzy
-msgid "Show status applet"
-msgstr "Visa statusfönster"
+msgstr "Synlighet"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:31
+msgid "Show status applet"
+msgstr "Visa status i panelen"
+
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:32
 msgid "Turn off to hide the panel applet — Workrave still runs from the tray."
-msgstr ""
+msgstr "Stäng av för att dölja panelprogrammet. Du kan fortfarande nå Workrave från meddelandefältet."
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:40
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:48
-#, fuzzy
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:41
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:49
 msgid "Display style"
-msgstr "Visa"
+msgstr "Visningsstil"
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:61
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:69
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:62
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:70
 msgid "Timer layout"
-msgstr ""
+msgstr "Timrarnas utseende"
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:67
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:75
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:68
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:76
 msgid "Three ways to render the three timers. Pick whichever reads best at a glance."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:80
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:88
-msgid "A · Rings"
-msgstr ""
+msgstr "Välj det utseende som gör det lättast för dig att läsa av de tre timrarna."
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:81
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:89
-msgid "Three circular rings. Closest to the classic look."
-msgstr ""
+msgid "A · Rings"
+msgstr "A · Ringar"
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:89
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:97
-msgid "B · Bars"
-msgstr ""
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:82
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:90
+msgid "Three circular rings. Closest to the classic look."
+msgstr "Tre ringar. Liknar det klassiska utseendet mest."
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:90
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:98
-msgid "Icon + tiny progress bar + timecode. Compact and scannable."
-msgstr ""
+msgid "B · Bars"
+msgstr "B · Staplar"
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:98
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:106
-msgid "C · Focus"
-msgstr ""
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:91
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:99
+msgid "Icon + tiny progress bar + timecode. Compact and scannable."
+msgstr "En ikon, en liten förloppsindikator och tiden i siffror. Kompakt och lätt att läsa av."
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:99
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:107
-msgid "Big ring on the active timer; the others are chips alongside."
-msgstr ""
+msgid "C · Focus"
+msgstr "C · Fokus"
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:107
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:115
-msgid "D · Classic"
-msgstr ""
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:100
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:108
+msgid "Big ring on the active timer; the others are chips alongside."
+msgstr "Den aktiva timern visas som en stor ring, de andra som små etiketter bredvid."
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:108
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:116
-msgid "The original Workrave widget — text timers, no transparency."
-msgstr ""
+msgid "D · Classic"
+msgstr "D · Klassiskt"
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:120
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:225
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:109
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:117
+msgid "The original Workrave widget — text timers, no transparency."
+msgstr "Workraves ursprungliga utseende med tider i text och ogenomskinlig bakgrund."
+
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:121
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:161
 msgid "Per-timer visibility"
-msgstr ""
+msgstr "Visa eller dölj enskilda timrar"
 
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:152
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
@@ -1680,7 +1652,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:133
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:608
 msgid "Are you sure you want to shut down the computer?"
-msgstr ""
+msgstr "Vill du stänga av datorn?"
 
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:153
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:146
@@ -1688,418 +1660,635 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:146
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:621
 msgid "Are you sure you want to put the computer to sleep?"
-msgstr ""
+msgstr "Vill du försätta datorn i strömsparläge?"
 
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:114
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:120
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:116
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:594
-#, fuzzy
 msgid "Lock screen"
-msgstr "Blockera tangentbord/mus och skärm"
+msgstr "Lås skärmen"
 
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:218
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:361
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:171
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:671
 msgid "Postpone and skip will unlock after resting"
-msgstr ""
+msgstr "När du har vilat en stund kan du skjuta upp eller hoppa över pausen"
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:21
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:22
 msgid "When off, no daily limit prompts will be shown."
-msgstr ""
+msgstr "Om du stänger av detta får du inga påminnelser om den dagliga gränsen."
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:28
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:28
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:28
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:29
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:29
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:29
 msgid "Timing"
-msgstr ""
+msgstr "Tidsinställningar"
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:33
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:34
 msgid "When today's active time crosses this, the daily-limit window appears."
-msgstr ""
+msgstr "När din aktiva tid i dag passerar den här gränsen visas fönstret för den dagliga gränsen."
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:74
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:54
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:75
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:73
 msgid "When postponed, Workrave reminds you again after this long."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:76
-#, fuzzy
-msgid "Prompt before enforcing limit"
-msgstr "Uppmaning före pauser"
+msgstr "Om du skjuter upp pausen dröjer det så här länge innan Workrave påminner dig igen."
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:77
-msgid "Show a gentle reminder a few seconds before the limit is enforced."
-msgstr ""
+msgid "Prompt before enforcing limit"
+msgstr "Påminn innan gränsen träder i kraft"
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:85
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:105
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
-#, fuzzy
-msgid "Limit number of prompts"
-msgstr "Maximalt antal uppmaningar"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:78
+msgid "Show a gentle reminder a few seconds before the limit is enforced."
+msgstr "Visa en diskret påminnelse några sekunder innan gränsen träder i kraft."
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:106
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:105
+msgid "Limit number of prompts"
+msgstr "Begränsa antalet påminnelser"
+
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:87
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
-msgstr ""
+msgstr "Om du stänger av detta fortsätter Workrave att påminna dig tills gränsen träder i kraft."
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:129
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:128
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:110
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:130
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:129
 msgid "Whether the postpone button appears on the break window."
-msgstr ""
+msgstr "Visa knappen ”Skjut upp” i pausfönstret."
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:117
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:137
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:136
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:118
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:138
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:137
 msgid "Whether the skip button appears on the break window."
-msgstr ""
+msgstr "Visa knappen ”Hoppa över” i pausfönstret."
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:125
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:126
 msgid "During a microbreak you're usually still seated. Turn on to limit the time spent at the computer; turn off to limit only active use."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:132
-msgid "Enable shutting down the computer from the daily limit screen"
-msgstr ""
+msgstr "Under en mikropaus sitter du oftast kvar. Aktivera detta för att begränsa tiden du tillbringar vid datorn. Stäng av det för att bara begränsa den aktiva tiden."
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:133
+msgid "Enable shutting down the computer from the daily limit screen"
+msgstr "Tillåt att datorn stängs av från fönstret för den dagliga gränsen"
+
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:134
 msgid "Adds power buttons to the daily limit window so you can stop work and shut down or sleep the computer."
-msgstr ""
+msgstr "Lägger till knappar i fönstret för den dagliga gränsen så att du kan avsluta arbetet och stänga av datorn eller försätta den i strömsparläge."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:25
 msgid "During breaks"
-msgstr ""
+msgstr "Under pauser"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:53
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:54
 msgid "What Workrave does to the rest of your screen when a break starts."
-msgstr ""
+msgstr "Välj vad som ska hända med resten av skärmen när en paus börjar."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:68
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:69
 msgid "Keyboard and mouse are blocked. You can still see your desktop."
-msgstr ""
+msgstr "Tangentbordet och musen blockeras. Du kan fortfarande se skrivbordet."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:77
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:78
 msgid "Break window covers everything but your wallpaper."
-msgstr ""
+msgstr "Pausfönstret täcker allt utom skrivbordsbakgrunden."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:86
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:87
 msgid "Workrave shows the break window but doesn't interrupt input."
-msgstr ""
+msgstr "Workrave visar pausfönstret och du kan fortsätta att använda tangentbordet och musen."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
-#, fuzzy
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:99
 msgid "Theme"
-msgstr "Ljudtema"
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
-msgid "Use Sanctuary UI"
-msgstr ""
+msgstr "Tema"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:103
+msgid "Use Sanctuary UI"
+msgstr "Använd gränssnittet Sanctuary"
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:104
 msgid "When enabled, break windows and the status window use the new QML-based design. Restart Workrave after changing this setting."
-msgstr ""
+msgstr "Med den här inställningen använder pausfönstren och statusfönstret det nya QML-baserade utseendet. Starta om Workrave när du har ändrat inställningen."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:113
-#, fuzzy
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:114
 msgid "System"
-msgstr "Systemstandard"
+msgstr "System"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:118
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:119
 msgid "Adds a Workrave icon to the system tray for quick access."
-msgstr ""
+msgstr "Visar en Workrave-ikon i meddelandefältet som ger snabb åtkomst till programmet."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:126
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:127
 msgid "Launches Workrave automatically when you sign in."
-msgstr ""
+msgstr "Startar Workrave automatiskt när du loggar in."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:135
 msgid "Language used for Workrave's interface."
-msgstr ""
+msgstr "Språket i Workraves gränssnitt."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:145
 msgid "Light or dark colour scheme for the Workrave windows."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
-#, fuzzy
-msgid "Icon theme"
-msgstr "Ljudtema"
+msgstr "Ljust eller mörkt färgschema för Workraves fönster."
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
+msgid "Icon theme"
+msgstr "Ikontema"
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:156
 msgid "Visual style used for Workrave's icons."
-msgstr ""
+msgstr "Utseende på Workraves ikoner."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:185
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:186
 msgid "Lock & power"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:189
-msgid "Custom lock command"
-msgstr ""
+msgstr "Skärmlås och ström"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:190
+msgid "Custom lock command"
+msgstr "Eget kommando för skärmlås"
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:191
 msgid "Shell command for locking the screen. When set, appears as 'Custom command' in the lock method list."
-msgstr ""
+msgstr "Skalkommando som låser skärmen. När du har angett ett kommando kan du välja ”Eget kommando” bland metoderna för skärmlås."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:192
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:193
 msgid "e.g. /usr/bin/pmset displaysleepnow"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:199
-#, fuzzy
-msgid "Lock method"
-msgstr "Blockeringsläge"
+msgstr "t.ex. /usr/bin/pmset displaysleepnow"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:200
-msgid "Which screen-lock backend to use when the Lock button is pressed."
-msgstr ""
+msgid "Lock method"
+msgstr "Metod för skärmlås"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:209
-msgid "Sleep action"
-msgstr ""
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:201
+msgid "Which screen-lock backend to use when the Lock button is pressed."
+msgstr "Metod som används för att låsa skärmen när du trycker på låsknappen."
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:210
+msgid "Sleep action"
+msgstr "Strömsparåtgärd"
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:211
 msgid "What the Sleep button does — suspend, hibernate, or hybrid sleep."
-msgstr ""
+msgstr "Välj om strömsparknappen ska sätta datorn i vänteläge, viloläge eller hybridviloläge."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:222
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:223
 msgid "Linux display server"
-msgstr ""
+msgstr "Visningsserver i Linux"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:228
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:229
 msgid "Runs Workrave under XWayland instead of native Wayland. Requires a restart of Workrave."
-msgstr ""
+msgstr "Kör Workrave med XWayland i stället för direkt med Wayland. Du måste starta om Workrave för att ändringen ska träda i kraft."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:237
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:238
 msgid "Uses the Workrave GNOME Shell extension to show break prompts on Wayland. Experimental."
-msgstr ""
+msgstr "Använder Workraves GNOME Shell-tillägg för att visa pauspåminnelser under Wayland. Funktionen är experimentell."
 
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:187
 msgid "Please stop and relax"
-msgstr ""
+msgstr "Ta en paus och slappna av"
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:21
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:22
 msgid "When off, no microbreak prompts will be shown."
-msgstr ""
+msgstr "Om du stänger av detta får du inga påminnelser om mikropauser."
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:34
 msgid "How long you've been using the keyboard or mouse before being prompted."
-msgstr ""
+msgstr "Hur länge du använder tangentbordet eller musen innan du får en pauspåminnelse."
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:54
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:55
 msgid "How long each microbreak lasts."
-msgstr ""
+msgstr "Hur länge varje mikropaus varar."
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:97
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:96
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:98
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:97
 msgid "Show a gentle reminder a few seconds before the break starts."
-msgstr ""
+msgstr "Visa en diskret påminnelse några sekunder innan pausen börjar."
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:106
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:105
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:107
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:106
 msgid "When off, Workrave keeps reminding you until the break starts."
-msgstr ""
+msgstr "Om du stänger av detta fortsätter Workrave att påminna dig tills pausen börjar."
 
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:25
-#, fuzzy
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:146
+msgid "When on, micro-breaks behave as if Workrave were in quiet mode: no break windows will appear."
+msgstr "Om det här är aktiverat fungerar mikropauserna som i tyst läge. Inga pausfönster visas."
+
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:26
 msgid "Activity detection"
-msgstr "Aktivitet"
+msgstr "Aktivitetsregistrering"
 
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:51
 msgid "Debug"
-msgstr ""
+msgstr "Felsökning"
 
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:80
-#, fuzzy
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:75
 msgid "Activity monitor"
-msgstr "Aktivitet"
+msgstr "Aktivitetsövervakare"
 
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:86
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:81
 msgid "Open the debug window to inspect raw activity events and monitor state."
-msgstr ""
+msgstr "Öppna felsökningsfönstret för att se vilka händelser som registreras och aktivitetsövervakarens aktuella status."
 
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:108
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:103
 msgid "Open debug window"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:61
-msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:66
-msgid "A longer break with guided exercises. Workrave suggests one every 30–60 minutes of activity."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:71
-msgid "A cap on how long you'll work at the computer in a day. Workrave nudges you to stop when you reach it."
-msgstr ""
+msgstr "Öppna felsökningsfönstret"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:76
+msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
+msgstr "En kort paus för att titta bort från skärmen, sträcka på sig och hämta nya krafter. Workrave påminner dig flera gånger i timmen."
+
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:81
+msgid "A longer break with guided exercises. Workrave suggests one every 30–60 minutes of activity."
+msgstr "En längre paus med vägledda övningar. Workrave föreslår en sådan paus efter 30–60 minuters aktivitet."
+
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:86
+msgid "A cap on how long you'll work at the computer in a day. Workrave nudges you to stop when you reach it."
+msgstr "En gräns för hur länge du arbetar vid datorn under en dag. Workrave påminner dig om att sluta när du når gränsen."
+
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:91
 msgid "How Workrave detects your activity — keyboard, mouse, and system idle state."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:83
-msgid "How Workrave behaves on your system, and how forcefully it interrupts."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:88
-msgid "Choose which sounds Workrave plays at break events, and adjust the volume."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:93
-msgid "The little always-visible window with your three timers."
-msgstr ""
+msgstr "Så registrerar Workrave när du använder tangentbordet och musen och när datorn är inaktiv."
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:98
-msgid "The system-tray or panel applet showing your three timers."
-msgstr ""
+msgid "How Workrave behaves on your system, and how forcefully it interrupts."
+msgstr "Välj hur Workrave fungerar på datorn och i vilken utsträckning pauserna ska hindra dig från att fortsätta arbeta."
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:104
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:103
+msgid "Choose which sounds Workrave plays at break events, and adjust the volume."
+msgstr "Välj vilka ljud Workrave ska spela upp när något händer i samband med en paus och ställ in volymen."
+
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:108
+msgid "The little always-visible window with your three timers."
+msgstr "Det lilla fönstret som alltid syns och visar dina tre timrar."
+
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:113
+msgid "The system-tray or panel applet showing your three timers."
+msgstr "Panelprogrammet som visar de tre timrarna i meddelandefältet eller på panelen."
+
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:119
 msgid "Allow local applications to inspect and control Workrave."
-msgstr ""
+msgstr "Tillåt lokala program att läsa av och styra Workrave."
 
 #: ui/app/toolkits/qt/qml/PreludeClassic.qml:72
-#, fuzzy
 msgid "Time for a break?"
-msgstr "Dags för en mikropaus?"
+msgstr "Dags för en paus?"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:97
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:577
-#, fuzzy
 msgid "Exercise"
-msgstr "Övningar"
+msgstr "Övning"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:98
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:469
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:578
 msgid "%1 of %2"
-msgstr ""
+msgstr "%1 av %2"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:333
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:867
-#, fuzzy
 msgid "Stop exercises"
-msgstr "Avsluta övningar"
+msgstr "Avsluta övningarna"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:402
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:971
 msgid "Exercises complete — please relax"
-msgstr ""
+msgstr "Övningarna är klara. Slappna av en stund."
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:408
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:972
 msgid "Please stand up and walk away from your computer"
-msgstr ""
+msgstr "Res dig och gå ifrån datorn en stund"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:754
 msgid "Total left"
-msgstr ""
+msgstr "Tid kvar totalt"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:756
 msgid "of %1"
-msgstr ""
+msgstr "av %1"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:978
 msgid "End break early"
-msgstr ""
+msgstr "Avsluta pausen i förtid"
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:21
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:22
 msgid "When off, no rest break prompts will be shown."
-msgstr ""
+msgstr "Om du stänger av detta får du inga påminnelser om vilopauser."
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:33
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:34
 msgid "Active time required before a rest break is prompted."
-msgstr ""
+msgstr "Hur länge du behöver vara aktiv innan du får en påminnelse om en vilopaus."
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:53
-#, fuzzy
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:54
 msgid "How long each rest break lasts."
-msgstr "Du behöver ta en vilopaus..."
+msgstr "Hur länge varje vilopaus varar."
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:144
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:145
 msgid "Counts time the screen is locked as part of your break. Prevents being prompted right after you unlock."
-msgstr ""
+msgstr "Räknar tiden då skärmen är låst som en del av pausen. Då slipper du få en pauspåminnelse direkt när du låser upp skärmen."
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:152
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:153
 msgid "Adds a power button to the rest break window so you can stop work and shut down or sleep the computer."
-msgstr ""
+msgstr "Lägger till en knapp i vilopausfönstret så att du kan avsluta arbetet och stänga av datorn eller försätta den i strömsparläge."
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:166
 msgid "Workrave picks this many at random from its library each rest break."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:30
-#, fuzzy
-msgid "Enable sounds"
-msgstr "Inga ljud"
+msgstr "Antal övningar som Workrave väljer slumpmässigt ur sitt bibliotek för varje vilopaus."
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
+msgid "Enable sounds"
+msgstr "Aktivera ljud"
+
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:32
 msgid "Play a sound when a break starts or ends."
-msgstr ""
+msgstr "Spela upp ett ljud när en paus börjar eller slutar."
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:172
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:173
 msgid "Silences system audio when a rest break or daily limit begins."
-msgstr ""
+msgstr "Stänger av systemljudet när en vilopaus börjar eller när den dagliga gränsen nås."
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:353
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:354
 msgid "Choose…"
-msgstr ""
+msgstr "Välj …"
 
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:380
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:381
 msgid "Clear"
-msgstr ""
+msgstr "Rensa"
 
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:31
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:32
 msgid "Turn off to hide the main window — Workrave still runs from the tray."
-msgstr ""
+msgstr "Stäng av för att dölja huvudfönstret. Du kan fortfarande nå Workrave från meddelandefältet."
 
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:38
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:39
 msgid "Always on top"
-msgstr ""
+msgstr "Alltid överst"
 
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:128
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:129
 msgid "Layout"
-msgstr ""
+msgstr "Layout"
 
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
-msgid "Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:169
-#, fuzzy
-msgid "Next to each other"
-msgstr "Placera tiderna bredvid varandra"
-
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:177
-msgid "Micro + Rest together"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:185
-msgid "Rest + Daily together"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:193
-#, fuzzy
-msgid "All in one slot"
-msgstr "Placera alla pauser på samma ställe"
-
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:142
 msgid "When timers share a slot, switch between them this often."
-msgstr ""
+msgstr "Hur länge varje timer visas när flera timrar delar plats."
 
-#: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
+#: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:11
 msgid "When first due"
-msgstr ""
+msgstr "När timern löper ut först"
+
+#: ui/app/platforms/windows/WindowsTaskbarApplet.cc:324
+msgid "Timer grouping"
+msgstr "Gruppering av timrar"
+
+#: ui/app/platforms/windows/WindowsTaskbarApplet.cc:327
+msgid "Show timers separately"
+msgstr "Visa timrarna var för sig"
+
+#: ui/app/platforms/windows/WindowsTaskbarApplet.cc:328
+msgid "Group micro-break and rest break"
+msgstr "Gruppera mikropaus och vilopaus"
+
+#: ui/app/platforms/windows/WindowsTaskbarApplet.cc:329
+msgid "Group rest break and daily limit"
+msgstr "Gruppera vilopaus och daglig gräns"
+
+#: ui/app/platforms/windows/WindowsTaskbarApplet.cc:330
+msgid "Group all timers"
+msgstr "Gruppera alla timrar"
+
+#: ui/app/platforms/windows/WindowsTaskbarApplet.cc:357
+msgid "Taskbar"
+msgstr "Aktivitetsfältet"
+
+#: ui/app/platforms/windows/WindowsTaskbarApplet.cc:358
+msgid "Show timers in taskbar"
+msgstr "Visa timrar i aktivitetsfältet"
+
+#: ui/app/platforms/windows/WindowsTaskbarApplet.cc:361
+msgid "Cycle time (seconds)"
+msgstr "Tid mellan växlingar (sekunder)"
+
+#: ui/app/toolkits/gtkmm/preferences/RemoteControlPreferencePanel.cc:31
+msgid "Enable gRPC"
+msgstr "Aktivera gRPC"
+
+#: ui/app/toolkits/gtkmm/preferences/RemoteControlPreferencePanel.cc:32
+msgid "Allows local applications to control Workrave through gRPC. Disabling this closes the server immediately."
+msgstr "Tillåt lokala program att styra Workrave via gRPC. Om du stänger av funktionen stoppas servern omedelbart."
+
+#: ui/app/toolkits/gtkmm/preferences/RemoteControlPreferencePanel.cc:40
+msgid "Unix domain socket"
+msgstr "Unix-domänsocket"
+
+#: ui/app/toolkits/gtkmm/preferences/RemoteControlPreferencePanel.cc:41
+msgid "TCP/IP (loopback only)"
+msgstr "TCP/IP (endast loopback)"
+
+#: ui/app/toolkits/gtkmm/preferences/RemoteControlPreferencePanel.cc:44
+msgid "Connection type"
+msgstr "Anslutningstyp"
+
+#: ui/app/toolkits/gtkmm/preferences/RemoteControlPreferencePanel.cc:50
+msgid "Address of the Unix-domain socket used by Workrave."
+msgstr "Adressen till den Unix-domänsocket som Workrave använder."
+
+#: ui/app/toolkits/gtkmm/preferences/RemoteControlPreferencePanel.cc:51
+msgid "Server address"
+msgstr "Serveradress"
+
+#: ui/app/toolkits/gtkmm/preferences/RemoteControlPreferencePanel.cc:60
+msgid "TCP port"
+msgstr "TCP-port"
+
+#: ui/app/toolkits/qt/DebugDialog.cc:73
+msgid "Debug Workrave"
+msgstr "Felsök Workrave"
+
+#: ui/app/toolkits/qt/DebugDialog.cc:92
+msgid "Micro break:"
+msgstr "Mikropaus:"
+
+#: ui/app/toolkits/qt/DebugDialog.cc:93
+msgid "Rest break:"
+msgstr "Vilopaus:"
+
+#: ui/app/toolkits/qt/DebugDialog.cc:94
+msgid "Daily limit:"
+msgstr "Daglig gräns:"
+
+#: ui/app/toolkits/qt/DebugDialog.cc:95
+msgid "Prelude:"
+msgstr "Förvarning:"
+
+#: ui/app/toolkits/qt/DebugDialog.cc:99
+msgid "Stop All"
+msgstr "Stoppa alla"
+
+#: ui/app/toolkits/qt/DebugDialog.cc:116
+msgid "Timer and break state"
+msgstr "Status för timrar och pauser"
+
+#: ui/app/toolkits/qt/DebugDialog.cc:209 ui/app/toolkits/qt/DebugDialog.cc:228
+msgid "Stop"
+msgstr "Stoppa"
+
+#: ui/app/toolkits/qt/QmlAboutDialog.cc:42
+msgid "About Workrave"
+msgstr "Om Workrave"
+
+#: ui/app/toolkits/qt/QmlAutoUpdateDialog.cc:161
+#, qt-format
+msgid "A new version of %1 is available"
+msgstr "En ny version av %1 finns tillgänglig"
+
+#: ui/app/toolkits/qt/QmlAutoUpdateDialog.cc:162
+#, qt-format
+msgid "%1 %2 is now available — you have %3. Would you like to download it now?"
+msgstr "%1 %2 finns nu tillgänglig. Du har version %3. Vill du hämta uppdateringen nu?"
+
+#: ui/app/toolkits/qt/QmlCrashDialog.cc:243
+msgid "Exception:"
+msgstr "Undantag:"
+
+#: ui/app/toolkits/qt/QmlCrashDialog.cc:244
+msgid "Address:  "
+msgstr "Adress:  "
+
+#: ui/app/toolkits/qt/QmlCrashDialog.cc:245
+msgid "Thread:   "
+msgstr "Tråd:   "
+
+#: ui/app/toolkits/qt/QmlCrashDialog.cc:247
+msgid "Stack Trace:"
+msgstr "Stackspårning:"
+
+#: ui/app/toolkits/qt/QmlCrashDialog.cc:251
+msgid "(not available)"
+msgstr "(inte tillgänglig)"
+
+#: ui/app/toolkits/qt/QmlPrefsBridges.cc:1285
+msgid "Choose sound file"
+msgstr "Välj ljudfil"
+
+#: ui/app/toolkits/qt/QmlPrefsBridges.cc:1287
+msgid "Sound files (*.wav *.mp3 *.ogg);;All files (*)"
+msgstr "Ljudfiler (*.wav *.mp3 *.ogg);;Alla filer (*)"
+
+#: ui/app/toolkits/qt/QmlPrefsDialog.cc:58
+msgid "Workrave — Preferences"
+msgstr "Inställningar för Workrave"
+
+#: ui/app/toolkits/qt/QmlStatisticsDialog.cc:282
+#, qt-format
+msgid "%1, from %2 to %3"
+msgstr "%1, från %2 till %3"
+
+#: ui/app/toolkits/qt/utils/Ui.cc:161
+msgid "?"
+msgstr "?"
+
+#: ui/app/toolkits/qt/utils/UiUtil.cc:77
+#, c-format, qt-format
+msgid "%s%d:%02d:%02d"
+msgstr "%s%d:%02d:%02d"
+
+#: ui/app/toolkits/qt/utils/UiUtil.cc:81
+#, c-format, qt-format
+msgid "%s%d:%02d"
+msgstr "%s%d:%02d"
+
+#: ui/libs/prefwidgets/toolkits/qtquick/src/Models.cc:208
+#, qt-format
+msgid "%1s"
+msgstr "%1 s"
+
+#: ui/app/toolkits/qt/qml/ConfirmDialog.qml:95
+#: ui/app/toolkits/qt/qml/ConfirmDialog.qml:108
+msgid "Confirm"
+msgstr "Bekräfta"
+
+#: ui/app/toolkits/qt/qml/ConfirmDialog.qml:123
+#: ui/app/toolkits/qt/qml/ConfirmDialog.qml:133
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: ui/app/toolkits/qt/qml/CrashDialog.qml:164
+msgid "Workrave has crashed."
+msgstr "Workrave har kraschat."
+
+#: ui/app/toolkits/qt/qml/CrashDialog.qml:227
+msgid "Shows the crash information and files that will be submitted."
+msgstr "Visar vilka uppgifter om kraschen och vilka filer som kommer att skickas."
+
+#: ui/app/toolkits/qt/qml/RemoteControlPrefPage.qml:21
+msgid "Connection"
+msgstr "Anslutning"
+
+#: ui/app/toolkits/qt/qml/RemoteControlPrefPage.qml:35
+msgid "Use a local Unix-domain socket, or a TCP/IP port bound to this computer only."
+msgstr "Använd en lokal Unix-domänsocket eller en TCP/IP-port som bara kan nås från den här datorn."
+
+#: ui/app/toolkits/qt/qml/RemoteControlPrefPage.qml:36
+msgid "TCP/IP"
+msgstr "TCP/IP"
+
+#: ui/app/toolkits/qt/qml/RemoteControlPrefPage.qml:54
+msgid "Port on the loopback interface (127.0.0.1)."
+msgstr "Port på loopbackgränssnittet (127.0.0.1)."
+
+#: ui/app/toolkits/qt/qml/StatisticsDialog.qml:229
+#: ui/app/toolkits/qt/qml/StatisticsDialog.qml:241
+msgid "Delete history"
+msgstr "Radera historik"
+
+#: ui/app/toolkits/qt/qml/TimerPlacementPicker.qml:14
+msgid "Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them."
+msgstr "Välj var varje timer ska visas. Låt flera timrar dela plats för att spara utrymme. Workrave växlar då mellan dem."
+
+#: ui/app/toolkits/qt/qml/TimerPlacementPicker.qml:16
+msgid "Next to each other"
+msgstr "Bredvid varandra"
+
+#: ui/app/toolkits/qt/qml/TimerPlacementPicker.qml:17
+msgid "Micro + Rest together"
+msgstr "Mikropaus och vilopaus tillsammans"
+
+#: ui/app/toolkits/qt/qml/TimerPlacementPicker.qml:18
+msgid "Rest + Daily together"
+msgstr "Vilopaus och daglig gräns tillsammans"
+
+#: ui/app/toolkits/qt/qml/TimerPlacementPicker.qml:19
+msgid "All in one slot"
+msgstr "Alla på samma plats"
+
+#: ui/applets/cinnamon/src/applet.js:438
+#: ui/applets/gnome-shell-45/src/extension.js:558
+#: ui/applets/gnome-shell/src/extension.js:498
+msgid "Open Workrave"
+msgstr "Öppna Workrave"
+
+#: ui/applets/gnome-shell-45/src/prelude_manager.js:138
+#: ui/applets/gnome-shell-45/src/prelude_manager.js:175
+#: ui/applets/gnome-shell-45/src/prelude_manager.js:185
+#: ui/applets/gnome-shell-45/src/prelude_manager.js:195
+#: ui/applets/gnome-shell-45/src/prelude_manager.js:205
+msgid "PreludeManager not initialized"
+msgstr "PreludeManager har inte initierats"
+
+#: ui/applets/gnome-shell-45/src/prelude_manager.js:141
+msgid "PreludeManager already started"
+msgstr "PreludeManager har redan startats"
+
+#: ui/applets/gnome-shell-45/src/prelude_manager.js:153
+#: ui/applets/gnome-shell-45/src/prelude_manager.js:165
+msgid "PreludeManager not started"
+msgstr "PreludeManager har inte startats"
+
+#: ui/applets/gnome-shell-45/src/prelude_window.js:274
+msgid "Time for a microbreak?"
+msgstr "Dags för en mikropaus?"
 
 #, c-format
 #~ msgid "Break in %s"
 #~ msgstr "Paus om %s"
-
-#~ msgid "Daily limit:"
-#~ msgstr "Daglig gräns:"
 
 #, c-format
 #~ msgid "Disappears in %s"
@@ -2122,9 +2311,6 @@ msgstr ""
 
 #~ msgid "Mouse usage:"
 #~ msgstr "Musanvändning:"
-
-#~ msgid "Rest break:"
-#~ msgstr "Vilopaus:"
 
 #, c-format
 #~ msgid "Silent in %s"
