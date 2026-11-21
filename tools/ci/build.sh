@@ -49,7 +49,7 @@ build() {
         ninja ${MAKE_FLAGS[@]} install
     fi
 
-    ctest
+    ctest --output-on-failure
 }
 
 parse_arguments() {

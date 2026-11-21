@@ -1,8 +1,14 @@
-// Run with: node --test ui/applets/gnome-shell-45/test/menu.test.cjs
-const assert = require("node:assert/strict");
-const { readFileSync } = require("node:fs");
-const { test } = require("node:test");
-const vm = require("node:vm");
+// Run with: node ui/applets/gnome-shell-45/test/menu.test.cjs
+const assert = require("assert").strict;
+const { readFileSync } = require("fs");
+const vm = require("vm");
+
+// Ubuntu 22.04 ships Node 12, which has neither --test nor node:test.
+// These synchronous tests only need assertions; a thrown error fails CTest.
+function test(name, run) {
+  run();
+  console.log(`ok - ${name}`);
+}
 
 // Exercise the extension's menu methods without starting GNOME Shell.
 const source = readFileSync(`${__dirname}/../src/extension.js`, "utf8");
