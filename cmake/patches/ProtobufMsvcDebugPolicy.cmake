@@ -1,0 +1,15 @@
+# Protobuf 35.1's OLD CMP0141 workaround concerns MSVC debug flags only.
+# Do not opt llvm-mingw into deprecated behavior that has no effect there.
+set(source "${SOURCE_DIR}/CMakeLists.txt")
+file(READ "${source}" original)
+set(needle "if(POLICY CMP0141)\n  cmake_policy(SET CMP0141 OLD)\nendif()")
+set(replacement "if(MSVC AND POLICY CMP0141)\n  cmake_policy(SET CMP0141 OLD)\nendif()")
+string(FIND "${original}" "${replacement}" already_patched)
+if(already_patched EQUAL -1)
+  string(FIND "${original}" "${needle}" position)
+  if(position EQUAL -1)
+    message(FATAL_ERROR "Protobuf's MSVC debug policy workaround has changed")
+  endif()
+  string(REPLACE "${needle}" "${replacement}" patched "${original}")
+  file(WRITE "${source}" "${patched}")
+endif()

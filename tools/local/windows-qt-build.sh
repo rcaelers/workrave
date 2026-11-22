@@ -1,6 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
+# Native Qt host tools need a UTF-8 locale even though the target is Windows.
+export LANG=C.UTF-8
+export LC_ALL=C.UTF-8
+
 configuration=${WORKRAVE_CONFIGURATION:-Release}
 build="/build/qt/$configuration"
 output="/build/output/qt/$configuration"
@@ -22,14 +26,14 @@ configure() {
     -DCMAKE_BUILD_TYPE="$configuration" \
     -DCMAKE_INSTALL_PREFIX="$output" \
     -DCMAKE_TOOLCHAIN_FILE="$generators/conan_toolchain.cmake" \
-    '-DCMAKE_MAP_IMPORTED_CONFIG_RELEASE=RelWithDebInfo;Release;' \
-    '-DCMAKE_MAP_IMPORTED_CONFIG_DEBUG=RelWithDebInfo;Release;' \
+    "-DCMAKE_MAP_IMPORTED_CONFIG_${configuration^^}=RelWithDebInfo;Release;" \
     -DCMAKE_ASM_MASM_COMPILER=/opt/llvm-mingw/bin/llvm-ml \
     -DCMAKE_ASM_MASM_FLAGS=--m64 \
     -DCMAKE_FIND_USE_INSTALL_PREFIX=OFF \
     -DWORKRAVE_HOST_PROTOC=/opt/protoc/bin/protoc \
+    -DQT_SKIP_SETUP_DEPLOYMENT=ON \
     -DWITH_UI=Qt -DWITH_GRPC=OFF -DWITH_DBUS=OFF -DWITH_TESTS=ON \
-    -DRPC_CODEGEN=OFF -DWITH_AUTO_UPDATE=ON \
+    -DWITH_AUTO_UPDATE=ON \
     -DWITH_CRASHPAD="$([[ "$configuration" == Release ]] && echo ON || echo OFF)" \
     -DWITH_UPDATER_STAGING="${WORKRAVE_STAGING:-OFF}" \
     -DWITH_CRASHPAD_STAGING="${WORKRAVE_STAGING:-OFF}" \

@@ -9,8 +9,17 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       if(NOT host_protoc_version STREQUAL "libprotoc 35.1")
         message(FATAL_ERROR "The pinned Sigstore Protobuf sources require native protoc 35.1")
       endif()
+      # The same pinned Protobuf release reverts an MSVC-only policy on all
+      # compilers. Restrict that workaround to MSVC for the llvm-mingw build.
+      FetchContent_Declare(protobuf
+        GIT_REPOSITORY https://github.com/protocolbuffers/protobuf.git
+        GIT_TAG v35.1
+        GIT_SHALLOW TRUE
+        PATCH_COMMAND "${CMAKE_COMMAND}" "-DSOURCE_DIR=<SOURCE_DIR>"
+                      -P "${CMAKE_SOURCE_DIR}/cmake/patches/ProtobufMsvcDebugPolicy.cmake"
+        OVERRIDE_FIND_PACKAGE)
       # Override Unfold's declaration so its generator uses the build host.
-      # Keep the revision aligned with the pinned Unfold dependency below.
+      # Keep both source revisions aligned with the pinned Unfold below.
       FetchContent_Declare(sigstore
         GIT_REPOSITORY https://github.com/rcaelers/sigstore-verifier-cpp
         GIT_TAG 8b62465cbe474519d2e4d149a5430a13fcbf97a9
