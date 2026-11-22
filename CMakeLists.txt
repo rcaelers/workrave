@@ -796,7 +796,7 @@ if (UNIX AND NOT APPLE)
 
   if (WITH_XFCE4)
     message(STATUS "Checking for: Xfce 4")
-    pkg_check_modules(XFCE4 libxfce4panel-2.0>=4.12)
+    pkg_check_modules(XFCE4 libxfce4panel-2.0>=4.12 libxfce4ui-2)
 
     if (XFCE4_FOUND)
       set (HAVE_XFCE4 ON)
