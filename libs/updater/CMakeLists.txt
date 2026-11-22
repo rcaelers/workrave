@@ -1,31 +1,6 @@
 if (HAVE_UNFOLD_AUTO_UPDATE)
 
   if (PLATFORM_OS_WINDOWS)
-    set(WORKRAVE_HOST_PROTOC "" CACHE FILEPATH "Native protoc for cross-compiling the updater")
-    if(CMAKE_CROSSCOMPILING AND WORKRAVE_HOST_PROTOC)
-      execute_process(COMMAND "${WORKRAVE_HOST_PROTOC}" --version
-                      OUTPUT_VARIABLE host_protoc_version OUTPUT_STRIP_TRAILING_WHITESPACE
-                      COMMAND_ERROR_IS_FATAL ANY)
-      if(NOT host_protoc_version STREQUAL "libprotoc 35.1")
-        message(FATAL_ERROR "The pinned Sigstore Protobuf sources require native protoc 35.1")
-      endif()
-      # The same pinned Protobuf release reverts an MSVC-only policy on all
-      # compilers. Restrict that workaround to MSVC for the llvm-mingw build.
-      FetchContent_Declare(protobuf
-        GIT_REPOSITORY https://github.com/protocolbuffers/protobuf.git
-        GIT_TAG v35.1
-        GIT_SHALLOW TRUE
-        PATCH_COMMAND "${CMAKE_COMMAND}" "-DSOURCE_DIR=<SOURCE_DIR>"
-                      -P "${CMAKE_SOURCE_DIR}/cmake/patches/ProtobufMsvcDebugPolicy.cmake"
-        OVERRIDE_FIND_PACKAGE)
-      # Override Unfold's declaration so its generator uses the build host.
-      # Keep both source revisions aligned with the pinned Unfold below.
-      FetchContent_Declare(sigstore
-        GIT_REPOSITORY https://github.com/rcaelers/sigstore-verifier-cpp
-        GIT_TAG 8b62465cbe474519d2e4d149a5430a13fcbf97a9
-        PATCH_COMMAND "${CMAKE_COMMAND}" "-DSOURCE_DIR=<SOURCE_DIR>"
-                      -P "${CMAKE_SOURCE_DIR}/cmake/patches/SigstoreHostProtoc.cmake")
-    endif()
     # EXCLUDE_FROM_ALL keeps unfold's own install() rules (and those of its
     # sub-dependency sigstore, e.g. lib/cmake/{Unfold,SigstoreVerifier},
     # include/{unfold,sigstore}) from leaking into our install tree; only the
@@ -35,7 +10,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       "Auto-update framework"
       "MIT"
       GIT_REPOSITORY https://github.com/rcaelers/unfold.git
-      GIT_TAG 4eca375e08a3177d93c34ee61b3764e55acce228
+      GIT_TAG 87313e8479139446e811302827633f9c140c1391
       EXCLUDE_FROM_ALL
     )
     if(NOT unfold_POPULATED)
@@ -49,9 +24,6 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       FetchContent_MakeAvailable(unfold)
       set(WITH_TESTS "${WORKRAVE_WITH_TESTS_BACKUP}" CACHE BOOL "Enable unit tests" FORCE)
       install(TARGETS unfold RUNTIME DESTINATION bin)
-      if (TARGET sigstore)
-        install(TARGETS sigstore RUNTIME DESTINATION bin)
-      endif()
     endif()
 
     # Prefer system/MSYS2 cmark (CMake package); fallback to FetchContent.
