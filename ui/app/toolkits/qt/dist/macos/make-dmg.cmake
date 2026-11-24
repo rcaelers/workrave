@@ -166,6 +166,7 @@ if(EXISTS "${WORKRAVE_DMG_APPLESCRIPT}")
     message("-- Applying Finder window layout...")
     execute_process(
         COMMAND osascript "${WORKRAVE_DMG_APPLESCRIPT}"
+        TIMEOUT 30
         RESULT_VARIABLE _as_result
         OUTPUT_VARIABLE _as_output
         ERROR_VARIABLE _as_error)
@@ -193,7 +194,12 @@ execute_process(COMMAND chmod -Rf go-w "${_mount_point}")
 message("-- Unmounting disk image...")
 execute_process(COMMAND hdiutil detach "${_device}" RESULT_VARIABLE _result)
 if(NOT _result EQUAL 0)
-    message(WARNING "hdiutil detach failed (exit ${_result}); the volume may still be mounted.")
+    message(WARNING "hdiutil detach failed (exit ${_result}); retrying with -force...")
+    execute_process(COMMAND sleep 2)
+    execute_process(COMMAND hdiutil detach -force "${_device}" RESULT_VARIABLE _result)
+    if(NOT _result EQUAL 0)
+        message(WARNING "hdiutil detach -force failed (exit ${_result}); the volume may still be mounted.")
+    endif()
 endif()
 
 message("-- Compressing disk image...")
